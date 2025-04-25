@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -74,8 +73,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -116,11 +115,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -174,9 +173,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class ProxyResource(Resource):
@@ -194,22 +193,6 @@ class ProxyResource(Resource):
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class ExtensionType(ProxyResource):
@@ -259,10 +242,10 @@ class ExtensionType(ProxyResource):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.system_data = None
-        self.release_trains = None
-        self.cluster_types = None
-        self.supported_scopes = None
+        self.system_data: Optional["_models.SystemData"] = None
+        self.release_trains: Optional[List[str]] = None
+        self.cluster_types: Optional[List[str]] = None
+        self.supported_scopes: Optional["_models.SupportedScopes"] = None
 
 
 class ExtensionTypeList(_serialization.Model):
@@ -336,7 +319,7 @@ class ExtensionVersionList(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class ExtensionVersionListValueItem(_serialization.Model):
