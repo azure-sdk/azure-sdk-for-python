@@ -30,7 +30,7 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.container_apps_diagnostics.get_root(
+    response = client.container_apps.get(
         resource_group_name="rg",
         container_app_name="testcontainerapp0",
     )
