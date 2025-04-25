@@ -1,5 +1,54 @@
 # Release History
 
+## 2.0.0 (2025-04-25)
+
+### Features Added
+
+  - Client `AzureStackManagementClient` added operation group `deployment_license`
+  - Added model `DeploymentLicenseRequest`
+  - Added model `DeploymentLicenseResponse`
+  - Model `CloudManifestFileOperations` added parameter `kwargs` in method `__init__`
+  - Model `CustomerSubscriptionsOperations` added parameter `kwargs` in method `__init__`
+  - Model `Operations` added parameter `kwargs` in method `__init__`
+  - Model `ProductsOperations` added parameter `kwargs` in method `__init__`
+  - Model `ProductsOperations` added method `list_products`
+  - Model `RegistrationsOperations` added parameter `kwargs` in method `__init__`
+  - Model `RegistrationsOperations` added method `list_by_subscription`
+  - Added model `DeploymentLicenseOperations`
+  - Method `CustomerSubscriptionsOperations.create` has a new overload `def create(self: None, resource_group: str, registration_name: str, customer_subscription_name: str, customer_creation_parameters: CustomerSubscription, content_type: str)`
+  - Method `CustomerSubscriptionsOperations.create` has a new overload `def create(self: None, resource_group: str, registration_name: str, customer_subscription_name: str, customer_creation_parameters: IO[bytes], content_type: str)`
+  - Method `ProductsOperations.get_product` has a new overload `def get_product(self: None, resource_group: str, registration_name: str, product_name: str, device_configuration: Optional[DeviceConfiguration], content_type: str)`
+  - Method `ProductsOperations.get_product` has a new overload `def get_product(self: None, resource_group: str, registration_name: str, product_name: str, device_configuration: Optional[IO[bytes]], content_type: str)`
+  - Method `ProductsOperations.get_products` has a new overload `def get_products(self: None, resource_group: str, registration_name: str, product_name: str, device_configuration: Optional[DeviceConfiguration], content_type: str)`
+  - Method `ProductsOperations.get_products` has a new overload `def get_products(self: None, resource_group: str, registration_name: str, product_name: str, device_configuration: Optional[IO[bytes]], content_type: str)`
+  - Method `ProductsOperations.upload_log` has a new overload `def upload_log(self: None, resource_group: str, registration_name: str, product_name: str, marketplace_product_log_update: Optional[MarketplaceProductLogUpdate], content_type: str)`
+  - Method `ProductsOperations.upload_log` has a new overload `def upload_log(self: None, resource_group: str, registration_name: str, product_name: str, marketplace_product_log_update: Optional[IO[bytes]], content_type: str)`
+  - Method `ProductsOperations.list_products` has a new overload `def list_products(self: None, resource_group: str, registration_name: str, product_name: str, device_configuration: Optional[DeviceConfiguration], content_type: str)`
+  - Method `ProductsOperations.list_products` has a new overload `def list_products(self: None, resource_group: str, registration_name: str, product_name: str, device_configuration: Optional[IO[bytes]], content_type: str)`
+  - Method `RegistrationsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group: str, registration_name: str, token: RegistrationParameter, content_type: str)`
+  - Method `RegistrationsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group: str, registration_name: str, token: IO[bytes], content_type: str)`
+  - Method `RegistrationsOperations.update` has a new overload `def update(self: None, resource_group: str, registration_name: str, token: RegistrationParameter, content_type: str)`
+  - Method `RegistrationsOperations.update` has a new overload `def update(self: None, resource_group: str, registration_name: str, token: IO[bytes], content_type: str)`
+  - Method `DeploymentLicenseOperations.create` has a new overload `def create(self: None, deployment_license_request: DeploymentLicenseRequest, content_type: str)`
+  - Method `DeploymentLicenseOperations.create` has a new overload `def create(self: None, deployment_license_request: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Deleted or renamed client operation group `AzureStackManagementClient.linked_subscriptions`
+  - Model `CustomerSubscription` deleted or renamed its instance variable `system_data`
+  - Deleted or renamed enum value `Location.GLOBAL_ENUM`
+  - Model `Product` deleted or renamed its instance variable `system_data`
+  - Model `Registration` deleted or renamed its instance variable `kind`
+  - Model `Registration` deleted or renamed its instance variable `system_data`
+  - Model `TrackedResource` deleted or renamed its instance variable `kind`
+  - Model `TrackedResource` deleted or renamed its instance variable `system_data`
+  - Deleted or renamed model `CreatedByType`
+  - Deleted or renamed model `LinkedSubscription`
+  - Deleted or renamed model `LinkedSubscriptionParameter`
+  - Deleted or renamed model `LinkedSubscriptionsList`
+  - Deleted or renamed model `SystemData`
+  - Deleted or renamed model `LinkedSubscriptionsOperations`
+
 ## 2.0.0b1 (2022-11-17)
 
 ### Features Added
