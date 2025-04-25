@@ -1,5 +1,15 @@
 # Release History
 
+## 2.0.0 (2025-04-25)
+
+### Features Added
+
+  - Enum `MatchProcessingBehavior` added member `CONTINUE`
+
+### Breaking Changes
+
+  - Deleted or renamed enum value `MatchProcessingBehavior.CONTINUE_ENUM`
+
 ## 1.2.0 (2024-04-15)
 
 ### Features Added

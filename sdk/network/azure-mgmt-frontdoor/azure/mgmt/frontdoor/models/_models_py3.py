@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -56,7 +55,7 @@ class AzureAsyncOperationResult(_serialization.Model):
         self.error = error
 
 
-class Backend(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Backend(_serialization.Model):
     """Backend address of a frontDoor load balancer.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -170,7 +169,7 @@ class Backend(_serialization.Model):  # pylint: disable=too-many-instance-attrib
         self.private_link_alias = private_link_alias
         self.private_link_resource_id = private_link_resource_id
         self.private_link_location = private_link_location
-        self.private_endpoint_status = None
+        self.private_endpoint_status: Optional[Union[str, "_models.PrivateEndpointStatus"]] = None
         self.private_link_approval_message = private_link_approval_message
         self.http_port = http_port
         self.https_port = https_port
@@ -261,11 +260,11 @@ class BackendPool(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.type = None
+        self.type: Optional[str] = None
         self.backends = backends
         self.load_balancing_settings = load_balancing_settings
         self.health_probe_settings = health_probe_settings
-        self.resource_state = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
 
 
 class BackendPoolListResult(_serialization.Model):
@@ -295,7 +294,7 @@ class BackendPoolListResult(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.BackendPool"]] = None
         self.next_link = next_link
 
 
@@ -387,7 +386,7 @@ class BackendPoolProperties(BackendPoolUpdateParameters):
             health_probe_settings=health_probe_settings,
             **kwargs
         )
-        self.resource_state = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
 
 
 class BackendPoolsSettings(_serialization.Model):
@@ -553,9 +552,9 @@ class CheckNameAvailabilityOutput(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name_availability = None
-        self.reason = None
-        self.message = None
+        self.name_availability: Optional[Union[str, "_models.Availability"]] = None
+        self.reason: Optional[str] = None
+        self.message: Optional[str] = None
 
 
 class CustomHttpsConfiguration(_serialization.Model):
@@ -814,8 +813,8 @@ class DefaultErrorResponseError(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
 
 
 class Endpoint(_serialization.Model):
@@ -956,8 +955,8 @@ class ErrorResponse(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
 
 
 class Resource(_serialization.Model):
@@ -999,14 +998,14 @@ class Resource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
 
 
-class Experiment(Resource):  # pylint: disable=too-many-instance-attributes
+class Experiment(Resource):
     """Defines the properties of an Experiment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1093,9 +1092,9 @@ class Experiment(Resource):  # pylint: disable=too-many-instance-attributes
         self.endpoint_a = endpoint_a
         self.endpoint_b = endpoint_b
         self.enabled_state = enabled_state
-        self.resource_state = None
-        self.status = None
-        self.script_file_uri = None
+        self.resource_state: Optional[Union[str, "_models.NetworkExperimentResourceState"]] = None
+        self.status: Optional[str] = None
+        self.script_file_uri: Optional[str] = None
 
 
 class ExperimentList(_serialization.Model):
@@ -1125,7 +1124,7 @@ class ExperimentList(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.Experiment"]] = None
         self.next_link = next_link
 
 
@@ -1262,7 +1261,7 @@ class ForwardingConfiguration(RouteConfiguration):
         self.backend_pool = backend_pool
 
 
-class FrontDoor(Resource):  # pylint: disable=too-many-instance-attributes
+class FrontDoor(Resource):
     """Front Door represents a collection of backend endpoints to route traffic to along with rules
     that specify how traffic is sent there.
 
@@ -1394,12 +1393,12 @@ class FrontDoor(Resource):  # pylint: disable=too-many-instance-attributes
         self.frontend_endpoints = frontend_endpoints
         self.backend_pools_settings = backend_pools_settings
         self.enabled_state = enabled_state
-        self.resource_state = None
-        self.provisioning_state = None
-        self.cname = None
-        self.frontdoor_id = None
-        self.rules_engines = None
-        self.extended_properties = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
+        self.provisioning_state: Optional[str] = None
+        self.cname: Optional[str] = None
+        self.frontdoor_id: Optional[str] = None
+        self.rules_engines: Optional[List["_models.RulesEngine"]] = None
+        self.extended_properties: Optional[Dict[str, str]] = None
 
 
 class FrontDoorListResult(_serialization.Model):
@@ -1429,7 +1428,7 @@ class FrontDoorListResult(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.FrontDoor"]] = None
         self.next_link = next_link
 
 
@@ -1512,7 +1511,7 @@ class FrontDoorUpdateParameters(_serialization.Model):
         self.enabled_state = enabled_state
 
 
-class FrontDoorProperties(FrontDoorUpdateParameters):  # pylint: disable=too-many-instance-attributes
+class FrontDoorProperties(FrontDoorUpdateParameters):
     """The JSON object that contains the properties required to create an endpoint.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1621,15 +1620,15 @@ class FrontDoorProperties(FrontDoorUpdateParameters):  # pylint: disable=too-man
             enabled_state=enabled_state,
             **kwargs
         )
-        self.resource_state = None
-        self.provisioning_state = None
-        self.cname = None
-        self.frontdoor_id = None
-        self.rules_engines = None
-        self.extended_properties = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
+        self.provisioning_state: Optional[str] = None
+        self.cname: Optional[str] = None
+        self.frontdoor_id: Optional[str] = None
+        self.rules_engines: Optional[List["_models.RulesEngine"]] = None
+        self.extended_properties: Optional[Dict[str, str]] = None
 
 
-class FrontendEndpoint(SubResource):  # pylint: disable=too-many-instance-attributes
+class FrontendEndpoint(SubResource):
     """A frontend endpoint used for routing.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1735,15 +1734,15 @@ class FrontendEndpoint(SubResource):  # pylint: disable=too-many-instance-attrib
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.type = None
+        self.type: Optional[str] = None
         self.host_name = host_name
         self.session_affinity_enabled_state = session_affinity_enabled_state
         self.session_affinity_ttl_seconds = session_affinity_ttl_seconds
         self.web_application_firewall_policy_link = web_application_firewall_policy_link
-        self.resource_state = None
-        self.custom_https_provisioning_state = None
-        self.custom_https_provisioning_substate = None
-        self.custom_https_configuration = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
+        self.custom_https_provisioning_state: Optional[Union[str, "_models.CustomHttpsProvisioningState"]] = None
+        self.custom_https_provisioning_substate: Optional[Union[str, "_models.CustomHttpsProvisioningSubstate"]] = None
+        self.custom_https_configuration: Optional["_models.CustomHttpsConfiguration"] = None
 
 
 class FrontendEndpointLink(_serialization.Model):
@@ -1919,10 +1918,10 @@ class FrontendEndpointProperties(FrontendEndpointUpdateParameters):
             web_application_firewall_policy_link=web_application_firewall_policy_link,
             **kwargs
         )
-        self.resource_state = None
-        self.custom_https_provisioning_state = None
-        self.custom_https_provisioning_substate = None
-        self.custom_https_configuration = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
+        self.custom_https_provisioning_state: Optional[Union[str, "_models.CustomHttpsProvisioningState"]] = None
+        self.custom_https_provisioning_substate: Optional[Union[str, "_models.CustomHttpsProvisioningSubstate"]] = None
+        self.custom_https_configuration: Optional["_models.CustomHttpsConfiguration"] = None
 
 
 class FrontendEndpointsListResult(_serialization.Model):
@@ -1952,7 +1951,7 @@ class FrontendEndpointsListResult(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.FrontendEndpoint"]] = None
         self.next_link = next_link
 
 
@@ -2083,7 +2082,7 @@ class HealthProbeSettingsListResult(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.HealthProbeSettingsModel"]] = None
         self.next_link = next_link
 
 
@@ -2166,13 +2165,13 @@ class HealthProbeSettingsModel(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.type = None
+        self.type: Optional[str] = None
         self.path = path
         self.protocol = protocol
         self.interval_in_seconds = interval_in_seconds
         self.health_probe_method = health_probe_method
         self.enabled_state = enabled_state
-        self.resource_state = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
 
 
 class HealthProbeSettingsUpdateParameters(_serialization.Model):
@@ -2303,7 +2302,7 @@ class HealthProbeSettingsProperties(HealthProbeSettingsUpdateParameters):
             enabled_state=enabled_state,
             **kwargs
         )
-        self.resource_state = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
 
 
 class KeyVaultCertificateSourceParametersVault(_serialization.Model):
@@ -2382,19 +2381,19 @@ class LatencyMetric(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.end_date_time_utc = None
-        self.a_value = None
-        self.b_value = None
-        self.delta = None
-        self.delta_percent = None
-        self.a_c_lower95_ci = None
-        self.a_h_upper95_ci = None
-        self.b_c_lower95_ci = None
-        self.b_upper95_ci = None
+        self.name: Optional[str] = None
+        self.end_date_time_utc: Optional[str] = None
+        self.a_value: Optional[float] = None
+        self.b_value: Optional[float] = None
+        self.delta: Optional[float] = None
+        self.delta_percent: Optional[float] = None
+        self.a_c_lower95_ci: Optional[float] = None
+        self.a_h_upper95_ci: Optional[float] = None
+        self.b_c_lower95_ci: Optional[float] = None
+        self.b_upper95_ci: Optional[float] = None
 
 
-class LatencyScorecard(Resource):  # pylint: disable=too-many-instance-attributes
+class LatencyScorecard(Resource):
     """Defines the LatencyScorecard.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2478,14 +2477,14 @@ class LatencyScorecard(Resource):  # pylint: disable=too-many-instance-attribute
         :paramtype latency_metrics: list[~azure.mgmt.frontdoor.models.LatencyMetric]
         """
         super().__init__(location=location, tags=tags, **kwargs)
-        self.id_properties_id = None
-        self.name_properties_name = None
-        self.description = None
-        self.endpoint_a = None
-        self.endpoint_b = None
-        self.start_date_time_utc = None
-        self.end_date_time_utc = None
-        self.country = None
+        self.id_properties_id: Optional[str] = None
+        self.name_properties_name: Optional[str] = None
+        self.description: Optional[str] = None
+        self.endpoint_a: Optional[str] = None
+        self.endpoint_b: Optional[str] = None
+        self.start_date_time_utc: Optional[datetime.datetime] = None
+        self.end_date_time_utc: Optional[datetime.datetime] = None
+        self.country: Optional[str] = None
         self.latency_metrics = latency_metrics
 
 
@@ -2516,7 +2515,7 @@ class LoadBalancingSettingsListResult(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.LoadBalancingSettingsModel"]] = None
         self.next_link = next_link
 
 
@@ -2585,11 +2584,11 @@ class LoadBalancingSettingsModel(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.type = None
+        self.type: Optional[str] = None
         self.sample_size = sample_size
         self.successful_samples_required = successful_samples_required
         self.additional_latency_milliseconds = additional_latency_milliseconds
-        self.resource_state = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
 
 
 class LoadBalancingSettingsUpdateParameters(_serialization.Model):
@@ -2688,7 +2687,7 @@ class LoadBalancingSettingsProperties(LoadBalancingSettingsUpdateParameters):
             additional_latency_milliseconds=additional_latency_milliseconds,
             **kwargs
         )
-        self.resource_state = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
 
 
 class ManagedRuleDefinition(_serialization.Model):
@@ -2725,10 +2724,10 @@ class ManagedRuleDefinition(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.rule_id = None
-        self.default_state = None
-        self.default_action = None
-        self.description = None
+        self.rule_id: Optional[str] = None
+        self.default_state: Optional[Union[str, "_models.ManagedRuleEnabledState"]] = None
+        self.default_action: Optional[Union[str, "_models.ActionType"]] = None
+        self.description: Optional[str] = None
 
 
 class ManagedRuleExclusion(_serialization.Model):
@@ -2819,9 +2818,9 @@ class ManagedRuleGroupDefinition(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.rule_group_name = None
-        self.description = None
-        self.rules = None
+        self.rule_group_name: Optional[str] = None
+        self.description: Optional[str] = None
+        self.rules: Optional[List["_models.ManagedRuleDefinition"]] = None
 
 
 class ManagedRuleGroupOverride(_serialization.Model):
@@ -3048,11 +3047,11 @@ class ManagedRuleSetDefinition(Resource):
         :paramtype tags: dict[str, str]
         """
         super().__init__(location=location, tags=tags, **kwargs)
-        self.provisioning_state = None
-        self.rule_set_id = None
-        self.rule_set_type = None
-        self.rule_set_version = None
-        self.rule_groups = None
+        self.provisioning_state: Optional[str] = None
+        self.rule_set_id: Optional[str] = None
+        self.rule_set_type: Optional[str] = None
+        self.rule_set_version: Optional[str] = None
+        self.rule_groups: Optional[List["_models.ManagedRuleGroupDefinition"]] = None
 
 
 class ManagedRuleSetDefinitionList(_serialization.Model):
@@ -3081,7 +3080,7 @@ class ManagedRuleSetDefinitionList(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.ManagedRuleSetDefinition"]] = None
         self.next_link = next_link
 
 
@@ -3396,7 +3395,7 @@ class PreconfiguredEndpointList(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.PreconfiguredEndpoint"]] = None
         self.next_link = next_link
 
 
@@ -3464,7 +3463,7 @@ class Profile(Resource):
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.etag = etag
-        self.resource_state = None
+        self.resource_state: Optional[Union[str, "_models.NetworkExperimentResourceState"]] = None
         self.enabled_state = enabled_state
 
 
@@ -3495,7 +3494,7 @@ class ProfileList(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.Profile"]] = None
         self.next_link = next_link
 
 
@@ -3585,9 +3584,9 @@ class RedirectConfiguration(RouteConfiguration):
     :vartype custom_fragment: str
     :ivar custom_query_string: The set of query strings to be placed in the redirect URL. Setting
      this value would replace any existing query string; leave empty to preserve the incoming query
-     string. Query string must be in :code:`<key>`=:code:`<value>` format. The first ? and & will be
-     added automatically so do not include them in the front, but do separate multiple query strings
-     with &.
+     string. Query string must be in :code:`<key>`=\\ :code:`<value>` format. The first ? and & will
+     be added automatically so do not include them in the front, but do separate multiple query
+     strings with &.
     :vartype custom_query_string: str
     """
 
@@ -3634,8 +3633,8 @@ class RedirectConfiguration(RouteConfiguration):
         :paramtype custom_fragment: str
         :keyword custom_query_string: The set of query strings to be placed in the redirect URL.
          Setting this value would replace any existing query string; leave empty to preserve the
-         incoming query string. Query string must be in :code:`<key>`=:code:`<value>` format. The first
-         ? and & will be added automatically so do not include them in the front, but do separate
+         incoming query string. Query string must be in :code:`<key>`=\\ :code:`<value>` format. The
+         first ? and & will be added automatically so do not include them in the front, but do separate
          multiple query strings with &.
         :paramtype custom_query_string: str
         """
@@ -3649,7 +3648,7 @@ class RedirectConfiguration(RouteConfiguration):
         self.custom_query_string = custom_query_string
 
 
-class RoutingRule(SubResource):  # pylint: disable=too-many-instance-attributes
+class RoutingRule(SubResource):
     """A routing rule represents a specification for traffic to treat and where to send it, along with
     health probe information.
 
@@ -3748,7 +3747,7 @@ class RoutingRule(SubResource):  # pylint: disable=too-many-instance-attributes
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.type = None
+        self.type: Optional[str] = None
         self.frontend_endpoints = frontend_endpoints
         self.accepted_protocols = accepted_protocols
         self.patterns_to_match = patterns_to_match
@@ -3756,7 +3755,7 @@ class RoutingRule(SubResource):  # pylint: disable=too-many-instance-attributes
         self.route_configuration = route_configuration
         self.rules_engine = rules_engine
         self.web_application_firewall_policy_link = web_application_firewall_policy_link
-        self.resource_state = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
 
 
 class RoutingRuleLink(_serialization.Model):
@@ -3806,7 +3805,7 @@ class RoutingRuleListResult(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.RoutingRule"]] = None
         self.next_link = next_link
 
 
@@ -3980,7 +3979,7 @@ class RoutingRuleProperties(RoutingRuleUpdateParameters):
             web_application_firewall_policy_link=web_application_firewall_policy_link,
             **kwargs
         )
-        self.resource_state = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
 
 
 class RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink(
@@ -4045,11 +4044,11 @@ class RulesEngine(_serialization.Model):
         :paramtype rules: list[~azure.mgmt.frontdoor.models.RulesEngineRule]
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.type = None
-        self.id = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.id: Optional[str] = None
         self.rules = rules
-        self.resource_state = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
 
 
 class RulesEngineAction(_serialization.Model):
@@ -4122,7 +4121,7 @@ class RulesEngineListResult(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.RulesEngine"]] = None
         self.next_link = next_link
 
 
@@ -4257,7 +4256,7 @@ class RulesEngineProperties(RulesEngineUpdateParameters):
         :paramtype rules: list[~azure.mgmt.frontdoor.models.RulesEngineRule]
         """
         super().__init__(rules=rules, **kwargs)
-        self.resource_state = None
+        self.resource_state: Optional[Union[str, "_models.FrontDoorResourceState"]] = None
 
 
 class RulesEngineRule(_serialization.Model):
@@ -4279,7 +4278,7 @@ class RulesEngineRule(_serialization.Model):
     :vartype match_conditions: list[~azure.mgmt.frontdoor.models.RulesEngineMatchCondition]
     :ivar match_processing_behavior: If this rule is a match should the rules engine continue
      running the remaining rules or stop. If not present, defaults to Continue. Known values are:
-     "Continue" and "Stop".
+     "Continue", "Stop", and "Continue".
     :vartype match_processing_behavior: str or ~azure.mgmt.frontdoor.models.MatchProcessingBehavior
     """
 
@@ -4320,7 +4319,7 @@ class RulesEngineRule(_serialization.Model):
         :paramtype match_conditions: list[~azure.mgmt.frontdoor.models.RulesEngineMatchCondition]
         :keyword match_processing_behavior: If this rule is a match should the rules engine continue
          running the remaining rules or stop. If not present, defaults to Continue. Known values are:
-         "Continue" and "Stop".
+         "Continue", "Stop", and "Continue".
         :paramtype match_processing_behavior: str or
          ~azure.mgmt.frontdoor.models.MatchProcessingBehavior
         """
@@ -4394,7 +4393,7 @@ class TagsObject(_serialization.Model):
         self.tags = tags
 
 
-class Timeseries(Resource):  # pylint: disable=too-many-instance-attributes
+class Timeseries(Resource):
     """Defines the Timeseries.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4576,12 +4575,12 @@ class ValidateCustomDomainOutput(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.custom_domain_validated = None
-        self.reason = None
-        self.message = None
+        self.custom_domain_validated: Optional[bool] = None
+        self.reason: Optional[str] = None
+        self.message: Optional[str] = None
 
 
-class WebApplicationFirewallPolicy(Resource):  # pylint: disable=too-many-instance-attributes
+class WebApplicationFirewallPolicy(Resource):
     """Defines web application firewall policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4687,11 +4686,11 @@ class WebApplicationFirewallPolicy(Resource):  # pylint: disable=too-many-instan
         self.policy_settings = policy_settings
         self.custom_rules = custom_rules
         self.managed_rules = managed_rules
-        self.frontend_endpoint_links = None
-        self.routing_rule_links = None
-        self.security_policy_links = None
-        self.provisioning_state = None
-        self.resource_state = None
+        self.frontend_endpoint_links: Optional[List["_models.FrontendEndpointLink"]] = None
+        self.routing_rule_links: Optional[List["_models.RoutingRuleLink"]] = None
+        self.security_policy_links: Optional[List["_models.SecurityPolicyLink"]] = None
+        self.provisioning_state: Optional[str] = None
+        self.resource_state: Optional[Union[str, "_models.PolicyResourceState"]] = None
 
 
 class WebApplicationFirewallPolicyList(_serialization.Model):
@@ -4723,7 +4722,7 @@ class WebApplicationFirewallPolicyList(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.WebApplicationFirewallPolicy"]] = None
         self.next_link = next_link
 
 
