@@ -1,5 +1,27 @@
 # Release History
 
+## 5.1.0b1 (2025-04-26)
+
+### Features Added
+
+  - Model `ApiManagementServiceBaseProperties` added property `release_channel`
+  - Model `ApiManagementServiceProperties` added property `release_channel`
+  - Model `ApiManagementServiceResource` added property `release_channel`
+  - Model `ApiManagementServiceUpdateParameters` added property `release_channel`
+  - Model `ApiManagementServiceUpdateProperties` added property `release_channel`
+  - Model `DiagnosticContract` added property `large_language_model`
+  - Model `IdentityProviderContract` added property `certificate_id`
+  - Model `IdentityProviderContractProperties` added property `certificate_id`
+  - Model `IdentityProviderCreateContract` added property `certificate_id`
+  - Model `IdentityProviderCreateContractProperties` added property `certificate_id`
+  - Model `IdentityProviderUpdateParameters` added property `certificate_id`
+  - Model `IdentityProviderUpdateProperties` added property `certificate_id`
+  - Added model `LLMDiagnosticSettings`
+  - Added model `LLMMessageDiagnosticSettings`
+  - Added enum `LlmDiagnosticSettings`
+  - Added enum `LlmMessageLogTypes`
+  - Added enum `ReleaseChannel`
+
 ## 5.0.0 (2025-04-21)
 
 ### Features Added

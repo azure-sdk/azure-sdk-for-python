@@ -24,7 +24,7 @@ class TestApiManagementOperationStatusOperations(AzureMgmtRecordedTestCase):
         response = self.client.operation_status.get(
             location="str",
             operation_id="str",
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself

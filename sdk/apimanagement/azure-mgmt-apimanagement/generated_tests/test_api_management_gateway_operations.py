@@ -24,7 +24,7 @@ class TestApiManagementGatewayOperations(AzureMgmtRecordedTestCase):
         response = self.client.gateway.list_by_service(
             resource_group_name=resource_group.name,
             service_name="str",
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestApiManagementGatewayOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             service_name="str",
             gateway_id="str",
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -50,7 +50,7 @@ class TestApiManagementGatewayOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             service_name="str",
             gateway_id="str",
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -70,7 +70,7 @@ class TestApiManagementGatewayOperations(AzureMgmtRecordedTestCase):
                 "name": "str",
                 "type": "str",
             },
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -91,7 +91,7 @@ class TestApiManagementGatewayOperations(AzureMgmtRecordedTestCase):
                 "name": "str",
                 "type": "str",
             },
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -105,7 +105,7 @@ class TestApiManagementGatewayOperations(AzureMgmtRecordedTestCase):
             service_name="str",
             gateway_id="str",
             if_match="str",
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -118,7 +118,7 @@ class TestApiManagementGatewayOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             service_name="str",
             gateway_id="str",
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -132,7 +132,7 @@ class TestApiManagementGatewayOperations(AzureMgmtRecordedTestCase):
             service_name="str",
             gateway_id="str",
             parameters={"keyType": "str"},
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -146,7 +146,7 @@ class TestApiManagementGatewayOperations(AzureMgmtRecordedTestCase):
             service_name="str",
             gateway_id="str",
             parameters={"expiry": "2020-02-20 00:00:00", "keyType": "str"},
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -159,7 +159,7 @@ class TestApiManagementGatewayOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             service_name="str",
             gateway_id="str",
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -173,7 +173,7 @@ class TestApiManagementGatewayOperations(AzureMgmtRecordedTestCase):
             service_name="str",
             gateway_id="str",
             parameters={"apiId": "str", "purposes": ["str"], "credentialsExpireAfter": "1 day, 0:00:00"},
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -187,7 +187,7 @@ class TestApiManagementGatewayOperations(AzureMgmtRecordedTestCase):
             service_name="str",
             gateway_id="str",
             parameters={"traceId": "str"},
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself

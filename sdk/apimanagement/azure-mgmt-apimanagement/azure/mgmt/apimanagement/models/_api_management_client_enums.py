@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -485,6 +486,22 @@ class LegacyPortalStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Legacy Portal is disabled for the service."""
 
 
+class LlmDiagnosticSettings(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """LlmDiagnosticSettings."""
+
+    ENABLED = "enabled"
+    """Default LLM logs are enabled."""
+    DISABLED = "disabled"
+    """Default LLM logs are disabled."""
+
+
+class LlmMessageLogTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """LlmMessageLogTypes."""
+
+    ALL = "all"
+    """Log all messages."""
+
+
 class LoggerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Logger type."""
 
@@ -744,6 +761,17 @@ class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     ENABLED = "Enabled"
     DISABLED = "Disabled"
+
+
+class ReleaseChannel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Release Channel of this API Management service."""
+
+    PREVIEW = "Preview"
+    """Preview Channel of the service."""
+    DEFAULT = "Default"
+    """Default Channel of the service."""
+    STABLE = "Stable"
+    """Stable Channel of the service."""
 
 
 class ResourceSkuCapacityScaleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
