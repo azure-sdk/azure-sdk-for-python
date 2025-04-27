@@ -1,5 +1,434 @@
 # Release History
 
+## 2.0.0 (2025-04-27)
+
+### Features Added
+
+  - Model `Account` added parameter `kwargs` in method `as_dict`
+  - Model `Account` added method `deserialize`
+  - Model `Account` added method `enable_additional_properties_sending`
+  - Model `Account` added method `from_dict`
+  - Model `Account` added method `is_xml_model`
+  - Model `Account` added method `serialize`
+  - Model `Account` added property `additional_properties`
+  - Model `AccountFreeTrialProperties` added parameter `kwargs` in method `as_dict`
+  - Model `AccountFreeTrialProperties` added method `deserialize`
+  - Model `AccountFreeTrialProperties` added method `enable_additional_properties_sending`
+  - Model `AccountFreeTrialProperties` added method `from_dict`
+  - Model `AccountFreeTrialProperties` added method `is_xml_model`
+  - Model `AccountFreeTrialProperties` added method `serialize`
+  - Model `AccountFreeTrialProperties` added property `additional_properties`
+  - Model `AccountProperties` added parameter `kwargs` in method `as_dict`
+  - Model `AccountProperties` added method `deserialize`
+  - Model `AccountProperties` added method `enable_additional_properties_sending`
+  - Model `AccountProperties` added method `from_dict`
+  - Model `AccountProperties` added method `is_xml_model`
+  - Model `AccountProperties` added method `serialize`
+  - Model `AccountProperties` added property `additional_properties`
+  - Model `AccountQuota` added parameter `kwargs` in method `as_dict`
+  - Model `AccountQuota` added method `deserialize`
+  - Model `AccountQuota` added method `enable_additional_properties_sending`
+  - Model `AccountQuota` added method `from_dict`
+  - Model `AccountQuota` added method `is_xml_model`
+  - Model `AccountQuota` added method `serialize`
+  - Model `AccountQuota` added property `additional_properties`
+  - Model `AccountQuotaProperties` added parameter `kwargs` in method `as_dict`
+  - Model `AccountQuotaProperties` added method `deserialize`
+  - Model `AccountQuotaProperties` added method `enable_additional_properties_sending`
+  - Model `AccountQuotaProperties` added method `from_dict`
+  - Model `AccountQuotaProperties` added method `is_xml_model`
+  - Model `AccountQuotaProperties` added method `serialize`
+  - Model `AccountQuotaProperties` added property `additional_properties`
+  - Model `AccountUpdate` added parameter `kwargs` in method `as_dict`
+  - Model `AccountUpdate` added method `deserialize`
+  - Model `AccountUpdate` added method `enable_additional_properties_sending`
+  - Model `AccountUpdate` added method `from_dict`
+  - Model `AccountUpdate` added method `is_xml_model`
+  - Model `AccountUpdate` added method `serialize`
+  - Model `AccountUpdate` added property `additional_properties`
+  - Model `AccountUpdateProperties` added parameter `kwargs` in method `as_dict`
+  - Model `AccountUpdateProperties` added method `deserialize`
+  - Model `AccountUpdateProperties` added method `enable_additional_properties_sending`
+  - Model `AccountUpdateProperties` added method `from_dict`
+  - Model `AccountUpdateProperties` added method `is_xml_model`
+  - Model `AccountUpdateProperties` added method `serialize`
+  - Model `AccountUpdateProperties` added property `additional_properties`
+  - Model `CheckNameAvailabilityRequest` added parameter `kwargs` in method `as_dict`
+  - Model `CheckNameAvailabilityRequest` added method `deserialize`
+  - Model `CheckNameAvailabilityRequest` added method `enable_additional_properties_sending`
+  - Model `CheckNameAvailabilityRequest` added method `from_dict`
+  - Model `CheckNameAvailabilityRequest` added method `is_xml_model`
+  - Model `CheckNameAvailabilityRequest` added method `serialize`
+  - Model `CheckNameAvailabilityRequest` added property `additional_properties`
+  - Model `CheckNameAvailabilityResponse` added parameter `kwargs` in method `as_dict`
+  - Model `CheckNameAvailabilityResponse` added method `deserialize`
+  - Model `CheckNameAvailabilityResponse` added method `enable_additional_properties_sending`
+  - Model `CheckNameAvailabilityResponse` added method `from_dict`
+  - Model `CheckNameAvailabilityResponse` added method `is_xml_model`
+  - Model `CheckNameAvailabilityResponse` added method `serialize`
+  - Model `CheckNameAvailabilityResponse` added property `additional_properties`
+  - Model `ErrorAdditionalInfo` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorAdditionalInfo` added method `deserialize`
+  - Model `ErrorAdditionalInfo` added method `enable_additional_properties_sending`
+  - Model `ErrorAdditionalInfo` added method `from_dict`
+  - Model `ErrorAdditionalInfo` added method `is_xml_model`
+  - Model `ErrorAdditionalInfo` added method `serialize`
+  - Model `ErrorAdditionalInfo` added property `additional_properties`
+  - Model `ErrorDetail` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorDetail` added method `deserialize`
+  - Model `ErrorDetail` added method `enable_additional_properties_sending`
+  - Model `ErrorDetail` added method `from_dict`
+  - Model `ErrorDetail` added method `is_xml_model`
+  - Model `ErrorDetail` added method `serialize`
+  - Model `ErrorDetail` added property `additional_properties`
+  - Model `ErrorResponse` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorResponse` added method `deserialize`
+  - Model `ErrorResponse` added method `enable_additional_properties_sending`
+  - Model `ErrorResponse` added method `from_dict`
+  - Model `ErrorResponse` added method `is_xml_model`
+  - Model `ErrorResponse` added method `serialize`
+  - Model `ErrorResponse` added property `additional_properties`
+  - Model `FreeTrialProperties` added parameter `kwargs` in method `as_dict`
+  - Model `FreeTrialProperties` added method `deserialize`
+  - Model `FreeTrialProperties` added method `enable_additional_properties_sending`
+  - Model `FreeTrialProperties` added method `from_dict`
+  - Model `FreeTrialProperties` added method `is_xml_model`
+  - Model `FreeTrialProperties` added method `serialize`
+  - Model `FreeTrialProperties` added property `additional_properties`
+  - Model `Operation` added parameter `kwargs` in method `as_dict`
+  - Model `Operation` added method `deserialize`
+  - Model `Operation` added method `enable_additional_properties_sending`
+  - Model `Operation` added method `from_dict`
+  - Model `Operation` added method `is_xml_model`
+  - Model `Operation` added method `serialize`
+  - Model `Operation` added property `additional_properties`
+  - Model `OperationDisplay` added parameter `kwargs` in method `as_dict`
+  - Model `OperationDisplay` added method `deserialize`
+  - Model `OperationDisplay` added method `enable_additional_properties_sending`
+  - Model `OperationDisplay` added method `from_dict`
+  - Model `OperationDisplay` added method `is_xml_model`
+  - Model `OperationDisplay` added method `serialize`
+  - Model `OperationDisplay` added property `additional_properties`
+  - Model `ProxyResource` added parameter `kwargs` in method `as_dict`
+  - Model `ProxyResource` added method `deserialize`
+  - Model `ProxyResource` added method `enable_additional_properties_sending`
+  - Model `ProxyResource` added method `from_dict`
+  - Model `ProxyResource` added method `is_xml_model`
+  - Model `ProxyResource` added method `serialize`
+  - Model `ProxyResource` added property `additional_properties`
+  - Model `Quota` added parameter `kwargs` in method `as_dict`
+  - Model `Quota` added method `deserialize`
+  - Model `Quota` added method `enable_additional_properties_sending`
+  - Model `Quota` added method `from_dict`
+  - Model `Quota` added method `is_xml_model`
+  - Model `Quota` added method `serialize`
+  - Model `Quota` added property `additional_properties`
+  - Model `QuotaProperties` added parameter `kwargs` in method `as_dict`
+  - Model `QuotaProperties` added method `deserialize`
+  - Model `QuotaProperties` added method `enable_additional_properties_sending`
+  - Model `QuotaProperties` added method `from_dict`
+  - Model `QuotaProperties` added method `is_xml_model`
+  - Model `QuotaProperties` added method `serialize`
+  - Model `QuotaProperties` added property `additional_properties`
+  - Model `Resource` added parameter `kwargs` in method `as_dict`
+  - Model `Resource` added method `deserialize`
+  - Model `Resource` added method `enable_additional_properties_sending`
+  - Model `Resource` added method `from_dict`
+  - Model `Resource` added method `is_xml_model`
+  - Model `Resource` added method `serialize`
+  - Model `Resource` added property `additional_properties`
+  - Model `SystemData` added parameter `kwargs` in method `as_dict`
+  - Model `SystemData` added method `deserialize`
+  - Model `SystemData` added method `enable_additional_properties_sending`
+  - Model `SystemData` added method `from_dict`
+  - Model `SystemData` added method `is_xml_model`
+  - Model `SystemData` added method `serialize`
+  - Model `SystemData` added property `additional_properties`
+  - Model `TrackedResource` added parameter `kwargs` in method `as_dict`
+  - Model `TrackedResource` added method `deserialize`
+  - Model `TrackedResource` added method `enable_additional_properties_sending`
+  - Model `TrackedResource` added method `from_dict`
+  - Model `TrackedResource` added method `is_xml_model`
+  - Model `TrackedResource` added method `serialize`
+  - Model `TrackedResource` added property `additional_properties`
+  - Added model `AccountListResult`
+  - Added model `AccountQuotaListResult`
+  - Added model `OperationListResult`
+  - Added model `QuotaListResult`
+
+### Breaking Changes
+
+  - Deleted or renamed client method `PlaywrightTestingMgmtClient.send_request`
+  - Method `Account.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Account.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Account.clear`
+  - Deleted or renamed method `Account.copy`
+  - Deleted or renamed method `Account.get`
+  - Deleted or renamed method `Account.items`
+  - Deleted or renamed method `Account.keys`
+  - Deleted or renamed method `Account.pop`
+  - Deleted or renamed method `Account.popitem`
+  - Deleted or renamed method `Account.setdefault`
+  - Deleted or renamed method `Account.update`
+  - Deleted or renamed method `Account.values`
+  - Method `AccountFreeTrialProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `AccountFreeTrialProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `AccountFreeTrialProperties.clear`
+  - Deleted or renamed method `AccountFreeTrialProperties.copy`
+  - Deleted or renamed method `AccountFreeTrialProperties.get`
+  - Deleted or renamed method `AccountFreeTrialProperties.items`
+  - Deleted or renamed method `AccountFreeTrialProperties.keys`
+  - Deleted or renamed method `AccountFreeTrialProperties.pop`
+  - Deleted or renamed method `AccountFreeTrialProperties.popitem`
+  - Deleted or renamed method `AccountFreeTrialProperties.setdefault`
+  - Deleted or renamed method `AccountFreeTrialProperties.update`
+  - Deleted or renamed method `AccountFreeTrialProperties.values`
+  - Method `AccountProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `AccountProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `AccountProperties.clear`
+  - Deleted or renamed method `AccountProperties.copy`
+  - Deleted or renamed method `AccountProperties.get`
+  - Deleted or renamed method `AccountProperties.items`
+  - Deleted or renamed method `AccountProperties.keys`
+  - Deleted or renamed method `AccountProperties.pop`
+  - Deleted or renamed method `AccountProperties.popitem`
+  - Deleted or renamed method `AccountProperties.setdefault`
+  - Deleted or renamed method `AccountProperties.update`
+  - Deleted or renamed method `AccountProperties.values`
+  - Method `AccountQuota.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `AccountQuota.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `AccountQuota.clear`
+  - Deleted or renamed method `AccountQuota.copy`
+  - Deleted or renamed method `AccountQuota.get`
+  - Deleted or renamed method `AccountQuota.items`
+  - Deleted or renamed method `AccountQuota.keys`
+  - Deleted or renamed method `AccountQuota.pop`
+  - Deleted or renamed method `AccountQuota.popitem`
+  - Deleted or renamed method `AccountQuota.setdefault`
+  - Deleted or renamed method `AccountQuota.update`
+  - Deleted or renamed method `AccountQuota.values`
+  - Method `AccountQuotaProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `AccountQuotaProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `AccountQuotaProperties.clear`
+  - Deleted or renamed method `AccountQuotaProperties.copy`
+  - Deleted or renamed method `AccountQuotaProperties.get`
+  - Deleted or renamed method `AccountQuotaProperties.items`
+  - Deleted or renamed method `AccountQuotaProperties.keys`
+  - Deleted or renamed method `AccountQuotaProperties.pop`
+  - Deleted or renamed method `AccountQuotaProperties.popitem`
+  - Deleted or renamed method `AccountQuotaProperties.setdefault`
+  - Deleted or renamed method `AccountQuotaProperties.update`
+  - Deleted or renamed method `AccountQuotaProperties.values`
+  - Method `AccountUpdate.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `AccountUpdate.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `AccountUpdate.clear`
+  - Deleted or renamed method `AccountUpdate.copy`
+  - Deleted or renamed method `AccountUpdate.get`
+  - Deleted or renamed method `AccountUpdate.items`
+  - Deleted or renamed method `AccountUpdate.keys`
+  - Deleted or renamed method `AccountUpdate.pop`
+  - Deleted or renamed method `AccountUpdate.popitem`
+  - Deleted or renamed method `AccountUpdate.setdefault`
+  - Deleted or renamed method `AccountUpdate.update`
+  - Deleted or renamed method `AccountUpdate.values`
+  - Method `AccountUpdateProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `AccountUpdateProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `AccountUpdateProperties.clear`
+  - Deleted or renamed method `AccountUpdateProperties.copy`
+  - Deleted or renamed method `AccountUpdateProperties.get`
+  - Deleted or renamed method `AccountUpdateProperties.items`
+  - Deleted or renamed method `AccountUpdateProperties.keys`
+  - Deleted or renamed method `AccountUpdateProperties.pop`
+  - Deleted or renamed method `AccountUpdateProperties.popitem`
+  - Deleted or renamed method `AccountUpdateProperties.setdefault`
+  - Deleted or renamed method `AccountUpdateProperties.update`
+  - Deleted or renamed method `AccountUpdateProperties.values`
+  - Method `CheckNameAvailabilityRequest.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CheckNameAvailabilityRequest.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.clear`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.copy`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.get`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.items`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.keys`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.pop`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.popitem`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.setdefault`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.update`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.values`
+  - Method `CheckNameAvailabilityResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CheckNameAvailabilityResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.clear`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.copy`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.get`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.items`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.keys`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.pop`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.popitem`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.setdefault`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.update`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.values`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorAdditionalInfo.clear`
+  - Deleted or renamed method `ErrorAdditionalInfo.copy`
+  - Deleted or renamed method `ErrorAdditionalInfo.get`
+  - Deleted or renamed method `ErrorAdditionalInfo.items`
+  - Deleted or renamed method `ErrorAdditionalInfo.keys`
+  - Deleted or renamed method `ErrorAdditionalInfo.pop`
+  - Deleted or renamed method `ErrorAdditionalInfo.popitem`
+  - Deleted or renamed method `ErrorAdditionalInfo.setdefault`
+  - Deleted or renamed method `ErrorAdditionalInfo.update`
+  - Deleted or renamed method `ErrorAdditionalInfo.values`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorDetail.clear`
+  - Deleted or renamed method `ErrorDetail.copy`
+  - Deleted or renamed method `ErrorDetail.get`
+  - Deleted or renamed method `ErrorDetail.items`
+  - Deleted or renamed method `ErrorDetail.keys`
+  - Deleted or renamed method `ErrorDetail.pop`
+  - Deleted or renamed method `ErrorDetail.popitem`
+  - Deleted or renamed method `ErrorDetail.setdefault`
+  - Deleted or renamed method `ErrorDetail.update`
+  - Deleted or renamed method `ErrorDetail.values`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorResponse.clear`
+  - Deleted or renamed method `ErrorResponse.copy`
+  - Deleted or renamed method `ErrorResponse.get`
+  - Deleted or renamed method `ErrorResponse.items`
+  - Deleted or renamed method `ErrorResponse.keys`
+  - Deleted or renamed method `ErrorResponse.pop`
+  - Deleted or renamed method `ErrorResponse.popitem`
+  - Deleted or renamed method `ErrorResponse.setdefault`
+  - Deleted or renamed method `ErrorResponse.update`
+  - Deleted or renamed method `ErrorResponse.values`
+  - Method `FreeTrialProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `FreeTrialProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `FreeTrialProperties.clear`
+  - Deleted or renamed method `FreeTrialProperties.copy`
+  - Deleted or renamed method `FreeTrialProperties.get`
+  - Deleted or renamed method `FreeTrialProperties.items`
+  - Deleted or renamed method `FreeTrialProperties.keys`
+  - Deleted or renamed method `FreeTrialProperties.pop`
+  - Deleted or renamed method `FreeTrialProperties.popitem`
+  - Deleted or renamed method `FreeTrialProperties.setdefault`
+  - Deleted or renamed method `FreeTrialProperties.update`
+  - Deleted or renamed method `FreeTrialProperties.values`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Operation.clear`
+  - Deleted or renamed method `Operation.copy`
+  - Deleted or renamed method `Operation.get`
+  - Deleted or renamed method `Operation.items`
+  - Deleted or renamed method `Operation.keys`
+  - Deleted or renamed method `Operation.pop`
+  - Deleted or renamed method `Operation.popitem`
+  - Deleted or renamed method `Operation.setdefault`
+  - Deleted or renamed method `Operation.update`
+  - Deleted or renamed method `Operation.values`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `OperationDisplay.clear`
+  - Deleted or renamed method `OperationDisplay.copy`
+  - Deleted or renamed method `OperationDisplay.get`
+  - Deleted or renamed method `OperationDisplay.items`
+  - Deleted or renamed method `OperationDisplay.keys`
+  - Deleted or renamed method `OperationDisplay.pop`
+  - Deleted or renamed method `OperationDisplay.popitem`
+  - Deleted or renamed method `OperationDisplay.setdefault`
+  - Deleted or renamed method `OperationDisplay.update`
+  - Deleted or renamed method `OperationDisplay.values`
+  - Method `ProxyResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ProxyResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ProxyResource.clear`
+  - Deleted or renamed method `ProxyResource.copy`
+  - Deleted or renamed method `ProxyResource.get`
+  - Deleted or renamed method `ProxyResource.items`
+  - Deleted or renamed method `ProxyResource.keys`
+  - Deleted or renamed method `ProxyResource.pop`
+  - Deleted or renamed method `ProxyResource.popitem`
+  - Deleted or renamed method `ProxyResource.setdefault`
+  - Deleted or renamed method `ProxyResource.update`
+  - Deleted or renamed method `ProxyResource.values`
+  - Method `Quota.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Quota.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Quota.clear`
+  - Deleted or renamed method `Quota.copy`
+  - Deleted or renamed method `Quota.get`
+  - Deleted or renamed method `Quota.items`
+  - Deleted or renamed method `Quota.keys`
+  - Deleted or renamed method `Quota.pop`
+  - Deleted or renamed method `Quota.popitem`
+  - Deleted or renamed method `Quota.setdefault`
+  - Deleted or renamed method `Quota.update`
+  - Deleted or renamed method `Quota.values`
+  - Method `QuotaProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `QuotaProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `QuotaProperties.clear`
+  - Deleted or renamed method `QuotaProperties.copy`
+  - Deleted or renamed method `QuotaProperties.get`
+  - Deleted or renamed method `QuotaProperties.items`
+  - Deleted or renamed method `QuotaProperties.keys`
+  - Deleted or renamed method `QuotaProperties.pop`
+  - Deleted or renamed method `QuotaProperties.popitem`
+  - Deleted or renamed method `QuotaProperties.setdefault`
+  - Deleted or renamed method `QuotaProperties.update`
+  - Deleted or renamed method `QuotaProperties.values`
+  - Method `Resource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Resource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Resource.clear`
+  - Deleted or renamed method `Resource.copy`
+  - Deleted or renamed method `Resource.get`
+  - Deleted or renamed method `Resource.items`
+  - Deleted or renamed method `Resource.keys`
+  - Deleted or renamed method `Resource.pop`
+  - Deleted or renamed method `Resource.popitem`
+  - Deleted or renamed method `Resource.setdefault`
+  - Deleted or renamed method `Resource.update`
+  - Deleted or renamed method `Resource.values`
+  - Method `SystemData.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SystemData.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SystemData.clear`
+  - Deleted or renamed method `SystemData.copy`
+  - Deleted or renamed method `SystemData.get`
+  - Deleted or renamed method `SystemData.items`
+  - Deleted or renamed method `SystemData.keys`
+  - Deleted or renamed method `SystemData.pop`
+  - Deleted or renamed method `SystemData.popitem`
+  - Deleted or renamed method `SystemData.setdefault`
+  - Deleted or renamed method `SystemData.update`
+  - Deleted or renamed method `SystemData.values`
+  - Method `TrackedResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `TrackedResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `TrackedResource.clear`
+  - Deleted or renamed method `TrackedResource.copy`
+  - Deleted or renamed method `TrackedResource.get`
+  - Deleted or renamed method `TrackedResource.items`
+  - Deleted or renamed method `TrackedResource.keys`
+  - Deleted or renamed method `TrackedResource.pop`
+  - Deleted or renamed method `TrackedResource.popitem`
+  - Deleted or renamed method `TrackedResource.setdefault`
+  - Deleted or renamed method `TrackedResource.update`
+  - Deleted or renamed method `TrackedResource.values`
+  - `Account.__init__` had all overloads removed
+  - `AccountProperties.__init__` had all overloads removed
+  - `AccountQuota.__init__` had all overloads removed
+  - `AccountQuotaProperties.__init__` had all overloads removed
+  - `AccountUpdate.__init__` had all overloads removed
+  - `AccountUpdateProperties.__init__` had all overloads removed
+  - `CheckNameAvailabilityRequest.__init__` had all overloads removed
+  - `CheckNameAvailabilityResponse.__init__` had all overloads removed
+  - `ErrorResponse.__init__` had all overloads removed
+  - `Operation.__init__` had all overloads removed
+  - `Quota.__init__` had all overloads removed
+  - `QuotaProperties.__init__` had all overloads removed
+  - `SystemData.__init__` had all overloads removed
+  - `TrackedResource.__init__` had all overloads removed
+  - `AccountsOperations.begin_create_or_update` had an overload `def begin_create_or_update(self: None, resource_group_name: str, account_name: str, resource: JSON, content_type: str)` removed
+  - `AccountsOperations.check_name_availability` had an overload `def check_name_availability(self: None, body: JSON, content_type: str)` removed
+  - `AccountsOperations.update` had an overload `def update(self: None, resource_group_name: str, account_name: str, properties: JSON, content_type: str)` removed
+
 ## 1.0.0 (2024-12-18)
 
 ### Features Added
