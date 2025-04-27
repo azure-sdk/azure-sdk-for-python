@@ -1,5 +1,23 @@
 # Release History
 
+## 1.1.0 (2025-04-27)
+
+### Features Added
+
+  - Model `CloudCapacity` added property `storage_gb`
+  - Model `GuestAgentProperties` added property `private_link_scope_resource_id`
+  - Model `OsProfileForVmInstance` added property `admin_username`
+  - Model `OsProfileForVmInstance` added property `domain_name`
+  - Model `OsProfileForVmInstance` added property `domain_username`
+  - Model `OsProfileForVmInstance` added property `domain_password`
+  - Model `OsProfileForVmInstance` added property `workgroup`
+  - Model `OsProfileForVmInstance` added property `product_key`
+  - Model `OsProfileForVmInstance` added property `timezone`
+  - Model `OsProfileForVmInstance` added property `run_once_commands`
+  - Model `VirtualMachineInventoryItem` added property `generation`
+  - Method `VirtualMachineInstancesOperations.begin_stop` has a new overload `def begin_stop(self: None, resource_uri: str, body: Optional[StopVirtualMachineOptions], content_type: str)`
+  - Method `VirtualMachineInstancesOperations.begin_stop` has a new overload `def begin_stop(self: None, resource_uri: str, body: Optional[IO[bytes]], content_type: str)`
+
 ## 1.0.0 (2024-06-20)
 
 ### Features Added

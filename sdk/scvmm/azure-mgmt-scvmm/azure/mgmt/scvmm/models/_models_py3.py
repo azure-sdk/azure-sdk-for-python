@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -23,7 +22,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -52,10 +51,10 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class TrackedResource(Resource):
@@ -67,7 +66,7 @@ class TrackedResource(Resource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -120,7 +119,7 @@ class AvailabilitySet(TrackedResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -246,7 +245,7 @@ class AvailabilitySetListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class AvailabilitySetProperties(_serialization.Model):
@@ -286,7 +285,7 @@ class AvailabilitySetProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.availability_set_name = availability_set_name
         self.vmm_server_id = vmm_server_id
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class AvailabilitySetTagsUpdate(_serialization.Model):
@@ -363,7 +362,7 @@ class Cloud(TrackedResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -439,26 +438,31 @@ class CloudCapacity(_serialization.Model):
     :vartype memory_mb: int
     :ivar vm_count: VMCount gives the max number of VMs that can be deployed in the cloud.
     :vartype vm_count: int
+    :ivar storage_gb: StorageGB gives the storage in GB present in the cloud.
+    :vartype storage_gb: int
     """
 
     _validation = {
         "cpu_count": {"readonly": True},
         "memory_mb": {"readonly": True},
         "vm_count": {"readonly": True},
+        "storage_gb": {"readonly": True},
     }
 
     _attribute_map = {
         "cpu_count": {"key": "cpuCount", "type": "int"},
         "memory_mb": {"key": "memoryMB", "type": "int"},
         "vm_count": {"key": "vmCount", "type": "int"},
+        "storage_gb": {"key": "storageGB", "type": "int"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.cpu_count = None
-        self.memory_mb = None
-        self.vm_count = None
+        self.cpu_count: Optional[int] = None
+        self.memory_mb: Optional[int] = None
+        self.vm_count: Optional[int] = None
+        self.storage_gb: Optional[int] = None
 
 
 class InventoryItemProperties(_serialization.Model):
@@ -516,10 +520,10 @@ class InventoryItemProperties(_serialization.Model):
         """ """
         super().__init__(**kwargs)
         self.inventory_type: Optional[str] = None
-        self.managed_resource_id = None
-        self.uuid = None
-        self.inventory_item_name = None
-        self.provisioning_state = None
+        self.managed_resource_id: Optional[str] = None
+        self.uuid: Optional[str] = None
+        self.inventory_item_name: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class CloudInventoryItem(InventoryItemProperties):
@@ -596,7 +600,7 @@ class CloudListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class CloudProperties(_serialization.Model):
@@ -659,10 +663,10 @@ class CloudProperties(_serialization.Model):
         self.inventory_item_id = inventory_item_id
         self.uuid = uuid
         self.vmm_server_id = vmm_server_id
-        self.cloud_name = None
-        self.cloud_capacity = None
-        self.storage_qos_policies = None
-        self.provisioning_state = None
+        self.cloud_name: Optional[str] = None
+        self.cloud_capacity: Optional["_models.CloudCapacity"] = None
+        self.storage_qos_policies: Optional[List["_models.StorageQosPolicy"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class CloudTagsUpdate(_serialization.Model):
@@ -709,8 +713,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -749,11 +753,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -810,7 +814,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -829,7 +833,7 @@ class GuestAgent(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -897,7 +901,7 @@ class GuestAgentListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class GuestAgentProperties(_serialization.Model):
@@ -921,6 +925,9 @@ class GuestAgentProperties(_serialization.Model):
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Succeeded",
      "Failed", "Canceled", "Provisioning", "Updating", "Deleting", "Accepted", and "Created".
     :vartype provisioning_state: str or ~azure.mgmt.scvmm.models.ProvisioningState
+    :ivar private_link_scope_resource_id: The resource id of the private link scope this machine is
+     assigned to, if any.
+    :vartype private_link_scope_resource_id: str
     """
 
     _validation = {
@@ -938,6 +945,7 @@ class GuestAgentProperties(_serialization.Model):
         "status": {"key": "status", "type": "str"},
         "custom_resource_name": {"key": "customResourceName", "type": "str"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "private_link_scope_resource_id": {"key": "privateLinkScopeResourceId", "type": "str"},
     }
 
     def __init__(
@@ -946,6 +954,7 @@ class GuestAgentProperties(_serialization.Model):
         credentials: Optional["_models.GuestCredential"] = None,
         http_proxy_config: Optional["_models.HttpProxyConfiguration"] = None,
         provisioning_action: Optional[Union[str, "_models.ProvisioningAction"]] = None,
+        private_link_scope_resource_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -956,15 +965,19 @@ class GuestAgentProperties(_serialization.Model):
         :keyword provisioning_action: Gets or sets the guest agent provisioning action. Known values
          are: "install", "uninstall", and "repair".
         :paramtype provisioning_action: str or ~azure.mgmt.scvmm.models.ProvisioningAction
+        :keyword private_link_scope_resource_id: The resource id of the private link scope this machine
+         is assigned to, if any.
+        :paramtype private_link_scope_resource_id: str
         """
         super().__init__(**kwargs)
-        self.uuid = None
+        self.uuid: Optional[str] = None
         self.credentials = credentials
         self.http_proxy_config = http_proxy_config
         self.provisioning_action = provisioning_action
-        self.status = None
-        self.custom_resource_name = None
-        self.provisioning_state = None
+        self.status: Optional[str] = None
+        self.custom_resource_name: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.private_link_scope_resource_id = private_link_scope_resource_id
 
 
 class GuestCredential(_serialization.Model):
@@ -1072,7 +1085,7 @@ class HardwareProfile(_serialization.Model):
         self.dynamic_memory_enabled = dynamic_memory_enabled
         self.dynamic_memory_max_mb = dynamic_memory_max_mb
         self.dynamic_memory_min_mb = dynamic_memory_min_mb
-        self.is_highly_available = None
+        self.is_highly_available: Optional[Union[str, "_models.IsHighlyAvailable"]] = None
 
 
 class HardwareProfileUpdate(_serialization.Model):
@@ -1159,7 +1172,7 @@ class HttpProxyConfiguration(_serialization.Model):
         self.https_proxy = https_proxy
 
 
-class InfrastructureProfile(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class InfrastructureProfile(_serialization.Model):
     """Specifies the vmmServer infrastructure specific settings for the virtual machine instance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1249,8 +1262,8 @@ class InfrastructureProfile(_serialization.Model):  # pylint: disable=too-many-i
         self.template_id = template_id
         self.vm_name = vm_name
         self.uuid = uuid
-        self.last_restored_vm_checkpoint = None
-        self.checkpoints = None
+        self.last_restored_vm_checkpoint: Optional["_models.Checkpoint"] = None
+        self.checkpoints: Optional[List["_models.Checkpoint"]] = None
         self.checkpoint_type = checkpoint_type
         self.generation = generation
         self.bios_guid = bios_guid
@@ -1283,7 +1296,7 @@ class InventoryItem(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1395,10 +1408,10 @@ class InventoryItemListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
-class NetworkInterface(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class NetworkInterface(_serialization.Model):
     """Network Interface model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1488,12 +1501,12 @@ class NetworkInterface(_serialization.Model):  # pylint: disable=too-many-instan
         """
         super().__init__(**kwargs)
         self.name = name
-        self.display_name = None
-        self.ipv4_addresses = None
-        self.ipv6_addresses = None
+        self.display_name: Optional[str] = None
+        self.ipv4_addresses: Optional[List[str]] = None
+        self.ipv6_addresses: Optional[List[str]] = None
         self.mac_address = mac_address
         self.virtual_network_id = virtual_network_id
-        self.network_name = None
+        self.network_name: Optional[str] = None
         self.ipv4_address_type = ipv4_address_type
         self.ipv6_address_type = ipv6_address_type
         self.mac_address_type = mac_address_type
@@ -1664,11 +1677,11 @@ class Operation(_serialization.Model):
         :paramtype display: ~azure.mgmt.scvmm.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.is_data_action = None
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
         self.display = display
-        self.origin = None
-        self.action_type = None
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
 
 
 class OperationDisplay(_serialization.Model):
@@ -1707,10 +1720,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -1738,8 +1751,8 @@ class OperationListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class OsProfileForVmInstance(_serialization.Model):
@@ -1747,6 +1760,8 @@ class OsProfileForVmInstance(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
+    :ivar admin_username: Gets or sets the admin username.
+    :vartype admin_username: str
     :ivar admin_password: Admin password of the virtual machine.
     :vartype admin_password: str
     :ivar computer_name: Gets or sets computer name.
@@ -1757,6 +1772,21 @@ class OsProfileForVmInstance(_serialization.Model):
     :vartype os_sku: str
     :ivar os_version: Gets os version.
     :vartype os_version: str
+    :ivar domain_name: Gets or sets the domain name.
+    :vartype domain_name: str
+    :ivar domain_username: Gets or sets the domain username.
+    :vartype domain_username: str
+    :ivar domain_password: Password of the domain the VM has to join.
+    :vartype domain_password: str
+    :ivar workgroup: Gets or sets the workgroup.
+    :vartype workgroup: str
+    :ivar product_key: Gets or sets the product key.Input format xxxxx-xxxxx-xxxxx-xxxxx-xxxxx.
+    :vartype product_key: str
+    :ivar timezone: Gets or sets the index value of the timezone.
+    :vartype timezone: int
+    :ivar run_once_commands: Get or sets the commands to be run once at the time of creation
+     separated by semicolons.
+    :vartype run_once_commands: str
     """
 
     _validation = {
@@ -1766,28 +1796,73 @@ class OsProfileForVmInstance(_serialization.Model):
     }
 
     _attribute_map = {
+        "admin_username": {"key": "adminUsername", "type": "str"},
         "admin_password": {"key": "adminPassword", "type": "str"},
         "computer_name": {"key": "computerName", "type": "str"},
         "os_type": {"key": "osType", "type": "str"},
         "os_sku": {"key": "osSku", "type": "str"},
         "os_version": {"key": "osVersion", "type": "str"},
+        "domain_name": {"key": "domainName", "type": "str"},
+        "domain_username": {"key": "domainUsername", "type": "str"},
+        "domain_password": {"key": "domainPassword", "type": "str"},
+        "workgroup": {"key": "workgroup", "type": "str"},
+        "product_key": {"key": "productKey", "type": "str"},
+        "timezone": {"key": "timezone", "type": "int"},
+        "run_once_commands": {"key": "runOnceCommands", "type": "str"},
     }
 
     def __init__(
-        self, *, admin_password: Optional[str] = None, computer_name: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        admin_username: Optional[str] = None,
+        admin_password: Optional[str] = None,
+        computer_name: Optional[str] = None,
+        domain_name: Optional[str] = None,
+        domain_username: Optional[str] = None,
+        domain_password: Optional[str] = None,
+        workgroup: Optional[str] = None,
+        product_key: Optional[str] = None,
+        timezone: Optional[int] = None,
+        run_once_commands: Optional[str] = None,
+        **kwargs: Any
     ) -> None:
         """
+        :keyword admin_username: Gets or sets the admin username.
+        :paramtype admin_username: str
         :keyword admin_password: Admin password of the virtual machine.
         :paramtype admin_password: str
         :keyword computer_name: Gets or sets computer name.
         :paramtype computer_name: str
+        :keyword domain_name: Gets or sets the domain name.
+        :paramtype domain_name: str
+        :keyword domain_username: Gets or sets the domain username.
+        :paramtype domain_username: str
+        :keyword domain_password: Password of the domain the VM has to join.
+        :paramtype domain_password: str
+        :keyword workgroup: Gets or sets the workgroup.
+        :paramtype workgroup: str
+        :keyword product_key: Gets or sets the product key.Input format xxxxx-xxxxx-xxxxx-xxxxx-xxxxx.
+        :paramtype product_key: str
+        :keyword timezone: Gets or sets the index value of the timezone.
+        :paramtype timezone: int
+        :keyword run_once_commands: Get or sets the commands to be run once at the time of creation
+         separated by semicolons.
+        :paramtype run_once_commands: str
         """
         super().__init__(**kwargs)
+        self.admin_username = admin_username
         self.admin_password = admin_password
         self.computer_name = computer_name
-        self.os_type = None
-        self.os_sku = None
-        self.os_version = None
+        self.os_type: Optional[Union[str, "_models.OsType"]] = None
+        self.os_sku: Optional[str] = None
+        self.os_version: Optional[str] = None
+        self.domain_name = domain_name
+        self.domain_username = domain_username
+        self.domain_password = domain_password
+        self.workgroup = workgroup
+        self.product_key = product_key
+        self.timezone = timezone
+        self.run_once_commands = run_once_commands
 
 
 class StopVirtualMachineOptions(_serialization.Model):
@@ -2010,7 +2085,7 @@ class SystemData(_serialization.Model):
         self.last_modified_at = last_modified_at
 
 
-class VirtualDisk(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VirtualDisk(_serialization.Model):
     """Virtual disk model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2111,16 +2186,16 @@ class VirtualDisk(_serialization.Model):  # pylint: disable=too-many-instance-at
         """
         super().__init__(**kwargs)
         self.name = name
-        self.display_name = None
+        self.display_name: Optional[str] = None
         self.disk_id = disk_id
         self.disk_size_gb = disk_size_gb
-        self.max_disk_size_gb = None
+        self.max_disk_size_gb: Optional[int] = None
         self.bus = bus
         self.lun = lun
         self.bus_type = bus_type
         self.vhd_type = vhd_type
-        self.volume_type = None
-        self.vhd_format_type = None
+        self.volume_type: Optional[str] = None
+        self.vhd_format_type: Optional[str] = None
         self.template_disk_id = template_disk_id
         self.storage_qos_policy = storage_qos_policy
         self.create_diff_disk = create_diff_disk
@@ -2254,7 +2329,7 @@ class VirtualMachineInstance(ProxyResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2335,7 +2410,7 @@ class VirtualMachineInstanceListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class VirtualMachineInstanceProperties(_serialization.Model):
@@ -2410,8 +2485,8 @@ class VirtualMachineInstanceProperties(_serialization.Model):
         self.network_profile = network_profile
         self.storage_profile = storage_profile
         self.infrastructure_profile = infrastructure_profile
-        self.power_state = None
-        self.provisioning_state = None
+        self.power_state: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VirtualMachineInstanceUpdate(_serialization.Model):
@@ -2489,7 +2564,7 @@ class VirtualMachineInstanceUpdateProperties(_serialization.Model):
         self.infrastructure_profile = infrastructure_profile
 
 
-class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=too-many-instance-attributes
+class VirtualMachineInventoryItem(InventoryItemProperties):
     """The Virtual machine inventory item.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2517,6 +2592,8 @@ class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=t
     :vartype os_version: str
     :ivar power_state: Gets the power state of the virtual machine.
     :vartype power_state: str
+    :ivar generation: Gets vm generation.
+    :vartype generation: int
     :ivar ip_addresses: Gets or sets the nic ip addresses.
     :vartype ip_addresses: list[str]
     :ivar cloud: Cloud inventory resource details where the VM is present.
@@ -2538,6 +2615,7 @@ class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=t
         "os_name": {"readonly": True},
         "os_version": {"readonly": True},
         "power_state": {"readonly": True},
+        "generation": {"readonly": True},
         "bios_guid": {"readonly": True},
         "managed_machine_resource_id": {"readonly": True},
     }
@@ -2552,6 +2630,7 @@ class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=t
         "os_name": {"key": "osName", "type": "str"},
         "os_version": {"key": "osVersion", "type": "str"},
         "power_state": {"key": "powerState", "type": "str"},
+        "generation": {"key": "generation", "type": "int"},
         "ip_addresses": {"key": "ipAddresses", "type": "[str]"},
         "cloud": {"key": "cloud", "type": "InventoryItemDetails"},
         "bios_guid": {"key": "biosGuid", "type": "str"},
@@ -2573,14 +2652,15 @@ class VirtualMachineInventoryItem(InventoryItemProperties):  # pylint: disable=t
         """
         super().__init__(**kwargs)
         self.inventory_type: str = "VirtualMachine"
-        self.os_type = None
-        self.os_name = None
-        self.os_version = None
-        self.power_state = None
+        self.os_type: Optional[Union[str, "_models.OsType"]] = None
+        self.os_name: Optional[str] = None
+        self.os_version: Optional[str] = None
+        self.power_state: Optional[str] = None
+        self.generation: Optional[int] = None
         self.ip_addresses = ip_addresses
         self.cloud = cloud
-        self.bios_guid = None
-        self.managed_machine_resource_id = None
+        self.bios_guid: Optional[str] = None
+        self.managed_machine_resource_id: Optional[str] = None
 
 
 class VirtualMachineRestoreCheckpoint(_serialization.Model):
@@ -2611,7 +2691,7 @@ class VirtualMachineTemplate(TrackedResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2733,10 +2813,10 @@ class VirtualMachineTemplateInventoryItem(InventoryItemProperties):
         """ """
         super().__init__(**kwargs)
         self.inventory_type: str = "VirtualMachineTemplate"
-        self.cpu_count = None
-        self.memory_mb = None
-        self.os_type = None
-        self.os_name = None
+        self.cpu_count: Optional[int] = None
+        self.memory_mb: Optional[int] = None
+        self.os_type: Optional[Union[str, "_models.OsType"]] = None
+        self.os_name: Optional[str] = None
 
 
 class VirtualMachineTemplateListResult(_serialization.Model):
@@ -2769,10 +2849,10 @@ class VirtualMachineTemplateListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
-class VirtualMachineTemplateProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VirtualMachineTemplateProperties(_serialization.Model):
     """Defines the resource properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2880,21 +2960,21 @@ class VirtualMachineTemplateProperties(_serialization.Model):  # pylint: disable
         self.inventory_item_id = inventory_item_id
         self.uuid = uuid
         self.vmm_server_id = vmm_server_id
-        self.os_type = None
-        self.os_name = None
-        self.computer_name = None
-        self.memory_mb = None
-        self.cpu_count = None
-        self.limit_cpu_for_migration = None
-        self.dynamic_memory_enabled = None
-        self.is_customizable = None
-        self.dynamic_memory_max_mb = None
-        self.dynamic_memory_min_mb = None
-        self.is_highly_available = None
-        self.generation = None
-        self.network_interfaces = None
-        self.disks = None
-        self.provisioning_state = None
+        self.os_type: Optional[Union[str, "_models.OsType"]] = None
+        self.os_name: Optional[str] = None
+        self.computer_name: Optional[str] = None
+        self.memory_mb: Optional[int] = None
+        self.cpu_count: Optional[int] = None
+        self.limit_cpu_for_migration: Optional[Union[str, "_models.LimitCpuForMigration"]] = None
+        self.dynamic_memory_enabled: Optional[Union[str, "_models.DynamicMemoryEnabled"]] = None
+        self.is_customizable: Optional[Union[str, "_models.IsCustomizable"]] = None
+        self.dynamic_memory_max_mb: Optional[int] = None
+        self.dynamic_memory_min_mb: Optional[int] = None
+        self.is_highly_available: Optional[Union[str, "_models.IsHighlyAvailable"]] = None
+        self.generation: Optional[int] = None
+        self.network_interfaces: Optional[List["_models.NetworkInterface"]] = None
+        self.disks: Optional[List["_models.VirtualDisk"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VirtualMachineTemplateTagsUpdate(_serialization.Model):
@@ -2925,7 +3005,7 @@ class VirtualNetwork(TrackedResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3063,7 +3143,7 @@ class VirtualNetworkListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class VirtualNetworkProperties(_serialization.Model):
@@ -3118,8 +3198,8 @@ class VirtualNetworkProperties(_serialization.Model):
         self.inventory_item_id = inventory_item_id
         self.uuid = uuid
         self.vmm_server_id = vmm_server_id
-        self.network_name = None
-        self.provisioning_state = None
+        self.network_name: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VirtualNetworkTagsUpdate(_serialization.Model):
@@ -3148,7 +3228,7 @@ class VmInstanceHybridIdentityMetadata(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3218,7 +3298,7 @@ class VmInstanceHybridIdentityMetadataListResult(_serialization.Model):  # pylin
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class VmInstanceHybridIdentityMetadataProperties(_serialization.Model):  # pylint: disable=name-too-long
@@ -3255,7 +3335,7 @@ class VmInstanceHybridIdentityMetadataProperties(_serialization.Model):  # pylin
         super().__init__(**kwargs)
         self.resource_uid = resource_uid
         self.public_key = public_key
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VmmCredential(_serialization.Model):
@@ -3292,7 +3372,7 @@ class VmmServer(TrackedResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3386,7 +3466,7 @@ class VmmServerListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class VmmServerProperties(_serialization.Model):
@@ -3456,11 +3536,11 @@ class VmmServerProperties(_serialization.Model):
         self.credentials = credentials
         self.fqdn = fqdn
         self.port = port
-        self.connection_status = None
-        self.error_message = None
-        self.uuid = None
-        self.version = None
-        self.provisioning_state = None
+        self.connection_status: Optional[str] = None
+        self.error_message: Optional[str] = None
+        self.uuid: Optional[str] = None
+        self.version: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VmmServerTagsUpdate(_serialization.Model):
