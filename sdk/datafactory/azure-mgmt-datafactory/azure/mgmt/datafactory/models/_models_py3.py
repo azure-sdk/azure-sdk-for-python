@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,20 +7,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from collections.abc import MutableMapping
 import datetime
-import sys
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
-
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+JSON = MutableMapping[str, Any]
 
 
 class AccessPolicyResponse(_serialization.Model):
@@ -363,19 +358,19 @@ class ActivityRun(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.pipeline_name = None
-        self.pipeline_run_id = None
-        self.activity_name = None
-        self.activity_type = None
-        self.activity_run_id = None
-        self.linked_service_name = None
-        self.status = None
-        self.activity_run_start = None
-        self.activity_run_end = None
-        self.duration_in_ms = None
-        self.input = None
-        self.output = None
-        self.error = None
+        self.pipeline_name: Optional[str] = None
+        self.pipeline_run_id: Optional[str] = None
+        self.activity_name: Optional[str] = None
+        self.activity_type: Optional[str] = None
+        self.activity_run_id: Optional[str] = None
+        self.linked_service_name: Optional[str] = None
+        self.status: Optional[str] = None
+        self.activity_run_start: Optional[datetime.datetime] = None
+        self.activity_run_end: Optional[datetime.datetime] = None
+        self.duration_in_ms: Optional[int] = None
+        self.input: Optional[JSON] = None
+        self.output: Optional[JSON] = None
+        self.error: Optional[JSON] = None
 
 
 class ActivityRunsQueryResponse(_serialization.Model):
@@ -1608,7 +1603,9 @@ class AmazonMWSSource(TabularSource):
 
 
 class AmazonRdsForOracleLinkedService(LinkedService):
-    """AmazonRdsForOracle database.
+    """AmazonRdsForOracle database. This linked service has supported version property. The Version
+    1.0 is scheduled for deprecation while your pipeline will continue to run after EOL but without
+    any bug fix or new features.
 
     All required parameters must be populated in order to send to server.
 
@@ -1628,10 +1625,61 @@ class AmazonRdsForOracleLinkedService(LinkedService):
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
     :ivar connection_string: The connection string. Type: string, SecureString or
-     AzureKeyVaultSecretReference. Required.
+     AzureKeyVaultSecretReference. Only used for Version 1.0.
     :vartype connection_string: JSON
+    :ivar server: The location of AmazonRdsForOracle database you want to connect to, the supported
+     forms include connector descriptor, Easy Connect (Plus) Naming and Oracle Net Services Name
+     (Only self-hosted IR). Type: string. Only used for Version 2.0.
+    :vartype server: JSON
+    :ivar authentication_type: Authentication type for connecting to the AmazonRdsForOracle
+     database. Only used for Version 2.0. "Basic"
+    :vartype authentication_type: str or
+     ~azure.mgmt.datafactory.models.AmazonRdsForOracleAuthenticationType
+    :ivar username: The AmazonRdsForOracle database username. Type: string. Only used for Version
+     2.0.
+    :vartype username: JSON
     :ivar password: The Azure key vault secret reference of password in connection string.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar encryption_client: Specifies the encryption client behavior. Supported values are
+     accepted, rejected, requested or required, default value is required. Type: string. Only used
+     for Version 2.0.
+    :vartype encryption_client: JSON
+    :ivar encryption_types_client: Specifies the encryption algorithms that client can use.
+     Supported values are AES128, AES192, AES256, 3DES112, 3DES168, default value is (AES256). Type:
+     string. Only used for Version 2.0.
+    :vartype encryption_types_client: JSON
+    :ivar crypto_checksum_client: Specifies the desired data integrity behavior when this client
+     connects to a server. Supported values are accepted, rejected, requested or required, default
+     value is required. Type: string. Only used for Version 2.0.
+    :vartype crypto_checksum_client: JSON
+    :ivar crypto_checksum_types_client: Specifies the crypto-checksum algorithms that client can
+     use. Supported values are SHA1, SHA256, SHA384, SHA512, default value is (SHA512). Type:
+     string. Only used for Version 2.0.
+    :vartype crypto_checksum_types_client: JSON
+    :ivar initial_lob_fetch_size: Specifies the amount that the source initially fetches for LOB
+     columns, default value is 0. Type: integer. Only used for Version 2.0.
+    :vartype initial_lob_fetch_size: JSON
+    :ivar fetch_size: Specifies the number of bytes that the driver allocates to fetch the data in
+     one database round-trip, default value is 10485760. Type: integer. Only used for Version 2.0.
+    :vartype fetch_size: JSON
+    :ivar statement_cache_size: Specifies the number of cursors or statements to be cached for each
+     database connection, default value is 0. Type: integer. Only used for Version 2.0.
+    :vartype statement_cache_size: JSON
+    :ivar initialization_string: Specifies a command that is issued immediately after connecting to
+     the database to manage session settings. Type: string. Only used for Version 2.0.
+    :vartype initialization_string: JSON
+    :ivar enable_bulk_load: Specifies whether to use bulk copy or batch insert when loading data
+     into the database, default value is true. Type: boolean. Only used for Version 2.0.
+    :vartype enable_bulk_load: JSON
+    :ivar support_v1_data_types: Specifies whether to use the Version 1.0 data type mappings. Do
+     not set this to true unless you want to keep backward compatibility with Version 1.0's data
+     type mappings, default value is false. Type: boolean. Only used for Version 2.0.
+    :vartype support_v1_data_types: JSON
+    :ivar fetch_tswtz_as_timestamp: Specifies whether the driver returns column value with the
+     TIMESTAMP WITH TIME ZONE data type as DateTime or string. This setting is ignored if
+     supportV1DataTypes is not true, default value is true. Type: boolean. Only used for Version
+     2.0.
+    :vartype fetch_tswtz_as_timestamp: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string.
     :vartype encrypted_credential: str
@@ -1639,7 +1687,6 @@ class AmazonRdsForOracleLinkedService(LinkedService):
 
     _validation = {
         "type": {"required": True},
-        "connection_string": {"required": True},
     }
 
     _attribute_map = {
@@ -1651,21 +1698,49 @@ class AmazonRdsForOracleLinkedService(LinkedService):
         "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
+        "server": {"key": "typeProperties.server", "type": "object"},
+        "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
+        "username": {"key": "typeProperties.username", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
+        "encryption_client": {"key": "typeProperties.encryptionClient", "type": "object"},
+        "encryption_types_client": {"key": "typeProperties.encryptionTypesClient", "type": "object"},
+        "crypto_checksum_client": {"key": "typeProperties.cryptoChecksumClient", "type": "object"},
+        "crypto_checksum_types_client": {"key": "typeProperties.cryptoChecksumTypesClient", "type": "object"},
+        "initial_lob_fetch_size": {"key": "typeProperties.initialLobFetchSize", "type": "object"},
+        "fetch_size": {"key": "typeProperties.fetchSize", "type": "object"},
+        "statement_cache_size": {"key": "typeProperties.statementCacheSize", "type": "object"},
+        "initialization_string": {"key": "typeProperties.initializationString", "type": "object"},
+        "enable_bulk_load": {"key": "typeProperties.enableBulkLoad", "type": "object"},
+        "support_v1_data_types": {"key": "typeProperties.supportV1DataTypes", "type": "object"},
+        "fetch_tswtz_as_timestamp": {"key": "typeProperties.fetchTswtzAsTimestamp", "type": "object"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
-        connection_string: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         version: Optional[str] = None,
         connect_via: Optional["_models.IntegrationRuntimeReference"] = None,
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
+        connection_string: Optional[JSON] = None,
+        server: Optional[JSON] = None,
+        authentication_type: Optional[Union[str, "_models.AmazonRdsForOracleAuthenticationType"]] = None,
+        username: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
+        encryption_client: Optional[JSON] = None,
+        encryption_types_client: Optional[JSON] = None,
+        crypto_checksum_client: Optional[JSON] = None,
+        crypto_checksum_types_client: Optional[JSON] = None,
+        initial_lob_fetch_size: Optional[JSON] = None,
+        fetch_size: Optional[JSON] = None,
+        statement_cache_size: Optional[JSON] = None,
+        initialization_string: Optional[JSON] = None,
+        enable_bulk_load: Optional[JSON] = None,
+        support_v1_data_types: Optional[JSON] = None,
+        fetch_tswtz_as_timestamp: Optional[JSON] = None,
         encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -1684,10 +1759,62 @@ class AmazonRdsForOracleLinkedService(LinkedService):
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
         :keyword connection_string: The connection string. Type: string, SecureString or
-         AzureKeyVaultSecretReference. Required.
+         AzureKeyVaultSecretReference. Only used for Version 1.0.
         :paramtype connection_string: JSON
+        :keyword server: The location of AmazonRdsForOracle database you want to connect to, the
+         supported forms include connector descriptor, Easy Connect (Plus) Naming and Oracle Net
+         Services Name (Only self-hosted IR). Type: string. Only used for Version 2.0.
+        :paramtype server: JSON
+        :keyword authentication_type: Authentication type for connecting to the AmazonRdsForOracle
+         database. Only used for Version 2.0. "Basic"
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.AmazonRdsForOracleAuthenticationType
+        :keyword username: The AmazonRdsForOracle database username. Type: string. Only used for
+         Version 2.0.
+        :paramtype username: JSON
         :keyword password: The Azure key vault secret reference of password in connection string.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword encryption_client: Specifies the encryption client behavior. Supported values are
+         accepted, rejected, requested or required, default value is required. Type: string. Only used
+         for Version 2.0.
+        :paramtype encryption_client: JSON
+        :keyword encryption_types_client: Specifies the encryption algorithms that client can use.
+         Supported values are AES128, AES192, AES256, 3DES112, 3DES168, default value is (AES256). Type:
+         string. Only used for Version 2.0.
+        :paramtype encryption_types_client: JSON
+        :keyword crypto_checksum_client: Specifies the desired data integrity behavior when this client
+         connects to a server. Supported values are accepted, rejected, requested or required, default
+         value is required. Type: string. Only used for Version 2.0.
+        :paramtype crypto_checksum_client: JSON
+        :keyword crypto_checksum_types_client: Specifies the crypto-checksum algorithms that client can
+         use. Supported values are SHA1, SHA256, SHA384, SHA512, default value is (SHA512). Type:
+         string. Only used for Version 2.0.
+        :paramtype crypto_checksum_types_client: JSON
+        :keyword initial_lob_fetch_size: Specifies the amount that the source initially fetches for LOB
+         columns, default value is 0. Type: integer. Only used for Version 2.0.
+        :paramtype initial_lob_fetch_size: JSON
+        :keyword fetch_size: Specifies the number of bytes that the driver allocates to fetch the data
+         in one database round-trip, default value is 10485760. Type: integer. Only used for Version
+         2.0.
+        :paramtype fetch_size: JSON
+        :keyword statement_cache_size: Specifies the number of cursors or statements to be cached for
+         each database connection, default value is 0. Type: integer. Only used for Version 2.0.
+        :paramtype statement_cache_size: JSON
+        :keyword initialization_string: Specifies a command that is issued immediately after connecting
+         to the database to manage session settings. Type: string. Only used for Version 2.0.
+        :paramtype initialization_string: JSON
+        :keyword enable_bulk_load: Specifies whether to use bulk copy or batch insert when loading data
+         into the database, default value is true. Type: boolean. Only used for Version 2.0.
+        :paramtype enable_bulk_load: JSON
+        :keyword support_v1_data_types: Specifies whether to use the Version 1.0 data type mappings. Do
+         not set this to true unless you want to keep backward compatibility with Version 1.0's data
+         type mappings, default value is false. Type: boolean. Only used for Version 2.0.
+        :paramtype support_v1_data_types: JSON
+        :keyword fetch_tswtz_as_timestamp: Specifies whether the driver returns column value with the
+         TIMESTAMP WITH TIME ZONE data type as DateTime or string. This setting is ignored if
+         supportV1DataTypes is not true, default value is true. Type: boolean. Only used for Version
+         2.0.
+        :paramtype fetch_tswtz_as_timestamp: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
          are encrypted using the integration runtime credential manager. Type: string.
         :paramtype encrypted_credential: str
@@ -1703,7 +1830,21 @@ class AmazonRdsForOracleLinkedService(LinkedService):
         )
         self.type: str = "AmazonRdsForOracle"
         self.connection_string = connection_string
+        self.server = server
+        self.authentication_type = authentication_type
+        self.username = username
         self.password = password
+        self.encryption_client = encryption_client
+        self.encryption_types_client = encryption_types_client
+        self.crypto_checksum_client = crypto_checksum_client
+        self.crypto_checksum_types_client = crypto_checksum_types_client
+        self.initial_lob_fetch_size = initial_lob_fetch_size
+        self.fetch_size = fetch_size
+        self.statement_cache_size = statement_cache_size
+        self.initialization_string = initialization_string
+        self.enable_bulk_load = enable_bulk_load
+        self.support_v1_data_types = support_v1_data_types
+        self.fetch_tswtz_as_timestamp = fetch_tswtz_as_timestamp
         self.encrypted_credential = encrypted_credential
 
 
@@ -4845,7 +4986,7 @@ class ArmIdWrapper(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class AsanaLinkedService(LinkedService):
@@ -8114,6 +8255,9 @@ class AzureDatabricksLinkedService(LinkedService):
     :vartype policy_id: JSON
     :ivar credential: The credential reference containing authentication information.
     :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
+    :ivar data_security_mode: The data security mode for the Databricks Cluster. Type: string (or
+     Expression with resultType string).
+    :vartype data_security_mode: JSON
     """
 
     _validation = {
@@ -8148,6 +8292,7 @@ class AzureDatabricksLinkedService(LinkedService):
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "policy_id": {"key": "typeProperties.policyId", "type": "object"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
+        "data_security_mode": {"key": "typeProperties.dataSecurityMode", "type": "object"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -8178,6 +8323,7 @@ class AzureDatabricksLinkedService(LinkedService):
         encrypted_credential: Optional[str] = None,
         policy_id: Optional[JSON] = None,
         credential: Optional["_models.CredentialReference"] = None,
+        data_security_mode: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -8260,6 +8406,9 @@ class AzureDatabricksLinkedService(LinkedService):
         :paramtype policy_id: JSON
         :keyword credential: The credential reference containing authentication information.
         :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
+        :keyword data_security_mode: The data security mode for the Databricks Cluster. Type: string
+         (or Expression with resultType string).
+        :paramtype data_security_mode: JSON
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -8290,6 +8439,7 @@ class AzureDatabricksLinkedService(LinkedService):
         self.encrypted_credential = encrypted_credential
         self.policy_id = policy_id
         self.credential = credential
+        self.data_security_mode = data_security_mode
 
 
 class ExecutionActivity(Activity):
@@ -16614,7 +16764,7 @@ class AzureSynapseArtifactsLinkedService(LinkedService):
      authentication method. Type: string (or Expression with resultType string).
     :vartype authentication: JSON
     :ivar workspace_resource_id: The resource ID of the Synapse workspace. The format should be:
-     /subscriptions/{subscriptionID}/resourceGroups/{resourceGroup}/providers/Microsoft.Synapse/workspaces/{workspaceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionID}/resourceGroups/{resourceGroup}/providers/Microsoft.Synapse/workspaces/{workspaceName}.
      Type: string (or Expression with resultType string).
     :vartype workspace_resource_id: JSON
     """
@@ -16672,7 +16822,7 @@ class AzureSynapseArtifactsLinkedService(LinkedService):
          authentication method. Type: string (or Expression with resultType string).
         :paramtype authentication: JSON
         :keyword workspace_resource_id: The resource ID of the Synapse workspace. The format should be:
-         /subscriptions/{subscriptionID}/resourceGroups/{resourceGroup}/providers/Microsoft.Synapse/workspaces/{workspaceName}.  # pylint: disable=line-too-long
+         /subscriptions/{subscriptionID}/resourceGroups/{resourceGroup}/providers/Microsoft.Synapse/workspaces/{workspaceName}.
          Type: string (or Expression with resultType string).
         :paramtype workspace_resource_id: JSON
         """
@@ -17737,7 +17887,7 @@ class Trigger(_serialization.Model):
         self.additional_properties = additional_properties
         self.type: Optional[str] = None
         self.description = description
-        self.runtime_state = None
+        self.runtime_state: Optional[Union[str, "_models.TriggerRuntimeState"]] = None
         self.annotations = annotations
 
 
@@ -18797,10 +18947,10 @@ class SubResource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.etag = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.etag: Optional[str] = None
 
 
 class ChangeDataCaptureResource(SubResource):
@@ -20054,9 +20204,9 @@ class ConnectionStateProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.actions_required = None
-        self.description = None
-        self.status = None
+        self.actions_required: Optional[str] = None
+        self.description: Optional[str] = None
+        self.status: Optional[str] = None
 
 
 class ContinuationSettingsReference(_serialization.Model):
@@ -29543,8 +29693,8 @@ class ExposureControlResponse(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.feature_name = None
-        self.value = None
+        self.feature_name: Optional[str] = None
+        self.value: Optional[str] = None
 
 
 class Expression(_serialization.Model):
@@ -29671,12 +29821,12 @@ class Resource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
-        self.e_tag = None
+        self.e_tag: Optional[str] = None
 
 
 class Factory(Resource):
@@ -29790,9 +29940,9 @@ class Factory(Resource):
         super().__init__(location=location, tags=tags, **kwargs)
         self.additional_properties = additional_properties
         self.identity = identity
-        self.provisioning_state = None
-        self.create_time = None
-        self.version = None
+        self.provisioning_state: Optional[str] = None
+        self.create_time: Optional[datetime.datetime] = None
+        self.version: Optional[str] = None
         self.purview_configuration = purview_configuration
         self.repo_configuration = repo_configuration
         self.global_parameters = global_parameters
@@ -30032,8 +30182,8 @@ class FactoryIdentity(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.type = type
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.user_assigned_identities = user_assigned_identities
 
 
@@ -35530,7 +35680,7 @@ class HDInsightOnDemandLinkedService(LinkedService):
     :vartype zookeeper_node_size: JSON
     :ivar script_actions: Custom script actions to run on HDI ondemand cluster once it's up. Please
      refer to
-     https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions.  # pylint: disable=line-too-long
+     https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions.
     :vartype script_actions: list[~azure.mgmt.datafactory.models.ScriptAction]
     :ivar virtual_network_id: The ARM resource ID for the vNet to which the cluster should be
      joined after creation. Type: string (or Expression with resultType string).
@@ -35752,7 +35902,7 @@ class HDInsightOnDemandLinkedService(LinkedService):
         :paramtype zookeeper_node_size: JSON
         :keyword script_actions: Custom script actions to run on HDI ondemand cluster once it's up.
          Please refer to
-         https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions.  # pylint: disable=line-too-long
+         https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions.
         :paramtype script_actions: list[~azure.mgmt.datafactory.models.ScriptAction]
         :keyword virtual_network_id: The ARM resource ID for the vNet to which the cluster should be
          joined after creation. Type: string (or Expression with resultType string).
@@ -39123,12 +39273,12 @@ class IntegrationRuntimeConnectionInfo(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.service_token = None
-        self.identity_cert_thumbprint = None
-        self.host_service_uri = None
-        self.version = None
-        self.public_key = None
-        self.is_identity_cert_exprired = None
+        self.service_token: Optional[str] = None
+        self.identity_cert_thumbprint: Optional[str] = None
+        self.host_service_uri: Optional[str] = None
+        self.version: Optional[str] = None
+        self.public_key: Optional[str] = None
+        self.is_identity_cert_exprired: Optional[bool] = None
 
 
 class IntegrationRuntimeCustomerVirtualNetwork(_serialization.Model):
@@ -39448,7 +39598,7 @@ class IntegrationRuntimeNodeIpAddress(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.ip_address = None
+        self.ip_address: Optional[str] = None
 
 
 class IntegrationRuntimeNodeMonitoringData(_serialization.Model):
@@ -39509,14 +39659,14 @@ class IntegrationRuntimeNodeMonitoringData(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.node_name = None
-        self.available_memory_in_mb = None
-        self.cpu_utilization = None
-        self.concurrent_jobs_limit = None
-        self.concurrent_jobs_running = None
-        self.max_concurrent_jobs = None
-        self.sent_bytes = None
-        self.received_bytes = None
+        self.node_name: Optional[str] = None
+        self.available_memory_in_mb: Optional[int] = None
+        self.cpu_utilization: Optional[int] = None
+        self.concurrent_jobs_limit: Optional[int] = None
+        self.concurrent_jobs_running: Optional[int] = None
+        self.max_concurrent_jobs: Optional[int] = None
+        self.sent_bytes: Optional[float] = None
+        self.received_bytes: Optional[float] = None
 
 
 class IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint(
@@ -39983,8 +40133,8 @@ class IntegrationRuntimeStatus(_serialization.Model):
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
         self.type: Optional[str] = None
-        self.data_factory_name = None
-        self.state = None
+        self.data_factory_name: Optional[str] = None
+        self.state: Optional[Union[str, "_models.IntegrationRuntimeState"]] = None
 
 
 class IntegrationRuntimeStatusListResponse(_serialization.Model):
@@ -40050,7 +40200,7 @@ class IntegrationRuntimeStatusResponse(_serialization.Model):
         :paramtype properties: ~azure.mgmt.datafactory.models.IntegrationRuntimeStatus
         """
         super().__init__(**kwargs)
-        self.name = None
+        self.name: Optional[str] = None
         self.properties = properties
 
 
@@ -41783,11 +41933,11 @@ class LinkedIntegrationRuntime(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.subscription_id = None
-        self.data_factory_name = None
-        self.data_factory_location = None
-        self.create_time = None
+        self.name: Optional[str] = None
+        self.subscription_id: Optional[str] = None
+        self.data_factory_name: Optional[str] = None
+        self.data_factory_location: Optional[str] = None
+        self.create_time: Optional[datetime.datetime] = None
 
 
 class LinkedIntegrationRuntimeType(_serialization.Model):
@@ -42828,7 +42978,7 @@ class ManagedIntegrationRuntime(IntegrationRuntime):
         """
         super().__init__(additional_properties=additional_properties, description=description, **kwargs)
         self.type: str = "Managed"
-        self.state = None
+        self.state: Optional[Union[str, "_models.IntegrationRuntimeState"]] = None
         self.managed_virtual_network = managed_virtual_network
         self.compute_properties = compute_properties
         self.ssis_properties = ssis_properties
@@ -42876,10 +43026,10 @@ class ManagedIntegrationRuntimeError(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.time = None
-        self.code = None
-        self.parameters = None
-        self.message = None
+        self.time: Optional[datetime.datetime] = None
+        self.code: Optional[str] = None
+        self.parameters: Optional[List[str]] = None
+        self.message: Optional[str] = None
 
 
 class ManagedIntegrationRuntimeNode(_serialization.Model):
@@ -42927,8 +43077,8 @@ class ManagedIntegrationRuntimeNode(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.node_id = None
-        self.status = None
+        self.node_id: Optional[str] = None
+        self.status: Optional[Union[str, "_models.ManagedIntegrationRuntimeNodeStatus"]] = None
         self.errors = errors
 
 
@@ -42981,12 +43131,12 @@ class ManagedIntegrationRuntimeOperationResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = None
-        self.start_time = None
-        self.result = None
-        self.error_code = None
-        self.parameters = None
-        self.activity_id = None
+        self.type: Optional[str] = None
+        self.start_time: Optional[datetime.datetime] = None
+        self.result: Optional[str] = None
+        self.error_code: Optional[str] = None
+        self.parameters: Optional[List[str]] = None
+        self.activity_id: Optional[str] = None
 
 
 class ManagedIntegrationRuntimeStatus(IntegrationRuntimeStatus):
@@ -43048,10 +43198,10 @@ class ManagedIntegrationRuntimeStatus(IntegrationRuntimeStatus):
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
         self.type: str = "Managed"
-        self.create_time = None
-        self.nodes = None
-        self.other_errors = None
-        self.last_operation = None
+        self.create_time: Optional[datetime.datetime] = None
+        self.nodes: Optional[List["_models.ManagedIntegrationRuntimeNode"]] = None
+        self.other_errors: Optional[List["_models.ManagedIntegrationRuntimeError"]] = None
+        self.last_operation: Optional["_models.ManagedIntegrationRuntimeOperationResult"] = None
 
 
 class ManagedPrivateEndpoint(_serialization.Model):
@@ -43121,9 +43271,9 @@ class ManagedPrivateEndpoint(_serialization.Model):
         self.connection_state = connection_state
         self.fqdns = fqdns
         self.group_id = group_id
-        self.is_reserved = None
+        self.is_reserved: Optional[bool] = None
         self.private_link_resource_id = private_link_resource_id
-        self.provisioning_state = None
+        self.provisioning_state: Optional[str] = None
 
 
 class ManagedPrivateEndpointListResponse(_serialization.Model):
@@ -43237,8 +43387,8 @@ class ManagedVirtualNetwork(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.v_net_id = None
-        self.alias = None
+        self.v_net_id: Optional[str] = None
+        self.alias: Optional[str] = None
 
 
 class ManagedVirtualNetworkListResponse(_serialization.Model):
@@ -48215,6 +48365,19 @@ class Office365LinkedService(LinkedService):
     :vartype service_principal_id: JSON
     :ivar service_principal_key: Specify the application's key. Required.
     :vartype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar service_principal_credential_type: The service principal credential type for
+     authentication.'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. If
+     not specified, 'ServicePrincipalKey' is in use. Type: string (or Expression with resultType
+     string).
+    :vartype service_principal_credential_type: JSON
+    :ivar service_principal_embedded_cert: Specify the base64 encoded certificate of your
+     application registered in Azure Active Directory. Type: string (or Expression with resultType
+     string).
+    :vartype service_principal_embedded_cert: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar service_principal_embedded_cert_password: Specify the password of your certificate if
+     your certificate has a password and you are using AadServicePrincipal authentication. Type:
+     string (or Expression with resultType string).
+    :vartype service_principal_embedded_cert_password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string.
     :vartype encrypted_credential: str
@@ -48240,6 +48403,12 @@ class Office365LinkedService(LinkedService):
         "service_principal_tenant_id": {"key": "typeProperties.servicePrincipalTenantId", "type": "object"},
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
+        "service_principal_credential_type": {"key": "typeProperties.servicePrincipalCredentialType", "type": "object"},
+        "service_principal_embedded_cert": {"key": "typeProperties.servicePrincipalEmbeddedCert", "type": "SecretBase"},
+        "service_principal_embedded_cert_password": {
+            "key": "typeProperties.servicePrincipalEmbeddedCertPassword",
+            "type": "SecretBase",
+        },
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
@@ -48256,6 +48425,9 @@ class Office365LinkedService(LinkedService):
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
+        service_principal_credential_type: Optional[JSON] = None,
+        service_principal_embedded_cert: Optional["_models.SecretBase"] = None,
+        service_principal_embedded_cert_password: Optional["_models.SecretBase"] = None,
         encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -48284,6 +48456,19 @@ class Office365LinkedService(LinkedService):
         :paramtype service_principal_id: JSON
         :keyword service_principal_key: Specify the application's key. Required.
         :paramtype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword service_principal_credential_type: The service principal credential type for
+         authentication.'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. If
+         not specified, 'ServicePrincipalKey' is in use. Type: string (or Expression with resultType
+         string).
+        :paramtype service_principal_credential_type: JSON
+        :keyword service_principal_embedded_cert: Specify the base64 encoded certificate of your
+         application registered in Azure Active Directory. Type: string (or Expression with resultType
+         string).
+        :paramtype service_principal_embedded_cert: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword service_principal_embedded_cert_password: Specify the password of your certificate if
+         your certificate has a password and you are using AadServicePrincipal authentication. Type:
+         string (or Expression with resultType string).
+        :paramtype service_principal_embedded_cert_password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
          are encrypted using the integration runtime credential manager. Type: string.
         :paramtype encrypted_credential: str
@@ -48302,6 +48487,9 @@ class Office365LinkedService(LinkedService):
         self.service_principal_tenant_id = service_principal_tenant_id
         self.service_principal_id = service_principal_id
         self.service_principal_key = service_principal_key
+        self.service_principal_credential_type = service_principal_credential_type
+        self.service_principal_embedded_cert = service_principal_embedded_cert
+        self.service_principal_embedded_cert_password = service_principal_embedded_cert_password
         self.encrypted_credential = encrypted_credential
 
 
@@ -52217,19 +52405,19 @@ class PipelineRun(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.run_id = None
-        self.run_group_id = None
-        self.is_latest = None
-        self.pipeline_name = None
-        self.parameters = None
-        self.run_dimensions = None
-        self.invoked_by = None
-        self.last_updated = None
-        self.run_start = None
-        self.run_end = None
-        self.duration_in_ms = None
-        self.status = None
-        self.message = None
+        self.run_id: Optional[str] = None
+        self.run_group_id: Optional[str] = None
+        self.is_latest: Optional[bool] = None
+        self.pipeline_name: Optional[str] = None
+        self.parameters: Optional[Dict[str, str]] = None
+        self.run_dimensions: Optional[Dict[str, str]] = None
+        self.invoked_by: Optional["_models.PipelineRunInvokedBy"] = None
+        self.last_updated: Optional[datetime.datetime] = None
+        self.run_start: Optional[datetime.datetime] = None
+        self.run_end: Optional[datetime.datetime] = None
+        self.duration_in_ms: Optional[int] = None
+        self.status: Optional[str] = None
+        self.message: Optional[str] = None
 
 
 class PipelineRunInvokedBy(_serialization.Model):
@@ -52268,11 +52456,11 @@ class PipelineRunInvokedBy(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.id = None
-        self.invoked_by_type = None
-        self.pipeline_name = None
-        self.pipeline_run_id = None
+        self.name: Optional[str] = None
+        self.id: Optional[str] = None
+        self.invoked_by_type: Optional[str] = None
+        self.pipeline_name: Optional[str] = None
+        self.pipeline_run_id: Optional[str] = None
 
 
 class PipelineRunsQueryResponse(_serialization.Model):
@@ -54070,9 +54258,9 @@ class PrivateLinkResourceProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.group_id = None
-        self.required_members = None
-        self.required_zone_names = None
+        self.group_id: Optional[str] = None
+        self.required_members: Optional[List[str]] = None
+        self.required_zone_names: Optional[List[str]] = None
 
 
 class PrivateLinkResourcesWrapper(_serialization.Model):
@@ -55042,7 +55230,7 @@ class RemotePrivateEndpointConnection(_serialization.Model):
          ~azure.mgmt.datafactory.models.PrivateLinkConnectionState
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[str] = None
         self.private_endpoint = private_endpoint
         self.private_link_service_connection_state = private_link_service_connection_state
 
@@ -62407,24 +62595,24 @@ class SelfHostedIntegrationRuntimeNode(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.node_name = None
-        self.machine_name = None
-        self.host_service_uri = None
-        self.status = None
-        self.capabilities = None
-        self.version_status = None
-        self.version = None
-        self.register_time = None
-        self.last_connect_time = None
-        self.expiry_time = None
-        self.last_start_time = None
-        self.last_stop_time = None
-        self.last_update_result = None
-        self.last_start_update_time = None
-        self.last_end_update_time = None
-        self.is_active_dispatcher = None
-        self.concurrent_jobs_limit = None
-        self.max_concurrent_jobs = None
+        self.node_name: Optional[str] = None
+        self.machine_name: Optional[str] = None
+        self.host_service_uri: Optional[str] = None
+        self.status: Optional[Union[str, "_models.SelfHostedIntegrationRuntimeNodeStatus"]] = None
+        self.capabilities: Optional[Dict[str, str]] = None
+        self.version_status: Optional[str] = None
+        self.version: Optional[str] = None
+        self.register_time: Optional[datetime.datetime] = None
+        self.last_connect_time: Optional[datetime.datetime] = None
+        self.expiry_time: Optional[datetime.datetime] = None
+        self.last_start_time: Optional[datetime.datetime] = None
+        self.last_stop_time: Optional[datetime.datetime] = None
+        self.last_update_result: Optional[Union[str, "_models.IntegrationRuntimeUpdateResult"]] = None
+        self.last_start_update_time: Optional[datetime.datetime] = None
+        self.last_end_update_time: Optional[datetime.datetime] = None
+        self.is_active_dispatcher: Optional[bool] = None
+        self.concurrent_jobs_limit: Optional[int] = None
+        self.max_concurrent_jobs: Optional[int] = None
 
 
 class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):
@@ -62560,23 +62748,25 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
         self.type: str = "SelfHosted"
-        self.create_time = None
-        self.task_queue_id = None
-        self.internal_channel_encryption = None
-        self.version = None
+        self.create_time: Optional[datetime.datetime] = None
+        self.task_queue_id: Optional[str] = None
+        self.internal_channel_encryption: Optional[
+            Union[str, "_models.IntegrationRuntimeInternalChannelEncryptionMode"]
+        ] = None
+        self.version: Optional[str] = None
         self.nodes = nodes
-        self.scheduled_update_date = None
-        self.update_delay_offset = None
-        self.local_time_zone_offset = None
-        self.capabilities = None
-        self.service_urls = None
-        self.auto_update = None
-        self.version_status = None
+        self.scheduled_update_date: Optional[datetime.datetime] = None
+        self.update_delay_offset: Optional[str] = None
+        self.local_time_zone_offset: Optional[str] = None
+        self.capabilities: Optional[Dict[str, str]] = None
+        self.service_urls: Optional[List[str]] = None
+        self.auto_update: Optional[Union[str, "_models.IntegrationRuntimeAutoUpdate"]] = None
+        self.version_status: Optional[str] = None
         self.links = links
-        self.pushed_version = None
-        self.latest_version = None
-        self.auto_update_eta = None
-        self.self_contained_interactive_authoring_enabled = None
+        self.pushed_version: Optional[str] = None
+        self.latest_version: Optional[str] = None
+        self.auto_update_eta: Optional[datetime.datetime] = None
+        self.self_contained_interactive_authoring_enabled: Optional[bool] = None
 
 
 class ServiceNowLinkedService(LinkedService):
@@ -65512,8 +65702,14 @@ class SnowflakeV2LinkedService(LinkedService):
     :ivar private_key_passphrase: The Azure key vault secret reference of private key password for
      KeyPair auth with encrypted private key.
     :vartype private_key_passphrase: ~azure.mgmt.datafactory.models.SecretBase
-    :ivar host: The host name of the Snowflake account.
+    :ivar role: The default access control role to use in the Snowflake session. Type: string (or
+     Expression with resultType string).
+    :vartype role: JSON
+    :ivar host: The host name of the Snowflake account. Type: string (or Expression with resultType
+     string).
     :vartype host: JSON
+    :ivar schema: Schema name for connection. Type: string (or Expression with resultType string).
+    :vartype schema: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string.
     :vartype encrypted_credential: str
@@ -65546,7 +65742,9 @@ class SnowflakeV2LinkedService(LinkedService):
         "scope": {"key": "typeProperties.scope", "type": "object"},
         "private_key": {"key": "typeProperties.privateKey", "type": "SecretBase"},
         "private_key_passphrase": {"key": "typeProperties.privateKeyPassphrase", "type": "SecretBase"},
+        "role": {"key": "typeProperties.role", "type": "object"},
         "host": {"key": "typeProperties.host", "type": "object"},
+        "schema": {"key": "typeProperties.schema", "type": "object"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
@@ -65571,7 +65769,9 @@ class SnowflakeV2LinkedService(LinkedService):
         scope: Optional[JSON] = None,
         private_key: Optional["_models.SecretBase"] = None,
         private_key_passphrase: Optional["_models.SecretBase"] = None,
+        role: Optional[JSON] = None,
         host: Optional[JSON] = None,
+        schema: Optional[JSON] = None,
         encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -65621,8 +65821,15 @@ class SnowflakeV2LinkedService(LinkedService):
         :keyword private_key_passphrase: The Azure key vault secret reference of private key password
          for KeyPair auth with encrypted private key.
         :paramtype private_key_passphrase: ~azure.mgmt.datafactory.models.SecretBase
-        :keyword host: The host name of the Snowflake account.
+        :keyword role: The default access control role to use in the Snowflake session. Type: string
+         (or Expression with resultType string).
+        :paramtype role: JSON
+        :keyword host: The host name of the Snowflake account. Type: string (or Expression with
+         resultType string).
         :paramtype host: JSON
+        :keyword schema: Schema name for connection. Type: string (or Expression with resultType
+         string).
+        :paramtype schema: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
          are encrypted using the integration runtime credential manager. Type: string.
         :paramtype encrypted_credential: str
@@ -65649,7 +65856,9 @@ class SnowflakeV2LinkedService(LinkedService):
         self.scope = scope
         self.private_key = private_key
         self.private_key_passphrase = private_key_passphrase
+        self.role = role
         self.host = host
+        self.schema = schema
         self.encrypted_credential = encrypted_credential
 
 
@@ -71181,9 +71390,9 @@ class TabularTranslator(CopyTranslator):
      strings in json format. Type: boolean (or Expression with resultType boolean).
     :vartype map_complex_values_to_string: JSON
     :ivar mappings: Column mappings with logical types. Tabular->tabular example:
-     [{"source":{"name":"CustomerName","type":"String"},"sink":{"name":"ClientName","type":"String"}},{"source":{"name":"CustomerAddress","type":"String"},"sink":{"name":"ClientAddress","type":"String"}}].  # pylint: disable=line-too-long
+     [{"source":{"name":"CustomerName","type":"String"},"sink":{"name":"ClientName","type":"String"}},{"source":{"name":"CustomerAddress","type":"String"},"sink":{"name":"ClientAddress","type":"String"}}].
      Hierarchical->tabular example:
-     [{"source":{"path":"$.CustomerName","type":"String"},"sink":{"name":"ClientName","type":"String"}},{"source":{"path":"$.CustomerAddress","type":"String"},"sink":{"name":"ClientAddress","type":"String"}}].  # pylint: disable=line-too-long
+     [{"source":{"path":"$.CustomerName","type":"String"},"sink":{"name":"ClientName","type":"String"}},{"source":{"path":"$.CustomerAddress","type":"String"},"sink":{"name":"ClientAddress","type":"String"}}].
      Type: object (or Expression with resultType object).
     :vartype mappings: JSON
     :ivar type_conversion: Whether to enable the advanced type conversion feature in the Copy
@@ -71242,9 +71451,9 @@ class TabularTranslator(CopyTranslator):
          simple strings in json format. Type: boolean (or Expression with resultType boolean).
         :paramtype map_complex_values_to_string: JSON
         :keyword mappings: Column mappings with logical types. Tabular->tabular example:
-         [{"source":{"name":"CustomerName","type":"String"},"sink":{"name":"ClientName","type":"String"}},{"source":{"name":"CustomerAddress","type":"String"},"sink":{"name":"ClientAddress","type":"String"}}].  # pylint: disable=line-too-long
+         [{"source":{"name":"CustomerName","type":"String"},"sink":{"name":"ClientName","type":"String"}},{"source":{"name":"CustomerAddress","type":"String"},"sink":{"name":"ClientAddress","type":"String"}}].
          Hierarchical->tabular example:
-         [{"source":{"path":"$.CustomerName","type":"String"},"sink":{"name":"ClientName","type":"String"}},{"source":{"path":"$.CustomerAddress","type":"String"},"sink":{"name":"ClientAddress","type":"String"}}].  # pylint: disable=line-too-long
+         [{"source":{"path":"$.CustomerName","type":"String"},"sink":{"name":"ClientName","type":"String"}},{"source":{"path":"$.CustomerAddress","type":"String"},"sink":{"name":"ClientAddress","type":"String"}}].
          Type: object (or Expression with resultType object).
         :paramtype mappings: JSON
         :keyword type_conversion: Whether to enable the advanced type conversion feature in the Copy
@@ -72542,16 +72751,16 @@ class TriggerRun(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.trigger_run_id = None
-        self.trigger_name = None
-        self.trigger_type = None
-        self.trigger_run_timestamp = None
-        self.status = None
-        self.message = None
-        self.properties = None
-        self.triggered_pipelines = None
-        self.run_dimension = None
-        self.dependency_status = None
+        self.trigger_run_id: Optional[str] = None
+        self.trigger_name: Optional[str] = None
+        self.trigger_type: Optional[str] = None
+        self.trigger_run_timestamp: Optional[datetime.datetime] = None
+        self.status: Optional[Union[str, "_models.TriggerRunStatus"]] = None
+        self.message: Optional[str] = None
+        self.properties: Optional[Dict[str, str]] = None
+        self.triggered_pipelines: Optional[Dict[str, str]] = None
+        self.run_dimension: Optional[Dict[str, str]] = None
+        self.dependency_status: Optional[Dict[str, JSON]] = None
 
 
 class TriggerRunsQueryResponse(_serialization.Model):
@@ -72615,8 +72824,8 @@ class TriggerSubscriptionOperationStatus(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.trigger_name = None
-        self.status = None
+        self.trigger_name: Optional[str] = None
+        self.status: Optional[Union[str, "_models.EventSubscriptionStatus"]] = None
 
 
 class TumblingWindowTrigger(Trigger):

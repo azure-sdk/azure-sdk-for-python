@@ -30,6 +30,14 @@ class ActivityState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INACTIVE = "Inactive"
 
 
+class AmazonRdsForOracleAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Authentication type for connecting to the AmazonRdsForOracle database. Only used for Version
+    2.0.
+    """
+
+    BASIC = "Basic"
+
+
 class AmazonRdsForOraclePartitionOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """AmazonRdsForOraclePartitionOption."""
 

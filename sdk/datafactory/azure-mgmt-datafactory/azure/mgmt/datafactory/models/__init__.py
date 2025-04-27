@@ -810,6 +810,7 @@ from ._models_py3 import (  # type: ignore
 from ._data_factory_management_client_enums import (  # type: ignore
     ActivityOnInactiveMarkAs,
     ActivityState,
+    AmazonRdsForOracleAuthenticationType,
     AmazonRdsForOraclePartitionOption,
     AmazonRdsForSqlAuthenticationType,
     AvroCompressionCodec,
@@ -1741,6 +1742,7 @@ __all__ = [
     "ZohoSource",
     "ActivityOnInactiveMarkAs",
     "ActivityState",
+    "AmazonRdsForOracleAuthenticationType",
     "AmazonRdsForOraclePartitionOption",
     "AmazonRdsForSqlAuthenticationType",
     "AvroCompressionCodec",
