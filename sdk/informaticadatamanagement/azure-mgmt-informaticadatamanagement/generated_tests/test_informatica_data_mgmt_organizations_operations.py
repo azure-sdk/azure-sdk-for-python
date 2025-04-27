@@ -20,7 +20,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
+    def test_organizations_list_by_subscription(self, resource_group):
         response = self.client.organizations.list_by_subscription(
             api_version="2024-05-08",
         )
@@ -30,7 +30,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_organizations_list_by_resource_group(self, resource_group):
         response = self.client.organizations.list_by_resource_group(
             resource_group_name=resource_group.name,
             api_version="2024-05-08",
@@ -41,7 +41,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_organizations_get(self, resource_group):
         response = self.client.organizations.get(
             resource_group_name=resource_group.name,
             organization_name="str",
@@ -53,7 +53,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_organizations_begin_create_or_update(self, resource_group):
         response = self.client.organizations.begin_create_or_update(
             resource_group_name=resource_group.name,
             organization_name="str",
@@ -116,7 +116,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_organizations_update(self, resource_group):
         response = self.client.organizations.update(
             resource_group_name=resource_group.name,
             organization_name="str",
@@ -161,7 +161,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_organizations_begin_delete(self, resource_group):
         response = self.client.organizations.begin_delete(
             resource_group_name=resource_group.name,
             organization_name="str",
@@ -173,7 +173,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_all_serverless_runtimes(self, resource_group):
+    def test_organizations_get_all_serverless_runtimes(self, resource_group):
         response = self.client.organizations.get_all_serverless_runtimes(
             resource_group_name=resource_group.name,
             organization_name="str",
@@ -185,7 +185,7 @@ class TestInformaticaDataMgmtOrganizationsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_serverless_metadata(self, resource_group):
+    def test_organizations_get_serverless_metadata(self, resource_group):
         response = self.client.organizations.get_serverless_metadata(
             resource_group_name=resource_group.name,
             organization_name="str",
