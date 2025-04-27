@@ -21,7 +21,7 @@ class TestAVSIscsiPathsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_private_cloud(self, resource_group):
+    async def test_iscsi_paths_list_by_private_cloud(self, resource_group):
         response = self.client.iscsi_paths.list_by_private_cloud(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -33,7 +33,7 @@ class TestAVSIscsiPathsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_iscsi_paths_get(self, resource_group):
         response = await self.client.iscsi_paths.get(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -45,7 +45,7 @@ class TestAVSIscsiPathsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_iscsi_paths_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.iscsi_paths.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -74,7 +74,7 @@ class TestAVSIscsiPathsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_iscsi_paths_begin_delete(self, resource_group):
         response = await (
             await self.client.iscsi_paths.begin_delete(
                 resource_group_name=resource_group.name,

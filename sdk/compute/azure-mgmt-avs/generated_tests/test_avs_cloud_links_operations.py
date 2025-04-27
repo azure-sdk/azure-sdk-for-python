@@ -20,7 +20,7 @@ class TestAVSCloudLinksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_cloud_links_list(self, resource_group):
         response = self.client.cloud_links.list(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -32,7 +32,7 @@ class TestAVSCloudLinksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_cloud_links_get(self, resource_group):
         response = self.client.cloud_links.get(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -45,7 +45,7 @@ class TestAVSCloudLinksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_cloud_links_begin_create_or_update(self, resource_group):
         response = self.client.cloud_links.begin_create_or_update(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -74,7 +74,7 @@ class TestAVSCloudLinksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_cloud_links_begin_delete(self, resource_group):
         response = self.client.cloud_links.begin_delete(
             resource_group_name=resource_group.name,
             private_cloud_name="str",

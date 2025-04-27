@@ -20,7 +20,7 @@ class TestAVSGlobalReachConnectionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_global_reach_connections_list(self, resource_group):
         response = self.client.global_reach_connections.list(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -32,7 +32,7 @@ class TestAVSGlobalReachConnectionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_global_reach_connections_get(self, resource_group):
         response = self.client.global_reach_connections.get(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -45,7 +45,7 @@ class TestAVSGlobalReachConnectionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_global_reach_connections_begin_create_or_update(self, resource_group):
         response = self.client.global_reach_connections.begin_create_or_update(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -77,7 +77,7 @@ class TestAVSGlobalReachConnectionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_global_reach_connections_begin_delete(self, resource_group):
         response = self.client.global_reach_connections.begin_delete(
             resource_group_name=resource_group.name,
             private_cloud_name="str",

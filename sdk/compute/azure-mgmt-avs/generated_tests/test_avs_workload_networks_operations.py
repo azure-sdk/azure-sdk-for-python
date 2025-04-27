@@ -20,7 +20,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_workload_networks_list(self, resource_group):
         response = self.client.workload_networks.list(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -32,7 +32,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_workload_networks_get(self, resource_group):
         response = self.client.workload_networks.get(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -44,7 +44,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_dhcp(self, resource_group):
+    def test_workload_networks_list_dhcp(self, resource_group):
         response = self.client.workload_networks.list_dhcp(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -56,7 +56,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_dhcp(self, resource_group):
+    def test_workload_networks_get_dhcp(self, resource_group):
         response = self.client.workload_networks.get_dhcp(
             resource_group_name=resource_group.name,
             dhcp_id="str",
@@ -69,7 +69,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_dhcp(self, resource_group):
+    def test_workload_networks_begin_create_dhcp(self, resource_group):
         response = self.client.workload_networks.begin_create_dhcp(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -96,7 +96,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update_dhcp(self, resource_group):
+    def test_workload_networks_begin_update_dhcp(self, resource_group):
         response = self.client.workload_networks.begin_update_dhcp(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -123,7 +123,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete_dhcp(self, resource_group):
+    def test_workload_networks_begin_delete_dhcp(self, resource_group):
         response = self.client.workload_networks.begin_delete_dhcp(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -136,7 +136,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_dns_services(self, resource_group):
+    def test_workload_networks_list_dns_services(self, resource_group):
         response = self.client.workload_networks.list_dns_services(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -148,7 +148,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_dns_service(self, resource_group):
+    def test_workload_networks_get_dns_service(self, resource_group):
         response = self.client.workload_networks.get_dns_service(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -161,7 +161,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_dns_service(self, resource_group):
+    def test_workload_networks_begin_create_dns_service(self, resource_group):
         response = self.client.workload_networks.begin_create_dns_service(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -195,7 +195,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update_dns_service(self, resource_group):
+    def test_workload_networks_begin_update_dns_service(self, resource_group):
         response = self.client.workload_networks.begin_update_dns_service(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -229,7 +229,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete_dns_service(self, resource_group):
+    def test_workload_networks_begin_delete_dns_service(self, resource_group):
         response = self.client.workload_networks.begin_delete_dns_service(
             resource_group_name=resource_group.name,
             dns_service_id="str",
@@ -242,7 +242,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_dns_zones(self, resource_group):
+    def test_workload_networks_list_dns_zones(self, resource_group):
         response = self.client.workload_networks.list_dns_zones(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -254,7 +254,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_dns_zone(self, resource_group):
+    def test_workload_networks_get_dns_zone(self, resource_group):
         response = self.client.workload_networks.get_dns_zone(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -267,7 +267,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_dns_zone(self, resource_group):
+    def test_workload_networks_begin_create_dns_zone(self, resource_group):
         response = self.client.workload_networks.begin_create_dns_zone(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -300,7 +300,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update_dns_zone(self, resource_group):
+    def test_workload_networks_begin_update_dns_zone(self, resource_group):
         response = self.client.workload_networks.begin_update_dns_zone(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -333,7 +333,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete_dns_zone(self, resource_group):
+    def test_workload_networks_begin_delete_dns_zone(self, resource_group):
         response = self.client.workload_networks.begin_delete_dns_zone(
             resource_group_name=resource_group.name,
             dns_zone_id="str",
@@ -346,7 +346,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_gateways(self, resource_group):
+    def test_workload_networks_list_gateways(self, resource_group):
         response = self.client.workload_networks.list_gateways(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -358,7 +358,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_gateway(self, resource_group):
+    def test_workload_networks_get_gateway(self, resource_group):
         response = self.client.workload_networks.get_gateway(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -371,7 +371,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_port_mirroring(self, resource_group):
+    def test_workload_networks_list_port_mirroring(self, resource_group):
         response = self.client.workload_networks.list_port_mirroring(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -383,7 +383,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_port_mirroring(self, resource_group):
+    def test_workload_networks_get_port_mirroring(self, resource_group):
         response = self.client.workload_networks.get_port_mirroring(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -396,7 +396,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_port_mirroring(self, resource_group):
+    def test_workload_networks_begin_create_port_mirroring(self, resource_group):
         response = self.client.workload_networks.begin_create_port_mirroring(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -429,7 +429,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update_port_mirroring(self, resource_group):
+    def test_workload_networks_begin_update_port_mirroring(self, resource_group):
         response = self.client.workload_networks.begin_update_port_mirroring(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -462,7 +462,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete_port_mirroring(self, resource_group):
+    def test_workload_networks_begin_delete_port_mirroring(self, resource_group):
         response = self.client.workload_networks.begin_delete_port_mirroring(
             resource_group_name=resource_group.name,
             port_mirroring_id="str",
@@ -475,7 +475,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_public_ips(self, resource_group):
+    def test_workload_networks_list_public_ips(self, resource_group):
         response = self.client.workload_networks.list_public_ips(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -487,7 +487,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_public_ip(self, resource_group):
+    def test_workload_networks_get_public_ip(self, resource_group):
         response = self.client.workload_networks.get_public_ip(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -500,7 +500,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_public_ip(self, resource_group):
+    def test_workload_networks_begin_create_public_ip(self, resource_group):
         response = self.client.workload_networks.begin_create_public_ip(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -530,7 +530,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete_public_ip(self, resource_group):
+    def test_workload_networks_begin_delete_public_ip(self, resource_group):
         response = self.client.workload_networks.begin_delete_public_ip(
             resource_group_name=resource_group.name,
             public_ip_id="str",
@@ -543,7 +543,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_segments(self, resource_group):
+    def test_workload_networks_list_segments(self, resource_group):
         response = self.client.workload_networks.list_segments(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -555,7 +555,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_segment(self, resource_group):
+    def test_workload_networks_get_segment(self, resource_group):
         response = self.client.workload_networks.get_segment(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -568,7 +568,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_segments(self, resource_group):
+    def test_workload_networks_begin_create_segments(self, resource_group):
         response = self.client.workload_networks.begin_create_segments(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -601,7 +601,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update_segments(self, resource_group):
+    def test_workload_networks_begin_update_segments(self, resource_group):
         response = self.client.workload_networks.begin_update_segments(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -634,7 +634,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete_segment(self, resource_group):
+    def test_workload_networks_begin_delete_segment(self, resource_group):
         response = self.client.workload_networks.begin_delete_segment(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -647,7 +647,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_virtual_machines(self, resource_group):
+    def test_workload_networks_list_virtual_machines(self, resource_group):
         response = self.client.workload_networks.list_virtual_machines(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -659,7 +659,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_virtual_machine(self, resource_group):
+    def test_workload_networks_get_virtual_machine(self, resource_group):
         response = self.client.workload_networks.get_virtual_machine(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -672,7 +672,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_vm_groups(self, resource_group):
+    def test_workload_networks_list_vm_groups(self, resource_group):
         response = self.client.workload_networks.list_vm_groups(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -684,7 +684,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_vm_group(self, resource_group):
+    def test_workload_networks_get_vm_group(self, resource_group):
         response = self.client.workload_networks.get_vm_group(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -697,7 +697,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_vm_group(self, resource_group):
+    def test_workload_networks_begin_create_vm_group(self, resource_group):
         response = self.client.workload_networks.begin_create_vm_group(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -728,7 +728,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update_vm_group(self, resource_group):
+    def test_workload_networks_begin_update_vm_group(self, resource_group):
         response = self.client.workload_networks.begin_update_vm_group(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -759,7 +759,7 @@ class TestAVSWorkloadNetworksOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete_vm_group(self, resource_group):
+    def test_workload_networks_begin_delete_vm_group(self, resource_group):
         response = self.client.workload_networks.begin_delete_vm_group(
             resource_group_name=resource_group.name,
             vm_group_id="str",
