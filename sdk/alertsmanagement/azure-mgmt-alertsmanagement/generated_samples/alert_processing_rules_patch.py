@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.alertsmanagement import AlertsManagementClient
 
 """
@@ -26,6 +28,7 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
 def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
+        issue_name="ISSUE_NAME",
         subscription_id="1e3ff1c0-771a-4119-a03b-be82a51e232d",
     )
 
@@ -37,6 +40,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2021-08-08/examples/AlertProcessingRules_Patch.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2021-08-08-preview/examples/AlertProcessingRules_Patch.json
 if __name__ == "__main__":
     main()
