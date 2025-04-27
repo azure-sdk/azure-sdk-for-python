@@ -7,161 +7,187 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, Awaitable, TYPE_CHECKING
+from typing import Any, Awaitable, Optional, TYPE_CHECKING, cast
+from typing_extensions import Self
 
+from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
+from azure.core.settings import settings
 from azure.mgmt.core import AsyncARMPipelineClient
+from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from .. import models as _models
-from .._serialization import Deserializer, Serializer
+from .._utils.serialization import Deserializer, Serializer
 from ._configuration import RecoveryServicesDataReplicationMgmtClientConfiguration
 from .operations import (
-    DraOperationStatusOperations,
-    DraOperations,
+    CheckNameAvailabilityOperations,
+    DeploymentPreflightOperations,
     EmailConfigurationOperations,
     EventOperations,
+    FabricAgentOperations,
     FabricOperations,
-    FabricOperationsStatusOperations,
+    JobOperations,
+    LocationBasedOperationResultsOperations,
+    OperationResultsOperations,
     Operations,
-    PolicyOperationStatusOperations,
     PolicyOperations,
-    ProtectedItemOperationStatusOperations,
+    PrivateEndpointConnectionProxiesOperations,
+    PrivateEndpointConnectionsOperations,
+    PrivateLinkResourcesOperations,
     ProtectedItemOperations,
-    RecoveryPointsOperations,
-    RecoveryServicesDataReplicationMgmtClientOperationsMixin,
-    ReplicationExtensionOperationStatusOperations,
+    RecoveryPointOperations,
     ReplicationExtensionOperations,
-    VaultOperationStatusOperations,
     VaultOperations,
-    WorkflowOperationStatusOperations,
-    WorkflowOperations,
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class RecoveryServicesDataReplicationMgmtClient(
-    RecoveryServicesDataReplicationMgmtClientOperationsMixin
-):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class RecoveryServicesDataReplicationMgmtClient:  # pylint: disable=too-many-instance-attributes,name-too-long
     """A first party Azure service enabling the data replication.
 
-    :ivar dra: DraOperations operations
-    :vartype dra: azure.mgmt.recoveryservicesdatareplication.aio.operations.DraOperations
-    :ivar dra_operation_status: DraOperationStatusOperations operations
-    :vartype dra_operation_status:
-     azure.mgmt.recoveryservicesdatareplication.aio.operations.DraOperationStatusOperations
+    :ivar operations: Operations operations
+    :vartype operations: azure.mgmt.recoveryservicesdatareplication.aio.operations.Operations
+    :ivar check_name_availability: CheckNameAvailabilityOperations operations
+    :vartype check_name_availability:
+     azure.mgmt.recoveryservicesdatareplication.aio.operations.CheckNameAvailabilityOperations
+    :ivar fabric: FabricOperations operations
+    :vartype fabric: azure.mgmt.recoveryservicesdatareplication.aio.operations.FabricOperations
+    :ivar vault: VaultOperations operations
+    :vartype vault: azure.mgmt.recoveryservicesdatareplication.aio.operations.VaultOperations
+    :ivar deployment_preflight: DeploymentPreflightOperations operations
+    :vartype deployment_preflight:
+     azure.mgmt.recoveryservicesdatareplication.aio.operations.DeploymentPreflightOperations
+    :ivar location_based_operation_results: LocationBasedOperationResultsOperations operations
+    :vartype location_based_operation_results:
+     azure.mgmt.recoveryservicesdatareplication.aio.operations.LocationBasedOperationResultsOperations
+    :ivar operation_results: OperationResultsOperations operations
+    :vartype operation_results:
+     azure.mgmt.recoveryservicesdatareplication.aio.operations.OperationResultsOperations
+    :ivar fabric_agent: FabricAgentOperations operations
+    :vartype fabric_agent:
+     azure.mgmt.recoveryservicesdatareplication.aio.operations.FabricAgentOperations
     :ivar email_configuration: EmailConfigurationOperations operations
     :vartype email_configuration:
      azure.mgmt.recoveryservicesdatareplication.aio.operations.EmailConfigurationOperations
     :ivar event: EventOperations operations
     :vartype event: azure.mgmt.recoveryservicesdatareplication.aio.operations.EventOperations
-    :ivar fabric: FabricOperations operations
-    :vartype fabric: azure.mgmt.recoveryservicesdatareplication.aio.operations.FabricOperations
-    :ivar fabric_operations_status: FabricOperationsStatusOperations operations
-    :vartype fabric_operations_status:
-     azure.mgmt.recoveryservicesdatareplication.aio.operations.FabricOperationsStatusOperations
-    :ivar policy: PolicyOperations operations
-    :vartype policy: azure.mgmt.recoveryservicesdatareplication.aio.operations.PolicyOperations
-    :ivar policy_operation_status: PolicyOperationStatusOperations operations
-    :vartype policy_operation_status:
-     azure.mgmt.recoveryservicesdatareplication.aio.operations.PolicyOperationStatusOperations
+    :ivar job: JobOperations operations
+    :vartype job: azure.mgmt.recoveryservicesdatareplication.aio.operations.JobOperations
+    :ivar private_endpoint_connection_proxies: PrivateEndpointConnectionProxiesOperations
+     operations
+    :vartype private_endpoint_connection_proxies:
+     azure.mgmt.recoveryservicesdatareplication.aio.operations.PrivateEndpointConnectionProxiesOperations
+    :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
+    :vartype private_endpoint_connections:
+     azure.mgmt.recoveryservicesdatareplication.aio.operations.PrivateEndpointConnectionsOperations
+    :ivar private_link_resources: PrivateLinkResourcesOperations operations
+    :vartype private_link_resources:
+     azure.mgmt.recoveryservicesdatareplication.aio.operations.PrivateLinkResourcesOperations
     :ivar protected_item: ProtectedItemOperations operations
     :vartype protected_item:
      azure.mgmt.recoveryservicesdatareplication.aio.operations.ProtectedItemOperations
-    :ivar protected_item_operation_status: ProtectedItemOperationStatusOperations operations
-    :vartype protected_item_operation_status:
-     azure.mgmt.recoveryservicesdatareplication.aio.operations.ProtectedItemOperationStatusOperations
-    :ivar recovery_points: RecoveryPointsOperations operations
-    :vartype recovery_points:
-     azure.mgmt.recoveryservicesdatareplication.aio.operations.RecoveryPointsOperations
+    :ivar recovery_point: RecoveryPointOperations operations
+    :vartype recovery_point:
+     azure.mgmt.recoveryservicesdatareplication.aio.operations.RecoveryPointOperations
     :ivar replication_extension: ReplicationExtensionOperations operations
     :vartype replication_extension:
      azure.mgmt.recoveryservicesdatareplication.aio.operations.ReplicationExtensionOperations
-    :ivar replication_extension_operation_status: ReplicationExtensionOperationStatusOperations
-     operations
-    :vartype replication_extension_operation_status:
-     azure.mgmt.recoveryservicesdatareplication.aio.operations.ReplicationExtensionOperationStatusOperations
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.recoveryservicesdatareplication.aio.operations.Operations
-    :ivar vault: VaultOperations operations
-    :vartype vault: azure.mgmt.recoveryservicesdatareplication.aio.operations.VaultOperations
-    :ivar vault_operation_status: VaultOperationStatusOperations operations
-    :vartype vault_operation_status:
-     azure.mgmt.recoveryservicesdatareplication.aio.operations.VaultOperationStatusOperations
-    :ivar workflow: WorkflowOperations operations
-    :vartype workflow: azure.mgmt.recoveryservicesdatareplication.aio.operations.WorkflowOperations
-    :ivar workflow_operation_status: WorkflowOperationStatusOperations operations
-    :vartype workflow_operation_status:
-     azure.mgmt.recoveryservicesdatareplication.aio.operations.WorkflowOperationStatusOperations
+    :ivar policy: PolicyOperations operations
+    :vartype policy: azure.mgmt.recoveryservicesdatareplication.aio.operations.PolicyOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
-    :param base_url: Service URL. Default value is "https://management.azure.com".
+    :param base_url: Service URL. Default value is None.
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2021-02-16-preview". Note that overriding
-     this default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2024-09-01". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
     """
 
     def __init__(
-        self,
-        credential: "AsyncTokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "AsyncTokenCredential", subscription_id: str, base_url: Optional[str] = None, **kwargs: Any
     ) -> None:
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
         self._config = RecoveryServicesDataReplicationMgmtClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, subscription_id=subscription_id, credential_scopes=credential_scopes, **kwargs
         )
-        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                AsyncARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(
+            base_url=cast(str, base_url), policies=_policies, **kwargs
+        )
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.dra = DraOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.dra_operation_status = DraOperationStatusOperations(
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.check_name_availability = CheckNameAvailabilityOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.fabric = FabricOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.vault = VaultOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.deployment_preflight = DeploymentPreflightOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.location_based_operation_results = LocationBasedOperationResultsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.operation_results = OperationResultsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.fabric_agent = FabricAgentOperations(self._client, self._config, self._serialize, self._deserialize)
         self.email_configuration = EmailConfigurationOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.event = EventOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.fabric = FabricOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.fabric_operations_status = FabricOperationsStatusOperations(
+        self.job = JobOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.private_endpoint_connection_proxies = PrivateEndpointConnectionProxiesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.policy = PolicyOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.policy_operation_status = PolicyOperationStatusOperations(
+        self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.private_link_resources = PrivateLinkResourcesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.protected_item = ProtectedItemOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.protected_item_operation_status = ProtectedItemOperationStatusOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.recovery_points = RecoveryPointsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.recovery_point = RecoveryPointOperations(self._client, self._config, self._serialize, self._deserialize)
         self.replication_extension = ReplicationExtensionOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.replication_extension_operation_status = ReplicationExtensionOperationStatusOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.vault = VaultOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.vault_operation_status = VaultOperationStatusOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.workflow = WorkflowOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.workflow_operation_status = WorkflowOperationStatusOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
+        self.policy = PolicyOperations(self._client, self._config, self._serialize, self._deserialize)
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
+    def _send_request(
+        self, request: HttpRequest, *, stream: bool = False, **kwargs: Any
+    ) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -181,12 +207,12 @@ class RecoveryServicesDataReplicationMgmtClient(
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "RecoveryServicesDataReplicationMgmtClient":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 
