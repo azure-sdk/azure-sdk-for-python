@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,7 +16,7 @@ from azure.mgmt.computeschedule import ComputeScheduleMgmtClient
     pip install azure-identity
     pip install azure-mgmt-computeschedule
 # USAGE
-    python operations_list.py
+    python scheduled_actions_virtual_machines_submit_delete_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,11 +31,32 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.operations.list()
-    for item in response:
-        print(item)
+    response = client.scheduled_actions.virtual_machines_submit_delete(
+        locationparameter="ppjqysfqumddvzzs",
+        request_body={
+            "correlationid": "e",
+            "executionParameters": {
+                "optimizationPreference": "Cost",
+                "retryPolicy": {"retryCount": 25, "retryWindowInMinutes": 4},
+            },
+            "forceDeletion": True,
+            "resources": {
+                "ids": [
+                    "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3"
+                ]
+            },
+            "schedule": {
+                "deadLine": "2025-04-15T19:47:04.403Z",
+                "deadline": "2025-04-15T19:47:04.403Z",
+                "deadlineType": "Unknown",
+                "timeZone": "upnmayfebiadztdktxzq",
+                "timezone": "qacufsmctpgjozovlsihrzoctatcsj",
+            },
+        },
+    )
+    print(response)
 
 
-# x-ms-original-file: 2024-10-01/Operations_List.json
+# x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesSubmitDelete_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
