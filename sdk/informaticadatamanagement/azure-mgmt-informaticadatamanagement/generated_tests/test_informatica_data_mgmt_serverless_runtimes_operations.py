@@ -20,7 +20,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_informatica_organization_resource(self, resource_group):
+    def test_serverless_runtimes_list_by_informatica_organization_resource(self, resource_group):
         response = self.client.serverless_runtimes.list_by_informatica_organization_resource(
             resource_group_name=resource_group.name,
             organization_name="str",
@@ -32,7 +32,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_serverless_runtimes_get(self, resource_group):
         response = self.client.serverless_runtimes.get(
             resource_group_name=resource_group.name,
             organization_name="str",
@@ -45,7 +45,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_serverless_runtimes_begin_create_or_update(self, resource_group):
         response = self.client.serverless_runtimes.begin_create_or_update(
             resource_group_name=resource_group.name,
             organization_name="str",
@@ -121,7 +121,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_serverless_runtimes_update(self, resource_group):
         response = self.client.serverless_runtimes.update(
             resource_group_name=resource_group.name,
             organization_name="str",
@@ -185,7 +185,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_serverless_runtimes_begin_delete(self, resource_group):
         response = self.client.serverless_runtimes.begin_delete(
             resource_group_name=resource_group.name,
             organization_name="str",
@@ -198,7 +198,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_check_dependencies(self, resource_group):
+    def test_serverless_runtimes_check_dependencies(self, resource_group):
         response = self.client.serverless_runtimes.check_dependencies(
             resource_group_name=resource_group.name,
             organization_name="str",
@@ -211,7 +211,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_serverless_resource_by_id(self, resource_group):
+    def test_serverless_runtimes_serverless_resource_by_id(self, resource_group):
         response = self.client.serverless_runtimes.serverless_resource_by_id(
             resource_group_name=resource_group.name,
             organization_name="str",
@@ -224,7 +224,7 @@ class TestInformaticaDataMgmtServerlessRuntimesOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_start_failed_serverless_runtime(self, resource_group):
+    def test_serverless_runtimes_start_failed_serverless_runtime(self, resource_group):
         response = self.client.serverless_runtimes.start_failed_serverless_runtime(
             resource_group_name=resource_group.name,
             organization_name="str",
