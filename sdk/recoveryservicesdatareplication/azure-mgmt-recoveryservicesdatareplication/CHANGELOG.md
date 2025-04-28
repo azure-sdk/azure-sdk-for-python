@@ -1,5 +1,242 @@
 # Release History
 
+## 1.0.0 (2025-04-27)
+
+### Features Added
+
+  - Client `RecoveryServicesDataReplicationMgmtClient` added operation group `check_name_availability`
+  - Client `RecoveryServicesDataReplicationMgmtClient` added operation group `deployment_preflight`
+  - Client `RecoveryServicesDataReplicationMgmtClient` added operation group `location_based_operation_results`
+  - Client `RecoveryServicesDataReplicationMgmtClient` added operation group `operation_results`
+  - Client `RecoveryServicesDataReplicationMgmtClient` added operation group `fabric_agent`
+  - Client `RecoveryServicesDataReplicationMgmtClient` added operation group `job`
+  - Client `RecoveryServicesDataReplicationMgmtClient` added operation group `private_endpoint_connection_proxies`
+  - Client `RecoveryServicesDataReplicationMgmtClient` added operation group `private_endpoint_connections`
+  - Client `RecoveryServicesDataReplicationMgmtClient` added operation group `private_link_resources`
+  - Client `RecoveryServicesDataReplicationMgmtClient` added operation group `recovery_point`
+  - Model `DeploymentPreflightResource` added property `properties`
+  - Model `EmailConfigurationModelProperties` added property `provisioning_state`
+  - Model `EventModelProperties` added property `provisioning_state`
+  - Model `HyperVToAzStackHCIDiskInput` added property `disk_block_size`
+  - Model `HyperVToAzStackHCIDiskInput` added property `disk_logical_sector_size`
+  - Model `HyperVToAzStackHCIDiskInput` added property `disk_physical_sector_size`
+  - Model `HyperVToAzStackHCIDiskInput` added property `disk_identifier`
+  - Model `HyperVToAzStackHCIDiskInput` added property `disk_controller`
+  - Model `HyperVToAzStackHCINicInput` added property `is_static_ip_migration_enabled`
+  - Model `HyperVToAzStackHCINicInput` added property `is_mac_migration_enabled`
+  - Model `HyperVToAzStackHCIProtectedDiskProperties` added property `disk_block_size`
+  - Model `HyperVToAzStackHCIProtectedDiskProperties` added property `disk_logical_sector_size`
+  - Model `HyperVToAzStackHCIProtectedDiskProperties` added property `disk_physical_sector_size`
+  - Model `HyperVToAzStackHCIProtectedItemModelCustomProperties` added property `source_fabric_agent_name`
+  - Model `HyperVToAzStackHCIProtectedItemModelCustomProperties` added property `target_fabric_agent_name`
+  - Model `ProtectedItemModelProperties` added property `fabric_agent_id`
+  - Model `ProtectedItemModelProperties` added property `target_fabric_agent_id`
+  - Model `RecoveryPointModelProperties` added property `provisioning_state`
+  - Model `TaskModel` added property `children_jobs`
+  - Model `VMwareToAzStackHCIDiskInput` added property `disk_block_size`
+  - Model `VMwareToAzStackHCIDiskInput` added property `disk_logical_sector_size`
+  - Model `VMwareToAzStackHCIDiskInput` added property `disk_physical_sector_size`
+  - Model `VMwareToAzStackHCIDiskInput` added property `disk_identifier`
+  - Model `VMwareToAzStackHCIDiskInput` added property `disk_controller`
+  - Model `VMwareToAzStackHCINicInput` added property `is_static_ip_migration_enabled`
+  - Model `VMwareToAzStackHCINicInput` added property `is_mac_migration_enabled`
+  - Model `VMwareToAzStackHCIProtectedDiskProperties` added property `disk_block_size`
+  - Model `VMwareToAzStackHCIProtectedDiskProperties` added property `disk_logical_sector_size`
+  - Model `VMwareToAzStackHCIProtectedDiskProperties` added property `disk_physical_sector_size`
+  - Model `VMwareToAzStackHCIProtectedItemModelCustomProperties` added property `source_fabric_agent_name`
+  - Model `VMwareToAzStackHCIProtectedItemModelCustomProperties` added property `target_fabric_agent_name`
+  - Model `VaultModel` added property `identity`
+  - Model `VaultModelUpdate` added property `identity`
+  - Added model `ConnectionDetails`
+  - Added enum `CreatedByType`
+  - Added model `DiskControllerInputs`
+  - Added model `EmailConfigurationModelListResult`
+  - Added model `EventModelListResult`
+  - Added model `FabricAgentModel`
+  - Added model `FabricAgentModelCustomProperties`
+  - Added model `FabricAgentModelListResult`
+  - Added model `FabricAgentModelProperties`
+  - Added model `FabricModelListResult`
+  - Added model `FailoverJobModelCustomProperties`
+  - Added model `GroupConnectivityInformation`
+  - Added model `HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdate`
+  - Added model `JobModel`
+  - Added model `JobModelCustomProperties`
+  - Added model `JobModelCustomPropertiesAffectedObjectDetails`
+  - Added model `JobModelListResult`
+  - Added model `JobModelProperties`
+  - Added enum `JobObjectType`
+  - Added enum `JobState`
+  - Added model `ManagedServiceIdentity`
+  - Added enum `ManagedServiceIdentityType`
+  - Added model `PolicyModelListResult`
+  - Added model `PrivateEndpoint`
+  - Added model `PrivateEndpointConnection`
+  - Added model `PrivateEndpointConnectionListResult`
+  - Added model `PrivateEndpointConnectionProxy`
+  - Added model `PrivateEndpointConnectionProxyListResult`
+  - Added model `PrivateEndpointConnectionProxyProperties`
+  - Added model `PrivateEndpointConnectionResponseProperties`
+  - Added enum `PrivateEndpointConnectionStatus`
+  - Added model `PrivateLinkResource`
+  - Added model `PrivateLinkResourceListResult`
+  - Added model `PrivateLinkResourceProperties`
+  - Added model `PrivateLinkServiceConnection`
+  - Added model `PrivateLinkServiceConnectionState`
+  - Added model `PrivateLinkServiceProxy`
+  - Added model `ProtectedItemModelCustomPropertiesUpdate`
+  - Added model `ProtectedItemModelListResult`
+  - Added model `ProtectedItemModelPropertiesUpdate`
+  - Added model `ProtectedItemModelUpdate`
+  - Added model `ProxyResource`
+  - Added model `RecoveryPointModelListResult`
+  - Added model `RemotePrivateEndpoint`
+  - Added model `RemotePrivateEndpointConnection`
+  - Added model `ReplicationExtensionModelListResult`
+  - Added model `Resource`
+  - Added model `SystemData`
+  - Added model `TestFailoverCleanupJobModelCustomProperties`
+  - Added model `TestFailoverJobModelCustomProperties`
+  - Added model `TrackedResource`
+  - Added model `UserAssignedIdentity`
+  - Added model `VMwareFabricAgentModelCustomProperties`
+  - Added model `VMwareToAzStackHCIEventModelCustomProperties`
+  - Added model `VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdate`
+  - Added model `VMwareToAzStackHCIRecoveryPointModelCustomProperties`
+  - Added model `VaultIdentityModel`
+  - Added enum `VaultIdentityType`
+  - Added model `VaultModelListResult`
+  - Model `ProtectedItemOperations` added method `begin_update`
+  - Added model `CheckNameAvailabilityOperations`
+  - Added model `DeploymentPreflightOperations`
+  - Added model `FabricAgentOperations`
+  - Added model `JobOperations`
+  - Added model `LocationBasedOperationResultsOperations`
+  - Added model `OperationResultsOperations`
+  - Added model `PrivateEndpointConnectionProxiesOperations`
+  - Added model `PrivateEndpointConnectionsOperations`
+  - Added model `PrivateLinkResourcesOperations`
+  - Added model `RecoveryPointOperations`
+  - Method `EmailConfigurationOperations.create` has a new overload `def create(self: None, resource_group_name: str, vault_name: str, email_configuration_name: str, body: EmailConfigurationModel, content_type: str)`
+  - Method `EmailConfigurationOperations.create` has a new overload `def create(self: None, resource_group_name: str, vault_name: str, email_configuration_name: str, body: IO[bytes], content_type: str)`
+  - Method `FabricOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, fabric_name: str, body: FabricModel, content_type: str)`
+  - Method `FabricOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, fabric_name: str, body: IO[bytes], content_type: str)`
+  - Method `FabricOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, fabric_name: str, body: FabricModelUpdate, content_type: str)`
+  - Method `FabricOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, fabric_name: str, body: IO[bytes], content_type: str)`
+  - Method `PolicyOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, vault_name: str, policy_name: str, body: PolicyModel, content_type: str)`
+  - Method `PolicyOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, vault_name: str, policy_name: str, body: IO[bytes], content_type: str)`
+  - Method `ProtectedItemOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, vault_name: str, protected_item_name: str, body: ProtectedItemModel, content_type: str)`
+  - Method `ProtectedItemOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, vault_name: str, protected_item_name: str, body: IO[bytes], content_type: str)`
+  - Method `ProtectedItemOperations.begin_planned_failover` has a new overload `def begin_planned_failover(self: None, resource_group_name: str, vault_name: str, protected_item_name: str, body: PlannedFailoverModel, content_type: str)`
+  - Method `ProtectedItemOperations.begin_planned_failover` has a new overload `def begin_planned_failover(self: None, resource_group_name: str, vault_name: str, protected_item_name: str, body: IO[bytes], content_type: str)`
+  - Method `ProtectedItemOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, vault_name: str, protected_item_name: str, body: ProtectedItemModelUpdate, content_type: str)`
+  - Method `ProtectedItemOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, vault_name: str, protected_item_name: str, body: IO[bytes], content_type: str)`
+  - Method `ReplicationExtensionOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, vault_name: str, replication_extension_name: str, body: ReplicationExtensionModel, content_type: str)`
+  - Method `ReplicationExtensionOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, vault_name: str, replication_extension_name: str, body: IO[bytes], content_type: str)`
+  - Method `VaultOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, vault_name: str, body: VaultModel, content_type: str)`
+  - Method `VaultOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, vault_name: str, body: IO[bytes], content_type: str)`
+  - Method `VaultOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, vault_name: str, body: VaultModelUpdate, content_type: str)`
+  - Method `VaultOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, vault_name: str, body: IO[bytes], content_type: str)`
+  - Method `CheckNameAvailabilityOperations.post` has a new overload `def post(self: None, location: str, body: Optional[CheckNameAvailabilityModel], content_type: str)`
+  - Method `CheckNameAvailabilityOperations.post` has a new overload `def post(self: None, location: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `DeploymentPreflightOperations.post` has a new overload `def post(self: None, resource_group_name: str, deployment_id: str, body: Optional[DeploymentPreflightModel], content_type: str)`
+  - Method `DeploymentPreflightOperations.post` has a new overload `def post(self: None, resource_group_name: str, deployment_id: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `FabricAgentOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, fabric_name: str, fabric_agent_name: str, body: FabricAgentModel, content_type: str)`
+  - Method `FabricAgentOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, fabric_name: str, fabric_agent_name: str, body: IO[bytes], content_type: str)`
+  - Method `PrivateEndpointConnectionProxiesOperations.create` has a new overload `def create(self: None, resource_group_name: str, vault_name: str, private_endpoint_connection_proxy_name: str, body: PrivateEndpointConnectionProxy, content_type: str)`
+  - Method `PrivateEndpointConnectionProxiesOperations.create` has a new overload `def create(self: None, resource_group_name: str, vault_name: str, private_endpoint_connection_proxy_name: str, body: IO[bytes], content_type: str)`
+  - Method `PrivateEndpointConnectionProxiesOperations.validate` has a new overload `def validate(self: None, resource_group_name: str, vault_name: str, private_endpoint_connection_proxy_name: str, body: PrivateEndpointConnectionProxy, content_type: str)`
+  - Method `PrivateEndpointConnectionProxiesOperations.validate` has a new overload `def validate(self: None, resource_group_name: str, vault_name: str, private_endpoint_connection_proxy_name: str, body: IO[bytes], content_type: str)`
+  - Method `PrivateEndpointConnectionsOperations.update` has a new overload `def update(self: None, resource_group_name: str, vault_name: str, private_endpoint_connection_name: str, body: PrivateEndpointConnection, content_type: str)`
+  - Method `PrivateEndpointConnectionsOperations.update` has a new overload `def update(self: None, resource_group_name: str, vault_name: str, private_endpoint_connection_name: str, body: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Deleted or renamed client operation group `RecoveryServicesDataReplicationMgmtClient.dra`
+  - Deleted or renamed client operation group `RecoveryServicesDataReplicationMgmtClient.dra_operation_status`
+  - Deleted or renamed client operation group `RecoveryServicesDataReplicationMgmtClient.fabric_operations_status`
+  - Deleted or renamed client operation group `RecoveryServicesDataReplicationMgmtClient.policy_operation_status`
+  - Deleted or renamed client operation group `RecoveryServicesDataReplicationMgmtClient.protected_item_operation_status`
+  - Deleted or renamed client operation group `RecoveryServicesDataReplicationMgmtClient.recovery_points`
+  - Deleted or renamed client operation group `RecoveryServicesDataReplicationMgmtClient.replication_extension_operation_status`
+  - Deleted or renamed client operation group `RecoveryServicesDataReplicationMgmtClient.vault_operation_status`
+  - Deleted or renamed client operation group `RecoveryServicesDataReplicationMgmtClient.workflow`
+  - Deleted or renamed client operation group `RecoveryServicesDataReplicationMgmtClient.workflow_operation_status`
+  - Deleted or renamed client method `RecoveryServicesDataReplicationMgmtClient.check_name_availability`
+  - Deleted or renamed client method `RecoveryServicesDataReplicationMgmtClient.deployment_preflight`
+  - Model `HyperVToAzStackHCIProtectedItemModelCustomProperties` deleted or renamed its instance variable `source_dra_name`
+  - Model `HyperVToAzStackHCIProtectedItemModelCustomProperties` deleted or renamed its instance variable `target_dra_name`
+  - Model `ProtectedItemModelProperties` deleted or renamed its instance variable `dra_id`
+  - Model `ProtectedItemModelProperties` deleted or renamed its instance variable `target_dra_id`
+  - Model `TaskModel` deleted or renamed its instance variable `children_workflows`
+  - Model `VMwareToAzStackHCIProtectedItemModelCustomProperties` deleted or renamed its instance variable `source_dra_name`
+  - Model `VMwareToAzStackHCIProtectedItemModelCustomProperties` deleted or renamed its instance variable `target_dra_name`
+  - Deleted or renamed model `DraModel`
+  - Deleted or renamed model `DraModelCollection`
+  - Deleted or renamed model `DraModelCustomProperties`
+  - Deleted or renamed model `DraModelProperties`
+  - Deleted or renamed model `DraModelSystemData`
+  - Deleted or renamed model `EmailConfigurationModelCollection`
+  - Deleted or renamed model `EmailConfigurationModelSystemData`
+  - Deleted or renamed model `EventModelCollection`
+  - Deleted or renamed model `EventModelSystemData`
+  - Deleted or renamed model `FabricModelCollection`
+  - Deleted or renamed model `FabricModelSystemData`
+  - Deleted or renamed model `FabricModelUpdateSystemData`
+  - Deleted or renamed model `FailoverWorkflowModelCustomProperties`
+  - Deleted or renamed model `OperationModel`
+  - Deleted or renamed model `OperationModelCollection`
+  - Deleted or renamed model `OperationModelProperties`
+  - Deleted or renamed model `PolicyModelCollection`
+  - Deleted or renamed model `PolicyModelSystemData`
+  - Deleted or renamed model `ProtectedItemModelCollection`
+  - Deleted or renamed model `ProtectedItemModelPropertiesCurrentJob`
+  - Deleted or renamed model `ProtectedItemModelPropertiesLastFailedEnableProtectionJob`
+  - Deleted or renamed model `ProtectedItemModelPropertiesLastFailedPlannedFailoverJob`
+  - Deleted or renamed model `ProtectedItemModelPropertiesLastTestFailoverJob`
+  - Deleted or renamed model `ProtectedItemModelSystemData`
+  - Deleted or renamed model `RecoveryPointModelCollection`
+  - Deleted or renamed model `RecoveryPointModelSystemData`
+  - Deleted or renamed model `ReplicationExtensionModelCollection`
+  - Deleted or renamed model `ReplicationExtensionModelSystemData`
+  - Deleted or renamed model `SystemDataModel`
+  - Deleted or renamed model `TestFailoverCleanupWorkflowModelCustomProperties`
+  - Deleted or renamed model `TestFailoverWorkflowModelCustomProperties`
+  - Deleted or renamed model `VMwareDraModelCustomProperties`
+  - Deleted or renamed model `VaultModelCollection`
+  - Deleted or renamed model `VaultModelSystemData`
+  - Deleted or renamed model `VaultModelUpdateSystemData`
+  - Deleted or renamed model `WorkflowModel`
+  - Deleted or renamed model `WorkflowModelCollection`
+  - Deleted or renamed model `WorkflowModelCustomProperties`
+  - Deleted or renamed model `WorkflowModelProperties`
+  - Deleted or renamed model `WorkflowModelSystemData`
+  - Deleted or renamed model `WorkflowObjectType`
+  - Deleted or renamed model `WorkflowState`
+  - Method `EmailConfigurationOperations.create` removed default value `None` from its parameter `body`
+  - Method `EventOperations.list` deleted or renamed its parameter `filter` of kind `positional_or_keyword`
+  - Method `FabricOperations.begin_create` removed default value `None` from its parameter `body`
+  - Method `FabricOperations.begin_update` removed default value `None` from its parameter `body`
+  - Method `FabricOperations.list_by_subscription` deleted or renamed its parameter `continuation_token_parameter` of kind `positional_or_keyword`
+  - Method `PolicyOperations.begin_create` removed default value `None` from its parameter `body`
+  - Method `ProtectedItemOperations.begin_create` removed default value `None` from its parameter `body`
+  - Method `ProtectedItemOperations.begin_planned_failover` removed default value `None` from its parameter `body`
+  - Method `ReplicationExtensionOperations.begin_create` removed default value `None` from its parameter `body`
+  - Method `VaultOperations.begin_create` removed default value `None` from its parameter `body`
+  - Method `VaultOperations.begin_update` removed default value `None` from its parameter `body`
+  - Method `VaultOperations.list_by_subscription` deleted or renamed its parameter `continuation_token_parameter` of kind `positional_or_keyword`
+  - Deleted or renamed model `DraOperationStatusOperations`
+  - Deleted or renamed model `DraOperations`
+  - Deleted or renamed model `FabricOperationsStatusOperations`
+  - Deleted or renamed model `PolicyOperationStatusOperations`
+  - Deleted or renamed model `ProtectedItemOperationStatusOperations`
+  - Deleted or renamed model `RecoveryPointsOperations`
+  - Deleted or renamed model `RecoveryServicesDataReplicationMgmtClientOperationsMixin`
+  - Deleted or renamed model `ReplicationExtensionOperationStatusOperations`
+  - Deleted or renamed model `VaultOperationStatusOperations`
+  - Deleted or renamed model `WorkflowOperationStatusOperations`
+  - Deleted or renamed model `WorkflowOperations`
+
 ## 1.0.0b1 (2023-10-23)
 
 * Initial Release
