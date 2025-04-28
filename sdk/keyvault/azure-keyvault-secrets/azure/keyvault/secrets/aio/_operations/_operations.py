@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -78,12 +78,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          identifiable or sensitive information. Required.
         :type secret_name: str
         :param parameters: The parameters for setting the secret. Required.
-        :type parameters: ~azure.keyvault.secrets._generated.models.SecretSetParameters
+        :type parameters: ~azure.keyvault.secrets.models.SecretSetParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -107,7 +107,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          Default value is "application/json".
         :paramtype content_type: str
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -131,7 +131,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          Default value is "application/json".
         :paramtype content_type: str
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -151,9 +151,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :type secret_name: str
         :param parameters: The parameters for setting the secret. Is one of the following types:
          SecretSetParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.secrets._generated.models.SecretSetParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.secrets.models.SecretSetParameters or JSON or IO[bytes]
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -229,7 +229,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :param secret_name: The name of the secret. Required.
         :type secret_name: str
         :return: DeletedSecretBundle. The DeletedSecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.DeletedSecretBundle
+        :rtype: ~azure.keyvault.secrets.models.DeletedSecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -306,12 +306,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :param secret_version: The version of the secret. Required.
         :type secret_version: str
         :param parameters: The parameters for update secret operation. Required.
-        :type parameters: ~azure.keyvault.secrets._generated.models.SecretUpdateParameters
+        :type parameters: ~azure.keyvault.secrets.models.SecretUpdateParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -341,7 +341,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          Default value is "application/json".
         :paramtype content_type: str
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -371,7 +371,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          Default value is "application/json".
         :paramtype content_type: str
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -395,9 +395,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :type secret_version: str
         :param parameters: The parameters for update secret operation. Is one of the following types:
          SecretUpdateParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.secrets._generated.models.SecretUpdateParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.secrets.models.SecretUpdateParameters or JSON or IO[bytes]
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -477,7 +477,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          specified, the latest version of the secret is returned. Required.
         :type secret_version: str
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -534,285 +534,6 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def get_secrets(self, *, maxresults: Optional[int] = None, **kwargs: Any) -> AsyncIterable["_models.SecretItem"]:
-        """List secrets in a specified key vault.
-
-        The Get Secrets operation is applicable to the entire vault. However, only the base secret
-        identifier and its attributes are provided in the response. Individual secret versions are not
-        listed in the response. This operation requires the secrets/list permission.
-
-        :keyword maxresults: Maximum number of results to return in a page. If not specified the
-         service will return up to 25 results. Default value is None.
-        :paramtype maxresults: int
-        :return: An iterator like instance of SecretItem
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.secrets._generated.models.SecretItem]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.SecretItem]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_key_vault_get_secrets_request(
-                    maxresults=maxresults,
-                    api_version=self._config.api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            return _request
-
-        async def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.SecretItem], deserialized["value"])
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-                raise HttpResponseError(response=response, model=error)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    @distributed_trace
-    def get_secret_versions(
-        self, secret_name: str, *, maxresults: Optional[int] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.SecretItem"]:
-        """List all versions of the specified secret.
-
-        The full secret identifier and attributes are provided in the response. No values are returned
-        for the secrets. This operations requires the secrets/list permission.
-
-        :param secret_name: The name of the secret. Required.
-        :type secret_name: str
-        :keyword maxresults: Maximum number of results to return in a page. If not specified the
-         service will return up to 25 results. Default value is None.
-        :paramtype maxresults: int
-        :return: An iterator like instance of SecretItem
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.secrets._generated.models.SecretItem]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.SecretItem]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_key_vault_get_secret_versions_request(
-                    secret_name=secret_name,
-                    maxresults=maxresults,
-                    api_version=self._config.api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            return _request
-
-        async def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.SecretItem], deserialized["value"])
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-                raise HttpResponseError(response=response, model=error)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    @distributed_trace
-    def get_deleted_secrets(
-        self, *, maxresults: Optional[int] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.DeletedSecretItem"]:
-        """Lists deleted secrets for the specified vault.
-
-        The Get Deleted Secrets operation returns the secrets that have been deleted for a vault
-        enabled for soft-delete. This operation requires the secrets/list permission.
-
-        :keyword maxresults: Maximum number of results to return in a page. If not specified the
-         service will return up to 25 results. Default value is None.
-        :paramtype maxresults: int
-        :return: An iterator like instance of DeletedSecretItem
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.secrets._generated.models.DeletedSecretItem]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.DeletedSecretItem]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_key_vault_get_deleted_secrets_request(
-                    maxresults=maxresults,
-                    api_version=self._config.api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            return _request
-
-        async def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.DeletedSecretItem], deserialized["value"])
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-                raise HttpResponseError(response=response, model=error)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
     @distributed_trace_async
     async def get_deleted_secret(self, secret_name: str, **kwargs: Any) -> _models.DeletedSecretBundle:
         """Gets the specified deleted secret.
@@ -823,7 +544,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :param secret_name: The name of the secret. Required.
         :type secret_name: str
         :return: DeletedSecretBundle. The DeletedSecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.DeletedSecretBundle
+        :rtype: ~azure.keyvault.secrets.models.DeletedSecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -944,7 +665,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :param secret_name: The name of the deleted secret. Required.
         :type secret_name: str
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1010,7 +731,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :param secret_name: The name of the secret. Required.
         :type secret_name: str
         :return: BackupSecretResult. The BackupSecretResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.BackupSecretResult
+        :rtype: ~azure.keyvault.secrets.models.BackupSecretResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1076,12 +797,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         secrets/restore permission.
 
         :param parameters: The parameters to restore the secret. Required.
-        :type parameters: ~azure.keyvault.secrets._generated.models.SecretRestoreParameters
+        :type parameters: ~azure.keyvault.secrets.models.SecretRestoreParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1100,7 +821,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          Default value is "application/json".
         :paramtype content_type: str
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1119,7 +840,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          Default value is "application/json".
         :paramtype content_type: str
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1134,9 +855,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         :param parameters: The parameters to restore the secret. Is one of the following types:
          SecretRestoreParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.secrets._generated.models.SecretRestoreParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.secrets.models.SecretRestoreParameters or JSON or IO[bytes]
         :return: SecretBundle. The SecretBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.secrets._generated.models.SecretBundle
+        :rtype: ~azure.keyvault.secrets.models.SecretBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1200,3 +921,282 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
+
+    @distributed_trace
+    def get_secrets(self, *, maxresults: Optional[int] = None, **kwargs: Any) -> AsyncIterable["_models.SecretItem"]:
+        """List secrets in a specified key vault.
+
+        The Get Secrets operation is applicable to the entire vault. However, only the base secret
+        identifier and its attributes are provided in the response. Individual secret versions are not
+        listed in the response. This operation requires the secrets/list permission.
+
+        :keyword maxresults: Maximum number of results to return in a page. If not specified the
+         service will return up to 25 results. Default value is None.
+        :paramtype maxresults: int
+        :return: An iterator like instance of SecretItem
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.secrets.models.SecretItem]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.SecretItem]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_key_vault_get_secrets_request(
+                    maxresults=maxresults,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        async def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.SecretItem], deserialized.get("value", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+                raise HttpResponseError(response=response, model=error)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get_secret_versions(
+        self, secret_name: str, *, maxresults: Optional[int] = None, **kwargs: Any
+    ) -> AsyncIterable["_models.SecretItem"]:
+        """List all versions of the specified secret.
+
+        The full secret identifier and attributes are provided in the response. No values are returned
+        for the secrets. This operations requires the secrets/list permission.
+
+        :param secret_name: The name of the secret. Required.
+        :type secret_name: str
+        :keyword maxresults: Maximum number of results to return in a page. If not specified the
+         service will return up to 25 results. Default value is None.
+        :paramtype maxresults: int
+        :return: An iterator like instance of SecretItem
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.secrets.models.SecretItem]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.SecretItem]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_key_vault_get_secret_versions_request(
+                    secret_name=secret_name,
+                    maxresults=maxresults,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        async def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.SecretItem], deserialized.get("value", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+                raise HttpResponseError(response=response, model=error)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get_deleted_secrets(
+        self, *, maxresults: Optional[int] = None, **kwargs: Any
+    ) -> AsyncIterable["_models.DeletedSecretItem"]:
+        """Lists deleted secrets for the specified vault.
+
+        The Get Deleted Secrets operation returns the secrets that have been deleted for a vault
+        enabled for soft-delete. This operation requires the secrets/list permission.
+
+        :keyword maxresults: Maximum number of results to return in a page. If not specified the
+         service will return up to 25 results. Default value is None.
+        :paramtype maxresults: int
+        :return: An iterator like instance of DeletedSecretItem
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.secrets.models.DeletedSecretItem]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.DeletedSecretItem]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_key_vault_get_deleted_secrets_request(
+                    maxresults=maxresults,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        async def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.DeletedSecretItem], deserialized.get("value", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+                raise HttpResponseError(response=response, model=error)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
