@@ -7,25 +7,38 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING, cast
+from typing_extensions import Self
 
+from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
+from azure.core.settings import settings
 from azure.mgmt.core import ARMPipelineClient
+from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from . import models as _models
 from ._configuration import SecurityInsightsConfiguration
-from ._serialization import Deserializer, Serializer
+from ._utils.serialization import Deserializer, Serializer
 from .operations import (
     ActionsOperations,
+    AlertRuleOperations,
     AlertRuleTemplatesOperations,
     AlertRulesOperations,
     AutomationRulesOperations,
+    BillingStatisticsOperations,
     BookmarkOperations,
     BookmarkRelationsOperations,
     BookmarksOperations,
+    BusinessApplicationAgentOperations,
+    BusinessApplicationAgentsOperations,
+    ContentPackageOperations,
+    ContentPackagesOperations,
+    ContentTemplateOperations,
+    ContentTemplatesOperations,
+    DataConnectorDefinitionsOperations,
     DataConnectorsCheckRequirementsOperations,
     DataConnectorsOperations,
-    DomainWhoisOperations,
     EntitiesGetTimelineOperations,
     EntitiesOperations,
     EntitiesRelationsOperations,
@@ -35,7 +48,10 @@ from .operations import (
     FileImportsOperations,
     GetOperations,
     GetRecommendationsOperations,
-    IPGeodataOperations,
+    GetTriggeredAnalyticsRuleRunsOperations,
+    HuntCommentsOperations,
+    HuntRelationsOperations,
+    HuntsOperations,
     IncidentCommentsOperations,
     IncidentRelationsOperations,
     IncidentTasksOperations,
@@ -43,25 +59,38 @@ from .operations import (
     MetadataOperations,
     OfficeConsentsOperations,
     Operations,
+    ProductPackageOperations,
+    ProductPackagesOperations,
     ProductSettingsOperations,
+    ProductTemplateOperations,
+    ProductTemplatesOperations,
+    ReevaluateOperations,
+    SecurityInsightsOperationsMixin,
     SecurityMLAnalyticsSettingsOperations,
     SentinelOnboardingStatesOperations,
     SourceControlOperations,
     SourceControlsOperations,
+    SystemsOperations,
     ThreatIntelligenceIndicatorMetricsOperations,
     ThreatIntelligenceIndicatorOperations,
     ThreatIntelligenceIndicatorsOperations,
+    ThreatIntelligenceOperations,
+    TriggeredAnalyticsRuleRunOperations,
     UpdateOperations,
     WatchlistItemsOperations,
     WatchlistsOperations,
+    WorkspaceManagerAssignmentJobsOperations,
+    WorkspaceManagerAssignmentsOperations,
+    WorkspaceManagerConfigurationsOperations,
+    WorkspaceManagerGroupsOperations,
+    WorkspaceManagerMembersOperations,
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class SecurityInsights(SecurityInsightsOperationsMixin):  # pylint: disable=too-many-instance-attributes
     """API spec for Microsoft.SecurityInsights (Azure Security Insights) resource provider.
 
     :ivar alert_rules: AlertRulesOperations operations
@@ -73,20 +102,50 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
      azure.mgmt.securityinsight.operations.AlertRuleTemplatesOperations
     :ivar automation_rules: AutomationRulesOperations operations
     :vartype automation_rules: azure.mgmt.securityinsight.operations.AutomationRulesOperations
+    :ivar entities: EntitiesOperations operations
+    :vartype entities: azure.mgmt.securityinsight.operations.EntitiesOperations
     :ivar incidents: IncidentsOperations operations
     :vartype incidents: azure.mgmt.securityinsight.operations.IncidentsOperations
+    :ivar billing_statistics: BillingStatisticsOperations operations
+    :vartype billing_statistics: azure.mgmt.securityinsight.operations.BillingStatisticsOperations
     :ivar bookmarks: BookmarksOperations operations
     :vartype bookmarks: azure.mgmt.securityinsight.operations.BookmarksOperations
     :ivar bookmark_relations: BookmarkRelationsOperations operations
     :vartype bookmark_relations: azure.mgmt.securityinsight.operations.BookmarkRelationsOperations
     :ivar bookmark: BookmarkOperations operations
     :vartype bookmark: azure.mgmt.securityinsight.operations.BookmarkOperations
-    :ivar ip_geodata: IPGeodataOperations operations
-    :vartype ip_geodata: azure.mgmt.securityinsight.operations.IPGeodataOperations
-    :ivar domain_whois: DomainWhoisOperations operations
-    :vartype domain_whois: azure.mgmt.securityinsight.operations.DomainWhoisOperations
-    :ivar entities: EntitiesOperations operations
-    :vartype entities: azure.mgmt.securityinsight.operations.EntitiesOperations
+    :ivar business_application_agents: BusinessApplicationAgentsOperations operations
+    :vartype business_application_agents:
+     azure.mgmt.securityinsight.operations.BusinessApplicationAgentsOperations
+    :ivar business_application_agent: BusinessApplicationAgentOperations operations
+    :vartype business_application_agent:
+     azure.mgmt.securityinsight.operations.BusinessApplicationAgentOperations
+    :ivar systems: SystemsOperations operations
+    :vartype systems: azure.mgmt.securityinsight.operations.SystemsOperations
+    :ivar content_packages: ContentPackagesOperations operations
+    :vartype content_packages: azure.mgmt.securityinsight.operations.ContentPackagesOperations
+    :ivar content_package: ContentPackageOperations operations
+    :vartype content_package: azure.mgmt.securityinsight.operations.ContentPackageOperations
+    :ivar product_packages: ProductPackagesOperations operations
+    :vartype product_packages: azure.mgmt.securityinsight.operations.ProductPackagesOperations
+    :ivar product_package: ProductPackageOperations operations
+    :vartype product_package: azure.mgmt.securityinsight.operations.ProductPackageOperations
+    :ivar product_templates: ProductTemplatesOperations operations
+    :vartype product_templates: azure.mgmt.securityinsight.operations.ProductTemplatesOperations
+    :ivar product_template: ProductTemplateOperations operations
+    :vartype product_template: azure.mgmt.securityinsight.operations.ProductTemplateOperations
+    :ivar content_templates: ContentTemplatesOperations operations
+    :vartype content_templates: azure.mgmt.securityinsight.operations.ContentTemplatesOperations
+    :ivar content_template: ContentTemplateOperations operations
+    :vartype content_template: azure.mgmt.securityinsight.operations.ContentTemplateOperations
+    :ivar data_connector_definitions: DataConnectorDefinitionsOperations operations
+    :vartype data_connector_definitions:
+     azure.mgmt.securityinsight.operations.DataConnectorDefinitionsOperations
+    :ivar data_connectors: DataConnectorsOperations operations
+    :vartype data_connectors: azure.mgmt.securityinsight.operations.DataConnectorsOperations
+    :ivar data_connectors_check_requirements: DataConnectorsCheckRequirementsOperations operations
+    :vartype data_connectors_check_requirements:
+     azure.mgmt.securityinsight.operations.DataConnectorsCheckRequirementsOperations
     :ivar entities_get_timeline: EntitiesGetTimelineOperations operations
     :vartype entities_get_timeline:
      azure.mgmt.securityinsight.operations.EntitiesGetTimelineOperations
@@ -101,6 +160,12 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
      azure.mgmt.securityinsight.operations.EntityQueryTemplatesOperations
     :ivar file_imports: FileImportsOperations operations
     :vartype file_imports: azure.mgmt.securityinsight.operations.FileImportsOperations
+    :ivar hunts: HuntsOperations operations
+    :vartype hunts: azure.mgmt.securityinsight.operations.HuntsOperations
+    :ivar hunt_relations: HuntRelationsOperations operations
+    :vartype hunt_relations: azure.mgmt.securityinsight.operations.HuntRelationsOperations
+    :ivar hunt_comments: HuntCommentsOperations operations
+    :vartype hunt_comments: azure.mgmt.securityinsight.operations.HuntCommentsOperations
     :ivar incident_comments: IncidentCommentsOperations operations
     :vartype incident_comments: azure.mgmt.securityinsight.operations.IncidentCommentsOperations
     :ivar incident_relations: IncidentRelationsOperations operations
@@ -114,6 +179,8 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
     :ivar sentinel_onboarding_states: SentinelOnboardingStatesOperations operations
     :vartype sentinel_onboarding_states:
      azure.mgmt.securityinsight.operations.SentinelOnboardingStatesOperations
+    :ivar operations: Operations operations
+    :vartype operations: azure.mgmt.securityinsight.operations.Operations
     :ivar get_recommendations: GetRecommendationsOperations operations
     :vartype get_recommendations:
      azure.mgmt.securityinsight.operations.GetRecommendationsOperations
@@ -121,6 +188,8 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
     :vartype get: azure.mgmt.securityinsight.operations.GetOperations
     :ivar update: UpdateOperations operations
     :vartype update: azure.mgmt.securityinsight.operations.UpdateOperations
+    :ivar reevaluate: ReevaluateOperations operations
+    :vartype reevaluate: azure.mgmt.securityinsight.operations.ReevaluateOperations
     :ivar security_ml_analytics_settings: SecurityMLAnalyticsSettingsOperations operations
     :vartype security_ml_analytics_settings:
      azure.mgmt.securityinsight.operations.SecurityMLAnalyticsSettingsOperations
@@ -140,24 +209,43 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
      operations
     :vartype threat_intelligence_indicator_metrics:
      azure.mgmt.securityinsight.operations.ThreatIntelligenceIndicatorMetricsOperations
+    :ivar threat_intelligence: ThreatIntelligenceOperations operations
+    :vartype threat_intelligence:
+     azure.mgmt.securityinsight.operations.ThreatIntelligenceOperations
+    :ivar triggered_analytics_rule_run: TriggeredAnalyticsRuleRunOperations operations
+    :vartype triggered_analytics_rule_run:
+     azure.mgmt.securityinsight.operations.TriggeredAnalyticsRuleRunOperations
+    :ivar get_triggered_analytics_rule_runs: GetTriggeredAnalyticsRuleRunsOperations operations
+    :vartype get_triggered_analytics_rule_runs:
+     azure.mgmt.securityinsight.operations.GetTriggeredAnalyticsRuleRunsOperations
+    :ivar alert_rule: AlertRuleOperations operations
+    :vartype alert_rule: azure.mgmt.securityinsight.operations.AlertRuleOperations
     :ivar watchlists: WatchlistsOperations operations
     :vartype watchlists: azure.mgmt.securityinsight.operations.WatchlistsOperations
     :ivar watchlist_items: WatchlistItemsOperations operations
     :vartype watchlist_items: azure.mgmt.securityinsight.operations.WatchlistItemsOperations
-    :ivar data_connectors: DataConnectorsOperations operations
-    :vartype data_connectors: azure.mgmt.securityinsight.operations.DataConnectorsOperations
-    :ivar data_connectors_check_requirements: DataConnectorsCheckRequirementsOperations operations
-    :vartype data_connectors_check_requirements:
-     azure.mgmt.securityinsight.operations.DataConnectorsCheckRequirementsOperations
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.securityinsight.operations.Operations
+    :ivar workspace_manager_assignments: WorkspaceManagerAssignmentsOperations operations
+    :vartype workspace_manager_assignments:
+     azure.mgmt.securityinsight.operations.WorkspaceManagerAssignmentsOperations
+    :ivar workspace_manager_assignment_jobs: WorkspaceManagerAssignmentJobsOperations operations
+    :vartype workspace_manager_assignment_jobs:
+     azure.mgmt.securityinsight.operations.WorkspaceManagerAssignmentJobsOperations
+    :ivar workspace_manager_configurations: WorkspaceManagerConfigurationsOperations operations
+    :vartype workspace_manager_configurations:
+     azure.mgmt.securityinsight.operations.WorkspaceManagerConfigurationsOperations
+    :ivar workspace_manager_groups: WorkspaceManagerGroupsOperations operations
+    :vartype workspace_manager_groups:
+     azure.mgmt.securityinsight.operations.WorkspaceManagerGroupsOperations
+    :ivar workspace_manager_members: WorkspaceManagerMembersOperations operations
+    :vartype workspace_manager_members:
+     azure.mgmt.securityinsight.operations.WorkspaceManagerMembersOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
-    :param base_url: Service URL. Default value is "https://management.azure.com".
+    :param base_url: Service URL. Default value is None.
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-12-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2025-04-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -165,14 +253,36 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
     """
 
     def __init__(
-        self,
-        credential: "TokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "TokenCredential", subscription_id: str, base_url: Optional[str] = None, **kwargs: Any
     ) -> None:
-        self._config = SecurityInsightsConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
+        self._config = SecurityInsightsConfiguration(
+            credential=credential, subscription_id=subscription_id, credential_scopes=credential_scopes, **kwargs
+        )
+
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                ARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=cast(str, base_url), policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -186,15 +296,50 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
         self.automation_rules = AutomationRulesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.entities = EntitiesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.incidents = IncidentsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.billing_statistics = BillingStatisticsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.bookmarks = BookmarksOperations(self._client, self._config, self._serialize, self._deserialize)
         self.bookmark_relations = BookmarkRelationsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.bookmark = BookmarkOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.ip_geodata = IPGeodataOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.domain_whois = DomainWhoisOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.entities = EntitiesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.business_application_agents = BusinessApplicationAgentsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.business_application_agent = BusinessApplicationAgentOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.systems = SystemsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.content_packages = ContentPackagesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.content_package = ContentPackageOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.product_packages = ProductPackagesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.product_package = ProductPackageOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.product_templates = ProductTemplatesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.product_template = ProductTemplateOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.content_templates = ContentTemplatesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.content_template = ContentTemplateOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.data_connector_definitions = DataConnectorDefinitionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.data_connectors = DataConnectorsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.data_connectors_check_requirements = DataConnectorsCheckRequirementsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.entities_get_timeline = EntitiesGetTimelineOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -209,6 +354,9 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
             self._client, self._config, self._serialize, self._deserialize
         )
         self.file_imports = FileImportsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.hunts = HuntsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.hunt_relations = HuntRelationsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.hunt_comments = HuntCommentsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.incident_comments = IncidentCommentsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -221,11 +369,13 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
         self.sentinel_onboarding_states = SentinelOnboardingStatesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.get_recommendations = GetRecommendationsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.get = GetOperations(self._client, self._config, self._serialize, self._deserialize)
         self.update = UpdateOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.reevaluate = ReevaluateOperations(self._client, self._config, self._serialize, self._deserialize)
         self.security_ml_analytics_settings = SecurityMLAnalyticsSettingsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -243,15 +393,35 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
         self.threat_intelligence_indicator_metrics = ThreatIntelligenceIndicatorMetricsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.watchlists = WatchlistsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.watchlist_items = WatchlistItemsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.data_connectors = DataConnectorsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.data_connectors_check_requirements = DataConnectorsCheckRequirementsOperations(
+        self.threat_intelligence = ThreatIntelligenceOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.triggered_analytics_rule_run = TriggeredAnalyticsRuleRunOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.get_triggered_analytics_rule_runs = GetTriggeredAnalyticsRuleRunsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.alert_rule = AlertRuleOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.watchlists = WatchlistsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.watchlist_items = WatchlistItemsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.workspace_manager_assignments = WorkspaceManagerAssignmentsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.workspace_manager_assignment_jobs = WorkspaceManagerAssignmentJobsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.workspace_manager_configurations = WorkspaceManagerConfigurationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.workspace_manager_groups = WorkspaceManagerGroupsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.workspace_manager_members = WorkspaceManagerMembersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
+    def _send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -271,14 +441,14 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "SecurityInsights":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details) -> None:
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)
