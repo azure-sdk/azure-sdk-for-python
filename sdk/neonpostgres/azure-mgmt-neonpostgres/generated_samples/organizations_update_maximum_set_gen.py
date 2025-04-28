@@ -43,6 +43,18 @@ def main():
                     "numberOfEmployees": 12,
                     "officeAddress": "icirtoqmmozijk",
                 },
+                "marketplaceDetails": {
+                    "offerDetails": {
+                        "offerId": "bunyeeupoedueofwrzej",
+                        "planId": "nlbfiwtslenfwek",
+                        "planName": "ljbmgpkfqklaufacbpml",
+                        "publisherId": "hporaxnopmolttlnkbarw",
+                        "termId": "aedlchikwqckuploswthvshe",
+                        "termUnit": "qbcq",
+                    },
+                    "subscriptionId": "yxmkfivp",
+                    "subscriptionStatus": "PendingFulfillmentStart",
+                },
                 "partnerOrganizationProperties": {
                     "organizationId": "fynmpcbivqkwqdfhrmsyusjd",
                     "organizationName": "entity-name",
