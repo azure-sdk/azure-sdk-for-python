@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -8,18 +8,11 @@
 # --------------------------------------------------------------------------
 
 import datetime
-import sys
-from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
-
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -47,8 +40,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -89,11 +82,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -147,9 +140,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class ProxyResource(Resource):
@@ -168,24 +161,8 @@ class ProxyResource(Resource):
     :vartype type: str
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
 
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
-
-class Extension(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class Extension(ProxyResource):
     """The Extension object.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -335,7 +312,7 @@ class Extension(ProxyResource):  # pylint: disable=too-many-instance-attributes
         """
         super().__init__(**kwargs)
         self.identity = identity
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.plan = plan
         self.extension_type = extension_type
         self.auto_upgrade_minor_version = auto_upgrade_minor_version
@@ -344,12 +321,12 @@ class Extension(ProxyResource):  # pylint: disable=too-many-instance-attributes
         self.scope = scope
         self.configuration_settings = configuration_settings
         self.configuration_protected_settings = configuration_protected_settings
-        self.installed_version = None
-        self.provisioning_state = None
+        self.installed_version: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.statuses = statuses
-        self.error_info = None
-        self.custom_location_settings = None
-        self.package_uri = None
+        self.error_info: Optional["_models.ErrorDetail"] = None
+        self.custom_location_settings: Optional[Dict[str, str]] = None
+        self.package_uri: Optional[str] = None
         self.aks_assigned_identity = aks_assigned_identity
 
 
@@ -385,8 +362,8 @@ class ExtensionPropertiesAksAssignedIdentity(_serialization.Model):
          ~azure.mgmt.kubernetesconfiguration.v2022_04_02_preview.models.AKSIdentityType
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
 
 
@@ -415,8 +392,8 @@ class ExtensionsList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Extension"]] = None
+        self.next_link: Optional[str] = None
 
 
 class ExtensionStatus(_serialization.Model):
@@ -503,8 +480,8 @@ class Identity(_serialization.Model):
         :paramtype type: str
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
 
 
@@ -543,10 +520,10 @@ class ResourceAutoGenerated(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class TrackedResource(ResourceAutoGenerated):
@@ -555,7 +532,7 @@ class TrackedResource(ResourceAutoGenerated):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -608,7 +585,7 @@ class KubernetesConfigurationPrivateLinkScope(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -669,10 +646,10 @@ class KubernetesConfigurationPrivateLinkScope(TrackedResource):
         self.properties = properties
 
 
-class KubernetesConfigurationPrivateLinkScopeListResult(_serialization.Model):
+class KubernetesConfigurationPrivateLinkScopeListResult(_serialization.Model):  # pylint: disable=name-too-long
     """Describes the list of Azure Arc PrivateLinkScope resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: List of Azure Arc PrivateLinkScope definitions. Required.
     :vartype value:
@@ -711,12 +688,12 @@ class KubernetesConfigurationPrivateLinkScopeListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class KubernetesConfigurationPrivateLinkScopeProperties(_serialization.Model):
+class KubernetesConfigurationPrivateLinkScopeProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Properties that define a Azure Arc PrivateLinkScope resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar public_network_access: Indicates whether machines associated with the private link scope
      can also use public Azure Arc service endpoints. Known values are: "Enabled" and "Disabled".
@@ -772,10 +749,10 @@ class KubernetesConfigurationPrivateLinkScopeProperties(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.public_network_access = public_network_access
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.cluster_resource_id = cluster_resource_id
-        self.private_link_scope_id = None
-        self.private_endpoint_connections = None
+        self.private_link_scope_id: Optional[str] = None
+        self.private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None
 
 
 class OperationStatusResult(_serialization.Model):
@@ -783,7 +760,7 @@ class OperationStatusResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
@@ -834,7 +811,7 @@ class OperationStatusResult(_serialization.Model):
         self.name = name
         self.status = status
         self.properties = properties
-        self.error = None
+        self.error: Optional["_models.ErrorDetail"] = None
 
 
 class PatchExtension(_serialization.Model):
@@ -903,7 +880,7 @@ class PatchExtension(_serialization.Model):
 class Plan(_serialization.Model):
     """Plan for the resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: A user defined name of the 3rd Party Artifact that is being procured. Required.
     :vartype name: str
@@ -987,7 +964,7 @@ class PrivateEndpoint(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class PrivateEndpointConnection(ResourceAutoGenerated):
@@ -1059,7 +1036,7 @@ class PrivateEndpointConnection(ResourceAutoGenerated):
         super().__init__(**kwargs)
         self.private_endpoint = private_endpoint
         self.private_link_service_connection_state = private_link_service_connection_state
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.PrivateEndpointConnectionProvisioningState"]] = None
 
 
 class PrivateEndpointConnectionListResult(_serialization.Model):
@@ -1133,8 +1110,8 @@ class PrivateLinkResource(ResourceAutoGenerated):
         :paramtype required_zone_names: list[str]
         """
         super().__init__(**kwargs)
-        self.group_id = None
-        self.required_members = None
+        self.group_id: Optional[str] = None
+        self.required_members: Optional[List[str]] = None
         self.required_zone_names = required_zone_names
 
 

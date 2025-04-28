@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -66,7 +65,7 @@ class ComplianceStatus(_serialization.Model):
          ~azure.mgmt.kubernetesconfiguration.v2021_03_01.models.MessageLevelType
         """
         super().__init__(**kwargs)
-        self.compliance_state = None
+        self.compliance_state: Optional[Union[str, "_models.ComplianceStateType"]] = None
         self.last_config_applied = last_config_applied
         self.message = message
         self.message_level = message_level
@@ -75,7 +74,7 @@ class ComplianceStatus(_serialization.Model):
 class ErrorDefinition(_serialization.Model):
     """Error definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code: Service specific error code which serves as the substatus for the HTTP error code.
      Required.
@@ -127,7 +126,7 @@ class ErrorResponse(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.error = None
+        self.error: Optional["_models.ErrorDefinition"] = None
 
 
 class HelmOperatorProperties(_serialization.Model):
@@ -188,9 +187,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class ProxyResource(Resource):
@@ -208,22 +207,6 @@ class ProxyResource(Resource):
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class ResourceProviderOperation(_serialization.Model):
@@ -267,7 +250,7 @@ class ResourceProviderOperation(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.display = display
-        self.is_data_action = None
+        self.is_data_action: Optional[bool] = None
 
 
 class ResourceProviderOperationDisplay(_serialization.Model):
@@ -345,7 +328,7 @@ class ResourceProviderOperationList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class Result(_serialization.Model):
@@ -368,7 +351,7 @@ class Result(_serialization.Model):
         self.sample_property = sample_property
 
 
-class SourceControlConfiguration(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SourceControlConfiguration(ProxyResource):
     """The SourceControl Configuration object returned in Get & Put response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -500,7 +483,7 @@ class SourceControlConfiguration(ProxyResource):  # pylint: disable=too-many-ins
          ~azure.mgmt.kubernetesconfiguration.v2021_03_01.models.HelmOperatorProperties
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.repository_url = repository_url
         self.operator_namespace = operator_namespace
         self.operator_instance_name = operator_instance_name
@@ -508,12 +491,12 @@ class SourceControlConfiguration(ProxyResource):  # pylint: disable=too-many-ins
         self.operator_params = operator_params
         self.configuration_protected_settings = configuration_protected_settings
         self.operator_scope = operator_scope
-        self.repository_public_key = None
+        self.repository_public_key: Optional[str] = None
         self.ssh_known_hosts_contents = ssh_known_hosts_contents
         self.enable_helm_operator = enable_helm_operator
         self.helm_operator_properties = helm_operator_properties
-        self.provisioning_state = None
-        self.compliance_status = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningStateType"]] = None
+        self.compliance_status: Optional["_models.ComplianceStatus"] = None
 
 
 class SourceControlConfigurationList(_serialization.Model):
@@ -542,8 +525,8 @@ class SourceControlConfigurationList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.SourceControlConfiguration"]] = None
+        self.next_link: Optional[str] = None
 
 
 class SystemData(_serialization.Model):
