@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -74,11 +73,11 @@ class CloudErrorBody(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.CloudErrorBody"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class CloudOffering(_serialization.Model):
@@ -123,7 +122,7 @@ class CloudOffering(_serialization.Model):
         """ """
         super().__init__(**kwargs)
         self.offering_type: Optional[str] = None
-        self.description = None
+        self.description: Optional[str] = None
 
 
 class CspmMonitorAwsOffering(CloudOffering):
@@ -222,12 +221,12 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
-class CustomAssessmentAutomation(Resource):  # pylint: disable=too-many-instance-attributes
+class CustomAssessmentAutomation(Resource):
     """Custom Assessment Automation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -323,7 +322,7 @@ class CustomAssessmentAutomation(Resource):  # pylint: disable=too-many-instance
         :paramtype assessment_key: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.compressed_query = compressed_query
         self.supported_cloud = supported_cloud
         self.severity = severity
@@ -451,7 +450,7 @@ class CustomAssessmentAutomationsListResult(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.CustomAssessmentAutomation"]] = None
         self.next_link = next_link
 
 
@@ -503,7 +502,7 @@ class CustomEntityStoreAssignment(Resource):
         :paramtype entity_store_database_link: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.principal = principal
         self.entity_store_database_link = entity_store_database_link
 
@@ -557,7 +556,7 @@ class CustomEntityStoreAssignmentsListResult(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.CustomEntityStoreAssignment"]] = None
         self.next_link = next_link
 
 
@@ -787,7 +786,7 @@ class DefenderForServersAwsOfferingArcAutoProvisioning(_serialization.Model):  #
     :ivar service_principal_secret_metadata: Metadata of Service Principal secret for
      autoprovisioning.
     :vartype service_principal_secret_metadata:
-     ~azure.mgmt.security.v2021_07_01_preview.models.DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata  # pylint: disable=line-too-long
+     ~azure.mgmt.security.v2021_07_01_preview.models.DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata
     """
 
     _attribute_map = {
@@ -813,7 +812,7 @@ class DefenderForServersAwsOfferingArcAutoProvisioning(_serialization.Model):  #
         :keyword service_principal_secret_metadata: Metadata of Service Principal secret for
          autoprovisioning.
         :paramtype service_principal_secret_metadata:
-         ~azure.mgmt.security.v2021_07_01_preview.models.DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata  # pylint: disable=line-too-long
+         ~azure.mgmt.security.v2021_07_01_preview.models.DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata
         """
         super().__init__(**kwargs)
         self.enabled = enabled
@@ -905,8 +904,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ETag(_serialization.Model):
@@ -1102,12 +1101,12 @@ class TrackedResource(Resource, AzureTrackedResourceLocation, Kind, ETag, Tags):
         self.etag = etag
         self.kind = kind
         self.location = location
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
-class SecurityConnector(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class SecurityConnector(TrackedResource):
     """The security connector resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1204,7 +1203,7 @@ class SecurityConnector(TrackedResource):  # pylint: disable=too-many-instance-a
          ~azure.mgmt.security.v2021_07_01_preview.models.SecurityConnectorPropertiesOrganizationalData
         """
         super().__init__(tags=tags, etag=etag, kind=kind, location=location, **kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.hierarchy_identifier = hierarchy_identifier
         self.cloud_name = cloud_name
         self.offerings = offerings
@@ -1297,7 +1296,7 @@ class SecurityConnectorsList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class SystemData(_serialization.Model):
