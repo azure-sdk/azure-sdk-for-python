@@ -36,6 +36,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Profiles_Delete.json
+# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2025-04-15/examples/Profiles_Delete.json
 if __name__ == "__main__":
     main()
