@@ -1,5 +1,480 @@
 # Release History
 
+## 2.0.0 (2025-04-27)
+
+### Features Added
+
+  - Model `DeidPropertiesUpdate` added parameter `kwargs` in method `as_dict`
+  - Model `DeidPropertiesUpdate` added method `deserialize`
+  - Model `DeidPropertiesUpdate` added method `enable_additional_properties_sending`
+  - Model `DeidPropertiesUpdate` added method `from_dict`
+  - Model `DeidPropertiesUpdate` added method `is_xml_model`
+  - Model `DeidPropertiesUpdate` added method `serialize`
+  - Model `DeidPropertiesUpdate` added property `additional_properties`
+  - Model `DeidService` added parameter `kwargs` in method `as_dict`
+  - Model `DeidService` added method `deserialize`
+  - Model `DeidService` added method `enable_additional_properties_sending`
+  - Model `DeidService` added method `from_dict`
+  - Model `DeidService` added method `is_xml_model`
+  - Model `DeidService` added method `serialize`
+  - Model `DeidService` added property `additional_properties`
+  - Model `DeidServiceProperties` added parameter `kwargs` in method `as_dict`
+  - Model `DeidServiceProperties` added method `deserialize`
+  - Model `DeidServiceProperties` added method `enable_additional_properties_sending`
+  - Model `DeidServiceProperties` added method `from_dict`
+  - Model `DeidServiceProperties` added method `is_xml_model`
+  - Model `DeidServiceProperties` added method `serialize`
+  - Model `DeidServiceProperties` added property `additional_properties`
+  - Model `DeidUpdate` added parameter `kwargs` in method `as_dict`
+  - Model `DeidUpdate` added method `deserialize`
+  - Model `DeidUpdate` added method `enable_additional_properties_sending`
+  - Model `DeidUpdate` added method `from_dict`
+  - Model `DeidUpdate` added method `is_xml_model`
+  - Model `DeidUpdate` added method `serialize`
+  - Model `DeidUpdate` added property `additional_properties`
+  - Model `ErrorAdditionalInfo` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorAdditionalInfo` added method `deserialize`
+  - Model `ErrorAdditionalInfo` added method `enable_additional_properties_sending`
+  - Model `ErrorAdditionalInfo` added method `from_dict`
+  - Model `ErrorAdditionalInfo` added method `is_xml_model`
+  - Model `ErrorAdditionalInfo` added method `serialize`
+  - Model `ErrorAdditionalInfo` added property `additional_properties`
+  - Model `ErrorDetail` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorDetail` added method `deserialize`
+  - Model `ErrorDetail` added method `enable_additional_properties_sending`
+  - Model `ErrorDetail` added method `from_dict`
+  - Model `ErrorDetail` added method `is_xml_model`
+  - Model `ErrorDetail` added method `serialize`
+  - Model `ErrorDetail` added property `additional_properties`
+  - Model `ErrorResponse` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorResponse` added method `deserialize`
+  - Model `ErrorResponse` added method `enable_additional_properties_sending`
+  - Model `ErrorResponse` added method `from_dict`
+  - Model `ErrorResponse` added method `is_xml_model`
+  - Model `ErrorResponse` added method `serialize`
+  - Model `ErrorResponse` added property `additional_properties`
+  - Model `ManagedServiceIdentity` added parameter `kwargs` in method `as_dict`
+  - Model `ManagedServiceIdentity` added method `deserialize`
+  - Model `ManagedServiceIdentity` added method `enable_additional_properties_sending`
+  - Model `ManagedServiceIdentity` added method `from_dict`
+  - Model `ManagedServiceIdentity` added method `is_xml_model`
+  - Model `ManagedServiceIdentity` added method `serialize`
+  - Model `ManagedServiceIdentity` added property `additional_properties`
+  - Model `ManagedServiceIdentityUpdate` added parameter `kwargs` in method `as_dict`
+  - Model `ManagedServiceIdentityUpdate` added method `deserialize`
+  - Model `ManagedServiceIdentityUpdate` added method `enable_additional_properties_sending`
+  - Model `ManagedServiceIdentityUpdate` added method `from_dict`
+  - Model `ManagedServiceIdentityUpdate` added method `is_xml_model`
+  - Model `ManagedServiceIdentityUpdate` added method `serialize`
+  - Model `ManagedServiceIdentityUpdate` added property `additional_properties`
+  - Model `Operation` added parameter `kwargs` in method `as_dict`
+  - Model `Operation` added method `deserialize`
+  - Model `Operation` added method `enable_additional_properties_sending`
+  - Model `Operation` added method `from_dict`
+  - Model `Operation` added method `is_xml_model`
+  - Model `Operation` added method `serialize`
+  - Model `Operation` added property `additional_properties`
+  - Model `OperationDisplay` added parameter `kwargs` in method `as_dict`
+  - Model `OperationDisplay` added method `deserialize`
+  - Model `OperationDisplay` added method `enable_additional_properties_sending`
+  - Model `OperationDisplay` added method `from_dict`
+  - Model `OperationDisplay` added method `is_xml_model`
+  - Model `OperationDisplay` added method `serialize`
+  - Model `OperationDisplay` added property `additional_properties`
+  - Model `PrivateEndpoint` added parameter `kwargs` in method `as_dict`
+  - Model `PrivateEndpoint` added method `deserialize`
+  - Model `PrivateEndpoint` added method `enable_additional_properties_sending`
+  - Model `PrivateEndpoint` added method `from_dict`
+  - Model `PrivateEndpoint` added method `is_xml_model`
+  - Model `PrivateEndpoint` added method `serialize`
+  - Model `PrivateEndpoint` added property `additional_properties`
+  - Model `PrivateEndpointConnection` added parameter `kwargs` in method `as_dict`
+  - Model `PrivateEndpointConnection` added method `deserialize`
+  - Model `PrivateEndpointConnection` added method `enable_additional_properties_sending`
+  - Model `PrivateEndpointConnection` added method `from_dict`
+  - Model `PrivateEndpointConnection` added method `is_xml_model`
+  - Model `PrivateEndpointConnection` added method `serialize`
+  - Model `PrivateEndpointConnection` added property `group_ids`
+  - Model `PrivateEndpointConnection` added property `private_endpoint`
+  - Model `PrivateEndpointConnection` added property `private_link_service_connection_state`
+  - Model `PrivateEndpointConnection` added property `provisioning_state`
+  - Model `PrivateEndpointConnection` added property `additional_properties`
+  - Model `PrivateEndpointConnectionProperties` added parameter `kwargs` in method `as_dict`
+  - Model `PrivateEndpointConnectionProperties` added method `deserialize`
+  - Model `PrivateEndpointConnectionProperties` added method `enable_additional_properties_sending`
+  - Model `PrivateEndpointConnectionProperties` added method `from_dict`
+  - Model `PrivateEndpointConnectionProperties` added method `is_xml_model`
+  - Model `PrivateEndpointConnectionProperties` added method `serialize`
+  - Model `PrivateEndpointConnectionProperties` added property `additional_properties`
+  - Model `PrivateEndpointConnectionResource` added parameter `kwargs` in method `as_dict`
+  - Model `PrivateEndpointConnectionResource` added method `deserialize`
+  - Model `PrivateEndpointConnectionResource` added method `enable_additional_properties_sending`
+  - Model `PrivateEndpointConnectionResource` added method `from_dict`
+  - Model `PrivateEndpointConnectionResource` added method `is_xml_model`
+  - Model `PrivateEndpointConnectionResource` added method `serialize`
+  - Model `PrivateEndpointConnectionResource` added property `additional_properties`
+  - Model `PrivateLinkResource` added parameter `kwargs` in method `as_dict`
+  - Model `PrivateLinkResource` added method `deserialize`
+  - Model `PrivateLinkResource` added method `enable_additional_properties_sending`
+  - Model `PrivateLinkResource` added method `from_dict`
+  - Model `PrivateLinkResource` added method `is_xml_model`
+  - Model `PrivateLinkResource` added method `serialize`
+  - Model `PrivateLinkResource` added property `additional_properties`
+  - Model `PrivateLinkResourceProperties` added parameter `kwargs` in method `as_dict`
+  - Model `PrivateLinkResourceProperties` added method `deserialize`
+  - Model `PrivateLinkResourceProperties` added method `enable_additional_properties_sending`
+  - Model `PrivateLinkResourceProperties` added method `from_dict`
+  - Model `PrivateLinkResourceProperties` added method `is_xml_model`
+  - Model `PrivateLinkResourceProperties` added method `serialize`
+  - Model `PrivateLinkResourceProperties` added property `additional_properties`
+  - Model `PrivateLinkServiceConnectionState` added parameter `kwargs` in method `as_dict`
+  - Model `PrivateLinkServiceConnectionState` added method `deserialize`
+  - Model `PrivateLinkServiceConnectionState` added method `enable_additional_properties_sending`
+  - Model `PrivateLinkServiceConnectionState` added method `from_dict`
+  - Model `PrivateLinkServiceConnectionState` added method `is_xml_model`
+  - Model `PrivateLinkServiceConnectionState` added method `serialize`
+  - Model `PrivateLinkServiceConnectionState` added property `additional_properties`
+  - Model `ProxyResource` added parameter `kwargs` in method `as_dict`
+  - Model `ProxyResource` added method `deserialize`
+  - Model `ProxyResource` added method `enable_additional_properties_sending`
+  - Model `ProxyResource` added method `from_dict`
+  - Model `ProxyResource` added method `is_xml_model`
+  - Model `ProxyResource` added method `serialize`
+  - Model `ProxyResource` added property `additional_properties`
+  - Model `Resource` added parameter `kwargs` in method `as_dict`
+  - Model `Resource` added method `deserialize`
+  - Model `Resource` added method `enable_additional_properties_sending`
+  - Model `Resource` added method `from_dict`
+  - Model `Resource` added method `is_xml_model`
+  - Model `Resource` added method `serialize`
+  - Model `Resource` added property `additional_properties`
+  - Model `SystemData` added parameter `kwargs` in method `as_dict`
+  - Model `SystemData` added method `deserialize`
+  - Model `SystemData` added method `enable_additional_properties_sending`
+  - Model `SystemData` added method `from_dict`
+  - Model `SystemData` added method `is_xml_model`
+  - Model `SystemData` added method `serialize`
+  - Model `SystemData` added property `additional_properties`
+  - Model `TrackedResource` added parameter `kwargs` in method `as_dict`
+  - Model `TrackedResource` added method `deserialize`
+  - Model `TrackedResource` added method `enable_additional_properties_sending`
+  - Model `TrackedResource` added method `from_dict`
+  - Model `TrackedResource` added method `is_xml_model`
+  - Model `TrackedResource` added method `serialize`
+  - Model `TrackedResource` added property `additional_properties`
+  - Model `UserAssignedIdentity` added parameter `kwargs` in method `as_dict`
+  - Model `UserAssignedIdentity` added method `deserialize`
+  - Model `UserAssignedIdentity` added method `enable_additional_properties_sending`
+  - Model `UserAssignedIdentity` added method `from_dict`
+  - Model `UserAssignedIdentity` added method `is_xml_model`
+  - Model `UserAssignedIdentity` added method `serialize`
+  - Model `UserAssignedIdentity` added property `additional_properties`
+  - Added model `ComponentsQjfoe3SchemasManagedserviceidentityupdatePropertiesUserassignedidentitiesAdditionalproperties`
+  - Added model `DeidServiceListResult`
+  - Added model `OperationListResult`
+  - Added model `PrivateEndpointConnectionResourceListResult`
+  - Added model `PrivateLinkResourceListResult`
+
+### Breaking Changes
+
+  - Deleted or renamed client `HealthDataAIServicesMgmtClient`
+  - Method `DeidPropertiesUpdate.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `DeidPropertiesUpdate.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `DeidPropertiesUpdate.clear`
+  - Deleted or renamed method `DeidPropertiesUpdate.copy`
+  - Deleted or renamed method `DeidPropertiesUpdate.get`
+  - Deleted or renamed method `DeidPropertiesUpdate.items`
+  - Deleted or renamed method `DeidPropertiesUpdate.keys`
+  - Deleted or renamed method `DeidPropertiesUpdate.pop`
+  - Deleted or renamed method `DeidPropertiesUpdate.popitem`
+  - Deleted or renamed method `DeidPropertiesUpdate.setdefault`
+  - Deleted or renamed method `DeidPropertiesUpdate.update`
+  - Deleted or renamed method `DeidPropertiesUpdate.values`
+  - Method `DeidService.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `DeidService.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `DeidService.clear`
+  - Deleted or renamed method `DeidService.copy`
+  - Deleted or renamed method `DeidService.get`
+  - Deleted or renamed method `DeidService.items`
+  - Deleted or renamed method `DeidService.keys`
+  - Deleted or renamed method `DeidService.pop`
+  - Deleted or renamed method `DeidService.popitem`
+  - Deleted or renamed method `DeidService.setdefault`
+  - Deleted or renamed method `DeidService.update`
+  - Deleted or renamed method `DeidService.values`
+  - Method `DeidServiceProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `DeidServiceProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `DeidServiceProperties.clear`
+  - Deleted or renamed method `DeidServiceProperties.copy`
+  - Deleted or renamed method `DeidServiceProperties.get`
+  - Deleted or renamed method `DeidServiceProperties.items`
+  - Deleted or renamed method `DeidServiceProperties.keys`
+  - Deleted or renamed method `DeidServiceProperties.pop`
+  - Deleted or renamed method `DeidServiceProperties.popitem`
+  - Deleted or renamed method `DeidServiceProperties.setdefault`
+  - Deleted or renamed method `DeidServiceProperties.update`
+  - Deleted or renamed method `DeidServiceProperties.values`
+  - Method `DeidUpdate.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `DeidUpdate.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `DeidUpdate.clear`
+  - Deleted or renamed method `DeidUpdate.copy`
+  - Deleted or renamed method `DeidUpdate.get`
+  - Deleted or renamed method `DeidUpdate.items`
+  - Deleted or renamed method `DeidUpdate.keys`
+  - Deleted or renamed method `DeidUpdate.pop`
+  - Deleted or renamed method `DeidUpdate.popitem`
+  - Deleted or renamed method `DeidUpdate.setdefault`
+  - Deleted or renamed method `DeidUpdate.update`
+  - Deleted or renamed method `DeidUpdate.values`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorAdditionalInfo.clear`
+  - Deleted or renamed method `ErrorAdditionalInfo.copy`
+  - Deleted or renamed method `ErrorAdditionalInfo.get`
+  - Deleted or renamed method `ErrorAdditionalInfo.items`
+  - Deleted or renamed method `ErrorAdditionalInfo.keys`
+  - Deleted or renamed method `ErrorAdditionalInfo.pop`
+  - Deleted or renamed method `ErrorAdditionalInfo.popitem`
+  - Deleted or renamed method `ErrorAdditionalInfo.setdefault`
+  - Deleted or renamed method `ErrorAdditionalInfo.update`
+  - Deleted or renamed method `ErrorAdditionalInfo.values`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorDetail.clear`
+  - Deleted or renamed method `ErrorDetail.copy`
+  - Deleted or renamed method `ErrorDetail.get`
+  - Deleted or renamed method `ErrorDetail.items`
+  - Deleted or renamed method `ErrorDetail.keys`
+  - Deleted or renamed method `ErrorDetail.pop`
+  - Deleted or renamed method `ErrorDetail.popitem`
+  - Deleted or renamed method `ErrorDetail.setdefault`
+  - Deleted or renamed method `ErrorDetail.update`
+  - Deleted or renamed method `ErrorDetail.values`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorResponse.clear`
+  - Deleted or renamed method `ErrorResponse.copy`
+  - Deleted or renamed method `ErrorResponse.get`
+  - Deleted or renamed method `ErrorResponse.items`
+  - Deleted or renamed method `ErrorResponse.keys`
+  - Deleted or renamed method `ErrorResponse.pop`
+  - Deleted or renamed method `ErrorResponse.popitem`
+  - Deleted or renamed method `ErrorResponse.setdefault`
+  - Deleted or renamed method `ErrorResponse.update`
+  - Deleted or renamed method `ErrorResponse.values`
+  - Method `ManagedServiceIdentity.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ManagedServiceIdentity.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ManagedServiceIdentity.clear`
+  - Deleted or renamed method `ManagedServiceIdentity.copy`
+  - Deleted or renamed method `ManagedServiceIdentity.get`
+  - Deleted or renamed method `ManagedServiceIdentity.items`
+  - Deleted or renamed method `ManagedServiceIdentity.keys`
+  - Deleted or renamed method `ManagedServiceIdentity.pop`
+  - Deleted or renamed method `ManagedServiceIdentity.popitem`
+  - Deleted or renamed method `ManagedServiceIdentity.setdefault`
+  - Deleted or renamed method `ManagedServiceIdentity.update`
+  - Deleted or renamed method `ManagedServiceIdentity.values`
+  - Method `ManagedServiceIdentityUpdate.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ManagedServiceIdentityUpdate.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.clear`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.copy`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.get`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.items`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.keys`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.pop`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.popitem`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.setdefault`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.update`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.values`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Operation.clear`
+  - Deleted or renamed method `Operation.copy`
+  - Deleted or renamed method `Operation.get`
+  - Deleted or renamed method `Operation.items`
+  - Deleted or renamed method `Operation.keys`
+  - Deleted or renamed method `Operation.pop`
+  - Deleted or renamed method `Operation.popitem`
+  - Deleted or renamed method `Operation.setdefault`
+  - Deleted or renamed method `Operation.update`
+  - Deleted or renamed method `Operation.values`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `OperationDisplay.clear`
+  - Deleted or renamed method `OperationDisplay.copy`
+  - Deleted or renamed method `OperationDisplay.get`
+  - Deleted or renamed method `OperationDisplay.items`
+  - Deleted or renamed method `OperationDisplay.keys`
+  - Deleted or renamed method `OperationDisplay.pop`
+  - Deleted or renamed method `OperationDisplay.popitem`
+  - Deleted or renamed method `OperationDisplay.setdefault`
+  - Deleted or renamed method `OperationDisplay.update`
+  - Deleted or renamed method `OperationDisplay.values`
+  - Method `PrivateEndpoint.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `PrivateEndpoint.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `PrivateEndpoint.clear`
+  - Deleted or renamed method `PrivateEndpoint.copy`
+  - Deleted or renamed method `PrivateEndpoint.get`
+  - Deleted or renamed method `PrivateEndpoint.items`
+  - Deleted or renamed method `PrivateEndpoint.keys`
+  - Deleted or renamed method `PrivateEndpoint.pop`
+  - Deleted or renamed method `PrivateEndpoint.popitem`
+  - Deleted or renamed method `PrivateEndpoint.setdefault`
+  - Deleted or renamed method `PrivateEndpoint.update`
+  - Deleted or renamed method `PrivateEndpoint.values`
+  - Model `PrivateEndpointConnection` deleted or renamed its instance variable `properties`
+  - Method `PrivateEndpointConnection.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `PrivateEndpointConnection.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `PrivateEndpointConnection.clear`
+  - Deleted or renamed method `PrivateEndpointConnection.copy`
+  - Deleted or renamed method `PrivateEndpointConnection.get`
+  - Deleted or renamed method `PrivateEndpointConnection.items`
+  - Deleted or renamed method `PrivateEndpointConnection.keys`
+  - Deleted or renamed method `PrivateEndpointConnection.pop`
+  - Deleted or renamed method `PrivateEndpointConnection.popitem`
+  - Deleted or renamed method `PrivateEndpointConnection.setdefault`
+  - Deleted or renamed method `PrivateEndpointConnection.update`
+  - Deleted or renamed method `PrivateEndpointConnection.values`
+  - Method `PrivateEndpointConnectionProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `PrivateEndpointConnectionProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `PrivateEndpointConnectionProperties.clear`
+  - Deleted or renamed method `PrivateEndpointConnectionProperties.copy`
+  - Deleted or renamed method `PrivateEndpointConnectionProperties.get`
+  - Deleted or renamed method `PrivateEndpointConnectionProperties.items`
+  - Deleted or renamed method `PrivateEndpointConnectionProperties.keys`
+  - Deleted or renamed method `PrivateEndpointConnectionProperties.pop`
+  - Deleted or renamed method `PrivateEndpointConnectionProperties.popitem`
+  - Deleted or renamed method `PrivateEndpointConnectionProperties.setdefault`
+  - Deleted or renamed method `PrivateEndpointConnectionProperties.update`
+  - Deleted or renamed method `PrivateEndpointConnectionProperties.values`
+  - Method `PrivateEndpointConnectionResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `PrivateEndpointConnectionResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `PrivateEndpointConnectionResource.clear`
+  - Deleted or renamed method `PrivateEndpointConnectionResource.copy`
+  - Deleted or renamed method `PrivateEndpointConnectionResource.get`
+  - Deleted or renamed method `PrivateEndpointConnectionResource.items`
+  - Deleted or renamed method `PrivateEndpointConnectionResource.keys`
+  - Deleted or renamed method `PrivateEndpointConnectionResource.pop`
+  - Deleted or renamed method `PrivateEndpointConnectionResource.popitem`
+  - Deleted or renamed method `PrivateEndpointConnectionResource.setdefault`
+  - Deleted or renamed method `PrivateEndpointConnectionResource.update`
+  - Deleted or renamed method `PrivateEndpointConnectionResource.values`
+  - Method `PrivateLinkResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `PrivateLinkResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `PrivateLinkResource.clear`
+  - Deleted or renamed method `PrivateLinkResource.copy`
+  - Deleted or renamed method `PrivateLinkResource.get`
+  - Deleted or renamed method `PrivateLinkResource.items`
+  - Deleted or renamed method `PrivateLinkResource.keys`
+  - Deleted or renamed method `PrivateLinkResource.pop`
+  - Deleted or renamed method `PrivateLinkResource.popitem`
+  - Deleted or renamed method `PrivateLinkResource.setdefault`
+  - Deleted or renamed method `PrivateLinkResource.update`
+  - Deleted or renamed method `PrivateLinkResource.values`
+  - Method `PrivateLinkResourceProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `PrivateLinkResourceProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `PrivateLinkResourceProperties.clear`
+  - Deleted or renamed method `PrivateLinkResourceProperties.copy`
+  - Deleted or renamed method `PrivateLinkResourceProperties.get`
+  - Deleted or renamed method `PrivateLinkResourceProperties.items`
+  - Deleted or renamed method `PrivateLinkResourceProperties.keys`
+  - Deleted or renamed method `PrivateLinkResourceProperties.pop`
+  - Deleted or renamed method `PrivateLinkResourceProperties.popitem`
+  - Deleted or renamed method `PrivateLinkResourceProperties.setdefault`
+  - Deleted or renamed method `PrivateLinkResourceProperties.update`
+  - Deleted or renamed method `PrivateLinkResourceProperties.values`
+  - Method `PrivateLinkServiceConnectionState.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `PrivateLinkServiceConnectionState.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `PrivateLinkServiceConnectionState.clear`
+  - Deleted or renamed method `PrivateLinkServiceConnectionState.copy`
+  - Deleted or renamed method `PrivateLinkServiceConnectionState.get`
+  - Deleted or renamed method `PrivateLinkServiceConnectionState.items`
+  - Deleted or renamed method `PrivateLinkServiceConnectionState.keys`
+  - Deleted or renamed method `PrivateLinkServiceConnectionState.pop`
+  - Deleted or renamed method `PrivateLinkServiceConnectionState.popitem`
+  - Deleted or renamed method `PrivateLinkServiceConnectionState.setdefault`
+  - Deleted or renamed method `PrivateLinkServiceConnectionState.update`
+  - Deleted or renamed method `PrivateLinkServiceConnectionState.values`
+  - Method `ProxyResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ProxyResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ProxyResource.clear`
+  - Deleted or renamed method `ProxyResource.copy`
+  - Deleted or renamed method `ProxyResource.get`
+  - Deleted or renamed method `ProxyResource.items`
+  - Deleted or renamed method `ProxyResource.keys`
+  - Deleted or renamed method `ProxyResource.pop`
+  - Deleted or renamed method `ProxyResource.popitem`
+  - Deleted or renamed method `ProxyResource.setdefault`
+  - Deleted or renamed method `ProxyResource.update`
+  - Deleted or renamed method `ProxyResource.values`
+  - Method `Resource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Resource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Resource.clear`
+  - Deleted or renamed method `Resource.copy`
+  - Deleted or renamed method `Resource.get`
+  - Deleted or renamed method `Resource.items`
+  - Deleted or renamed method `Resource.keys`
+  - Deleted or renamed method `Resource.pop`
+  - Deleted or renamed method `Resource.popitem`
+  - Deleted or renamed method `Resource.setdefault`
+  - Deleted or renamed method `Resource.update`
+  - Deleted or renamed method `Resource.values`
+  - Method `SystemData.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SystemData.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SystemData.clear`
+  - Deleted or renamed method `SystemData.copy`
+  - Deleted or renamed method `SystemData.get`
+  - Deleted or renamed method `SystemData.items`
+  - Deleted or renamed method `SystemData.keys`
+  - Deleted or renamed method `SystemData.pop`
+  - Deleted or renamed method `SystemData.popitem`
+  - Deleted or renamed method `SystemData.setdefault`
+  - Deleted or renamed method `SystemData.update`
+  - Deleted or renamed method `SystemData.values`
+  - Method `TrackedResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `TrackedResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `TrackedResource.clear`
+  - Deleted or renamed method `TrackedResource.copy`
+  - Deleted or renamed method `TrackedResource.get`
+  - Deleted or renamed method `TrackedResource.items`
+  - Deleted or renamed method `TrackedResource.keys`
+  - Deleted or renamed method `TrackedResource.pop`
+  - Deleted or renamed method `TrackedResource.popitem`
+  - Deleted or renamed method `TrackedResource.setdefault`
+  - Deleted or renamed method `TrackedResource.update`
+  - Deleted or renamed method `TrackedResource.values`
+  - Method `UserAssignedIdentity.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `UserAssignedIdentity.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `UserAssignedIdentity.clear`
+  - Deleted or renamed method `UserAssignedIdentity.copy`
+  - Deleted or renamed method `UserAssignedIdentity.get`
+  - Deleted or renamed method `UserAssignedIdentity.items`
+  - Deleted or renamed method `UserAssignedIdentity.keys`
+  - Deleted or renamed method `UserAssignedIdentity.pop`
+  - Deleted or renamed method `UserAssignedIdentity.popitem`
+  - Deleted or renamed method `UserAssignedIdentity.setdefault`
+  - Deleted or renamed method `UserAssignedIdentity.update`
+  - Deleted or renamed method `UserAssignedIdentity.values`
+  - `DeidPropertiesUpdate.__init__` had all overloads removed
+  - `DeidService.__init__` had all overloads removed
+  - `DeidServiceProperties.__init__` had all overloads removed
+  - `DeidUpdate.__init__` had all overloads removed
+  - `ErrorResponse.__init__` had all overloads removed
+  - `ManagedServiceIdentity.__init__` had all overloads removed
+  - `ManagedServiceIdentityUpdate.__init__` had all overloads removed
+  - `Operation.__init__` had all overloads removed
+  - `PrivateEndpointConnection.__init__` had all overloads removed
+  - `PrivateEndpointConnectionProperties.__init__` had all overloads removed
+  - `PrivateEndpointConnectionResource.__init__` had all overloads removed
+  - `PrivateLinkResource.__init__` had all overloads removed
+  - `PrivateLinkResourceProperties.__init__` had all overloads removed
+  - `PrivateLinkServiceConnectionState.__init__` had all overloads removed
+  - `SystemData.__init__` had all overloads removed
+  - `TrackedResource.__init__` had all overloads removed
+  - `DeidServicesOperations.begin_create` had an overload `def begin_create(self: None, resource_group_name: str, deid_service_name: str, resource: JSON, content_type: str)` removed
+  - `DeidServicesOperations.begin_update` had an overload `def begin_update(self: None, resource_group_name: str, deid_service_name: str, properties: JSON, content_type: str)` removed
+  - `PrivateEndpointConnectionsOperations.begin_create` had an overload `def begin_create(self: None, resource_group_name: str, deid_service_name: str, private_endpoint_connection_name: str, resource: JSON, content_type: str)` removed
+
 ## 1.0.0 (2024-11-21)
 
 ### Breaking Changes
