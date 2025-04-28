@@ -21,7 +21,7 @@ class TestAVSLocationsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_check_quota_availability(self, resource_group):
+    async def test_locations_check_quota_availability(self, resource_group):
         response = await self.client.locations.check_quota_availability(
             location="str",
             api_version="2023-09-01",
@@ -32,7 +32,7 @@ class TestAVSLocationsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_check_trial_availability(self, resource_group):
+    async def test_locations_check_trial_availability(self, resource_group):
         response = await self.client.locations.check_trial_availability(
             location="str",
             api_version="2023-09-01",
