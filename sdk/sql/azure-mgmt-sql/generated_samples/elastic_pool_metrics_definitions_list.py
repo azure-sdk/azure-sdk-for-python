@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,7 +16,7 @@ from azure.mgmt.sql import SqlManagementClient
     pip install azure-identity
     pip install azure-mgmt-sql
 # USAGE
-    python get_instance_pool_operation.py
+    python elastic_pool_metrics_definitions_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +31,15 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.instance_pool_operations.get(
-        resource_group_name="resource-group",
-        instance_pool_name="test-instance-pool",
-        operation_id="c218773b-203f-4c7a-b174-6bd71fe20f72",
+    response = client.elastic_pools.list_metric_definitions(
+        resource_group_name="sqlcrudtest-6730",
+        server_name="sqlcrudtest-9007",
+        elastic_pool_name="3481",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-05-01-preview/examples/GetInstancePoolOperation.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/ElasticPoolMetricsDefinitionsList.json
 if __name__ == "__main__":
     main()
