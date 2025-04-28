@@ -20,7 +20,7 @@ class TestResourceHealthMgmtMetadataOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_metadata_list(self, resource_group):
         response = self.client.metadata.list(
             api_version="2023-10-01-preview",
         )
@@ -30,7 +30,7 @@ class TestResourceHealthMgmtMetadataOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_entity(self, resource_group):
+    def test_metadata_get_entity(self, resource_group):
         response = self.client.metadata.get_entity(
             name="str",
             api_version="2023-10-01-preview",

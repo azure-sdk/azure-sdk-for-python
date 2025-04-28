@@ -21,7 +21,7 @@ class TestResourceHealthMgmtMetadataOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_metadata_list(self, resource_group):
         response = self.client.metadata.list(
             api_version="2023-10-01-preview",
         )
@@ -31,7 +31,7 @@ class TestResourceHealthMgmtMetadataOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_entity(self, resource_group):
+    async def test_metadata_get_entity(self, resource_group):
         response = await self.client.metadata.get_entity(
             name="str",
             api_version="2023-10-01-preview",

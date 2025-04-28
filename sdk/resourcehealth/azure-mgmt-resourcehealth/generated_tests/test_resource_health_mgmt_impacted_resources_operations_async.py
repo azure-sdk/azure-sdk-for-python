@@ -21,7 +21,7 @@ class TestResourceHealthMgmtImpactedResourcesOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_subscription_id_and_event_id(self, resource_group):
+    async def test_impacted_resources_list_by_subscription_id_and_event_id(self, resource_group):
         response = self.client.impacted_resources.list_by_subscription_id_and_event_id(
             event_tracking_id="str",
             api_version="2023-10-01-preview",
@@ -32,7 +32,7 @@ class TestResourceHealthMgmtImpactedResourcesOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_impacted_resources_get(self, resource_group):
         response = await self.client.impacted_resources.get(
             event_tracking_id="str",
             impacted_resource_name="str",
@@ -44,7 +44,7 @@ class TestResourceHealthMgmtImpactedResourcesOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_tenant_id_and_event_id(self, resource_group):
+    async def test_impacted_resources_list_by_tenant_id_and_event_id(self, resource_group):
         response = self.client.impacted_resources.list_by_tenant_id_and_event_id(
             event_tracking_id="str",
             api_version="2023-10-01-preview",
@@ -55,7 +55,7 @@ class TestResourceHealthMgmtImpactedResourcesOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_by_tenant_id(self, resource_group):
+    async def test_impacted_resources_get_by_tenant_id(self, resource_group):
         response = await self.client.impacted_resources.get_by_tenant_id(
             event_tracking_id="str",
             impacted_resource_name="str",
