@@ -1,0 +1,6 @@
+{
+  "commit": "845a51816c81eb58df4ca74b47d8977febf1f8c7",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/ews/SecretSyncController.Management",
+  "@azure-tools/typespec-python": "0.44.1"
+}
