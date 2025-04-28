@@ -16,6 +16,25 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INTERNAL = "Internal"
 
 
+class AnalyzerRulesetState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The API analyzer configuration state."""
+
+    ACTIVE = "active"
+    """The ruleset is active and analysis is running."""
+    INACTIVE = "inactive"
+    """The ruleset is inactive because ruleset wasn't uploaded."""
+    SUSPENDED = "suspended"
+    """The ruleset is suspended until the next analysis period because the number of analysis runs in
+    the current period has exceeded the limit."""
+
+
+class AnalyzerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The API analyzer type."""
+
+    SPECTRAL = "spectral"
+    """The Spectral analyzer."""
+
+
 class ApiKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The kind of the API."""
 
@@ -31,6 +50,20 @@ class ApiKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Web Hook"""
     WEBSOCKET = "websocket"
     """Web Socket"""
+
+
+class ApiSourceLinkState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The API source link state."""
+
+    INITIALIZING = "initializing"
+    """The API source link is initializing."""
+    SYNCING = "syncing"
+    """*
+    The API source is syncing."""
+    ERROR = "error"
+    """The API source sync is blocked due to an error."""
+    DELETING = "deleting"
+    """The API source is being deleted."""
 
 
 class ApiSpecExportResultFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -49,7 +82,7 @@ class ApiSpecImportSourceFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The inlined content of a specification document."""
     LINK = "link"
     """The link to a specification document hosted on a publicly accessible internet
-    #: address."""
+    address."""
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -100,6 +133,17 @@ class EnvironmentServerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Kubernetes server"""
     MULE_SOFT_API_MANAGEMENT = "MuleSoft API Management"
     """Mulesoft Api Management server"""
+
+
+class ImportSpecificationOptions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates if the specification should be imported along with metadata."""
+
+    NEVER = "never"
+    """Indicates that the specification should be never be imported."""
+    ON_DEMAND = "ondemand"
+    """Indicates that the specification should be imported only by request."""
+    ALWAYS = "always"
+    """Indicates that the specification should always be imported along with metadata."""
 
 
 class LifecycleStage(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -173,8 +217,27 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource creation was canceled."""
 
 
-class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The available API versions."""
+class RulesetExportResultFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The ruleset export result format."""
 
-    V2024_03_01 = "2024-03-01"
-    """The initial service version"""
+    INLINE_ZIP = "inline-zip"
+    """The inlined ruleset package."""
+    LINK_ZIP = "link-zip"
+    """The link to the ruleset package. The URL is valid for 5 minutes."""
+    INLINE_JSON = "inline-json"
+    """The inlined ruleset JSON document."""
+    INLINE_YAML = "inline-yaml"
+    """The inlined ruleset YAML document."""
+
+
+class RulesetImportSourceFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Source format for API analyzer ruleset."""
+
+    INLINE_ZIP = "inline-zip"
+    """The inlined ruleset package."""
+    LINK_ZIP = "link-zip"
+    """The link to a ruleset package hosted on a publicly accessible internet address."""
+    INLINE_JSON = "inline-json"
+    """The inlined ruleset JSON document."""
+    INLINE_YAML = "inline-yaml"
+    """The inlined ruleset YAML document."""
