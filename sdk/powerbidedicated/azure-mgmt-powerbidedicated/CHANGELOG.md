@@ -1,5 +1,52 @@
 # Release History
 
+## 2.0.0 (2025-04-28)
+
+### Features Added
+
+  - Model `AutoScaleVCoreListResult` added property `next_link`
+  - Model `CapacitySku` added property `capacity`
+  - Model `DedicatedCapacity` added property `tenant_id`
+  - Model `DedicatedCapacity` added property `friendly_name`
+  - Model `DedicatedCapacityMutableProperties` added property `tenant_id`
+  - Model `DedicatedCapacityMutableProperties` added property `friendly_name`
+  - Model `DedicatedCapacityProperties` added property `tenant_id`
+  - Model `DedicatedCapacityProperties` added property `friendly_name`
+  - Model `DedicatedCapacityUpdateParameters` added property `tenant_id`
+  - Model `DedicatedCapacityUpdateParameters` added property `friendly_name`
+  - Model `Operation` added property `origin`
+  - Model `Operation` added property `properties`
+  - Model `OperationDisplay` added property `description`
+  - Model `SkuDetailsForExistingResource` added property `resource_type`
+  - Added enum `CreatedByType`
+  - Added model `LogSpecification`
+  - Added model `MetricSpecification`
+  - Added model `MetricSpecificationDimensionsItem`
+  - Added model `OperationProperties`
+  - Added model `ServiceSpecification`
+  - Added model `TrackedResource`
+  - Model `AutoScaleVCoresOperations` added parameter `kwargs` in method `__init__`
+  - Model `CapacitiesOperations` added parameter `kwargs` in method `__init__`
+  - Model `Operations` added parameter `kwargs` in method `__init__`
+  - Method `AutoScaleVCoresOperations.create` has a new overload `def create(self: None, resource_group_name: str, vcore_name: str, v_core_parameters: AutoScaleVCore, content_type: str)`
+  - Method `AutoScaleVCoresOperations.create` has a new overload `def create(self: None, resource_group_name: str, vcore_name: str, v_core_parameters: IO[bytes], content_type: str)`
+  - Method `AutoScaleVCoresOperations.update` has a new overload `def update(self: None, resource_group_name: str, vcore_name: str, v_core_update_parameters: AutoScaleVCoreUpdateParameters, content_type: str)`
+  - Method `AutoScaleVCoresOperations.update` has a new overload `def update(self: None, resource_group_name: str, vcore_name: str, v_core_update_parameters: IO[bytes], content_type: str)`
+  - Method `CapacitiesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, dedicated_capacity_name: str, capacity_parameters: DedicatedCapacity, content_type: str)`
+  - Method `CapacitiesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, dedicated_capacity_name: str, capacity_parameters: IO[bytes], content_type: str)`
+  - Method `CapacitiesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, dedicated_capacity_name: str, capacity_update_parameters: DedicatedCapacityUpdateParameters, content_type: str)`
+  - Method `CapacitiesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, dedicated_capacity_name: str, capacity_update_parameters: IO[bytes], content_type: str)`
+  - Method `CapacitiesOperations.check_name_availability` has a new overload `def check_name_availability(self: None, location: str, capacity_parameters: CheckCapacityNameAvailabilityParameters, content_type: str)`
+  - Method `CapacitiesOperations.check_name_availability` has a new overload `def check_name_availability(self: None, location: str, capacity_parameters: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Method `CapacitiesOperations.list` changed from `synchronous` to `asynchronous`
+  - Method `CapacitiesOperations.list_by_resource_group` changed from `synchronous` to `asynchronous`
+  - Model `Resource` deleted or renamed its instance variable `location`
+  - Model `Resource` deleted or renamed its instance variable `tags`
+  - Deleted or renamed model `IdentityType`
+
 ## 1.1.0b1 (2022-10-28)
 
 ### Features Added

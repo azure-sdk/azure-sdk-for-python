@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -8,33 +8,29 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
 class Resource(_serialization.Model):
-    """Represents an instance of an PowerBI Dedicated resource.
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: An identifier that represents the PowerBI Dedicated resource.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: The name of the PowerBI Dedicated resource.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the PowerBI Dedicated resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: Location of the PowerBI Dedicated resource. Required.
-    :vartype location: str
-    :ivar tags: Key-value pairs of additional resource provisioning properties.
-    :vartype tags: dict[str, str]
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.powerbidedicated.models.SystemData
     """
 
@@ -42,6 +38,55 @@ class Resource(_serialization.Model):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
+
+
+class TrackedResource(Resource):
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.powerbidedicated.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
     }
 
@@ -49,55 +94,45 @@ class Resource(_serialization.Model):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(
-        self,
-        *,
-        location: str,
-        tags: Optional[Dict[str, str]] = None,
-        system_data: Optional["_models.SystemData"] = None,
-        **kwargs
-    ):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
-        :keyword location: Location of the PowerBI Dedicated resource. Required.
-        :paramtype location: str
-        :keyword tags: Key-value pairs of additional resource provisioning properties.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword system_data: Metadata pertaining to creation and last modification of the resource.
-        :paramtype system_data: ~azure.mgmt.powerbidedicated.models.SystemData
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.location = location
         self.tags = tags
-        self.system_data = system_data
+        self.location = location
 
 
-class AutoScaleVCore(Resource):
+class AutoScaleVCore(TrackedResource):
     """Represents an instance of an auto scale v-core resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: An identifier that represents the PowerBI Dedicated resource.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: The name of the PowerBI Dedicated resource.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the PowerBI Dedicated resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: Location of the PowerBI Dedicated resource. Required.
-    :vartype location: str
-    :ivar tags: Key-value pairs of additional resource provisioning properties.
-    :vartype tags: dict[str, str]
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.powerbidedicated.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
     :ivar sku: The SKU of the auto scale v-core resource. Required.
     :vartype sku: ~azure.mgmt.powerbidedicated.models.AutoScaleVCoreSku
     :ivar capacity_limit: The maximum capacity of an auto scale v-core resource.
@@ -114,6 +149,7 @@ class AutoScaleVCore(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
         "sku": {"required": True},
         "provisioning_state": {"readonly": True},
@@ -123,9 +159,9 @@ class AutoScaleVCore(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
         "sku": {"key": "sku", "type": "AutoScaleVCoreSku"},
         "capacity_limit": {"key": "properties.capacityLimit", "type": "int"},
         "capacity_object_id": {"key": "properties.capacityObjectId", "type": "str"},
@@ -138,18 +174,15 @@ class AutoScaleVCore(Resource):
         location: str,
         sku: "_models.AutoScaleVCoreSku",
         tags: Optional[Dict[str, str]] = None,
-        system_data: Optional["_models.SystemData"] = None,
         capacity_limit: Optional[int] = None,
         capacity_object_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: Location of the PowerBI Dedicated resource. Required.
-        :paramtype location: str
-        :keyword tags: Key-value pairs of additional resource provisioning properties.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword system_data: Metadata pertaining to creation and last modification of the resource.
-        :paramtype system_data: ~azure.mgmt.powerbidedicated.models.SystemData
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword sku: The SKU of the auto scale v-core resource. Required.
         :paramtype sku: ~azure.mgmt.powerbidedicated.models.AutoScaleVCoreSku
         :keyword capacity_limit: The maximum capacity of an auto scale v-core resource.
@@ -158,20 +191,22 @@ class AutoScaleVCore(Resource):
          scale v-core resource.
         :paramtype capacity_object_id: str
         """
-        super().__init__(location=location, tags=tags, system_data=system_data, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
         self.sku = sku
         self.capacity_limit = capacity_limit
         self.capacity_object_id = capacity_object_id
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.VCoreProvisioningState"]] = None
 
 
 class AutoScaleVCoreListResult(_serialization.Model):
     """An array of auto scale v-core resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: An array of auto scale v-core resources. Required.
     :vartype value: list[~azure.mgmt.powerbidedicated.models.AutoScaleVCore]
+    :ivar next_link:
+    :vartype next_link: str
     """
 
     _validation = {
@@ -180,15 +215,21 @@ class AutoScaleVCoreListResult(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[AutoScaleVCore]"},
+        "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.AutoScaleVCore"], **kwargs):
+    def __init__(
+        self, *, value: List["_models.AutoScaleVCore"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: An array of auto scale v-core resources. Required.
         :paramtype value: list[~azure.mgmt.powerbidedicated.models.AutoScaleVCore]
+        :keyword next_link:
+        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
+        self.next_link = next_link
 
 
 class AutoScaleVCoreMutableProperties(_serialization.Model):
@@ -202,7 +243,7 @@ class AutoScaleVCoreMutableProperties(_serialization.Model):
         "capacity_limit": {"key": "capacityLimit", "type": "int"},
     }
 
-    def __init__(self, *, capacity_limit: Optional[int] = None, **kwargs):
+    def __init__(self, *, capacity_limit: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword capacity_limit: The maximum capacity of an auto scale v-core resource.
         :paramtype capacity_limit: int
@@ -236,7 +277,9 @@ class AutoScaleVCoreProperties(AutoScaleVCoreMutableProperties):
         "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
-    def __init__(self, *, capacity_limit: Optional[int] = None, capacity_object_id: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, capacity_limit: Optional[int] = None, capacity_object_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword capacity_limit: The maximum capacity of an auto scale v-core resource.
         :paramtype capacity_limit: int
@@ -246,13 +289,13 @@ class AutoScaleVCoreProperties(AutoScaleVCoreMutableProperties):
         """
         super().__init__(capacity_limit=capacity_limit, **kwargs)
         self.capacity_object_id = capacity_object_id
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.VCoreProvisioningState"]] = None
 
 
 class AutoScaleVCoreSku(_serialization.Model):
     """Represents the SKU name and Azure pricing tier for auto scale v-core resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the SKU level. Required.
     :vartype name: str
@@ -278,8 +321,8 @@ class AutoScaleVCoreSku(_serialization.Model):
         name: str,
         tier: Optional[Union[str, "_models.VCoreSkuTier"]] = None,
         capacity: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the SKU level. Required.
         :paramtype name: str
@@ -317,8 +360,8 @@ class AutoScaleVCoreUpdateParameters(_serialization.Model):
         sku: Optional["_models.AutoScaleVCoreSku"] = None,
         tags: Optional[Dict[str, str]] = None,
         capacity_limit: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sku: The SKU of the auto scale v-core resource.
         :paramtype sku: ~azure.mgmt.powerbidedicated.models.AutoScaleVCoreSku
@@ -336,7 +379,7 @@ class AutoScaleVCoreUpdateParameters(_serialization.Model):
 class CapacitySku(_serialization.Model):
     """Represents the SKU name and Azure pricing tier for PowerBI Dedicated capacity resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the SKU level. Required.
     :vartype name: str
@@ -363,8 +406,8 @@ class CapacitySku(_serialization.Model):
         name: str,
         tier: Optional[Union[str, "_models.CapacitySkuTier"]] = None,
         capacity: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the SKU level. Required.
         :paramtype name: str
@@ -398,7 +441,9 @@ class CheckCapacityNameAvailabilityParameters(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: str = "Microsoft.PowerBIDedicated/capacities", **kwargs):
+    def __init__(
+        self, *, name: Optional[str] = None, type: str = "Microsoft.PowerBIDedicated/capacities", **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name for checking availability.
         :paramtype name: str
@@ -433,8 +478,8 @@ class CheckCapacityNameAvailabilityResult(_serialization.Model):
         name_available: Optional[bool] = None,
         reason: Optional[str] = None,
         message: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name_available: Indicator of availability of the capacity name.
         :paramtype name_available: bool
@@ -452,7 +497,7 @@ class CheckCapacityNameAvailabilityResult(_serialization.Model):
 class DedicatedCapacities(_serialization.Model):
     """An array of Dedicated capacities resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: An array of Dedicated capacities resources. Required.
     :vartype value: list[~azure.mgmt.powerbidedicated.models.DedicatedCapacity]
@@ -466,7 +511,7 @@ class DedicatedCapacities(_serialization.Model):
         "value": {"key": "value", "type": "[DedicatedCapacity]"},
     }
 
-    def __init__(self, *, value: List["_models.DedicatedCapacity"], **kwargs):
+    def __init__(self, *, value: List["_models.DedicatedCapacity"], **kwargs: Any) -> None:
         """
         :keyword value: An array of Dedicated capacities resources. Required.
         :paramtype value: list[~azure.mgmt.powerbidedicated.models.DedicatedCapacity]
@@ -475,25 +520,28 @@ class DedicatedCapacities(_serialization.Model):
         self.value = value
 
 
-class DedicatedCapacity(Resource):  # pylint: disable=too-many-instance-attributes
+class DedicatedCapacity(TrackedResource):
     """Represents an instance of a Dedicated Capacity resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: An identifier that represents the PowerBI Dedicated resource.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: The name of the PowerBI Dedicated resource.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the PowerBI Dedicated resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: Location of the PowerBI Dedicated resource. Required.
-    :vartype location: str
-    :ivar tags: Key-value pairs of additional resource provisioning properties.
-    :vartype tags: dict[str, str]
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.powerbidedicated.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
     :ivar sku: The SKU of the PowerBI Dedicated capacity resource. Required.
     :vartype sku: ~azure.mgmt.powerbidedicated.models.CapacitySku
     :ivar administration: A collection of Dedicated capacity administrators.
@@ -524,6 +572,7 @@ class DedicatedCapacity(Resource):  # pylint: disable=too-many-instance-attribut
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
         "sku": {"required": True},
         "tenant_id": {"readonly": True},
@@ -536,9 +585,9 @@ class DedicatedCapacity(Resource):  # pylint: disable=too-many-instance-attribut
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
         "sku": {"key": "sku", "type": "CapacitySku"},
         "administration": {"key": "properties.administration", "type": "DedicatedCapacityAdministrators"},
         "mode": {"key": "properties.mode", "type": "str"},
@@ -554,18 +603,15 @@ class DedicatedCapacity(Resource):  # pylint: disable=too-many-instance-attribut
         location: str,
         sku: "_models.CapacitySku",
         tags: Optional[Dict[str, str]] = None,
-        system_data: Optional["_models.SystemData"] = None,
         administration: Optional["_models.DedicatedCapacityAdministrators"] = None,
         mode: Optional[Union[str, "_models.Mode"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: Location of the PowerBI Dedicated resource. Required.
-        :paramtype location: str
-        :keyword tags: Key-value pairs of additional resource provisioning properties.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword system_data: Metadata pertaining to creation and last modification of the resource.
-        :paramtype system_data: ~azure.mgmt.powerbidedicated.models.SystemData
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword sku: The SKU of the PowerBI Dedicated capacity resource. Required.
         :paramtype sku: ~azure.mgmt.powerbidedicated.models.CapacitySku
         :keyword administration: A collection of Dedicated capacity administrators.
@@ -576,14 +622,14 @@ class DedicatedCapacity(Resource):  # pylint: disable=too-many-instance-attribut
          Known values are: "Gen1" and "Gen2".
         :paramtype mode: str or ~azure.mgmt.powerbidedicated.models.Mode
         """
-        super().__init__(location=location, tags=tags, system_data=system_data, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
         self.sku = sku
         self.administration = administration
         self.mode = mode
-        self.tenant_id = None
-        self.friendly_name = None
-        self.state = None
-        self.provisioning_state = None
+        self.tenant_id: Optional[str] = None
+        self.friendly_name: Optional[str] = None
+        self.state: Optional[Union[str, "_models.State"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.CapacityProvisioningState"]] = None
 
 
 class DedicatedCapacityAdministrators(_serialization.Model):
@@ -597,7 +643,7 @@ class DedicatedCapacityAdministrators(_serialization.Model):
         "members": {"key": "members", "type": "[str]"},
     }
 
-    def __init__(self, *, members: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, members: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword members: An array of administrator user identities.
         :paramtype members: list[str]
@@ -641,8 +687,8 @@ class DedicatedCapacityMutableProperties(_serialization.Model):
         *,
         administration: Optional["_models.DedicatedCapacityAdministrators"] = None,
         mode: Optional[Union[str, "_models.Mode"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword administration: A collection of Dedicated capacity administrators.
         :paramtype administration: ~azure.mgmt.powerbidedicated.models.DedicatedCapacityAdministrators
@@ -655,8 +701,8 @@ class DedicatedCapacityMutableProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.administration = administration
         self.mode = mode
-        self.tenant_id = None
-        self.friendly_name = None
+        self.tenant_id: Optional[str] = None
+        self.friendly_name: Optional[str] = None
 
 
 class DedicatedCapacityProperties(DedicatedCapacityMutableProperties):
@@ -709,8 +755,8 @@ class DedicatedCapacityProperties(DedicatedCapacityMutableProperties):
         *,
         administration: Optional["_models.DedicatedCapacityAdministrators"] = None,
         mode: Optional[Union[str, "_models.Mode"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword administration: A collection of Dedicated capacity administrators.
         :paramtype administration: ~azure.mgmt.powerbidedicated.models.DedicatedCapacityAdministrators
@@ -721,8 +767,8 @@ class DedicatedCapacityProperties(DedicatedCapacityMutableProperties):
         :paramtype mode: str or ~azure.mgmt.powerbidedicated.models.Mode
         """
         super().__init__(administration=administration, mode=mode, **kwargs)
-        self.state = None
-        self.provisioning_state = None
+        self.state: Optional[Union[str, "_models.State"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.CapacityProvisioningState"]] = None
 
 
 class DedicatedCapacityUpdateParameters(_serialization.Model):
@@ -768,8 +814,8 @@ class DedicatedCapacityUpdateParameters(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         administration: Optional["_models.DedicatedCapacityAdministrators"] = None,
         mode: Optional[Union[str, "_models.Mode"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sku: The SKU of the Dedicated capacity resource.
         :paramtype sku: ~azure.mgmt.powerbidedicated.models.CapacitySku
@@ -788,12 +834,12 @@ class DedicatedCapacityUpdateParameters(_serialization.Model):
         self.tags = tags
         self.administration = administration
         self.mode = mode
-        self.tenant_id = None
-        self.friendly_name = None
+        self.tenant_id: Optional[str] = None
+        self.friendly_name: Optional[str] = None
 
 
 class ErrorResponse(_serialization.Model):
-    """Describes the format of Error response.
+    """The error object.
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.powerbidedicated.models.ErrorResponseError
@@ -803,7 +849,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorResponseError"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorResponseError"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorResponseError"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.powerbidedicated.models.ErrorResponseError
@@ -826,7 +872,7 @@ class ErrorResponseError(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Error code.
         :paramtype code: str
@@ -862,15 +908,15 @@ class LogSpecification(_serialization.Model):
         "blob_duration": {"key": "blobDuration", "type": "str"},
     }
 
-    def __init__(self, *, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword display_name: Localizable name of the log.
         :paramtype display_name: str
         """
         super().__init__(**kwargs)
-        self.name = None
+        self.name: Optional[str] = None
         self.display_name = display_name
-        self.blob_duration = None
+        self.blob_duration: Optional[str] = None
 
 
 class MetricSpecification(_serialization.Model):
@@ -918,8 +964,8 @@ class MetricSpecification(_serialization.Model):
         display_name: Optional[str] = None,
         display_description: Optional[str] = None,
         dimensions: Optional[List["_models.MetricSpecificationDimensionsItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: Localizable metric name.
         :paramtype display_name: str
@@ -930,12 +976,12 @@ class MetricSpecification(_serialization.Model):
          list[~azure.mgmt.powerbidedicated.models.MetricSpecificationDimensionsItem]
         """
         super().__init__(**kwargs)
-        self.name = None
+        self.name: Optional[str] = None
         self.display_name = display_name
         self.display_description = display_description
-        self.unit = None
-        self.aggregation_type = None
-        self.metric_filter_pattern = None
+        self.unit: Optional[str] = None
+        self.aggregation_type: Optional[str] = None
+        self.metric_filter_pattern: Optional[str] = None
         self.dimensions = dimensions
 
 
@@ -959,13 +1005,13 @@ class MetricSpecificationDimensionsItem(_serialization.Model):
         "display_name": {"key": "displayName", "type": "str"},
     }
 
-    def __init__(self, *, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword display_name: Localizable dimension of the metric.
         :paramtype display_name: str
         """
         super().__init__(**kwargs)
-        self.name = None
+        self.name: Optional[str] = None
         self.display_name = display_name
 
 
@@ -1001,8 +1047,8 @@ class Operation(_serialization.Model):
         *,
         display: Optional["_models.OperationDisplay"] = None,
         properties: Optional["_models.OperationProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display: The object that represents the operation.
         :paramtype display: ~azure.mgmt.powerbidedicated.models.OperationDisplay
@@ -1010,9 +1056,9 @@ class Operation(_serialization.Model):
         :paramtype properties: ~azure.mgmt.powerbidedicated.models.OperationProperties
         """
         super().__init__(**kwargs)
-        self.name = None
+        self.name: Optional[str] = None
         self.display = display
-        self.origin = None
+        self.origin: Optional[str] = None
         self.properties = properties
 
 
@@ -1044,20 +1090,21 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, *, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword description: Localized description of the operation.
         :paramtype description: str
         """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
         self.description = description
 
 
 class OperationListResult(_serialization.Model):
-    """Result listing capacities. It contains a list of operations and a URL link to get the next set of results.
+    """Result listing capacities. It contains a list of operations and a URL link to get the next set
+    of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1077,11 +1124,11 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class OperationProperties(_serialization.Model):
@@ -1095,7 +1142,9 @@ class OperationProperties(_serialization.Model):
         "service_specification": {"key": "serviceSpecification", "type": "ServiceSpecification"},
     }
 
-    def __init__(self, *, service_specification: Optional["_models.ServiceSpecification"] = None, **kwargs):
+    def __init__(
+        self, *, service_specification: Optional["_models.ServiceSpecification"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword service_specification: Service specification for exposing performance metrics to
          shoebox.
@@ -1124,8 +1173,8 @@ class ServiceSpecification(_serialization.Model):
         *,
         metric_specifications: Optional[List["_models.MetricSpecification"]] = None,
         log_specifications: Optional[List["_models.LogSpecification"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword metric_specifications: Metric specifications for exposing performance metrics to
          shoebox.
@@ -1152,7 +1201,9 @@ class SkuDetailsForExistingResource(_serialization.Model):
         "sku": {"key": "sku", "type": "CapacitySku"},
     }
 
-    def __init__(self, *, resource_type: Optional[str] = None, sku: Optional["_models.CapacitySku"] = None, **kwargs):
+    def __init__(
+        self, *, resource_type: Optional[str] = None, sku: Optional["_models.CapacitySku"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword resource_type: The resource type.
         :paramtype resource_type: str
@@ -1175,7 +1226,7 @@ class SkuEnumerationForExistingResourceResult(_serialization.Model):
         "value": {"key": "value", "type": "[SkuDetailsForExistingResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.SkuDetailsForExistingResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.SkuDetailsForExistingResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The collection of available SKUs for existing resources.
         :paramtype value: list[~azure.mgmt.powerbidedicated.models.SkuDetailsForExistingResource]
@@ -1195,7 +1246,7 @@ class SkuEnumerationForNewResourceResult(_serialization.Model):
         "value": {"key": "value", "type": "[CapacitySku]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.CapacitySku"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.CapacitySku"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The collection of available SKUs for new resources.
         :paramtype value: list[~azure.mgmt.powerbidedicated.models.CapacitySku]
@@ -1207,18 +1258,18 @@ class SkuEnumerationForNewResourceResult(_serialization.Model):
 class SystemData(_serialization.Model):
     """Metadata pertaining to creation and last modification of the resource.
 
-    :ivar created_by: An identifier for the identity that created the resource.
+    :ivar created_by: The identity that created the resource.
     :vartype created_by: str
     :ivar created_by_type: The type of identity that created the resource. Known values are:
      "User", "Application", "ManagedIdentity", and "Key".
-    :vartype created_by_type: str or ~azure.mgmt.powerbidedicated.models.IdentityType
+    :vartype created_by_type: str or ~azure.mgmt.powerbidedicated.models.CreatedByType
     :ivar created_at: The timestamp of resource creation (UTC).
     :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: An identifier for the identity that last modified the resource.
+    :ivar last_modified_by: The identity that last modified the resource.
     :vartype last_modified_by: str
     :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
      are: "User", "Application", "ManagedIdentity", and "Key".
-    :vartype last_modified_by_type: str or ~azure.mgmt.powerbidedicated.models.IdentityType
+    :vartype last_modified_by_type: str or ~azure.mgmt.powerbidedicated.models.CreatedByType
     :ivar last_modified_at: The timestamp of resource last modification (UTC).
     :vartype last_modified_at: ~datetime.datetime
     """
@@ -1236,26 +1287,26 @@ class SystemData(_serialization.Model):
         self,
         *,
         created_by: Optional[str] = None,
-        created_by_type: Optional[Union[str, "_models.IdentityType"]] = None,
+        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         created_at: Optional[datetime.datetime] = None,
         last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[Union[str, "_models.IdentityType"]] = None,
+        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword created_by: An identifier for the identity that created the resource.
+        :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
         :keyword created_by_type: The type of identity that created the resource. Known values are:
          "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype created_by_type: str or ~azure.mgmt.powerbidedicated.models.IdentityType
+        :paramtype created_by_type: str or ~azure.mgmt.powerbidedicated.models.CreatedByType
         :keyword created_at: The timestamp of resource creation (UTC).
         :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: An identifier for the identity that last modified the resource.
+        :keyword last_modified_by: The identity that last modified the resource.
         :paramtype last_modified_by: str
         :keyword last_modified_by_type: The type of identity that last modified the resource. Known
          values are: "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype last_modified_by_type: str or ~azure.mgmt.powerbidedicated.models.IdentityType
+        :paramtype last_modified_by_type: str or ~azure.mgmt.powerbidedicated.models.CreatedByType
         :keyword last_modified_at: The timestamp of resource last modification (UTC).
         :paramtype last_modified_at: ~datetime.datetime
         """
