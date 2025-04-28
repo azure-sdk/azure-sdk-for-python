@@ -11,9 +11,8 @@
 import datetime
 from typing import Any, Dict, List, Literal, Mapping, Optional, TYPE_CHECKING, Union, overload
 
-from .. import _model_base
-from .._model_base import rest_discriminator, rest_field
-from .._vendor import FileType
+from .._utils.model_base import Model as _Model, rest_discriminator, rest_field
+from .._utils.utils import FileType
 from ._enums import (
     AuthenticationType,
     MessageBlockType,
@@ -27,7 +26,7 @@ if TYPE_CHECKING:
     from .. import _types, models as _models
 
 
-class Agent(_model_base.Model):
+class Agent(_Model):
     """Represents an agent that can call the model and use tools.
 
     :ivar id: The identifier, which can be referenced in API endpoints. Required.
@@ -149,7 +148,7 @@ class Agent(_model_base.Model):
         self.object: Literal["assistant"] = "assistant"
 
 
-class AgentDeletionStatus(_model_base.Model):
+class AgentDeletionStatus(_Model):
     """The status of an agent deletion operation.
 
     :ivar id: The ID of the resource specified for deletion. Required.
@@ -189,7 +188,7 @@ class AgentDeletionStatus(_model_base.Model):
         self.object: Literal["assistant.deleted"] = "assistant.deleted"
 
 
-class AgentsApiResponseFormat(_model_base.Model):
+class AgentsApiResponseFormat(_Model):
     """An object describing the expected output of the model. If ``json_object`` only ``function``
     type ``tools`` are allowed to be passed to the Run.
     If ``text`` the model can return text or any value needed.
@@ -222,7 +221,7 @@ class AgentsApiResponseFormat(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class AgentsNamedToolChoice(_model_base.Model):
+class AgentsNamedToolChoice(_Model):
     """Specifies a tool the model should use. Use to force the model to call a specific tool.
 
     :ivar type: the type of tool. If type is ``function``, the function name must be set. Required.
@@ -263,7 +262,7 @@ class AgentsNamedToolChoice(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class AgentThread(_model_base.Model):
+class AgentThread(_Model):
     """Information about a single thread associated with an agent.
 
     :ivar id: The identifier, which can be referenced in API endpoints. Required.
@@ -326,7 +325,7 @@ class AgentThread(_model_base.Model):
         self.object: Literal["thread"] = "thread"
 
 
-class AgentThreadCreationOptions(_model_base.Model):
+class AgentThreadCreationOptions(_Model):
     """The details used to create a new agent thread.
 
     :ivar messages: The initial messages to associate with the new thread.
@@ -380,7 +379,7 @@ class AgentThreadCreationOptions(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class AISearchIndexResource(_model_base.Model):
+class AISearchIndexResource(_Model):
     """A AI Search Index resource.
 
     :ivar index_connection_id: An index connection id in an IndexResource attached to this agent.
@@ -433,7 +432,7 @@ class AISearchIndexResource(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TargetModelConfig(_model_base.Model):
+class TargetModelConfig(_Model):
     """Abstract class for model configuration.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -443,7 +442,7 @@ class TargetModelConfig(_model_base.Model):
     :vartype type: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """Type of the model configuration. Required. Default value is None."""
 
@@ -510,7 +509,7 @@ class AOAIModelConfig(TargetModelConfig, discriminator="AOAI"):
         super().__init__(*args, type="AOAI", **kwargs)
 
 
-class AppInsightsProperties(_model_base.Model):
+class AppInsightsProperties(_Model):
     """The properties of the Application Insights resource.
 
     :ivar connection_string: Authentication type of the connection target. Required.
@@ -540,7 +539,7 @@ class AppInsightsProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class InputData(_model_base.Model):
+class InputData(_Model):
     """Abstract data class for input data configuration.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -550,7 +549,7 @@ class InputData(_model_base.Model):
     :vartype type: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """Type of the data. Required. Default value is None."""
 
@@ -624,7 +623,7 @@ class ApplicationInsightsConfiguration(InputData, discriminator="app_insights"):
         super().__init__(*args, type="app_insights", **kwargs)
 
 
-class AzureAISearchResource(_model_base.Model):
+class AzureAISearchResource(_Model):
     """A set of index resources used by the ``azure_ai_search`` tool.
 
     :ivar index_list: The indices attached to this agent. There can be a maximum of 1 index
@@ -656,7 +655,7 @@ class AzureAISearchResource(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ToolDefinition(_model_base.Model):
+class ToolDefinition(_Model):
     """An abstract representation of an input tool definition that an agent can use.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -669,7 +668,7 @@ class ToolDefinition(_model_base.Model):
     :vartype type: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """The object type. Required. Default value is None."""
 
@@ -719,7 +718,7 @@ class AzureAISearchToolDefinition(ToolDefinition, discriminator="azure_ai_search
         super().__init__(*args, type="azure_ai_search", **kwargs)
 
 
-class AzureFunctionBinding(_model_base.Model):
+class AzureFunctionBinding(_Model):
     """The structure for keeping storage queue name and URI.
 
     :ivar type: The type of binding, which is always 'storage_queue'. Required. Default value is
@@ -756,7 +755,7 @@ class AzureFunctionBinding(_model_base.Model):
         self.type: Literal["storage_queue"] = "storage_queue"
 
 
-class AzureFunctionDefinition(_model_base.Model):
+class AzureFunctionDefinition(_Model):
     """The definition of Azure function.
 
     :ivar function: The definition of azure function and its parameters. Required.
@@ -802,7 +801,7 @@ class AzureFunctionDefinition(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class AzureFunctionStorageQueue(_model_base.Model):
+class AzureFunctionStorageQueue(_Model):
     """The structure for keeping storage queue name and URI.
 
     :ivar storage_service_endpoint: URI to the Azure Storage Queue service allowing you to
@@ -977,7 +976,7 @@ class CodeInterpreterToolDefinition(ToolDefinition, discriminator="code_interpre
         super().__init__(*args, type="code_interpreter", **kwargs)
 
 
-class CodeInterpreterToolResource(_model_base.Model):
+class CodeInterpreterToolResource(_Model):
     """A set of resources that are used by the ``code_interpreter`` tool.
 
     :ivar file_ids: A list of file IDs made available to the ``code_interpreter`` tool. There can
@@ -1017,7 +1016,7 @@ class CodeInterpreterToolResource(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ConnectedAgentDetails(_model_base.Model):
+class ConnectedAgentDetails(_Model):
     """Information for connecting one agent to another as a tool.
 
     :ivar id: The identifier of the child agent. Required.
@@ -1094,7 +1093,7 @@ class ConnectedAgentToolDefinition(ToolDefinition, discriminator="connected_agen
         super().__init__(*args, type="connected_agent", **kwargs)
 
 
-class CredentialsApiKeyAuth(_model_base.Model):
+class CredentialsApiKeyAuth(_Model):
     """The credentials needed for API key authentication.
 
     :ivar key: The API key. Required.
@@ -1122,7 +1121,7 @@ class CredentialsApiKeyAuth(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class CredentialsSASAuth(_model_base.Model):
+class CredentialsSASAuth(_Model):
     """The credentials needed for Shared Access Signatures (SAS) authentication.
 
     :ivar sas: The Shared Access Signatures (SAS) token. Required.
@@ -1150,7 +1149,7 @@ class CredentialsSASAuth(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class Trigger(_model_base.Model):
+class Trigger(_Model):
     """Abstract data class for input data configuration.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -1160,7 +1159,7 @@ class Trigger(_model_base.Model):
     :vartype type: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """Type of the trigger. Required. Default value is None."""
 
@@ -1246,7 +1245,7 @@ class Dataset(InputData, discriminator="dataset"):
         super().__init__(*args, type="dataset", **kwargs)
 
 
-class Evaluation(_model_base.Model):
+class Evaluation(_Model):
     """Evaluation Definition.
 
     :ivar id: Identifier of the evaluation. Required.
@@ -1324,7 +1323,7 @@ class Evaluation(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class EvaluationSchedule(_model_base.Model):
+class EvaluationSchedule(_Model):
     """Evaluation Schedule Definition.
 
     :ivar name: Name of the schedule, which also serves as the unique identifier for the
@@ -1399,7 +1398,7 @@ class EvaluationSchedule(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class EvaluationTarget(_model_base.Model):
+class EvaluationTarget(_Model):
     """Target for the evaluation process.
 
     :ivar system_message: System message related to the evaluation target. Required.
@@ -1441,7 +1440,7 @@ class EvaluationTarget(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class EvaluatorConfiguration(_model_base.Model):
+class EvaluatorConfiguration(_Model):
     """Evaluator Configuration.
 
     :ivar id: Identifier of the evaluator. Required.
@@ -1483,7 +1482,7 @@ class EvaluatorConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class FileDeletionStatus(_model_base.Model):
+class FileDeletionStatus(_Model):
     """A status response from a file deletion operation.
 
     :ivar id: The ID of the resource specified for deletion. Required.
@@ -1521,7 +1520,7 @@ class FileDeletionStatus(_model_base.Model):
         self.object: Literal["file"] = "file"
 
 
-class FileListResponse(_model_base.Model):
+class FileListResponse(_Model):
     """The response data from a file list operation.
 
     :ivar object: The object type, which is always 'list'. Required. Default value is "list".
@@ -1554,7 +1553,7 @@ class FileListResponse(_model_base.Model):
         self.object: Literal["list"] = "list"
 
 
-class FileSearchRankingOptions(_model_base.Model):
+class FileSearchRankingOptions(_Model):
     """Ranking options for file search.
 
     :ivar ranker: File search ranker. Required.
@@ -1587,7 +1586,7 @@ class FileSearchRankingOptions(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class FileSearchToolCallContent(_model_base.Model):
+class FileSearchToolCallContent(_Model):
     """The file search result content object.
 
     :ivar type: The type of the content. Required. Default value is "text".
@@ -1655,7 +1654,7 @@ class FileSearchToolDefinition(ToolDefinition, discriminator="file_search"):
         super().__init__(*args, type="file_search", **kwargs)
 
 
-class FileSearchToolDefinitionDetails(_model_base.Model):
+class FileSearchToolDefinitionDetails(_Model):
     """Options overrides for the file search tool.
 
     :ivar max_num_results: The maximum number of results the file search tool should output. The
@@ -1699,7 +1698,7 @@ class FileSearchToolDefinitionDetails(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class FileSearchToolResource(_model_base.Model):
+class FileSearchToolResource(_Model):
     """A set of resources that are used by the ``file_search`` tool.
 
     :ivar vector_store_ids: The ID of the vector store attached to this agent. There can be a
@@ -1741,7 +1740,7 @@ class FileSearchToolResource(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class FunctionDefinition(_model_base.Model):
+class FunctionDefinition(_Model):
     """The input definition information for a function.
 
     :ivar name: The name of the function to be called. Required.
@@ -1782,7 +1781,7 @@ class FunctionDefinition(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class FunctionName(_model_base.Model):
+class FunctionName(_Model):
     """The function name that will be used, if using the ``function`` tool.
 
     :ivar name: The name of the function to call. Required.
@@ -1843,7 +1842,7 @@ class FunctionToolDefinition(ToolDefinition, discriminator="function"):
         super().__init__(*args, type="function", **kwargs)
 
 
-class GetAppInsightsResponse(_model_base.Model):
+class GetAppInsightsResponse(_Model):
     """Response from getting properties of the Application Insights resource.
 
     :ivar id: A unique identifier for the resource. Required.
@@ -1883,7 +1882,7 @@ class GetAppInsightsResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class GetConnectionResponse(_model_base.Model):
+class GetConnectionResponse(_Model):
     """Response from the listSecrets operation.
 
     :ivar id: A unique identifier for the connection. Required.
@@ -1923,7 +1922,7 @@ class GetConnectionResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class GetWorkspaceResponse(_model_base.Model):
+class GetWorkspaceResponse(_Model):
     """Response from the Workspace - Get operation.
 
     :ivar id: A unique identifier for the resource. Required.
@@ -1963,7 +1962,7 @@ class GetWorkspaceResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class IncompleteRunDetails(_model_base.Model):
+class IncompleteRunDetails(_Model):
     """Details on why the run is incomplete. Will be ``null`` if the run is not incomplete.
 
     :ivar reason: The reason why the run is incomplete. This indicates which specific token limit
@@ -1997,7 +1996,7 @@ class IncompleteRunDetails(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class InternalConnectionProperties(_model_base.Model):
+class InternalConnectionProperties(_Model):
     """Connection properties.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -2016,7 +2015,7 @@ class InternalConnectionProperties(_model_base.Model):
     :vartype target: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     auth_type: str = rest_discriminator(name="authType", visibility=["read", "create", "update", "delete", "query"])
     """Authentication type of the connection target. Required. Known values are: \"ApiKey\", \"AAD\",
      \"SAS\", \"CustomKeys\", and \"None\"."""
@@ -2242,7 +2241,7 @@ class InternalConnectionPropertiesSASAuth(InternalConnectionProperties, discrimi
         super().__init__(*args, auth_type=AuthenticationType.SAS, **kwargs)
 
 
-class ListConnectionsResponse(_model_base.Model):
+class ListConnectionsResponse(_Model):
     """Response from the list operation.
 
     :ivar value: A list of connection list secrets. Required.
@@ -2310,7 +2309,7 @@ class MAASModelConfig(TargetModelConfig, discriminator="MAAS"):
         super().__init__(*args, type="MAAS", **kwargs)
 
 
-class MessageAttachment(_model_base.Model):
+class MessageAttachment(_Model):
     """This describes to which tools a file has been attached.
 
     :ivar file_id: The ID of the file to attach to the message.
@@ -2353,7 +2352,7 @@ class MessageAttachment(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageContent(_model_base.Model):
+class MessageContent(_Model):
     """An abstract representation of a single item of thread message content.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -2363,7 +2362,7 @@ class MessageContent(_model_base.Model):
     :vartype type: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """The object type. Required. Default value is None."""
 
@@ -2385,7 +2384,7 @@ class MessageContent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageDelta(_model_base.Model):
+class MessageDelta(_Model):
     """Represents the typed 'delta' payload within a streaming message delta chunk.
 
     :ivar role: The entity that produced the message. Required. Known values are: "user" and
@@ -2421,7 +2420,7 @@ class MessageDelta(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageDeltaChunk(_model_base.Model):
+class MessageDeltaChunk(_Model):
     """Represents a message delta i.e. any changed fields on a message during streaming.
 
     :ivar id: The identifier of the message, which can be referenced in API endpoints. Required.
@@ -2461,7 +2460,7 @@ class MessageDeltaChunk(_model_base.Model):
         self.object: Literal["thread.message.delta"] = "thread.message.delta"
 
 
-class MessageDeltaContent(_model_base.Model):
+class MessageDeltaContent(_Model):
     """The abstract base representation of a partial streamed message content payload.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -2473,7 +2472,7 @@ class MessageDeltaContent(_model_base.Model):
     :vartype type: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     index: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The index of the content part of the message. Required."""
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
@@ -2537,7 +2536,7 @@ class MessageDeltaImageFileContent(MessageDeltaContent, discriminator="image_fil
         super().__init__(*args, type="image_file", **kwargs)
 
 
-class MessageDeltaImageFileContentObject(_model_base.Model):
+class MessageDeltaImageFileContentObject(_Model):
     """Represents the 'image_file' payload within streaming image file content.
 
     :ivar file_id: The file ID of the image in the message content.
@@ -2565,7 +2564,7 @@ class MessageDeltaImageFileContentObject(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageDeltaTextAnnotation(_model_base.Model):
+class MessageDeltaTextAnnotation(_Model):
     """The abstract base representation of a streamed text content part's text annotation.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -2578,7 +2577,7 @@ class MessageDeltaTextAnnotation(_model_base.Model):
     :vartype type: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     index: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The index of the annotation within a text content part. Required."""
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
@@ -2642,7 +2641,7 @@ class MessageDeltaTextContent(MessageDeltaContent, discriminator="text"):
         super().__init__(*args, type="text", **kwargs)
 
 
-class MessageDeltaTextContentObject(_model_base.Model):
+class MessageDeltaTextContentObject(_Model):
     """Represents the data of a streamed text content part within a streaming message delta chunk.
 
     :ivar value: The data that makes up the text.
@@ -2731,7 +2730,7 @@ class MessageDeltaTextFileCitationAnnotation(MessageDeltaTextAnnotation, discrim
         super().__init__(*args, type="file_citation", **kwargs)
 
 
-class MessageDeltaTextFileCitationAnnotationObject(_model_base.Model):  # pylint: disable=name-too-long
+class MessageDeltaTextFileCitationAnnotationObject(_Model):  # pylint: disable=name-too-long
     """Represents the data of a streamed file citation as applied to a streaming text content part.
 
     :ivar file_id: The ID of the specific file the citation is from.
@@ -2818,7 +2817,7 @@ class MessageDeltaTextFilePathAnnotation(MessageDeltaTextAnnotation, discriminat
         super().__init__(*args, type="file_path", **kwargs)
 
 
-class MessageDeltaTextFilePathAnnotationObject(_model_base.Model):
+class MessageDeltaTextFilePathAnnotationObject(_Model):
     """Represents the data of a streamed file path annotation as applied to a streaming text content
     part.
 
@@ -2896,7 +2895,7 @@ class MessageDeltaTextUrlCitationAnnotation(MessageDeltaTextAnnotation, discrimi
         super().__init__(*args, type="url_citation", **kwargs)
 
 
-class MessageDeltaTextUrlCitationDetails(_model_base.Model):
+class MessageDeltaTextUrlCitationDetails(_Model):
     """A representation of a URL citation, as used in text thread message content.
 
     :ivar url: The URL associated with this citation. Required.
@@ -2964,7 +2963,7 @@ class MessageImageFileContent(MessageContent, discriminator="image_file"):
         super().__init__(*args, type="image_file", **kwargs)
 
 
-class MessageImageFileDetails(_model_base.Model):
+class MessageImageFileDetails(_Model):
     """An image reference, as represented in thread message content.
 
     :ivar file_id: The ID for the file associated with this image. Required.
@@ -2992,7 +2991,7 @@ class MessageImageFileDetails(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageImageFileParam(_model_base.Model):
+class MessageImageFileParam(_Model):
     """Defines how an internally uploaded image file is referenced when creating an image-file block.
 
     :ivar file_id: The ID of the previously uploaded image file. Required.
@@ -3029,7 +3028,7 @@ class MessageImageFileParam(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageImageUrlParam(_model_base.Model):
+class MessageImageUrlParam(_Model):
     """Defines how an external image URL is referenced when creating an image-URL block.
 
     :ivar url: The publicly accessible URL of the external image. Required.
@@ -3066,7 +3065,7 @@ class MessageImageUrlParam(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageIncompleteDetails(_model_base.Model):
+class MessageIncompleteDetails(_Model):
     """Information providing additional detail about a message entering an incomplete status.
 
     :ivar reason: The provided reason describing why the message was marked as incomplete.
@@ -3100,7 +3099,7 @@ class MessageIncompleteDetails(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageInputContentBlock(_model_base.Model):
+class MessageInputContentBlock(_Model):
     """Defines a single content block when creating a message. The 'type' field determines whether it
     is text, an image file, or an external image URL, etc.
 
@@ -3112,7 +3111,7 @@ class MessageInputContentBlock(_model_base.Model):
     :vartype type: str or ~azure.ai.projects.models.MessageBlockType
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """Specifies which kind of content block this is (text, image_file, image_url, etc.). Required.
      Known values are: \"text\", \"image_file\", and \"image_url\"."""
@@ -3240,7 +3239,7 @@ class MessageInputTextBlock(MessageInputContentBlock, discriminator="text"):
         super().__init__(*args, type=MessageBlockType.TEXT, **kwargs)
 
 
-class MessageTextAnnotation(_model_base.Model):
+class MessageTextAnnotation(_Model):
     """An abstract representation of an annotation to text thread message content.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -3253,7 +3252,7 @@ class MessageTextAnnotation(_model_base.Model):
     :vartype text: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """The object type. Required. Default value is None."""
     text: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -3310,7 +3309,7 @@ class MessageTextContent(MessageContent, discriminator="text"):
         super().__init__(*args, type="text", **kwargs)
 
 
-class MessageTextDetails(_model_base.Model):
+class MessageTextDetails(_Model):
     """The text and associated annotations for a single item of agent thread message content.
 
     :ivar value: The text data. Required.
@@ -3398,7 +3397,7 @@ class MessageTextFileCitationAnnotation(MessageTextAnnotation, discriminator="fi
         super().__init__(*args, type="file_citation", **kwargs)
 
 
-class MessageTextFileCitationDetails(_model_base.Model):
+class MessageTextFileCitationDetails(_Model):
     """A representation of a file-based text citation, as used in a file-based annotation of text
     thread message content.
 
@@ -3482,7 +3481,7 @@ class MessageTextFilePathAnnotation(MessageTextAnnotation, discriminator="file_p
         super().__init__(*args, type="file_path", **kwargs)
 
 
-class MessageTextFilePathDetails(_model_base.Model):
+class MessageTextFilePathDetails(_Model):
     """An encapsulation of an image file ID, as used by message image content.
 
     :ivar file_id: The ID of the specific file that the citation is from. Required.
@@ -3559,7 +3558,7 @@ class MessageTextUrlCitationAnnotation(MessageTextAnnotation, discriminator="url
         super().__init__(*args, type="url_citation", **kwargs)
 
 
-class MessageTextUrlCitationDetails(_model_base.Model):
+class MessageTextUrlCitationDetails(_Model):
     """A representation of a URL citation, as used in text thread message content.
 
     :ivar url: The URL associated with this citation. Required.
@@ -3628,7 +3627,7 @@ class MicrosoftFabricToolDefinition(ToolDefinition, discriminator="fabric_dataag
         super().__init__(*args, type="fabric_dataagent", **kwargs)
 
 
-class OpenAIFile(_model_base.Model):
+class OpenAIFile(_Model):
     """Represents an agent that can call the model and use tools.
 
     :ivar object: The object type, which is always 'file'. Required. Default value is "file".
@@ -3704,7 +3703,7 @@ class OpenAIFile(_model_base.Model):
         self.object: Literal["file"] = "file"
 
 
-class OpenAIPageableListOfAgent(_model_base.Model):
+class OpenAIPageableListOfAgent(_Model):
     """The response data for a requested list of items.
 
     :ivar object: The object type, which is always list. Required. Default value is "list".
@@ -3754,7 +3753,7 @@ class OpenAIPageableListOfAgent(_model_base.Model):
         self.object: Literal["list"] = "list"
 
 
-class OpenAIPageableListOfAgentThread(_model_base.Model):
+class OpenAIPageableListOfAgentThread(_Model):
     """The response data for a requested list of items.
 
     :ivar object: The object type, which is always list. Required. Default value is "list".
@@ -3804,7 +3803,7 @@ class OpenAIPageableListOfAgentThread(_model_base.Model):
         self.object: Literal["list"] = "list"
 
 
-class OpenAIPageableListOfRunStep(_model_base.Model):
+class OpenAIPageableListOfRunStep(_Model):
     """The response data for a requested list of items.
 
     :ivar object: The object type, which is always list. Required. Default value is "list".
@@ -3854,7 +3853,7 @@ class OpenAIPageableListOfRunStep(_model_base.Model):
         self.object: Literal["list"] = "list"
 
 
-class OpenAIPageableListOfThreadMessage(_model_base.Model):
+class OpenAIPageableListOfThreadMessage(_Model):
     """The response data for a requested list of items.
 
     :ivar object: The object type, which is always list. Required. Default value is "list".
@@ -3904,7 +3903,7 @@ class OpenAIPageableListOfThreadMessage(_model_base.Model):
         self.object: Literal["list"] = "list"
 
 
-class OpenAIPageableListOfThreadRun(_model_base.Model):
+class OpenAIPageableListOfThreadRun(_Model):
     """The response data for a requested list of items.
 
     :ivar object: The object type, which is always list. Required. Default value is "list".
@@ -3954,7 +3953,7 @@ class OpenAIPageableListOfThreadRun(_model_base.Model):
         self.object: Literal["list"] = "list"
 
 
-class OpenAIPageableListOfVectorStore(_model_base.Model):
+class OpenAIPageableListOfVectorStore(_Model):
     """The response data for a requested list of items.
 
     :ivar object: The object type, which is always list. Required. Default value is "list".
@@ -4004,7 +4003,7 @@ class OpenAIPageableListOfVectorStore(_model_base.Model):
         self.object: Literal["list"] = "list"
 
 
-class OpenAIPageableListOfVectorStoreFile(_model_base.Model):
+class OpenAIPageableListOfVectorStoreFile(_Model):
     """The response data for a requested list of items.
 
     :ivar object: The object type, which is always list. Required. Default value is "list".
@@ -4054,7 +4053,7 @@ class OpenAIPageableListOfVectorStoreFile(_model_base.Model):
         self.object: Literal["list"] = "list"
 
 
-class OpenApiAuthDetails(_model_base.Model):
+class OpenApiAuthDetails(_Model):
     """authentication details for OpenApiFunctionDefinition.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -4065,7 +4064,7 @@ class OpenApiAuthDetails(_model_base.Model):
     :vartype type: str or ~azure.ai.projects.models.OpenApiAuthType
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """The type of authentication, must be anonymous/connection/managed_identity. Required. Known
      values are: \"anonymous\", \"connection\", and \"managed_identity\"."""
@@ -4148,7 +4147,7 @@ class OpenApiConnectionAuthDetails(OpenApiAuthDetails, discriminator="connection
         super().__init__(*args, type=OpenApiAuthType.CONNECTION, **kwargs)
 
 
-class OpenApiConnectionSecurityScheme(_model_base.Model):
+class OpenApiConnectionSecurityScheme(_Model):
     """Security scheme for OpenApi managed_identity authentication.
 
     :ivar connection_id: Connection id for Connection auth type. Required.
@@ -4176,7 +4175,7 @@ class OpenApiConnectionSecurityScheme(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OpenApiFunctionDefinition(_model_base.Model):
+class OpenApiFunctionDefinition(_Model):
     """The input definition information for an openapi function.
 
     :ivar name: The name of the function to be called. Required.
@@ -4260,7 +4259,7 @@ class OpenApiManagedAuthDetails(OpenApiAuthDetails, discriminator="managed_ident
         super().__init__(*args, type=OpenApiAuthType.MANAGED_IDENTITY, **kwargs)
 
 
-class OpenApiManagedSecurityScheme(_model_base.Model):
+class OpenApiManagedSecurityScheme(_Model):
     """Security scheme for OpenApi managed_identity authentication.
 
     :ivar audience: Authentication scope for managed_identity auth type. Required.
@@ -4322,7 +4321,7 @@ class OpenApiToolDefinition(ToolDefinition, discriminator="openapi"):
         super().__init__(*args, type="openapi", **kwargs)
 
 
-class RecurrenceSchedule(_model_base.Model):
+class RecurrenceSchedule(_Model):
     """RecurrenceSchedule Definition.
 
     :ivar hours: List of hours for the schedule. Required.
@@ -4415,7 +4414,7 @@ class RecurrenceTrigger(Trigger, discriminator="Recurrence"):
         super().__init__(*args, type="Recurrence", **kwargs)
 
 
-class RequiredAction(_model_base.Model):
+class RequiredAction(_Model):
     """An abstract representation of a required action for an agent thread run to continue.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -4425,7 +4424,7 @@ class RequiredAction(_model_base.Model):
     :vartype type: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """The object type. Required. Default value is None."""
 
@@ -4447,7 +4446,7 @@ class RequiredAction(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class RequiredToolCall(_model_base.Model):
+class RequiredToolCall(_Model):
     """An abstract representation of a tool invocation needed by the model to continue a run.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -4460,7 +4459,7 @@ class RequiredToolCall(_model_base.Model):
     :vartype id: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """The object type for the required tool call. Required. Default value is None."""
     id: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -4528,7 +4527,7 @@ class RequiredFunctionToolCall(RequiredToolCall, discriminator="function"):
         super().__init__(*args, type="function", **kwargs)
 
 
-class RequiredFunctionToolCallDetails(_model_base.Model):
+class RequiredFunctionToolCallDetails(_Model):
     """The detailed information for a function invocation, as provided by a required action invoking a
     function tool, that includes the name of and arguments to the function.
 
@@ -4565,7 +4564,7 @@ class RequiredFunctionToolCallDetails(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ResponseFormatJsonSchema(_model_base.Model):
+class ResponseFormatJsonSchema(_Model):
     """A description of what the response format is for, used by the model to determine how to respond
     in the format.
 
@@ -4606,7 +4605,7 @@ class ResponseFormatJsonSchema(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ResponseFormatJsonSchemaType(_model_base.Model):
+class ResponseFormatJsonSchemaType(_Model):
     """The type of response format being defined: ``json_schema``.
 
     :ivar type: Type. Required. Default value is "json_schema".
@@ -4641,7 +4640,7 @@ class ResponseFormatJsonSchemaType(_model_base.Model):
         self.type: Literal["json_schema"] = "json_schema"
 
 
-class RunCompletionUsage(_model_base.Model):
+class RunCompletionUsage(_Model):
     """Usage statistics related to the run. This value will be ``null`` if the run is not in a
     terminal state (i.e. ``in_progress``, ``queued``, etc.).
 
@@ -4680,7 +4679,7 @@ class RunCompletionUsage(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class RunError(_model_base.Model):
+class RunError(_Model):
     """The details of an error as encountered by an agent thread run.
 
     :ivar code: The status for the error. Required.
@@ -4713,7 +4712,7 @@ class RunError(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class RunStep(_model_base.Model):
+class RunStep(_Model):
     """Detailed information about a single step of an agent thread run.
 
     :ivar id: The identifier, which can be referenced in API endpoints. Required.
@@ -4844,7 +4843,7 @@ class RunStep(_model_base.Model):
         self.object: Literal["thread.run.step"] = "thread.run.step"
 
 
-class RunStepToolCall(_model_base.Model):
+class RunStepToolCall(_Model):
     """An abstract representation of a detailed tool call as recorded within a run step for an
     existing run.
 
@@ -4860,7 +4859,7 @@ class RunStepToolCall(_model_base.Model):
     :vartype id: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """The object type. Required. Default value is None."""
     id: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -4965,7 +4964,7 @@ class RunStepBingGroundingToolCall(RunStepToolCall, discriminator="bing_groundin
         super().__init__(*args, type="bing_grounding", **kwargs)
 
 
-class RunStepCodeInterpreterToolCallOutput(_model_base.Model):
+class RunStepCodeInterpreterToolCallOutput(_Model):
     """An abstract representation of an emitted output from a code interpreter tool.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -4975,7 +4974,7 @@ class RunStepCodeInterpreterToolCallOutput(_model_base.Model):
     :vartype type: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """The object type. Required. Default value is None."""
 
@@ -5032,7 +5031,7 @@ class RunStepCodeInterpreterImageOutput(RunStepCodeInterpreterToolCallOutput, di
         super().__init__(*args, type="image", **kwargs)
 
 
-class RunStepCodeInterpreterImageReference(_model_base.Model):
+class RunStepCodeInterpreterImageReference(_Model):
     """An image reference emitted by a code interpreter tool in response to a tool call by the model.
 
     :ivar file_id: The ID of the file associated with this image. Required.
@@ -5135,7 +5134,7 @@ class RunStepCodeInterpreterToolCall(RunStepToolCall, discriminator="code_interp
         super().__init__(*args, type="code_interpreter", **kwargs)
 
 
-class RunStepCodeInterpreterToolCallDetails(_model_base.Model):
+class RunStepCodeInterpreterToolCallDetails(_Model):
     """The detailed information about a code interpreter invocation by the model.
 
     :ivar input: The input provided by the model to the code interpreter tool. Required.
@@ -5172,7 +5171,7 @@ class RunStepCodeInterpreterToolCallDetails(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class RunStepCompletionUsage(_model_base.Model):
+class RunStepCompletionUsage(_Model):
     """Usage statistics related to the run step.
 
     :ivar completion_tokens: Number of completion tokens used over the course of the run step.
@@ -5251,7 +5250,7 @@ class RunStepCustomSearchToolCall(RunStepToolCall, discriminator="bing_custom_se
         super().__init__(*args, type="bing_custom_search", **kwargs)
 
 
-class RunStepDelta(_model_base.Model):
+class RunStepDelta(_Model):
     """Represents the delta payload in a streaming run step delta chunk.
 
     :ivar step_details: The details of the run step.
@@ -5281,7 +5280,7 @@ class RunStepDelta(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class RunStepDeltaChunk(_model_base.Model):
+class RunStepDeltaChunk(_Model):
     """Represents a run step delta i.e. any changed fields on a run step during streaming.
 
     :ivar id: The identifier of the run step, which can be referenced in API endpoints. Required.
@@ -5321,7 +5320,7 @@ class RunStepDeltaChunk(_model_base.Model):
         self.object: Literal["thread.run.step.delta"] = "thread.run.step.delta"
 
 
-class RunStepDeltaCodeInterpreterDetailItemObject(_model_base.Model):  # pylint: disable=name-too-long
+class RunStepDeltaCodeInterpreterDetailItemObject(_Model):  # pylint: disable=name-too-long
     """Represents the Code Interpreter tool call data in a streaming run step's tool calls.
 
     :ivar input: The input into the Code Interpreter tool call.
@@ -5361,7 +5360,7 @@ class RunStepDeltaCodeInterpreterDetailItemObject(_model_base.Model):  # pylint:
         super().__init__(*args, **kwargs)
 
 
-class RunStepDeltaCodeInterpreterOutput(_model_base.Model):
+class RunStepDeltaCodeInterpreterOutput(_Model):
     """The abstract base representation of a streaming run step tool call's Code Interpreter tool
     output.
 
@@ -5376,7 +5375,7 @@ class RunStepDeltaCodeInterpreterOutput(_model_base.Model):
     :vartype type: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     index: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The index of the output in the streaming run step tool call's Code Interpreter outputs array.
      Required."""
@@ -5442,7 +5441,7 @@ class RunStepDeltaCodeInterpreterImageOutput(RunStepDeltaCodeInterpreterOutput, 
         super().__init__(*args, type="image", **kwargs)
 
 
-class RunStepDeltaCodeInterpreterImageOutputObject(_model_base.Model):  # pylint: disable=name-too-long
+class RunStepDeltaCodeInterpreterImageOutputObject(_Model):  # pylint: disable=name-too-long
     """Represents the data for a streaming run step's Code Interpreter tool call image output.
 
     :ivar file_id: The file ID for the image.
@@ -5507,7 +5506,7 @@ class RunStepDeltaCodeInterpreterLogOutput(RunStepDeltaCodeInterpreterOutput, di
         super().__init__(*args, type="logs", **kwargs)
 
 
-class RunStepDeltaToolCall(_model_base.Model):
+class RunStepDeltaToolCall(_Model):
     """The abstract base representation of a single tool call within a streaming run step's delta tool
     call details.
 
@@ -5524,7 +5523,7 @@ class RunStepDeltaToolCall(_model_base.Model):
     :vartype type: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     index: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The index of the tool call detail in the run step's tool_calls array. Required."""
     id: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -5596,7 +5595,7 @@ class RunStepDeltaCodeInterpreterToolCall(RunStepDeltaToolCall, discriminator="c
         super().__init__(*args, type="code_interpreter", **kwargs)
 
 
-class RunStepDeltaDetail(_model_base.Model):
+class RunStepDeltaDetail(_Model):
     """Represents a single run step detail item in a streaming run step's delta payload.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -5606,7 +5605,7 @@ class RunStepDeltaDetail(_model_base.Model):
     :vartype type: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """The object type for the run step detail object. Required. Default value is None."""
 
@@ -5669,7 +5668,7 @@ class RunStepDeltaFileSearchToolCall(RunStepDeltaToolCall, discriminator="file_s
         super().__init__(*args, type="file_search", **kwargs)
 
 
-class RunStepDeltaFunction(_model_base.Model):
+class RunStepDeltaFunction(_Model):
     """Represents the function data in a streaming run step delta's function tool call.
 
     :ivar name: The name of the function.
@@ -5784,7 +5783,7 @@ class RunStepDeltaMessageCreation(RunStepDeltaDetail, discriminator="message_cre
         super().__init__(*args, type="message_creation", **kwargs)
 
 
-class RunStepDeltaMessageCreationObject(_model_base.Model):
+class RunStepDeltaMessageCreationObject(_Model):
     """Represents the data within a streaming run step message creation response object.
 
     :ivar message_id: The ID of the newly-created message.
@@ -5847,7 +5846,7 @@ class RunStepDeltaToolCallObject(RunStepDeltaDetail, discriminator="tool_calls")
         super().__init__(*args, type="tool_calls", **kwargs)
 
 
-class RunStepDetails(_model_base.Model):
+class RunStepDetails(_Model):
     """An abstract representation of the details for a run step.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -5857,7 +5856,7 @@ class RunStepDetails(_model_base.Model):
     :vartype type: str or ~azure.ai.projects.models.RunStepType
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """The object type. Required. Known values are: \"message_creation\" and \"tool_calls\"."""
 
@@ -5879,7 +5878,7 @@ class RunStepDetails(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class RunStepError(_model_base.Model):
+class RunStepError(_Model):
     """The error information associated with a failed run step.
 
     :ivar code: The error code for this error. Required. Known values are: "server_error" and
@@ -5957,7 +5956,7 @@ class RunStepFileSearchToolCall(RunStepToolCall, discriminator="file_search"):
         super().__init__(*args, type="file_search", **kwargs)
 
 
-class RunStepFileSearchToolCallResult(_model_base.Model):
+class RunStepFileSearchToolCallResult(_Model):
     """File search tool call result.
 
     :ivar file_id: The ID of the file that result was found in. Required.
@@ -6005,7 +6004,7 @@ class RunStepFileSearchToolCallResult(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class RunStepFileSearchToolCallResults(_model_base.Model):
+class RunStepFileSearchToolCallResults(_Model):
     """The results of the file search.
 
     :ivar ranking_options: Ranking options for file search.
@@ -6082,7 +6081,7 @@ class RunStepFunctionToolCall(RunStepToolCall, discriminator="function"):
         super().__init__(*args, type="function", **kwargs)
 
 
-class RunStepFunctionToolCallDetails(_model_base.Model):
+class RunStepFunctionToolCallDetails(_Model):
     """The detailed information about the function called by the model.
 
     :ivar name: The name of the function. Required.
@@ -6160,7 +6159,7 @@ class RunStepMessageCreationDetails(RunStepDetails, discriminator="message_creat
         super().__init__(*args, type=RunStepType.MESSAGE_CREATION, **kwargs)
 
 
-class RunStepMessageCreationReference(_model_base.Model):
+class RunStepMessageCreationReference(_Model):
     """The details of a message created as a part of a run step.
 
     :ivar message_id: The ID of the message created by this run step. Required.
@@ -6344,7 +6343,7 @@ class RunStepToolCallDetails(RunStepDetails, discriminator="tool_calls"):
         super().__init__(*args, type=RunStepType.TOOL_CALLS, **kwargs)
 
 
-class SearchConfiguration(_model_base.Model):
+class SearchConfiguration(_Model):
     """A custom search configuration.
 
     :ivar connection_id: A connection in a ToolConnectionList attached to this tool. Required.
@@ -6377,7 +6376,7 @@ class SearchConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SearchConfigurationList(_model_base.Model):
+class SearchConfigurationList(_Model):
     """A list of search configurations currently used by the ``bing_custom_search`` tool.
 
     :ivar search_configurations: The connections attached to this tool. There can be a maximum of 1
@@ -6483,7 +6482,7 @@ class SubmitToolOutputsAction(RequiredAction, discriminator="submit_tool_outputs
         super().__init__(*args, type="submit_tool_outputs", **kwargs)
 
 
-class SubmitToolOutputsDetails(_model_base.Model):
+class SubmitToolOutputsDetails(_Model):
     """The details describing tools that should be called to submit tool outputs.
 
     :ivar tool_calls: The list of tool calls that must be resolved for the agent thread run to
@@ -6514,7 +6513,7 @@ class SubmitToolOutputsDetails(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SystemData(_model_base.Model):
+class SystemData(_Model):
     """Metadata pertaining to creation and last modification of the resource.
 
     :ivar created_at: The timestamp the resource was created at.
@@ -6539,7 +6538,7 @@ class SystemData(_model_base.Model):
     """The timestamp of resource last modification (UTC)."""
 
 
-class ThreadDeletionStatus(_model_base.Model):
+class ThreadDeletionStatus(_Model):
     """The status of a thread deletion operation.
 
     :ivar id: The ID of the resource specified for deletion. Required.
@@ -6579,7 +6578,7 @@ class ThreadDeletionStatus(_model_base.Model):
         self.object: Literal["thread.deleted"] = "thread.deleted"
 
 
-class ThreadMessage(_model_base.Model):
+class ThreadMessage(_Model):
     """A single, existing message within an agent thread.
 
     :ivar id: The identifier, which can be referenced in API endpoints. Required.
@@ -6698,7 +6697,7 @@ class ThreadMessage(_model_base.Model):
         self.object: Literal["thread.message"] = "thread.message"
 
 
-class ThreadMessageOptions(_model_base.Model):
+class ThreadMessageOptions(_Model):
     """A single message within an agent thread,
     as provided during that thread's creation for its initial state.
 
@@ -6763,7 +6762,7 @@ class ThreadMessageOptions(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ThreadRun(_model_base.Model):
+class ThreadRun(_Model):
     """Data representing a single evaluation run of an agent thread.
 
     :ivar id: The identifier, which can be referenced in API endpoints. Required.
@@ -6986,7 +6985,7 @@ class ThreadRun(_model_base.Model):
         self.object: Literal["thread.run"] = "thread.run"
 
 
-class ToolConnection(_model_base.Model):
+class ToolConnection(_Model):
     """A connection resource.
 
     :ivar connection_id: A connection in a ToolConnectionList attached to this tool. Required.
@@ -7014,7 +7013,7 @@ class ToolConnection(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ToolConnectionList(_model_base.Model):
+class ToolConnectionList(_Model):
     """A set of connection resources currently used by either the ``bing_grounding``,
     ``fabric_dataagent``, or ``sharepoint_grounding`` tools.
 
@@ -7048,7 +7047,7 @@ class ToolConnectionList(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ToolOutput(_model_base.Model):
+class ToolOutput(_Model):
     """The data provided during a tool outputs submission to resolve pending tool calls and allow the
     model to continue.
 
@@ -7084,7 +7083,7 @@ class ToolOutput(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ToolResources(_model_base.Model):
+class ToolResources(_Model):
     """A set of resources that are used by the agent's tools. The resources are specific to the type
     of
     tool. For example, the ``code_interpreter`` tool requires a list of file IDs, while the
@@ -7135,7 +7134,7 @@ class ToolResources(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TruncationObject(_model_base.Model):
+class TruncationObject(_Model):
     """Controls for how a thread will be truncated prior to the run. Use this to control the initial
     context window of the run.
 
@@ -7182,7 +7181,7 @@ class TruncationObject(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class UpdateCodeInterpreterToolResourceOptions(_model_base.Model):
+class UpdateCodeInterpreterToolResourceOptions(_Model):
     """Request object to update ``code_interpreted`` tool resources.
 
     :ivar file_ids: A list of file IDs to override the current list of the agent.
@@ -7210,7 +7209,7 @@ class UpdateCodeInterpreterToolResourceOptions(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class UpdateFileSearchToolResourceOptions(_model_base.Model):
+class UpdateFileSearchToolResourceOptions(_Model):
     """Request object to update ``file_search`` tool resources.
 
     :ivar vector_store_ids: A list of vector store IDs to override the current list of the agent.
@@ -7238,7 +7237,7 @@ class UpdateFileSearchToolResourceOptions(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class UpdateToolResourcesOptions(_model_base.Model):
+class UpdateToolResourcesOptions(_Model):
     """Request object. A set of resources that are used by the agent's tools. The resources are
     specific to the type of tool.
     For example, the ``code_interpreter`` tool requires a list of file IDs, while the
@@ -7294,11 +7293,11 @@ class UpdateToolResourcesOptions(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class UploadFileRequest(_model_base.Model):
+class UploadFileRequest(_Model):
     """UploadFileRequest.
 
     :ivar file: The file data, in bytes. Required.
-    :vartype file: ~azure.ai.projects._vendor.FileType
+    :vartype file: ~azure.ai.projects._utils.utils.FileType
     :ivar purpose: The intended purpose of the uploaded file. Use ``assistants`` for Agents and
      Message files, ``vision`` for Agents image file inputs, ``batch`` for Batch API, and
      ``fine-tune`` for Fine-tuning. Required. Known values are: "fine-tune", "fine-tune-results",
@@ -7340,7 +7339,7 @@ class UploadFileRequest(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class VectorStore(_model_base.Model):
+class VectorStore(_Model):
     """A vector store is a collection of processed files can be used by the ``file_search`` tool.
 
     :ivar id: The identifier, which can be referenced in API endpoints. Required.
@@ -7440,7 +7439,7 @@ class VectorStore(_model_base.Model):
         self.object: Literal["vector_store"] = "vector_store"
 
 
-class VectorStoreChunkingStrategyRequest(_model_base.Model):
+class VectorStoreChunkingStrategyRequest(_Model):
     """An abstract representation of a vector store chunking strategy configuration.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -7450,7 +7449,7 @@ class VectorStoreChunkingStrategyRequest(_model_base.Model):
     :vartype type: str or ~azure.ai.projects.models.VectorStoreChunkingStrategyRequestType
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """The object type. Required. Known values are: \"auto\" and \"static\"."""
 
@@ -7499,7 +7498,7 @@ class VectorStoreAutoChunkingStrategyRequest(VectorStoreChunkingStrategyRequest,
         super().__init__(*args, type=VectorStoreChunkingStrategyRequestType.AUTO, **kwargs)
 
 
-class VectorStoreChunkingStrategyResponse(_model_base.Model):
+class VectorStoreChunkingStrategyResponse(_Model):
     """An abstract representation of a vector store chunking strategy configuration.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -7509,7 +7508,7 @@ class VectorStoreChunkingStrategyResponse(_model_base.Model):
     :vartype type: str or ~azure.ai.projects.models.VectorStoreChunkingStrategyResponseType
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     type: str = rest_discriminator(name="type", visibility=["read", "create", "update", "delete", "query"])
     """The object type. Required. Known values are: \"other\" and \"static\"."""
 
@@ -7558,7 +7557,7 @@ class VectorStoreAutoChunkingStrategyResponse(VectorStoreChunkingStrategyRespons
         super().__init__(*args, type=VectorStoreChunkingStrategyResponseType.OTHER, **kwargs)
 
 
-class VectorStoreConfiguration(_model_base.Model):
+class VectorStoreConfiguration(_Model):
     """Vector storage configuration is the list of data sources, used when multiple
     files can be used for the enterprise file search.
 
@@ -7589,7 +7588,7 @@ class VectorStoreConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class VectorStoreConfigurations(_model_base.Model):
+class VectorStoreConfigurations(_Model):
     """The structure, containing the list of vector storage configurations i.e. the list of azure
     asset IDs.
 
@@ -7625,7 +7624,7 @@ class VectorStoreConfigurations(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class VectorStoreDataSource(_model_base.Model):
+class VectorStoreDataSource(_Model):
     """The structure, containing Azure asset URI path and the asset type of the file used as a data
     source
     for the enterprise file search.
@@ -7662,7 +7661,7 @@ class VectorStoreDataSource(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class VectorStoreDeletionStatus(_model_base.Model):
+class VectorStoreDeletionStatus(_Model):
     """Response object for deleting a vector store.
 
     :ivar id: The ID of the resource specified for deletion. Required.
@@ -7702,7 +7701,7 @@ class VectorStoreDeletionStatus(_model_base.Model):
         self.object: Literal["vector_store.deleted"] = "vector_store.deleted"
 
 
-class VectorStoreExpirationPolicy(_model_base.Model):
+class VectorStoreExpirationPolicy(_Model):
     """The expiration policy for a vector store.
 
     :ivar anchor: Anchor timestamp after which the expiration policy applies. Supported anchors:
@@ -7739,7 +7738,7 @@ class VectorStoreExpirationPolicy(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class VectorStoreFile(_model_base.Model):
+class VectorStoreFile(_Model):
     """Description of a file attached to a vector store.
 
     :ivar id: The identifier, which can be referenced in API endpoints. Required.
@@ -7822,7 +7821,7 @@ class VectorStoreFile(_model_base.Model):
         self.object: Literal["vector_store.file"] = "vector_store.file"
 
 
-class VectorStoreFileBatch(_model_base.Model):
+class VectorStoreFileBatch(_Model):
     """A batch of files attached to a vector store.
 
     :ivar id: The identifier, which can be referenced in API endpoints. Required.
@@ -7887,7 +7886,7 @@ class VectorStoreFileBatch(_model_base.Model):
         self.object: Literal["vector_store.files_batch"] = "vector_store.files_batch"
 
 
-class VectorStoreFileCount(_model_base.Model):
+class VectorStoreFileCount(_Model):
     """Counts of files processed or being processed by this vector store grouped by status.
 
     :ivar in_progress: The number of files that are currently being processed. Required.
@@ -7935,7 +7934,7 @@ class VectorStoreFileCount(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class VectorStoreFileDeletionStatus(_model_base.Model):
+class VectorStoreFileDeletionStatus(_Model):
     """Response object for deleting a vector store file relationship.
 
     :ivar id: The ID of the resource specified for deletion. Required.
@@ -7977,7 +7976,7 @@ class VectorStoreFileDeletionStatus(_model_base.Model):
         self.object: Literal["vector_store.file.deleted"] = "vector_store.file.deleted"
 
 
-class VectorStoreFileError(_model_base.Model):
+class VectorStoreFileError(_Model):
     """Details on the error that may have occurred while processing a file for this vector store.
 
     :ivar code: One of ``server_error`` or ``rate_limit_exceeded``. Required. Known values are:
@@ -8014,7 +8013,7 @@ class VectorStoreFileError(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class VectorStoreStaticChunkingStrategyOptions(_model_base.Model):
+class VectorStoreStaticChunkingStrategyOptions(_Model):
     """Options to configure a vector store static chunking strategy.
 
     :ivar max_chunk_size_tokens: The maximum number of tokens in each chunk. The default value is
@@ -8122,7 +8121,7 @@ class VectorStoreStaticChunkingStrategyResponse(
         super().__init__(*args, type=VectorStoreChunkingStrategyResponseType.STATIC, **kwargs)
 
 
-class WorkspaceProperties(_model_base.Model):
+class WorkspaceProperties(_Model):
     """workspace properties.
 
     :ivar application_insights: Authentication type of the connection target. Required.
