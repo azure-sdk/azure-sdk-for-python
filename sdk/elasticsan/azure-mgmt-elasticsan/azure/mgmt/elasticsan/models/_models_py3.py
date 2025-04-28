@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -104,7 +104,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -133,10 +133,10 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class TrackedResource(Resource):
@@ -148,7 +148,7 @@ class TrackedResource(Resource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -201,7 +201,7 @@ class ElasticSan(TrackedResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -285,7 +285,7 @@ class ElasticSanList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ElasticSanProperties(_serialization.Model):
@@ -388,15 +388,15 @@ class ElasticSanProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.sku = sku
         self.availability_zones = availability_zones
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningStates"]] = None
         self.base_size_ti_b = base_size_ti_b
         self.extended_capacity_size_ti_b = extended_capacity_size_ti_b
-        self.total_volume_size_gi_b = None
-        self.volume_group_count = None
-        self.total_iops = None
-        self.total_m_bps = None
-        self.total_size_ti_b = None
-        self.private_endpoint_connections = None
+        self.total_volume_size_gi_b: Optional[int] = None
+        self.volume_group_count: Optional[int] = None
+        self.total_iops: Optional[int] = None
+        self.total_m_bps: Optional[int] = None
+        self.total_size_ti_b: Optional[int] = None
+        self.private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None
         self.public_network_access = public_network_access
         self.auto_scale_properties = auto_scale_properties
 
@@ -561,8 +561,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -601,11 +601,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -681,8 +681,8 @@ class Identity(_serialization.Model):
          ~azure.mgmt.elasticsan.models.UserAssignedIdentity]
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
 
@@ -731,10 +731,10 @@ class IscsiTargetInfo(_serialization.Model):
         :paramtype status: str or ~azure.mgmt.elasticsan.models.OperationalStatus
         """
         super().__init__(**kwargs)
-        self.target_iqn = None
-        self.target_portal_hostname = None
-        self.target_portal_port = None
-        self.provisioning_state = None
+        self.target_iqn: Optional[str] = None
+        self.target_portal_hostname: Optional[str] = None
+        self.target_portal_port: Optional[int] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningStates"]] = None
         self.status = status
 
 
@@ -797,9 +797,9 @@ class KeyVaultProperties(_serialization.Model):
         self.key_name = key_name
         self.key_version = key_version
         self.key_vault_uri = key_vault_uri
-        self.current_versioned_key_identifier = None
-        self.last_key_rotation_timestamp = None
-        self.current_versioned_key_expiration_timestamp = None
+        self.current_versioned_key_identifier: Optional[str] = None
+        self.last_key_rotation_timestamp: Optional[datetime.datetime] = None
+        self.current_versioned_key_expiration_timestamp: Optional[datetime.datetime] = None
 
 
 class ManagedByInfo(_serialization.Model):
@@ -889,11 +889,11 @@ class Operation(_serialization.Model):
         :paramtype display: ~azure.mgmt.elasticsan.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.is_data_action = None
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
         self.display = display
-        self.origin = None
-        self.action_type = None
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
 
 
 class OperationDisplay(_serialization.Model):
@@ -932,10 +932,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -963,8 +963,8 @@ class OperationListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class PreValidationResponse(_serialization.Model):
@@ -1007,7 +1007,7 @@ class PrivateEndpoint(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class PrivateEndpointConnection(Resource):
@@ -1018,7 +1018,7 @@ class PrivateEndpointConnection(Resource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1084,7 +1084,7 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class PrivateEndpointConnectionProperties(_serialization.Model):
@@ -1141,7 +1141,7 @@ class PrivateEndpointConnectionProperties(_serialization.Model):
         :paramtype group_ids: list[str]
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningStates"]] = None
         self.private_endpoint = private_endpoint
         self.private_link_service_connection_state = private_link_service_connection_state
         self.group_ids = group_ids
@@ -1153,7 +1153,7 @@ class PrivateLinkResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1218,7 +1218,7 @@ class PrivateLinkResourceListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class PrivateLinkResourceProperties(_serialization.Model):
@@ -1251,8 +1251,8 @@ class PrivateLinkResourceProperties(_serialization.Model):
         :paramtype required_zone_names: list[str]
         """
         super().__init__(**kwargs)
-        self.group_id = None
-        self.required_members = None
+        self.group_id: Optional[str] = None
+        self.required_members: Optional[List[str]] = None
         self.required_zone_names = required_zone_names
 
 
@@ -1306,7 +1306,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1434,8 +1434,8 @@ class SKUCapability(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.value = None
+        self.name: Optional[str] = None
+        self.value: Optional[str] = None
 
 
 class SkuInformation(_serialization.Model):
@@ -1493,10 +1493,10 @@ class SkuInformation(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.tier = tier
-        self.resource_type = None
-        self.locations = None
-        self.location_info = None
-        self.capabilities = None
+        self.resource_type: Optional[str] = None
+        self.locations: Optional[List[str]] = None
+        self.location_info: Optional[List["_models.SkuLocationInfo"]] = None
+        self.capabilities: Optional[List["_models.SKUCapability"]] = None
 
 
 class SkuInformationList(_serialization.Model):
@@ -1523,8 +1523,8 @@ class SkuInformationList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.SkuInformation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class SkuLocationInfo(_serialization.Model):
@@ -1551,8 +1551,8 @@ class SkuLocationInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.location = None
-        self.zones = None
+        self.location: Optional[str] = None
+        self.zones: Optional[List[str]] = None
 
 
 class Snapshot(ProxyResource):
@@ -1563,7 +1563,7 @@ class Snapshot(ProxyResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1608,7 +1608,7 @@ class SnapshotCreationData(_serialization.Model):
     All required parameters must be populated in order to send to server.
 
     :ivar source_id: Fully qualified resource ID of the volume. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}".
      Required.
     :vartype source_id: str
     """
@@ -1624,7 +1624,7 @@ class SnapshotCreationData(_serialization.Model):
     def __init__(self, *, source_id: str, **kwargs: Any) -> None:
         """
         :keyword source_id: Fully qualified resource ID of the volume. E.g.
-         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}".  # pylint: disable=line-too-long
+         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}".
          Required.
         :paramtype source_id: str
         """
@@ -1659,7 +1659,7 @@ class SnapshotList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class SnapshotProperties(_serialization.Model):
@@ -1702,9 +1702,9 @@ class SnapshotProperties(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.creation_data = creation_data
-        self.provisioning_state = None
-        self.source_volume_size_gi_b = None
-        self.volume_name = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningStates"]] = None
+        self.source_volume_size_gi_b: Optional[int] = None
+        self.volume_name: Optional[str] = None
 
 
 class SourceCreationData(_serialization.Model):
@@ -1714,7 +1714,7 @@ class SourceCreationData(_serialization.Model):
      are: "None", "VolumeSnapshot", "DiskSnapshot", "Disk", and "DiskRestorePoint".
     :vartype create_source: str or ~azure.mgmt.elasticsan.models.VolumeCreateOption
     :ivar source_id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype source_id: str
     """
 
@@ -1735,7 +1735,7 @@ class SourceCreationData(_serialization.Model):
          are: "None", "VolumeSnapshot", "DiskSnapshot", "Disk", and "DiskRestorePoint".
         :paramtype create_source: str or ~azure.mgmt.elasticsan.models.VolumeCreateOption
         :keyword source_id: Fully qualified resource ID for the resource. E.g.
-         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
         :paramtype source_id: str
         """
         super().__init__(**kwargs)
@@ -1831,8 +1831,8 @@ class UserAssignedIdentity(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.client_id = None
+        self.principal_id: Optional[str] = None
+        self.client_id: Optional[str] = None
 
 
 class VirtualNetworkRule(_serialization.Model):
@@ -1841,7 +1841,7 @@ class VirtualNetworkRule(_serialization.Model):
     All required parameters must be populated in order to send to server.
 
     :ivar virtual_network_resource_id: Resource ID of a subnet, for example:
-     /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
      Required.
     :vartype virtual_network_resource_id: str
     :ivar action: The action of virtual network rule. "Allow"
@@ -1862,7 +1862,7 @@ class VirtualNetworkRule(_serialization.Model):
     ) -> None:
         """
         :keyword virtual_network_resource_id: Resource ID of a subnet, for example:
-         /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.  # pylint: disable=line-too-long
+         /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
          Required.
         :paramtype virtual_network_resource_id: str
         :keyword action: The action of virtual network rule. "Allow"
@@ -1881,7 +1881,7 @@ class Volume(ProxyResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1926,7 +1926,7 @@ class VolumeGroup(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2003,7 +2003,7 @@ class VolumeGroupList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class VolumeGroupProperties(_serialization.Model):
@@ -2084,12 +2084,12 @@ class VolumeGroupProperties(_serialization.Model):
         :paramtype delete_retention_policy: ~azure.mgmt.elasticsan.models.DeleteRetentionPolicy
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningStates"]] = None
         self.protocol_type = protocol_type
         self.encryption = encryption
         self.encryption_properties = encryption_properties
         self.network_acls = network_acls
-        self.private_endpoint_connections = None
+        self.private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None
         self.enforce_data_integrity_check_for_iscsi = enforce_data_integrity_check_for_iscsi
         self.delete_retention_policy = delete_retention_policy
 
@@ -2223,7 +2223,7 @@ class VolumeList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class VolumeNameList(_serialization.Model):
@@ -2308,12 +2308,12 @@ class VolumeProperties(_serialization.Model):
         :paramtype managed_by: ~azure.mgmt.elasticsan.models.ManagedByInfo
         """
         super().__init__(**kwargs)
-        self.volume_id = None
+        self.volume_id: Optional[str] = None
         self.creation_data = creation_data
         self.size_gi_b = size_gi_b
-        self.storage_target = None
+        self.storage_target: Optional["_models.IscsiTargetInfo"] = None
         self.managed_by = managed_by
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningStates"]] = None
 
 
 class VolumeUpdate(_serialization.Model):
