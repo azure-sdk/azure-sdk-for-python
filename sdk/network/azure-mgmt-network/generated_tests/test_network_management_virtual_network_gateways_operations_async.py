@@ -355,6 +355,18 @@ class TestNetworkManagementVirtualNetworkGatewaysOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
+    async def test_virtual_network_gateways_list_radius_secrets(self, resource_group):
+        response = await self.client.virtual_network_gateways.list_radius_secrets(
+            resource_group_name=resource_group.name,
+            virtual_network_gateway_name="str",
+            api_version="2024-05-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
     async def test_virtual_network_gateways_begin_get_learned_routes(self, resource_group):
         response = await (
             await self.client.virtual_network_gateways.begin_get_learned_routes(
