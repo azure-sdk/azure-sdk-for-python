@@ -36,8 +36,8 @@ class TestDeploymentScriptsDeploymentScriptsOperations(AzureMgmtRecordedTestCase
                 "forceUpdateTag": "str",
                 "id": "str",
                 "identity": {
-                    "tenantId": "str",
                     "type": "str",
+                    "tenantId": "str",
                     "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
                 },
                 "name": "str",
