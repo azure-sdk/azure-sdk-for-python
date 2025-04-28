@@ -27,12 +27,19 @@
         "azure.mgmt.pineconevectordb.models.SingleSignOnType": "LiftrBase.SingleSignOnType",
         "azure.mgmt.pineconevectordb.models.SingleSignOnStates": "LiftrBase.SingleSignOnStates",
         "azure.mgmt.pineconevectordb.models.ManagedServiceIdentityType": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
-        "azure.mgmt.pineconevectordb.PineconeVectorDbMgmtClient.operations.list": "Azure.ResourceManager.Operations.list",
-        "azure.mgmt.pineconevectordb.PineconeVectorDbMgmtClient.organizations.get": "Pinecone.VectorDb.Organizations.get",
-        "azure.mgmt.pineconevectordb.PineconeVectorDbMgmtClient.organizations.begin_create_or_update": "Pinecone.VectorDb.Organizations.createOrUpdate",
-        "azure.mgmt.pineconevectordb.PineconeVectorDbMgmtClient.organizations.update": "Pinecone.VectorDb.Organizations.update",
-        "azure.mgmt.pineconevectordb.PineconeVectorDbMgmtClient.organizations.begin_delete": "Pinecone.VectorDb.Organizations.delete",
-        "azure.mgmt.pineconevectordb.PineconeVectorDbMgmtClient.organizations.list_by_resource_group": "Pinecone.VectorDb.Organizations.listByResourceGroup",
-        "azure.mgmt.pineconevectordb.PineconeVectorDbMgmtClient.organizations.list_by_subscription": "Pinecone.VectorDb.Organizations.listBySubscription"
+        "azure.mgmt.pineconevectordb.operations.Operations.list": "Azure.ResourceManager.Operations.list",
+        "azure.mgmt.pineconevectordb.aio.operations.Operations.list": "Azure.ResourceManager.Operations.list",
+        "azure.mgmt.pineconevectordb.operations.OrganizationsOperations.get": "Pinecone.VectorDb.Organizations.get",
+        "azure.mgmt.pineconevectordb.aio.operations.OrganizationsOperations.get": "Pinecone.VectorDb.Organizations.get",
+        "azure.mgmt.pineconevectordb.operations.OrganizationsOperations.begin_create_or_update": "Pinecone.VectorDb.Organizations.createOrUpdate",
+        "azure.mgmt.pineconevectordb.aio.operations.OrganizationsOperations.begin_create_or_update": "Pinecone.VectorDb.Organizations.createOrUpdate",
+        "azure.mgmt.pineconevectordb.operations.OrganizationsOperations.update": "Pinecone.VectorDb.Organizations.update",
+        "azure.mgmt.pineconevectordb.aio.operations.OrganizationsOperations.update": "Pinecone.VectorDb.Organizations.update",
+        "azure.mgmt.pineconevectordb.operations.OrganizationsOperations.begin_delete": "Pinecone.VectorDb.Organizations.delete",
+        "azure.mgmt.pineconevectordb.aio.operations.OrganizationsOperations.begin_delete": "Pinecone.VectorDb.Organizations.delete",
+        "azure.mgmt.pineconevectordb.operations.OrganizationsOperations.list_by_resource_group": "Pinecone.VectorDb.Organizations.listByResourceGroup",
+        "azure.mgmt.pineconevectordb.aio.operations.OrganizationsOperations.list_by_resource_group": "Pinecone.VectorDb.Organizations.listByResourceGroup",
+        "azure.mgmt.pineconevectordb.operations.OrganizationsOperations.list_by_subscription": "Pinecone.VectorDb.Organizations.listBySubscription",
+        "azure.mgmt.pineconevectordb.aio.operations.OrganizationsOperations.list_by_subscription": "Pinecone.VectorDb.Organizations.listBySubscription"
     }
 }
