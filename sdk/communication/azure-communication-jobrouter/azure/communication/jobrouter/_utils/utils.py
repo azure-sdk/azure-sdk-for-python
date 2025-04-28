@@ -6,33 +6,23 @@
 # --------------------------------------------------------------------------
 
 from abc import ABC
-from typing import Optional, TYPE_CHECKING
+from typing import Generic, Optional, TYPE_CHECKING, TypeVar
 
 from azure.core import MatchConditions
 
-from ._configuration import JobRouterAdministrationClientConfiguration, JobRouterClientConfiguration
-
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
-    from azure.core import PipelineClient
-
-    from ._serialization import Deserializer, Serializer
+    from .serialization import Deserializer, Serializer
 
 
-class JobRouterAdministrationClientMixinABC(ABC):
+TClient = TypeVar("TClient")
+TConfig = TypeVar("TConfig")
+
+
+class ClientMixinABC(ABC, Generic[TClient, TConfig]):
     """DO NOT use this class. It is for internal typing use only."""
 
-    _client: "PipelineClient"
-    _config: JobRouterAdministrationClientConfiguration
-    _serialize: "Serializer"
-    _deserialize: "Deserializer"
-
-
-class JobRouterClientMixinABC(ABC):
-    """DO NOT use this class. It is for internal typing use only."""
-
-    _client: "PipelineClient"
-    _config: JobRouterClientConfiguration
+    _client: TClient
+    _config: TConfig
     _serialize: "Serializer"
     _deserialize: "Deserializer"
 
