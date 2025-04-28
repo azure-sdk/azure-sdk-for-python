@@ -1,5 +1,378 @@
 # Release History
 
+## 2.0.0 (2025-04-27)
+
+### Features Added
+
+  - Model `CapacityAdministration` added parameter `kwargs` in method `as_dict`
+  - Model `CapacityAdministration` added method `deserialize`
+  - Model `CapacityAdministration` added method `enable_additional_properties_sending`
+  - Model `CapacityAdministration` added method `from_dict`
+  - Model `CapacityAdministration` added method `is_xml_model`
+  - Model `CapacityAdministration` added method `serialize`
+  - Model `CapacityAdministration` added property `additional_properties`
+  - Model `CheckNameAvailabilityRequest` added parameter `kwargs` in method `as_dict`
+  - Model `CheckNameAvailabilityRequest` added method `deserialize`
+  - Model `CheckNameAvailabilityRequest` added method `enable_additional_properties_sending`
+  - Model `CheckNameAvailabilityRequest` added method `from_dict`
+  - Model `CheckNameAvailabilityRequest` added method `is_xml_model`
+  - Model `CheckNameAvailabilityRequest` added method `serialize`
+  - Model `CheckNameAvailabilityRequest` added property `additional_properties`
+  - Model `CheckNameAvailabilityResponse` added parameter `kwargs` in method `as_dict`
+  - Model `CheckNameAvailabilityResponse` added method `deserialize`
+  - Model `CheckNameAvailabilityResponse` added method `enable_additional_properties_sending`
+  - Model `CheckNameAvailabilityResponse` added method `from_dict`
+  - Model `CheckNameAvailabilityResponse` added method `is_xml_model`
+  - Model `CheckNameAvailabilityResponse` added method `serialize`
+  - Model `CheckNameAvailabilityResponse` added property `additional_properties`
+  - Model `ErrorAdditionalInfo` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorAdditionalInfo` added method `deserialize`
+  - Model `ErrorAdditionalInfo` added method `enable_additional_properties_sending`
+  - Model `ErrorAdditionalInfo` added method `from_dict`
+  - Model `ErrorAdditionalInfo` added method `is_xml_model`
+  - Model `ErrorAdditionalInfo` added method `serialize`
+  - Model `ErrorAdditionalInfo` added property `additional_properties`
+  - Model `ErrorDetail` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorDetail` added method `deserialize`
+  - Model `ErrorDetail` added method `enable_additional_properties_sending`
+  - Model `ErrorDetail` added method `from_dict`
+  - Model `ErrorDetail` added method `is_xml_model`
+  - Model `ErrorDetail` added method `serialize`
+  - Model `ErrorDetail` added property `additional_properties`
+  - Model `ErrorResponse` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorResponse` added method `deserialize`
+  - Model `ErrorResponse` added method `enable_additional_properties_sending`
+  - Model `ErrorResponse` added method `from_dict`
+  - Model `ErrorResponse` added method `is_xml_model`
+  - Model `ErrorResponse` added method `serialize`
+  - Model `ErrorResponse` added property `additional_properties`
+  - Model `FabricCapacity` added parameter `kwargs` in method `as_dict`
+  - Model `FabricCapacity` added method `deserialize`
+  - Model `FabricCapacity` added method `enable_additional_properties_sending`
+  - Model `FabricCapacity` added method `from_dict`
+  - Model `FabricCapacity` added method `is_xml_model`
+  - Model `FabricCapacity` added method `serialize`
+  - Model `FabricCapacity` added property `additional_properties`
+  - Model `FabricCapacityProperties` added parameter `kwargs` in method `as_dict`
+  - Model `FabricCapacityProperties` added method `deserialize`
+  - Model `FabricCapacityProperties` added method `enable_additional_properties_sending`
+  - Model `FabricCapacityProperties` added method `from_dict`
+  - Model `FabricCapacityProperties` added method `is_xml_model`
+  - Model `FabricCapacityProperties` added method `serialize`
+  - Model `FabricCapacityProperties` added property `additional_properties`
+  - Model `FabricCapacityUpdate` added parameter `kwargs` in method `as_dict`
+  - Model `FabricCapacityUpdate` added method `deserialize`
+  - Model `FabricCapacityUpdate` added method `enable_additional_properties_sending`
+  - Model `FabricCapacityUpdate` added method `from_dict`
+  - Model `FabricCapacityUpdate` added method `is_xml_model`
+  - Model `FabricCapacityUpdate` added method `serialize`
+  - Model `FabricCapacityUpdate` added property `additional_properties`
+  - Model `FabricCapacityUpdateProperties` added parameter `kwargs` in method `as_dict`
+  - Model `FabricCapacityUpdateProperties` added method `deserialize`
+  - Model `FabricCapacityUpdateProperties` added method `enable_additional_properties_sending`
+  - Model `FabricCapacityUpdateProperties` added method `from_dict`
+  - Model `FabricCapacityUpdateProperties` added method `is_xml_model`
+  - Model `FabricCapacityUpdateProperties` added method `serialize`
+  - Model `FabricCapacityUpdateProperties` added property `additional_properties`
+  - Model `Operation` added parameter `kwargs` in method `as_dict`
+  - Model `Operation` added method `deserialize`
+  - Model `Operation` added method `enable_additional_properties_sending`
+  - Model `Operation` added method `from_dict`
+  - Model `Operation` added method `is_xml_model`
+  - Model `Operation` added method `serialize`
+  - Model `Operation` added property `additional_properties`
+  - Model `OperationDisplay` added parameter `kwargs` in method `as_dict`
+  - Model `OperationDisplay` added method `deserialize`
+  - Model `OperationDisplay` added method `enable_additional_properties_sending`
+  - Model `OperationDisplay` added method `from_dict`
+  - Model `OperationDisplay` added method `is_xml_model`
+  - Model `OperationDisplay` added method `serialize`
+  - Model `OperationDisplay` added property `additional_properties`
+  - Model `Resource` added parameter `kwargs` in method `as_dict`
+  - Model `Resource` added method `deserialize`
+  - Model `Resource` added method `enable_additional_properties_sending`
+  - Model `Resource` added method `from_dict`
+  - Model `Resource` added method `is_xml_model`
+  - Model `Resource` added method `serialize`
+  - Model `Resource` added property `additional_properties`
+  - Model `RpSku` added parameter `kwargs` in method `as_dict`
+  - Model `RpSku` added method `deserialize`
+  - Model `RpSku` added method `enable_additional_properties_sending`
+  - Model `RpSku` added method `from_dict`
+  - Model `RpSku` added method `is_xml_model`
+  - Model `RpSku` added method `serialize`
+  - Model `RpSku` added property `additional_properties`
+  - Model `RpSkuDetailsForExistingResource` added parameter `kwargs` in method `as_dict`
+  - Model `RpSkuDetailsForExistingResource` added method `deserialize`
+  - Model `RpSkuDetailsForExistingResource` added method `enable_additional_properties_sending`
+  - Model `RpSkuDetailsForExistingResource` added method `from_dict`
+  - Model `RpSkuDetailsForExistingResource` added method `is_xml_model`
+  - Model `RpSkuDetailsForExistingResource` added method `serialize`
+  - Model `RpSkuDetailsForExistingResource` added property `additional_properties`
+  - Model `RpSkuDetailsForNewResource` added parameter `kwargs` in method `as_dict`
+  - Model `RpSkuDetailsForNewResource` added method `deserialize`
+  - Model `RpSkuDetailsForNewResource` added method `enable_additional_properties_sending`
+  - Model `RpSkuDetailsForNewResource` added method `from_dict`
+  - Model `RpSkuDetailsForNewResource` added method `is_xml_model`
+  - Model `RpSkuDetailsForNewResource` added method `serialize`
+  - Model `RpSkuDetailsForNewResource` added property `additional_properties`
+  - Model `SystemData` added parameter `kwargs` in method `as_dict`
+  - Model `SystemData` added method `deserialize`
+  - Model `SystemData` added method `enable_additional_properties_sending`
+  - Model `SystemData` added method `from_dict`
+  - Model `SystemData` added method `is_xml_model`
+  - Model `SystemData` added method `serialize`
+  - Model `SystemData` added property `additional_properties`
+  - Model `TrackedResource` added parameter `kwargs` in method `as_dict`
+  - Model `TrackedResource` added method `deserialize`
+  - Model `TrackedResource` added method `enable_additional_properties_sending`
+  - Model `TrackedResource` added method `from_dict`
+  - Model `TrackedResource` added method `is_xml_model`
+  - Model `TrackedResource` added method `serialize`
+  - Model `TrackedResource` added property `additional_properties`
+  - Added model `FabricCapacityListResult`
+  - Added model `OperationListResult`
+  - Added model `RpSkuEnumerationForExistingResourceResult`
+  - Added model `RpSkuEnumerationForNewResourceResult`
+  - Added model `RpSkuProperties`
+
+### Breaking Changes
+
+  - Deleted or renamed client `FabricMgmtClient`
+  - Method `CapacityAdministration.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CapacityAdministration.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CapacityAdministration.clear`
+  - Deleted or renamed method `CapacityAdministration.copy`
+  - Deleted or renamed method `CapacityAdministration.get`
+  - Deleted or renamed method `CapacityAdministration.items`
+  - Deleted or renamed method `CapacityAdministration.keys`
+  - Deleted or renamed method `CapacityAdministration.pop`
+  - Deleted or renamed method `CapacityAdministration.popitem`
+  - Deleted or renamed method `CapacityAdministration.setdefault`
+  - Deleted or renamed method `CapacityAdministration.update`
+  - Deleted or renamed method `CapacityAdministration.values`
+  - Method `CheckNameAvailabilityRequest.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CheckNameAvailabilityRequest.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.clear`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.copy`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.get`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.items`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.keys`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.pop`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.popitem`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.setdefault`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.update`
+  - Deleted or renamed method `CheckNameAvailabilityRequest.values`
+  - Method `CheckNameAvailabilityResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CheckNameAvailabilityResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.clear`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.copy`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.get`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.items`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.keys`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.pop`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.popitem`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.setdefault`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.update`
+  - Deleted or renamed method `CheckNameAvailabilityResponse.values`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorAdditionalInfo.clear`
+  - Deleted or renamed method `ErrorAdditionalInfo.copy`
+  - Deleted or renamed method `ErrorAdditionalInfo.get`
+  - Deleted or renamed method `ErrorAdditionalInfo.items`
+  - Deleted or renamed method `ErrorAdditionalInfo.keys`
+  - Deleted or renamed method `ErrorAdditionalInfo.pop`
+  - Deleted or renamed method `ErrorAdditionalInfo.popitem`
+  - Deleted or renamed method `ErrorAdditionalInfo.setdefault`
+  - Deleted or renamed method `ErrorAdditionalInfo.update`
+  - Deleted or renamed method `ErrorAdditionalInfo.values`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorDetail.clear`
+  - Deleted or renamed method `ErrorDetail.copy`
+  - Deleted or renamed method `ErrorDetail.get`
+  - Deleted or renamed method `ErrorDetail.items`
+  - Deleted or renamed method `ErrorDetail.keys`
+  - Deleted or renamed method `ErrorDetail.pop`
+  - Deleted or renamed method `ErrorDetail.popitem`
+  - Deleted or renamed method `ErrorDetail.setdefault`
+  - Deleted or renamed method `ErrorDetail.update`
+  - Deleted or renamed method `ErrorDetail.values`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorResponse.clear`
+  - Deleted or renamed method `ErrorResponse.copy`
+  - Deleted or renamed method `ErrorResponse.get`
+  - Deleted or renamed method `ErrorResponse.items`
+  - Deleted or renamed method `ErrorResponse.keys`
+  - Deleted or renamed method `ErrorResponse.pop`
+  - Deleted or renamed method `ErrorResponse.popitem`
+  - Deleted or renamed method `ErrorResponse.setdefault`
+  - Deleted or renamed method `ErrorResponse.update`
+  - Deleted or renamed method `ErrorResponse.values`
+  - Method `FabricCapacity.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `FabricCapacity.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `FabricCapacity.clear`
+  - Deleted or renamed method `FabricCapacity.copy`
+  - Deleted or renamed method `FabricCapacity.get`
+  - Deleted or renamed method `FabricCapacity.items`
+  - Deleted or renamed method `FabricCapacity.keys`
+  - Deleted or renamed method `FabricCapacity.pop`
+  - Deleted or renamed method `FabricCapacity.popitem`
+  - Deleted or renamed method `FabricCapacity.setdefault`
+  - Deleted or renamed method `FabricCapacity.update`
+  - Deleted or renamed method `FabricCapacity.values`
+  - Method `FabricCapacityProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `FabricCapacityProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `FabricCapacityProperties.clear`
+  - Deleted or renamed method `FabricCapacityProperties.copy`
+  - Deleted or renamed method `FabricCapacityProperties.get`
+  - Deleted or renamed method `FabricCapacityProperties.items`
+  - Deleted or renamed method `FabricCapacityProperties.keys`
+  - Deleted or renamed method `FabricCapacityProperties.pop`
+  - Deleted or renamed method `FabricCapacityProperties.popitem`
+  - Deleted or renamed method `FabricCapacityProperties.setdefault`
+  - Deleted or renamed method `FabricCapacityProperties.update`
+  - Deleted or renamed method `FabricCapacityProperties.values`
+  - Method `FabricCapacityUpdate.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `FabricCapacityUpdate.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `FabricCapacityUpdate.clear`
+  - Deleted or renamed method `FabricCapacityUpdate.copy`
+  - Deleted or renamed method `FabricCapacityUpdate.get`
+  - Deleted or renamed method `FabricCapacityUpdate.items`
+  - Deleted or renamed method `FabricCapacityUpdate.keys`
+  - Deleted or renamed method `FabricCapacityUpdate.pop`
+  - Deleted or renamed method `FabricCapacityUpdate.popitem`
+  - Deleted or renamed method `FabricCapacityUpdate.setdefault`
+  - Deleted or renamed method `FabricCapacityUpdate.update`
+  - Deleted or renamed method `FabricCapacityUpdate.values`
+  - Method `FabricCapacityUpdateProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `FabricCapacityUpdateProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `FabricCapacityUpdateProperties.clear`
+  - Deleted or renamed method `FabricCapacityUpdateProperties.copy`
+  - Deleted or renamed method `FabricCapacityUpdateProperties.get`
+  - Deleted or renamed method `FabricCapacityUpdateProperties.items`
+  - Deleted or renamed method `FabricCapacityUpdateProperties.keys`
+  - Deleted or renamed method `FabricCapacityUpdateProperties.pop`
+  - Deleted or renamed method `FabricCapacityUpdateProperties.popitem`
+  - Deleted or renamed method `FabricCapacityUpdateProperties.setdefault`
+  - Deleted or renamed method `FabricCapacityUpdateProperties.update`
+  - Deleted or renamed method `FabricCapacityUpdateProperties.values`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Operation.clear`
+  - Deleted or renamed method `Operation.copy`
+  - Deleted or renamed method `Operation.get`
+  - Deleted or renamed method `Operation.items`
+  - Deleted or renamed method `Operation.keys`
+  - Deleted or renamed method `Operation.pop`
+  - Deleted or renamed method `Operation.popitem`
+  - Deleted or renamed method `Operation.setdefault`
+  - Deleted or renamed method `Operation.update`
+  - Deleted or renamed method `Operation.values`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `OperationDisplay.clear`
+  - Deleted or renamed method `OperationDisplay.copy`
+  - Deleted or renamed method `OperationDisplay.get`
+  - Deleted or renamed method `OperationDisplay.items`
+  - Deleted or renamed method `OperationDisplay.keys`
+  - Deleted or renamed method `OperationDisplay.pop`
+  - Deleted or renamed method `OperationDisplay.popitem`
+  - Deleted or renamed method `OperationDisplay.setdefault`
+  - Deleted or renamed method `OperationDisplay.update`
+  - Deleted or renamed method `OperationDisplay.values`
+  - Method `Resource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Resource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Resource.clear`
+  - Deleted or renamed method `Resource.copy`
+  - Deleted or renamed method `Resource.get`
+  - Deleted or renamed method `Resource.items`
+  - Deleted or renamed method `Resource.keys`
+  - Deleted or renamed method `Resource.pop`
+  - Deleted or renamed method `Resource.popitem`
+  - Deleted or renamed method `Resource.setdefault`
+  - Deleted or renamed method `Resource.update`
+  - Deleted or renamed method `Resource.values`
+  - Method `RpSku.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `RpSku.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `RpSku.clear`
+  - Deleted or renamed method `RpSku.copy`
+  - Deleted or renamed method `RpSku.get`
+  - Deleted or renamed method `RpSku.items`
+  - Deleted or renamed method `RpSku.keys`
+  - Deleted or renamed method `RpSku.pop`
+  - Deleted or renamed method `RpSku.popitem`
+  - Deleted or renamed method `RpSku.setdefault`
+  - Deleted or renamed method `RpSku.update`
+  - Deleted or renamed method `RpSku.values`
+  - Method `RpSkuDetailsForExistingResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `RpSkuDetailsForExistingResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `RpSkuDetailsForExistingResource.clear`
+  - Deleted or renamed method `RpSkuDetailsForExistingResource.copy`
+  - Deleted or renamed method `RpSkuDetailsForExistingResource.get`
+  - Deleted or renamed method `RpSkuDetailsForExistingResource.items`
+  - Deleted or renamed method `RpSkuDetailsForExistingResource.keys`
+  - Deleted or renamed method `RpSkuDetailsForExistingResource.pop`
+  - Deleted or renamed method `RpSkuDetailsForExistingResource.popitem`
+  - Deleted or renamed method `RpSkuDetailsForExistingResource.setdefault`
+  - Deleted or renamed method `RpSkuDetailsForExistingResource.update`
+  - Deleted or renamed method `RpSkuDetailsForExistingResource.values`
+  - Method `RpSkuDetailsForNewResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `RpSkuDetailsForNewResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `RpSkuDetailsForNewResource.clear`
+  - Deleted or renamed method `RpSkuDetailsForNewResource.copy`
+  - Deleted or renamed method `RpSkuDetailsForNewResource.get`
+  - Deleted or renamed method `RpSkuDetailsForNewResource.items`
+  - Deleted or renamed method `RpSkuDetailsForNewResource.keys`
+  - Deleted or renamed method `RpSkuDetailsForNewResource.pop`
+  - Deleted or renamed method `RpSkuDetailsForNewResource.popitem`
+  - Deleted or renamed method `RpSkuDetailsForNewResource.setdefault`
+  - Deleted or renamed method `RpSkuDetailsForNewResource.update`
+  - Deleted or renamed method `RpSkuDetailsForNewResource.values`
+  - Method `SystemData.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SystemData.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SystemData.clear`
+  - Deleted or renamed method `SystemData.copy`
+  - Deleted or renamed method `SystemData.get`
+  - Deleted or renamed method `SystemData.items`
+  - Deleted or renamed method `SystemData.keys`
+  - Deleted or renamed method `SystemData.pop`
+  - Deleted or renamed method `SystemData.popitem`
+  - Deleted or renamed method `SystemData.setdefault`
+  - Deleted or renamed method `SystemData.update`
+  - Deleted or renamed method `SystemData.values`
+  - Method `TrackedResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `TrackedResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `TrackedResource.clear`
+  - Deleted or renamed method `TrackedResource.copy`
+  - Deleted or renamed method `TrackedResource.get`
+  - Deleted or renamed method `TrackedResource.items`
+  - Deleted or renamed method `TrackedResource.keys`
+  - Deleted or renamed method `TrackedResource.pop`
+  - Deleted or renamed method `TrackedResource.popitem`
+  - Deleted or renamed method `TrackedResource.setdefault`
+  - Deleted or renamed method `TrackedResource.update`
+  - Deleted or renamed method `TrackedResource.values`
+  - `CapacityAdministration.__init__` had all overloads removed
+  - `CheckNameAvailabilityRequest.__init__` had all overloads removed
+  - `CheckNameAvailabilityResponse.__init__` had all overloads removed
+  - `ErrorResponse.__init__` had all overloads removed
+  - `FabricCapacity.__init__` had all overloads removed
+  - `FabricCapacityProperties.__init__` had all overloads removed
+  - `FabricCapacityUpdate.__init__` had all overloads removed
+  - `FabricCapacityUpdateProperties.__init__` had all overloads removed
+  - `Operation.__init__` had all overloads removed
+  - `RpSku.__init__` had all overloads removed
+  - `RpSkuDetailsForExistingResource.__init__` had all overloads removed
+  - `RpSkuDetailsForNewResource.__init__` had all overloads removed
+  - `SystemData.__init__` had all overloads removed
+  - `TrackedResource.__init__` had all overloads removed
+  - `FabricCapacitiesOperations.begin_create_or_update` had an overload `def begin_create_or_update(self: None, resource_group_name: str, capacity_name: str, resource: JSON, content_type: str)` removed
+  - `FabricCapacitiesOperations.begin_update` had an overload `def begin_update(self: None, resource_group_name: str, capacity_name: str, properties: JSON, content_type: str)` removed
+  - `FabricCapacitiesOperations.check_name_availability` had an overload `def check_name_availability(self: None, location: str, body: JSON, content_type: str)` removed
+
 ## 1.0.0 (2024-10-21)
 
 ### Other Changes
