@@ -14,7 +14,7 @@ from azure.core import AsyncPipelineClient
 from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 
-from .._serialization import Deserializer, Serializer
+from .._utils.serialization import Deserializer, Serializer
 from ._configuration import LoadTestAdministrationClientConfiguration, LoadTestRunClientConfiguration
 from ._operations import LoadTestAdministrationClientOperationsMixin, LoadTestRunClientOperationsMixin
 
@@ -38,6 +38,7 @@ class LoadTestAdministrationClient(LoadTestAdministrationClientOperationsMixin):
     def __init__(self, endpoint: str, credential: "AsyncTokenCredential", **kwargs: Any) -> None:
         _endpoint = "https://{endpoint}"
         self._config = LoadTestAdministrationClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -116,6 +117,7 @@ class LoadTestRunClient(LoadTestRunClientOperationsMixin):
     def __init__(self, endpoint: str, credential: "AsyncTokenCredential", **kwargs: Any) -> None:
         _endpoint = "https://{endpoint}"
         self._config = LoadTestRunClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
