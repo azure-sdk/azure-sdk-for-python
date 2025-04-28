@@ -37,8 +37,8 @@ class CapacitySkuTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AUTO_PREMIUM_HOST = "AutoPremiumHost"
 
 
-class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of identity that created/modified the resource."""
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
 
     USER = "User"
     APPLICATION = "Application"
