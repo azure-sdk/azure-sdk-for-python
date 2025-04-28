@@ -1,5 +1,50 @@
 # Release History
 
+## 35.0.0 (2025-04-23)
+
+### Features Added
+
+  - Model AvailabilitySet has a new parameter system_data
+  - Model CapacityReservation has a new parameter system_data
+  - Model CapacityReservationGroup has a new parameter system_data
+  - Model DedicatedHost has a new parameter system_data
+  - Model DedicatedHostGroup has a new parameter system_data
+  - Model DedicatedHostSizeListResult has a new parameter next_link
+  - Model Disk has a new parameter system_data
+  - Model DiskAccess has a new parameter system_data
+  - Model DiskEncryptionSet has a new parameter system_data
+  - Model DiskRestorePoint has a new parameter system_data
+  - Model Image has a new parameter system_data
+  - Model PrivateEndpointConnection has a new parameter system_data
+  - Model ProximityPlacementGroup has a new parameter system_data
+  - Model ProxyResource has a new parameter system_data
+  - Model RestorePoint has a new parameter system_data
+  - Model RestorePointCollection has a new parameter system_data
+  - Model RollingUpgradeStatusInfo has a new parameter system_data
+  - Model Snapshot has a new parameter system_data
+  - Model SshPublicKeyResource has a new parameter system_data
+  - Model SystemData has a new parameter created_by
+  - Model SystemData has a new parameter created_by_type
+  - Model SystemData has a new parameter last_modified_by
+  - Model SystemData has a new parameter last_modified_by_type
+  - Model VirtualMachine has a new parameter system_data
+  - Model VirtualMachineExtension has a new parameter system_data
+  - Model VirtualMachineExtensionImage has a new parameter system_data
+  - Model VirtualMachineRunCommand has a new parameter system_data
+  - Model VirtualMachineScaleSet has a new parameter system_data
+  - Model VirtualMachineScaleSetExtension has a new parameter vm_name
+  - Model VirtualMachineScaleSetVM has a new parameter system_data
+  - Model VirtualMachineScaleSetVMExtension has a new parameter vm_name
+  - Model VirtualMachineSizeListResult has a new parameter next_link
+
+### Breaking Changes
+
+  - Model VirtualMachineScaleSetExtension no longer has parameter name
+  - Model VirtualMachineScaleSetVMExtension no longer has parameter name
+  - Parameter location of model VirtualMachineExtension is now required
+  - Parameter value of model PrivateEndpointConnectionListResult is now required
+  - Parameter value of model RestorePointCollectionListResult is now required
+
 ## 34.1.0 (2025-03-24)
 
 ### Features Added
