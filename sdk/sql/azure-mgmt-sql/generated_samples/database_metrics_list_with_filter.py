@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,7 +16,7 @@ from azure.mgmt.sql import SqlManagementClient
     pip install azure-identity
     pip install azure-mgmt-sql
 # USAGE
-    python export_database_using_database_extensions.py
+    python database_metrics_list_with_filter.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,29 +28,19 @@ from azure.mgmt.sql import SqlManagementClient
 def main():
     client = SqlManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="0ca8cd24-0b47-4ad5-bc7e-d70e35c44adf",
+        subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.database_extensions.begin_create_or_update(
-        resource_group_name="rg_d1ef9eae-044d-4710-ba59-b82e84ad3157",
-        server_name="srv_9243d320-ac4e-4f97-8e06-b1167dae5f4c",
-        database_name="db_7fe424c8-23cf-4ac3-bdc3-e21f424bdb68",
-        extension_name="Export",
-        parameters={
-            "properties": {
-                "administratorLogin": "login",
-                "administratorLoginPassword": "password",
-                "authenticationType": "Sql",
-                "operationMode": "Export",
-                "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                "storageKeyType": "StorageAccessKey",
-                "storageUri": "https://teststorage.blob.core.windows.net/testcontainer/Manifest.xml",
-            }
-        },
-    ).result()
-    print(response)
+    response = client.databases.list_metrics(
+        resource_group_name="sqlcrudtest-6730",
+        server_name="sqlcrudtest-9007",
+        database_name="3481",
+        filter="name/value eq 'cpu_percent' and timeGrain eq '00:10:00' and startTime eq '2017-06-02T18:35:00Z' and endTime eq '2017-06-02T18:55:00Z'",
+    )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-05-01-preview/examples/ExportDatabaseUsingDatabaseExtensions.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/DatabaseMetricsListWithFilter.json
 if __name__ == "__main__":
     main()
