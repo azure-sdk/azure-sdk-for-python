@@ -1,0 +1,18 @@
+{
+    "CrossLanguagePackageId": "Playwright",
+    "CrossLanguageDefinitionId": {
+        "azure.developer.playwright.models.AccessToken": "Playwright.AccessToken",
+        "azure.developer.playwright.models.AccessTokenState": "Playwright.AccessTokenState",
+        "azure.developer.playwright.models.OS": "Playwright.OS",
+        "azure.developer.playwright.operations.AccessTokensOperations.create_or_replace": "Playwright.AccessTokens.createOrReplace",
+        "azure.developer.playwright.aio.operations.AccessTokensOperations.create_or_replace": "Playwright.AccessTokens.createOrReplace",
+        "azure.developer.playwright.operations.AccessTokensOperations.get": "Playwright.AccessTokens.get",
+        "azure.developer.playwright.aio.operations.AccessTokensOperations.get": "Playwright.AccessTokens.get",
+        "azure.developer.playwright.operations.AccessTokensOperations.delete": "Playwright.AccessTokens.delete",
+        "azure.developer.playwright.aio.operations.AccessTokensOperations.delete": "Playwright.AccessTokens.delete",
+        "azure.developer.playwright.operations.AccessTokensOperations.list": "Playwright.AccessTokens.list",
+        "azure.developer.playwright.aio.operations.AccessTokensOperations.list": "Playwright.AccessTokens.list",
+        "azure.developer.playwright.operations.WorkspacesOperations.get_browsers": "Playwright.Workspaces.getBrowsers",
+        "azure.developer.playwright.aio.operations.WorkspacesOperations.get_browsers": "Playwright.Workspaces.getBrowsers"
+    }
+}
