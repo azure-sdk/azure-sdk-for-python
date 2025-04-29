@@ -21,6 +21,18 @@ class TestNginxManagementCertificatesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
+    async def test_certificates_list(self, resource_group):
+        response = self.client.certificates.list(
+            resource_group_name=resource_group.name,
+            deployment_name="str",
+            api_version="2024-11-01-preview",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
     async def test_certificates_get(self, resource_group):
         response = await self.client.certificates.get(
             resource_group_name=resource_group.name,
@@ -40,6 +52,28 @@ class TestNginxManagementCertificatesOperationsAsync(AzureMgmtRecordedTestCase):
                 resource_group_name=resource_group.name,
                 deployment_name="str",
                 certificate_name="str",
+                body={
+                    "certificateError": {"code": "str", "message": "str"},
+                    "certificateVirtualPath": "str",
+                    "id": "str",
+                    "keyVaultSecretCreated": "2020-02-20 00:00:00",
+                    "keyVaultSecretId": "str",
+                    "keyVaultSecretVersion": "str",
+                    "keyVirtualPath": "str",
+                    "location": "str",
+                    "name": "str",
+                    "provisioningState": "str",
+                    "sha1Thumbprint": "str",
+                    "systemData": {
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str",
+                    },
+                    "type": "str",
+                },
                 api_version="2024-11-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
@@ -59,17 +93,5 @@ class TestNginxManagementCertificatesOperationsAsync(AzureMgmtRecordedTestCase):
             )
         ).result()  # call '.result()' to poll until service return final result
 
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_certificates_list(self, resource_group):
-        response = self.client.certificates.list(
-            resource_group_name=resource_group.name,
-            deployment_name="str",
-            api_version="2024-11-01-preview",
-        )
-        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
