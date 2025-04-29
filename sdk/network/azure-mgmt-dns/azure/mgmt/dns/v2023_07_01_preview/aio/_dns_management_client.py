@@ -7,42 +7,43 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, Awaitable, TYPE_CHECKING
+from typing import Any, Awaitable, Optional, TYPE_CHECKING, cast
 from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
+from azure.core.settings import settings
 from azure.mgmt.core import AsyncARMPipelineClient
 from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from .. import models as _models
-from ..._serialization import Deserializer, Serializer
+from .._utils.serialization import Deserializer, Serializer
 from ._configuration import DnsManagementClientConfiguration
 from .operations import DnsResourceReferenceOperations, DnssecConfigsOperations, RecordSetsOperations, ZonesOperations
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class DnsManagementClient:  # pylint: disable=client-accepts-api-version-keyword
+class DnsManagementClient:
     """The DNS Management Client.
 
-    :ivar dnssec_configs: DnssecConfigsOperations operations
-    :vartype dnssec_configs:
-     azure.mgmt.dns.v2023_07_01_preview.aio.operations.DnssecConfigsOperations
-    :ivar record_sets: RecordSetsOperations operations
-    :vartype record_sets: azure.mgmt.dns.v2023_07_01_preview.aio.operations.RecordSetsOperations
     :ivar zones: ZonesOperations operations
     :vartype zones: azure.mgmt.dns.v2023_07_01_preview.aio.operations.ZonesOperations
     :ivar dns_resource_reference: DnsResourceReferenceOperations operations
     :vartype dns_resource_reference:
      azure.mgmt.dns.v2023_07_01_preview.aio.operations.DnsResourceReferenceOperations
+    :ivar record_sets: RecordSetsOperations operations
+    :vartype record_sets: azure.mgmt.dns.v2023_07_01_preview.aio.operations.RecordSetsOperations
+    :ivar dnssec_configs: DnssecConfigsOperations operations
+    :vartype dnssec_configs:
+     azure.mgmt.dns.v2023_07_01_preview.aio.operations.DnssecConfigsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
-    :param base_url: Service URL. Default value is "https://management.azure.com".
+    :param base_url: Service URL. Default value is None.
     :type base_url: str
     :keyword api_version: Api Version. Default value is "2023-07-01-preview". Note that overriding
      this default value may result in unsupported behavior.
@@ -52,15 +53,17 @@ class DnsManagementClient:  # pylint: disable=client-accepts-api-version-keyword
     """
 
     def __init__(
-        self,
-        credential: "AsyncTokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "AsyncTokenCredential", subscription_id: str, base_url: Optional[str] = None, **kwargs: Any
     ) -> None:
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
         self._config = DnsManagementClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, subscription_id=subscription_id, credential_scopes=credential_scopes, **kwargs
         )
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -79,22 +82,24 @@ class DnsManagementClient:  # pylint: disable=client-accepts-api-version-keyword
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(
+            base_url=cast(str, base_url), policies=_policies, **kwargs
+        )
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.dnssec_configs = DnssecConfigsOperations(
+        self.zones = ZonesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2023-07-01-preview"
+        )
+        self.dns_resource_reference = DnsResourceReferenceOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-07-01-preview"
         )
         self.record_sets = RecordSetsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-07-01-preview"
         )
-        self.zones = ZonesOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2023-07-01-preview"
-        )
-        self.dns_resource_reference = DnsResourceReferenceOperations(
+        self.dnssec_configs = DnssecConfigsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-07-01-preview"
         )
 

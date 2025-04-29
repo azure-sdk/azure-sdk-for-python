@@ -1,5 +1,24 @@
 # Release History
 
+## 9.0.0 (2025-04-29)
+
+### Features Added
+
+  - Model RecordSet has a new parameter system_data
+  - Model Resource has a new parameter system_data
+  - Model TrackedResource has a new parameter system_data
+
+### Breaking Changes
+
+  - Model Resource no longer has parameter location
+  - Model Resource no longer has parameter tags
+  - Operation DnsResourceReferenceOperations.get_by_target_resources has a new required parameter body
+  - Operation DnsResourceReferenceOperations.get_by_target_resources no longer has parameter parameters
+  - Operation DnssecConfigsOperations.begin_create_or_update has a new required parameter resource
+  - Parameter value of model DnssecConfigListResult is now required
+  - Parameter value of model RecordSetListResult is now required
+  - Parameter value of model ZoneListResult is now required
+
 ## 8.2.0 (2024-10-22)
 
 ### Features Added
