@@ -19,6 +19,12 @@ class ActionAfterReboot(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     STOP_CONFIGURATION = "StopConfiguration"
 
 
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
+
+
 class AssignmentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the assignment type and execution of the configuration. Possible values are Audit,
     DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor.
@@ -61,6 +67,16 @@ class Kind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Kind of the guest configuration. For example:DSC."""
 
     DSC = "DSC"
+
+
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
