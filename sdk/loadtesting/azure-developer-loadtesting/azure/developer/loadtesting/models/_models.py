@@ -11,15 +11,14 @@
 import datetime
 from typing import Any, Dict, List, Literal, Mapping, Optional, TYPE_CHECKING, Union, overload
 
-from .. import _model_base
-from .._model_base import rest_discriminator, rest_field
+from .._utils.model_base import Model as _Model, rest_discriminator, rest_field
 from ._enums import ResourceKind
 
 if TYPE_CHECKING:
     from .. import models as _models
 
 
-class AppComponent(_model_base.Model):
+class AppComponent(_Model):
     """An Azure resource object (Refer azure generic resource model
     :`https://learn.microsoft.com/en-us/rest/api/resources/resources/get-by-id#genericresource
     <https://learn.microsoft.com/en-us/rest/api/resources/resources/get-by-id#genericresource>`_).
@@ -82,7 +81,7 @@ class AppComponent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ArtifactsContainerInfo(_model_base.Model):
+class ArtifactsContainerInfo(_Model):
     """Artifacts container info.
 
     :ivar url: This is a SAS URI to an Azure Storage Container that contains the test run
@@ -118,7 +117,7 @@ class ArtifactsContainerInfo(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class AutoStopCriteria(_model_base.Model):
+class AutoStopCriteria(_Model):
     """Auto stop criteria for a test. This will automatically stop a load test if the error percentage
     is high for a certain time window.
 
@@ -166,7 +165,7 @@ class AutoStopCriteria(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class CertificateMetadata(_model_base.Model):
+class CertificateMetadata(_Model):
     """Certificates metadata.
 
     :ivar value: The value of the certificate for respective type.
@@ -206,7 +205,7 @@ class CertificateMetadata(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class DimensionFilter(_model_base.Model):
+class DimensionFilter(_Model):
     """Dimension name and values to filter.
 
     :ivar name: The dimension name.
@@ -241,7 +240,7 @@ class DimensionFilter(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class DimensionValue(_model_base.Model):
+class DimensionValue(_Model):
     """Represents a metric dimension value.
 
     :ivar name: The name of the dimension.
@@ -274,7 +273,7 @@ class DimensionValue(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ErrorDetails(_model_base.Model):
+class ErrorDetails(_Model):
     """Error details if there is any failure in load test run.
 
     :ivar message: Error details in case test run was not successfully run.
@@ -285,7 +284,7 @@ class ErrorDetails(_model_base.Model):
     """Error details in case test run was not successfully run."""
 
 
-class FunctionFlexConsumptionResourceConfiguration(_model_base.Model):  # pylint: disable=name-too-long
+class FunctionFlexConsumptionResourceConfiguration(_Model):  # pylint: disable=name-too-long
     """Resource configuration instance for a Flex Consumption based Azure Function App.
 
     :ivar instance_memory_mb: Memory size of the instance. Supported values are 2048, 4096.
@@ -323,7 +322,7 @@ class FunctionFlexConsumptionResourceConfiguration(_model_base.Model):  # pylint
         super().__init__(*args, **kwargs)
 
 
-class TargetResourceConfigurations(_model_base.Model):
+class TargetResourceConfigurations(_Model):
     """Configurations of a target resource. This varies with the kind of resource.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -334,7 +333,7 @@ class TargetResourceConfigurations(_model_base.Model):
     :vartype kind: str or ~azure.developer.loadtesting.models.ResourceKind
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     kind: str = rest_discriminator(name="kind", visibility=["read", "create"])
     """Kind of the resource for which the configurations apply. Required. \"FunctionsFlexConsumption\""""
 
@@ -397,7 +396,7 @@ class FunctionFlexConsumptionTargetResourceConfigurations(
         super().__init__(*args, kind=ResourceKind.FUNCTIONS_FLEX_CONSUMPTION, **kwargs)
 
 
-class LoadTestConfiguration(_model_base.Model):
+class LoadTestConfiguration(_Model):
     """Configurations for the load test.
 
     :ivar engine_instances: The number of engine instances to execute load test. Supported values
@@ -469,7 +468,7 @@ class LoadTestConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MetricAvailability(_model_base.Model):
+class MetricAvailability(_Model):
     """Metric availability specifies the time grain (aggregation interval or frequency).
 
     :ivar time_grain: The time grain specifies the aggregation interval for the metric. Expressed
@@ -503,7 +502,7 @@ class MetricAvailability(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MetricDefinition(_model_base.Model):
+class MetricDefinition(_Model):
     """Metric definition.
 
     :ivar dimensions: List of dimensions.
@@ -587,7 +586,7 @@ class MetricDefinition(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MetricDefinitionCollection(_model_base.Model):
+class MetricDefinitionCollection(_Model):
     """Represents collection of metric definitions.
 
     :ivar value: the values for the metric definitions. Required.
@@ -615,7 +614,7 @@ class MetricDefinitionCollection(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MetricNamespace(_model_base.Model):
+class MetricNamespace(_Model):
     """Metric namespace class specifies the metadata for a metric namespace.
 
     :ivar description: The namespace description.
@@ -648,7 +647,7 @@ class MetricNamespace(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MetricNamespaceCollection(_model_base.Model):
+class MetricNamespaceCollection(_Model):
     """Represents collection of metric namespaces.
 
     :ivar value: The values for the metric namespaces. Required.
@@ -676,7 +675,7 @@ class MetricNamespaceCollection(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MetricRequestPayload(_model_base.Model):
+class MetricRequestPayload(_Model):
     """Filters to fetch the set of metric.
 
     :ivar filters: Get metrics for specific dimension values. Example: Metric contains dimension
@@ -712,7 +711,7 @@ class MetricRequestPayload(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MetricValue(_model_base.Model):
+class MetricValue(_Model):
     """Represents a metric value.
 
     :ivar timestamp: The timestamp for the metric value in RFC 3339 format.
@@ -747,7 +746,7 @@ class MetricValue(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class NameAndDescription(_model_base.Model):
+class NameAndDescription(_Model):
     """The name and description.
 
     :ivar description: The description.
@@ -780,7 +779,7 @@ class NameAndDescription(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OptionalLoadTestConfiguration(_model_base.Model):
+class OptionalLoadTestConfiguration(_Model):
     """Configuration for quick load test.
 
     :ivar endpoint_url: Test URL. Provide the complete HTTP URL. For example,
@@ -847,7 +846,7 @@ class OptionalLoadTestConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class PassFailCriteria(_model_base.Model):
+class PassFailCriteria(_Model):
     """Pass fail criteria for a test.
 
     :ivar pass_fail_metrics: Map of id and pass fail metrics { id  : pass fail metrics }.
@@ -886,13 +885,14 @@ class PassFailCriteria(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class PassFailMetric(_model_base.Model):
+class PassFailMetric(_Model):
     """Pass fail metric.
 
     :ivar client_metric: The client metric on which the criteria should be applied. Known values
      are: "response_time_ms", "latency", "error", "requests", and "requests_per_sec".
     :vartype client_metric: str or ~azure.developer.loadtesting.models.PFMetrics
     :ivar aggregate: The aggregation function to be applied on the client metric. Allowed functions
+
      * ‘percentage’ - for error metric , ‘avg’, percentiles like ‘p50’, ‘p90’, & so on, ‘min’,
      ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec,
      ‘count’ - for requests. Known values are: "count", "percentage", "avg", "p50", "p75", "p90",
@@ -924,6 +924,7 @@ class PassFailMetric(_model_base.Model):
         visibility=["read", "create", "update", "delete", "query"]
     )
     """The aggregation function to be applied on the client metric. Allowed functions
+     
      * ‘percentage’ - for error metric , ‘avg’, percentiles like ‘p50’, ‘p90’, & so on, ‘min’,
      ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec,
      ‘count’ - for requests. Known values are: \"count\", \"percentage\", \"avg\", \"p50\", \"p75\",
@@ -971,7 +972,7 @@ class PassFailMetric(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class PassFailServerMetric(_model_base.Model):
+class PassFailServerMetric(_Model):
     """Pass fail server metric.
 
     :ivar resource_id: The resource id of the resource emitting the metric. Required.
@@ -1044,7 +1045,7 @@ class PassFailServerMetric(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class RegionalConfiguration(_model_base.Model):
+class RegionalConfiguration(_Model):
     """Region distribution configuration for the load test.
 
     :ivar engine_instances:   The number of engine instances to execute load test in specified
@@ -1089,7 +1090,7 @@ class RegionalConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ResourceMetric(_model_base.Model):
+class ResourceMetric(_Model):
     """Associated metric definition for particular metrics of the azure resource (
     Refer :
     `https://learn.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition
@@ -1158,7 +1159,7 @@ class ResourceMetric(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class Secret(_model_base.Model):
+class Secret(_Model):
     """Secret.
 
     :ivar value: The value of the secret for the respective type.
@@ -1193,7 +1194,7 @@ class Secret(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class Test(_model_base.Model):
+class Test(_Model):
     """Load test model.
 
     :ivar pass_fail_criteria: Pass fail criteria for a test.
@@ -1392,7 +1393,7 @@ class Test(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestAppComponents(_model_base.Model):
+class TestAppComponents(_Model):
     """Test app components.
 
     :ivar components: Azure resource collection { resource id (fully qualified resource Id e.g
@@ -1450,7 +1451,7 @@ class TestAppComponents(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestFileInfo(_model_base.Model):
+class TestFileInfo(_Model):
     """Test file info.
 
     :ivar file_name: Name of the file. Required.
@@ -1507,7 +1508,7 @@ class TestFileInfo(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestInputArtifacts(_model_base.Model):
+class TestInputArtifacts(_Model):
     """The input artifacts for the test.
 
     :ivar config_file_info: The load test YAML file that contains the the test configuration.
@@ -1571,7 +1572,7 @@ class TestInputArtifacts(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestProfile(_model_base.Model):
+class TestProfile(_Model):
     """Test Profile Model.
 
     :ivar test_profile_id: Unique identifier for the test profile, must contain only lower-case
@@ -1655,7 +1656,7 @@ class TestProfile(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestProfileRun(_model_base.Model):
+class TestProfileRun(_Model):
     """Test Profile Run model.
 
     :ivar test_profile_run_id: Unique identifier for the test profile run, must contain only
@@ -1774,7 +1775,7 @@ class TestProfileRun(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestProfileRunRecommendation(_model_base.Model):
+class TestProfileRunRecommendation(_Model):
     """A recommendation object that provides a list of configuration that optimizes its category.
 
     :ivar category: Category of the recommendation. Required. Known values are:
@@ -1813,7 +1814,7 @@ class TestProfileRunRecommendation(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestRun(_model_base.Model):
+class TestRun(_Model):
     """Load test run model.
 
     :ivar test_run_id: Unique test run identifier for the load test run, must contain only
@@ -2053,7 +2054,7 @@ class TestRun(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestRunAppComponents(_model_base.Model):
+class TestRunAppComponents(_Model):
     """Test run app component.
 
     :ivar components: Azure resource collection { resource id (fully qualified resource Id e.g
@@ -2111,7 +2112,7 @@ class TestRunAppComponents(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestRunArtifacts(_model_base.Model):
+class TestRunArtifacts(_Model):
     """Collection of test run artifacts.
 
     :ivar input_artifacts: The input artifacts for the test run.
@@ -2145,7 +2146,7 @@ class TestRunArtifacts(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestRunDetail(_model_base.Model):
+class TestRunDetail(_Model):
     """Details of a particular test run for a test profile run.
 
     :ivar status: Status of the test run. Required. Known values are: "ACCEPTED", "NOTSTARTED",
@@ -2191,7 +2192,7 @@ class TestRunDetail(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestRunFileInfo(_model_base.Model):
+class TestRunFileInfo(_Model):
     """Test run file info.
 
     :ivar file_name: Name of the file. Required.
@@ -2248,7 +2249,7 @@ class TestRunFileInfo(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestRunInputArtifacts(_model_base.Model):
+class TestRunInputArtifacts(_Model):
     """The input artifacts for the test run.
 
     :ivar config_file_info: The load test YAML file that contains the the test configuration.
@@ -2312,7 +2313,7 @@ class TestRunInputArtifacts(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestRunOutputArtifacts(_model_base.Model):
+class TestRunOutputArtifacts(_Model):
     """The output artifacts for the test run.
 
     :ivar result_file_info: The test run results file.
@@ -2363,7 +2364,7 @@ class TestRunOutputArtifacts(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestRunServerMetricsConfiguration(_model_base.Model):
+class TestRunServerMetricsConfiguration(_Model):
     """Test run server metrics configuration.
 
     :ivar test_run_id: Test run identifier.
@@ -2423,7 +2424,7 @@ class TestRunServerMetricsConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TestRunStatistics(_model_base.Model):
+class TestRunStatistics(_Model):
     """Test run statistics.
 
     :ivar transaction: Transaction name.
@@ -2510,7 +2511,7 @@ class TestRunStatistics(_model_base.Model):
     """Send network bytes."""
 
 
-class TestServerMetricsConfiguration(_model_base.Model):
+class TestServerMetricsConfiguration(_Model):
     """Test server metrics configuration.
 
     :ivar test_id: Test identifier.
@@ -2570,7 +2571,7 @@ class TestServerMetricsConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TimeSeriesElement(_model_base.Model):
+class TimeSeriesElement(_Model):
     """The time series returned when a data query is performed.
 
     :ivar data: An array of data points representing the metric values.
