@@ -11,14 +11,13 @@
 import datetime
 from typing import Any, Dict, List, Mapping, Optional, TYPE_CHECKING, Union, overload
 
-from .. import _model_base
-from .._model_base import rest_field
+from .._utils.model_base import Model as _Model, rest_field
 
 if TYPE_CHECKING:
     from .. import models as _models
 
 
-class ContainerGroupInstanceCountSummary(_model_base.Model):
+class ContainerGroupInstanceCountSummary(_Model):
     """Displays the counts of container groups in each state, as known by the StandbyPool resource
     provider.
 
@@ -57,7 +56,7 @@ class ContainerGroupInstanceCountSummary(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ContainerGroupProfile(_model_base.Model):
+class ContainerGroupProfile(_Model):
     """Details of the ContainerGroupProfile.
 
     :ivar id: Specifies container group profile id of standby container groups. Required.
@@ -90,7 +89,7 @@ class ContainerGroupProfile(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ContainerGroupProperties(_model_base.Model):
+class ContainerGroupProperties(_Model):
     """Details of the ContainerGroupProperties.
 
     :ivar container_group_profile: Specifies container group profile of standby container groups.
@@ -128,7 +127,7 @@ class ContainerGroupProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ErrorAdditionalInfo(_model_base.Model):
+class ErrorAdditionalInfo(_Model):
     """The resource management error additional info.
 
     :ivar type: The additional info type.
@@ -143,7 +142,7 @@ class ErrorAdditionalInfo(_model_base.Model):
     """The additional info."""
 
 
-class ErrorDetail(_model_base.Model):
+class ErrorDetail(_Model):
     """The error detail.
 
     :ivar code: The error code.
@@ -172,7 +171,7 @@ class ErrorDetail(_model_base.Model):
     """The error additional info."""
 
 
-class ErrorResponse(_model_base.Model):
+class ErrorResponse(_Model):
     """Common error response for all Azure Resource Manager APIs to return error details for failed
     operations.
 
@@ -201,7 +200,7 @@ class ErrorResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class Operation(_model_base.Model):
+class Operation(_Model):
     """Details of a REST API operation, returned from the Resource Provider Operations API.
 
     :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
@@ -258,7 +257,7 @@ class Operation(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OperationDisplay(_model_base.Model):
+class OperationDisplay(_Model):
     """Localized display information for and operation.
 
     :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
@@ -289,7 +288,7 @@ class OperationDisplay(_model_base.Model):
      views."""
 
 
-class PoolContainerGroupStateCount(_model_base.Model):
+class PoolContainerGroupStateCount(_Model):
     """Displays the counts of pooled container groups in each state, as known by the StandbyPool
     resource provider.
 
@@ -327,7 +326,7 @@ class PoolContainerGroupStateCount(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class PoolStatus(_model_base.Model):
+class PoolStatus(_Model):
     """Displays StandbyPool status.
 
     :ivar code: Displays the healthy state of the StandbyPool. Required. Known values are:
@@ -344,7 +343,7 @@ class PoolStatus(_model_base.Model):
     """Displays the StandbyPool health state details."""
 
 
-class PoolVirtualMachineStateCount(_model_base.Model):
+class PoolVirtualMachineStateCount(_Model):
     """Displays the counts of pooled virtual machines in each state, as known by the StandbyPool
     resource provider.
 
@@ -384,7 +383,7 @@ class PoolVirtualMachineStateCount(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class Resource(_model_base.Model):
+class Resource(_Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
@@ -430,7 +429,7 @@ class ProxyResource(Resource):
     """
 
 
-class StandbyContainerGroupPoolElasticityProfile(_model_base.Model):  # pylint: disable=name-too-long
+class StandbyContainerGroupPoolElasticityProfile(_Model):  # pylint: disable=name-too-long
     """Specifies the elasticity profile of the standby container group pools.
 
     :ivar max_ready_capacity: Specifies maximum number of standby container groups in the standby
@@ -468,7 +467,7 @@ class StandbyContainerGroupPoolElasticityProfile(_model_base.Model):  # pylint: 
         super().__init__(*args, **kwargs)
 
 
-class StandbyContainerGroupPoolForecastValues(_model_base.Model):
+class StandbyContainerGroupPoolForecastValues(_Model):
     """Displays the forecast information of the standby pool.
 
     :ivar instances_requested_count: Displays the predicted count of instances to be requested from
@@ -480,7 +479,7 @@ class StandbyContainerGroupPoolForecastValues(_model_base.Model):
     """Displays the predicted count of instances to be requested from the standby pool. Required."""
 
 
-class StandbyContainerGroupPoolPrediction(_model_base.Model):
+class StandbyContainerGroupPoolPrediction(_Model):
     """Displays prediction information of the standby pool.
 
     :ivar forecast_values: Displays the forecast information of the standby pool. Required.
@@ -596,7 +595,7 @@ class StandbyContainerGroupPoolResource(TrackedResource):
         super().__init__(*args, **kwargs)
 
 
-class StandbyContainerGroupPoolResourceProperties(_model_base.Model):  # pylint: disable=name-too-long
+class StandbyContainerGroupPoolResourceProperties(_Model):  # pylint: disable=name-too-long
     """Details of the StandbyContainerGroupPool.
 
     :ivar elasticity_profile: Specifies elasticity profile of standby container group pools.
@@ -649,7 +648,7 @@ class StandbyContainerGroupPoolResourceProperties(_model_base.Model):  # pylint:
         super().__init__(*args, **kwargs)
 
 
-class StandbyContainerGroupPoolResourceUpdate(_model_base.Model):
+class StandbyContainerGroupPoolResourceUpdate(_Model):
     """The type used for update operations of the StandbyContainerGroupPoolResource.
 
     :ivar tags: Resource tags.
@@ -685,7 +684,7 @@ class StandbyContainerGroupPoolResourceUpdate(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class StandbyContainerGroupPoolResourceUpdateProperties(_model_base.Model):  # pylint: disable=name-too-long
+class StandbyContainerGroupPoolResourceUpdateProperties(_Model):  # pylint: disable=name-too-long
     """The updatable properties of the StandbyContainerGroupPoolResource.
 
     :ivar elasticity_profile: Specifies elasticity profile of standby container group pools.
@@ -772,7 +771,7 @@ class StandbyContainerGroupPoolRuntimeViewResource(ProxyResource):  # pylint: di
         super().__init__(*args, **kwargs)
 
 
-class StandbyContainerGroupPoolRuntimeViewResourceProperties(_model_base.Model):  # pylint: disable=name-too-long
+class StandbyContainerGroupPoolRuntimeViewResourceProperties(_Model):  # pylint: disable=name-too-long
     """Contains information about a standby pool as last known by the StandbyPool resource provider.
 
     :ivar instance_count_summary: A list containing the counts of container groups in each possible
@@ -804,7 +803,7 @@ class StandbyContainerGroupPoolRuntimeViewResourceProperties(_model_base.Model):
     """Displays prediction information of the standby pool."""
 
 
-class StandbyVirtualMachinePoolElasticityProfile(_model_base.Model):  # pylint: disable=name-too-long
+class StandbyVirtualMachinePoolElasticityProfile(_Model):  # pylint: disable=name-too-long
     """Details of the elasticity profile.
 
     :ivar max_ready_capacity: Specifies the maximum number of virtual machines in the standby
@@ -844,7 +843,7 @@ class StandbyVirtualMachinePoolElasticityProfile(_model_base.Model):  # pylint: 
         super().__init__(*args, **kwargs)
 
 
-class StandbyVirtualMachinePoolForecastValues(_model_base.Model):
+class StandbyVirtualMachinePoolForecastValues(_Model):
     """Displays the forecast information of the standby pool.
 
     :ivar instances_requested_count: Displays the predicted count of instances to be requested from
@@ -856,7 +855,7 @@ class StandbyVirtualMachinePoolForecastValues(_model_base.Model):
     """Displays the predicted count of instances to be requested from the standby pool. Required."""
 
 
-class StandbyVirtualMachinePoolPrediction(_model_base.Model):
+class StandbyVirtualMachinePoolPrediction(_Model):
     """Displays prediction information of the standby pool.
 
     :ivar forecast_values: Displays the forecast information of the standby pool. Required.
@@ -927,7 +926,7 @@ class StandbyVirtualMachinePoolResource(TrackedResource):
         super().__init__(*args, **kwargs)
 
 
-class StandbyVirtualMachinePoolResourceProperties(_model_base.Model):  # pylint: disable=name-too-long
+class StandbyVirtualMachinePoolResourceProperties(_Model):  # pylint: disable=name-too-long
     """Details of the StandbyVirtualMachinePool.
 
     :ivar elasticity_profile: Specifies the elasticity profile of the standby virtual machine
@@ -985,7 +984,7 @@ class StandbyVirtualMachinePoolResourceProperties(_model_base.Model):  # pylint:
         super().__init__(*args, **kwargs)
 
 
-class StandbyVirtualMachinePoolResourceUpdate(_model_base.Model):
+class StandbyVirtualMachinePoolResourceUpdate(_Model):
     """The type used for update operations of the StandbyVirtualMachinePoolResource.
 
     :ivar tags: Resource tags.
@@ -1021,7 +1020,7 @@ class StandbyVirtualMachinePoolResourceUpdate(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class StandbyVirtualMachinePoolResourceUpdateProperties(_model_base.Model):  # pylint: disable=name-too-long
+class StandbyVirtualMachinePoolResourceUpdateProperties(_Model):  # pylint: disable=name-too-long
     """The updatable properties of the StandbyVirtualMachinePoolResource.
 
     :ivar elasticity_profile: Specifies the elasticity profile of the standby virtual machine
@@ -1114,7 +1113,7 @@ class StandbyVirtualMachinePoolRuntimeViewResource(ProxyResource):  # pylint: di
         super().__init__(*args, **kwargs)
 
 
-class StandbyVirtualMachinePoolRuntimeViewResourceProperties(_model_base.Model):  # pylint: disable=name-too-long
+class StandbyVirtualMachinePoolRuntimeViewResourceProperties(_Model):  # pylint: disable=name-too-long
     """Contains information about a standby pool as last known by the StandbyPool resource provider.
 
     :ivar instance_count_summary: A list containing the counts of virtual machines in each possible
@@ -1193,7 +1192,7 @@ class StandbyVirtualMachineResource(ProxyResource):
         super().__init__(*args, **kwargs)
 
 
-class StandbyVirtualMachineResourceProperties(_model_base.Model):
+class StandbyVirtualMachineResourceProperties(_Model):
     """Details of the StandbyVirtualMachine.
 
     :ivar virtual_machine_resource_id: Resource id of the virtual machine. Required.
@@ -1231,7 +1230,7 @@ class StandbyVirtualMachineResourceProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class Subnet(_model_base.Model):
+class Subnet(_Model):
     """Subnet of container group.
 
     :ivar id: Specifies ARM resource id of the subnet. Required.
@@ -1259,7 +1258,7 @@ class Subnet(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SystemData(_model_base.Model):
+class SystemData(_Model):
     """Metadata pertaining to creation and last modification of the resource.
 
     :ivar created_by: The identity that created the resource.
@@ -1326,7 +1325,7 @@ class SystemData(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class VirtualMachineInstanceCountSummary(_model_base.Model):
+class VirtualMachineInstanceCountSummary(_Model):
     """Contains the counts of VMs in each power state in a given zone, fault domain, as known by the
     StandbyPool resource provider. Note: any resources in the Running state may still be installing
     extensions / not fully provisioned.
