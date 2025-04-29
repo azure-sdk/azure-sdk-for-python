@@ -10,6 +10,20 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
+
+
+class Aggregated(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The aggregation level of the score."""
+
+    WEEK = "week"
+    DAY = "day"
+    MONTH = "month"
+
+
 class Category(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Category."""
 
@@ -37,11 +51,33 @@ class CpuThreshold(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     TWENTY = "20"
 
 
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
+
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
+
+
 class DigestConfigState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """State of digest configuration."""
 
     ACTIVE = "Active"
     DISABLED = "Disabled"
+
+
+class Duration(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Minimum duration for Advisor low CPU utilization evaluation. Valid only for subscriptions.
+    Valid values: 7 (default), 14, 21, 30, 60 or 90.
+    """
+
+    SEVEN = "7"
+    FOURTEEN = "14"
+    TWENTY_ONE = "21"
+    THIRTY = "30"
+    SIXTY = "60"
+    NINETY = "90"
 
 
 class Impact(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -52,7 +88,110 @@ class Impact(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     LOW = "Low"
 
 
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
+
+
+class PredictionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of the prediction."""
+
+    PREDICTIVE_RIGHTSIZING = "PredictiveRightsizing"
+
+
+class Priority(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The Priority of the Recommendation."""
+
+    CRITICAL = "Critical"
+    HIGH = "High"
+    MEDIUM = "Medium"
+    LOW = "Low"
+    INFORMATIONAL = "Informational"
+
+
+class PriorityName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Recommendation priority name enum."""
+
+    HIGH = "High"
+    """High"""
+    MEDIUM = "Medium"
+    """Medium"""
+    LOW = "Low"
+    """Low"""
+
+
+class Reason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The reason the state of the Recommendation was changed."""
+
+    EXCESSIVE_INVESTMENT = "ExcessiveInvestment"
+    TOO_COMPLEX = "TooComplex"
+    ALTERNATIVE_SOLUTION = "AlternativeSolution"
+    INCOMPATIBLE = "Incompatible"
+    UNCLEAR = "Unclear"
+    RISK_ACCEPTED = "RiskAccepted"
+
+
+class ReasonForRejectionName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Reason for rejecting recommendation name enum."""
+
+    NOT_A_RISK = "NotARisk"
+    """Not A Risk"""
+    RISK_ACCEPTED = "RiskAccepted"
+    """Risk Accepted"""
+
+
+class RecommendationStatusName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Recommendation status name enum."""
+
+    APPROVED = "Approved"
+    """Approved"""
+    REJECTED = "Rejected"
+    """Rejected"""
+    PENDING = "Pending"
+    """Pending"""
+
+
+class ReviewStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Review status string, returns the Reviews by the given status (e.g. 'New', 'Triaged',
+    'Completed').
+    """
+
+    NEW = "New"
+    """New"""
+    IN_PROGRESS = "InProgress"
+    """In Progress"""
+    TRIAGED = "Triaged"
+    """Triaged"""
+    COMPLETED = "Completed"
+    """Completed"""
+
+
+class Risk(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The potential risk of not implementing the recommendation."""
+
+    ERROR = "Error"
+    WARNING = "Warning"
+    NONE = "None"
+
+
 class Scenario(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Scenario."""
 
     ALERTS = "Alerts"
+
+
+class State(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The state of the Recommendation."""
+
+    APPROVED = "Approved"
+    REJECTED = "Rejected"
+    PENDING = "Pending"
+    IN_PROGRESS = "InProgress"
+    POSTPONED = "Postponed"
+    DISMISSED = "Dismissed"
+    COMPLETED = "Completed"
