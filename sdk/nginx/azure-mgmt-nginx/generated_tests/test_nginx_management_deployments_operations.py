@@ -20,54 +20,6 @@ class TestNginxManagementDeploymentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_deployments_get(self, resource_group):
-        response = self.client.deployments.get(
-            resource_group_name=resource_group.name,
-            deployment_name="str",
-            api_version="2024-11-01-preview",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_deployments_begin_create_or_update(self, resource_group):
-        response = self.client.deployments.begin_create_or_update(
-            resource_group_name=resource_group.name,
-            deployment_name="str",
-            api_version="2024-11-01-preview",
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_deployments_begin_update(self, resource_group):
-        response = self.client.deployments.begin_update(
-            resource_group_name=resource_group.name,
-            deployment_name="str",
-            api_version="2024-11-01-preview",
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_deployments_begin_delete(self, resource_group):
-        response = self.client.deployments.begin_delete(
-            resource_group_name=resource_group.name,
-            deployment_name="str",
-            api_version="2024-11-01-preview",
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
     def test_deployments_list(self, resource_group):
         response = self.client.deployments.list(
             api_version="2024-11-01-preview",
@@ -84,5 +36,133 @@ class TestNginxManagementDeploymentsOperations(AzureMgmtRecordedTestCase):
             api_version="2024-11-01-preview",
         )
         result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_deployments_get(self, resource_group):
+        response = self.client.deployments.get(
+            resource_group_name=resource_group.name,
+            deployment_name="str",
+            api_version="2024-11-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_deployments_begin_create_or_update(self, resource_group):
+        response = self.client.deployments.begin_create_or_update(
+            resource_group_name=resource_group.name,
+            deployment_name="str",
+            body={
+                "location": "str",
+                "autoUpgradeProfile": {"upgradeChannel": "str"},
+                "dataplaneApiEndpoint": "str",
+                "enableDiagnosticsSupport": bool,
+                "id": "str",
+                "identity": {
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "type": "str",
+                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                },
+                "ipAddress": "str",
+                "logging": {"storageAccount": {"accountName": "str", "containerName": "str"}},
+                "name": "str",
+                "networkProfile": {
+                    "frontEndIPConfiguration": {
+                        "privateIPAddresses": [
+                            {"privateIPAddress": "str", "privateIPAllocationMethod": "str", "subnetId": "str"}
+                        ],
+                        "publicIPAddresses": [{"id": "str"}],
+                    },
+                    "networkInterfaceConfiguration": {"subnetId": "str"},
+                },
+                "nginxAppProtect": {
+                    "webApplicationFirewallSettings": {"activationState": "str"},
+                    "webApplicationFirewallStatus": {
+                        "attackSignaturesPackage": {"revisionDatetime": "2020-02-20 00:00:00", "version": "str"},
+                        "botSignaturesPackage": {"revisionDatetime": "2020-02-20 00:00:00", "version": "str"},
+                        "componentVersions": {"wafEngineVersion": "str", "wafNginxVersion": "str"},
+                        "threatCampaignsPackage": {"revisionDatetime": "2020-02-20 00:00:00", "version": "str"},
+                    },
+                },
+                "nginxVersion": "str",
+                "provisioningState": "str",
+                "scalingProperties": {"capacity": 0, "profiles": [{"capacity": {"max": 0, "min": 0}, "name": "str"}]},
+                "sku": {"sku": {"name": "str", "capacity": 0, "family": "str", "size": "str", "tier": "str"}},
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "tags": {"str": "str"},
+                "type": "str",
+                "userProfile": {"preferredEmail": "str"},
+            },
+            api_version="2024-11-01-preview",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_deployments_begin_update(self, resource_group):
+        response = self.client.deployments.begin_update(
+            resource_group_name=resource_group.name,
+            deployment_name="str",
+            body={
+                "identity": {
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "type": "str",
+                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                },
+                "location": "str",
+                "properties": {
+                    "autoUpgradeProfile": {"upgradeChannel": "str"},
+                    "enableDiagnosticsSupport": bool,
+                    "logging": {"storageAccount": {"accountName": "str", "containerName": "str"}},
+                    "networkProfile": {
+                        "frontEndIPConfiguration": {
+                            "privateIPAddresses": [
+                                {"privateIPAddress": "str", "privateIPAllocationMethod": "str", "subnetId": "str"}
+                            ],
+                            "publicIPAddresses": [{"id": "str"}],
+                        },
+                        "networkInterfaceConfiguration": {"subnetId": "str"},
+                    },
+                    "nginxAppProtect": {"webApplicationFirewallSettings": {"activationState": "str"}},
+                    "scalingProperties": {
+                        "capacity": 0,
+                        "profiles": [{"capacity": {"max": 0, "min": 0}, "name": "str"}],
+                    },
+                    "userProfile": {"preferredEmail": "str"},
+                },
+                "sku": {"sku": {"name": "str", "capacity": 0, "family": "str", "size": "str", "tier": "str"}},
+                "tags": {"str": "str"},
+            },
+            api_version="2024-11-01-preview",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_deployments_begin_delete(self, resource_group):
+        response = self.client.deployments.begin_delete(
+            resource_group_name=resource_group.name,
+            deployment_name="str",
+            api_version="2024-11-01-preview",
+        ).result()  # call '.result()' to poll until service return final result
+
         # please add some check logic here by yourself
         # ...
