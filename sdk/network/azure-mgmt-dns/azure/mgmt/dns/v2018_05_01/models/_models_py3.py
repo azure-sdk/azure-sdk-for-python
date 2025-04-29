@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -9,10 +8,9 @@
 
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -309,7 +307,7 @@ class PtrRecord(_serialization.Model):
         self.ptrdname = ptrdname
 
 
-class RecordSet(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RecordSet(_serialization.Model):
     """Describes a DNS record set (a collection of DNS records with the same name and type).
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -436,14 +434,14 @@ class RecordSet(_serialization.Model):  # pylint: disable=too-many-instance-attr
         :paramtype caa_records: list[~azure.mgmt.dns.v2018_05_01.models.CaaRecord]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.etag = etag
         self.metadata = metadata
         self.ttl = ttl
-        self.fqdn = None
-        self.provisioning_state = None
+        self.fqdn: Optional[str] = None
+        self.provisioning_state: Optional[str] = None
         self.target_resource = target_resource
         self.a_records = a_records
         self.aaaa_records = aaaa_records
@@ -484,7 +482,7 @@ class RecordSetListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class RecordSetUpdateParameters(_serialization.Model):
@@ -549,9 +547,9 @@ class Resource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
 
@@ -711,7 +709,7 @@ class TxtRecord(_serialization.Model):
         self.value = value
 
 
-class Zone(Resource):  # pylint: disable=too-many-instance-attributes
+class Zone(Resource):
     """Describes a DNS zone.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -811,10 +809,10 @@ class Zone(Resource):  # pylint: disable=too-many-instance-attributes
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.etag = etag
-        self.max_number_of_record_sets = None
-        self.max_number_of_records_per_record_set = None
-        self.number_of_record_sets = None
-        self.name_servers = None
+        self.max_number_of_record_sets: Optional[int] = None
+        self.max_number_of_records_per_record_set: Optional[int] = None
+        self.number_of_record_sets: Optional[int] = None
+        self.name_servers: Optional[List[str]] = None
         self.zone_type = zone_type
         self.registration_virtual_networks = registration_virtual_networks
         self.resolution_virtual_networks = resolution_virtual_networks
@@ -847,7 +845,7 @@ class ZoneListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ZoneUpdate(_serialization.Model):

@@ -1,12 +1,12 @@
 {
-  "commit": "7189fb57f69468c56df76f9a4d68dd9ff04ab100",
+  "commit": "16d1d38b083ac3aca22a4ae2bb6343a425f0747a",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "autorest": "3.10.2",
   "use": [
-    "@autorest/python@6.19.0",
+    "@autorest/python@6.34.1",
     "@autorest/modelerfour@4.27.0"
   ],
-  "autorest_command": "autorest specification/dns/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.19.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
+  "autorest_command": "autorest specification/dns/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.34.1 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
   "readme": "specification/dns/resource-manager/readme.md",
   "package-2023-07-preview": "2024-01-03 09:33:30 -0800 389c6c7476ec7c6585b002b44a9dacfb5c88b71a Microsoft.Network/preview/2023-07-01-preview/dns.json",
   "package-2018-05": "2020-11-17 18:50:08 -0800 b47a32169e59378d8005aabb5358e3f4ddf10766 Microsoft.Network/stable/2018-05-01/dns.json",

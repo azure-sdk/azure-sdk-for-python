@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -91,58 +90,6 @@ class CaaRecord(_serialization.Model):
         self.value = value
 
 
-class CloudErrorBody(_serialization.Model):
-    """An error response from the service.
-
-    :ivar code: An identifier for the error. Codes are invariant and are intended to be consumed
-     programmatically.
-    :vartype code: str
-    :ivar message: A message describing the error, intended to be suitable for display in a user
-     interface.
-    :vartype message: str
-    :ivar target: The target of the particular error. For example, the name of the property in
-     error.
-    :vartype target: str
-    :ivar details: A list of additional details about the error.
-    :vartype details: list[~azure.mgmt.dns.v2023_07_01_preview.models.CloudErrorBody]
-    """
-
-    _attribute_map = {
-        "code": {"key": "code", "type": "str"},
-        "message": {"key": "message", "type": "str"},
-        "target": {"key": "target", "type": "str"},
-        "details": {"key": "details", "type": "[CloudErrorBody]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        code: Optional[str] = None,
-        message: Optional[str] = None,
-        target: Optional[str] = None,
-        details: Optional[List["_models.CloudErrorBody"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword code: An identifier for the error. Codes are invariant and are intended to be consumed
-         programmatically.
-        :paramtype code: str
-        :keyword message: A message describing the error, intended to be suitable for display in a user
-         interface.
-        :paramtype message: str
-        :keyword target: The target of the particular error. For example, the name of the property in
-         error.
-        :paramtype target: str
-        :keyword details: A list of additional details about the error.
-        :paramtype details: list[~azure.mgmt.dns.v2023_07_01_preview.models.CloudErrorBody]
-        """
-        super().__init__(**kwargs)
-        self.code = code
-        self.message = message
-        self.target = target
-        self.details = details
-
-
 class CnameRecord(_serialization.Model):
     """A CNAME record.
 
@@ -194,9 +141,9 @@ class DelegationSignerInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.digest_algorithm_type = None
-        self.digest_value = None
-        self.record = None
+        self.digest_algorithm_type: Optional[int] = None
+        self.digest_value: Optional[str] = None
+        self.record: Optional[str] = None
 
 
 class Digest(_serialization.Model):
@@ -313,21 +260,85 @@ class DnsResourceReferenceResult(_serialization.Model):
         self.dns_resource_references = dns_resource_references
 
 
-class DnssecConfig(_serialization.Model):
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.dns.v2023_07_01_preview.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
+
+
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.dns.v2023_07_01_preview.models.SystemData
+    """
+
+
+class DnssecConfig(ProxyResource):
     """Represents the DNSSEC configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The ID of the DNSSEC configuration.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: The name of the DNSSEC configuration.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the DNSSEC configuration.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.dns.v2023_07_01_preview.models.SystemData
     :ivar etag: The etag of the DNSSEC configuration.
     :vartype etag: str
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
-    :vartype system_data: ~azure.mgmt.dns.v2023_07_01_preview.models.SystemData
     :ivar provisioning_state: Provisioning State of the DNSSEC configuration.
     :vartype provisioning_state: str
     :ivar signing_keys: The list of signing keys.
@@ -347,8 +358,8 @@ class DnssecConfig(_serialization.Model):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "etag": {"key": "etag", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "signing_keys": {"key": "properties.signingKeys", "type": "[SigningKey]"},
     }
@@ -359,28 +370,24 @@ class DnssecConfig(_serialization.Model):
         :paramtype etag: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
         self.etag = etag
-        self.system_data = None
-        self.provisioning_state = None
-        self.signing_keys = None
+        self.provisioning_state: Optional[str] = None
+        self.signing_keys: Optional[List["_models.SigningKey"]] = None
 
 
 class DnssecConfigListResult(_serialization.Model):
-    """The response to a List DNSSEC configurations operation.
+    """The response of a DnssecConfig list operation.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
+    All required parameters must be populated in order to send to server.
 
-    :ivar value: Information about the DNSSEC configurations in the response.
+    :ivar value: The DnssecConfig items on this page. Required.
     :vartype value: list[~azure.mgmt.dns.v2023_07_01_preview.models.DnssecConfig]
-    :ivar next_link: The continuation token for the next page of results.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
 
     _validation = {
-        "next_link": {"readonly": True},
+        "value": {"required": True},
     }
 
     _attribute_map = {
@@ -388,14 +395,16 @@ class DnssecConfigListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.DnssecConfig"]] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.DnssecConfig"], next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: Information about the DNSSEC configurations in the response.
+        :keyword value: The DnssecConfig items on this page. Required.
         :paramtype value: list[~azure.mgmt.dns.v2023_07_01_preview.models.DnssecConfig]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link = next_link
 
 
 class DsRecord(_serialization.Model):
@@ -442,6 +451,98 @@ class DsRecord(_serialization.Model):
         self.key_tag = key_tag
         self.algorithm = algorithm
         self.digest = digest
+
+
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
+
+
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.dns.v2023_07_01_preview.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.dns.v2023_07_01_preview.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
+
+
+class ErrorResponse(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.dns.v2023_07_01_preview.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.dns.v2023_07_01_preview.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
 
 
 class MxRecord(_serialization.Model):
@@ -599,17 +700,22 @@ class PtrRecord(_serialization.Model):
         self.ptrdname = ptrdname
 
 
-class RecordSet(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RecordSet(ProxyResource):
     """Describes a DNS record set (a collection of DNS records with the same name and type).
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The ID of the record set.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: The name of the record set.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the record set.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.dns.v2023_07_01_preview.models.SystemData
     :ivar etag: The etag of the record set.
     :vartype etag: str
     :ivar metadata: The metadata attached to the record set.
@@ -658,6 +764,7 @@ class RecordSet(_serialization.Model):  # pylint: disable=too-many-instance-attr
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "fqdn": {"readonly": True},
         "provisioning_state": {"readonly": True},
     }
@@ -666,6 +773,7 @@ class RecordSet(_serialization.Model):  # pylint: disable=too-many-instance-attr
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "etag": {"key": "etag", "type": "str"},
         "metadata": {"key": "properties.metadata", "type": "{str}"},
         "ttl": {"key": "properties.TTL", "type": "int"},
@@ -688,7 +796,7 @@ class RecordSet(_serialization.Model):  # pylint: disable=too-many-instance-attr
         "naptr_records": {"key": "properties.NAPTRRecords", "type": "[NaptrRecord]"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         etag: Optional[str] = None,
@@ -752,14 +860,11 @@ class RecordSet(_serialization.Model):  # pylint: disable=too-many-instance-attr
         :paramtype naptr_records: list[~azure.mgmt.dns.v2023_07_01_preview.models.NaptrRecord]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
         self.etag = etag
         self.metadata = metadata
         self.ttl = ttl
-        self.fqdn = None
-        self.provisioning_state = None
+        self.fqdn: Optional[str] = None
+        self.provisioning_state: Optional[str] = None
         self.target_resource = target_resource
         self.traffic_management_profile = traffic_management_profile
         self.a_records = a_records
@@ -778,18 +883,18 @@ class RecordSet(_serialization.Model):  # pylint: disable=too-many-instance-attr
 
 
 class RecordSetListResult(_serialization.Model):
-    """The response to a record set List operation.
+    """The response of a RecordSet list operation.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
+    All required parameters must be populated in order to send to server.
 
-    :ivar value: Information about the record sets in the response.
+    :ivar value: The RecordSet items on this page. Required.
     :vartype value: list[~azure.mgmt.dns.v2023_07_01_preview.models.RecordSet]
-    :ivar next_link: The continuation token for the next page of results.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
 
     _validation = {
-        "next_link": {"readonly": True},
+        "value": {"required": True},
     }
 
     _attribute_map = {
@@ -797,83 +902,16 @@ class RecordSetListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.RecordSet"]] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.RecordSet"], next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: Information about the record sets in the response.
+        :keyword value: The RecordSet items on this page. Required.
         :paramtype value: list[~azure.mgmt.dns.v2023_07_01_preview.models.RecordSet]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
-
-
-class RecordSetUpdateParameters(_serialization.Model):
-    """Parameters supplied to update a record set.
-
-    :ivar record_set: Specifies information about the record set being updated.
-    :vartype record_set: ~azure.mgmt.dns.v2023_07_01_preview.models.RecordSet
-    """
-
-    _attribute_map = {
-        "record_set": {"key": "RecordSet", "type": "RecordSet"},
-    }
-
-    def __init__(self, *, record_set: Optional["_models.RecordSet"] = None, **kwargs: Any) -> None:
-        """
-        :keyword record_set: Specifies information about the record set being updated.
-        :paramtype record_set: ~azure.mgmt.dns.v2023_07_01_preview.models.RecordSet
-        """
-        super().__init__(**kwargs)
-        self.record_set = record_set
-
-
-class Resource(_serialization.Model):
-    """Common properties of an Azure Resource Manager resource.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar id: Resource ID.
-    :vartype id: str
-    :ivar name: Resource name.
-    :vartype name: str
-    :ivar type: Resource type.
-    :vartype type: str
-    :ivar location: Resource location. Required.
-    :vartype location: str
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "location": {"required": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
-        """
-        :keyword location: Resource location. Required.
-        :paramtype location: str
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.location = location
-        self.tags = tags
+        self.next_link = next_link
 
 
 class SigningKey(_serialization.Model):
@@ -919,12 +957,12 @@ class SigningKey(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.delegation_signer_info = None
-        self.flags = None
-        self.key_tag = None
-        self.protocol = None
-        self.public_key = None
-        self.security_algorithm_type = None
+        self.delegation_signer_info: Optional[List["_models.DelegationSignerInfo"]] = None
+        self.flags: Optional[int] = None
+        self.key_tag: Optional[int] = None
+        self.protocol: Optional[int] = None
+        self.public_key: Optional[str] = None
+        self.security_algorithm_type: Optional[int] = None
 
 
 class SoaRecord(_serialization.Model):
@@ -1179,6 +1217,60 @@ class TlsaRecord(_serialization.Model):
         self.cert_association_data = cert_association_data
 
 
+class TrackedResource(Resource):
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.dns.v2023_07_01_preview.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+    }
+
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.location = location
+
+
 class TxtRecord(_serialization.Model):
     """A TXT record.
 
@@ -1199,27 +1291,30 @@ class TxtRecord(_serialization.Model):
         self.value = value
 
 
-class Zone(Resource):  # pylint: disable=too-many-instance-attributes
+class Zone(TrackedResource):
     """Describes a DNS zone.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     All required parameters must be populated in order to send to server.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: Resource location. Required.
-    :vartype location: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.dns.v2023_07_01_preview.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
     :ivar etag: The etag of the zone.
     :vartype etag: str
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
-    :vartype system_data: ~azure.mgmt.dns.v2023_07_01_preview.models.SystemData
     :ivar max_number_of_record_sets: The maximum number of record sets that can be created in this
      DNS zone.  This is a read-only property and any attempt to set this value will be ignored.
     :vartype max_number_of_record_sets: int
@@ -1252,8 +1347,8 @@ class Zone(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
-        "location": {"required": True},
         "system_data": {"readonly": True},
+        "location": {"required": True},
         "max_number_of_record_sets": {"readonly": True},
         "max_number_of_records_per_record_set": {"readonly": True},
         "number_of_record_sets": {"readonly": True},
@@ -1265,10 +1360,10 @@ class Zone(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "etag": {"key": "etag", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "etag": {"key": "etag", "type": "str"},
         "max_number_of_record_sets": {"key": "properties.maxNumberOfRecordSets", "type": "int"},
         "max_number_of_records_per_record_set": {"key": "properties.maxNumberOfRecordsPerRecordSet", "type": "int"},
         "number_of_record_sets": {"key": "properties.numberOfRecordSets", "type": "int"},
@@ -1291,10 +1386,10 @@ class Zone(Resource):  # pylint: disable=too-many-instance-attributes
         **kwargs: Any
     ) -> None:
         """
-        :keyword location: Resource location. Required.
-        :paramtype location: str
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword etag: The etag of the zone.
         :paramtype etag: str
         :keyword zone_type: The type of this DNS zone (Public or Private). Known values are: "Public"
@@ -1309,32 +1404,31 @@ class Zone(Resource):  # pylint: disable=too-many-instance-attributes
         :paramtype resolution_virtual_networks:
          list[~azure.mgmt.dns.v2023_07_01_preview.models.SubResource]
         """
-        super().__init__(location=location, tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
         self.etag = etag
-        self.system_data = None
-        self.max_number_of_record_sets = None
-        self.max_number_of_records_per_record_set = None
-        self.number_of_record_sets = None
-        self.name_servers = None
+        self.max_number_of_record_sets: Optional[int] = None
+        self.max_number_of_records_per_record_set: Optional[int] = None
+        self.number_of_record_sets: Optional[int] = None
+        self.name_servers: Optional[List[str]] = None
         self.zone_type = zone_type
         self.registration_virtual_networks = registration_virtual_networks
         self.resolution_virtual_networks = resolution_virtual_networks
-        self.signing_keys = None
+        self.signing_keys: Optional[List["_models.SigningKey"]] = None
 
 
 class ZoneListResult(_serialization.Model):
-    """The response to a Zone List or ListAll operation.
+    """The response of a Zone list operation.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
+    All required parameters must be populated in order to send to server.
 
-    :ivar value: Information about the DNS zones.
+    :ivar value: The Zone items on this page. Required.
     :vartype value: list[~azure.mgmt.dns.v2023_07_01_preview.models.Zone]
-    :ivar next_link: The continuation token for the next page of results.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
 
     _validation = {
-        "next_link": {"readonly": True},
+        "value": {"required": True},
     }
 
     _attribute_map = {
@@ -1342,14 +1436,16 @@ class ZoneListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Zone"]] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Zone"], next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: Information about the DNS zones.
+        :keyword value: The Zone items on this page. Required.
         :paramtype value: list[~azure.mgmt.dns.v2023_07_01_preview.models.Zone]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link = next_link
 
 
 class ZoneUpdate(_serialization.Model):

@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.dns.aio import DnsManagementClient
+from azure.mgmt.dns.v2018_05_01.aio import DnsManagementClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
 from devtools_testutils.aio import recorded_by_proxy_async
@@ -21,7 +21,7 @@ class TestDnsManagementDnsResourceReferenceOperationsAsync(AzureMgmtRecordedTest
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_by_target_resources(self, resource_group):
+    async def test_dns_resource_reference_get_by_target_resources(self, resource_group):
         response = await self.client.dns_resource_reference.get_by_target_resources(
             parameters={"targetResources": [{"id": "str"}]},
             api_version="2018-05-01",

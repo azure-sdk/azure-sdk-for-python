@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.dns import DnsManagementClient
+from azure.mgmt.dns.v2018_05_01 import DnsManagementClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
@@ -20,7 +20,7 @@ class TestDnsManagementDnsResourceReferenceOperations(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_by_target_resources(self, resource_group):
+    def test_dns_resource_reference_get_by_target_resources(self, resource_group):
         response = self.client.dns_resource_reference.get_by_target_resources(
             parameters={"targetResources": [{"id": "str"}]},
             api_version="2018-05-01",
