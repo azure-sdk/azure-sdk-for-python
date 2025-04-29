@@ -1,5 +1,21 @@
 # Release History
 
+## 1.1.0b2 (2025-04-29)
+
+### Features Added
+
+  - Method `MixedRealityClient.check_name_availability_local` has a new overload `def check_name_availability_local(self: None, location: str, check_name_availability: IO[bytes], content_type: str)`
+  - Method `MixedRealityClientOperationsMixin.check_name_availability_local` has a new overload `def check_name_availability_local(self: None, location: str, check_name_availability: IO[bytes], content_type: str)`
+  - Method `ObjectAnchorsAccountsOperations.create` has a new overload `def create(self: None, resource_group_name: str, account_name: str, object_anchors_account: IO[bytes], content_type: str)`
+  - Method `ObjectAnchorsAccountsOperations.regenerate_keys` has a new overload `def regenerate_keys(self: None, resource_group_name: str, account_name: str, regenerate: IO[bytes], content_type: str)`
+  - Method `ObjectAnchorsAccountsOperations.update` has a new overload `def update(self: None, resource_group_name: str, account_name: str, object_anchors_account: IO[bytes], content_type: str)`
+  - Method `RemoteRenderingAccountsOperations.create` has a new overload `def create(self: None, resource_group_name: str, account_name: str, remote_rendering_account: IO[bytes], content_type: str)`
+  - Method `RemoteRenderingAccountsOperations.regenerate_keys` has a new overload `def regenerate_keys(self: None, resource_group_name: str, account_name: str, regenerate: IO[bytes], content_type: str)`
+  - Method `RemoteRenderingAccountsOperations.update` has a new overload `def update(self: None, resource_group_name: str, account_name: str, remote_rendering_account: IO[bytes], content_type: str)`
+  - Method `SpatialAnchorsAccountsOperations.create` has a new overload `def create(self: None, resource_group_name: str, account_name: str, spatial_anchors_account: IO[bytes], content_type: str)`
+  - Method `SpatialAnchorsAccountsOperations.regenerate_keys` has a new overload `def regenerate_keys(self: None, resource_group_name: str, account_name: str, regenerate: IO[bytes], content_type: str)`
+  - Method `SpatialAnchorsAccountsOperations.update` has a new overload `def update(self: None, resource_group_name: str, account_name: str, spatial_anchors_account: IO[bytes], content_type: str)`
+
 ## 1.1.0b1 (2022-11-01)
 
 ### Features Added

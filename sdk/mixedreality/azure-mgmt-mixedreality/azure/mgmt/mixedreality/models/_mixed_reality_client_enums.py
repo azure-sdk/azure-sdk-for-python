@@ -29,10 +29,10 @@ class NameUnavailableReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class Serial(int, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Serial of key to be regenerated."""
 
-    #: The Primary Key
     PRIMARY = 1
-    #: The Secondary Key
+    """The Primary Key"""
     SECONDARY = 2
+    """The Secondary Key"""
 
 
 class SkuTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
