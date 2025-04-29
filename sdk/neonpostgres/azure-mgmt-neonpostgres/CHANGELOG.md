@@ -1,5 +1,12 @@
 # Release History
 
+## 2.0.0 (2025-04-29)
+
+### Breaking Changes
+
+  - Deleted or renamed client operation group `NeonPostgresMgmtClient.models`
+  - Deleted or renamed model `ModelsOperations`
+
 ## 1.0.0 (2025-04-21)
 
 ### Features Added
