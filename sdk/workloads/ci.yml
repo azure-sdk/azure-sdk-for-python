@@ -34,3 +34,5 @@ extends:
       safeName: azuremgmtworkloads
     - name: azure-mgmt-workloadssapvirtualinstance
       safeName: azuremgmtworkloadssapvirtualinstance
+    - name: azure-mgmt-sapmonitors
+      safeName: azuremgmtsapmonitors
