@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,14 +10,13 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
-class CheckTrafficManagerRelativeDnsNameAvailabilityParameters(_serialization.Model):
+class CheckTrafficManagerRelativeDnsNameAvailabilityParameters(_serialization.Model):  # pylint: disable=name-too-long
     """Parameters supplied to check Traffic Manager name operation.
 
     :ivar name: The name of the resource.
@@ -109,7 +108,7 @@ class DeleteOperationResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.operation_result = None
+        self.operation_result: Optional[bool] = None
 
 
 class DnsConfig(_serialization.Model):
@@ -152,7 +151,7 @@ class DnsConfig(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.relative_name = relative_name
-        self.fqdn = None
+        self.fqdn: Optional[str] = None
         self.ttl = ttl
 
 
@@ -210,33 +209,8 @@ class ProxyResource(Resource):
     :vartype type: str
     """
 
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
 
-    def __init__(
-        self,
-        *,
-        id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        name: Optional[str] = None,
-        type: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword id: Fully qualified resource Id for the resource. Ex -
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
-        :paramtype id: str
-        :keyword name: The name of the resource.
-        :paramtype name: str
-        :keyword type: The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.
-        :paramtype type: str
-        """
-        super().__init__(id=id, name=name, type=type, **kwargs)
-
-
-class Endpoint(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class Endpoint(ProxyResource):
     """Class representing a Traffic Manager endpoint.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
@@ -700,7 +674,7 @@ class MonitorConfigCustomHeadersItem(_serialization.Model):
         self.value = value
 
 
-class MonitorConfigExpectedStatusCodeRangesItem(_serialization.Model):
+class MonitorConfigExpectedStatusCodeRangesItem(_serialization.Model):  # pylint: disable=name-too-long
     """Min and max value of a status code range.
 
     :ivar min: Min status code.
@@ -784,7 +758,7 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class Profile(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Profile(TrackedResource):
     """Class representing a Traffic Manager profile.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
@@ -928,7 +902,7 @@ class ProfileListResult(_serialization.Model):
 class QueryExperience(_serialization.Model):
     """Class representing a Traffic Manager HeatMap query experience properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar endpoint_id: The id of the endpoint from the 'endpoints' array which these queries were
      routed to. Required.
