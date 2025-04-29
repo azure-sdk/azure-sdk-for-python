@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -33,8 +34,8 @@ def main():
     response = client.record_sets.create_or_update(
         resource_group_name="resourceGroup1",
         private_zone_name="privatezone1.com",
-        record_type="CNAME",
         relative_record_set_name="recordCNAME",
+        record_type="CNAME",
         parameters={
             "properties": {"cnameRecord": {"cname": "contoso.com"}, "metadata": {"key1": "value1"}, "ttl": 3600}
         },

@@ -10,6 +10,15 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
+
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
+
+
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The provisioning state of the resource. This is a read-only property and any attempt to set
     this value will be ignored.

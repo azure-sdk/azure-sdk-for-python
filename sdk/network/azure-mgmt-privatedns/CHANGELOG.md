@@ -1,5 +1,35 @@
 # Release History
 
+## 2.0.0 (2025-04-29)
+
+### Features Added
+
+  - Model `PrivateZone` added property `system_data`
+  - Model `ProxyResource` added property `system_data`
+  - Model `RecordSet` added property `system_data`
+  - Model `Resource` added property `system_data`
+  - Model `TrackedResource` added property `system_data`
+  - Model `VirtualNetworkLink` added property `system_data`
+  - Added enum `CreatedByType`
+  - Added model `ErrorAdditionalInfo`
+  - Added model `ErrorDetail`
+  - Added model `ErrorResponse`
+  - Added model `SystemData`
+
+### Breaking Changes
+
+  - Method `PrivateZone.__init__` removed default value `None` from its parameter `location`
+  - Method `PrivateZoneListResult.__init__` removed default value `None` from its parameter `value`
+  - Method `RecordSetListResult.__init__` removed default value `None` from its parameter `value`
+  - Method `TrackedResource.__init__` removed default value `None` from its parameter `location`
+  - Method `VirtualNetworkLink.__init__` removed default value `None` from its parameter `location`
+  - Method `VirtualNetworkLinkListResult.__init__` removed default value `None` from its parameter `value`
+  - Deleted or renamed model `CloudErrorBody`
+  - Method `RecordSetsOperations.update` re-ordered its parameters from `['self', 'resource_group_name', 'private_zone_name', 'record_type', 'relative_record_set_name', 'parameters', 'if_match', 'kwargs']` to `['self', 'resource_group_name', 'private_zone_name', 'relative_record_set_name', 'record_type', 'parameters', 'if_match', 'kwargs']`
+  - Method `RecordSetsOperations.get` re-ordered its parameters from `['self', 'resource_group_name', 'private_zone_name', 'record_type', 'relative_record_set_name', 'kwargs']` to `['self', 'resource_group_name', 'private_zone_name', 'relative_record_set_name', 'record_type', 'kwargs']`
+  - Method `RecordSetsOperations.create_or_update` re-ordered its parameters from `['self', 'resource_group_name', 'private_zone_name', 'record_type', 'relative_record_set_name', 'parameters', 'if_match', 'if_none_match', 'kwargs']` to `['self', 'resource_group_name', 'private_zone_name', 'relative_record_set_name', 'record_type', 'parameters', 'if_match', 'if_none_match', 'kwargs']`
+  - Method `RecordSetsOperations.delete` re-ordered its parameters from `['self', 'resource_group_name', 'private_zone_name', 'record_type', 'relative_record_set_name', 'if_match', 'kwargs']` to `['self', 'resource_group_name', 'private_zone_name', 'relative_record_set_name', 'record_type', 'if_match', 'kwargs']`
+
 ## 1.2.0 (2024-09-23)
 
 ### Features Added

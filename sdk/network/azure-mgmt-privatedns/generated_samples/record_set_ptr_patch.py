@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -33,8 +34,8 @@ def main():
     response = client.record_sets.update(
         resource_group_name="resourceGroup1",
         private_zone_name="0.0.127.in-addr.arpa",
-        record_type="PTR",
         relative_record_set_name="1",
+        record_type="PTR",
         parameters={"properties": {"metadata": {"key2": "value2"}}},
     )
     print(response)
