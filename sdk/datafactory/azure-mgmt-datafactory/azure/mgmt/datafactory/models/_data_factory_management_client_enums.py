@@ -30,6 +30,14 @@ class ActivityState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INACTIVE = "Inactive"
 
 
+class AmazonRdsForOracleAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Authentication type for connecting to the AmazonRdsForOracle database. Only used for Version
+    2.0.
+    """
+
+    BASIC = "Basic"
+
+
 class AmazonRdsForOraclePartitionOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """AmazonRdsForOraclePartitionOption."""
 
@@ -455,6 +463,13 @@ class ImpalaAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ANONYMOUS = "Anonymous"
     SASL_USERNAME = "SASLUsername"
     USERNAME_AND_PASSWORD = "UsernameAndPassword"
+
+
+class ImpalaThriftTransportProtocol(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The transport protocol to use in the Thrift layer (for V2 only). Default value is Binary."""
+
+    BINARY = "Binary"
+    HTTP = "HTTP"
 
 
 class IntegrationRuntimeAuthKeyName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
