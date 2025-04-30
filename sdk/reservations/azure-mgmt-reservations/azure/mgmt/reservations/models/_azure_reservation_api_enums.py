@@ -252,7 +252,9 @@ class ReservationTerm(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ReservedResourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of the resource that is being reserved."""
+    """The type of the resource that is being reserved. In addition to below types we have also added
+    the following: OpenAIPTU, MDC, Sentinel.
+    """
 
     VIRTUAL_MACHINES = "VirtualMachines"
     SQL_DATABASES = "SqlDatabases"

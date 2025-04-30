@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.reservations import AzureReservationAPI
 
 """
@@ -31,7 +33,7 @@ def main():
     response = client.quota_request_status.get(
         subscription_id="00000000-0000-0000-0000-000000000000",
         provider_id="Microsoft.Compute",
-        location="eastus",
+        location="westus",
         id="2B5C8515-37D8-4B6A-879B-CD641A2CF605",
     )
     print(response)

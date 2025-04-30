@@ -1,5 +1,23 @@
 # Release History
 
+## 2.4.0 (2025-04-30)
+
+### Features Added
+
+  - Method `CalculateExchangeOperations.begin_post` has a new overload `def begin_post(self: None, body: IO[bytes], content_type: str)`
+  - Method `CalculateRefundOperations.post` has a new overload `def post(self: None, reservation_order_id: str, body: IO[bytes], content_type: str)`
+  - Method `ExchangeOperations.begin_post` has a new overload `def begin_post(self: None, body: IO[bytes], content_type: str)`
+  - Method `QuotaOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, subscription_id: str, provider_id: str, location: str, resource_name: str, create_quota_request: IO[bytes], content_type: str)`
+  - Method `QuotaOperations.begin_update` has a new overload `def begin_update(self: None, subscription_id: str, provider_id: str, location: str, resource_name: str, create_quota_request: IO[bytes], content_type: str)`
+  - Method `ReservationOperations.begin_available_scopes` has a new overload `def begin_available_scopes(self: None, reservation_order_id: str, reservation_id: str, body: IO[bytes], content_type: str)`
+  - Method `ReservationOperations.begin_merge` has a new overload `def begin_merge(self: None, reservation_order_id: str, body: IO[bytes], content_type: str)`
+  - Method `ReservationOperations.begin_split` has a new overload `def begin_split(self: None, reservation_order_id: str, body: IO[bytes], content_type: str)`
+  - Method `ReservationOperations.begin_update` has a new overload `def begin_update(self: None, reservation_order_id: str, reservation_id: str, parameters: IO[bytes], content_type: str)`
+  - Method `ReservationOrderOperations.begin_purchase` has a new overload `def begin_purchase(self: None, reservation_order_id: str, body: IO[bytes], content_type: str)`
+  - Method `ReservationOrderOperations.calculate` has a new overload `def calculate(self: None, body: IO[bytes], content_type: str)`
+  - Method `ReservationOrderOperations.change_directory` has a new overload `def change_directory(self: None, reservation_order_id: str, body: IO[bytes], content_type: str)`
+  - Method `ReturnOperations.begin_post` has a new overload `def begin_post(self: None, reservation_order_id: str, body: IO[bytes], content_type: str)`
+
 ## 2.3.0 (2023-03-20)
 
 ### Features Added
