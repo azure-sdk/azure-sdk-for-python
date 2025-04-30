@@ -51,4 +51,5 @@ extends:
     - name: azure-communication-callautomation
       safeName: azurecommunicationcallautomation
     - name: azure-communication-messages
-      safeName: azurecommunicationmessages
+      safeName: azurecommunicationmessages    - name: azure-programmableconnectivity
+      safeName: azureprogrammableconnectivity
