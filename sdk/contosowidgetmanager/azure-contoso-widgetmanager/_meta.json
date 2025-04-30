@@ -1,0 +1,6 @@
+{
+  "commit": "cd79adfdffe8d52c895afeec7aaf0b4a0bbac747",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": ".github/shared/test/fixtures/getAffectedReadmeTags/specification/contosowidgetmanager/Contoso.WidgetManager",
+  "@azure-tools/typespec-python": "0.44.1"
+}
