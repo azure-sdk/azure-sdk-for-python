@@ -1,5 +1,18 @@
 # Release History
 
+## 2.0.0 (2025-04-30)
+
+### Features Added
+
+  - Enum `ActionType` added member `CAPTCHA`
+  - Enum `MatchProcessingBehavior` added member `CONTINUE`
+  - Enum `Operator` added member `SERVICE_TAG_MATCH`
+  - Model `PolicySettings` added property `captcha_expiration_in_minutes`
+
+### Breaking Changes
+
+  - Deleted or renamed enum value `MatchProcessingBehavior.CONTINUE_ENUM`
+
 ## 1.2.0 (2024-04-15)
 
 ### Features Added
