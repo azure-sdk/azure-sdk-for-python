@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.alertsmanagement import AlertsManagementClient
 
 """
@@ -26,16 +28,20 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
 def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7",
+        issue_name="ISSUE_NAME",
+        subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
     response = client.prometheus_rule_groups.create_or_update(
-        resource_group_name="giladstest",
+        resource_group_name="promResourceGroup",
         rule_group_name="myPrometheusRuleGroup",
         parameters={
             "location": "East US",
             "properties": {
-                "description": "This is the description of the first rule group",
+                "clusterName": "myClusterName",
+                "description": "This is the description of the following rule group",
+                "enabled": True,
+                "interval": "PT10M",
                 "rules": [
                     {
                         "expression": 'histogram_quantile(0.99, sum(rate(jobs_duration_seconds_bucket{service="billing-processing"}[5m])) by (job_type))',
@@ -45,12 +51,17 @@ def main():
                     {
                         "actions": [
                             {
-                                "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/giladstest/providers/microsoft.insights/notificationgroups/group2",
+                                "actionGroupId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourcegroups/myrg/providers/microsoft.insights/actiongroups/myactiongroup",
                                 "actionProperties": {"key11": "value11", "key12": "value12"},
-                            }
+                            },
+                            {
+                                "actionGroupId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourcegroups/myrg/providers/microsoft.insights/actiongroups/myotheractiongroup",
+                                "actionProperties": {"key21": "value21", "key22": "value22"},
+                            },
                         ],
                         "alert": "Billing_Processing_Very_Slow",
                         "annotations": {"annotationName1": "annotationValue1"},
+                        "enabled": True,
                         "expression": "job_type:billing_jobs_duration_seconds:99p5m > 30",
                         "for": "PT5M",
                         "labels": {"team": "prod"},
@@ -59,7 +70,7 @@ def main():
                     },
                 ],
                 "scopes": [
-                    "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/giladstest/providers/microsoft.monitor/accounts/myMonitoringAccount"
+                    "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/myResourceGroup/providers/microsoft.monitor/accounts/myAzureMonitorWorkspace"
                 ],
             },
         },
@@ -67,6 +78,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2021-07-22-preview/examples/createOrUpdatePrometheusRuleGroup.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2023-03-01/examples/createOrUpdatePrometheusRuleGroup.json
 if __name__ == "__main__":
     main()
