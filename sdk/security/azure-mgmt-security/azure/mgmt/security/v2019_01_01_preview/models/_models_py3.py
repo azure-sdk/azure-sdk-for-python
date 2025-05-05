@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -82,9 +81,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class AlertsSuppressionRule(Resource):
@@ -167,7 +166,7 @@ class AlertsSuppressionRule(Resource):
         """
         super().__init__(**kwargs)
         self.alert_type = alert_type
-        self.last_modified_utc = None
+        self.last_modified_utc: Optional[datetime.datetime] = None
         self.expiration_date_utc = expiration_date_utc
         self.reason = reason
         self.state = state
@@ -205,7 +204,7 @@ class AlertsSuppressionRulesList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class Tags(_serialization.Model):
@@ -353,12 +352,12 @@ class TrackedResource(Resource, AzureTrackedResourceLocation, Kind, ETag, Tags):
         self.etag = etag
         self.kind = kind
         self.location = location
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
-class Automation(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Automation(TrackedResource):
     """The security automation resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -542,7 +541,7 @@ class AutomationActionEventHub(AutomationAction):
         super().__init__(**kwargs)
         self.action_type: str = "EventHub"
         self.event_hub_resource_id = event_hub_resource_id
-        self.sas_policy_name = None
+        self.sas_policy_name: Optional[str] = None
         self.connection_string = connection_string
 
 
@@ -654,7 +653,7 @@ class AutomationList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class AutomationRuleSet(_serialization.Model):
@@ -889,7 +888,7 @@ class AzureResourceDetails(ResourceDetails):
         """ """
         super().__init__(**kwargs)
         self.source: str = "Azure"
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class CloudErrorBody(_serialization.Model):
@@ -929,11 +928,11 @@ class CloudErrorBody(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.CloudErrorBody"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ContainerRegistryVulnerabilityProperties(AdditionalData):
@@ -995,14 +994,14 @@ class ContainerRegistryVulnerabilityProperties(AdditionalData):
         """ """
         super().__init__(**kwargs)
         self.assessed_resource_type: str = "ContainerRegistryVulnerability"
-        self.type = None
-        self.cvss = None
-        self.patchable = None
-        self.cve = None
-        self.published_time = None
-        self.vendor_references = None
-        self.repository_name = None
-        self.image_digest = None
+        self.type: Optional[str] = None
+        self.cvss: Optional[Dict[str, "_models.CVSS"]] = None
+        self.patchable: Optional[bool] = None
+        self.cve: Optional[List["_models.CVE"]] = None
+        self.published_time: Optional[datetime.datetime] = None
+        self.vendor_references: Optional[List["_models.VendorReference"]] = None
+        self.repository_name: Optional[str] = None
+        self.image_digest: Optional[str] = None
 
 
 class CVE(_serialization.Model):
@@ -1029,8 +1028,8 @@ class CVE(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.title = None
-        self.link = None
+        self.title: Optional[str] = None
+        self.link: Optional[str] = None
 
 
 class CVSS(_serialization.Model):
@@ -1053,7 +1052,7 @@ class CVSS(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.base = None
+        self.base: Optional[float] = None
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -1080,8 +1079,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class OnPremiseResourceDetails(ResourceDetails):
@@ -1223,7 +1222,7 @@ class OnPremiseSqlResourceDetails(OnPremiseResourceDetails):
         self.database_name = database_name
 
 
-class RegulatoryComplianceAssessment(Resource):  # pylint: disable=too-many-instance-attributes
+class RegulatoryComplianceAssessment(Resource):
     """Regulatory compliance assessment details and state.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1289,14 +1288,14 @@ class RegulatoryComplianceAssessment(Resource):  # pylint: disable=too-many-inst
         :paramtype state: str or ~azure.mgmt.security.v2019_01_01_preview.models.State
         """
         super().__init__(**kwargs)
-        self.description = None
-        self.assessment_type = None
-        self.assessment_details_link = None
+        self.description: Optional[str] = None
+        self.assessment_type: Optional[str] = None
+        self.assessment_details_link: Optional[str] = None
         self.state = state
-        self.passed_resources = None
-        self.failed_resources = None
-        self.skipped_resources = None
-        self.unsupported_resources = None
+        self.passed_resources: Optional[int] = None
+        self.failed_resources: Optional[int] = None
+        self.skipped_resources: Optional[int] = None
+        self.unsupported_resources: Optional[int] = None
 
 
 class RegulatoryComplianceAssessmentList(_serialization.Model):
@@ -1331,7 +1330,7 @@ class RegulatoryComplianceAssessmentList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class RegulatoryComplianceControl(Resource):
@@ -1389,11 +1388,11 @@ class RegulatoryComplianceControl(Resource):
         :paramtype state: str or ~azure.mgmt.security.v2019_01_01_preview.models.State
         """
         super().__init__(**kwargs)
-        self.description = None
+        self.description: Optional[str] = None
         self.state = state
-        self.passed_assessments = None
-        self.failed_assessments = None
-        self.skipped_assessments = None
+        self.passed_assessments: Optional[int] = None
+        self.failed_assessments: Optional[int] = None
+        self.skipped_assessments: Optional[int] = None
 
 
 class RegulatoryComplianceControlList(_serialization.Model):
@@ -1428,7 +1427,7 @@ class RegulatoryComplianceControlList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class RegulatoryComplianceStandard(Resource):
@@ -1488,10 +1487,10 @@ class RegulatoryComplianceStandard(Resource):
         """
         super().__init__(**kwargs)
         self.state = state
-        self.passed_controls = None
-        self.failed_controls = None
-        self.skipped_controls = None
-        self.unsupported_controls = None
+        self.passed_controls: Optional[int] = None
+        self.failed_controls: Optional[int] = None
+        self.skipped_controls: Optional[int] = None
+        self.unsupported_controls: Optional[int] = None
 
 
 class RegulatoryComplianceStandardList(_serialization.Model):
@@ -1526,7 +1525,7 @@ class RegulatoryComplianceStandardList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ScopeElement(_serialization.Model):
@@ -1559,7 +1558,7 @@ class ScopeElement(_serialization.Model):
         self.field = field
 
 
-class SecuritySubAssessment(Resource):  # pylint: disable=too-many-instance-attributes
+class SecuritySubAssessment(Resource):
     """Security sub-assessment on a resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1638,14 +1637,14 @@ class SecuritySubAssessment(Resource):  # pylint: disable=too-many-instance-attr
         :paramtype additional_data: ~azure.mgmt.security.v2019_01_01_preview.models.AdditionalData
         """
         super().__init__(**kwargs)
-        self.id_properties_id = None
-        self.display_name = None
+        self.id_properties_id: Optional[str] = None
+        self.display_name: Optional[str] = None
         self.status = status
-        self.remediation = None
-        self.impact = None
-        self.category = None
-        self.description = None
-        self.time_generated = None
+        self.remediation: Optional[str] = None
+        self.impact: Optional[str] = None
+        self.category: Optional[str] = None
+        self.description: Optional[str] = None
+        self.time_generated: Optional[datetime.datetime] = None
         self.resource_details = resource_details
         self.additional_data = additional_data
 
@@ -1674,8 +1673,8 @@ class SecuritySubAssessmentList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.SecuritySubAssessment"]] = None
+        self.next_link: Optional[str] = None
 
 
 class ServerVulnerabilityProperties(AdditionalData):
@@ -1733,13 +1732,13 @@ class ServerVulnerabilityProperties(AdditionalData):
         """ """
         super().__init__(**kwargs)
         self.assessed_resource_type: str = "ServerVulnerabilityAssessment"
-        self.type = None
-        self.cvss = None
-        self.patchable = None
-        self.cve = None
-        self.threat = None
-        self.published_time = None
-        self.vendor_references = None
+        self.type: Optional[str] = None
+        self.cvss: Optional[Dict[str, "_models.CVSS"]] = None
+        self.patchable: Optional[bool] = None
+        self.cve: Optional[List["_models.CVE"]] = None
+        self.threat: Optional[str] = None
+        self.published_time: Optional[datetime.datetime] = None
+        self.vendor_references: Optional[List["_models.VendorReference"]] = None
 
 
 class SqlServerVulnerabilityProperties(AdditionalData):
@@ -1775,8 +1774,8 @@ class SqlServerVulnerabilityProperties(AdditionalData):
         """ """
         super().__init__(**kwargs)
         self.assessed_resource_type: str = "SqlServerVulnerability"
-        self.type = None
-        self.query = None
+        self.type: Optional[str] = None
+        self.query: Optional[str] = None
 
 
 class SubAssessmentStatus(_serialization.Model):
@@ -1813,10 +1812,10 @@ class SubAssessmentStatus(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.cause = None
-        self.description = None
-        self.severity = None
+        self.code: Optional[Union[str, "_models.SubAssessmentStatusCode"]] = None
+        self.cause: Optional[str] = None
+        self.description: Optional[str] = None
+        self.severity: Optional[Union[str, "_models.Severity"]] = None
 
 
 class SuppressionAlertsScope(_serialization.Model):
@@ -1871,5 +1870,5 @@ class VendorReference(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.title = None
-        self.link = None
+        self.title: Optional[str] = None
+        self.link: Optional[str] = None
