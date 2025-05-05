@@ -10,7 +10,7 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
     from .. import models as _models
@@ -377,8 +377,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -417,11 +417,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -488,8 +488,8 @@ class IdentityProperties(_serialization.Model):
         :paramtype user_assigned_identities: dict[str, ~azure.mgmt.nginx.models.UserIdentityProperties]
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
 
@@ -543,12 +543,12 @@ class NginxCertificate(_serialization.Model):
         :paramtype location: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.properties = properties
         self.location = location
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class NginxCertificateErrorResponseBody(_serialization.Model):
@@ -671,13 +671,13 @@ class NginxCertificateProperties(_serialization.Model):
         :paramtype certificate_error: ~azure.mgmt.nginx.models.NginxCertificateErrorResponseBody
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.key_virtual_path = key_virtual_path
         self.certificate_virtual_path = certificate_virtual_path
         self.key_vault_secret_id = key_vault_secret_id
-        self.sha1_thumbprint = None
-        self.key_vault_secret_version = None
-        self.key_vault_secret_created = None
+        self.sha1_thumbprint: Optional[str] = None
+        self.key_vault_secret_version: Optional[str] = None
+        self.key_vault_secret_created: Optional[datetime.datetime] = None
         self.certificate_error = certificate_error
 
 
@@ -880,11 +880,11 @@ class NginxConfigurationRequest(_serialization.Model):
         :paramtype properties: ~azure.mgmt.nginx.models.NginxConfigurationRequestProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.properties = properties
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class NginxConfigurationRequestProperties(_serialization.Model):
@@ -938,7 +938,7 @@ class NginxConfigurationRequestProperties(_serialization.Model):
         :paramtype root_file: str
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.files = files
         self.protected_files = protected_files
         self.package = package
@@ -985,11 +985,11 @@ class NginxConfigurationResponse(_serialization.Model):
         :paramtype properties: ~azure.mgmt.nginx.models.NginxConfigurationResponseProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.properties = properties
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class NginxConfigurationResponseProperties(_serialization.Model):
@@ -1044,7 +1044,7 @@ class NginxConfigurationResponseProperties(_serialization.Model):
         :paramtype root_file: str
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.files = files
         self.protected_files = protected_files
         self.package = package
@@ -1118,15 +1118,15 @@ class NginxDeployment(_serialization.Model):
         :paramtype location: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.identity = identity
         self.properties = properties
         self.tags = tags
         self.sku = sku
         self.location = location
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class NginxDeploymentApiKeyListResponse(_serialization.Model):
@@ -1197,9 +1197,9 @@ class NginxDeploymentApiKeyRequest(_serialization.Model):
         :paramtype properties: ~azure.mgmt.nginx.models.NginxDeploymentApiKeyRequestProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.properties = properties
 
 
@@ -1271,9 +1271,9 @@ class NginxDeploymentApiKeyResponse(_serialization.Model):
         :paramtype properties: ~azure.mgmt.nginx.models.NginxDeploymentApiKeyResponseProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.properties = properties
 
 
@@ -1304,7 +1304,7 @@ class NginxDeploymentApiKeyResponseProperties(_serialization.Model):
         :paramtype end_date_time: ~datetime.datetime
         """
         super().__init__(**kwargs)
-        self.hint = None
+        self.hint: Optional[str] = None
         self.end_date_time = end_date_time
 
 
@@ -1417,17 +1417,17 @@ class NginxDeploymentProperties(_serialization.Model):
         :paramtype nginx_app_protect: ~azure.mgmt.nginx.models.NginxDeploymentPropertiesNginxAppProtect
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
-        self.nginx_version = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.nginx_version: Optional[str] = None
         self.network_profile = network_profile
-        self.ip_address = None
+        self.ip_address: Optional[str] = None
         self.enable_diagnostics_support = enable_diagnostics_support
         self.logging = logging
         self.scaling_properties = scaling_properties
         self.auto_upgrade_profile = auto_upgrade_profile
         self.user_profile = user_profile
         self.nginx_app_protect = nginx_app_protect
-        self.dataplane_api_endpoint = None
+        self.dataplane_api_endpoint: Optional[str] = None
 
 
 class NginxDeploymentPropertiesNginxAppProtect(_serialization.Model):
@@ -1473,7 +1473,7 @@ class NginxDeploymentPropertiesNginxAppProtect(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.web_application_firewall_settings = web_application_firewall_settings
-        self.web_application_firewall_status = None
+        self.web_application_firewall_status: Optional["_models.WebApplicationFirewallStatus"] = None
 
 
 class NginxDeploymentScalingProperties(_serialization.Model):
@@ -2181,8 +2181,8 @@ class UserIdentityProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.client_id = None
+        self.principal_id: Optional[str] = None
+        self.client_id: Optional[str] = None
 
 
 class WebApplicationFirewallComponentVersions(_serialization.Model):
@@ -2318,7 +2318,7 @@ class WebApplicationFirewallStatus(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.attack_signatures_package = None
-        self.bot_signatures_package = None
-        self.threat_campaigns_package = None
-        self.component_versions = None
+        self.attack_signatures_package: Optional["_models.WebApplicationFirewallPackage"] = None
+        self.bot_signatures_package: Optional["_models.WebApplicationFirewallPackage"] = None
+        self.threat_campaigns_package: Optional["_models.WebApplicationFirewallPackage"] = None
+        self.component_versions: Optional["_models.WebApplicationFirewallComponentVersions"] = None
