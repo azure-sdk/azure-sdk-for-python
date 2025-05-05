@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -7,20 +6,14 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import sys
+from collections.abc import MutableMapping
 from typing import Any, Dict, List, Optional, TYPE_CHECKING
 
-from ... import _serialization
-
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+JSON = MutableMapping[str, Any]
 
 
 class Resource(_serialization.Model):
@@ -51,9 +44,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class AscLocation(Resource):
@@ -117,8 +110,8 @@ class AscLocationList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.AscLocation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class CloudErrorBody(_serialization.Model):
@@ -158,11 +151,11 @@ class CloudErrorBody(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.CloudErrorBody"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -189,8 +182,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class Operation(_serialization.Model):
@@ -202,6 +195,8 @@ class Operation(_serialization.Model):
     :vartype name: str
     :ivar origin: Where the operation is originated.
     :vartype origin: str
+    :ivar is_data_action: Indicates whether the operation is a data action.
+    :vartype is_data_action: bool
     :ivar display: Security operation display.
     :vartype display: ~azure.mgmt.security.v2015_06_01_preview.models.OperationDisplay
     """
@@ -214,17 +209,27 @@ class Operation(_serialization.Model):
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
         "origin": {"key": "origin", "type": "str"},
+        "is_data_action": {"key": "isDataAction", "type": "bool"},
         "display": {"key": "display", "type": "OperationDisplay"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        is_data_action: Optional[bool] = None,
+        display: Optional["_models.OperationDisplay"] = None,
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword is_data_action: Indicates whether the operation is a data action.
+        :paramtype is_data_action: bool
         :keyword display: Security operation display.
         :paramtype display: ~azure.mgmt.security.v2015_06_01_preview.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.origin = None
+        self.name: Optional[str] = None
+        self.origin: Optional[str] = None
+        self.is_data_action = is_data_action
         self.display = display
 
 
@@ -260,10 +265,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationList(_serialization.Model):
@@ -293,7 +298,7 @@ class OperationList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class SecurityTask(Resource):
@@ -352,11 +357,11 @@ class SecurityTask(Resource):
          ~azure.mgmt.security.v2015_06_01_preview.models.SecurityTaskParameters
         """
         super().__init__(**kwargs)
-        self.state = None
-        self.creation_time_utc = None
+        self.state: Optional[str] = None
+        self.creation_time_utc: Optional[datetime.datetime] = None
         self.security_task_parameters = security_task_parameters
-        self.last_state_change_time_utc = None
-        self.sub_state = None
+        self.last_state_change_time_utc: Optional[datetime.datetime] = None
+        self.sub_state: Optional[str] = None
 
 
 class SecurityTaskList(_serialization.Model):
@@ -383,8 +388,8 @@ class SecurityTaskList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.SecurityTask"]] = None
+        self.next_link: Optional[str] = None
 
 
 class SecurityTaskParameters(_serialization.Model):
@@ -416,4 +421,4 @@ class SecurityTaskParameters(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.name = None
+        self.name: Optional[str] = None

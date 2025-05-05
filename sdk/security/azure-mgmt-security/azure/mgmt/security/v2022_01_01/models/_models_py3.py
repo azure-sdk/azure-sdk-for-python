@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -7,20 +6,14 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import sys
+from collections.abc import MutableMapping
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
-
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+JSON = MutableMapping[str, Any]
 
 
 class Resource(_serialization.Model):
@@ -51,12 +44,12 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
-class Alert(Resource):  # pylint: disable=too-many-instance-attributes
+class Alert(Resource):
     """Security alert.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -222,32 +215,32 @@ class Alert(Resource):  # pylint: disable=too-many-instance-attributes
          ~azure.mgmt.security.v2022_01_01.models.AlertPropertiesSupportingEvidence
         """
         super().__init__(**kwargs)
-        self.version = None
-        self.alert_type = None
-        self.system_alert_id = None
-        self.product_component_name = None
-        self.alert_display_name = None
-        self.description = None
-        self.severity = None
-        self.intent = None
-        self.start_time_utc = None
-        self.end_time_utc = None
-        self.resource_identifiers = None
-        self.remediation_steps = None
-        self.vendor_name = None
-        self.status = None
-        self.extended_links = None
-        self.alert_uri = None
-        self.time_generated_utc = None
-        self.product_name = None
-        self.processing_end_time_utc = None
-        self.entities = None
-        self.is_incident = None
-        self.correlation_key = None
+        self.version: Optional[str] = None
+        self.alert_type: Optional[str] = None
+        self.system_alert_id: Optional[str] = None
+        self.product_component_name: Optional[str] = None
+        self.alert_display_name: Optional[str] = None
+        self.description: Optional[str] = None
+        self.severity: Optional[Union[str, "_models.AlertSeverity"]] = None
+        self.intent: Optional[Union[str, "_models.Intent"]] = None
+        self.start_time_utc: Optional[datetime.datetime] = None
+        self.end_time_utc: Optional[datetime.datetime] = None
+        self.resource_identifiers: Optional[List["_models.ResourceIdentifier"]] = None
+        self.remediation_steps: Optional[List[str]] = None
+        self.vendor_name: Optional[str] = None
+        self.status: Optional[Union[str, "_models.AlertStatus"]] = None
+        self.extended_links: Optional[List[Dict[str, str]]] = None
+        self.alert_uri: Optional[str] = None
+        self.time_generated_utc: Optional[datetime.datetime] = None
+        self.product_name: Optional[str] = None
+        self.processing_end_time_utc: Optional[datetime.datetime] = None
+        self.entities: Optional[List["_models.AlertEntity"]] = None
+        self.is_incident: Optional[bool] = None
+        self.correlation_key: Optional[str] = None
         self.extended_properties = extended_properties
-        self.compromised_entity = None
-        self.techniques = None
-        self.sub_techniques = None
+        self.compromised_entity: Optional[str] = None
+        self.techniques: Optional[List[str]] = None
+        self.sub_techniques: Optional[List[str]] = None
         self.supporting_evidence = supporting_evidence
 
 
@@ -280,7 +273,7 @@ class AlertEntity(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = None
+        self.type: Optional[str] = None
 
 
 class AlertList(_serialization.Model):
@@ -310,7 +303,7 @@ class AlertList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class AlertPropertiesSupportingEvidence(_serialization.Model):
@@ -342,7 +335,7 @@ class AlertPropertiesSupportingEvidence(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.type = None
+        self.type: Optional[str] = None
 
 
 class AlertSimulatorRequestProperties(_serialization.Model):
@@ -505,7 +498,7 @@ class AzureResourceIdentifier(ResourceIdentifier):
         """ """
         super().__init__(**kwargs)
         self.type: str = "AzureResource"
-        self.azure_resource_id = None
+        self.azure_resource_id: Optional[str] = None
 
 
 class CloudErrorBody(_serialization.Model):
@@ -544,11 +537,11 @@ class CloudErrorBody(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.CloudErrorBody"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -575,8 +568,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class LogAnalyticsIdentifier(ResourceIdentifier):
@@ -625,7 +618,7 @@ class LogAnalyticsIdentifier(ResourceIdentifier):
         """ """
         super().__init__(**kwargs)
         self.type: str = "LogAnalytics"
-        self.workspace_id = None
-        self.workspace_subscription_id = None
-        self.workspace_resource_group = None
-        self.agent_id = None
+        self.workspace_id: Optional[str] = None
+        self.workspace_subscription_id: Optional[str] = None
+        self.workspace_resource_group: Optional[str] = None
+        self.agent_id: Optional[str] = None
