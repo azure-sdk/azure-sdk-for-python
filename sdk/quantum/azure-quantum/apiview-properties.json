@@ -1,0 +1,29 @@
+{
+    "CrossLanguagePackageId": "Quantum.Workspace",
+    "CrossLanguageDefinitionId": {
+        "azure.quantum.models.BlobDetails": "Quantum.Workspace.BlobDetails",
+        "azure.quantum.models.CostEstimate": "Quantum.Workspace.CostEstimate",
+        "azure.quantum.models.InnerError": "Azure.Core.Foundations.InnerError",
+        "azure.quantum.models.ItemDetails": "Quantum.Workspace.ItemDetails",
+        "azure.quantum.models.JobDetails": "Quantum.Workspace.JobDetails",
+        "azure.quantum.models.JsonPatchObject": "Quantum.Workspace.JsonPatchObject",
+        "azure.quantum.models.ProviderStatus": "Quantum.Workspace.ProviderStatus",
+        "azure.quantum.models.QuantumComputingData": "Quantum.Workspace.QuantumComputingData",
+        "azure.quantum.models.Quota": "Quantum.Workspace.Quota",
+        "azure.quantum.models.SasUriResponse": "Quantum.Workspace.SasUriResponse",
+        "azure.quantum.models.SessionDetails": "Quantum.Workspace.SessionDetails",
+        "azure.quantum.models.TargetStatus": "Quantum.Workspace.TargetStatus",
+        "azure.quantum.models.UsageEvent": "Quantum.Workspace.UsageEvent",
+        "azure.quantum.models.WorkspaceItemError": "Errors.WorkspaceItemError",
+        "azure.quantum.models.ItemType": "Quantum.Workspace.ItemType",
+        "azure.quantum.models.JobType": "Quantum.Workspace.JobType",
+        "azure.quantum.models.JobStatus": "Quantum.Workspace.JobStatus",
+        "azure.quantum.models.SessionJobFailurePolicy": "Quantum.Workspace.SessionJobFailurePolicy",
+        "azure.quantum.models.SessionStatus": "Quantum.Workspace.SessionStatus",
+        "azure.quantum.models.JsonPatchOperation": "Quantum.Workspace.JsonPatchOperation",
+        "azure.quantum.models.ProviderAvailability": "Quantum.Workspace.ProviderAvailability",
+        "azure.quantum.models.TargetAvailability": "Quantum.Workspace.TargetAvailability",
+        "azure.quantum.models.DimensionScope": "Quantum.Workspace.DimensionScope",
+        "azure.quantum.models.MeterPeriod": "Quantum.Workspace.MeterPeriod"
+    }
+}
