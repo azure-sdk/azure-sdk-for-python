@@ -30,7 +30,7 @@ class ConnectedCacheMgmtClientConfiguration:  # pylint: disable=too-many-instanc
     :param base_url: Service host. Default value is "https://management.azure.com".
     :type base_url: str
     :keyword api_version: The API version to use for this operation. Default value is
-     "2023-05-01-preview". Note that overriding this default value may result in unsupported
+     "2024-11-30-preview". Note that overriding this default value may result in unsupported
      behavior.
     :paramtype api_version: str
     """
@@ -42,7 +42,7 @@ class ConnectedCacheMgmtClientConfiguration:  # pylint: disable=too-many-instanc
         base_url: str = "https://management.azure.com",
         **kwargs: Any
     ) -> None:
-        api_version: str = kwargs.pop("api_version", "2023-05-01-preview")
+        api_version: str = kwargs.pop("api_version", "2024-11-30-preview")
 
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
