@@ -16,7 +16,7 @@ from azure.mgmt.orbital import AzureOrbital
     pip install azure-identity
     pip install azure-mgmt-orbital
 # USAGE
-    python contact_profile_delete.py
+    python available_contacts_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -31,12 +31,22 @@ def main():
         subscription_id="c1be1141-a7c9-4aac-9608-3c2e2f1152c3",
     )
 
-    client.contact_profiles.begin_delete(
+    response = client.spacecrafts.begin_list_available_contacts(
         resource_group_name="contoso-Rgp",
-        contact_profile_name="CONTOSO-CP",
+        spacecraft_name="CONTOSO_SAT",
+        parameters={
+            "contactProfile": {
+                "id": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP"
+            },
+            "endTime": "2022-11-02T11:30:00Z",
+            "groundStationName": "EASTUS2_0",
+            "startTime": "2022-11-01T11:30:00Z",
+        },
     ).result()
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/ContactProfileDelete.json
+# x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/AvailableContactsList.json
 if __name__ == "__main__":
     main()

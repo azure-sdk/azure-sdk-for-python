@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.orbital import AzureOrbital
 
 """
@@ -29,11 +31,10 @@ def main():
         subscription_id="c1be1141-a7c9-4aac-9608-3c2e2f1152c3",
     )
 
-    response = client.spacecrafts.begin_delete(
+    client.spacecrafts.begin_delete(
         resource_group_name="contoso-Rgp",
         spacecraft_name="CONTOSO_SAT",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/SpacecraftDelete.json

@@ -24,40 +24,11 @@ class AutoTrackingConfiguration(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     S_BAND = "sBand"
 
 
-class Capability(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Capability of the Ground Station."""
-
-    EARTH_OBSERVATION = "EarthObservation"
-    COMMUNICATION = "Communication"
-
-
 class CapabilityParameter(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """CapabilityParameter."""
 
     EARTH_OBSERVATION = "EarthObservation"
     COMMUNICATION = "Communication"
-
-
-class ContactProfilesPropertiesProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The current state of the resource's creation, deletion, or modification."""
-
-    CREATING = "creating"
-    SUCCEEDED = "succeeded"
-    FAILED = "failed"
-    CANCELED = "canceled"
-    UPDATING = "updating"
-    DELETING = "deleting"
-
-
-class ContactsPropertiesProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The current state of the resource's creation, deletion, or modification."""
-
-    CREATING = "creating"
-    SUCCEEDED = "succeeded"
-    FAILED = "failed"
-    CANCELED = "canceled"
-    UPDATING = "updating"
-    DELETING = "deleting"
 
 
 class ContactsStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
