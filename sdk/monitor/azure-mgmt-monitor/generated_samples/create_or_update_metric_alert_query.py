@@ -16,7 +16,7 @@ from azure.mgmt.monitor import MonitorManagementClient
     pip install azure-identity
     pip install azure-mgmt-monitor
 # USAGE
-    python create_or_update_metric_alert_subscription.py
+    python create_or_update_metric_alert_query.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -33,8 +33,16 @@ def main():
 
     response = client.metric_alerts.create_or_update(
         resource_group_name="gigtest",
-        rule_name="MetricAlertAtSubscriptionLevel",
+        rule_name="chiricutin",
         parameters={
+            "identity": {
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/2f1a501a-6e1d-4f37-a445-462d7f8a563d/resourceGroups/AdisTest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msi-test-euap": {}
+                },
+            },
+            "kind": "Query",
             "location": "global",
             "properties": {
                 "actions": [
@@ -43,30 +51,23 @@ def main():
                         "webHookProperties": {"key11": "value11", "key12": "value12"},
                     }
                 ],
-                "autoMitigate": True,
                 "criteria": {
                     "allOf": [
                         {
-                            "criterionType": "StaticThresholdCriterion",
-                            "dimensions": [],
-                            "metricName": "Percentage CPU",
-                            "metricNamespace": "microsoft.compute/virtualmachines",
-                            "name": "High_CPU_80",
-                            "operator": "GreaterThan",
-                            "threshold": 80.5,
-                            "timeAggregation": "Average",
+                            "criterionType": "Query_StaticThresholdCriterion",
+                            "name": "Metric1",
+                            "query": "floor(minute(vector(time())) / 10 ) % 2 == 1",
                         }
-                    ],
-                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+                    ]
                 },
                 "description": "This is the description of the rule1",
                 "enabled": True,
                 "evaluationFrequency": "PT1M",
-                "scopes": ["/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7"],
+                "resolveConfiguration": {"autoResolved": True, "timeToResolve": "PT10M"},
+                "scopes": [
+                    "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/microsoft.monitor/accounts/gigwadme"
+                ],
                 "severity": 3,
-                "targetResourceRegion": "southcentralus",
-                "targetResourceType": "Microsoft.Compute/virtualMachines",
-                "windowSize": "PT15M",
             },
             "tags": {},
         },
@@ -74,6 +75,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2024-03-01-preview/examples/createOrUpdateMetricAlertSubscription.json
+# x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2024-03-01-preview/examples/createOrUpdateMetricAlertQuery.json
 if __name__ == "__main__":
     main()

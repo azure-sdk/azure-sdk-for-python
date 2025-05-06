@@ -1,5 +1,286 @@
 # Release History
 
+## 7.0.0b2 (2025-05-06)
+
+### Features Added
+
+  - Model `ErrorResponse` added property `error`
+  - Model `MetricAlertResource` added property `kind`
+  - Model `MetricAlertResource` added property `identity`
+  - Model `MetricAlertResourcePatch` added property `identity`
+  - Model `MetricAlertResourcePatch` added property `kind`
+  - Added model `Identity`
+  - Added enum `IdentityType`
+  - Added enum `Kind`
+  - Added enum `Kinds`
+  - Added enum `KindsEnum`
+  - Added model `MetricAlertPropertiesBase`
+  - Added model `MetricAlertPropertiesBaseForPatch`
+  - Added model `MetricAlertsMetricProperties`
+  - Added model `MetricAlertsMetricPropertiesForPatch`
+  - Added model `MetricAlertsQueryProperties`
+  - Added model `MetricAlertsQueryPropertiesForPatch`
+  - Added model `MetricQueryCriteria`
+  - Added model `QueryResolveConfiguration`
+  - Added enum `UniqueKindEnum`
+  - Added model `UserIdentityProperties`
+
+### Breaking Changes
+
+  - Deleted or renamed client operation group `MonitorManagementClient.action_groups`
+  - Deleted or renamed client operation group `MonitorManagementClient.activity_log_alerts`
+  - Deleted or renamed client operation group `MonitorManagementClient.activity_logs`
+  - Deleted or renamed client operation group `MonitorManagementClient.tenant_activity_logs`
+  - Deleted or renamed client operation group `MonitorManagementClient.alert_rule_incidents`
+  - Deleted or renamed client operation group `MonitorManagementClient.autoscale_settings`
+  - Deleted or renamed client operation group `MonitorManagementClient.predictive_metric`
+  - Deleted or renamed client operation group `MonitorManagementClient.baselines`
+  - Deleted or renamed client operation group `MonitorManagementClient.diagnostic_settings`
+  - Deleted or renamed client operation group `MonitorManagementClient.diagnostic_settings_category`
+  - Deleted or renamed client operation group `MonitorManagementClient.event_categories`
+  - Deleted or renamed client operation group `MonitorManagementClient.guest_diagnostics_settings`
+  - Deleted or renamed client operation group `MonitorManagementClient.guest_diagnostics_settings_association`
+  - Deleted or renamed client operation group `MonitorManagementClient.log_profiles`
+  - Deleted or renamed client operation group `MonitorManagementClient.metric_alerts_status`
+  - Deleted or renamed client operation group `MonitorManagementClient.metric_definitions`
+  - Deleted or renamed client operation group `MonitorManagementClient.metric_namespaces`
+  - Deleted or renamed client operation group `MonitorManagementClient.metrics`
+  - Deleted or renamed client operation group `MonitorManagementClient.operations`
+  - Deleted or renamed client operation group `MonitorManagementClient.scheduled_query_rules`
+  - Deleted or renamed client operation group `MonitorManagementClient.service_diagnostic_settings`
+  - Deleted or renamed client operation group `MonitorManagementClient.vm_insights`
+  - Deleted or renamed client operation group `MonitorManagementClient.private_link_scopes`
+  - Deleted or renamed client operation group `MonitorManagementClient.private_link_scope_operation_status`
+  - Deleted or renamed client operation group `MonitorManagementClient.private_link_resources`
+  - Deleted or renamed client operation group `MonitorManagementClient.private_endpoint_connections`
+  - Deleted or renamed client operation group `MonitorManagementClient.private_link_scoped_resources`
+  - Deleted or renamed client operation group `MonitorManagementClient.subscription_diagnostic_settings`
+  - Model `ErrorResponse` deleted or renamed its instance variable `code`
+  - Model `ErrorResponse` deleted or renamed its instance variable `message`
+  - Model `MetricAlertResource` deleted or renamed its instance variable `evaluation_frequency`
+  - Model `MetricAlertResource` deleted or renamed its instance variable `window_size`
+  - Model `MetricAlertResource` deleted or renamed its instance variable `target_resource_type`
+  - Model `MetricAlertResource` deleted or renamed its instance variable `target_resource_region`
+  - Model `MetricAlertResource` deleted or renamed its instance variable `criteria`
+  - Model `MetricAlertResource` deleted or renamed its instance variable `auto_mitigate`
+  - Model `MetricAlertResource` deleted or renamed its instance variable `actions`
+  - Model `MetricAlertResource` deleted or renamed its instance variable `last_updated_time`
+  - Model `MetricAlertResource` deleted or renamed its instance variable `is_migrated`
+  - Model `MetricAlertResourcePatch` deleted or renamed its instance variable `evaluation_frequency`
+  - Model `MetricAlertResourcePatch` deleted or renamed its instance variable `window_size`
+  - Model `MetricAlertResourcePatch` deleted or renamed its instance variable `target_resource_type`
+  - Model `MetricAlertResourcePatch` deleted or renamed its instance variable `target_resource_region`
+  - Model `MetricAlertResourcePatch` deleted or renamed its instance variable `criteria`
+  - Model `MetricAlertResourcePatch` deleted or renamed its instance variable `auto_mitigate`
+  - Model `MetricAlertResourcePatch` deleted or renamed its instance variable `actions`
+  - Model `MetricAlertResourcePatch` deleted or renamed its instance variable `last_updated_time`
+  - Model `MetricAlertResourcePatch` deleted or renamed its instance variable `is_migrated`
+  - Deleted or renamed enum value `Operator.INCLUDE`
+  - Deleted or renamed model `Action`
+  - Deleted or renamed model `ActionDetail`
+  - Deleted or renamed model `ActionGroupList`
+  - Deleted or renamed model `ActionGroupPatchBody`
+  - Deleted or renamed model `ActionGroupResource`
+  - Deleted or renamed model `ActivityLogAlertActionGroup`
+  - Deleted or renamed model `ActivityLogAlertActionList`
+  - Deleted or renamed model `ActivityLogAlertAllOfCondition`
+  - Deleted or renamed model `ActivityLogAlertLeafCondition`
+  - Deleted or renamed model `ActivityLogAlertList`
+  - Deleted or renamed model `ActivityLogAlertPatchBody`
+  - Deleted or renamed model `ActivityLogAlertResource`
+  - Deleted or renamed model `AggregationType`
+  - Deleted or renamed model `AlertSeverity`
+  - Deleted or renamed model `AlertingAction`
+  - Deleted or renamed model `ArmRoleReceiver`
+  - Deleted or renamed model `AutomationRunbookReceiver`
+  - Deleted or renamed model `AutoscaleErrorResponse`
+  - Deleted or renamed model `AutoscaleErrorResponseError`
+  - Deleted or renamed model `AutoscaleNotification`
+  - Deleted or renamed model `AutoscaleProfile`
+  - Deleted or renamed model `AutoscaleSettingResource`
+  - Deleted or renamed model `AutoscaleSettingResourceCollection`
+  - Deleted or renamed model `AutoscaleSettingResourcePatch`
+  - Deleted or renamed model `AzNsActionGroup`
+  - Deleted or renamed model `AzureAppPushReceiver`
+  - Deleted or renamed model `AzureFunctionReceiver`
+  - Deleted or renamed model `AzureMonitorPrivateLinkScope`
+  - Deleted or renamed model `AzureResource`
+  - Deleted or renamed model `BaselineMetadata`
+  - Deleted or renamed model `BaselineSensitivity`
+  - Deleted or renamed model `CategoryType`
+  - Deleted or renamed model `ComparisonOperationType`
+  - Deleted or renamed model `ConditionalOperator`
+  - Deleted or renamed model `Context`
+  - Deleted or renamed model `CreatedByType`
+  - Deleted or renamed model `Criteria`
+  - Deleted or renamed model `DataContainer`
+  - Deleted or renamed model `DataSource`
+  - Deleted or renamed model `DataSourceConfiguration`
+  - Deleted or renamed model `DataSourceKind`
+  - Deleted or renamed model `DataStatus`
+  - Deleted or renamed model `DiagnosticSettingsCategoryResource`
+  - Deleted or renamed model `DiagnosticSettingsCategoryResourceCollection`
+  - Deleted or renamed model `DiagnosticSettingsResource`
+  - Deleted or renamed model `DiagnosticSettingsResourceCollection`
+  - Deleted or renamed model `Dimension`
+  - Deleted or renamed model `EmailNotification`
+  - Deleted or renamed model `EmailReceiver`
+  - Deleted or renamed model `EnableRequest`
+  - Deleted or renamed model `Enabled`
+  - Deleted or renamed model `Error`
+  - Deleted or renamed model `ErrorAdditionalInfo`
+  - Deleted or renamed model `ErrorContract`
+  - Deleted or renamed model `ErrorResponseAutoGenerated`
+  - Deleted or renamed model `ErrorResponseAutoGenerated2`
+  - Deleted or renamed model `ErrorResponseCommon`
+  - Deleted or renamed model `EtwEventConfiguration`
+  - Deleted or renamed model `EtwProviderConfiguration`
+  - Deleted or renamed model `EventCategoryCollection`
+  - Deleted or renamed model `EventData`
+  - Deleted or renamed model `EventDataCollection`
+  - Deleted or renamed model `EventHubReceiver`
+  - Deleted or renamed model `EventLevel`
+  - Deleted or renamed model `EventLogConfiguration`
+  - Deleted or renamed model `GuestDiagnosticSettingsAssociationList`
+  - Deleted or renamed model `GuestDiagnosticSettingsAssociationResource`
+  - Deleted or renamed model `GuestDiagnosticSettingsAssociationResourcePatch`
+  - Deleted or renamed model `GuestDiagnosticSettingsList`
+  - Deleted or renamed model `GuestDiagnosticSettingsOsType`
+  - Deleted or renamed model `GuestDiagnosticSettingsPatchResource`
+  - Deleted or renamed model `GuestDiagnosticSettingsResource`
+  - Deleted or renamed model `HttpRequestInfo`
+  - Deleted or renamed model `Incident`
+  - Deleted or renamed model `ItsmReceiver`
+  - Deleted or renamed model `LocalizableString`
+  - Deleted or renamed model `LocalizableStringAutoGenerated`
+  - Deleted or renamed model `LogMetricTrigger`
+  - Deleted or renamed model `LogProfileCollection`
+  - Deleted or renamed model `LogProfileResource`
+  - Deleted or renamed model `LogProfileResourcePatch`
+  - Deleted or renamed model `LogSearchRuleResource`
+  - Deleted or renamed model `LogSearchRuleResourceCollection`
+  - Deleted or renamed model `LogSearchRuleResourcePatch`
+  - Deleted or renamed model `LogSettings`
+  - Deleted or renamed model `LogSettingsAutoGenerated`
+  - Deleted or renamed model `LogToMetricAction`
+  - Deleted or renamed model `LogicAppReceiver`
+  - Deleted or renamed model `MetadataValue`
+  - Deleted or renamed model `Metric`
+  - Deleted or renamed model `MetricAlertStatus`
+  - Deleted or renamed model `MetricAlertStatusCollection`
+  - Deleted or renamed model `MetricAlertStatusProperties`
+  - Deleted or renamed model `MetricAvailability`
+  - Deleted or renamed model `MetricBaselinesResponse`
+  - Deleted or renamed model `MetricClass`
+  - Deleted or renamed model `MetricDefinition`
+  - Deleted or renamed model `MetricDefinitionCollection`
+  - Deleted or renamed model `MetricNamespace`
+  - Deleted or renamed model `MetricNamespaceCollection`
+  - Deleted or renamed model `MetricNamespaceName`
+  - Deleted or renamed model `MetricSettings`
+  - Deleted or renamed model `MetricSettingsAutoGenerated`
+  - Deleted or renamed model `MetricSingleDimension`
+  - Deleted or renamed model `MetricStatisticType`
+  - Deleted or renamed model `MetricTrigger`
+  - Deleted or renamed model `MetricTriggerType`
+  - Deleted or renamed model `MetricUnit`
+  - Deleted or renamed model `MetricValue`
+  - Deleted or renamed model `NamespaceClassification`
+  - Deleted or renamed model `NotificationRequestBody`
+  - Deleted or renamed model `OnboardingStatus`
+  - Deleted or renamed model `Operation`
+  - Deleted or renamed model `OperationDisplay`
+  - Deleted or renamed model `OperationStatus`
+  - Deleted or renamed model `PerformanceCounterConfiguration`
+  - Deleted or renamed model `PredictiveAutoscalePolicy`
+  - Deleted or renamed model `PredictiveAutoscalePolicyScaleMode`
+  - Deleted or renamed model `PredictiveResponse`
+  - Deleted or renamed model `PredictiveValue`
+  - Deleted or renamed model `PrivateEndpointConnection`
+  - Deleted or renamed model `PrivateEndpointProperty`
+  - Deleted or renamed model `PrivateLinkResource`
+  - Deleted or renamed model `PrivateLinkScopesResource`
+  - Deleted or renamed model `PrivateLinkServiceConnectionStateProperty`
+  - Deleted or renamed model `ProvisioningState`
+  - Deleted or renamed model `ProxyOnlyResource`
+  - Deleted or renamed model `ProxyResource`
+  - Deleted or renamed model `QueryType`
+  - Deleted or renamed model `ReceiverStatus`
+  - Deleted or renamed model `Recurrence`
+  - Deleted or renamed model `RecurrenceFrequency`
+  - Deleted or renamed model `RecurrentSchedule`
+  - Deleted or renamed model `Resource`
+  - Deleted or renamed model `ResourceAutoGenerated`
+  - Deleted or renamed model `ResourceAutoGenerated2`
+  - Deleted or renamed model `ResourceAutoGenerated3`
+  - Deleted or renamed model `Response`
+  - Deleted or renamed model `ResponseWithError`
+  - Deleted or renamed model `ResultType`
+  - Deleted or renamed model `RetentionPolicy`
+  - Deleted or renamed model `ScaleAction`
+  - Deleted or renamed model `ScaleCapacity`
+  - Deleted or renamed model `ScaleDirection`
+  - Deleted or renamed model `ScaleRule`
+  - Deleted or renamed model `ScaleRuleMetricDimension`
+  - Deleted or renamed model `ScaleRuleMetricDimensionOperationType`
+  - Deleted or renamed model `ScaleType`
+  - Deleted or renamed model `Schedule`
+  - Deleted or renamed model `ScopedResource`
+  - Deleted or renamed model `SenderAuthorization`
+  - Deleted or renamed model `ServiceDiagnosticSettingsResource`
+  - Deleted or renamed model `ServiceDiagnosticSettingsResourcePatch`
+  - Deleted or renamed model `SingleBaseline`
+  - Deleted or renamed model `SingleMetricBaseline`
+  - Deleted or renamed model `SinkConfiguration`
+  - Deleted or renamed model `SinkConfigurationKind`
+  - Deleted or renamed model `SmsReceiver`
+  - Deleted or renamed model `Source`
+  - Deleted or renamed model `SubscriptionDiagnosticSettingsResource`
+  - Deleted or renamed model `SubscriptionDiagnosticSettingsResourceCollection`
+  - Deleted or renamed model `SubscriptionLogSettings`
+  - Deleted or renamed model `SubscriptionProxyOnlyResource`
+  - Deleted or renamed model `SystemData`
+  - Deleted or renamed model `TagsResource`
+  - Deleted or renamed model `TestNotificationDetailsResponse`
+  - Deleted or renamed model `TimeAggregationType`
+  - Deleted or renamed model `TimeSeriesBaseline`
+  - Deleted or renamed model `TimeSeriesElement`
+  - Deleted or renamed model `TimeWindow`
+  - Deleted or renamed model `TriggerCondition`
+  - Deleted or renamed model `VMInsightsOnboardingStatus`
+  - Deleted or renamed model `VoiceReceiver`
+  - Deleted or renamed model `WebhookNotification`
+  - Deleted or renamed model `WebhookReceiver`
+  - Deleted or renamed model `WorkspaceInfo`
+  - Deleted or renamed model `ActionGroupsOperations`
+  - Deleted or renamed model `ActivityLogAlertsOperations`
+  - Deleted or renamed model `ActivityLogsOperations`
+  - Deleted or renamed model `AlertRuleIncidentsOperations`
+  - Deleted or renamed model `AutoscaleSettingsOperations`
+  - Deleted or renamed model `BaselinesOperations`
+  - Deleted or renamed model `DiagnosticSettingsCategoryOperations`
+  - Deleted or renamed model `DiagnosticSettingsOperations`
+  - Deleted or renamed model `EventCategoriesOperations`
+  - Deleted or renamed model `GuestDiagnosticsSettingsAssociationOperations`
+  - Deleted or renamed model `GuestDiagnosticsSettingsOperations`
+  - Deleted or renamed model `LogProfilesOperations`
+  - Deleted or renamed model `MetricAlertsStatusOperations`
+  - Deleted or renamed model `MetricDefinitionsOperations`
+  - Deleted or renamed model `MetricNamespacesOperations`
+  - Deleted or renamed model `MetricsOperations`
+  - Deleted or renamed model `Operations`
+  - Deleted or renamed model `PredictiveMetricOperations`
+  - Deleted or renamed model `PrivateEndpointConnectionsOperations`
+  - Deleted or renamed model `PrivateLinkResourcesOperations`
+  - Deleted or renamed model `PrivateLinkScopeOperationStatusOperations`
+  - Deleted or renamed model `PrivateLinkScopedResourcesOperations`
+  - Deleted or renamed model `PrivateLinkScopesOperations`
+  - Deleted or renamed model `ScheduledQueryRulesOperations`
+  - Deleted or renamed model `ServiceDiagnosticSettingsOperations`
+  - Deleted or renamed model `SubscriptionDiagnosticSettingsOperations`
+  - Deleted or renamed model `TenantActivityLogsOperations`
+  - Deleted or renamed model `VMInsightsOperations`
+
 ## 7.0.0b1 (2025-02-08)
 
 ### Features Added
