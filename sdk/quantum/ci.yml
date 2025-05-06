@@ -30,4 +30,5 @@ extends:
     TestProxy: true
     Artifacts:
     - name: azure-mgmt-quantum
-      safeName: azuremgmtquantum
+      safeName: azuremgmtquantum    - name: azure-quantum
+      safeName: azurequantum
