@@ -1,5 +1,26 @@
 # Release History
 
+## 35.0.0 (2025-05-06)
+
+### Breaking Changes
+
+  - Model AvailabilitySet no longer has parameter virtual_machine_scale_set_migration_info
+  - Model AvailabilitySetUpdate no longer has parameter virtual_machine_scale_set_migration_info
+  - Model ProxyAgentSettings no longer has parameter imds
+  - Model ProxyAgentSettings no longer has parameter wire_server
+  - Model ResiliencyPolicy no longer has parameter automatic_zone_rebalancing_policy
+  - Model ScaleInPolicy no longer has parameter prioritize_unhealthy_v_ms
+  - Model SkuProfileVMSize no longer has parameter rank
+  - Model StorageProfile no longer has parameter align_regional_disks_to_vm_zone
+  - Model VirtualMachine no longer has parameter placement
+  - Model VirtualMachineScaleSetVM no longer has parameter resilient_vm_deletion_status
+  - Removed operation AvailabilitySetsOperations.begin_convert_to_virtual_machine_scale_set
+  - Removed operation AvailabilitySetsOperations.cancel_migration_to_virtual_machine_scale_set
+  - Removed operation AvailabilitySetsOperations.start_migration_to_virtual_machine_scale_set
+  - Removed operation AvailabilitySetsOperations.validate_migration_to_virtual_machine_scale_set
+  - Removed operation VirtualMachineImagesOperations.list_with_properties
+  - Removed operation VirtualMachinesOperations.begin_migrate_to_vm_scale_set
+
 ## 34.1.0 (2025-03-24)
 
 ### Features Added
