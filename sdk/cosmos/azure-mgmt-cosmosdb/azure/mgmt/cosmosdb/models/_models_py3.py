@@ -2901,9 +2901,9 @@ class ClusterResourceProperties(_serialization.Model):
     :ivar delegated_management_subnet_id: Resource id of a subnet that this cluster's management
      service should have its network interface attached to. The subnet must be routable to all
      subnets that will be delegated to data centers. The resource id must be of the form
-     '/subscriptions/:code:`<subscription id>`/resourceGroups/:code:`<resource
-     group>`/providers/Microsoft.Network/virtualNetworks/:code:`<virtual
-     network>`/subnets/:code:`<subnet>`'.
+     '/subscriptions/\\ :code:`<subscription id>`/resourceGroups/\\ :code:`<resource
+     group>`/providers/Microsoft.Network/virtualNetworks/\\ :code:`<virtual network>`/subnets/\\
+     :code:`<subnet>`'.
     :vartype delegated_management_subnet_id: str
     :ivar cassandra_version: Which version of Cassandra should this cluster converge to running
      (e.g., 3.11). When updated, the cluster may take some time to migrate to the new version.
@@ -3055,9 +3055,9 @@ class ClusterResourceProperties(_serialization.Model):
         :keyword delegated_management_subnet_id: Resource id of a subnet that this cluster's management
          service should have its network interface attached to. The subnet must be routable to all
          subnets that will be delegated to data centers. The resource id must be of the form
-         '/subscriptions/:code:`<subscription id>`/resourceGroups/:code:`<resource
-         group>`/providers/Microsoft.Network/virtualNetworks/:code:`<virtual
-         network>`/subnets/:code:`<subnet>`'.
+         '/subscriptions/\\ :code:`<subscription id>`/resourceGroups/\\ :code:`<resource
+         group>`/providers/Microsoft.Network/virtualNetworks/\\ :code:`<virtual network>`/subnets/\\
+         :code:`<subnet>`'.
         :paramtype delegated_management_subnet_id: str
         :keyword cassandra_version: Which version of Cassandra should this cluster converge to running
          (e.g., 3.11). When updated, the cluster may take some time to migrate to the new version.
@@ -5678,10 +5678,10 @@ class DataCenterResourceProperties(_serialization.Model):
     :ivar delegated_subnet_id: Resource id of a subnet the nodes in this data center should have
      their network interfaces connected to. The subnet must be in the same region specified in
      'dataCenterLocation' and must be able to route to the subnet specified in the cluster's
-     'delegatedManagementSubnetId' property. This resource id will be of the form
-     '/subscriptions/:code:`<subscription id>`/resourceGroups/:code:`<resource
-     group>`/providers/Microsoft.Network/virtualNetworks/:code:`<virtual
-     network>`/subnets/:code:`<subnet>`'.
+     'delegatedManagementSubnetId' property. This resource id will be of the form '/subscriptions/\\
+     :code:`<subscription id>`/resourceGroups/\\ :code:`<resource
+     group>`/providers/Microsoft.Network/virtualNetworks/\\ :code:`<virtual network>`/subnets/\\
+     :code:`<subnet>`'.
     :vartype delegated_subnet_id: str
     :ivar node_count: The number of nodes the data center should have. This is the desired number.
      After it is set, it may take some time for the data center to be scaled to match. To monitor
@@ -5779,10 +5779,10 @@ class DataCenterResourceProperties(_serialization.Model):
         :keyword delegated_subnet_id: Resource id of a subnet the nodes in this data center should have
          their network interfaces connected to. The subnet must be in the same region specified in
          'dataCenterLocation' and must be able to route to the subnet specified in the cluster's
-         'delegatedManagementSubnetId' property. This resource id will be of the form
-         '/subscriptions/:code:`<subscription id>`/resourceGroups/:code:`<resource
-         group>`/providers/Microsoft.Network/virtualNetworks/:code:`<virtual
-         network>`/subnets/:code:`<subnet>`'.
+         'delegatedManagementSubnetId' property. This resource id will be of the form '/subscriptions/\\
+         :code:`<subscription id>`/resourceGroups/\\ :code:`<resource
+         group>`/providers/Microsoft.Network/virtualNetworks/\\ :code:`<virtual network>`/subnets/\\
+         :code:`<subnet>`'.
         :paramtype delegated_subnet_id: str
         :keyword node_count: The number of nodes the data center should have. This is the desired
          number. After it is set, it may take some time for the data center to be scaled to match. To
