@@ -10,17 +10,6 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
-class AggregationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """the aggregation type of the metric."""
-
-    NONE = "None"
-    AVERAGE = "Average"
-    COUNT = "Count"
-    MINIMUM = "Minimum"
-    MAXIMUM = "Maximum"
-    TOTAL = "Total"
-
-
 class AggregationTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """the criteria time aggregation types."""
 
@@ -31,84 +20,11 @@ class AggregationTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     TOTAL = "Total"
 
 
-class AlertSeverity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Severity Level of Alert."""
-
-    ZERO = "0"
-    ONE = "1"
-    TWO = "2"
-    THREE = "3"
-    FOUR = "4"
-
-
-class BaselineSensitivity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """the sensitivity of the baseline."""
-
-    LOW = "Low"
-    MEDIUM = "Medium"
-    HIGH = "High"
-
-
-class CategoryType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of the diagnostic settings category."""
-
-    METRICS = "Metrics"
-    LOGS = "Logs"
-
-
-class ComparisonOperationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """the operator that is used to compare the metric data and the threshold."""
-
-    EQUALS = "Equals"
-    NOT_EQUALS = "NotEquals"
-    GREATER_THAN = "GreaterThan"
-    GREATER_THAN_OR_EQUAL = "GreaterThanOrEqual"
-    LESS_THAN = "LessThan"
-    LESS_THAN_OR_EQUAL = "LessThanOrEqual"
-
-
-class ConditionalOperator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Result Condition Evaluation criteria."""
-
-    GREATER_THAN_OR_EQUAL = "GreaterThanOrEqual"
-    LESS_THAN_OR_EQUAL = "LessThanOrEqual"
-    GREATER_THAN = "GreaterThan"
-    LESS_THAN = "LessThan"
-    EQUAL = "Equal"
-
-
-class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of identity that created the resource."""
-
-    USER = "User"
-    APPLICATION = "Application"
-    MANAGED_IDENTITY = "ManagedIdentity"
-    KEY = "Key"
-
-
 class CriterionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the type of threshold criteria."""
 
     STATIC_THRESHOLD_CRITERION = "StaticThresholdCriterion"
     DYNAMIC_THRESHOLD_CRITERION = "DynamicThresholdCriterion"
-
-
-class DataSourceKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Datasource kind."""
-
-    PERFORMANCE_COUNTER = "PerformanceCounter"
-    ETW_PROVIDERS = "ETWProviders"
-    WINDOWS_EVENT_LOGS = "WindowsEventLogs"
-
-
-class DataStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The status of VM Insights data from the resource. When reported as ``present`` the data array
-    will contain information about the data containers to which data for the specified resource is
-    being routed.
-    """
-
-    PRESENT = "present"
-    NOT_PRESENT = "notPresent"
 
 
 class DynamicThresholdOperator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -129,81 +45,32 @@ class DynamicThresholdSensitivity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     HIGH = "High"
 
 
-class Enabled(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The flag which indicates whether the Log Search rule is enabled. Value should be true or false."""
+class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of managed service identity."""
 
-    TRUE = "true"
-    FALSE = "false"
-
-
-class EventLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """the event level."""
-
-    CRITICAL = "Critical"
-    ERROR = "Error"
-    WARNING = "Warning"
-    INFORMATIONAL = "Informational"
-    VERBOSE = "Verbose"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+    NONE = "None"
 
 
-class GuestDiagnosticSettingsOsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Operating system type for the configuration."""
+class Kind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Kind."""
 
-    WINDOWS = "Windows"
-    LINUX = "Linux"
-
-
-class MetricClass(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The class of the metric."""
-
-    AVAILABILITY = "Availability"
-    TRANSACTIONS = "Transactions"
-    ERRORS = "Errors"
-    LATENCY = "Latency"
-    SATURATION = "Saturation"
+    QUERY = "Query"
 
 
-class MetricStatisticType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """the metric statistic type. How the metrics from multiple instances are combined."""
+class Kinds(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates the type of metric alert."""
 
-    AVERAGE = "Average"
-    MIN = "Min"
-    MAX = "Max"
-    SUM = "Sum"
-    COUNT = "Count"
+    METRIC = "Metric"
+    QUERY = "Query"
 
 
-class MetricTriggerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Metric Trigger Evaluation Type."""
+class KindsEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates the type of metric alert."""
 
-    CONSECUTIVE = "Consecutive"
-    TOTAL = "Total"
-
-
-class MetricUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The unit of the metric."""
-
-    COUNT = "Count"
-    BYTES = "Bytes"
-    SECONDS = "Seconds"
-    COUNT_PER_SECOND = "CountPerSecond"
-    BYTES_PER_SECOND = "BytesPerSecond"
-    PERCENT = "Percent"
-    MILLI_SECONDS = "MilliSeconds"
-    BYTE_SECONDS = "ByteSeconds"
-    UNSPECIFIED = "Unspecified"
-    CORES = "Cores"
-    MILLI_CORES = "MilliCores"
-    NANO_CORES = "NanoCores"
-    BITS_PER_SECOND = "BitsPerSecond"
-
-
-class NamespaceClassification(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Kind of namespace."""
-
-    PLATFORM = "Platform"
-    CUSTOM = "Custom"
-    QOS = "Qos"
+    METRIC = "Metric"
+    QUERY = "Query"
 
 
 class Odatatype(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -220,16 +87,6 @@ class Odatatype(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     )
 
 
-class OnboardingStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The onboarding status for the resource. Note that, a higher level scope, e.g., resource group
-    or subscription, is considered onboarded if at least one resource under it is onboarded.
-    """
-
-    ONBOARDED = "onboarded"
-    NOT_ONBOARDED = "notOnboarded"
-    UNKNOWN = "unknown"
-
-
 class Operator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """the criteria operator."""
 
@@ -238,108 +95,9 @@ class Operator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     GREATER_THAN_OR_EQUAL = "GreaterThanOrEqual"
     LESS_THAN = "LessThan"
     LESS_THAN_OR_EQUAL = "LessThanOrEqual"
-    INCLUDE = "Include"
 
 
-class PredictiveAutoscalePolicyScaleMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """the predictive autoscale mode."""
+class UniqueKindEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """UniqueKindEnum."""
 
-    DISABLED = "Disabled"
-    FORECAST_ONLY = "ForecastOnly"
-    ENABLED = "Enabled"
-
-
-class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Provisioning state of the scheduled query rule."""
-
-    SUCCEEDED = "Succeeded"
-    DEPLOYING = "Deploying"
-    CANCELED = "Canceled"
-    FAILED = "Failed"
-
-
-class QueryType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Set value to 'ResultAccount'."""
-
-    RESULT_COUNT = "ResultCount"
-
-
-class ReceiverStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Indicates the status of the receiver. Receivers that are not Enabled will not receive any
-    communications.
-    """
-
-    NOT_SPECIFIED = "NotSpecified"
-    ENABLED = "Enabled"
-    DISABLED = "Disabled"
-
-
-class RecurrenceFrequency(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """the recurrence frequency. How often the schedule profile should take effect. This value must be
-    Week, meaning each week will have the same set of profiles. For example, to set a daily
-    schedule, set **schedule** to every day of the week. The frequency property specifies that the
-    schedule is repeated weekly.
-    """
-
-    NONE = "None"
-    SECOND = "Second"
-    MINUTE = "Minute"
-    HOUR = "Hour"
-    DAY = "Day"
-    WEEK = "Week"
-    MONTH = "Month"
-    YEAR = "Year"
-
-
-class ResultType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """ResultType."""
-
-    DATA = "Data"
-    METADATA = "Metadata"
-
-
-class ScaleDirection(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """the scale direction. Whether the scaling action increases or decreases the number of instances."""
-
-    NONE = "None"
-    INCREASE = "Increase"
-    DECREASE = "Decrease"
-
-
-class ScaleRuleMetricDimensionOperationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """the dimension operator. Only 'Equals' and 'NotEquals' are supported. 'Equals' being equal to
-    any of the values. 'NotEquals' being not equal to all of the values.
-    """
-
-    EQUALS = "Equals"
-    NOT_EQUALS = "NotEquals"
-
-
-class ScaleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """the type of action that should occur when the scale rule fires."""
-
-    CHANGE_COUNT = "ChangeCount"
-    PERCENT_CHANGE_COUNT = "PercentChangeCount"
-    EXACT_COUNT = "ExactCount"
-    SERVICE_ALLOWED_NEXT_VALUE = "ServiceAllowedNextValue"
-
-
-class SinkConfigurationKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """SinkConfigurationKind."""
-
-    EVENT_HUB = "EventHub"
-    APPLICATION_INSIGHTS = "ApplicationInsights"
-    LOG_ANALYTICS = "LogAnalytics"
-
-
-class TimeAggregationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """time aggregation type. How the data that is collected should be combined over time. The default
-    value is Average.
-    """
-
-    AVERAGE = "Average"
-    MINIMUM = "Minimum"
-    MAXIMUM = "Maximum"
-    TOTAL = "Total"
-    COUNT = "Count"
-    LAST = "Last"
+    METRIC = "Metric"
