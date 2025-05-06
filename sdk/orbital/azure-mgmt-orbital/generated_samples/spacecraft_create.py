@@ -16,7 +16,7 @@ from azure.mgmt.orbital import AzureOrbital
     pip install azure-identity
     pip install azure-mgmt-orbital
 # USAGE
-    python contact_profile_delete.py
+    python spacecraft_create.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -31,12 +31,38 @@ def main():
         subscription_id="c1be1141-a7c9-4aac-9608-3c2e2f1152c3",
     )
 
-    client.contact_profiles.begin_delete(
+    response = client.spacecrafts.begin_create_or_update(
         resource_group_name="contoso-Rgp",
-        contact_profile_name="CONTOSO-CP",
+        spacecraft_name="CONTOSO_SAT",
+        parameters={
+            "location": "eastus2",
+            "properties": {
+                "links": [
+                    {
+                        "bandwidthMHz": 2,
+                        "centerFrequencyMHz": 2250,
+                        "direction": "Uplink",
+                        "name": "uplink_lhcp1",
+                        "polarization": "LHCP",
+                    },
+                    {
+                        "bandwidthMHz": 15,
+                        "centerFrequencyMHz": 8160,
+                        "direction": "Downlink",
+                        "name": "downlink_rhcp1",
+                        "polarization": "RHCP",
+                    },
+                ],
+                "noradId": "36411",
+                "titleLine": "CONTOSO_SAT",
+                "tleLine1": "1 27424U 02022A   22167.05119303  .00000638  00000+0  15103-3 0  9994",
+                "tleLine2": "2 27424  98.2477 108.9546 0000928  92.9194 327.0802 14.57300770 69982",
+            },
+        },
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/ContactProfileDelete.json
+# x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/SpacecraftCreate.json
 if __name__ == "__main__":
     main()
