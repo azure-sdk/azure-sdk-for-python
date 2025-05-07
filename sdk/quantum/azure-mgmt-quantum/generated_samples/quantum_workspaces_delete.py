@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.quantum import AzureQuantumMgmtClient
 
 """
@@ -35,6 +37,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/quantumWorkspacesDelete.json
+# x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2025-01-01-preview/examples/quantumWorkspacesDelete.json
 if __name__ == "__main__":
     main()
