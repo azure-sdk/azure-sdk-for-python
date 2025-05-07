@@ -526,6 +526,7 @@ class TestComputeFleetMgmtFleetsOperationsAsync(AzureMgmtRecordedTestCase):
                                 }
                             ]
                         },
+                        "displayName": "str",
                         "provisioningState": "str",
                         "regularPriorityProfile": {"allocationStrategy": "str", "capacity": 0, "minCapacity": 0},
                         "spotPriorityProfile": {
@@ -1069,6 +1070,7 @@ class TestComputeFleetMgmtFleetsOperationsAsync(AzureMgmtRecordedTestCase):
                                 }
                             ]
                         },
+                        "displayName": "str",
                         "provisioningState": "str",
                         "regularPriorityProfile": {"allocationStrategy": "str", "capacity": 0, "minCapacity": 0},
                         "spotPriorityProfile": {

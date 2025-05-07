@@ -1,5 +1,18 @@
 # Release History
 
+## 2.0.0 (2025-05-07)
+
+### Features Added
+
+  - Model `FleetProperties` added property `display_name`
+  - Enum `ManagedServiceIdentityType` added member `SYSTEM_ASSIGNED_USER_ASSIGNED`
+  - Method `FleetProperties.__init__` has a new overload `def __init__(self: None, vm_sizes_profile: List[_models.VmSizeProfile], compute_profile: _models.ComputeProfile, spot_priority_profile: Optional[_models.SpotPriorityProfile], regular_priority_profile: Optional[_models.RegularPriorityProfile], vm_attributes: Optional[_models.VMAttributes], additional_locations_profile: Optional[_models.AdditionalLocationsProfile], display_name: Optional[str])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, display: Optional[_models.OperationDisplay])`
+
+### Breaking Changes
+
+  - Deleted or renamed enum value `ManagedServiceIdentityType.SYSTEM_AND_USER_ASSIGNED`
+
 ## 1.0.0 (2024-10-22)
 
 ### Features Added
