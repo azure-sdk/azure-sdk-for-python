@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -169,10 +168,10 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class TrackedResource(Resource):
@@ -181,7 +180,7 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
@@ -229,12 +228,12 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class CommunicationServiceResource(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class CommunicationServiceResource(TrackedResource):
     """A class representing a CommunicationService resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
@@ -270,6 +269,8 @@ class CommunicationServiceResource(TrackedResource):  # pylint: disable=too-many
     :vartype immutable_resource_id: str
     :ivar linked_domains: List of email Domain resource Ids.
     :vartype linked_domains: list[str]
+    :ivar disable_local_auth: Disable local authentication for the CommunicationService.
+    :vartype disable_local_auth: bool
     """
 
     _validation = {
@@ -300,6 +301,7 @@ class CommunicationServiceResource(TrackedResource):  # pylint: disable=too-many
         "version": {"key": "properties.version", "type": "str"},
         "immutable_resource_id": {"key": "properties.immutableResourceId", "type": "str"},
         "linked_domains": {"key": "properties.linkedDomains", "type": "[str]"},
+        "disable_local_auth": {"key": "properties.disableLocalAuth", "type": "bool"},
     }
 
     def __init__(
@@ -310,6 +312,7 @@ class CommunicationServiceResource(TrackedResource):  # pylint: disable=too-many
         identity: Optional["_models.ManagedServiceIdentity"] = None,
         data_location: Optional[str] = None,
         linked_domains: Optional[List[str]] = None,
+        disable_local_auth: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -323,16 +326,19 @@ class CommunicationServiceResource(TrackedResource):  # pylint: disable=too-many
         :paramtype data_location: str
         :keyword linked_domains: List of email Domain resource Ids.
         :paramtype linked_domains: list[str]
+        :keyword disable_local_auth: Disable local authentication for the CommunicationService.
+        :paramtype disable_local_auth: bool
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
-        self.provisioning_state = None
-        self.host_name = None
+        self.provisioning_state: Optional[Union[str, "_models.CommunicationServicesProvisioningState"]] = None
+        self.host_name: Optional[str] = None
         self.data_location = data_location
-        self.notification_hub_id = None
-        self.version = None
-        self.immutable_resource_id = None
+        self.notification_hub_id: Optional[str] = None
+        self.version: Optional[str] = None
+        self.immutable_resource_id: Optional[str] = None
         self.linked_domains = linked_domains
+        self.disable_local_auth = disable_local_auth
 
 
 class CommunicationServiceResourceList(_serialization.Model):
@@ -463,10 +469,10 @@ class DnsRecord(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.name = None
-        self.value = None
-        self.ttl = None
+        self.type: Optional[str] = None
+        self.name: Optional[str] = None
+        self.value: Optional[str] = None
+        self.ttl: Optional[int] = None
 
 
 class DomainPropertiesVerificationRecords(_serialization.Model):
@@ -575,12 +581,12 @@ class DomainPropertiesVerificationStates(_serialization.Model):
         self.dmarc = dmarc
 
 
-class DomainResource(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class DomainResource(TrackedResource):
     """A class representing a Domains resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
@@ -680,13 +686,13 @@ class DomainResource(TrackedResource):  # pylint: disable=too-many-instance-attr
          ~azure.mgmt.communication.models.UserEngagementTracking
         """
         super().__init__(tags=tags, location=location, **kwargs)
-        self.provisioning_state = None
-        self.data_location = None
-        self.from_sender_domain = None
-        self.mail_from_sender_domain = None
+        self.provisioning_state: Optional[Union[str, "_models.DomainsProvisioningState"]] = None
+        self.data_location: Optional[str] = None
+        self.from_sender_domain: Optional[str] = None
+        self.mail_from_sender_domain: Optional[str] = None
         self.domain_management = domain_management
-        self.verification_states = None
-        self.verification_records = None
+        self.verification_states: Optional["_models.DomainPropertiesVerificationStates"] = None
+        self.verification_records: Optional["_models.DomainPropertiesVerificationRecords"] = None
         self.user_engagement_tracking = user_engagement_tracking
 
 
@@ -726,7 +732,7 @@ class EmailServiceResource(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
@@ -788,7 +794,7 @@ class EmailServiceResource(TrackedResource):
         :paramtype data_location: str
         """
         super().__init__(tags=tags, location=location, **kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.EmailServicesProvisioningState"]] = None
         self.data_location = data_location
 
 
@@ -834,18 +840,6 @@ class EmailServiceResourceUpdate(TaggedResource):
     :vartype tags: dict[str, str]
     """
 
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
-        """
-        :keyword tags: Tags of the service which is a list of key value pairs that describe the
-         resource.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(tags=tags, **kwargs)
-
 
 class ErrorAdditionalInfo(_serialization.Model):
     """The resource management error additional info.
@@ -871,8 +865,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -911,11 +905,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -962,7 +956,7 @@ class LinkedNotificationHub(_serialization.Model):
 class LinkNotificationHubParameters(_serialization.Model):
     """Description of an Azure Notification Hub to link to the communication service.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_id: The resource ID of the notification hub. Required.
     :vartype resource_id: str
@@ -997,7 +991,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -1050,8 +1044,8 @@ class ManagedServiceIdentity(_serialization.Model):
          ~azure.mgmt.communication.models.UserAssignedIdentity]
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
 
@@ -1064,20 +1058,6 @@ class NameAvailabilityParameters(CheckNameAvailabilityRequest):
     :ivar type: The resource type.
     :vartype type: str
     """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword name: The name of the resource for which availability needs to be checked.
-        :paramtype name: str
-        :keyword type: The resource type.
-        :paramtype type: str
-        """
-        super().__init__(name=name, type=type, **kwargs)
 
 
 class Operation(_serialization.Model):
@@ -1123,11 +1103,11 @@ class Operation(_serialization.Model):
         :paramtype display: ~azure.mgmt.communication.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.is_data_action = None
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
         self.display = display
-        self.origin = None
-        self.action_type = None
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
 
 
 class OperationDisplay(_serialization.Model):
@@ -1166,10 +1146,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -1197,8 +1177,8 @@ class OperationListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class ProxyResource(Resource):
@@ -1219,24 +1199,6 @@ class ProxyResource(Resource):
      information.
     :vartype system_data: ~azure.mgmt.communication.models.SystemData
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class RegenerateKeyParameters(_serialization.Model):
@@ -1317,10 +1279,10 @@ class SenderUsernameResource(ProxyResource):
         :paramtype display_name: str
         """
         super().__init__(**kwargs)
-        self.data_location = None
+        self.data_location: Optional[str] = None
         self.username = username
         self.display_name = display_name
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class SenderUsernameResourceCollection(_serialization.Model):
@@ -1480,14 +1442,14 @@ class UserAssignedIdentity(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.client_id = None
+        self.principal_id: Optional[str] = None
+        self.client_id: Optional[str] = None
 
 
 class VerificationParameter(_serialization.Model):
     """Input parameter for verification APIs.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar verification_type: Type of verification. Required. Known values are: "Domain", "SPF",
      "DKIM", "DKIM2", and "DMARC".
@@ -1539,5 +1501,5 @@ class VerificationStatusRecord(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.status = None
-        self.error_code = None
+        self.status: Optional[Union[str, "_models.VerificationStatus"]] = None
+        self.error_code: Optional[str] = None
