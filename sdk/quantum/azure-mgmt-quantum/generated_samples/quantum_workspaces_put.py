@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.quantum import AzureQuantumMgmtClient
 
 """
@@ -32,7 +34,7 @@ def main():
     response = client.workspaces.begin_create_or_update(
         resource_group_name="quantumResourcegroup",
         workspace_name="quantumworkspace1",
-        quantum_workspace={
+        resource={
             "location": "West US",
             "properties": {
                 "providers": [
@@ -47,6 +49,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/quantumWorkspacesPut.json
+# x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2025-01-01-preview/examples/quantumWorkspacesPut.json
 if __name__ == "__main__":
     main()

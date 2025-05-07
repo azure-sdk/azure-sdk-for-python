@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.quantum import AzureQuantumMgmtClient
 
 """
@@ -29,13 +31,13 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.workspace.check_name_availability(
-        location_name="westus2",
-        check_name_availability_parameters={"name": "sample-workspace-name", "type": "Microsoft.Quantum/Workspaces"},
+    response = client.workspaces.check_name_availability(
+        location="westus2",
+        body={"name": "sample-workspace-name", "type": "Microsoft.Quantum/Workspaces"},
     )
     print(response)
 
 
-# x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/quantumWorkspacesCheckNameAvailability.json
+# x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2025-01-01-preview/examples/quantumWorkspacesCheckNameAvailability.json
 if __name__ == "__main__":
     main()
