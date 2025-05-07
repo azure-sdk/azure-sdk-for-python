@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,7 +16,7 @@ from azure.mgmt.sql import SqlManagementClient
     pip install azure-identity
     pip install azure-mgmt-sql
 # USAGE
-    python create_database_with_encryption_protector_auto_rotation.py
+    python server_communication_link_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,31 +31,14 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.databases.begin_create_or_update(
-        resource_group_name="Default-SQL-SouthEastAsia",
-        server_name="testsvr",
-        database_name="testdb",
-        parameters={
-            "identity": {
-                "type": "UserAssigned",
-                "userAssignedIdentities": {
-                    "/subscriptions/00000000-1111-2222-3333-444444444444/resourcegroups/Default-SQL-SouthEastAsia/providers/Microsoft.ManagedIdentity/userAssignedIdentities/umi": {}
-                },
-            },
-            "location": "southeastasia",
-            "properties": {
-                "collation": "SQL_Latin1_General_CP1_CI_AS",
-                "createMode": "Default",
-                "encryptionProtector": "https://your-key-vault-name.vault.azure.net/yourKey/yourKeyVersion",
-                "encryptionProtectorAutoRotation": True,
-                "maxSizeBytes": 1073741824,
-            },
-            "sku": {"name": "S0", "tier": "Standard"},
-        },
-    ).result()
+    response = client.server_communication_links.get(
+        resource_group_name="sqlcrudtest-7398",
+        server_name="sqlcrudtest-4645",
+        communication_link_name="link1",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-05-01-preview/examples/CreateDatabaseWithEncryptionProtectorAutoRotation.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/ServerCommunicationLinkGet.json
 if __name__ == "__main__":
     main()
