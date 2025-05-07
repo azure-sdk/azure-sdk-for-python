@@ -1,5 +1,23 @@
 # Release History
 
+## 2.2.0 (2025-05-07)
+
+### Features Added
+
+  - Model `CommunicationServiceResource` added property `disable_local_auth`
+  - Method `CommunicationServicesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, communication_service_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `CommunicationServicesOperations.check_name_availability` has a new overload `def check_name_availability(self: None, name_availability_parameters: IO[bytes], content_type: str)`
+  - Method `CommunicationServicesOperations.link_notification_hub` has a new overload `def link_notification_hub(self: None, resource_group_name: str, communication_service_name: str, link_notification_hub_parameters: Optional[IO[bytes]], content_type: str)`
+  - Method `CommunicationServicesOperations.regenerate_key` has a new overload `def regenerate_key(self: None, resource_group_name: str, communication_service_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `CommunicationServicesOperations.update` has a new overload `def update(self: None, resource_group_name: str, communication_service_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `DomainsOperations.begin_cancel_verification` has a new overload `def begin_cancel_verification(self: None, resource_group_name: str, email_service_name: str, domain_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `DomainsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, email_service_name: str, domain_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `DomainsOperations.begin_initiate_verification` has a new overload `def begin_initiate_verification(self: None, resource_group_name: str, email_service_name: str, domain_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `DomainsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, email_service_name: str, domain_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `EmailServicesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, email_service_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `EmailServicesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, email_service_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `SenderUsernamesOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, email_service_name: str, domain_name: str, sender_username: str, parameters: IO[bytes], content_type: str)`
+
 ## 2.1.0 (2024-03-18)
 
 ### Features Added
