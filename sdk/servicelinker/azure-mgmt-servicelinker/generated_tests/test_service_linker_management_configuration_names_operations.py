@@ -20,7 +20,7 @@ class TestServiceLinkerManagementConfigurationNamesOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_configuration_names_list(self, resource_group):
         response = self.client.configuration_names.list(
             api_version="2024-07-01-preview",
         )

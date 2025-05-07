@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -27,6 +28,7 @@ from azure.mgmt.servicelinker import ServiceLinkerManagementClient
 def main():
     client = ServiceLinkerManagementClient(
         credential=DefaultAzureCredential(),
+        subscription_id="SUBSCRIPTION_ID",
     )
 
     response = client.linkers.list_dapr_configurations(

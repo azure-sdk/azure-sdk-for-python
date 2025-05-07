@@ -21,109 +21,8 @@ class TestServiceLinkerManagementConnectorOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_dryrun(self, resource_group):
-        response = self.client.connector.list_dryrun(
-            subscription_id="str",
-            resource_group_name=resource_group.name,
-            location="str",
-            api_version="2024-07-01-preview",
-        )
-        result = [r async for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_get_dryrun(self, resource_group):
-        response = await self.client.connector.get_dryrun(
-            subscription_id="str",
-            resource_group_name=resource_group.name,
-            location="str",
-            dryrun_name="str",
-            api_version="2024-07-01-preview",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_begin_create_dryrun(self, resource_group):
-        response = await (
-            await self.client.connector.begin_create_dryrun(
-                subscription_id="str",
-                resource_group_name=resource_group.name,
-                location="str",
-                dryrun_name="str",
-                parameters={
-                    "id": "str",
-                    "name": "str",
-                    "operationPreviews": [
-                        {"action": "str", "description": "str", "name": "str", "operationType": "str", "scope": "str"}
-                    ],
-                    "parameters": "dryrun_parameters",
-                    "prerequisiteResults": ["dryrun_prerequisite_result"],
-                    "provisioningState": "str",
-                    "systemData": {
-                        "createdAt": "2020-02-20 00:00:00",
-                        "createdBy": "str",
-                        "createdByType": "str",
-                        "lastModifiedAt": "2020-02-20 00:00:00",
-                        "lastModifiedBy": "str",
-                        "lastModifiedByType": "str",
-                    },
-                    "type": "str",
-                },
-                api_version="2024-07-01-preview",
-            )
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_begin_update_dryrun(self, resource_group):
-        response = await (
-            await self.client.connector.begin_update_dryrun(
-                subscription_id="str",
-                resource_group_name=resource_group.name,
-                location="str",
-                dryrun_name="str",
-                parameters={
-                    "operationPreviews": [
-                        {"action": "str", "description": "str", "name": "str", "operationType": "str", "scope": "str"}
-                    ],
-                    "parameters": "dryrun_parameters",
-                    "prerequisiteResults": ["dryrun_prerequisite_result"],
-                    "provisioningState": "str",
-                },
-                api_version="2024-07-01-preview",
-            )
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_delete_dryrun(self, resource_group):
-        response = await self.client.connector.delete_dryrun(
-            subscription_id="str",
-            resource_group_name=resource_group.name,
-            location="str",
-            dryrun_name="str",
-            api_version="2024-07-01-preview",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_connector_list(self, resource_group):
         response = self.client.connector.list(
-            subscription_id="str",
             resource_group_name=resource_group.name,
             location="str",
             api_version="2024-07-01-preview",
@@ -134,9 +33,8 @@ class TestServiceLinkerManagementConnectorOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_connector_get(self, resource_group):
         response = await self.client.connector.get(
-            subscription_id="str",
             resource_group_name=resource_group.name,
             location="str",
             connector_name="str",
@@ -148,10 +46,9 @@ class TestServiceLinkerManagementConnectorOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_connector_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.connector.begin_create_or_update(
-                subscription_id="str",
                 resource_group_name=resource_group.name,
                 location="str",
                 connector_name="str",
@@ -214,26 +111,9 @@ class TestServiceLinkerManagementConnectorOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
-        response = await (
-            await self.client.connector.begin_delete(
-                subscription_id="str",
-                resource_group_name=resource_group.name,
-                location="str",
-                connector_name="str",
-                api_version="2024-07-01-preview",
-            )
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_begin_update(self, resource_group):
+    async def test_connector_begin_update(self, resource_group):
         response = await (
             await self.client.connector.begin_update(
-                subscription_id="str",
                 resource_group_name=resource_group.name,
                 location="str",
                 connector_name="str",
@@ -285,10 +165,9 @@ class TestServiceLinkerManagementConnectorOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_validate(self, resource_group):
+    async def test_connector_begin_delete(self, resource_group):
         response = await (
-            await self.client.connector.begin_validate(
-                subscription_id="str",
+            await self.client.connector.begin_delete(
                 resource_group_name=resource_group.name,
                 location="str",
                 connector_name="str",
@@ -301,12 +180,121 @@ class TestServiceLinkerManagementConnectorOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_generate_configurations(self, resource_group):
+    async def test_connector_generate_configurations(self, resource_group):
         response = await self.client.connector.generate_configurations(
-            subscription_id="str",
             resource_group_name=resource_group.name,
             location="str",
             connector_name="str",
+            api_version="2024-07-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_connector_begin_validate(self, resource_group):
+        response = await (
+            await self.client.connector.begin_validate(
+                resource_group_name=resource_group.name,
+                location="str",
+                connector_name="str",
+                api_version="2024-07-01-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_connector_list_dryrun(self, resource_group):
+        response = self.client.connector.list_dryrun(
+            resource_group_name=resource_group.name,
+            location="str",
+            api_version="2024-07-01-preview",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_connector_get_dryrun(self, resource_group):
+        response = await self.client.connector.get_dryrun(
+            resource_group_name=resource_group.name,
+            location="str",
+            dryrun_name="str",
+            api_version="2024-07-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_connector_begin_create_dryrun(self, resource_group):
+        response = await (
+            await self.client.connector.begin_create_dryrun(
+                resource_group_name=resource_group.name,
+                location="str",
+                dryrun_name="str",
+                parameters={
+                    "id": "str",
+                    "name": "str",
+                    "operationPreviews": [
+                        {"action": "str", "description": "str", "name": "str", "operationType": "str", "scope": "str"}
+                    ],
+                    "parameters": "dryrun_parameters",
+                    "prerequisiteResults": ["dryrun_prerequisite_result"],
+                    "provisioningState": "str",
+                    "systemData": {
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str",
+                    },
+                    "type": "str",
+                },
+                api_version="2024-07-01-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_connector_begin_update_dryrun(self, resource_group):
+        response = await (
+            await self.client.connector.begin_update_dryrun(
+                resource_group_name=resource_group.name,
+                location="str",
+                dryrun_name="str",
+                parameters={
+                    "operationPreviews": [
+                        {"action": "str", "description": "str", "name": "str", "operationType": "str", "scope": "str"}
+                    ],
+                    "parameters": "dryrun_parameters",
+                    "prerequisiteResults": ["dryrun_prerequisite_result"],
+                    "provisioningState": "str",
+                },
+                api_version="2024-07-01-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_connector_delete_dryrun(self, resource_group):
+        response = await self.client.connector.delete_dryrun(
+            resource_group_name=resource_group.name,
+            location="str",
+            dryrun_name="str",
             api_version="2024-07-01-preview",
         )
 

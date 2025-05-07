@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -27,10 +28,10 @@ from azure.mgmt.servicelinker import ServiceLinkerManagementClient
 def main():
     client = ServiceLinkerManagementClient(
         credential=DefaultAzureCredential(),
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.connector.begin_update_dryrun(
-        subscription_id="00000000-0000-0000-0000-000000000000",
         resource_group_name="test-rg",
         location="westus",
         dryrun_name="dryrunName",

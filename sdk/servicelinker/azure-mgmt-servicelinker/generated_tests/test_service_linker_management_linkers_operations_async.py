@@ -21,8 +21,9 @@ class TestServiceLinkerManagementLinkersOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_dryrun(self, resource_group):
+    async def test_linkers_list_dryrun(self, resource_group):
         response = self.client.linkers.list_dryrun(
+            providers="str",
             resource_uri="str",
             api_version="2024-07-01-preview",
         )
@@ -32,8 +33,10 @@ class TestServiceLinkerManagementLinkersOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_dryrun(self, resource_group):
+    async def test_linkers_get_dryrun(self, resource_group):
         response = await self.client.linkers.get_dryrun(
+            providers="str",
+            dryruns="str",
             resource_uri="str",
             dryrun_name="str",
             api_version="2024-07-01-preview",
@@ -44,9 +47,11 @@ class TestServiceLinkerManagementLinkersOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_dryrun(self, resource_group):
+    async def test_linkers_begin_create_dryrun(self, resource_group):
         response = await (
             await self.client.linkers.begin_create_dryrun(
+                providers="str",
+                dryruns="str",
                 resource_uri="str",
                 dryrun_name="str",
                 parameters={
@@ -77,9 +82,11 @@ class TestServiceLinkerManagementLinkersOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update_dryrun(self, resource_group):
+    async def test_linkers_begin_update_dryrun(self, resource_group):
         response = await (
             await self.client.linkers.begin_update_dryrun(
+                providers="str",
+                dryruns="str",
                 resource_uri="str",
                 dryrun_name="str",
                 parameters={
@@ -99,8 +106,10 @@ class TestServiceLinkerManagementLinkersOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete_dryrun(self, resource_group):
+    async def test_linkers_delete_dryrun(self, resource_group):
         response = await self.client.linkers.delete_dryrun(
+            providers="str",
+            dryruns="str",
             resource_uri="str",
             dryrun_name="str",
             api_version="2024-07-01-preview",
@@ -111,8 +120,10 @@ class TestServiceLinkerManagementLinkersOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_generate_configurations(self, resource_group):
+    async def test_linkers_generate_configurations(self, resource_group):
         response = await self.client.linkers.generate_configurations(
+            providers="str",
+            linkers="str",
             resource_uri="str",
             linker_name="str",
             api_version="2024-07-01-preview",
@@ -123,7 +134,7 @@ class TestServiceLinkerManagementLinkersOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_dapr_configurations(self, resource_group):
+    async def test_linkers_list_dapr_configurations(self, resource_group):
         response = self.client.linkers.list_dapr_configurations(
             resource_uri="str",
             api_version="2024-07-01-preview",
