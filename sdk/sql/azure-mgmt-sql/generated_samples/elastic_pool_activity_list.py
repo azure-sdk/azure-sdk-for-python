@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,7 +16,7 @@ from azure.mgmt.sql import SqlManagementClient
     pip install azure-identity
     pip install azure-mgmt-sql
 # USAGE
-    python managed_instance_long_term_retention_policy_delete.py
+    python elastic_pool_activity_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,15 +31,15 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.managed_instance_long_term_retention_policies.begin_delete(
-        resource_group_name="testResourceGroup",
-        managed_instance_name="testInstance",
-        database_name="testDatabase",
-        policy_name="default",
-    ).result()
-    print(response)
+    response = client.elastic_pool_activities.list_by_elastic_pool(
+        resource_group_name="sqlcrudtest-4291",
+        server_name="sqlcrudtest-6574",
+        elastic_pool_name="8749",
+    )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-05-01-preview/examples/ManagedInstanceLongTermRetentionPolicyDelete.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01-legacy/examples/ElasticPoolActivityList.json
 if __name__ == "__main__":
     main()
