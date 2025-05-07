@@ -16,7 +16,7 @@ from azure.core.rest import HttpRequest, HttpResponse
 
 from ._configuration import LoadTestAdministrationClientConfiguration, LoadTestRunClientConfiguration
 from ._operations import LoadTestAdministrationClientOperationsMixin, LoadTestRunClientOperationsMixin
-from ._serialization import Deserializer, Serializer
+from ._utils.serialization import Deserializer, Serializer
 
 if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
@@ -38,6 +38,7 @@ class LoadTestAdministrationClient(LoadTestAdministrationClientOperationsMixin):
     def __init__(self, endpoint: str, credential: "TokenCredential", **kwargs: Any) -> None:
         _endpoint = "https://{endpoint}"
         self._config = LoadTestAdministrationClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -114,6 +115,7 @@ class LoadTestRunClient(LoadTestRunClientOperationsMixin):
     def __init__(self, endpoint: str, credential: "TokenCredential", **kwargs: Any) -> None:
         _endpoint = "https://{endpoint}"
         self._config = LoadTestRunClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
