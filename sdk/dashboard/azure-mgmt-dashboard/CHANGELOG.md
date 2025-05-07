@@ -1,5 +1,45 @@
 # Release History
 
+## 1.2.0b1 (2025-05-07)
+
+### Features Added
+
+  - Client `DashboardManagementClient` added operation group `integration_fabrics`
+  - Client `DashboardManagementClient` added operation group `dashboards`
+  - Client `DashboardManagementClient` added operation group `managed_dashboards`
+  - Model `GrafanaConfigurations` added property `snapshots`
+  - Model `GrafanaConfigurations` added property `users`
+  - Model `GrafanaConfigurations` added property `security`
+  - Model `GrafanaConfigurations` added property `unified_alerting_screenshots`
+  - Added model `IntegrationFabric`
+  - Added model `IntegrationFabricListResponse`
+  - Added model `IntegrationFabricProperties`
+  - Added model `IntegrationFabricPropertiesUpdateParameters`
+  - Added model `IntegrationFabricUpdateParameters`
+  - Added model `ManagedDashboard`
+  - Added model `ManagedDashboardListResponse`
+  - Added model `ManagedDashboardUpdateParameters`
+  - Added model `Security`
+  - Added model `Snapshots`
+  - Added model `UnifiedAlertingScreenshots`
+  - Added model `Users`
+  - Added model `DashboardsOperations`
+  - Added model `IntegrationFabricsOperations`
+  - Added model `ManagedDashboardsOperations`
+  - Method `GrafanaOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, workspace_name: str, request_body_parameters: IO[bytes], content_type: str)`
+  - Method `GrafanaOperations.update` has a new overload `def update(self: None, resource_group_name: str, workspace_name: str, request_body_parameters: IO[bytes], content_type: str)`
+  - Method `ManagedPrivateEndpointsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, workspace_name: str, managed_private_endpoint_name: str, request_body_parameters: IO[bytes], content_type: str)`
+  - Method `ManagedPrivateEndpointsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, managed_private_endpoint_name: str, request_body_parameters: IO[bytes], content_type: str)`
+  - Method `PrivateEndpointConnectionsOperations.begin_approve` has a new overload `def begin_approve(self: None, resource_group_name: str, workspace_name: str, private_endpoint_connection_name: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `IntegrationFabricsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, workspace_name: str, integration_fabric_name: str, request_body_parameters: IntegrationFabric, content_type: str)`
+  - Method `IntegrationFabricsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, workspace_name: str, integration_fabric_name: str, request_body_parameters: IO[bytes], content_type: str)`
+  - Method `IntegrationFabricsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, integration_fabric_name: str, request_body_parameters: IntegrationFabricUpdateParameters, content_type: str)`
+  - Method `IntegrationFabricsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, integration_fabric_name: str, request_body_parameters: IO[bytes], content_type: str)`
+  - Method `ManagedDashboardsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, dashboard_name: str, request_body_parameters: ManagedDashboard, content_type: str)`
+  - Method `ManagedDashboardsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, dashboard_name: str, request_body_parameters: IO[bytes], content_type: str)`
+  - Method `ManagedDashboardsOperations.update` has a new overload `def update(self: None, resource_group_name: str, dashboard_name: str, request_body_parameters: ManagedDashboardUpdateParameters, content_type: str)`
+  - Method `ManagedDashboardsOperations.update` has a new overload `def update(self: None, resource_group_name: str, dashboard_name: str, request_body_parameters: IO[bytes], content_type: str)`
+
 ## 1.1.0 (2023-11-20)
 
 ### Features Added
