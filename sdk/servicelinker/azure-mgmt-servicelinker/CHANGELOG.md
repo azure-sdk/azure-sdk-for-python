@@ -1,5 +1,79 @@
 # Release History
 
+## 1.2.0b4 (2025-05-07)
+
+### Features Added
+
+  - Added model `AzureResourceManagerArmResponseDryrunResource`
+  - Added model `AzureResourceManagerArmResponseValidateOperationResult`
+  - Method `ConnectorOperations.begin_create_dryrun` has a new overload `def begin_create_dryrun(self: None, resource_group_name: str, location: str, dryrun_name: str, parameters: DryrunResource, content_type: str)`
+  - Method `ConnectorOperations.begin_create_dryrun` has a new overload `def begin_create_dryrun(self: None, resource_group_name: str, location: str, dryrun_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ConnectorOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, location: str, connector_name: str, parameters: LinkerResource, content_type: str)`
+  - Method `ConnectorOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, location: str, connector_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ConnectorOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, location: str, connector_name: str, parameters: LinkerPatch, content_type: str)`
+  - Method `ConnectorOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, location: str, connector_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ConnectorOperations.begin_update_dryrun` has a new overload `def begin_update_dryrun(self: None, resource_group_name: str, location: str, dryrun_name: str, parameters: DryrunPatch, content_type: str)`
+  - Method `ConnectorOperations.begin_update_dryrun` has a new overload `def begin_update_dryrun(self: None, resource_group_name: str, location: str, dryrun_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ConnectorOperations.generate_configurations` has a new overload `def generate_configurations(self: None, resource_group_name: str, location: str, connector_name: str, parameters: Optional[ConfigurationInfo], content_type: str)`
+  - Method `ConnectorOperations.generate_configurations` has a new overload `def generate_configurations(self: None, resource_group_name: str, location: str, connector_name: str, parameters: Optional[IO[bytes]], content_type: str)`
+  - Method `LinkerOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, providers: str, linkers: str, resource_uri: str, linker_name: str, parameters: LinkerResource, content_type: str)`
+  - Method `LinkerOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, providers: str, linkers: str, resource_uri: str, linker_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `LinkerOperations.update` has a new overload `def update(self: None, providers: str, linkers: str, resource_uri: str, linker_name: str, parameters: LinkerPatch, content_type: str)`
+  - Method `LinkerOperations.update` has a new overload `def update(self: None, providers: str, linkers: str, resource_uri: str, linker_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `LinkersOperations.begin_create_dryrun` has a new overload `def begin_create_dryrun(self: None, providers: str, dryruns: str, resource_uri: str, dryrun_name: str, parameters: DryrunResource, content_type: str)`
+  - Method `LinkersOperations.begin_create_dryrun` has a new overload `def begin_create_dryrun(self: None, providers: str, dryruns: str, resource_uri: str, dryrun_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `LinkersOperations.begin_update_dryrun` has a new overload `def begin_update_dryrun(self: None, providers: str, dryruns: str, resource_uri: str, dryrun_name: str, parameters: DryrunPatch, content_type: str)`
+  - Method `LinkersOperations.begin_update_dryrun` has a new overload `def begin_update_dryrun(self: None, providers: str, dryruns: str, resource_uri: str, dryrun_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `LinkersOperations.generate_configurations` has a new overload `def generate_configurations(self: None, providers: str, linkers: str, resource_uri: str, linker_name: str, parameters: Optional[ConfigurationInfo], content_type: str)`
+  - Method `LinkersOperations.generate_configurations` has a new overload `def generate_configurations(self: None, providers: str, linkers: str, resource_uri: str, linker_name: str, parameters: Optional[IO[bytes]], content_type: str)`
+
+### Breaking Changes
+
+  - Method `ServiceLinkerManagementClient.__init__` inserted a `positional_or_keyword` parameter `subscription_id`
+  - Deleted or renamed enum value `ActionType.ENABLE`
+  - Deleted or renamed enum value `ActionType.OPT_OUT`
+  - Method `ConfigurationNameResult.__init__` removed default value `None` from its parameter `value`
+  - Method `DaprConfigurationList.__init__` removed default value `None` from its parameter `value`
+  - Method `DryrunList.__init__` removed default value `None` from its parameter `value`
+  - Method `ResourceList.__init__` removed default value `None` from its parameter `value`
+  - Deleted or renamed model `DatabaseAadAuthInfo`
+  - Deleted or renamed model `LinkerProperties`
+  - Method `ConnectorOperations.begin_create_dryrun` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `ConnectorOperations.begin_create_or_update` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `ConnectorOperations.begin_delete` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `ConnectorOperations.begin_update` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `ConnectorOperations.begin_update_dryrun` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `ConnectorOperations.begin_validate` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `ConnectorOperations.delete_dryrun` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `ConnectorOperations.generate_configurations` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `ConnectorOperations.get` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `ConnectorOperations.get_dryrun` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `ConnectorOperations.list` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `ConnectorOperations.list_dryrun` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `LinkerOperations.begin_create_or_update` inserted a `positional_or_keyword` parameter `providers`
+  - Method `LinkerOperations.begin_create_or_update` inserted a `positional_or_keyword` parameter `linkers`
+  - Method `LinkerOperations.begin_delete` inserted a `positional_or_keyword` parameter `providers`
+  - Method `LinkerOperations.begin_delete` inserted a `positional_or_keyword` parameter `linkers`
+  - Method `LinkerOperations.begin_validate` inserted a `positional_or_keyword` parameter `providers`
+  - Method `LinkerOperations.begin_validate` inserted a `positional_or_keyword` parameter `linkers`
+  - Method `LinkerOperations.get` inserted a `positional_or_keyword` parameter `providers`
+  - Method `LinkerOperations.get` inserted a `positional_or_keyword` parameter `linkers`
+  - Method `LinkerOperations.list` inserted a `positional_or_keyword` parameter `providers`
+  - Method `LinkerOperations.list_configurations` inserted a `positional_or_keyword` parameter `providers`
+  - Method `LinkerOperations.list_configurations` inserted a `positional_or_keyword` parameter `linkers`
+  - Deleted or renamed method `LinkerOperations.begin_update`
+  - Method `LinkersOperations.begin_create_dryrun` inserted a `positional_or_keyword` parameter `providers`
+  - Method `LinkersOperations.begin_create_dryrun` inserted a `positional_or_keyword` parameter `dryruns`
+  - Method `LinkersOperations.begin_update_dryrun` inserted a `positional_or_keyword` parameter `providers`
+  - Method `LinkersOperations.begin_update_dryrun` inserted a `positional_or_keyword` parameter `dryruns`
+  - Method `LinkersOperations.delete_dryrun` inserted a `positional_or_keyword` parameter `providers`
+  - Method `LinkersOperations.delete_dryrun` inserted a `positional_or_keyword` parameter `dryruns`
+  - Method `LinkersOperations.generate_configurations` inserted a `positional_or_keyword` parameter `providers`
+  - Method `LinkersOperations.generate_configurations` inserted a `positional_or_keyword` parameter `linkers`
+  - Method `LinkersOperations.get_dryrun` inserted a `positional_or_keyword` parameter `providers`
+  - Method `LinkersOperations.get_dryrun` inserted a `positional_or_keyword` parameter `dryruns`
+  - Method `LinkersOperations.list_dryrun` inserted a `positional_or_keyword` parameter `providers`
+
 ## 1.2.0b3 (2024-10-11)
 
 ### Features Added

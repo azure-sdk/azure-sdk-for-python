@@ -20,8 +20,9 @@ class TestServiceLinkerManagementLinkerOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_linker_list(self, resource_group):
         response = self.client.linker.list(
+            providers="str",
             resource_uri="str",
             api_version="2024-07-01-preview",
         )
@@ -31,8 +32,10 @@ class TestServiceLinkerManagementLinkerOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_linker_get(self, resource_group):
         response = self.client.linker.get(
+            providers="str",
+            linkers="str",
             resource_uri="str",
             linker_name="str",
             api_version="2024-07-01-preview",
@@ -43,8 +46,10 @@ class TestServiceLinkerManagementLinkerOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_linker_begin_create_or_update(self, resource_group):
         response = self.client.linker.begin_create_or_update(
+            providers="str",
+            linkers="str",
             resource_uri="str",
             linker_name="str",
             parameters={
@@ -99,20 +104,10 @@ class TestServiceLinkerManagementLinkerOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
-        response = self.client.linker.begin_delete(
-            resource_uri="str",
-            linker_name="str",
-            api_version="2024-07-01-preview",
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_begin_update(self, resource_group):
-        response = self.client.linker.begin_update(
+    def test_linker_update(self, resource_group):
+        response = self.client.linker.update(
+            providers="str",
+            linkers="str",
             resource_uri="str",
             linker_name="str",
             parameters={
@@ -149,15 +144,17 @@ class TestServiceLinkerManagementLinkerOperations(AzureMgmtRecordedTestCase):
                 "vNetSolution": {"deleteOrUpdateBehavior": "str", "type": "str"},
             },
             api_version="2024-07-01-preview",
-        ).result()  # call '.result()' to poll until service return final result
+        )
 
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_validate(self, resource_group):
-        response = self.client.linker.begin_validate(
+    def test_linker_begin_delete(self, resource_group):
+        response = self.client.linker.begin_delete(
+            providers="str",
+            linkers="str",
             resource_uri="str",
             linker_name="str",
             api_version="2024-07-01-preview",
@@ -168,12 +165,28 @@ class TestServiceLinkerManagementLinkerOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_configurations(self, resource_group):
+    def test_linker_list_configurations(self, resource_group):
         response = self.client.linker.list_configurations(
+            providers="str",
+            linkers="str",
             resource_uri="str",
             linker_name="str",
             api_version="2024-07-01-preview",
         )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_linker_begin_validate(self, resource_group):
+        response = self.client.linker.begin_validate(
+            providers="str",
+            linkers="str",
+            resource_uri="str",
+            linker_name="str",
+            api_version="2024-07-01-preview",
+        ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...

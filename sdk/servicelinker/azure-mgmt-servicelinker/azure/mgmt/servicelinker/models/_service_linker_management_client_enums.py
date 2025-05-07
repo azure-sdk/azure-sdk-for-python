@@ -24,8 +24,6 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
 
     INTERNAL = "Internal"
-    ENABLE = "enable"
-    OPT_OUT = "optOut"
 
 
 class AllowType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
