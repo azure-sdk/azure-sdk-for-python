@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -30,10 +31,9 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.diagnostics.list_site_detector_responses_slot(
+    response = client.diagnostics.list_site_detector_responses(
         resource_group_name="Sample-WestUSResourceGroup",
         site_name="SampleApp",
-        slot="staging",
     )
     for item in response:
         print(item)
