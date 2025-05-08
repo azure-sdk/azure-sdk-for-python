@@ -424,7 +424,7 @@ class Operations:
         :attr:`operations` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: SecretsStoreExtensionMgmtClientConfiguration = (
@@ -527,7 +527,7 @@ class AzureKeyVaultSecretProviderClassesOperations:  # pylint: disable=name-too-
         :attr:`azure_key_vault_secret_provider_classes` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: SecretsStoreExtensionMgmtClientConfiguration = (
@@ -1392,7 +1392,7 @@ class SecretSyncsOperations:
         :attr:`secret_syncs` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: SecretsStoreExtensionMgmtClientConfiguration = (
