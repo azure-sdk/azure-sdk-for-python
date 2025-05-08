@@ -1,5 +1,30 @@
 # Release History
 
+## 5.0.0b1 (2025-05-08)
+
+### Features Added
+
+  - Client `AppConfigurationManagementClient` added operation group `experimentation`
+  - Model `ConfigurationStore` added property `default_key_value_revision_retention_period_in_seconds`
+  - Model `ConfigurationStore` added property `telemetry`
+  - Model `ConfigurationStore` added property `managed_on_behalf_of_configuration`
+  - Model `ConfigurationStoreUpdateParameters` added property `default_key_value_revision_retention_period_in_seconds`
+  - Model `ConfigurationStoreUpdateParameters` added property `telemetry`
+  - Added model `Experimentation`
+  - Added model `ExperimentationListResult`
+  - Added model `ManagedOnBehalfOfConfiguration`
+  - Added model `MoboBrokerResource`
+  - Added model `TelemetryProperties`
+  - Added model `ExperimentationOperations`
+  - Method `KeyValuesOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, config_store_name: str, key_value_name: str, key_value_parameters: KeyValue, content_type: str)`
+  - Method `KeyValuesOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, config_store_name: str, key_value_name: str, key_value_parameters: IO[bytes], content_type: str)`
+  - Method `ExperimentationOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, config_store_name: str, experimentation_name: str, experimentation_creation_parameters: Optional[Experimentation], content_type: str)`
+  - Method `ExperimentationOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, config_store_name: str, experimentation_name: str, experimentation_creation_parameters: Optional[IO[bytes]], content_type: str)`
+
+### Breaking Changes
+
+  - Method `KeyValuesOperations.create_or_update` removed default value `None` from its parameter `key_value_parameters`
+
 ## 4.0.0 (2024-10-29)
 
 ### Breaking Changes
