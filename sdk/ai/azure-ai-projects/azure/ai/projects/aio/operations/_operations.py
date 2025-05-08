@@ -43,10 +43,10 @@ from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 
-from ... import _model_base, models as _models
-from ..._model_base import SdkJSONEncoder, _deserialize
-from ..._serialization import Deserializer, Serializer
-from ..._vendor import prepare_multipart_form_data
+from ... import models as _models
+from ..._utils.model_base import Model as _Model, SdkJSONEncoder, _deserialize
+from ..._utils.serialization import Deserializer, Serializer
+from ..._utils.utils import prepare_multipart_form_data
 from ...operations._operations import (
     build_agents_cancel_run_request,
     build_agents_cancel_vector_store_file_batch_request,
@@ -3471,7 +3471,7 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
 
         cls: ClsType[_models.OpenAIFile] = kwargs.pop("cls", None)
 
-        _body = body.as_dict() if isinstance(body, _model_base.Model) else body
+        _body = body.as_dict() if isinstance(body, _Model) else body
         _file_fields: List[str] = ["file"]
         _data_fields: List[str] = ["purpose", "filename"]
         _files, _data = prepare_multipart_form_data(_body, _file_fields, _data_fields)
