@@ -42,7 +42,7 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_list_by_configuration_store_request(  # pylint: disable=name-too-long
+def build_list_request(
     resource_group_name: str, config_store_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -54,11 +54,13 @@ def build_list_by_configuration_store_request(  # pylint: disable=name-too-long
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/experimentation",
     )
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "configStoreName": _SERIALIZER.url(
             "config_store_name", config_store_name, "str", max_length=50, min_length=5, pattern=r"^[a-zA-Z0-9_-]*$"
         ),
@@ -76,11 +78,7 @@ def build_list_by_configuration_store_request(  # pylint: disable=name-too-long
 
 
 def build_get_request(
-    resource_group_name: str,
-    config_store_name: str,
-    private_endpoint_connection_name: str,
-    subscription_id: str,
-    **kwargs: Any
+    resource_group_name: str, config_store_name: str, experimentation_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -91,16 +89,18 @@ def build_get_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/experimentation/{experimentationName}",
     )
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "configStoreName": _SERIALIZER.url(
             "config_store_name", config_store_name, "str", max_length=50, min_length=5, pattern=r"^[a-zA-Z0-9_-]*$"
         ),
-        "privateEndpointConnectionName": _SERIALIZER.url(
-            "private_endpoint_connection_name", private_endpoint_connection_name, "str"
+        "experimentationName": _SERIALIZER.url(
+            "experimentation_name", experimentation_name, "str", pattern=r"^default$"
         ),
     }
 
@@ -115,12 +115,8 @@ def build_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_or_update_request(
-    resource_group_name: str,
-    config_store_name: str,
-    private_endpoint_connection_name: str,
-    subscription_id: str,
-    **kwargs: Any
+def build_create_request(
+    resource_group_name: str, config_store_name: str, experimentation_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -132,16 +128,18 @@ def build_create_or_update_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/experimentation/{experimentationName}",
     )
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "configStoreName": _SERIALIZER.url(
             "config_store_name", config_store_name, "str", max_length=50, min_length=5, pattern=r"^[a-zA-Z0-9_-]*$"
         ),
-        "privateEndpointConnectionName": _SERIALIZER.url(
-            "private_endpoint_connection_name", private_endpoint_connection_name, "str"
+        "experimentationName": _SERIALIZER.url(
+            "experimentation_name", experimentation_name, "str", pattern=r"^default$"
         ),
     }
 
@@ -159,11 +157,7 @@ def build_create_or_update_request(
 
 
 def build_delete_request(
-    resource_group_name: str,
-    config_store_name: str,
-    private_endpoint_connection_name: str,
-    subscription_id: str,
-    **kwargs: Any
+    resource_group_name: str, config_store_name: str, experimentation_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -174,16 +168,18 @@ def build_delete_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections/{privateEndpointConnectionName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/experimentation/{experimentationName}",
     )
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "configStoreName": _SERIALIZER.url(
             "config_store_name", config_store_name, "str", max_length=50, min_length=5, pattern=r"^[a-zA-Z0-9_-]*$"
         ),
-        "privateEndpointConnectionName": _SERIALIZER.url(
-            "private_endpoint_connection_name", private_endpoint_connection_name, "str"
+        "experimentationName": _SERIALIZER.url(
+            "experimentation_name", experimentation_name, "str", pattern=r"^default$"
         ),
     }
 
@@ -198,14 +194,14 @@ def build_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class PrivateEndpointConnectionsOperations:
+class ExperimentationOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.appconfiguration.AppConfigurationManagementClient`'s
-        :attr:`private_endpoint_connections` attribute.
+        :attr:`experimentation` attribute.
     """
 
     models = _models
@@ -220,27 +216,25 @@ class PrivateEndpointConnectionsOperations:
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list_by_configuration_store(
+    def list(
         self, resource_group_name: str, config_store_name: str, **kwargs: Any
-    ) -> Iterable["_models.PrivateEndpointConnection"]:
-        """Lists all private endpoint connections for a configuration store.
+    ) -> Iterable["_models.Experimentation"]:
+        """Lists experimentation for a given configuration store.
 
-        :param resource_group_name: The name of the resource group to which the container registry
-         belongs. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param config_store_name: The name of the configuration store. Required.
         :type config_store_name: str
-        :return: An iterator like instance of either PrivateEndpointConnection or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.appconfiguration.models.PrivateEndpointConnection]
+        :return: An iterator like instance of either Experimentation or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.appconfiguration.models.Experimentation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.PrivateEndpointConnectionListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ExperimentationListResult] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -253,7 +247,7 @@ class PrivateEndpointConnectionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_list_by_configuration_store_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     config_store_name=config_store_name,
                     subscription_id=self._config.subscription_id,
@@ -281,7 +275,7 @@ class PrivateEndpointConnectionsOperations:
             return _request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("PrivateEndpointConnectionListResult", pipeline_response)
+            deserialized = self._deserialize("ExperimentationListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -298,7 +292,7 @@ class PrivateEndpointConnectionsOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated, pipeline_response)
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
@@ -307,19 +301,19 @@ class PrivateEndpointConnectionsOperations:
 
     @distributed_trace
     def get(
-        self, resource_group_name: str, config_store_name: str, private_endpoint_connection_name: str, **kwargs: Any
-    ) -> _models.PrivateEndpointConnection:
-        """Gets the specified private endpoint connection associated with the configuration store.
+        self, resource_group_name: str, config_store_name: str, experimentation_name: str, **kwargs: Any
+    ) -> _models.Experimentation:
+        """Gets the properties of the experimentation.
 
-        :param resource_group_name: The name of the resource group to which the container registry
-         belongs. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param config_store_name: The name of the configuration store. Required.
         :type config_store_name: str
-        :param private_endpoint_connection_name: Private endpoint connection name. Required.
-        :type private_endpoint_connection_name: str
-        :return: PrivateEndpointConnection or the result of cls(response)
-        :rtype: ~azure.mgmt.appconfiguration.models.PrivateEndpointConnection
+        :param experimentation_name: The name of the experimentation. Required.
+        :type experimentation_name: str
+        :return: Experimentation or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.Experimentation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -334,12 +328,12 @@ class PrivateEndpointConnectionsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.PrivateEndpointConnection] = kwargs.pop("cls", None)
+        cls: ClsType[_models.Experimentation] = kwargs.pop("cls", None)
 
         _request = build_get_request(
             resource_group_name=resource_group_name,
             config_store_name=config_store_name,
-            private_endpoint_connection_name=private_endpoint_connection_name,
+            experimentation_name=experimentation_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -356,22 +350,22 @@ class PrivateEndpointConnectionsOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response.http_response)
+        deserialized = self._deserialize("Experimentation", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
 
-    def _create_or_update_initial(
+    def _create_initial(
         self,
         resource_group_name: str,
         config_store_name: str,
-        private_endpoint_connection_name: str,
-        private_endpoint_connection: Union[_models.PrivateEndpointConnection, IO[bytes]],
+        experimentation_name: str,
+        experimentation_creation_parameters: Optional[Union[_models.Experimentation, IO[bytes]]] = None,
         **kwargs: Any
     ) -> Iterator[bytes]:
         error_map: MutableMapping = {
@@ -392,15 +386,18 @@ class PrivateEndpointConnectionsOperations:
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(private_endpoint_connection, (IOBase, bytes)):
-            _content = private_endpoint_connection
+        if isinstance(experimentation_creation_parameters, (IOBase, bytes)):
+            _content = experimentation_creation_parameters
         else:
-            _json = self._serialize.body(private_endpoint_connection, "PrivateEndpointConnection")
+            if experimentation_creation_parameters is not None:
+                _json = self._serialize.body(experimentation_creation_parameters, "Experimentation")
+            else:
+                _json = None
 
-        _request = build_create_or_update_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             config_store_name=config_store_name,
-            private_endpoint_connection_name=private_endpoint_connection_name,
+            experimentation_name=experimentation_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -425,7 +422,7 @@ class PrivateEndpointConnectionsOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
@@ -436,102 +433,94 @@ class PrivateEndpointConnectionsOperations:
         return deserialized  # type: ignore
 
     @overload
-    def begin_create_or_update(
+    def begin_create(
         self,
         resource_group_name: str,
         config_store_name: str,
-        private_endpoint_connection_name: str,
-        private_endpoint_connection: _models.PrivateEndpointConnection,
+        experimentation_name: str,
+        experimentation_creation_parameters: Optional[_models.Experimentation] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.PrivateEndpointConnection]:
-        """Update the state of the specified private endpoint connection associated with the configuration
-        store. This operation cannot be used to create a private endpoint connection. Private endpoint
-        connections must be created with the Network resource provider.
+    ) -> LROPoller[_models.Experimentation]:
+        """Creates the experimentation.
 
-        :param resource_group_name: The name of the resource group to which the container registry
-         belongs. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param config_store_name: The name of the configuration store. Required.
         :type config_store_name: str
-        :param private_endpoint_connection_name: Private endpoint connection name. Required.
-        :type private_endpoint_connection_name: str
-        :param private_endpoint_connection: The private endpoint connection properties. Required.
-        :type private_endpoint_connection:
-         ~azure.mgmt.appconfiguration.models.PrivateEndpointConnection
+        :param experimentation_name: The name of the experimentation. Required.
+        :type experimentation_name: str
+        :param experimentation_creation_parameters: The parameters for creating the experimentation.
+         Default value is None.
+        :type experimentation_creation_parameters: ~azure.mgmt.appconfiguration.models.Experimentation
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns either PrivateEndpointConnection or the result
-         of cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.appconfiguration.models.PrivateEndpointConnection]
+        :return: An instance of LROPoller that returns either Experimentation or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.appconfiguration.models.Experimentation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    def begin_create(
         self,
         resource_group_name: str,
         config_store_name: str,
-        private_endpoint_connection_name: str,
-        private_endpoint_connection: IO[bytes],
+        experimentation_name: str,
+        experimentation_creation_parameters: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.PrivateEndpointConnection]:
-        """Update the state of the specified private endpoint connection associated with the configuration
-        store. This operation cannot be used to create a private endpoint connection. Private endpoint
-        connections must be created with the Network resource provider.
+    ) -> LROPoller[_models.Experimentation]:
+        """Creates the experimentation.
 
-        :param resource_group_name: The name of the resource group to which the container registry
-         belongs. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param config_store_name: The name of the configuration store. Required.
         :type config_store_name: str
-        :param private_endpoint_connection_name: Private endpoint connection name. Required.
-        :type private_endpoint_connection_name: str
-        :param private_endpoint_connection: The private endpoint connection properties. Required.
-        :type private_endpoint_connection: IO[bytes]
+        :param experimentation_name: The name of the experimentation. Required.
+        :type experimentation_name: str
+        :param experimentation_creation_parameters: The parameters for creating the experimentation.
+         Default value is None.
+        :type experimentation_creation_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns either PrivateEndpointConnection or the result
-         of cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.appconfiguration.models.PrivateEndpointConnection]
+        :return: An instance of LROPoller that returns either Experimentation or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.appconfiguration.models.Experimentation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace
-    def begin_create_or_update(
+    def begin_create(
         self,
         resource_group_name: str,
         config_store_name: str,
-        private_endpoint_connection_name: str,
-        private_endpoint_connection: Union[_models.PrivateEndpointConnection, IO[bytes]],
+        experimentation_name: str,
+        experimentation_creation_parameters: Optional[Union[_models.Experimentation, IO[bytes]]] = None,
         **kwargs: Any
-    ) -> LROPoller[_models.PrivateEndpointConnection]:
-        """Update the state of the specified private endpoint connection associated with the configuration
-        store. This operation cannot be used to create a private endpoint connection. Private endpoint
-        connections must be created with the Network resource provider.
+    ) -> LROPoller[_models.Experimentation]:
+        """Creates the experimentation.
 
-        :param resource_group_name: The name of the resource group to which the container registry
-         belongs. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param config_store_name: The name of the configuration store. Required.
         :type config_store_name: str
-        :param private_endpoint_connection_name: Private endpoint connection name. Required.
-        :type private_endpoint_connection_name: str
-        :param private_endpoint_connection: The private endpoint connection properties. Is either a
-         PrivateEndpointConnection type or a IO[bytes] type. Required.
-        :type private_endpoint_connection:
-         ~azure.mgmt.appconfiguration.models.PrivateEndpointConnection or IO[bytes]
-        :return: An instance of LROPoller that returns either PrivateEndpointConnection or the result
-         of cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.appconfiguration.models.PrivateEndpointConnection]
+        :param experimentation_name: The name of the experimentation. Required.
+        :type experimentation_name: str
+        :param experimentation_creation_parameters: The parameters for creating the experimentation. Is
+         either a Experimentation type or a IO[bytes] type. Default value is None.
+        :type experimentation_creation_parameters: ~azure.mgmt.appconfiguration.models.Experimentation
+         or IO[bytes]
+        :return: An instance of LROPoller that returns either Experimentation or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.appconfiguration.models.Experimentation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -539,16 +528,16 @@ class PrivateEndpointConnectionsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.PrivateEndpointConnection] = kwargs.pop("cls", None)
+        cls: ClsType[_models.Experimentation] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._create_or_update_initial(
+            raw_result = self._create_initial(
                 resource_group_name=resource_group_name,
                 config_store_name=config_store_name,
-                private_endpoint_connection_name=private_endpoint_connection_name,
-                private_endpoint_connection=private_endpoint_connection,
+                experimentation_name=experimentation_name,
+                experimentation_creation_parameters=experimentation_creation_parameters,
                 api_version=api_version,
                 content_type=content_type,
                 cls=lambda x, y, z: x,
@@ -560,30 +549,32 @@ class PrivateEndpointConnectionsOperations:
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response.http_response)
+            deserialized = self._deserialize("Experimentation", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.PrivateEndpointConnection].from_continuation_token(
+            return LROPoller[_models.Experimentation].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.PrivateEndpointConnection](
+        return LROPoller[_models.Experimentation](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
     def _delete_initial(
-        self, resource_group_name: str, config_store_name: str, private_endpoint_connection_name: str, **kwargs: Any
+        self, resource_group_name: str, config_store_name: str, experimentation_name: str, **kwargs: Any
     ) -> Iterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -602,7 +593,7 @@ class PrivateEndpointConnectionsOperations:
         _request = build_delete_request(
             resource_group_name=resource_group_name,
             config_store_name=config_store_name,
-            private_endpoint_connection_name=private_endpoint_connection_name,
+            experimentation_name=experimentation_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -618,35 +609,42 @@ class PrivateEndpointConnectionsOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 202, 204]:
+        if response.status_code not in [202, 204]:
             try:
                 response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
 
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
     @distributed_trace
     def begin_delete(
-        self, resource_group_name: str, config_store_name: str, private_endpoint_connection_name: str, **kwargs: Any
+        self, resource_group_name: str, config_store_name: str, experimentation_name: str, **kwargs: Any
     ) -> LROPoller[None]:
-        """Deletes a private endpoint connection.
+        """Deletes the experimentation.
 
-        :param resource_group_name: The name of the resource group to which the container registry
-         belongs. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param config_store_name: The name of the configuration store. Required.
         :type config_store_name: str
-        :param private_endpoint_connection_name: Private endpoint connection name. Required.
-        :type private_endpoint_connection_name: str
+        :param experimentation_name: The name of the experimentation. Required.
+        :type experimentation_name: str
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -663,7 +661,7 @@ class PrivateEndpointConnectionsOperations:
             raw_result = self._delete_initial(
                 resource_group_name=resource_group_name,
                 config_store_name=config_store_name,
-                private_endpoint_connection_name=private_endpoint_connection_name,
+                experimentation_name=experimentation_name,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -678,7 +676,9 @@ class PrivateEndpointConnectionsOperations:
                 return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
