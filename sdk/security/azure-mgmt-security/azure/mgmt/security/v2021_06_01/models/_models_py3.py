@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -9,10 +9,9 @@
 
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -44,9 +43,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class Setting(Resource):
@@ -157,7 +156,7 @@ class AssessmentLinks(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.azure_portal_uri = None
+        self.azure_portal_uri: Optional[str] = None
 
 
 class AssessmentStatus(_serialization.Model):
@@ -261,8 +260,8 @@ class AssessmentStatusResponse(AssessmentStatus):
         :paramtype description: str
         """
         super().__init__(code=code, cause=cause, description=description, **kwargs)
-        self.first_evaluation_date = None
-        self.status_change_date = None
+        self.first_evaluation_date: Optional[datetime.datetime] = None
+        self.status_change_date: Optional[datetime.datetime] = None
 
 
 class ResourceDetails(_serialization.Model):
@@ -322,7 +321,7 @@ class AzureResourceDetails(ResourceDetails):
         """ """
         super().__init__(**kwargs)
         self.source: str = "Azure"
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class CloudErrorBody(_serialization.Model):
@@ -361,11 +360,11 @@ class CloudErrorBody(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.CloudErrorBody"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class DataExportSettings(Setting):
@@ -437,8 +436,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class OnPremiseResourceDetails(ResourceDetails):
@@ -653,9 +652,9 @@ class SecurityAssessment(Resource):
         """
         super().__init__(**kwargs)
         self.resource_details = resource_details
-        self.display_name = None
+        self.display_name: Optional[str] = None
         self.additional_data = additional_data
-        self.links = None
+        self.links: Optional["_models.AssessmentLinks"] = None
         self.metadata = metadata
         self.partners_data = partners_data
         self.status = status
@@ -685,11 +684,11 @@ class SecurityAssessmentList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.SecurityAssessmentResponse"]] = None
+        self.next_link: Optional[str] = None
 
 
-class SecurityAssessmentMetadata(Resource):  # pylint: disable=too-many-instance-attributes
+class SecurityAssessmentMetadata(Resource):
     """Security assessment metadata.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -810,7 +809,7 @@ class SecurityAssessmentMetadata(Resource):  # pylint: disable=too-many-instance
         """
         super().__init__(**kwargs)
         self.display_name = display_name
-        self.policy_definition_id = None
+        self.policy_definition_id: Optional[str] = None
         self.description = description
         self.remediation_description = remediation_description
         self.categories = categories
@@ -864,7 +863,7 @@ class SecurityAssessmentMetadataPartnerData(_serialization.Model):
         self.secret = secret
 
 
-class SecurityAssessmentMetadataProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class SecurityAssessmentMetadataProperties(_serialization.Model):
     """Describes properties of an assessment metadata.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -978,7 +977,7 @@ class SecurityAssessmentMetadataProperties(_serialization.Model):  # pylint: dis
         """
         super().__init__(**kwargs)
         self.display_name = display_name
-        self.policy_definition_id = None
+        self.policy_definition_id: Optional[str] = None
         self.description = description
         self.remediation_description = remediation_description
         self.categories = categories
@@ -993,7 +992,7 @@ class SecurityAssessmentMetadataProperties(_serialization.Model):  # pylint: dis
 
 class SecurityAssessmentMetadataPropertiesResponse(
     SecurityAssessmentMetadataProperties
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+):  # pylint: disable=name-too-long
     """Describes properties of an assessment metadata response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1185,7 +1184,7 @@ class SecurityAssessmentMetadataPropertiesResponsePublishDates(_serialization.Mo
         self.public = public
 
 
-class SecurityAssessmentMetadataResponse(Resource):  # pylint: disable=too-many-instance-attributes
+class SecurityAssessmentMetadataResponse(Resource):
     """Security assessment metadata response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1336,7 +1335,7 @@ class SecurityAssessmentMetadataResponse(Resource):  # pylint: disable=too-many-
         """
         super().__init__(**kwargs)
         self.display_name = display_name
-        self.policy_definition_id = None
+        self.policy_definition_id: Optional[str] = None
         self.description = description
         self.remediation_description = remediation_description
         self.categories = categories
@@ -1378,8 +1377,8 @@ class SecurityAssessmentMetadataResponseList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.SecurityAssessmentMetadataResponse"]] = None
+        self.next_link: Optional[str] = None
 
 
 class SecurityAssessmentPartnerData(_serialization.Model):
@@ -1473,9 +1472,9 @@ class SecurityAssessmentPropertiesBase(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.resource_details = resource_details
-        self.display_name = None
+        self.display_name: Optional[str] = None
         self.additional_data = additional_data
-        self.links = None
+        self.links: Optional["_models.AssessmentLinks"] = None
         self.metadata = metadata
         self.partners_data = partners_data
 
@@ -1699,9 +1698,9 @@ class SecurityAssessmentResponse(Resource):
         """
         super().__init__(**kwargs)
         self.resource_details = resource_details
-        self.display_name = None
+        self.display_name: Optional[str] = None
         self.additional_data = additional_data
-        self.links = None
+        self.links: Optional["_models.AssessmentLinks"] = None
         self.metadata = metadata
         self.partners_data = partners_data
         self.status = status
@@ -1734,4 +1733,4 @@ class SettingsList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
