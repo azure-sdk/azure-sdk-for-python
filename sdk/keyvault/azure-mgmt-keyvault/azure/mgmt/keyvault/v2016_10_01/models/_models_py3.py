@@ -9,7 +9,7 @@
 
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
     from .. import models as _models
@@ -108,9 +108,9 @@ class CheckNameAvailabilityResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name_available = None
-        self.reason = None
-        self.message = None
+        self.name_available: Optional[bool] = None
+        self.reason: Optional[Union[str, "_models.Reason"]] = None
+        self.message: Optional[str] = None
 
 
 class DeletedVault(_serialization.Model):
@@ -147,9 +147,9 @@ class DeletedVault(_serialization.Model):
         :paramtype properties: ~azure.mgmt.keyvault.v2016_10_01.models.DeletedVaultProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.properties = properties
 
 
@@ -217,11 +217,11 @@ class DeletedVaultProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.vault_id = None
-        self.location = None
-        self.deletion_date = None
-        self.scheduled_purge_date = None
-        self.tags = None
+        self.vault_id: Optional[str] = None
+        self.location: Optional[str] = None
+        self.deletion_date: Optional[datetime.datetime] = None
+        self.scheduled_purge_date: Optional[datetime.datetime] = None
+        self.tags: Optional[Dict[str, str]] = None
 
 
 class LogSpecification(_serialization.Model):
@@ -475,9 +475,9 @@ class Resource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
 
@@ -667,10 +667,10 @@ class VaultAccessPolicyParameters(_serialization.Model):
         :paramtype properties: ~azure.mgmt.keyvault.v2016_10_01.models.VaultAccessPolicyProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.location = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.location: Optional[str] = None
         self.properties = properties
 
 
