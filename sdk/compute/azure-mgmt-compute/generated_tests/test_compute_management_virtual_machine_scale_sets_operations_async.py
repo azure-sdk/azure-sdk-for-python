@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.compute.aio import ComputeManagementClient
+from azure.mgmt.compute.v2024_11_01.aio import ComputeManagementClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
 from devtools_testutils.aio import recorded_by_proxy_async
@@ -52,6 +52,9 @@ class TestComputeManagementVirtualMachineScaleSetsOperationsAsync(AzureMgmtRecor
                         "tenantId": "str",
                         "type": "str",
                         "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                    },
+                    "lifecycleHooksProfile": {
+                        "lifecycleHooks": [{"defaultAction": "str", "type": "str", "waitDuration": "str"}]
                     },
                     "name": "str",
                     "orchestrationMode": "str",
