@@ -302,6 +302,12 @@ class IPVersions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     I_PV6 = "IPv6"
 
 
+class LifecycleHookAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the action to approve a lifecycle hook."""
+
+    APPROVE = "Approve"
+
+
 class LinuxPatchAssessmentMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.\\ :code:`<br
     />`\\ :code:`<br />` Possible values are:\\ :code:`<br />`\\ :code:`<br />` **ImageDefault** -

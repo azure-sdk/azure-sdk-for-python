@@ -1,5 +1,11 @@
 # Release History
 
+## 34.2.0 (2025-05-08)
+
+### Features Added
+
+  - Model VirtualMachineScaleSet has a new parameter lifecycle_hooks_profile
+
 ## 34.1.0 (2025-03-24)
 
 ### Features Added
