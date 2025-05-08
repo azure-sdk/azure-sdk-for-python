@@ -1,0 +1,6 @@
+{
+  "commit": "10678c182980043df9e9bb514ac859467f5ecc42",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/fileshares/FileShares.Management",
+  "@azure-tools/typespec-python": "0.44.2"
+}
