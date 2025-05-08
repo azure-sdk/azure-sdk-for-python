@@ -21,12 +21,24 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperationsAsync(Azu
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_scaling_plan_pooled_schedules_list(self, resource_group):
+        response = self.client.scaling_plan_pooled_schedules.list(
+            resource_group_name=resource_group.name,
+            scaling_plan_name="str",
+            api_version="2025-04-01-preview",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_scaling_plan_pooled_schedules_get(self, resource_group):
         response = await self.client.scaling_plan_pooled_schedules.get(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -34,12 +46,18 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperationsAsync(Azu
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create(self, resource_group):
+    async def test_scaling_plan_pooled_schedules_create(self, resource_group):
         response = await self.client.scaling_plan_pooled_schedules.create(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
             scaling_plan_schedule={
+                "createDelete": {
+                    "rampDownMaximumHostPoolSize": 0,
+                    "rampDownMinimumHostPoolSize": 0,
+                    "rampUpMaximumHostPoolSize": 0,
+                    "rampUpMinimumHostPoolSize": 0,
+                },
                 "daysOfWeek": ["str"],
                 "id": "str",
                 "name": "str",
@@ -59,6 +77,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperationsAsync(Azu
                 "rampUpLoadBalancingAlgorithm": "str",
                 "rampUpMinimumHostsPct": 0,
                 "rampUpStartTime": {"hour": 0, "minute": 0},
+                "scalingMethod": "str",
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -69,7 +88,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperationsAsync(Azu
                 },
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -77,25 +96,12 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperationsAsync(Azu
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
-        response = await self.client.scaling_plan_pooled_schedules.delete(
-            resource_group_name=resource_group.name,
-            scaling_plan_name="str",
-            scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_scaling_plan_pooled_schedules_update(self, resource_group):
         response = await self.client.scaling_plan_pooled_schedules.update(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -103,12 +109,13 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperationsAsync(Azu
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
-        response = self.client.scaling_plan_pooled_schedules.list(
+    async def test_scaling_plan_pooled_schedules_delete(self, resource_group):
+        response = await self.client.scaling_plan_pooled_schedules.delete(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
-            api_version="2024-04-03",
+            scaling_plan_schedule_name="str",
+            api_version="2025-04-01-preview",
         )
-        result = [r async for r in response]
+
         # please add some check logic here by yourself
         # ...

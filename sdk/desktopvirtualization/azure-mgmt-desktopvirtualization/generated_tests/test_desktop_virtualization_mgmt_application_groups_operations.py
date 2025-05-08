@@ -20,11 +20,32 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_application_groups_list_by_subscription(self, resource_group):
+        response = self.client.application_groups.list_by_subscription(
+            api_version="2025-04-01-preview",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_application_groups_list_by_resource_group(self, resource_group):
+        response = self.client.application_groups.list_by_resource_group(
+            resource_group_name=resource_group.name,
+            api_version="2025-04-01-preview",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_application_groups_get(self, resource_group):
         response = self.client.application_groups.get(
             resource_group_name=resource_group.name,
             application_group_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -32,7 +53,7 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_or_update(self, resource_group):
+    def test_application_groups_create_or_update(self, resource_group):
         response = self.client.application_groups.create_or_update(
             resource_group_name=resource_group.name,
             application_group_name="str",
@@ -45,7 +66,12 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperations(AzureMgmtRecorded
                 "etag": "str",
                 "friendlyName": "str",
                 "id": "str",
-                "identity": {"principalId": "str", "tenantId": "str", "type": "SystemAssigned"},
+                "identity": {
+                    "type": "str",
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                },
                 "kind": "str",
                 "managedBy": "str",
                 "name": "str",
@@ -65,7 +91,7 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperations(AzureMgmtRecorded
                 "type": "str",
                 "workspaceArmPath": "str",
             },
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -73,23 +99,11 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
-        response = self.client.application_groups.delete(
-            resource_group_name=resource_group.name,
-            application_group_name="str",
-            api_version="2024-04-03",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_application_groups_update(self, resource_group):
         response = self.client.application_groups.update(
             resource_group_name=resource_group.name,
             application_group_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -97,21 +111,12 @@ class TestDesktopVirtualizationMgmtApplicationGroupsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
-        response = self.client.application_groups.list_by_resource_group(
+    def test_application_groups_delete(self, resource_group):
+        response = self.client.application_groups.delete(
             resource_group_name=resource_group.name,
-            api_version="2024-04-03",
+            application_group_name="str",
+            api_version="2025-04-01-preview",
         )
-        result = [r for r in response]
-        # please add some check logic here by yourself
-        # ...
 
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
-        response = self.client.application_groups.list_by_subscription(
-            api_version="2024-04-03",
-        )
-        result = [r for r in response]
         # please add some check logic here by yourself
         # ...

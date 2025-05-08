@@ -1,5 +1,303 @@
 # Release History
 
+## 3.0.0b1 (2025-05-08)
+
+### Features Added
+
+  - Client `DesktopVirtualizationMgmtClient` added operation group `active_session_host_configurations`
+  - Client `DesktopVirtualizationMgmtClient` added operation group `session_host_configurations`
+  - Client `DesktopVirtualizationMgmtClient` added operation group `session_host_managements`
+  - Client `DesktopVirtualizationMgmtClient` added operation group `control_session_host_update`
+  - Client `DesktopVirtualizationMgmtClient` added operation group `initiate_session_host_update`
+  - Client `DesktopVirtualizationMgmtClient` added operation group `session_host_managements_update_status`
+  - Model `AppAttachPackage` added property `provisioning_state`
+  - Model `AppAttachPackage` added property `image`
+  - Model `AppAttachPackage` added property `host_pool_references`
+  - Model `AppAttachPackage` added property `key_vault_url`
+  - Model `AppAttachPackage` added property `fail_health_check_on_staging_failure`
+  - Model `AppAttachPackage` added property `package_owner_name`
+  - Model `AppAttachPackage` added property `package_lookback_url`
+  - Model `AppAttachPackage` added property `custom_data`
+  - Model `AppAttachPackagePatch` added property `tags`
+  - Model `AppAttachPackagePatchProperties` added property `package_lookback_url`
+  - Model `AppAttachPackagePatchProperties` added property `custom_data`
+  - Model `ApplicationGroupPatch` added property `properties`
+  - Model `ApplicationPatch` added property `properties`
+  - Model `DesktopPatch` added property `properties`
+  - Model `ExpandMsixImage` added property `properties`
+  - Model `HostPool` added property `managed_private_udp`
+  - Model `HostPool` added property `direct_udp`
+  - Model `HostPool` added property `public_udp`
+  - Model `HostPool` added property `relay_udp`
+  - Model `HostPool` added property `management_type`
+  - Model `HostPoolPatch` added property `properties`
+  - Enum `LoadBalancerType` added member `MULTIPLE_PERSISTENT`
+  - Model `MSIXPackagePatch` added property `properties`
+  - Model `PrivateEndpointConnection` added property `properties`
+  - Model `PrivateLinkResource` added property `properties`
+  - Enum `ScalingHostPoolType` added member `PERSONAL`
+  - Model `ScalingPlanPatch` added property `properties`
+  - Model `ScalingPlanPersonalSchedulePatch` added property `properties`
+  - Model `ScalingPlanPooledSchedule` added property `name_properties_name`
+  - Model `ScalingPlanPooledSchedule` added property `scaling_method`
+  - Model `ScalingPlanPooledSchedule` added property `create_delete`
+  - Model `ScalingPlanPooledSchedulePatch` added property `properties`
+  - Model `ScalingSchedule` added property `scaling_method`
+  - Model `ScalingSchedule` added property `create_delete`
+  - Model `SessionHost` added property `active_sessions`
+  - Model `SessionHost` added property `disconnected_sessions`
+  - Model `SessionHost` added property `pending_sessions`
+  - Model `SessionHost` added property `last_session_host_update_time`
+  - Model `SessionHost` added property `session_host_configuration`
+  - Model `SessionHostPatch` added property `properties`
+  - Model `StartMenuItem` added property `properties`
+  - Model `WorkspacePatch` added property `properties`
+  - Added model `ActiveDirectoryInfoPatchProperties`
+  - Added model `ActiveDirectoryInfoProperties`
+  - Added model `ActiveSessionHostConfiguration`
+  - Added model `ActiveSessionHostConfigurationList`
+  - Added model `ApplicationGroupPatchProperties`
+  - Added model `ApplicationPatchProperties`
+  - Added model `AzureActiveDirectoryInfoProperties`
+  - Added model `BootDiagnosticsInfoPatchProperties`
+  - Added model `BootDiagnosticsInfoProperties`
+  - Added model `CreateDeleteProperties`
+  - Added model `CustomInfoPatchProperties`
+  - Added model `CustomInfoProperties`
+  - Added model `DesktopPatchProperties`
+  - Added enum `DirectUDP`
+  - Added model `DiskInfoPatchProperties`
+  - Added model `DiskInfoProperties`
+  - Added model `DomainInfoPatchProperties`
+  - Added model `DomainInfoProperties`
+  - Added enum `DomainJoinType`
+  - Added model `ExpandMsixImageProperties`
+  - Added model `HostPoolPatchProperties`
+  - Added enum `HostPoolUpdateAction`
+  - Added model `HostPoolUpdateConfigurationPatchProperties`
+  - Added model `HostPoolUpdateConfigurationProperties`
+  - Added model `HostPoolUpdateControlParameter`
+  - Added model `ImageInfoPatchProperties`
+  - Added model `ImageInfoProperties`
+  - Added model `KeyVaultCredentialsPatchProperties`
+  - Added model `KeyVaultCredentialsProperties`
+  - Added model `MSIXPackagePatchProperties`
+  - Added enum `ManagedPrivateUDP`
+  - Added model `ManagedServiceIdentity`
+  - Added enum `ManagedServiceIdentityType`
+  - Added enum `ManagementType`
+  - Added model `MarketplaceInfoPatchProperties`
+  - Added model `MarketplaceInfoProperties`
+  - Added model `NetworkInfoPatchProperties`
+  - Added model `NetworkInfoProperties`
+  - Added model `PrivateEndpointConnectionProperties`
+  - Added model `PrivateLinkResourceProperties`
+  - Added enum `ProvisioningStateSHC`
+  - Added enum `PublicUDP`
+  - Added enum `RelayUDP`
+  - Added model `ResourceProviderOperationListResult`
+  - Added enum `ScalingMethodType`
+  - Added model `ScalingPlanPatchProperties`
+  - Added model `ScalingPlanPersonalSchedulePatchProperties`
+  - Added model `ScalingPlanPooledSchedulePatchProperties`
+  - Added model `SecurityInfoPatchProperties`
+  - Added model `SecurityInfoProperties`
+  - Added model `SessionHostConfiguration`
+  - Added model `SessionHostConfigurationList`
+  - Added model `SessionHostConfigurationPatch`
+  - Added model `SessionHostConfigurationPatchProperties`
+  - Added model `SessionHostManagement`
+  - Added model `SessionHostManagementList`
+  - Added model `SessionHostManagementOperationProgress`
+  - Added model `SessionHostManagementPatch`
+  - Added model `SessionHostManagementPatchProperties`
+  - Added enum `SessionHostManagementUpdateOperationStatus`
+  - Added model `SessionHostManagementUpdateStatus`
+  - Added model `SessionHostManagementUpdateStatusProperties`
+  - Added model `SessionHostPatchProperties`
+  - Added model `StartMenuItemProperties`
+  - Added enum `Type`
+  - Added model `UpdateSessionHostsRequestBody`
+  - Added model `UserAssignedIdentity`
+  - Added enum `VirtualMachineDiskType`
+  - Added enum `VirtualMachineSecurityType`
+  - Added model `WorkspacePatchProperties`
+  - Model `SessionHostsOperations` added method `retry_provisioning`
+  - Added model `ActiveSessionHostConfigurationsOperations`
+  - Added model `ControlSessionHostUpdateOperations`
+  - Added model `InitiateSessionHostUpdateOperations`
+  - Added model `SessionHostConfigurationsOperations`
+  - Added model `SessionHostManagementsOperations`
+  - Added model `SessionHostManagementsUpdateStatusOperations`
+  - Method `MSIXPackagesOperations.update` has a new overload `def update(self: None, resource_group_name: str, host_pool_name: str, msix_package_full_name: str, msix_package: MSIXPackagePatch, content_type: str)`
+  - Method `MSIXPackagesOperations.update` has a new overload `def update(self: None, resource_group_name: str, host_pool_name: str, msix_package_full_name: str, msix_package: IO[bytes], content_type: str)`
+  - Method `PrivateEndpointConnectionsOperations.update_by_host_pool` has a new overload `def update_by_host_pool(self: None, resource_group_name: str, host_pool_name: str, private_endpoint_connection_name: str, connection: PrivateEndpointConnectionWithSystemData, content_type: str)`
+  - Method `PrivateEndpointConnectionsOperations.update_by_workspace` has a new overload `def update_by_workspace(self: None, resource_group_name: str, workspace_name: str, private_endpoint_connection_name: str, connection: PrivateEndpointConnectionWithSystemData, content_type: str)`
+  - Method `ControlSessionHostUpdateOperations.begin_post` has a new overload `def begin_post(self: None, resource_group_name: str, host_pool_name: str, host_pool_update_control_parameter: HostPoolUpdateControlParameter, content_type: str)`
+  - Method `ControlSessionHostUpdateOperations.begin_post` has a new overload `def begin_post(self: None, resource_group_name: str, host_pool_name: str, host_pool_update_control_parameter: IO[bytes], content_type: str)`
+  - Method `InitiateSessionHostUpdateOperations.post` has a new overload `def post(self: None, resource_group_name: str, host_pool_name: str, update_session_hosts_request_body: Optional[UpdateSessionHostsRequestBody], content_type: str)`
+  - Method `InitiateSessionHostUpdateOperations.post` has a new overload `def post(self: None, resource_group_name: str, host_pool_name: str, update_session_hosts_request_body: Optional[IO[bytes]], content_type: str)`
+  - Method `SessionHostConfigurationsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, host_pool_name: str, session_host_configuration: SessionHostConfiguration, content_type: str)`
+  - Method `SessionHostConfigurationsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, host_pool_name: str, session_host_configuration: IO[bytes], content_type: str)`
+  - Method `SessionHostConfigurationsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, host_pool_name: str, session_host_configuration: Optional[SessionHostConfigurationPatch], content_type: str)`
+  - Method `SessionHostConfigurationsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, host_pool_name: str, session_host_configuration: Optional[IO[bytes]], content_type: str)`
+  - Method `SessionHostManagementsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, host_pool_name: str, session_host_management: SessionHostManagement, content_type: str)`
+  - Method `SessionHostManagementsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, host_pool_name: str, session_host_management: IO[bytes], content_type: str)`
+  - Method `SessionHostManagementsOperations.update` has a new overload `def update(self: None, resource_group_name: str, host_pool_name: str, session_host_management: Optional[SessionHostManagementPatch], content_type: str)`
+  - Method `SessionHostManagementsOperations.update` has a new overload `def update(self: None, resource_group_name: str, host_pool_name: str, session_host_management: Optional[IO[bytes]], content_type: str)`
+
+### Breaking Changes
+
+  - Model `AppAttachPackage` deleted or renamed its instance variable `properties`
+  - Method `AppAttachPackageList.__init__` removed default value `None` from its parameter `value`
+  - Method `ApplicationGroupList.__init__` removed default value `None` from its parameter `value`
+  - Model `ApplicationGroupPatch` deleted or renamed its instance variable `description`
+  - Model `ApplicationGroupPatch` deleted or renamed its instance variable `friendly_name`
+  - Model `ApplicationGroupPatch` deleted or renamed its instance variable `show_in_feed`
+  - Method `ApplicationList.__init__` removed default value `None` from its parameter `value`
+  - Model `ApplicationPatch` deleted or renamed its instance variable `tags`
+  - Model `ApplicationPatch` deleted or renamed its instance variable `description`
+  - Model `ApplicationPatch` deleted or renamed its instance variable `friendly_name`
+  - Model `ApplicationPatch` deleted or renamed its instance variable `file_path`
+  - Model `ApplicationPatch` deleted or renamed its instance variable `command_line_setting`
+  - Model `ApplicationPatch` deleted or renamed its instance variable `command_line_arguments`
+  - Model `ApplicationPatch` deleted or renamed its instance variable `show_in_portal`
+  - Model `ApplicationPatch` deleted or renamed its instance variable `icon_path`
+  - Model `ApplicationPatch` deleted or renamed its instance variable `icon_index`
+  - Model `ApplicationPatch` deleted or renamed its instance variable `msix_package_family_name`
+  - Model `ApplicationPatch` deleted or renamed its instance variable `msix_package_application_id`
+  - Model `ApplicationPatch` deleted or renamed its instance variable `application_type`
+  - Method `DesktopList.__init__` removed default value `None` from its parameter `value`
+  - Model `DesktopPatch` deleted or renamed its instance variable `tags`
+  - Model `DesktopPatch` deleted or renamed its instance variable `description`
+  - Model `DesktopPatch` deleted or renamed its instance variable `friendly_name`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `package_alias`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `image_path`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `package_name`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `package_family_name`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `package_full_name`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `display_name`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `package_relative_path`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `is_regular_registration`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `is_active`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `package_dependencies`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `version`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `last_updated`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `package_applications`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `certificate_name`
+  - Model `ExpandMsixImage` deleted or renamed its instance variable `certificate_expiry`
+  - Method `ExpandMsixImageList.__init__` removed default value `None` from its parameter `value`
+  - Method `HostPoolList.__init__` removed default value `None` from its parameter `value`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `friendly_name`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `description`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `custom_rdp_property`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `max_session_limit`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `personal_desktop_assignment_type`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `load_balancer_type`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `ring`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `validation_environment`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `registration_info`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `vm_template`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `ssoadfs_authority`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `sso_client_id`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `sso_client_secret_key_vault_path`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `sso_secret_type`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `preferred_app_group_type`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `start_vm_on_connect`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `public_network_access`
+  - Model `HostPoolPatch` deleted or renamed its instance variable `agent_update`
+  - Method `MSIXPackageList.__init__` removed default value `None` from its parameter `value`
+  - Model `MSIXPackagePatch` deleted or renamed its instance variable `is_active`
+  - Model `MSIXPackagePatch` deleted or renamed its instance variable `is_regular_registration`
+  - Model `MSIXPackagePatch` deleted or renamed its instance variable `display_name`
+  - Model `PrivateEndpointConnection` deleted or renamed its instance variable `group_ids`
+  - Model `PrivateEndpointConnection` deleted or renamed its instance variable `private_endpoint`
+  - Model `PrivateEndpointConnection` deleted or renamed its instance variable `private_link_service_connection_state`
+  - Model `PrivateEndpointConnection` deleted or renamed its instance variable `provisioning_state`
+  - Method `PrivateEndpointConnectionListResultWithSystemData.__init__` removed default value `None` from its parameter `value`
+  - Model `PrivateLinkResource` deleted or renamed its instance variable `group_id`
+  - Model `PrivateLinkResource` deleted or renamed its instance variable `required_members`
+  - Model `PrivateLinkResource` deleted or renamed its instance variable `required_zone_names`
+  - Method `PrivateLinkResourceListResult.__init__` removed default value `None` from its parameter `value`
+  - Method `ScalingPlanList.__init__` removed default value `None` from its parameter `value`
+  - Model `ScalingPlanPatch` deleted or renamed its instance variable `description`
+  - Model `ScalingPlanPatch` deleted or renamed its instance variable `friendly_name`
+  - Model `ScalingPlanPatch` deleted or renamed its instance variable `time_zone`
+  - Model `ScalingPlanPatch` deleted or renamed its instance variable `exclusion_tag`
+  - Model `ScalingPlanPatch` deleted or renamed its instance variable `schedules`
+  - Model `ScalingPlanPatch` deleted or renamed its instance variable `host_pool_references`
+  - Method `ScalingPlanPersonalScheduleList.__init__` removed default value `None` from its parameter `value`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `days_of_week`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_up_start_time`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_up_auto_start_hosts`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_up_start_vm_on_connect`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_up_action_on_disconnect`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_up_minutes_to_wait_on_disconnect`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_up_action_on_logoff`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_up_minutes_to_wait_on_logoff`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `peak_start_time`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `peak_start_vm_on_connect`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `peak_action_on_disconnect`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `peak_minutes_to_wait_on_disconnect`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `peak_action_on_logoff`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `peak_minutes_to_wait_on_logoff`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_down_start_time`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_down_start_vm_on_connect`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_down_action_on_disconnect`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_down_minutes_to_wait_on_disconnect`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_down_action_on_logoff`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `ramp_down_minutes_to_wait_on_logoff`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `off_peak_start_time`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `off_peak_start_vm_on_connect`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `off_peak_action_on_disconnect`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `off_peak_minutes_to_wait_on_disconnect`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `off_peak_action_on_logoff`
+  - Model `ScalingPlanPersonalSchedulePatch` deleted or renamed its instance variable `off_peak_minutes_to_wait_on_logoff`
+  - Method `ScalingPlanPooledScheduleList.__init__` removed default value `None` from its parameter `value`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `days_of_week`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `ramp_up_start_time`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `ramp_up_load_balancing_algorithm`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `ramp_up_minimum_hosts_pct`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `ramp_up_capacity_threshold_pct`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `peak_start_time`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `peak_load_balancing_algorithm`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `ramp_down_start_time`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `ramp_down_load_balancing_algorithm`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `ramp_down_minimum_hosts_pct`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `ramp_down_capacity_threshold_pct`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `ramp_down_force_logoff_users`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `ramp_down_stop_hosts_when`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `ramp_down_wait_time_minutes`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `ramp_down_notification_message`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `off_peak_start_time`
+  - Model `ScalingPlanPooledSchedulePatch` deleted or renamed its instance variable `off_peak_load_balancing_algorithm`
+  - Method `SessionHostList.__init__` removed default value `None` from its parameter `value`
+  - Model `SessionHostPatch` deleted or renamed its instance variable `allow_new_session`
+  - Model `SessionHostPatch` deleted or renamed its instance variable `assigned_user`
+  - Model `SessionHostPatch` deleted or renamed its instance variable `friendly_name`
+  - Model `StartMenuItem` deleted or renamed its instance variable `app_alias`
+  - Model `StartMenuItem` deleted or renamed its instance variable `file_path`
+  - Model `StartMenuItem` deleted or renamed its instance variable `command_line_arguments`
+  - Model `StartMenuItem` deleted or renamed its instance variable `icon_path`
+  - Model `StartMenuItem` deleted or renamed its instance variable `icon_index`
+  - Method `StartMenuItemList.__init__` removed default value `None` from its parameter `value`
+  - Method `UserSessionList.__init__` removed default value `None` from its parameter `value`
+  - Method `WorkspaceList.__init__` removed default value `None` from its parameter `value`
+  - Model `WorkspacePatch` deleted or renamed its instance variable `description`
+  - Model `WorkspacePatch` deleted or renamed its instance variable `friendly_name`
+  - Model `WorkspacePatch` deleted or renamed its instance variable `application_group_references`
+  - Model `WorkspacePatch` deleted or renamed its instance variable `public_network_access`
+  - Deleted or renamed model `AppAttachPackageProperties`
+  - Deleted or renamed model `CloudErrorProperties`
+  - Deleted or renamed model `Identity`
+  - Deleted or renamed model `ResourceModelWithAllowedPropertySet`
+  - Deleted or renamed model `ResourceModelWithAllowedPropertySetIdentity`
+  - Deleted or renamed model `ResourceModelWithAllowedPropertySetPlan`
+  - Deleted or renamed model `ResourceModelWithAllowedPropertySetSku`
+  - Deleted or renamed model `ResourceProviderOperationList`
+  - Deleted or renamed model `ScalingScheduleDaysOfWeekItem`
+  - Method `MSIXPackagesOperations.update` removed default value `None` from its parameter `msix_package`
+
 ## 2.0.0 (2024-09-23)
 
 ### Features Added

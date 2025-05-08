@@ -20,12 +20,24 @@ class TestDesktopVirtualizationMgmtSessionHostsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_session_hosts_list(self, resource_group):
+        response = self.client.session_hosts.list(
+            resource_group_name=resource_group.name,
+            host_pool_name="str",
+            api_version="2025-04-01-preview",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_session_hosts_get(self, resource_group):
         response = self.client.session_hosts.get(
             resource_group_name=resource_group.name,
             host_pool_name="str",
             session_host_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -33,25 +45,12 @@ class TestDesktopVirtualizationMgmtSessionHostsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
-        response = self.client.session_hosts.delete(
-            resource_group_name=resource_group.name,
-            host_pool_name="str",
-            session_host_name="str",
-            api_version="2024-04-03",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_session_hosts_update(self, resource_group):
         response = self.client.session_hosts.update(
             resource_group_name=resource_group.name,
             host_pool_name="str",
             session_host_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -59,12 +58,26 @@ class TestDesktopVirtualizationMgmtSessionHostsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
-        response = self.client.session_hosts.list(
+    def test_session_hosts_delete(self, resource_group):
+        response = self.client.session_hosts.delete(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            session_host_name="str",
+            api_version="2025-04-01-preview",
         )
-        result = [r for r in response]
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_session_hosts_retry_provisioning(self, resource_group):
+        response = self.client.session_hosts.retry_provisioning(
+            resource_group_name=resource_group.name,
+            host_pool_name="str",
+            session_host_name="str",
+            api_version="2025-04-01-preview",
+        )
+
         # please add some check logic here by yourself
         # ...

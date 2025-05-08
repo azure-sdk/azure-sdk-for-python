@@ -21,11 +21,32 @@ class TestDesktopVirtualizationMgmtHostPoolsOperationsAsync(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_host_pools_list(self, resource_group):
+        response = self.client.host_pools.list(
+            api_version="2025-04-01-preview",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_host_pools_list_by_resource_group(self, resource_group):
+        response = self.client.host_pools.list_by_resource_group(
+            resource_group_name=resource_group.name,
+            api_version="2025-04-01-preview",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_host_pools_get(self, resource_group):
         response = await self.client.host_pools.get(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -33,7 +54,7 @@ class TestDesktopVirtualizationMgmtHostPoolsOperationsAsync(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create_or_update(self, resource_group):
+    async def test_host_pools_create_or_update(self, resource_group):
         response = await self.client.host_pools.create_or_update(
             resource_group_name=resource_group.name,
             host_pool_name="str",
@@ -53,12 +74,20 @@ class TestDesktopVirtualizationMgmtHostPoolsOperationsAsync(AzureMgmtRecordedTes
                 "cloudPcResource": bool,
                 "customRdpProperty": "str",
                 "description": "str",
+                "directUDP": "str",
                 "etag": "str",
                 "friendlyName": "str",
                 "id": "str",
-                "identity": {"principalId": "str", "tenantId": "str", "type": "SystemAssigned"},
+                "identity": {
+                    "type": "str",
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                },
                 "kind": "str",
                 "managedBy": "str",
+                "managedPrivateUDP": "str",
+                "managementType": "str",
                 "maxSessionLimit": 0,
                 "name": "str",
                 "objectId": "str",
@@ -66,16 +95,18 @@ class TestDesktopVirtualizationMgmtHostPoolsOperationsAsync(AzureMgmtRecordedTes
                 "plan": {"name": "str", "product": "str", "publisher": "str", "promotionCode": "str", "version": "str"},
                 "privateEndpointConnections": [
                     {
-                        "groupIds": ["str"],
                         "id": "str",
                         "name": "str",
-                        "privateEndpoint": {"id": "str"},
-                        "privateLinkServiceConnectionState": {
-                            "actionsRequired": "str",
-                            "description": "str",
-                            "status": "str",
+                        "properties": {
+                            "privateLinkServiceConnectionState": {
+                                "actionsRequired": "str",
+                                "description": "str",
+                                "status": "str",
+                            },
+                            "groupIds": ["str"],
+                            "privateEndpoint": {"id": "str"},
+                            "provisioningState": "str",
                         },
-                        "provisioningState": "str",
                         "systemData": {
                             "createdAt": "2020-02-20 00:00:00",
                             "createdBy": "str",
@@ -88,11 +119,13 @@ class TestDesktopVirtualizationMgmtHostPoolsOperationsAsync(AzureMgmtRecordedTes
                     }
                 ],
                 "publicNetworkAccess": "str",
+                "publicUDP": "str",
                 "registrationInfo": {
                     "expirationTime": "2020-02-20 00:00:00",
                     "registrationTokenOperation": "str",
                     "token": "str",
                 },
+                "relayUDP": "str",
                 "ring": 0,
                 "sku": {"name": "str", "capacity": 0, "family": "str", "size": "str", "tier": "str"},
                 "ssoClientId": "str",
@@ -113,7 +146,7 @@ class TestDesktopVirtualizationMgmtHostPoolsOperationsAsync(AzureMgmtRecordedTes
                 "validationEnvironment": bool,
                 "vmTemplate": "str",
             },
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -121,23 +154,11 @@ class TestDesktopVirtualizationMgmtHostPoolsOperationsAsync(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
-        response = await self.client.host_pools.delete(
-            resource_group_name=resource_group.name,
-            host_pool_name="str",
-            api_version="2024-04-03",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_host_pools_update(self, resource_group):
         response = await self.client.host_pools.update(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -145,32 +166,11 @@ class TestDesktopVirtualizationMgmtHostPoolsOperationsAsync(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
-        response = self.client.host_pools.list_by_resource_group(
-            resource_group_name=resource_group.name,
-            api_version="2024-04-03",
-        )
-        result = [r async for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_list(self, resource_group):
-        response = self.client.host_pools.list(
-            api_version="2024-04-03",
-        )
-        result = [r async for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_retrieve_registration_token(self, resource_group):
-        response = await self.client.host_pools.retrieve_registration_token(
+    async def test_host_pools_delete(self, resource_group):
+        response = await self.client.host_pools.delete(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -178,11 +178,23 @@ class TestDesktopVirtualizationMgmtHostPoolsOperationsAsync(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_registration_tokens(self, resource_group):
+    async def test_host_pools_list_registration_tokens(self, resource_group):
         response = await self.client.host_pools.list_registration_tokens(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_host_pools_retrieve_registration_token(self, resource_group):
+        response = await self.client.host_pools.retrieve_registration_token(
+            resource_group_name=resource_group.name,
+            host_pool_name="str",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself

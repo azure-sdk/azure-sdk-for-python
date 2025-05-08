@@ -21,12 +21,24 @@ class TestDesktopVirtualizationMgmtScalingPlanPersonalSchedulesOperationsAsync(A
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_scaling_plan_personal_schedules_list(self, resource_group):
+        response = self.client.scaling_plan_personal_schedules.list(
+            resource_group_name=resource_group.name,
+            scaling_plan_name="str",
+            api_version="2025-04-01-preview",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_scaling_plan_personal_schedules_get(self, resource_group):
         response = await self.client.scaling_plan_personal_schedules.get(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -34,7 +46,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPersonalSchedulesOperationsAsync(A
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create(self, resource_group):
+    async def test_scaling_plan_personal_schedules_create(self, resource_group):
         response = await self.client.scaling_plan_personal_schedules.create(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
@@ -78,7 +90,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPersonalSchedulesOperationsAsync(A
                 },
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -86,25 +98,12 @@ class TestDesktopVirtualizationMgmtScalingPlanPersonalSchedulesOperationsAsync(A
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
-        response = await self.client.scaling_plan_personal_schedules.delete(
-            resource_group_name=resource_group.name,
-            scaling_plan_name="str",
-            scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_scaling_plan_personal_schedules_update(self, resource_group):
         response = await self.client.scaling_plan_personal_schedules.update(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -112,12 +111,13 @@ class TestDesktopVirtualizationMgmtScalingPlanPersonalSchedulesOperationsAsync(A
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
-        response = self.client.scaling_plan_personal_schedules.list(
+    async def test_scaling_plan_personal_schedules_delete(self, resource_group):
+        response = await self.client.scaling_plan_personal_schedules.delete(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
-            api_version="2024-04-03",
+            scaling_plan_schedule_name="str",
+            api_version="2025-04-01-preview",
         )
-        result = [r async for r in response]
+
         # please add some check logic here by yourself
         # ...

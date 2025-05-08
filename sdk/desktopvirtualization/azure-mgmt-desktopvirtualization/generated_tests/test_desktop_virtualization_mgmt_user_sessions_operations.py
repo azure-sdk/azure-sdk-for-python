@@ -20,11 +20,12 @@ class TestDesktopVirtualizationMgmtUserSessionsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_host_pool(self, resource_group):
-        response = self.client.user_sessions.list_by_host_pool(
+    def test_user_sessions_list(self, resource_group):
+        response = self.client.user_sessions.list(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            session_host_name="str",
+            api_version="2025-04-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -32,13 +33,13 @@ class TestDesktopVirtualizationMgmtUserSessionsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_user_sessions_get(self, resource_group):
         response = self.client.user_sessions.get(
             resource_group_name=resource_group.name,
             host_pool_name="str",
             session_host_name="str",
             user_session_id="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -46,13 +47,13 @@ class TestDesktopVirtualizationMgmtUserSessionsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
+    def test_user_sessions_delete(self, resource_group):
         response = self.client.user_sessions.delete(
             resource_group_name=resource_group.name,
             host_pool_name="str",
             session_host_name="str",
             user_session_id="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -60,26 +61,13 @@ class TestDesktopVirtualizationMgmtUserSessionsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
-        response = self.client.user_sessions.list(
-            resource_group_name=resource_group.name,
-            host_pool_name="str",
-            session_host_name="str",
-            api_version="2024-04-03",
-        )
-        result = [r for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_disconnect(self, resource_group):
+    def test_user_sessions_disconnect(self, resource_group):
         response = self.client.user_sessions.disconnect(
             resource_group_name=resource_group.name,
             host_pool_name="str",
             session_host_name="str",
             user_session_id="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -87,14 +75,26 @@ class TestDesktopVirtualizationMgmtUserSessionsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_send_message(self, resource_group):
+    def test_user_sessions_send_message(self, resource_group):
         response = self.client.user_sessions.send_message(
             resource_group_name=resource_group.name,
             host_pool_name="str",
             session_host_name="str",
             user_session_id="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_user_sessions_list_by_host_pool(self, resource_group):
+        response = self.client.user_sessions.list_by_host_pool(
+            resource_group_name=resource_group.name,
+            host_pool_name="str",
+            api_version="2025-04-01-preview",
+        )
+        result = [r for r in response]
         # please add some check logic here by yourself
         # ...
