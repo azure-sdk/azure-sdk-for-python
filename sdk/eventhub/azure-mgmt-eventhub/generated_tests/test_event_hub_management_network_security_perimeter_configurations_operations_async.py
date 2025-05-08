@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.eventhub.aio import EventHubManagementClient
+from azure.mgmt.eventhub.v2024_01_01.aio import EventHubManagementClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
 from devtools_testutils.aio import recorded_by_proxy_async
@@ -30,6 +30,19 @@ class TestEventHubManagementNetworkSecurityPerimeterConfigurationsOperationsAsyn
                 api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_network_security_perimeter_configurations_resource_association_name(self, resource_group):
+        response = await self.client.network_security_perimeter_configurations.resource_association_name(
+            resource_group_name=resource_group.name,
+            namespace_name="str",
+            resource_association_name="str",
+            api_version="2024-01-01",
+        )
 
         # please add some check logic here by yourself
         # ...
