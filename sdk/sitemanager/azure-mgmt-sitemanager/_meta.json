@@ -1,0 +1,6 @@
+{
+  "commit": "85751d3c78d7ac6d5308c3bf9403bce6e761294d",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/edge/Microsoft.Edge.Sites.Management",
+  "@azure-tools/typespec-python": "0.44.2"
+}
