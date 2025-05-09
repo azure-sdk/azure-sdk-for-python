@@ -15,7 +15,7 @@ from azure.mgmt.dashboard import DashboardClient
     pip install azure-identity
     pip install azure-mgmt-dashboard
 # USAGE
-    python managed_private_endpoints_list.py
+    python integration_fabrics_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +30,14 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.managed_private_endpoint_models.list(
+    response = client.integration_fabrics.get(
         resource_group_name="myResourceGroup",
         workspace_name="myWorkspace",
+        integration_fabric_name="sampleIntegration",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: 2024-10-01/ManagedPrivateEndpoints_List.json
+# x-ms-original-file: 2024-10-01/IntegrationFabrics_Get.json
 if __name__ == "__main__":
     main()
