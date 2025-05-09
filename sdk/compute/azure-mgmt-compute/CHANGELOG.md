@@ -1,5 +1,24 @@
 # Release History
 
+## 35.0.0 (2025-05-09)
+
+### Features Added
+
+  - Model VirtualMachineImage has a new parameter properties
+  - Model VirtualMachineImageResource has a new parameter properties
+
+### Breaking Changes
+
+  - Model VirtualMachineImage no longer has parameter architecture
+  - Model VirtualMachineImage no longer has parameter automatic_os_upgrade_properties
+  - Model VirtualMachineImage no longer has parameter data_disk_images
+  - Model VirtualMachineImage no longer has parameter disallowed
+  - Model VirtualMachineImage no longer has parameter features
+  - Model VirtualMachineImage no longer has parameter hyper_v_generation
+  - Model VirtualMachineImage no longer has parameter image_deprecation_status
+  - Model VirtualMachineImage no longer has parameter os_disk_image
+  - Model VirtualMachineImage no longer has parameter plan
+
 ## 34.1.0 (2025-03-24)
 
 ### Features Added
