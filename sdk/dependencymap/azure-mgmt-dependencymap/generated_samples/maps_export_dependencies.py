@@ -34,6 +34,7 @@ def main():
         resource_group_name="rgdependencyMap",
         map_name="mapsTest1",
         body={
+            "applianceName": "srmlcvqlkrtpkbkeonq",
             "filters": {
                 "dateTime": {
                     "endDateTimeUtc": "2024-03-29T07:35:15.336Z",
@@ -46,6 +47,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: 2025-01-31-preview/Maps_ExportDependencies.json
+# x-ms-original-file: 2025-05-01-preview/Maps_ExportDependencies.json
 if __name__ == "__main__":
     main()

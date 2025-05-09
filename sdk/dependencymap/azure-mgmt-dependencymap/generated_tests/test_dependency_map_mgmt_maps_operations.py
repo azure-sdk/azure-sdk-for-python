@@ -160,11 +160,12 @@ class TestDependencyMapMgmtMapsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             map_name="str",
             body={
-                "focusedMachineId": "str",
+                "applianceName": "str",
                 "filters": {
                     "dateTime": {"endDateTimeUtc": "2020-02-20 00:00:00", "startDateTimeUtc": "2020-02-20 00:00:00"},
                     "processNameFilter": {"operator": "str", "processNames": ["str"]},
                 },
+                "focusedMachineId": "str",
             },
         ).result()  # call '.result()' to poll until service return final result
 
