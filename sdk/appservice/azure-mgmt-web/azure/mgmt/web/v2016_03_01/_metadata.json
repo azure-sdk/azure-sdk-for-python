@@ -5,13 +5,13 @@
         "name": "WebSiteManagementClient",
         "filename": "_web_site_management_client",
         "description": "WebSite Management Client.",
-        "host_value": "\"https://management.azure.com\"",
+        "host_value": null,
         "parameterized_host_template": null,
         "azure_arm": true,
         "has_public_lro_operations": false,
         "client_side_validation": false,
-        "sync_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"Optional\"]}}, \"regular\": {\"sdkcore\": {\"azure.mgmt.core\": [\"ARMPipelineClient\"], \"azure.core.pipeline\": [\"policies\"], \"azure.mgmt.core.policies\": [\"ARMAutoResourceProviderRegistrationPolicy\"], \"azure.profiles\": [\"KnownProfiles\", \"ProfileDefinition\"], \"azure.profiles.multiapiclient\": [\"MultiApiClientMixin\"]}, \"local\": {\"._configuration\": [\"WebSiteManagementClientConfiguration\"], \".._serialization\": [\"Deserializer\", \"Serializer\"], \"._operations_mixin\": [\"WebSiteManagementClientOperationsMixin\"]}, \"stdlib\": {\"typing_extensions\": [\"Self\"]}}, \"typing\": {\"sdkcore\": {\"azure.core.credentials\": [\"TokenCredential\"]}}}",
-        "async_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"Optional\"]}}, \"regular\": {\"sdkcore\": {\"azure.mgmt.core\": [\"AsyncARMPipelineClient\"], \"azure.core.pipeline\": [\"policies\"], \"azure.mgmt.core.policies\": [\"AsyncARMAutoResourceProviderRegistrationPolicy\"], \"azure.profiles\": [\"KnownProfiles\", \"ProfileDefinition\"], \"azure.profiles.multiapiclient\": [\"MultiApiClientMixin\"]}, \"local\": {\"._configuration\": [\"WebSiteManagementClientConfiguration\"], \"..._serialization\": [\"Deserializer\", \"Serializer\"], \"._operations_mixin\": [\"WebSiteManagementClientOperationsMixin\"]}, \"stdlib\": {\"typing_extensions\": [\"Self\"]}}, \"typing\": {\"sdkcore\": {\"azure.core.credentials_async\": [\"AsyncTokenCredential\"]}}}"
+        "sync_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"Optional\"]}}, \"regular\": {\"sdkcore\": {\"azure.mgmt.core\": [\"ARMPipelineClient\"], \"azure.core.pipeline\": [\"policies\"], \"azure.mgmt.core.policies\": [\"ARMAutoResourceProviderRegistrationPolicy\"], \"azure.core.settings\": [\"settings\"], \"azure.mgmt.core.tools\": [\"get_arm_endpoints\"], \"azure.profiles\": [\"KnownProfiles\", \"ProfileDefinition\"], \"azure.profiles.multiapiclient\": [\"MultiApiClientMixin\"]}, \"stdlib\": {\"typing\": [\"Optional\", \"cast\"], \"typing_extensions\": [\"Self\"]}, \"local\": {\"._configuration\": [\"WebSiteManagementClientConfiguration\"], \"._utils.serialization\": [\"Deserializer\", \"Serializer\"], \"._operations_mixin\": [\"WebSiteManagementClientOperationsMixin\"]}}, \"typing\": {\"sdkcore\": {\"azure.core.credentials\": [\"TokenCredential\"]}}}",
+        "async_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"Optional\"]}}, \"regular\": {\"sdkcore\": {\"azure.mgmt.core\": [\"AsyncARMPipelineClient\"], \"azure.core.pipeline\": [\"policies\"], \"azure.mgmt.core.policies\": [\"AsyncARMAutoResourceProviderRegistrationPolicy\"], \"azure.core.settings\": [\"settings\"], \"azure.mgmt.core.tools\": [\"get_arm_endpoints\"], \"azure.profiles\": [\"KnownProfiles\", \"ProfileDefinition\"], \"azure.profiles.multiapiclient\": [\"MultiApiClientMixin\"]}, \"stdlib\": {\"typing\": [\"Optional\", \"cast\"], \"typing_extensions\": [\"Self\"]}, \"local\": {\"._configuration\": [\"WebSiteManagementClientConfiguration\"], \".._utils.serialization\": [\"Deserializer\", \"Serializer\"], \"._operations_mixin\": [\"WebSiteManagementClientOperationsMixin\"]}}, \"typing\": {\"sdkcore\": {\"azure.core.credentials_async\": [\"AsyncTokenCredential\"]}}}"
     },
     "global_parameters": {
         "sync": {
@@ -57,7 +57,7 @@
                     "method_location": "positional"
                 },
                 "base_url": {
-                    "signature": "base_url: str = \"https://management.azure.com\",",
+                    "signature": "base_url: Optional[str] = None,",
                     "description": "Service URL",
                     "docstring_type": "str",
                     "required": false,
@@ -80,7 +80,7 @@
                     "method_location": "positional"
                 },
                 "base_url": {
-                    "signature": "base_url: str = \"https://management.azure.com\",",
+                    "signature": "base_url: Optional[str] = None,",
                     "description": "Service URL",
                     "docstring_type": "str",
                     "required": false,
@@ -114,8 +114,8 @@
         "billing_meters": "BillingMetersOperations"
     },
     "operation_mixins": {
-        "sync_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"Iterable\", \"Union\"]}}, \"regular\": {\"local\": {\".\": [[\"models\", \"_models\"]]}, \"stdlib\": {\"typing\": [\"IO\", \"Optional\", \"Union\"], \"io\": [\"IOBase\"]}, \"sdkcore\": {\"azure.core.paging\": [\"ItemPaged\"]}}}",
-        "async_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"AsyncIterable\", \"Union\"]}}, \"regular\": {\"local\": {\"..\": [[\"models\", \"_models\"]]}, \"stdlib\": {\"typing\": [\"IO\", \"Optional\", \"Union\"], \"io\": [\"IOBase\"]}, \"sdkcore\": {\"azure.core.async_paging\": [\"AsyncItemPaged\"]}}}",
+        "sync_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"Iterable\", \"Union\"]}}, \"regular\": {\"stdlib\": {\"typing\": [\"IO\", \"Optional\", \"Union\"], \"io\": [\"IOBase\"]}, \"sdkcore\": {\"azure.core.paging\": [\"ItemPaged\"]}, \"local\": {\".\": [[\"models\", \"_models\"]]}}}",
+        "async_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"AsyncIterable\", \"Union\"]}}, \"regular\": {\"stdlib\": {\"typing\": [\"IO\", \"Optional\", \"Union\"], \"io\": [\"IOBase\"]}, \"sdkcore\": {\"azure.core.async_paging\": [\"AsyncItemPaged\"]}, \"local\": {\"..\": [[\"models\", \"_models\"]]}}}",
         "sync_mixin_typing_definitions": "",
         "async_mixin_typing_definitions": "",
         "operations": {
