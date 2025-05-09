@@ -1,4 +1,4 @@
-# pylint: disable=line-too-long,useless-suppression,too-many-lines
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1211,7 +1211,7 @@ class ThreadsOperations:
         :attr:`threads` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -1748,7 +1748,7 @@ class MessagesOperations:
         :attr:`messages` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -2264,7 +2264,7 @@ class RunsOperations:
         :attr:`runs` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -3181,7 +3181,7 @@ class RunStepsOperations:
         :attr:`run_steps` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -3374,7 +3374,7 @@ class FilesOperations:
         :attr:`files` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -3704,7 +3704,7 @@ class VectorStoresOperations:
         :attr:`vector_stores` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -4261,7 +4261,7 @@ class VectorStoreFilesOperations:
         :attr:`vector_store_files` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -4653,7 +4653,7 @@ class VectorStoreFileBatchesOperations:
         :attr:`vector_store_file_batches` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -5037,7 +5037,7 @@ class VectorStoreFileBatchesOperations:
         return ItemPaged(get_next, extract_data)
 
 
-class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientConfiguration]):
+class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient[HttpRequest, HttpResponse], AgentsClientConfiguration]):
 
     @overload
     def create_agent(
