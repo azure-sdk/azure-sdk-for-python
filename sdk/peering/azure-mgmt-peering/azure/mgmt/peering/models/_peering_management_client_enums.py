@@ -31,6 +31,7 @@ class ConnectionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ACTIVE = "Active"
     TYPE_CHANGE_REQUESTED = "TypeChangeRequested"
     TYPE_CHANGE_IN_PROGRESS = "TypeChangeInProgress"
+    EXTERNAL_BLOCKER = "ExternalBlocker"
 
 
 class DirectPeeringType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -44,6 +45,7 @@ class DirectPeeringType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     IX_RS = "IxRs"
     VOICE = "Voice"
     EDGE_ZONE_FOR_OPERATORS = "EdgeZoneForOperators"
+    PEER_PROP = "PeerProp"
 
 
 class Enum0(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -51,6 +53,38 @@ class Enum0(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     AVAILABLE = "Available"
     UNAVAILABLE = "Unavailable"
+
+
+class Enum11(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum11."""
+
+    NONE = "None"
+    IDLE = "Idle"
+    CONNECT = "Connect"
+    ACTIVE = "Active"
+    OPEN_SENT = "OpenSent"
+    OPEN_CONFIRM = "OpenConfirm"
+    OPEN_RECEIVED = "OpenReceived"
+    ESTABLISHED = "Established"
+    PENDING_ADD = "PendingAdd"
+    PENDING_UPDATE = "PendingUpdate"
+    PENDING_REMOVE = "PendingRemove"
+
+
+class Enum13(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum13."""
+
+    NONE = "None"
+    IDLE = "Idle"
+    CONNECT = "Connect"
+    ACTIVE = "Active"
+    OPEN_SENT = "OpenSent"
+    OPEN_CONFIRM = "OpenConfirm"
+    OPEN_RECEIVED = "OpenReceived"
+    ESTABLISHED = "Established"
+    PENDING_ADD = "PendingAdd"
+    PENDING_UPDATE = "PendingUpdate"
+    PENDING_REMOVE = "PendingRemove"
 
 
 class Family(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -108,6 +142,7 @@ class PeeringLocationsDirectPeeringType(str, Enum, metaclass=CaseInsensitiveEnum
     IX_RS = "IxRs"
     VOICE = "Voice"
     EDGE_ZONE_FOR_OPERATORS = "EdgeZoneForOperators"
+    PEER_PROP = "PeerProp"
 
 
 class PeeringLocationsKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -127,6 +162,123 @@ class PrefixValidationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PENDING = "Pending"
     WARNING = "Warning"
     UNKNOWN = "Unknown"
+
+
+class PreviousConnectionProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The previous connection provisioning state, used to resume provisioning after connection has
+    been blocked.
+    """
+
+    NONE = "None"
+    INTERCONNECTION_PENDING_APPROVAL = "InterconnectionPendingApproval"
+    DEVICE_STATE_VALIDATION = "DeviceStateValidation"
+    ROC_PENDING_APPROVAL = "RocPendingApproval"
+    ALLOCATE_PORTS = "AllocatePorts"
+    PORT_EXHAUSTION = "PortExhaustion"
+    CHECK_INTERFACES = "CheckInterfaces"
+    ENABLE_INTERFACES = "EnableInterfaces"
+    PHYSICAL_CONNECTION_SETUP = "PhysicalConnectionSetup"
+    AWAIT_PAIR_UPGRADE = "AwaitPairUpgrade"
+    LIGHT_CHECK = "LightCheck"
+    TEST_PING = "TestPing"
+    PING_TEST_DONE = "PingTestDone"
+    AWAIT_PEER_IPS = "AwaitPeerIps"
+    VALIDATE_FLT_FIREWALL = "ValidateFltFirewall"
+    LAG_SETUP = "LagSetup"
+    AWAIT_LAG_COMPLETION = "AwaitLagCompletion"
+    UPDATE_ADDRESSES_ON_DEVICE = "UpdateAddressesOnDevice"
+    FETCH_PREFIX_LIMIT_FROM_PEERING_DB = "FetchPrefixLimitFromPeeringDb"
+    BGP_SESSION_CONFIGURATION = "BgpSessionConfiguration"
+    NPM_BGP_SESSION_CONFIGURATION = "NpmBgpSessionConfiguration"
+    MD5_AUTH_KEY_CONFIGURATION = "Md5AuthKeyConfiguration"
+    FETCH_SESSION_STATE = "FetchSessionState"
+    REMOVE_NOMONIT = "RemoveNomonit"
+    UPDATE_APIPA_PREFIX_IN_SITEPRO = "UpdateApipaPrefixInSitepro"
+    PROVISIONING_COMPLETED = "ProvisioningCompleted"
+    PENDING_MIGRATION = "PendingMigration"
+    MIGRATION_REQUEST_PORT_ALLOCATION_REQUESTED = "MigrationRequestPortAllocationRequested"
+    MIGRATION_CONFIG_VALIDATION = "MigrationConfigValidation"
+    PENDING_GLOBAL_POLICY_UPDATE = "PendingGlobalPolicyUpdate"
+    MIGRATION_SPECIFIC_CONFIG_DRIFT = "MigrationSpecificConfigDrift"
+    MIGRATION_NPM_ERROR = "MigrationNpmError"
+    PENDING_WORK_WINDOW = "PendingWorkWindow"
+    EXTERNAL_BLOCKER = "ExternalBlocker"
+    STATIC_MAC_CONFIGURATION = "StaticMacConfiguration"
+    UNDO_MIGRATION_GRAPH_CLEANUP = "UndoMigrationGraphCleanup"
+    MIGRATION_WORK_WINDOW = "MigrationWorkWindow"
+    PENDING_MIGRATION_COMPLETION = "PendingMigrationCompletion"
+    MIGRATION_COMPLETION_REQUESTED = "MigrationCompletionRequested"
+    DIRECT_PEERING_TYPE_UPDATE_APPROVED = "DirectPeeringTypeUpdateApproved"
+    DIRECT_PEERING_TYPE_UPDATE_REJECTED = "DirectPeeringTypeUpdateRejected"
+    DIRECT_PEERING_TYPE_UPDATE_IF_DESCRIPTION = "DirectPeeringTypeUpdateIfDescription"
+    DIRECT_PEERING_TYPE_UPDATE_PREFIX_PRECHECK = "DirectPeeringTypeUpdatePrefixPrecheck"
+    DIRECT_PEERING_TYPE_UPDATE_APPLY_DENY_ALL = "DirectPeeringTypeUpdateApplyDenyAll"
+    DIRECT_PEERING_TYPE_UPDATE_DELETE_SESSION = "DirectPeeringTypeUpdateDeleteSession"
+    DIRECT_PEERING_TYPE_UPDATE_LAG_ACL = "DirectPeeringTypeUpdateLagAcl"
+    DIRECT_PEERING_TYPE_UPDATE_BGP_CONFIG = "DirectPeeringTypeUpdateBgpConfig"
+    DIRECT_PEERING_TYPE_UPDATE_FETCH_SESSION_STATE = "DirectPeeringTypeUpdateFetchSessionState"
+    DIRECT_PEERING_TYPE_UPDATE_DELETE_DENY_ALL = "DirectPeeringTypeUpdateDeleteDenyAll"
+    DIRECT_PEERING_TYPE_UPDATE_PREFIX_POST_CHECK = "DirectPeeringTypeUpdatePrefixPostCheck"
+    DECOM_ROC_PENDING_APPROVAL = "DecomRocPendingApproval"
+    DECOM_ADD_DENY_ALL = "DecomAddDenyAll"
+    DECOM_VALIDATE_PREFIX = "DecomValidatePrefix"
+    DECOM_VALIDATE_TRAFFIC = "DecomValidateTraffic"
+    DECOM_SHUT_INTERFACES = "DecomShutInterfaces"
+    DECOM_SHUTDOWN_BGP = "DecomShutdownBgp"
+    DECOM_CABLING = "DecomCabling"
+    DECOM_REMOVE_BGP_CONFIG = "DecomRemoveBgpConfig"
+    DECOM_REMOVE_INTERFACE_CONFIG = "DecomRemoveInterfaceConfig"
+    DECOM_GRAPH_CLEANUP = "DecomGraphCleanup"
+    DECOM_COMPLETED = "DecomCompleted"
+    DIRECT_PEERING_TYPE_UPDATE_MD5_AUTH_KEY_CONFIGURATION = "DirectPeeringTypeUpdateMd5AuthKeyConfiguration"
+    BFD_CONFIGURATION = "BfdConfiguration"
+    DIRECT_PEERING_TYPE_UPDATE_BFD_CONFIG = "DirectPeeringTypeUpdateBfdConfig"
+    DIRECT_PEERING_TYPE_UPDATE_MD5_AUTH_KEY_READ = "DirectPeeringTypeUpdateMd5AuthKeyRead"
+    PREFIX_LIST_CONFIGURATION = "PrefixListConfiguration"
+    WORK_WINDOW_COMPLETED = "WorkWindowCompleted"
+    FACILITY_MAP_VALIDATION = "FacilityMapValidation"
+    DIRECT_PEERING_TYPE_UPDATE_READ_MAX_PREFIX_LIMIT = "DirectPeeringTypeUpdateReadMaxPrefixLimit"
+    DIRECT_PEERING_TYPE_UPDATE_UPDATE_PORT_WITH_NEW_IP = "DirectPeeringTypeUpdateUpdatePortWithNewIP"
+    DIRECT_PEERING_TYPE_UPDATE_CONFIGURE_LAG_WITH_NEW_IP = "DirectPeeringTypeUpdateConfigureLagWithNewIP"
+    DIRECT_PEERING_TYPE_UPDATE_CLEANUP_OLD_I_PSFROM_LAG = "DirectPeeringTypeUpdateCleanupOldIPsfromLAG"
+    MAPS_TO_MAPS_VOICE_UPDATE_IF_DESCRIPTION = "MapsToMapsVoiceUpdateIfDescription"
+    MAPS_TO_MAPS_VOICE_PREFIX_PRECHECK = "MapsToMapsVoicePrefixPrecheck"
+    MAPS_TO_MAPS_VOICE_UPDATE_LAG_ACL = "MapsToMapsVoiceUpdateLAGAcl"
+    MAPS_TO_MAPS_VOICE_CONFIGURE_BFD = "MapsToMapsVoiceConfigureBFD"
+    MAPS_TO_MAPS_VOICE_FETCH_SESSION_STATE = "MapsToMapsVoiceFetchSessionState"
+    MAPS_TO_MAPS_VOICE_PREFIX_POST_CHECK = "MapsToMapsVoicePrefixPostCheck"
+    BGP_GROUP_CHANGE_ROC_PENDING_APPROVAL = "BgpGroupChangeRocPendingApproval"
+    BGP_GROUP_CHANGE_WORK_WINDOW = "BgpGroupChangeWorkWindow"
+    IP_CHANGE_WORK_WINDOW = "IPChangeWorkWindow"
+    PENDING_ASN_CHANGE_APPLY_DENY_ALL = "PendingASNChangeApplyDenyALL"
+    PENDING_ASN_CHANGE_UPDATE_NEIGHBOR_CONFIG = "PendingASNChangeUpdateNeighborConfig"
+    PENDING_ASN_CHANGE_REMOVE_DENY_ALL = "PendingASNChangeRemoveDenyALL"
+    PENDING_ASN_CHANGE_UPDATE_INTERFACE_DESCRIPTION = "PendingASNChangeUpdateInterfaceDescription"
+    UPDATE_GRAPH_FOR_ASN_CHANGE = "UpdateGraphForASNChange"
+    UPDATE_PEERING_FOR_ASN_CHANGE = "UpdatePeeringForASNChange"
+    ADD_DENY_ALL_ROC_PENDING_APPROVAL = "AddDenyAllRocPendingApproval"
+    AWAIT_APPLY_DENY_ALL = "AwaitApplyDenyAll"
+    IP_CHANGE_VALIDATION = "IPChangeValidation"
+    IP_CHANGE_CLEANUP = "IPChangeCleanup"
+    FORCED_IP_CHANGE_CLEANUP = "ForcedIpChangeCleanup"
+    FORCED_IP_CHANGE_CLEANUP_WITH_ACTIVE_SESSIONS = "ForcedIpChangeCleanupWithActiveSessions"
+    IP_CHANGE_INITIATE = "IPChangeInitiate"
+    IP_CHANGE_LAG = "IPChangeLag"
+    IP_CHANGE_BGP_UPDATE = "IPChangeBgpUpdate"
+    IP_CHANGE_MD5_CONFIGURATION = "IPChangeMd5Configuration"
+    IP_CHANGE_APPLY_DENY_ALL = "IPChangeApplyDenyAll"
+    IP_CHANGE_REMOVE_DENY_ALL = "IPChangeRemoveDenyAll"
+    IP_CHANGE_VALIDATE_SESSIONS = "IPChangeValidateSessions"
+    ACL_CONFIGURATION = "ACLConfiguration"
+    PENDING_SPECIAL_WORK_ITEM = "PendingSpecialWorkItem"
+
+
+class Protocol(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The protocol of the traffic that will be sent."""
+
+    NONE = "None"
+    ICMP = "ICMP"
+    TCP = "TCP"
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
