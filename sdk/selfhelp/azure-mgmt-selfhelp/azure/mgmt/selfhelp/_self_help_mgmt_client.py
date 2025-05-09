@@ -7,16 +7,19 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING, cast
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
+from azure.core.settings import settings
 from azure.mgmt.core import ARMPipelineClient
 from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from . import models as _models
 from ._configuration import SelfHelpMgmtClientConfiguration
-from ._serialization import Deserializer, Serializer
+from ._utils.serialization import Deserializer, Serializer
 from .operations import (
     CheckNameAvailabilityOperations,
     DiagnosticsOperations,
@@ -30,35 +33,36 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class SelfHelpMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class SelfHelpMgmtClient:  # pylint: disable=too-many-instance-attributes
     """Help RP provider.
 
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.selfhelp.operations.Operations
     :ivar check_name_availability: CheckNameAvailabilityOperations operations
     :vartype check_name_availability:
      azure.mgmt.selfhelp.operations.CheckNameAvailabilityOperations
     :ivar diagnostics: DiagnosticsOperations operations
     :vartype diagnostics: azure.mgmt.selfhelp.operations.DiagnosticsOperations
-    :ivar discovery_solution: DiscoverySolutionOperations operations
-    :vartype discovery_solution: azure.mgmt.selfhelp.operations.DiscoverySolutionOperations
-    :ivar solution: SolutionOperations operations
-    :vartype solution: azure.mgmt.selfhelp.operations.SolutionOperations
     :ivar simplified_solutions: SimplifiedSolutionsOperations operations
     :vartype simplified_solutions: azure.mgmt.selfhelp.operations.SimplifiedSolutionsOperations
+    :ivar solution: SolutionOperations operations
+    :vartype solution: azure.mgmt.selfhelp.operations.SolutionOperations
     :ivar troubleshooters: TroubleshootersOperations operations
     :vartype troubleshooters: azure.mgmt.selfhelp.operations.TroubleshootersOperations
-    :ivar solution_self_help: SolutionSelfHelpOperations operations
-    :vartype solution_self_help: azure.mgmt.selfhelp.operations.SolutionSelfHelpOperations
     :ivar discovery_solution_nlp: DiscoverySolutionNLPOperations operations
     :vartype discovery_solution_nlp: azure.mgmt.selfhelp.operations.DiscoverySolutionNLPOperations
+    :ivar discovery_solution: DiscoverySolutionOperations operations
+    :vartype discovery_solution: azure.mgmt.selfhelp.operations.DiscoverySolutionOperations
+    :ivar operations: Operations operations
+    :vartype operations: azure.mgmt.selfhelp.operations.Operations
+    :ivar solution_self_help: SolutionSelfHelpOperations operations
+    :vartype solution_self_help: azure.mgmt.selfhelp.operations.SolutionSelfHelpOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :param base_url: Service URL. Default value is "https://management.azure.com".
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
+    :type subscription_id: str
+    :param base_url: Service URL. Default value is None.
     :type base_url: str
     :keyword api_version: Api Version. Default value is "2024-03-01-preview". Note that overriding
      this default value may result in unsupported behavior.
@@ -68,9 +72,17 @@ class SelfHelpMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,
     """
 
     def __init__(
-        self, credential: "TokenCredential", base_url: str = "https://management.azure.com", **kwargs: Any
+        self, credential: "TokenCredential", subscription_id: str, base_url: Optional[str] = None, **kwargs: Any
     ) -> None:
-        self._config = SelfHelpMgmtClientConfiguration(credential=credential, **kwargs)
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
+        self._config = SelfHelpMgmtClientConfiguration(
+            credential=credential, subscription_id=subscription_id, credential_scopes=credential_scopes, **kwargs
+        )
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -89,29 +101,29 @@ class SelfHelpMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=cast(str, base_url), policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.check_name_availability = CheckNameAvailabilityOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.diagnostics = DiagnosticsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.discovery_solution = DiscoverySolutionOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.solution = SolutionOperations(self._client, self._config, self._serialize, self._deserialize)
         self.simplified_solutions = SimplifiedSolutionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.solution = SolutionOperations(self._client, self._config, self._serialize, self._deserialize)
         self.troubleshooters = TroubleshootersOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.solution_self_help = SolutionSelfHelpOperations(
+        self.discovery_solution_nlp = DiscoverySolutionNLPOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.discovery_solution_nlp = DiscoverySolutionNLPOperations(
+        self.discovery_solution = DiscoverySolutionOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.solution_self_help = SolutionSelfHelpOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 
@@ -140,7 +152,7 @@ class SelfHelpMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "SelfHelpMgmtClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
