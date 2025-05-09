@@ -1,0 +1,6 @@
+{
+  "commit": "51be344f3e6ae8e3e9b2a8b4c2676ee74c31bd4a",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/help/Help.Management",
+  "@azure-tools/typespec-python": "0.44.2"
+}
