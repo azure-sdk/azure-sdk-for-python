@@ -1,11 +1,6 @@
 {
-  "commit": "cd47c0b7ed3cf03a738ab5a96f9543a733aae1fd",
+  "commit": "667754246f5134bee75359ea2cd11a3c3f52d511",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.7",
-  "use": [
-    "@autorest/python@6.13.7",
-    "@autorest/modelerfour@4.27.0"
-  ],
-  "autorest_command": "autorest specification/notificationhubs/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.13.7 --use=@autorest/modelerfour@4.27.0 --version=3.9.7 --version-tolerant=False",
-  "readme": "specification/notificationhubs/resource-manager/readme.md"
+  "typespec_src": "specification/notificationhubs/Notificationhubs.Management",
+  "@azure-tools/typespec-python": "0.44.2"
 }
