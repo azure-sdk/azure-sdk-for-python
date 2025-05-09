@@ -1,0 +1,14 @@
+{
+    "CrossLanguagePackageId": "Microsoft.Edge",
+    "CrossLanguageDefinitionId": {
+        "azure.mgmt.commonedgesitemanageroperations.models.ErrorAdditionalInfo": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+        "azure.mgmt.commonedgesitemanageroperations.models.ErrorDetail": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+        "azure.mgmt.commonedgesitemanageroperations.models.ErrorResponse": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+        "azure.mgmt.commonedgesitemanageroperations.models.Operation": "Azure.ResourceManager.CommonTypes.Operation",
+        "azure.mgmt.commonedgesitemanageroperations.models.OperationDisplay": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+        "azure.mgmt.commonedgesitemanageroperations.models.Origin": "Azure.ResourceManager.CommonTypes.Origin",
+        "azure.mgmt.commonedgesitemanageroperations.models.ActionType": "Azure.ResourceManager.CommonTypes.ActionType",
+        "azure.mgmt.commonedgesitemanageroperations.operations.Operations.list": "Azure.ResourceManager.Operations.list",
+        "azure.mgmt.commonedgesitemanageroperations.aio.operations.Operations.list": "Azure.ResourceManager.Operations.list"
+    }
+}
