@@ -7,48 +7,82 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, Awaitable, TYPE_CHECKING
+from typing import Any, Awaitable, Optional, TYPE_CHECKING, cast
+from typing_extensions import Self
 
+from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
+from azure.core.settings import settings
 from azure.mgmt.core import AsyncARMPipelineClient
+from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from .. import models as _models
-from .._serialization import Deserializer, Serializer
+from .._utils.serialization import Deserializer, Serializer
 from ._configuration import MachineLearningServicesMgmtClientConfiguration
 from .operations import (
     BatchDeploymentsOperations,
     BatchEndpointsOperations,
+    CapabilityHostsOperations,
     CodeContainersOperations,
     CodeVersionsOperations,
     ComponentContainersOperations,
     ComponentVersionsOperations,
     ComputeOperations,
+    ConnectionOperations,
+    ConnectionRaiBlocklistItemOperations,
+    ConnectionRaiBlocklistItemsOperations,
+    ConnectionRaiBlocklistOperations,
+    ConnectionRaiBlocklistsOperations,
+    ConnectionRaiPoliciesOperations,
+    ConnectionRaiPolicyOperations,
     DataContainersOperations,
     DataVersionsOperations,
     DatastoresOperations,
+    EndpointDeploymentOperations,
+    EndpointOperations,
     EnvironmentContainersOperations,
     EnvironmentVersionsOperations,
+    FeaturesOperations,
+    FeaturesetContainersOperations,
+    FeaturesetVersionsOperations,
+    FeaturestoreEntityContainersOperations,
+    FeaturestoreEntityVersionsOperations,
+    InferenceEndpointsOperations,
+    InferenceGroupsOperations,
+    InferencePoolsOperations,
     JobsOperations,
+    ManagedNetworkProvisionsOperations,
+    ManagedNetworkSettingsOperations,
+    ManagedNetworkSettingsRuleOperations,
+    MarketplaceSubscriptionsOperations,
     ModelContainersOperations,
     ModelVersionsOperations,
     OnlineDeploymentsOperations,
     OnlineEndpointsOperations,
     Operations,
+    OutboundRuleOperations,
+    OutboundRulesOperations,
+    PTUQuotaOperations,
     PrivateEndpointConnectionsOperations,
     PrivateLinkResourcesOperations,
     QuotasOperations,
+    RaiPoliciesOperations,
+    RaiPolicyOperations,
     RegistriesOperations,
     RegistryCodeContainersOperations,
     RegistryCodeVersionsOperations,
     RegistryComponentContainersOperations,
     RegistryComponentVersionsOperations,
     RegistryDataContainersOperations,
+    RegistryDataReferencesOperations,
     RegistryDataVersionsOperations,
     RegistryEnvironmentContainersOperations,
     RegistryEnvironmentVersionsOperations,
     RegistryModelContainersOperations,
     RegistryModelVersionsOperations,
     SchedulesOperations,
+    ServerlessEndpointsOperations,
     UsagesOperations,
     VirtualMachineSizesOperations,
     WorkspaceConnectionsOperations,
@@ -57,17 +91,12 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class MachineLearningServicesMgmtClient:  # pylint: disable=too-many-instance-attributes
     """These APIs allow end users to operate on Azure Machine Learning Workspace resources.
 
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.machinelearningservices.aio.operations.Operations
-    :ivar workspaces: WorkspacesOperations operations
-    :vartype workspaces: azure.mgmt.machinelearningservices.aio.operations.WorkspacesOperations
     :ivar usages: UsagesOperations operations
     :vartype usages: azure.mgmt.machinelearningservices.aio.operations.UsagesOperations
     :ivar virtual_machine_sizes: VirtualMachineSizesOperations operations
@@ -77,15 +106,8 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :vartype quotas: azure.mgmt.machinelearningservices.aio.operations.QuotasOperations
     :ivar compute: ComputeOperations operations
     :vartype compute: azure.mgmt.machinelearningservices.aio.operations.ComputeOperations
-    :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
-    :vartype private_endpoint_connections:
-     azure.mgmt.machinelearningservices.aio.operations.PrivateEndpointConnectionsOperations
-    :ivar private_link_resources: PrivateLinkResourcesOperations operations
-    :vartype private_link_resources:
-     azure.mgmt.machinelearningservices.aio.operations.PrivateLinkResourcesOperations
-    :ivar workspace_connections: WorkspaceConnectionsOperations operations
-    :vartype workspace_connections:
-     azure.mgmt.machinelearningservices.aio.operations.WorkspaceConnectionsOperations
+    :ivar ptu_quota: PTUQuotaOperations operations
+    :vartype ptu_quota: azure.mgmt.machinelearningservices.aio.operations.PTUQuotaOperations
     :ivar registry_code_containers: RegistryCodeContainersOperations operations
     :vartype registry_code_containers:
      azure.mgmt.machinelearningservices.aio.operations.RegistryCodeContainersOperations
@@ -104,6 +126,9 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :ivar registry_data_versions: RegistryDataVersionsOperations operations
     :vartype registry_data_versions:
      azure.mgmt.machinelearningservices.aio.operations.RegistryDataVersionsOperations
+    :ivar registry_data_references: RegistryDataReferencesOperations operations
+    :vartype registry_data_references:
+     azure.mgmt.machinelearningservices.aio.operations.RegistryDataReferencesOperations
     :ivar registry_environment_containers: RegistryEnvironmentContainersOperations operations
     :vartype registry_environment_containers:
      azure.mgmt.machinelearningservices.aio.operations.RegistryEnvironmentContainersOperations
@@ -122,6 +147,9 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :ivar batch_deployments: BatchDeploymentsOperations operations
     :vartype batch_deployments:
      azure.mgmt.machinelearningservices.aio.operations.BatchDeploymentsOperations
+    :ivar capability_hosts: CapabilityHostsOperations operations
+    :vartype capability_hosts:
+     azure.mgmt.machinelearningservices.aio.operations.CapabilityHostsOperations
     :ivar code_containers: CodeContainersOperations operations
     :vartype code_containers:
      azure.mgmt.machinelearningservices.aio.operations.CodeContainersOperations
@@ -148,8 +176,34 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :ivar environment_versions: EnvironmentVersionsOperations operations
     :vartype environment_versions:
      azure.mgmt.machinelearningservices.aio.operations.EnvironmentVersionsOperations
+    :ivar featureset_containers: FeaturesetContainersOperations operations
+    :vartype featureset_containers:
+     azure.mgmt.machinelearningservices.aio.operations.FeaturesetContainersOperations
+    :ivar features: FeaturesOperations operations
+    :vartype features: azure.mgmt.machinelearningservices.aio.operations.FeaturesOperations
+    :ivar featureset_versions: FeaturesetVersionsOperations operations
+    :vartype featureset_versions:
+     azure.mgmt.machinelearningservices.aio.operations.FeaturesetVersionsOperations
+    :ivar featurestore_entity_containers: FeaturestoreEntityContainersOperations operations
+    :vartype featurestore_entity_containers:
+     azure.mgmt.machinelearningservices.aio.operations.FeaturestoreEntityContainersOperations
+    :ivar featurestore_entity_versions: FeaturestoreEntityVersionsOperations operations
+    :vartype featurestore_entity_versions:
+     azure.mgmt.machinelearningservices.aio.operations.FeaturestoreEntityVersionsOperations
+    :ivar inference_pools: InferencePoolsOperations operations
+    :vartype inference_pools:
+     azure.mgmt.machinelearningservices.aio.operations.InferencePoolsOperations
+    :ivar inference_endpoints: InferenceEndpointsOperations operations
+    :vartype inference_endpoints:
+     azure.mgmt.machinelearningservices.aio.operations.InferenceEndpointsOperations
+    :ivar inference_groups: InferenceGroupsOperations operations
+    :vartype inference_groups:
+     azure.mgmt.machinelearningservices.aio.operations.InferenceGroupsOperations
     :ivar jobs: JobsOperations operations
     :vartype jobs: azure.mgmt.machinelearningservices.aio.operations.JobsOperations
+    :ivar marketplace_subscriptions: MarketplaceSubscriptionsOperations operations
+    :vartype marketplace_subscriptions:
+     azure.mgmt.machinelearningservices.aio.operations.MarketplaceSubscriptionsOperations
     :ivar model_containers: ModelContainersOperations operations
     :vartype model_containers:
      azure.mgmt.machinelearningservices.aio.operations.ModelContainersOperations
@@ -164,57 +218,129 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
      azure.mgmt.machinelearningservices.aio.operations.OnlineDeploymentsOperations
     :ivar schedules: SchedulesOperations operations
     :vartype schedules: azure.mgmt.machinelearningservices.aio.operations.SchedulesOperations
+    :ivar serverless_endpoints: ServerlessEndpointsOperations operations
+    :vartype serverless_endpoints:
+     azure.mgmt.machinelearningservices.aio.operations.ServerlessEndpointsOperations
     :ivar registries: RegistriesOperations operations
     :vartype registries: azure.mgmt.machinelearningservices.aio.operations.RegistriesOperations
     :ivar workspace_features: WorkspaceFeaturesOperations operations
     :vartype workspace_features:
      azure.mgmt.machinelearningservices.aio.operations.WorkspaceFeaturesOperations
+    :ivar operations: Operations operations
+    :vartype operations: azure.mgmt.machinelearningservices.aio.operations.Operations
+    :ivar workspaces: WorkspacesOperations operations
+    :vartype workspaces: azure.mgmt.machinelearningservices.aio.operations.WorkspacesOperations
+    :ivar workspace_connections: WorkspaceConnectionsOperations operations
+    :vartype workspace_connections:
+     azure.mgmt.machinelearningservices.aio.operations.WorkspaceConnectionsOperations
+    :ivar connection: ConnectionOperations operations
+    :vartype connection: azure.mgmt.machinelearningservices.aio.operations.ConnectionOperations
+    :ivar connection_rai_blocklists: ConnectionRaiBlocklistsOperations operations
+    :vartype connection_rai_blocklists:
+     azure.mgmt.machinelearningservices.aio.operations.ConnectionRaiBlocklistsOperations
+    :ivar connection_rai_blocklist: ConnectionRaiBlocklistOperations operations
+    :vartype connection_rai_blocklist:
+     azure.mgmt.machinelearningservices.aio.operations.ConnectionRaiBlocklistOperations
+    :ivar connection_rai_blocklist_item: ConnectionRaiBlocklistItemOperations operations
+    :vartype connection_rai_blocklist_item:
+     azure.mgmt.machinelearningservices.aio.operations.ConnectionRaiBlocklistItemOperations
+    :ivar connection_rai_blocklist_items: ConnectionRaiBlocklistItemsOperations operations
+    :vartype connection_rai_blocklist_items:
+     azure.mgmt.machinelearningservices.aio.operations.ConnectionRaiBlocklistItemsOperations
+    :ivar connection_rai_policies: ConnectionRaiPoliciesOperations operations
+    :vartype connection_rai_policies:
+     azure.mgmt.machinelearningservices.aio.operations.ConnectionRaiPoliciesOperations
+    :ivar connection_rai_policy: ConnectionRaiPolicyOperations operations
+    :vartype connection_rai_policy:
+     azure.mgmt.machinelearningservices.aio.operations.ConnectionRaiPolicyOperations
+    :ivar endpoint_deployment: EndpointDeploymentOperations operations
+    :vartype endpoint_deployment:
+     azure.mgmt.machinelearningservices.aio.operations.EndpointDeploymentOperations
+    :ivar endpoint: EndpointOperations operations
+    :vartype endpoint: azure.mgmt.machinelearningservices.aio.operations.EndpointOperations
+    :ivar rai_policies: RaiPoliciesOperations operations
+    :vartype rai_policies: azure.mgmt.machinelearningservices.aio.operations.RaiPoliciesOperations
+    :ivar rai_policy: RaiPolicyOperations operations
+    :vartype rai_policy: azure.mgmt.machinelearningservices.aio.operations.RaiPolicyOperations
+    :ivar managed_network_settings_rule: ManagedNetworkSettingsRuleOperations operations
+    :vartype managed_network_settings_rule:
+     azure.mgmt.machinelearningservices.aio.operations.ManagedNetworkSettingsRuleOperations
+    :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
+    :vartype private_endpoint_connections:
+     azure.mgmt.machinelearningservices.aio.operations.PrivateEndpointConnectionsOperations
+    :ivar private_link_resources: PrivateLinkResourcesOperations operations
+    :vartype private_link_resources:
+     azure.mgmt.machinelearningservices.aio.operations.PrivateLinkResourcesOperations
+    :ivar managed_network_provisions: ManagedNetworkProvisionsOperations operations
+    :vartype managed_network_provisions:
+     azure.mgmt.machinelearningservices.aio.operations.ManagedNetworkProvisionsOperations
+    :ivar outbound_rule: OutboundRuleOperations operations
+    :vartype outbound_rule:
+     azure.mgmt.machinelearningservices.aio.operations.OutboundRuleOperations
+    :ivar outbound_rules: OutboundRulesOperations operations
+    :vartype outbound_rules:
+     azure.mgmt.machinelearningservices.aio.operations.OutboundRulesOperations
+    :ivar managed_network_settings: ManagedNetworkSettingsOperations operations
+    :vartype managed_network_settings:
+     azure.mgmt.machinelearningservices.aio.operations.ManagedNetworkSettingsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
-    :param base_url: Service URL. Default value is "https://management.azure.com".
+    :param base_url: Service URL. Default value is None.
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-04-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2025-04-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
     """
 
     def __init__(
-        self,
-        credential: "AsyncTokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "AsyncTokenCredential", subscription_id: str, base_url: Optional[str] = None, **kwargs: Any
     ) -> None:
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
         self._config = MachineLearningServicesMgmtClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, subscription_id=subscription_id, credential_scopes=credential_scopes, **kwargs
         )
-        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                AsyncARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(
+            base_url=cast(str, base_url), policies=_policies, **kwargs
+        )
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.workspaces = WorkspacesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.usages = UsagesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.virtual_machine_sizes = VirtualMachineSizesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.quotas = QuotasOperations(self._client, self._config, self._serialize, self._deserialize)
         self.compute = ComputeOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.private_link_resources = PrivateLinkResourcesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.workspace_connections = WorkspaceConnectionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
+        self.ptu_quota = PTUQuotaOperations(self._client, self._config, self._serialize, self._deserialize)
         self.registry_code_containers = RegistryCodeContainersOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -233,6 +359,9 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
         self.registry_data_versions = RegistryDataVersionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.registry_data_references = RegistryDataReferencesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.registry_environment_containers = RegistryEnvironmentContainersOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -247,6 +376,9 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
         )
         self.batch_endpoints = BatchEndpointsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.batch_deployments = BatchDeploymentsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.capability_hosts = CapabilityHostsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.code_containers = CodeContainersOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -266,7 +398,30 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
         self.environment_versions = EnvironmentVersionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.featureset_containers = FeaturesetContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.features = FeaturesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.featureset_versions = FeaturesetVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.featurestore_entity_containers = FeaturestoreEntityContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.featurestore_entity_versions = FeaturestoreEntityVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.inference_pools = InferencePoolsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.inference_endpoints = InferenceEndpointsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.inference_groups = InferenceGroupsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.jobs = JobsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.marketplace_subscriptions = MarketplaceSubscriptionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.model_containers = ModelContainersOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -278,12 +433,64 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
             self._client, self._config, self._serialize, self._deserialize
         )
         self.schedules = SchedulesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.serverless_endpoints = ServerlessEndpointsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.registries = RegistriesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.workspace_features = WorkspaceFeaturesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.workspaces = WorkspacesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.workspace_connections = WorkspaceConnectionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.connection = ConnectionOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.connection_rai_blocklists = ConnectionRaiBlocklistsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.connection_rai_blocklist = ConnectionRaiBlocklistOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.connection_rai_blocklist_item = ConnectionRaiBlocklistItemOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.connection_rai_blocklist_items = ConnectionRaiBlocklistItemsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.connection_rai_policies = ConnectionRaiPoliciesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.connection_rai_policy = ConnectionRaiPolicyOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.endpoint_deployment = EndpointDeploymentOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.endpoint = EndpointOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.rai_policies = RaiPoliciesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.rai_policy = RaiPolicyOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.managed_network_settings_rule = ManagedNetworkSettingsRuleOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.private_link_resources = PrivateLinkResourcesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.managed_network_provisions = ManagedNetworkProvisionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.outbound_rule = OutboundRuleOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.outbound_rules = OutboundRulesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.managed_network_settings = ManagedNetworkSettingsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
+    def _send_request(
+        self, request: HttpRequest, *, stream: bool = False, **kwargs: Any
+    ) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -303,12 +510,12 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "MachineLearningServicesMgmtClient":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 
