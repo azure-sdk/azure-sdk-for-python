@@ -20,6 +20,39 @@ class TestConnectedKubernetesConnectedClusterOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
+    def test_connected_cluster_list_by_subscription(self, resource_group):
+        response = self.client.connected_cluster.list_by_subscription(
+            api_version="2024-12-01-preview",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_connected_cluster_list_by_resource_group(self, resource_group):
+        response = self.client.connected_cluster.list_by_resource_group(
+            resource_group_name=resource_group.name,
+            api_version="2024-12-01-preview",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_connected_cluster_get(self, resource_group):
+        response = self.client.connected_cluster.get(
+            resource_group_name=resource_group.name,
+            cluster_name="str",
+            api_version="2024-12-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
     def test_connected_cluster_begin_create_or_replace(self, resource_group):
         response = self.client.connected_cluster.begin_create_or_replace(
             resource_group_name=resource_group.name,
@@ -102,18 +135,6 @@ class TestConnectedKubernetesConnectedClusterOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_connected_cluster_get(self, resource_group):
-        response = self.client.connected_cluster.get(
-            resource_group_name=resource_group.name,
-            cluster_name="str",
-            api_version="2024-12-01-preview",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
     def test_connected_cluster_begin_delete(self, resource_group):
         response = self.client.connected_cluster.begin_delete(
             resource_group_name=resource_group.name,
@@ -134,26 +155,5 @@ class TestConnectedKubernetesConnectedClusterOperations(AzureMgmtRecordedTestCas
             api_version="2024-12-01-preview",
         )
 
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_connected_cluster_list_by_resource_group(self, resource_group):
-        response = self.client.connected_cluster.list_by_resource_group(
-            resource_group_name=resource_group.name,
-            api_version="2024-12-01-preview",
-        )
-        result = [r for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_connected_cluster_list_by_subscription(self, resource_group):
-        response = self.client.connected_cluster.list_by_subscription(
-            api_version="2024-12-01-preview",
-        )
-        result = [r for r in response]
         # please add some check logic here by yourself
         # ...

@@ -10,6 +10,12 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
+
+
 class AuthenticationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The mode of client authentication."""
 
@@ -60,13 +66,14 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
-class LastModifiedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of identity that last modified the resource."""
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
 
-    USER = "User"
-    APPLICATION = "Application"
-    MANAGED_IDENTITY = "ManagedIdentity"
-    KEY = "Key"
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
 
 
 class PrivateLinkState(str, Enum, metaclass=CaseInsensitiveEnumMeta):

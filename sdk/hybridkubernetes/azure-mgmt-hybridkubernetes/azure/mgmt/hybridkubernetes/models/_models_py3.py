@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10,7 +10,7 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
     from .. import models as _models
@@ -91,10 +91,10 @@ class AgentError(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.message = None
-        self.severity = None
-        self.component = None
-        self.time = None
+        self.message: Optional[str] = None
+        self.severity: Optional[str] = None
+        self.component: Optional[str] = None
+        self.time: Optional[datetime.datetime] = None
 
 
 class ArcAgentProfile(_serialization.Model):
@@ -156,7 +156,7 @@ class ArcAgentProfile(_serialization.Model):
         self.agent_auto_upgrade = agent_auto_upgrade
         self.system_components = system_components
         self.agent_errors = agent_errors
-        self.agent_state = None
+        self.agent_state: Optional[str] = None
 
 
 class ArcAgentryConfigurations(_serialization.Model):
@@ -208,33 +208,39 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.hybridkubernetes.models.SystemData
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class TrackedResource(Resource):
@@ -246,13 +252,16 @@ class TrackedResource(Resource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.hybridkubernetes.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -263,6 +272,7 @@ class TrackedResource(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
     }
 
@@ -270,6 +280,7 @@ class TrackedResource(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
     }
@@ -294,13 +305,16 @@ class ConnectedCluster(TrackedResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.hybridkubernetes.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -309,8 +323,6 @@ class ConnectedCluster(TrackedResource):
     :vartype identity: ~azure.mgmt.hybridkubernetes.models.ConnectedClusterIdentity
     :ivar kind: The kind of connected cluster. Known values are: "ProvisionedCluster" and "AWS".
     :vartype kind: str or ~azure.mgmt.hybridkubernetes.models.ConnectedClusterKind
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
-    :vartype system_data: ~azure.mgmt.hybridkubernetes.models.SystemData
     :ivar agent_public_key_certificate: Base64 encoded public certificate used by the agent to do
      the initial handshake to the backend services in Azure. Required.
     :vartype agent_public_key_certificate: str
@@ -361,7 +373,7 @@ class ConnectedCluster(TrackedResource):
     :ivar oidc_issuer_profile: Open ID Connect (OIDC) Issuer Profile for the connected cluster.
     :vartype oidc_issuer_profile: ~azure.mgmt.hybridkubernetes.models.OidcIssuerProfile
     :ivar gateway: Details of the gateway used by the Arc router for connectivity.
-    :vartype gateway: ~azure.mgmt.hybridkubernetes.models.Gateway
+    :vartype gateway: ~azure.mgmt.hybridkubernetes.models.ConnectedClusterPropertiesGateway
     :ivar arc_agentry_configurations: Configuration settings for customizing the behavior of the
      connected cluster.
     :vartype arc_agentry_configurations:
@@ -374,9 +386,9 @@ class ConnectedCluster(TrackedResource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
         "identity": {"required": True},
-        "system_data": {"readonly": True},
         "agent_public_key_certificate": {"required": True},
         "kubernetes_version": {"readonly": True},
         "total_node_count": {"readonly": True},
@@ -393,11 +405,11 @@ class ConnectedCluster(TrackedResource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "identity": {"key": "identity", "type": "ConnectedClusterIdentity"},
         "kind": {"key": "kind", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
         "agent_public_key_certificate": {"key": "properties.agentPublicKeyCertificate", "type": "str"},
         "kubernetes_version": {"key": "properties.kubernetesVersion", "type": "str"},
         "total_node_count": {"key": "properties.totalNodeCount", "type": "int"},
@@ -421,7 +433,7 @@ class ConnectedCluster(TrackedResource):
         "arc_agent_profile": {"key": "properties.arcAgentProfile", "type": "ArcAgentProfile"},
         "security_profile": {"key": "properties.securityProfile", "type": "SecurityProfile"},
         "oidc_issuer_profile": {"key": "properties.oidcIssuerProfile", "type": "OidcIssuerProfile"},
-        "gateway": {"key": "properties.gateway", "type": "Gateway"},
+        "gateway": {"key": "properties.gateway", "type": "ConnectedClusterPropertiesGateway"},
         "arc_agentry_configurations": {
             "key": "properties.arcAgentryConfigurations",
             "type": "[ArcAgentryConfigurations]",
@@ -448,7 +460,7 @@ class ConnectedCluster(TrackedResource):
         arc_agent_profile: Optional["_models.ArcAgentProfile"] = None,
         security_profile: Optional["_models.SecurityProfile"] = None,
         oidc_issuer_profile: Optional["_models.OidcIssuerProfile"] = None,
-        gateway: Optional["_models.Gateway"] = None,
+        gateway: Optional["_models.ConnectedClusterPropertiesGateway"] = None,
         arc_agentry_configurations: Optional[List["_models.ArcAgentryConfigurations"]] = None,
         **kwargs: Any
     ) -> None:
@@ -492,7 +504,7 @@ class ConnectedCluster(TrackedResource):
         :keyword oidc_issuer_profile: Open ID Connect (OIDC) Issuer Profile for the connected cluster.
         :paramtype oidc_issuer_profile: ~azure.mgmt.hybridkubernetes.models.OidcIssuerProfile
         :keyword gateway: Details of the gateway used by the Arc router for connectivity.
-        :paramtype gateway: ~azure.mgmt.hybridkubernetes.models.Gateway
+        :paramtype gateway: ~azure.mgmt.hybridkubernetes.models.ConnectedClusterPropertiesGateway
         :keyword arc_agentry_configurations: Configuration settings for customizing the behavior of the
          connected cluster.
         :paramtype arc_agentry_configurations:
@@ -501,20 +513,19 @@ class ConnectedCluster(TrackedResource):
         super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
         self.kind = kind
-        self.system_data = None
         self.agent_public_key_certificate = agent_public_key_certificate
-        self.kubernetes_version = None
-        self.total_node_count = None
-        self.total_core_count = None
-        self.agent_version = None
+        self.kubernetes_version: Optional[str] = None
+        self.total_node_count: Optional[int] = None
+        self.total_core_count: Optional[int] = None
+        self.agent_version: Optional[str] = None
         self.provisioning_state = provisioning_state
         self.distribution = distribution
         self.distribution_version = distribution_version
         self.infrastructure = infrastructure
-        self.offering = None
-        self.managed_identity_certificate_expiration_time = None
-        self.last_connectivity_time = None
-        self.connectivity_status = None
+        self.offering: Optional[str] = None
+        self.managed_identity_certificate_expiration_time: Optional[datetime.datetime] = None
+        self.last_connectivity_time: Optional[datetime.datetime] = None
+        self.connectivity_status: Optional[Union[str, "_models.ConnectivityStatus"]] = None
         self.private_link_state = private_link_state
         self.private_link_scope_resource_id = private_link_scope_resource_id
         self.azure_hybrid_benefit = azure_hybrid_benefit
@@ -524,7 +535,7 @@ class ConnectedCluster(TrackedResource):
         self.oidc_issuer_profile = oidc_issuer_profile
         self.gateway = gateway
         self.arc_agentry_configurations = arc_agentry_configurations
-        self.miscellaneous_properties = None
+        self.miscellaneous_properties: Optional[Dict[str, str]] = None
 
 
 class ConnectedClusterIdentity(_serialization.Model):
@@ -566,19 +577,25 @@ class ConnectedClusterIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.hybridkubernetes.models.ResourceIdentityType
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
 
 
-class ConnectedClusterList(_serialization.Model):
-    """The paginated list of connected Clusters.
+class ConnectedClusterListResult(_serialization.Model):
+    """The response of a ConnectedCluster list operation.
 
-    :ivar value: The list of connected clusters.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The ConnectedCluster items on this page. Required.
     :vartype value: list[~azure.mgmt.hybridkubernetes.models.ConnectedCluster]
-    :ivar next_link: The link to fetch the next page of connected clusters.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ConnectedCluster]"},
@@ -586,16 +603,12 @@ class ConnectedClusterList(_serialization.Model):
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.ConnectedCluster"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: List["_models.ConnectedCluster"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: The list of connected clusters.
+        :keyword value: The ConnectedCluster items on this page. Required.
         :paramtype value: list[~azure.mgmt.hybridkubernetes.models.ConnectedCluster]
-        :keyword next_link: The link to fetch the next page of connected clusters.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -653,6 +666,42 @@ class ConnectedClusterPatch(_serialization.Model):
         self.azure_hybrid_benefit = azure_hybrid_benefit
 
 
+class Gateway(_serialization.Model):
+    """Gateway.
+
+    :ivar enabled: Indicates whether the gateway for arc router connectivity is enabled.
+    :vartype enabled: bool
+    :ivar resource_id: The resource ID of the gateway used for the Arc router feature.
+    :vartype resource_id: str
+    """
+
+    _attribute_map = {
+        "enabled": {"key": "enabled", "type": "bool"},
+        "resource_id": {"key": "resourceId", "type": "str"},
+    }
+
+    def __init__(self, *, enabled: Optional[bool] = None, resource_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword enabled: Indicates whether the gateway for arc router connectivity is enabled.
+        :paramtype enabled: bool
+        :keyword resource_id: The resource ID of the gateway used for the Arc router feature.
+        :paramtype resource_id: str
+        """
+        super().__init__(**kwargs)
+        self.enabled = enabled
+        self.resource_id = resource_id
+
+
+class ConnectedClusterPropertiesGateway(Gateway):
+    """Details of the gateway used by the Arc router for connectivity.
+
+    :ivar enabled: Indicates whether the gateway for arc router connectivity is enabled.
+    :vartype enabled: bool
+    :ivar resource_id: The resource ID of the gateway used for the Arc router feature.
+    :vartype resource_id: str
+    """
+
+
 class CredentialResult(_serialization.Model):
     """The credential result response.
 
@@ -677,8 +726,8 @@ class CredentialResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.value = None
+        self.name: Optional[str] = None
+        self.value: Optional[bytes] = None
 
 
 class CredentialResults(_serialization.Model):
@@ -706,8 +755,8 @@ class CredentialResults(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.hybrid_connection_config = None
-        self.kubeconfigs = None
+        self.hybrid_connection_config: Optional["_models.HybridConnectionConfig"] = None
+        self.kubeconfigs: Optional[List["_models.CredentialResult"]] = None
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -734,8 +783,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -774,11 +823,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -800,32 +849,6 @@ class ErrorResponse(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.error = error
-
-
-class Gateway(_serialization.Model):
-    """Gateway.
-
-    :ivar enabled: Indicates whether the gateway for arc router connectivity is enabled.
-    :vartype enabled: bool
-    :ivar resource_id: The resource ID of the gateway used for the Arc router feature.
-    :vartype resource_id: str
-    """
-
-    _attribute_map = {
-        "enabled": {"key": "enabled", "type": "bool"},
-        "resource_id": {"key": "resourceId", "type": "str"},
-    }
-
-    def __init__(self, *, enabled: Optional[bool] = None, resource_id: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword enabled: Indicates whether the gateway for arc router connectivity is enabled.
-        :paramtype enabled: bool
-        :keyword resource_id: The resource ID of the gateway used for the Arc router feature.
-        :paramtype resource_id: str
-        """
-        super().__init__(**kwargs)
-        self.enabled = enabled
-        self.resource_id = resource_id
 
 
 class HybridConnectionConfig(_serialization.Model):
@@ -868,12 +891,12 @@ class HybridConnectionConfig(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.expiration_time = None
-        self.hybrid_connection_name = None
-        self.relay = None
-        self.token = None
-        self.relay_tid = None
-        self.relay_type = None
+        self.expiration_time: Optional[int] = None
+        self.hybrid_connection_name: Optional[str] = None
+        self.relay: Optional[str] = None
+        self.token: Optional[str] = None
+        self.relay_tid: Optional[str] = None
+        self.relay_type: Optional[str] = None
 
 
 class ListClusterUserCredentialProperties(_serialization.Model):
@@ -953,50 +976,85 @@ class OidcIssuerProfile(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.enabled = enabled
-        self.issuer_url = None
+        self.issuer_url: Optional[str] = None
         self.self_hosted_issuer_url = self_hosted_issuer_url
 
 
 class Operation(_serialization.Model):
-    """The Connected cluster API operation.
+    """Details of a REST API operation, returned from the Resource Provider Operations API.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar name: Operation name: {Microsoft.Kubernetes}/{resource}/{operation}.
+    :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
+     "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
     :vartype name: str
-    :ivar display: The object that represents the operation.
+    :ivar is_data_action: Whether the operation applies to data-plane. This is "true" for
+     data-plane operations and "false" for ARM/control-plane operations.
+    :vartype is_data_action: bool
+    :ivar display: Localized display information for this particular operation.
     :vartype display: ~azure.mgmt.hybridkubernetes.models.OperationDisplay
+    :ivar origin: The intended executor of the operation; as in Resource Based Access Control
+     (RBAC) and audit logs UX. Default value is "user,system". Known values are: "user", "system",
+     and "user,system".
+    :vartype origin: str or ~azure.mgmt.hybridkubernetes.models.Origin
+    :ivar action_type: Enum. Indicates the action type. "Internal" refers to actions that are for
+     internal only APIs. "Internal"
+    :vartype action_type: str or ~azure.mgmt.hybridkubernetes.models.ActionType
     """
 
     _validation = {
         "name": {"readonly": True},
-        "display": {"readonly": True},
+        "is_data_action": {"readonly": True},
+        "origin": {"readonly": True},
+        "action_type": {"readonly": True},
     }
 
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
+        "is_data_action": {"key": "isDataAction", "type": "bool"},
         "display": {"key": "display", "type": "OperationDisplay"},
+        "origin": {"key": "origin", "type": "str"},
+        "action_type": {"key": "actionType", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
+        """
+        :keyword display: Localized display information for this particular operation.
+        :paramtype display: ~azure.mgmt.hybridkubernetes.models.OperationDisplay
+        """
         super().__init__(**kwargs)
-        self.name = None
-        self.display = None
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
+        self.display = display
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
 
 
 class OperationDisplay(_serialization.Model):
-    """The object that represents the operation.
+    """Localized display information for this particular operation.
 
-    :ivar provider: Service provider: Microsoft.Kubernetes.
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
+     Monitoring Insights" or "Microsoft Compute".
     :vartype provider: str
-    :ivar resource: Connected Cluster Resource on which the operation is performed.
+    :ivar resource: The localized friendly name of the resource type related to this operation.
+     E.g. "Virtual Machines" or "Job Schedule Collections".
     :vartype resource: str
-    :ivar operation: Operation type: Read, write, delete, etc.
+    :ivar operation: The concise, localized friendly name for the operation; suitable for
+     dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
     :vartype operation: str
-    :ivar description: Description of the operation.
+    :ivar description: The short, localized friendly description of the operation; suitable for
+     tool tips and detailed views.
     :vartype description: str
     """
+
+    _validation = {
+        "provider": {"readonly": True},
+        "resource": {"readonly": True},
+        "operation": {"readonly": True},
+        "description": {"readonly": True},
+    }
 
     _attribute_map = {
         "provider": {"key": "provider", "type": "str"},
@@ -1005,45 +1063,30 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(
-        self,
-        *,
-        provider: Optional[str] = None,
-        resource: Optional[str] = None,
-        operation: Optional[str] = None,
-        description: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword provider: Service provider: Microsoft.Kubernetes.
-        :paramtype provider: str
-        :keyword resource: Connected Cluster Resource on which the operation is performed.
-        :paramtype resource: str
-        :keyword operation: Operation type: Read, write, delete, etc.
-        :paramtype operation: str
-        :keyword description: Description of the operation.
-        :paramtype description: str
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
-        self.provider = provider
-        self.resource = resource
-        self.operation = operation
-        self.description = description
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
-class OperationList(_serialization.Model):
-    """The paginated list of connected cluster API operations.
+class OperationListResult(_serialization.Model):
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar value: The list of connected cluster API operations.
+    :ivar value: List of operations supported by the resource provider.
     :vartype value: list[~azure.mgmt.hybridkubernetes.models.Operation]
-    :ivar next_link: The link to fetch the next page of connected cluster API operations.
+    :ivar next_link: URL to get the next set of operation list results (if there are any).
     :vartype next_link: str
     """
 
     _validation = {
         "value": {"readonly": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1051,14 +1094,11 @@ class OperationList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword next_link: The link to fetch the next page of connected cluster API operations.
-        :paramtype next_link: str
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = next_link
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class SecurityProfile(_serialization.Model):
@@ -1155,7 +1195,7 @@ class SystemComponent(_serialization.Model):
         self.type = type
         self.user_specified_version = user_specified_version
         self.major_version = major_version
-        self.current_version = None
+        self.current_version: Optional[str] = None
 
 
 class SystemData(_serialization.Model):
@@ -1172,8 +1212,8 @@ class SystemData(_serialization.Model):
     :vartype last_modified_by: str
     :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
      are: "User", "Application", "ManagedIdentity", and "Key".
-    :vartype last_modified_by_type: str or ~azure.mgmt.hybridkubernetes.models.LastModifiedByType
-    :ivar last_modified_at: The timestamp of resource modification (UTC).
+    :vartype last_modified_by_type: str or ~azure.mgmt.hybridkubernetes.models.CreatedByType
+    :ivar last_modified_at: The timestamp of resource last modification (UTC).
     :vartype last_modified_at: ~datetime.datetime
     """
 
@@ -1193,7 +1233,7 @@ class SystemData(_serialization.Model):
         created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         created_at: Optional[datetime.datetime] = None,
         last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[Union[str, "_models.LastModifiedByType"]] = None,
+        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
         **kwargs: Any
     ) -> None:
@@ -1209,8 +1249,8 @@ class SystemData(_serialization.Model):
         :paramtype last_modified_by: str
         :keyword last_modified_by_type: The type of identity that last modified the resource. Known
          values are: "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype last_modified_by_type: str or ~azure.mgmt.hybridkubernetes.models.LastModifiedByType
-        :keyword last_modified_at: The timestamp of resource modification (UTC).
+        :paramtype last_modified_by_type: str or ~azure.mgmt.hybridkubernetes.models.CreatedByType
+        :keyword last_modified_at: The timestamp of resource last modification (UTC).
         :paramtype last_modified_at: ~datetime.datetime
         """
         super().__init__(**kwargs)
