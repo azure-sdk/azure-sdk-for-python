@@ -21,8 +21,8 @@ class TestConnectedKubernetesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_operations_get(self, resource_group):
-        response = self.client.operations.get(
+    async def test_operations_list(self, resource_group):
+        response = self.client.operations.list(
             api_version="2024-12-01-preview",
         )
         result = [r async for r in response]

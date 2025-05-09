@@ -1,5 +1,28 @@
 # Release History
 
+## 1.2.0b3 (2025-05-09)
+
+### Features Added
+
+  - Model `Operation` added property `is_data_action`
+  - Model `Operation` added property `origin`
+  - Model `Operation` added property `action_type`
+  - Model `Resource` added property `system_data`
+  - Model `TrackedResource` added property `system_data`
+  - Added enum `ActionType`
+  - Added model `ConnectedClusterListResult`
+  - Added model `ConnectedClusterPropertiesGateway`
+  - Added model `OperationListResult`
+  - Added enum `Origin`
+  - Model `Operations` added method `list`
+
+### Breaking Changes
+
+  - Deleted or renamed model `ConnectedClusterList`
+  - Deleted or renamed model `LastModifiedByType`
+  - Deleted or renamed model `OperationList`
+  - Deleted or renamed method `Operations.get`
+
 ## 1.2.0b2 (2025-03-24)
 
 ### Features Added
