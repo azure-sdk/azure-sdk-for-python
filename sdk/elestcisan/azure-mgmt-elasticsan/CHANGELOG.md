@@ -1,0 +1,192 @@
+# Release History
+
+## 1.2.0b3 (2025-05-09)
+
+### Features Added
+
+  - Added enum `X_ms_access_soft_deleted_resources`
+  - Added enum `X_ms_delete_snapshots`
+  - Added enum `X_ms_force_delete`
+  - Model `ElasticSansOperations` added method `list_by_elastic_san`
+  - Model `VolumeGroupsOperations` added method `begin_pre_backup`
+  - Model `VolumeGroupsOperations` added method `begin_pre_restore`
+  - Model `VolumesOperations` added method `begin_restore_volume`
+  - Added model `SkusOperationGroupOperations`
+  - Added model `SnapshotsOperations`
+  - Method `AutoScaleProperties.__init__` has a new overload `def __init__(self: None, scale_up_properties: Optional[_models.ScaleUpProperties])`
+  - Method `AutoScaleProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DeleteRetentionPolicy.__init__` has a new overload `def __init__(self: None, policy_state: Optional[Union[str, _models.PolicyState]], retention_period_days: Optional[int])`
+  - Method `DeleteRetentionPolicy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DiskSnapshotList.__init__` has a new overload `def __init__(self: None, disk_snapshot_ids: List[str])`
+  - Method `DiskSnapshotList.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ElasticSan.__init__` has a new overload `def __init__(self: None, location: str, properties: _models.ElasticSanProperties, tags: Optional[Dict[str, str]])`
+  - Method `ElasticSan.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ElasticSan.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `ElasticSan.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ElasticSanProperties.__init__` has a new overload `def __init__(self: None, sku: _models.Sku, base_size_ti_b: int, extended_capacity_size_ti_b: int, availability_zones: Optional[List[str]], public_network_access: Optional[Union[str, _models.PublicNetworkAccess]], auto_scale_properties: Optional[_models.AutoScaleProperties])`
+  - Method `ElasticSanProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ElasticSanUpdate.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.ElasticSanUpdateProperties], tags: Optional[Dict[str, str]])`
+  - Method `ElasticSanUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ElasticSanUpdateProperties.__init__` has a new overload `def __init__(self: None, base_size_ti_b: Optional[int], extended_capacity_size_ti_b: Optional[int], public_network_access: Optional[Union[str, _models.PublicNetworkAccess]], auto_scale_properties: Optional[_models.AutoScaleProperties])`
+  - Method `ElasticSanUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `EncryptionIdentity.__init__` has a new overload `def __init__(self: None, encryption_user_assigned_identity: Optional[str])`
+  - Method `EncryptionIdentity.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `EncryptionProperties.__init__` has a new overload `def __init__(self: None, key_vault_properties: Optional[_models.KeyVaultProperties], encryption_identity: Optional[_models.EncryptionIdentity])`
+  - Method `EncryptionProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, error: Optional[_models.ErrorDetail])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Identity.__init__` has a new overload `def __init__(self: None, type: Union[str, _models.IdentityType], user_assigned_identities: Optional[Dict[str, _models.UserAssignedIdentity]])`
+  - Method `Identity.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `IscsiTargetInfo.__init__` has a new overload `def __init__(self: None, status: Optional[Union[str, _models.OperationalStatus]])`
+  - Method `IscsiTargetInfo.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `KeyVaultProperties.__init__` has a new overload `def __init__(self: None, key_name: Optional[str], key_version: Optional[str], key_vault_uri: Optional[str])`
+  - Method `KeyVaultProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ManagedByInfo.__init__` has a new overload `def __init__(self: None, resource_id: Optional[str])`
+  - Method `ManagedByInfo.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `NetworkRuleSet.__init__` has a new overload `def __init__(self: None, virtual_network_rules: Optional[List[_models.VirtualNetworkRule]])`
+  - Method `NetworkRuleSet.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, display: Optional[_models.OperationDisplay])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PreValidationResponse.__init__` has a new overload `def __init__(self: None, validation_status: Optional[str])`
+  - Method `PreValidationResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateEndpointConnection.__init__` has a new overload `def __init__(self: None, properties: _models.PrivateEndpointConnectionProperties)`
+  - Method `PrivateEndpointConnection.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateEndpointConnectionProperties.__init__` has a new overload `def __init__(self: None, private_link_service_connection_state: _models.PrivateLinkServiceConnectionState, private_endpoint: Optional[_models.PrivateEndpoint], group_ids: Optional[List[str]])`
+  - Method `PrivateEndpointConnectionProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateLinkResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.PrivateLinkResourceProperties])`
+  - Method `PrivateLinkResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateLinkResourceProperties.__init__` has a new overload `def __init__(self: None, required_zone_names: Optional[List[str]])`
+  - Method `PrivateLinkResourceProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateLinkServiceConnectionState.__init__` has a new overload `def __init__(self: None, status: Optional[Union[str, _models.PrivateEndpointServiceConnectionStatus]], description: Optional[str], actions_required: Optional[str])`
+  - Method `PrivateLinkServiceConnectionState.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScaleUpProperties.__init__` has a new overload `def __init__(self: None, unused_size_ti_b: Optional[int], increase_capacity_unit_by_ti_b: Optional[int], capacity_unit_scale_up_limit_ti_b: Optional[int], auto_scale_policy_enforcement: Optional[Union[str, _models.AutoScalePolicyEnforcement]])`
+  - Method `ScaleUpProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Sku.__init__` has a new overload `def __init__(self: None, name: Union[str, _models.SkuName], tier: Optional[Union[str, _models.SkuTier]])`
+  - Method `Sku.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SkuInformation.__init__` has a new overload `def __init__(self: None, name: Union[str, _models.SkuName], tier: Optional[Union[str, _models.SkuTier]])`
+  - Method `SkuInformation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Snapshot.__init__` has a new overload `def __init__(self: None, properties: _models.SnapshotProperties)`
+  - Method `Snapshot.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SnapshotCreationData.__init__` has a new overload `def __init__(self: None, source_id: str)`
+  - Method `SnapshotCreationData.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SnapshotProperties.__init__` has a new overload `def __init__(self: None, creation_data: _models.SnapshotCreationData)`
+  - Method `SnapshotProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SourceCreationData.__init__` has a new overload `def __init__(self: None, create_source: Optional[Union[str, _models.VolumeCreateOption]], source_id: Optional[str])`
+  - Method `SourceCreationData.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, created_by: Optional[str], created_by_type: Optional[Union[str, _models.CreatedByType]], created_at: Optional[datetime], last_modified_by: Optional[str], last_modified_by_type: Optional[Union[str, _models.CreatedByType]], last_modified_at: Optional[datetime])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualNetworkRule.__init__` has a new overload `def __init__(self: None, virtual_network_resource_id: str, action: Optional[Union[str, _models.Action]])`
+  - Method `VirtualNetworkRule.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Volume.__init__` has a new overload `def __init__(self: None, properties: _models.VolumeProperties)`
+  - Method `Volume.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VolumeGroup.__init__` has a new overload `def __init__(self: None, identity: Optional[_models.Identity], properties: Optional[_models.VolumeGroupProperties])`
+  - Method `VolumeGroup.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VolumeGroupProperties.__init__` has a new overload `def __init__(self: None, protocol_type: Optional[Union[str, _models.StorageTargetType]], encryption: Optional[Union[str, _models.EncryptionType]], encryption_properties: Optional[_models.EncryptionProperties], network_acls: Optional[_models.NetworkRuleSet], enforce_data_integrity_check_for_iscsi: Optional[bool], delete_retention_policy: Optional[_models.DeleteRetentionPolicy])`
+  - Method `VolumeGroupProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VolumeGroupUpdate.__init__` has a new overload `def __init__(self: None, identity: Optional[_models.Identity], properties: Optional[_models.VolumeGroupUpdateProperties])`
+  - Method `VolumeGroupUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VolumeGroupUpdateProperties.__init__` has a new overload `def __init__(self: None, protocol_type: Optional[Union[str, _models.StorageTargetType]], encryption: Optional[Union[str, _models.EncryptionType]], encryption_properties: Optional[_models.EncryptionProperties], network_acls: Optional[_models.NetworkRuleSet], enforce_data_integrity_check_for_iscsi: Optional[bool], delete_retention_policy: Optional[_models.DeleteRetentionPolicy])`
+  - Method `VolumeGroupUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VolumeNameList.__init__` has a new overload `def __init__(self: None, volume_names: List[str])`
+  - Method `VolumeNameList.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VolumeProperties.__init__` has a new overload `def __init__(self: None, size_gi_b: int, creation_data: Optional[_models.SourceCreationData], storage_target: Optional[_models.IscsiTargetInfo], managed_by: Optional[_models.ManagedByInfo])`
+  - Method `VolumeProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VolumeUpdate.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.VolumeUpdateProperties])`
+  - Method `VolumeUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VolumeUpdateProperties.__init__` has a new overload `def __init__(self: None, size_gi_b: Optional[int], managed_by: Optional[_models.ManagedByInfo])`
+  - Method `VolumeUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ElasticSansOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, elastic_san_name: str, parameters: JSON, content_type: str)`
+  - Method `ElasticSansOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, elastic_san_name: str, parameters: JSON, content_type: str)`
+  - Method `PrivateEndpointConnectionsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, elastic_san_name: str, private_endpoint_connection_name: str, parameters: JSON, content_type: str)`
+  - Method `VolumeGroupsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, parameters: JSON, content_type: str)`
+  - Method `VolumeGroupsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, parameters: JSON, content_type: str)`
+  - Method `VolumeGroupsOperations.begin_pre_backup` has a new overload `def begin_pre_backup(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, parameters: VolumeNameList, content_type: str)`
+  - Method `VolumeGroupsOperations.begin_pre_backup` has a new overload `def begin_pre_backup(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, parameters: JSON, content_type: str)`
+  - Method `VolumeGroupsOperations.begin_pre_backup` has a new overload `def begin_pre_backup(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `VolumeGroupsOperations.begin_pre_restore` has a new overload `def begin_pre_restore(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, parameters: DiskSnapshotList, content_type: str)`
+  - Method `VolumeGroupsOperations.begin_pre_restore` has a new overload `def begin_pre_restore(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, parameters: JSON, content_type: str)`
+  - Method `VolumeGroupsOperations.begin_pre_restore` has a new overload `def begin_pre_restore(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `VolumesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, volume_name: str, parameters: JSON, content_type: str)`
+  - Method `VolumesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, volume_name: str, parameters: JSON, content_type: str)`
+  - Method `SnapshotsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, snapshot_name: str, parameters: Snapshot, content_type: str)`
+  - Method `SnapshotsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, snapshot_name: str, parameters: JSON, content_type: str)`
+  - Method `SnapshotsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, snapshot_name: str, parameters: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Deleted or renamed client `ElasticSanMgmtClient`
+  - Model `AutoScaleProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `DeleteRetentionPolicy` deleted or renamed its instance variable `additional_properties`
+  - Model `DiskSnapshotList` deleted or renamed its instance variable `additional_properties`
+  - Model `ElasticSan` deleted or renamed its instance variable `additional_properties`
+  - Model `ElasticSanProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `ElasticSanUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `ElasticSanUpdateProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `EncryptionIdentity` deleted or renamed its instance variable `additional_properties`
+  - Model `EncryptionProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorAdditionalInfo` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorDetail` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `Identity` deleted or renamed its instance variable `additional_properties`
+  - Model `IscsiTargetInfo` deleted or renamed its instance variable `additional_properties`
+  - Model `KeyVaultProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `ManagedByInfo` deleted or renamed its instance variable `additional_properties`
+  - Model `NetworkRuleSet` deleted or renamed its instance variable `additional_properties`
+  - Model `Operation` deleted or renamed its instance variable `additional_properties`
+  - Model `OperationDisplay` deleted or renamed its instance variable `additional_properties`
+  - Model `PreValidationResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `PrivateEndpoint` deleted or renamed its instance variable `additional_properties`
+  - Model `PrivateEndpointConnection` deleted or renamed its instance variable `additional_properties`
+  - Model `PrivateEndpointConnectionProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `PrivateLinkResource` deleted or renamed its instance variable `additional_properties`
+  - Model `PrivateLinkResourceProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `PrivateLinkServiceConnectionState` deleted or renamed its instance variable `additional_properties`
+  - Model `ProxyResource` deleted or renamed its instance variable `additional_properties`
+  - Model `Resource` deleted or renamed its instance variable `additional_properties`
+  - Model `SKUCapability` deleted or renamed its instance variable `additional_properties`
+  - Model `ScaleUpProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `Sku` deleted or renamed its instance variable `additional_properties`
+  - Model `SkuInformation` deleted or renamed its instance variable `additional_properties`
+  - Model `SkuLocationInfo` deleted or renamed its instance variable `additional_properties`
+  - Model `Snapshot` deleted or renamed its instance variable `additional_properties`
+  - Model `SnapshotCreationData` deleted or renamed its instance variable `additional_properties`
+  - Model `SnapshotProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `SourceCreationData` deleted or renamed its instance variable `additional_properties`
+  - Model `SystemData` deleted or renamed its instance variable `additional_properties`
+  - Model `TrackedResource` deleted or renamed its instance variable `additional_properties`
+  - Model `UserAssignedIdentity` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualNetworkRule` deleted or renamed its instance variable `additional_properties`
+  - Model `Volume` deleted or renamed its instance variable `additional_properties`
+  - Model `VolumeGroup` deleted or renamed its instance variable `additional_properties`
+  - Model `VolumeGroupProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `VolumeGroupUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `VolumeGroupUpdateProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `VolumeNameList` deleted or renamed its instance variable `additional_properties`
+  - Model `VolumeProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `VolumeUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `VolumeUpdateProperties` deleted or renamed its instance variable `additional_properties`
+  - Deleted or renamed model `ElasticSanList`
+  - Deleted or renamed model `SkuInformationList`
+  - Deleted or renamed model `SnapshotList`
+  - Deleted or renamed model `VolumeGroupList`
+  - Deleted or renamed model `VolumeList`
+  - Deleted or renamed model `XMsAccessSoftDeletedResources`
+  - Deleted or renamed model `XMsDeleteSnapshots`
+  - Deleted or renamed model `XMsForceDelete`
+  - Method `VolumeGroupsOperations.list_by_elastic_san` changed its parameter `x_ms_access_soft_deleted_resources` from `positional_or_keyword` to `keyword_only`
+  - Method `VolumesOperations.begin_delete` changed its parameter `x_ms_delete_snapshots` from `positional_or_keyword` to `keyword_only`
+  - Method `VolumesOperations.begin_delete` changed its parameter `x_ms_force_delete` from `positional_or_keyword` to `keyword_only`
+  - Method `VolumesOperations.begin_delete` changed its parameter `delete_type` from `positional_or_keyword` to `keyword_only`
+  - Method `VolumesOperations.list_by_volume_group` changed its parameter `x_ms_access_soft_deleted_resources` from `positional_or_keyword` to `keyword_only`
+  - Deleted or renamed method `VolumesOperations.begin_pre_backup`
+  - Deleted or renamed method `VolumesOperations.begin_pre_restore`
+  - Deleted or renamed model `ElasticSanMgmtClientOperationsMixin`
+  - Deleted or renamed model `PrivateLinkResourcesOperations`
+  - Deleted or renamed model `SkusOperations`
+  - Deleted or renamed model `VolumeSnapshotsOperations`
+
+## 1.0.0b1 (1970-01-01)
+
+- Initial version
