@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.iothubprovisioningservices import IotDpsClient
 
 """
@@ -30,13 +32,13 @@ def main():
     )
 
     response = client.iot_dps_resource.list_keys_for_key_name(
+        resource_group_name="myResourceGroup",
         provisioning_service_name="myFirstProvisioningService",
         key_name="testKey",
-        resource_group_name="myResourceGroup",
     )
     print(response)
 
 
-# x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSGetKey.json
+# x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2025-02-01-preview/examples/DPSGetKey.json
 if __name__ == "__main__":
     main()
