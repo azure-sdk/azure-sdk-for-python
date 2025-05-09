@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,20 +7,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from collections.abc import MutableMapping
 import datetime
-import sys
 from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
-
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+JSON = MutableMapping[str, Any]
 
 
 class AbnormalTimePeriod(_serialization.Model):
@@ -173,10 +168,10 @@ class ProxyOnlyResource(_serialization.Model):
         :paramtype kind: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
         self.kind = kind
-        self.type = None
+        self.type: Optional[str] = None
 
 
 class AddressResponse(ProxyOnlyResource):
@@ -391,7 +386,7 @@ class AnalysisDefinition(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.description = None
+        self.description: Optional[str] = None
 
 
 class ApiDefinitionInfo(_serialization.Model):
@@ -552,7 +547,7 @@ class ApiKVReferenceCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ApiManagementConfig(_serialization.Model):
@@ -601,8 +596,8 @@ class AppInsightsWebAppStackSettings(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.is_supported = None
-        self.is_default_off = None
+        self.is_supported: Optional[bool] = None
+        self.is_default_off: Optional[bool] = None
 
 
 class Apple(_serialization.Model):
@@ -809,7 +804,7 @@ class ApplicationStackCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ApplicationStackResource(ProxyOnlyResource):
@@ -999,7 +994,7 @@ class AppServiceCertificate(_serialization.Model):
         super().__init__(**kwargs)
         self.key_vault_id = key_vault_id
         self.key_vault_secret_name = key_vault_secret_name
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.KeyVaultSecretStatus"]] = None
 
 
 class AppServiceCertificateCollection(_serialization.Model):
@@ -1032,7 +1027,7 @@ class AppServiceCertificateCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class Resource(_serialization.Model):
@@ -1047,7 +1042,7 @@ class Resource(_serialization.Model):
     :ivar name: Resource Name.
     :vartype name: str
     :ivar kind: Kind of resource. If the resource is an app, you can refer to
-     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
      for details supported values for kind.
     :vartype kind: str
     :ivar location: Resource Location. Required.
@@ -1079,7 +1074,7 @@ class Resource(_serialization.Model):
     ) -> None:
         """
         :keyword kind: Kind of resource. If the resource is an app, you can refer to
-         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
          for details supported values for kind.
         :paramtype kind: str
         :keyword location: Resource Location. Required.
@@ -1088,11 +1083,11 @@ class Resource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
         self.kind = kind
         self.location = location
-        self.type = None
+        self.type: Optional[str] = None
         self.tags = tags
 
 
@@ -1108,7 +1103,7 @@ class AppServiceCertificateOrder(Resource):
     :ivar name: Resource Name.
     :vartype name: str
     :ivar kind: Kind of resource. If the resource is an app, you can refer to
-     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
      for details supported values for kind.
     :vartype kind: str
     :ivar location: Resource Location. Required.
@@ -1236,7 +1231,7 @@ class AppServiceCertificateOrder(Resource):
     ) -> None:
         """
         :keyword kind: Kind of resource. If the resource is an app, you can refer to
-         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
          for details supported values for kind.
         :paramtype kind: str
         :keyword location: Resource Location. Required.
@@ -1263,24 +1258,26 @@ class AppServiceCertificateOrder(Resource):
         super().__init__(kind=kind, location=location, tags=tags, **kwargs)
         self.certificates = certificates
         self.distinguished_name = distinguished_name
-        self.domain_verification_token = None
+        self.domain_verification_token: Optional[str] = None
         self.validity_in_years = validity_in_years
         self.key_size = key_size
         self.product_type = product_type
         self.auto_renew = auto_renew
-        self.provisioning_state = None
-        self.status = None
-        self.signed_certificate = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.status: Optional[Union[str, "_models.CertificateOrderStatus"]] = None
+        self.signed_certificate: Optional["_models.CertificateDetails"] = None
         self.csr = csr
-        self.intermediate = None
-        self.root = None
-        self.serial_number = None
-        self.last_certificate_issuance_time = None
-        self.expiration_time = None
-        self.is_private_key_external = None
-        self.app_service_certificate_not_renewable_reasons = None
-        self.next_auto_renewal_time_stamp = None
-        self.contact = None
+        self.intermediate: Optional["_models.CertificateDetails"] = None
+        self.root: Optional["_models.CertificateDetails"] = None
+        self.serial_number: Optional[str] = None
+        self.last_certificate_issuance_time: Optional[datetime.datetime] = None
+        self.expiration_time: Optional[datetime.datetime] = None
+        self.is_private_key_external: Optional[bool] = None
+        self.app_service_certificate_not_renewable_reasons: Optional[
+            List[Union[str, "_models.ResourceNotRenewableReason"]]
+        ] = None
+        self.next_auto_renewal_time_stamp: Optional[datetime.datetime] = None
+        self.contact: Optional["_models.CertificateOrderContact"] = None
 
 
 class AppServiceCertificateOrderCollection(_serialization.Model):
@@ -1313,7 +1310,7 @@ class AppServiceCertificateOrderCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class AppServiceCertificateOrderPatchResource(ProxyOnlyResource):
@@ -1464,24 +1461,26 @@ class AppServiceCertificateOrderPatchResource(ProxyOnlyResource):
         super().__init__(kind=kind, **kwargs)
         self.certificates = certificates
         self.distinguished_name = distinguished_name
-        self.domain_verification_token = None
+        self.domain_verification_token: Optional[str] = None
         self.validity_in_years = validity_in_years
         self.key_size = key_size
         self.product_type = product_type
         self.auto_renew = auto_renew
-        self.provisioning_state = None
-        self.status = None
-        self.signed_certificate = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.status: Optional[Union[str, "_models.CertificateOrderStatus"]] = None
+        self.signed_certificate: Optional["_models.CertificateDetails"] = None
         self.csr = csr
-        self.intermediate = None
-        self.root = None
-        self.serial_number = None
-        self.last_certificate_issuance_time = None
-        self.expiration_time = None
-        self.is_private_key_external = None
-        self.app_service_certificate_not_renewable_reasons = None
-        self.next_auto_renewal_time_stamp = None
-        self.contact = None
+        self.intermediate: Optional["_models.CertificateDetails"] = None
+        self.root: Optional["_models.CertificateDetails"] = None
+        self.serial_number: Optional[str] = None
+        self.last_certificate_issuance_time: Optional[datetime.datetime] = None
+        self.expiration_time: Optional[datetime.datetime] = None
+        self.is_private_key_external: Optional[bool] = None
+        self.app_service_certificate_not_renewable_reasons: Optional[
+            List[Union[str, "_models.ResourceNotRenewableReason"]]
+        ] = None
+        self.next_auto_renewal_time_stamp: Optional[datetime.datetime] = None
+        self.contact: Optional["_models.CertificateOrderContact"] = None
 
 
 class AppServiceCertificatePatchResource(ProxyOnlyResource):
@@ -1545,7 +1544,7 @@ class AppServiceCertificatePatchResource(ProxyOnlyResource):
         super().__init__(kind=kind, **kwargs)
         self.key_vault_id = key_vault_id
         self.key_vault_secret_name = key_vault_secret_name
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.KeyVaultSecretStatus"]] = None
 
 
 class AppServiceCertificateResource(Resource):
@@ -1560,7 +1559,7 @@ class AppServiceCertificateResource(Resource):
     :ivar name: Resource Name.
     :vartype name: str
     :ivar kind: Kind of resource. If the resource is an app, you can refer to
-     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
      for details supported values for kind.
     :vartype kind: str
     :ivar location: Resource Location. Required.
@@ -1613,7 +1612,7 @@ class AppServiceCertificateResource(Resource):
     ) -> None:
         """
         :keyword kind: Kind of resource. If the resource is an app, you can refer to
-         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
          for details supported values for kind.
         :paramtype kind: str
         :keyword location: Resource Location. Required.
@@ -1628,7 +1627,7 @@ class AppServiceCertificateResource(Resource):
         super().__init__(kind=kind, location=location, tags=tags, **kwargs)
         self.key_vault_id = key_vault_id
         self.key_vault_secret_name = key_vault_secret_name
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.KeyVaultSecretStatus"]] = None
 
 
 class AppServiceEnvironment(_serialization.Model):
@@ -1787,26 +1786,26 @@ class AppServiceEnvironment(_serialization.Model):
          ~azure.mgmt.web.v2024_04_01.models.AseV3NetworkingConfiguration
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
-        self.status = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.status: Optional[Union[str, "_models.HostingEnvironmentStatus"]] = None
         self.virtual_network = virtual_network
         self.internal_load_balancing_mode = internal_load_balancing_mode
         self.multi_size = multi_size
-        self.multi_role_count = None
+        self.multi_role_count: Optional[int] = None
         self.ipssl_address_count = ipssl_address_count
         self.dns_suffix = dns_suffix
-        self.maximum_number_of_machines = None
+        self.maximum_number_of_machines: Optional[int] = None
         self.front_end_scale_factor = front_end_scale_factor
-        self.suspended = None
+        self.suspended: Optional[bool] = None
         self.cluster_settings = cluster_settings
         self.user_whitelisted_ip_ranges = user_whitelisted_ip_ranges
-        self.has_linux_workers = None
+        self.has_linux_workers: Optional[bool] = None
         self.upgrade_preference = upgrade_preference
         self.dedicated_host_count = dedicated_host_count
         self.zone_redundant = zone_redundant
         self.custom_dns_suffix_configuration = custom_dns_suffix_configuration
         self.networking_configuration = networking_configuration
-        self.upgrade_availability = None
+        self.upgrade_availability: Optional[Union[str, "_models.UpgradeAvailability"]] = None
 
 
 class AppServiceEnvironmentCollection(_serialization.Model):
@@ -1839,7 +1838,7 @@ class AppServiceEnvironmentCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class AppServiceEnvironmentPatchResource(ProxyOnlyResource):
@@ -2016,26 +2015,26 @@ class AppServiceEnvironmentPatchResource(ProxyOnlyResource):
          ~azure.mgmt.web.v2024_04_01.models.AseV3NetworkingConfiguration
         """
         super().__init__(kind=kind, **kwargs)
-        self.provisioning_state = None
-        self.status = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.status: Optional[Union[str, "_models.HostingEnvironmentStatus"]] = None
         self.virtual_network = virtual_network
         self.internal_load_balancing_mode = internal_load_balancing_mode
         self.multi_size = multi_size
-        self.multi_role_count = None
+        self.multi_role_count: Optional[int] = None
         self.ipssl_address_count = ipssl_address_count
         self.dns_suffix = dns_suffix
-        self.maximum_number_of_machines = None
+        self.maximum_number_of_machines: Optional[int] = None
         self.front_end_scale_factor = front_end_scale_factor
-        self.suspended = None
+        self.suspended: Optional[bool] = None
         self.cluster_settings = cluster_settings
         self.user_whitelisted_ip_ranges = user_whitelisted_ip_ranges
-        self.has_linux_workers = None
+        self.has_linux_workers: Optional[bool] = None
         self.upgrade_preference = upgrade_preference
         self.dedicated_host_count = dedicated_host_count
         self.zone_redundant = zone_redundant
         self.custom_dns_suffix_configuration = custom_dns_suffix_configuration
         self.networking_configuration = networking_configuration
-        self.upgrade_availability = None
+        self.upgrade_availability: Optional[Union[str, "_models.UpgradeAvailability"]] = None
 
 
 class AppServiceEnvironmentResource(Resource):
@@ -2050,7 +2049,7 @@ class AppServiceEnvironmentResource(Resource):
     :ivar name: Resource Name.
     :vartype name: str
     :ivar kind: Kind of resource. If the resource is an app, you can refer to
-     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
      for details supported values for kind.
     :vartype kind: str
     :ivar location: Resource Location. Required.
@@ -2187,7 +2186,7 @@ class AppServiceEnvironmentResource(Resource):
     ) -> None:
         """
         :keyword kind: Kind of resource. If the resource is an app, you can refer to
-         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
          for details supported values for kind.
         :paramtype kind: str
         :keyword location: Resource Location. Required.
@@ -2231,26 +2230,26 @@ class AppServiceEnvironmentResource(Resource):
          ~azure.mgmt.web.v2024_04_01.models.AseV3NetworkingConfiguration
         """
         super().__init__(kind=kind, location=location, tags=tags, **kwargs)
-        self.provisioning_state = None
-        self.status = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.status: Optional[Union[str, "_models.HostingEnvironmentStatus"]] = None
         self.virtual_network = virtual_network
         self.internal_load_balancing_mode = internal_load_balancing_mode
         self.multi_size = multi_size
-        self.multi_role_count = None
+        self.multi_role_count: Optional[int] = None
         self.ipssl_address_count = ipssl_address_count
         self.dns_suffix = dns_suffix
-        self.maximum_number_of_machines = None
+        self.maximum_number_of_machines: Optional[int] = None
         self.front_end_scale_factor = front_end_scale_factor
-        self.suspended = None
+        self.suspended: Optional[bool] = None
         self.cluster_settings = cluster_settings
         self.user_whitelisted_ip_ranges = user_whitelisted_ip_ranges
-        self.has_linux_workers = None
+        self.has_linux_workers: Optional[bool] = None
         self.upgrade_preference = upgrade_preference
         self.dedicated_host_count = dedicated_host_count
         self.zone_redundant = zone_redundant
         self.custom_dns_suffix_configuration = custom_dns_suffix_configuration
         self.networking_configuration = networking_configuration
-        self.upgrade_availability = None
+        self.upgrade_availability: Optional[Union[str, "_models.UpgradeAvailability"]] = None
 
 
 class AppserviceGithubToken(_serialization.Model):
@@ -2351,7 +2350,7 @@ class AppServicePlan(Resource):
     :ivar name: Resource Name.
     :vartype name: str
     :ivar kind: Kind of resource. If the resource is an app, you can refer to
-     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
      for details supported values for kind.
     :vartype kind: str
     :ivar location: Resource Location. Required.
@@ -2508,7 +2507,7 @@ class AppServicePlan(Resource):
     ) -> None:
         """
         :keyword kind: Kind of resource. If the resource is an app, you can refer to
-         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
          for details supported values for kind.
         :paramtype kind: str
         :keyword location: Resource Location. Required.
@@ -2569,26 +2568,26 @@ class AppServicePlan(Resource):
         self.sku = sku
         self.extended_location = extended_location
         self.worker_tier_name = worker_tier_name
-        self.status = None
-        self.subscription = None
+        self.status: Optional[Union[str, "_models.StatusOptions"]] = None
+        self.subscription: Optional[str] = None
         self.hosting_environment_profile = hosting_environment_profile
-        self.maximum_number_of_workers = None
-        self.number_of_workers = None
-        self.geo_region = None
+        self.maximum_number_of_workers: Optional[int] = None
+        self.number_of_workers: Optional[int] = None
+        self.geo_region: Optional[str] = None
         self.per_site_scaling = per_site_scaling
         self.elastic_scale_enabled = elastic_scale_enabled
         self.maximum_elastic_worker_count = maximum_elastic_worker_count
-        self.number_of_sites = None
+        self.number_of_sites: Optional[int] = None
         self.is_spot = is_spot
         self.spot_expiration_time = spot_expiration_time
         self.free_offer_expiration_time = free_offer_expiration_time
-        self.resource_group = None
+        self.resource_group: Optional[str] = None
         self.reserved = reserved
         self.is_xenon = is_xenon
         self.hyper_v = hyper_v
         self.target_worker_count = target_worker_count
         self.target_worker_size_id = target_worker_size_id
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.kube_environment_profile = kube_environment_profile
         self.zone_redundant = zone_redundant
 
@@ -2623,7 +2622,7 @@ class AppServicePlanCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class AppServicePlanPatchResource(ProxyOnlyResource):
@@ -2823,26 +2822,26 @@ class AppServicePlanPatchResource(ProxyOnlyResource):
         """
         super().__init__(kind=kind, **kwargs)
         self.worker_tier_name = worker_tier_name
-        self.status = None
-        self.subscription = None
+        self.status: Optional[Union[str, "_models.StatusOptions"]] = None
+        self.subscription: Optional[str] = None
         self.hosting_environment_profile = hosting_environment_profile
-        self.maximum_number_of_workers = None
-        self.number_of_workers = None
-        self.geo_region = None
+        self.maximum_number_of_workers: Optional[int] = None
+        self.number_of_workers: Optional[int] = None
+        self.geo_region: Optional[str] = None
         self.per_site_scaling = per_site_scaling
         self.elastic_scale_enabled = elastic_scale_enabled
         self.maximum_elastic_worker_count = maximum_elastic_worker_count
-        self.number_of_sites = None
+        self.number_of_sites: Optional[int] = None
         self.is_spot = is_spot
         self.spot_expiration_time = spot_expiration_time
         self.free_offer_expiration_time = free_offer_expiration_time
-        self.resource_group = None
+        self.resource_group: Optional[str] = None
         self.reserved = reserved
         self.is_xenon = is_xenon
         self.hyper_v = hyper_v
         self.target_worker_count = target_worker_count
         self.target_worker_size_id = target_worker_size_id
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.kube_environment_profile = kube_environment_profile
         self.zone_redundant = zone_redundant
 
@@ -2936,7 +2935,7 @@ class ArmIdWrapper(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class ArmPlan(_serialization.Model):
@@ -3059,10 +3058,10 @@ class AseRegion(ProxyOnlyResource):
         :paramtype available_os: list[str]
         """
         super().__init__(kind=kind, **kwargs)
-        self.display_name = None
-        self.standard = None
-        self.dedicated_host = None
-        self.zone_redundant = None
+        self.display_name: Optional[str] = None
+        self.standard: Optional[bool] = None
+        self.dedicated_host: Optional[bool] = None
+        self.zone_redundant: Optional[bool] = None
         self.available_sku = available_sku
         self.available_os = available_os
 
@@ -3097,7 +3096,7 @@ class AseRegionCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class AseV3NetworkingConfiguration(ProxyOnlyResource):
@@ -3186,10 +3185,10 @@ class AseV3NetworkingConfiguration(ProxyOnlyResource):
         :paramtype inbound_ip_address_override: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.windows_outbound_ip_addresses = None
-        self.linux_outbound_ip_addresses = None
-        self.external_inbound_ip_addresses = None
-        self.internal_inbound_ip_addresses = None
+        self.windows_outbound_ip_addresses: Optional[List[str]] = None
+        self.linux_outbound_ip_addresses: Optional[List[str]] = None
+        self.external_inbound_ip_addresses: Optional[List[str]] = None
+        self.internal_inbound_ip_addresses: Optional[List[str]] = None
         self.allow_new_private_endpoint_connections = allow_new_private_endpoint_connections
         self.ftp_enabled = ftp_enabled
         self.remote_debug_enabled = remote_debug_enabled
@@ -3947,7 +3946,7 @@ class AzureStorageInfoValue(_serialization.Model):
         self.share_name = share_name
         self.access_key = access_key
         self.mount_path = mount_path
-        self.state = None
+        self.state: Optional[Union[str, "_models.AzureStorageState"]] = None
         self.protocol = protocol
 
 
@@ -4126,20 +4125,20 @@ class BackupItem(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.backup_id = None
-        self.storage_account_url = None
-        self.blob_name = None
-        self.name_properties_name = None
-        self.status = None
-        self.size_in_bytes = None
-        self.created = None
-        self.log = None
-        self.databases = None
-        self.scheduled = None
-        self.last_restore_time_stamp = None
-        self.finished_time_stamp = None
-        self.correlation_id = None
-        self.website_size_in_bytes = None
+        self.backup_id: Optional[int] = None
+        self.storage_account_url: Optional[str] = None
+        self.blob_name: Optional[str] = None
+        self.name_properties_name: Optional[str] = None
+        self.status: Optional[Union[str, "_models.BackupItemStatus"]] = None
+        self.size_in_bytes: Optional[int] = None
+        self.created: Optional[datetime.datetime] = None
+        self.log: Optional[str] = None
+        self.databases: Optional[List["_models.DatabaseBackupSetting"]] = None
+        self.scheduled: Optional[bool] = None
+        self.last_restore_time_stamp: Optional[datetime.datetime] = None
+        self.finished_time_stamp: Optional[datetime.datetime] = None
+        self.correlation_id: Optional[str] = None
+        self.website_size_in_bytes: Optional[int] = None
 
 
 class BackupItemCollection(_serialization.Model):
@@ -4172,7 +4171,7 @@ class BackupItemCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class BackupRequest(ProxyOnlyResource):
@@ -4328,7 +4327,7 @@ class BackupSchedule(_serialization.Model):
         self.keep_at_least_one_backup = keep_at_least_one_backup
         self.retention_period_in_days = retention_period_in_days
         self.start_time = start_time
-        self.last_execution_time = None
+        self.last_execution_time: Optional[datetime.datetime] = None
 
 
 class BillingMeter(ProxyOnlyResource):
@@ -4452,7 +4451,7 @@ class BillingMeterCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class BlobStorageTokenStore(_serialization.Model):
@@ -4523,7 +4522,7 @@ class Certificate(Resource):
     :ivar name: Resource Name.
     :vartype name: str
     :ivar kind: Kind of resource. If the resource is an app, you can refer to
-     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
      for details supported values for kind.
     :vartype kind: str
     :ivar location: Resource Location. Required.
@@ -4576,7 +4575,7 @@ class Certificate(Resource):
     :vartype key_vault_secret_status: str or
      ~azure.mgmt.web.v2024_04_01.models.KeyVaultSecretStatus
     :ivar server_farm_id: Resource ID of the associated App Service plan, formatted as:
-     "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
     :vartype server_farm_id: str
     :ivar canonical_name: CNAME of the certificate to be issued via free certificate.
     :vartype canonical_name: str
@@ -4655,7 +4654,7 @@ class Certificate(Resource):
     ) -> None:
         """
         :keyword kind: Kind of resource. If the resource is an app, you can refer to
-         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
          for details supported values for kind.
         :paramtype kind: str
         :keyword location: Resource Location. Required.
@@ -4673,7 +4672,7 @@ class Certificate(Resource):
         :keyword key_vault_secret_name: Key Vault secret name.
         :paramtype key_vault_secret_name: str
         :keyword server_farm_id: Resource ID of the associated App Service plan, formatted as:
-         "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".  # pylint: disable=line-too-long
+         "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
         :paramtype server_farm_id: str
         :keyword canonical_name: CNAME of the certificate to be issued via free certificate.
         :paramtype canonical_name: str
@@ -4682,23 +4681,23 @@ class Certificate(Resource):
         """
         super().__init__(kind=kind, location=location, tags=tags, **kwargs)
         self.password = password
-        self.friendly_name = None
-        self.subject_name = None
+        self.friendly_name: Optional[str] = None
+        self.subject_name: Optional[str] = None
         self.host_names = host_names
         self.pfx_blob = pfx_blob
-        self.site_name = None
-        self.self_link = None
-        self.issuer = None
-        self.issue_date = None
-        self.expiration_date = None
-        self.thumbprint = None
-        self.valid = None
-        self.cer_blob = None
-        self.public_key_hash = None
-        self.hosting_environment_profile = None
+        self.site_name: Optional[str] = None
+        self.self_link: Optional[str] = None
+        self.issuer: Optional[str] = None
+        self.issue_date: Optional[datetime.datetime] = None
+        self.expiration_date: Optional[datetime.datetime] = None
+        self.thumbprint: Optional[str] = None
+        self.valid: Optional[bool] = None
+        self.cer_blob: Optional[bytes] = None
+        self.public_key_hash: Optional[str] = None
+        self.hosting_environment_profile: Optional["_models.HostingEnvironmentProfile"] = None
         self.key_vault_id = key_vault_id
         self.key_vault_secret_name = key_vault_secret_name
-        self.key_vault_secret_status = None
+        self.key_vault_secret_status: Optional[Union[str, "_models.KeyVaultSecretStatus"]] = None
         self.server_farm_id = server_farm_id
         self.canonical_name = canonical_name
         self.domain_validation_method = domain_validation_method
@@ -4734,7 +4733,7 @@ class CertificateCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class CertificateDetails(_serialization.Model):
@@ -4789,15 +4788,15 @@ class CertificateDetails(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.version = None
-        self.serial_number = None
-        self.thumbprint = None
-        self.subject = None
-        self.not_before = None
-        self.not_after = None
-        self.signature_algorithm = None
-        self.issuer = None
-        self.raw_data = None
+        self.version: Optional[int] = None
+        self.serial_number: Optional[str] = None
+        self.thumbprint: Optional[str] = None
+        self.subject: Optional[str] = None
+        self.not_before: Optional[datetime.datetime] = None
+        self.not_after: Optional[datetime.datetime] = None
+        self.signature_algorithm: Optional[str] = None
+        self.issuer: Optional[str] = None
+        self.raw_data: Optional[str] = None
 
 
 class CertificateEmail(_serialization.Model):
@@ -4856,8 +4855,8 @@ class CertificateOrderAction(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.action_type = None
-        self.created_at = None
+        self.action_type: Optional[Union[str, "_models.CertificateOrderActionType"]] = None
+        self.created_at: Optional[datetime.datetime] = None
 
 
 class CertificateOrderContact(_serialization.Model):
@@ -4963,7 +4962,7 @@ class CertificatePatchResource(ProxyOnlyResource):
     :vartype key_vault_secret_status: str or
      ~azure.mgmt.web.v2024_04_01.models.KeyVaultSecretStatus
     :ivar server_farm_id: Resource ID of the associated App Service plan, formatted as:
-     "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
     :vartype server_farm_id: str
     :ivar canonical_name: CNAME of the certificate to be issued via free certificate.
     :vartype canonical_name: str
@@ -5049,7 +5048,7 @@ class CertificatePatchResource(ProxyOnlyResource):
         :keyword key_vault_secret_name: Key Vault secret name.
         :paramtype key_vault_secret_name: str
         :keyword server_farm_id: Resource ID of the associated App Service plan, formatted as:
-         "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".  # pylint: disable=line-too-long
+         "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
         :paramtype server_farm_id: str
         :keyword canonical_name: CNAME of the certificate to be issued via free certificate.
         :paramtype canonical_name: str
@@ -5058,23 +5057,23 @@ class CertificatePatchResource(ProxyOnlyResource):
         """
         super().__init__(kind=kind, **kwargs)
         self.password = password
-        self.friendly_name = None
-        self.subject_name = None
+        self.friendly_name: Optional[str] = None
+        self.subject_name: Optional[str] = None
         self.host_names = host_names
         self.pfx_blob = pfx_blob
-        self.site_name = None
-        self.self_link = None
-        self.issuer = None
-        self.issue_date = None
-        self.expiration_date = None
-        self.thumbprint = None
-        self.valid = None
-        self.cer_blob = None
-        self.public_key_hash = None
-        self.hosting_environment_profile = None
+        self.site_name: Optional[str] = None
+        self.self_link: Optional[str] = None
+        self.issuer: Optional[str] = None
+        self.issue_date: Optional[datetime.datetime] = None
+        self.expiration_date: Optional[datetime.datetime] = None
+        self.thumbprint: Optional[str] = None
+        self.valid: Optional[bool] = None
+        self.cer_blob: Optional[bytes] = None
+        self.public_key_hash: Optional[str] = None
+        self.hosting_environment_profile: Optional["_models.HostingEnvironmentProfile"] = None
         self.key_vault_id = key_vault_id
         self.key_vault_secret_name = key_vault_secret_name
-        self.key_vault_secret_status = None
+        self.key_vault_secret_status: Optional[Union[str, "_models.KeyVaultSecretStatus"]] = None
         self.server_farm_id = server_farm_id
         self.canonical_name = canonical_name
         self.domain_validation_method = domain_validation_method
@@ -5148,9 +5147,9 @@ class CloningInfo(_serialization.Model):
      otherwise, :code:`<code>false</code>`.
     :vartype clone_source_control: bool
     :ivar source_web_app_id: ARM resource ID of the source app. App resource ID is of the form
-    /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}
+     /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}
      for production slots and
-    /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName}
+     /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName}
      for other slots. Required.
     :vartype source_web_app_id: str
     :ivar source_web_app_location: Location of source app ex: West US or North Europe.
@@ -5166,7 +5165,7 @@ class CloningInfo(_serialization.Model):
     :vartype configure_load_balancing: bool
     :ivar traffic_manager_profile_id: ARM resource ID of the Traffic Manager profile to use, if it
      exists. Traffic Manager resource ID is of the form
-    /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{profileName}.  # pylint: disable=line-too-long
+     /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{profileName}.
     :vartype traffic_manager_profile_id: str
     :ivar traffic_manager_profile_name: Name of Traffic Manager profile to create. This is only
      needed if Traffic Manager profile does not already exist.
@@ -5222,9 +5221,9 @@ class CloningInfo(_serialization.Model):
          app; otherwise, :code:`<code>false</code>`.
         :paramtype clone_source_control: bool
         :keyword source_web_app_id: ARM resource ID of the source app. App resource ID is of the form
-        /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}
+         /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}
          for production slots and
-        /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName}
+         /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName}
          for other slots. Required.
         :paramtype source_web_app_id: str
         :keyword source_web_app_location: Location of source app ex: West US or North Europe.
@@ -5240,7 +5239,7 @@ class CloningInfo(_serialization.Model):
         :paramtype configure_load_balancing: bool
         :keyword traffic_manager_profile_id: ARM resource ID of the Traffic Manager profile to use, if
          it exists. Traffic Manager resource ID is of the form
-        /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{profileName}.  # pylint: disable=line-too-long
+         /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{profileName}.
         :paramtype traffic_manager_profile_id: str
         :keyword traffic_manager_profile_name: Name of Traffic Manager profile to create. This is only
          needed if Traffic Manager profile does not already exist.
@@ -6027,10 +6026,10 @@ class ContentLink(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.uri = uri
-        self.content_version = None
-        self.content_size = None
-        self.content_hash = None
-        self.metadata = None
+        self.content_version: Optional[str] = None
+        self.content_size: Optional[int] = None
+        self.content_hash: Optional["_models.ContentHash"] = None
+        self.metadata: Optional[JSON] = None
 
 
 class ContinuousWebJob(ProxyOnlyResource):
@@ -6176,7 +6175,7 @@ class ContinuousWebJobCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class CookieExpiration(_serialization.Model):
@@ -6400,7 +6399,7 @@ class CsmDeploymentStatusCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class CsmMoveResourceEnvelope(_serialization.Model):
@@ -6466,7 +6465,7 @@ class CsmOperationCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class CsmOperationDescription(_serialization.Model):
@@ -6792,7 +6791,7 @@ class CsmUsageQuotaCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class CustomDnsSuffixConfiguration(ProxyOnlyResource):
@@ -6868,8 +6867,8 @@ class CustomDnsSuffixConfiguration(ProxyOnlyResource):
         :paramtype key_vault_reference_identity: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.provisioning_state = None
-        self.provisioning_details = None
+        self.provisioning_state: Optional[Union[str, "_models.CustomDnsSuffixProvisioningState"]] = None
+        self.provisioning_details: Optional[str] = None
         self.dns_suffix = dns_suffix
         self.certificate_url = certificate_url
         self.key_vault_reference_identity = key_vault_reference_identity
@@ -6980,12 +6979,12 @@ class CustomHostnameAnalysisResult(ProxyOnlyResource):
         :paramtype alternate_txt_records: list[str]
         """
         super().__init__(kind=kind, **kwargs)
-        self.is_hostname_already_verified = None
-        self.custom_domain_verification_test = None
-        self.custom_domain_verification_failure_info = None
-        self.has_conflict_on_scale_unit = None
-        self.has_conflict_across_subscription = None
-        self.conflicting_app_resource_id = None
+        self.is_hostname_already_verified: Optional[bool] = None
+        self.custom_domain_verification_test: Optional[Union[str, "_models.DnsVerificationTestResult"]] = None
+        self.custom_domain_verification_failure_info: Optional["_models.ErrorEntity"] = None
+        self.has_conflict_on_scale_unit: Optional[bool] = None
+        self.has_conflict_across_subscription: Optional[bool] = None
+        self.conflicting_app_resource_id: Optional[str] = None
         self.c_name_records = c_name_records
         self.txt_records = txt_records
         self.a_records = a_records
@@ -7085,7 +7084,7 @@ class CustomHostnameSitesCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class CustomOpenIdConnectProvider(_serialization.Model):
@@ -7524,7 +7523,7 @@ class DatabaseConnection(ProxyOnlyResource):
         self.connection_identity = connection_identity
         self.connection_string = connection_string
         self.region = region
-        self.configuration_files = None
+        self.configuration_files: Optional[List["_models.StaticSiteDatabaseConnectionConfigurationFileOverview"]] = None
 
 
 class DatabaseConnectionCollection(_serialization.Model):
@@ -7557,7 +7556,7 @@ class DatabaseConnectionCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class DatabaseConnectionOverview(_serialization.Model):
@@ -7604,11 +7603,11 @@ class DatabaseConnectionOverview(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.resource_id = None
-        self.connection_identity = None
-        self.region = None
-        self.configuration_files = None
-        self.name = None
+        self.resource_id: Optional[str] = None
+        self.connection_identity: Optional[str] = None
+        self.region: Optional[str] = None
+        self.configuration_files: Optional[List["_models.StaticSiteDatabaseConnectionConfigurationFileOverview"]] = None
+        self.name: Optional[str] = None
 
 
 class DatabaseConnectionPatchRequest(_serialization.Model):
@@ -7690,7 +7689,7 @@ class DataProviderMetadata(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.provider_name = provider_name
-        self.property_bag = None
+        self.property_bag: Optional[List["_models.KeyValuePairStringObject"]] = None
 
 
 class DataSource(_serialization.Model):
@@ -7859,7 +7858,7 @@ class DefaultErrorResponse(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.error = None
+        self.error: Optional["_models.DefaultErrorResponseError"] = None
 
 
 class DefaultErrorResponseError(_serialization.Model):
@@ -7903,11 +7902,11 @@ class DefaultErrorResponseError(_serialization.Model):
          list[~azure.mgmt.web.v2024_04_01.models.DefaultErrorResponseErrorDetailsItem]
         """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
         self.details = details
-        self.innererror = None
+        self.innererror: Optional[str] = None
 
 
 class DefaultErrorResponseErrorDetailsItem(_serialization.Model):
@@ -7938,9 +7937,9 @@ class DefaultErrorResponseErrorDetailsItem(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
 
 
 class DeletedAppRestoreRequest(ProxyOnlyResource):
@@ -8086,14 +8085,14 @@ class DeletedSite(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.deleted_site_id = None
-        self.deleted_timestamp = None
-        self.subscription = None
-        self.resource_group = None
-        self.deleted_site_name = None
-        self.slot = None
-        self.kind_properties_kind = None
-        self.geo_region_name = None
+        self.deleted_site_id: Optional[int] = None
+        self.deleted_timestamp: Optional[str] = None
+        self.subscription: Optional[str] = None
+        self.resource_group: Optional[str] = None
+        self.deleted_site_name: Optional[str] = None
+        self.slot: Optional[str] = None
+        self.kind_properties_kind: Optional[str] = None
+        self.geo_region_name: Optional[str] = None
 
 
 class DeletedWebAppCollection(_serialization.Model):
@@ -8126,7 +8125,7 @@ class DeletedWebAppCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class Deployment(ProxyOnlyResource):
@@ -8265,7 +8264,7 @@ class DeploymentCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class DeploymentLocations(_serialization.Model):
@@ -8427,10 +8426,10 @@ class DetectorDefinition(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.display_name = None
-        self.description = None
-        self.rank = None
-        self.is_enabled = None
+        self.display_name: Optional[str] = None
+        self.description: Optional[str] = None
+        self.rank: Optional[float] = None
+        self.is_enabled: Optional[bool] = None
 
 
 class DetectorDefinitionResource(ProxyOnlyResource):
@@ -8483,10 +8482,10 @@ class DetectorDefinitionResource(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.display_name = None
-        self.description = None
-        self.rank = None
-        self.is_enabled = None
+        self.display_name: Optional[str] = None
+        self.description: Optional[str] = None
+        self.rank: Optional[float] = None
+        self.is_enabled: Optional[bool] = None
 
 
 class DetectorInfo(_serialization.Model):
@@ -8542,15 +8541,15 @@ class DetectorInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.description = None
-        self.author = None
-        self.category = None
-        self.support_topic_list = None
-        self.analysis_type = None
-        self.type = None
-        self.score = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.description: Optional[str] = None
+        self.author: Optional[str] = None
+        self.category: Optional[str] = None
+        self.support_topic_list: Optional[List["_models.SupportTopic"]] = None
+        self.analysis_type: Optional[List[str]] = None
+        self.type: Optional[Union[str, "_models.DetectorType"]] = None
+        self.score: Optional[float] = None
 
 
 class DetectorResponse(ProxyOnlyResource):
@@ -8662,7 +8661,7 @@ class DetectorResponseCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class DiagnosticAnalysis(ProxyOnlyResource):
@@ -8772,7 +8771,7 @@ class DiagnosticAnalysisCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class DiagnosticCategory(ProxyOnlyResource):
@@ -8813,7 +8812,7 @@ class DiagnosticCategory(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.description = None
+        self.description: Optional[str] = None
 
 
 class DiagnosticCategoryCollection(_serialization.Model):
@@ -8846,7 +8845,7 @@ class DiagnosticCategoryCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class DiagnosticData(_serialization.Model):
@@ -8911,7 +8910,7 @@ class DiagnosticDetectorCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class DiagnosticDetectorResponse(ProxyOnlyResource):
@@ -9202,7 +9201,7 @@ class Domain(Resource):
     :ivar name: Resource Name.
     :vartype name: str
     :ivar kind: Kind of resource. If the resource is an app, you can refer to
-     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
      for details supported values for kind.
     :vartype kind: str
     :ivar location: Resource Location. Required.
@@ -9331,7 +9330,7 @@ class Domain(Resource):
     ) -> None:
         """
         :keyword kind: Kind of resource. If the resource is an app, you can refer to
-         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
          for details supported values for kind.
         :paramtype kind: str
         :keyword location: Resource Location. Required.
@@ -9370,18 +9369,18 @@ class Domain(Resource):
         self.contact_billing = contact_billing
         self.contact_registrant = contact_registrant
         self.contact_tech = contact_tech
-        self.registration_status = None
-        self.provisioning_state = None
-        self.name_servers = None
+        self.registration_status: Optional[Union[str, "_models.DomainStatus"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.name_servers: Optional[List[str]] = None
         self.privacy = privacy
-        self.created_time = None
-        self.expiration_time = None
-        self.last_renewed_time = None
+        self.created_time: Optional[datetime.datetime] = None
+        self.expiration_time: Optional[datetime.datetime] = None
+        self.last_renewed_time: Optional[datetime.datetime] = None
         self.auto_renew = auto_renew
-        self.ready_for_dns_record_management = None
-        self.managed_host_names = None
+        self.ready_for_dns_record_management: Optional[bool] = None
+        self.managed_host_names: Optional[List["_models.HostName"]] = None
         self.consent = consent
-        self.domain_not_renewable_reasons = None
+        self.domain_not_renewable_reasons: Optional[List[Union[str, "_models.ResourceNotRenewableReason"]]] = None
         self.dns_type = dns_type
         self.dns_zone_id = dns_zone_id
         self.target_dns_type = target_dns_type
@@ -9463,7 +9462,7 @@ class DomainCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class DomainControlCenterSsoRequest(_serialization.Model):
@@ -9495,9 +9494,9 @@ class DomainControlCenterSsoRequest(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.url = None
-        self.post_parameter_key = None
-        self.post_parameter_value = None
+        self.url: Optional[str] = None
+        self.post_parameter_key: Optional[str] = None
+        self.post_parameter_value: Optional[str] = None
 
 
 class DomainOwnershipIdentifier(ProxyOnlyResource):
@@ -9572,7 +9571,7 @@ class DomainOwnershipIdentifierCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class DomainPatchResource(ProxyOnlyResource):
@@ -9736,18 +9735,18 @@ class DomainPatchResource(ProxyOnlyResource):
         self.contact_billing = contact_billing
         self.contact_registrant = contact_registrant
         self.contact_tech = contact_tech
-        self.registration_status = None
-        self.provisioning_state = None
-        self.name_servers = None
+        self.registration_status: Optional[Union[str, "_models.DomainStatus"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.name_servers: Optional[List[str]] = None
         self.privacy = privacy
-        self.created_time = None
-        self.expiration_time = None
-        self.last_renewed_time = None
+        self.created_time: Optional[datetime.datetime] = None
+        self.expiration_time: Optional[datetime.datetime] = None
+        self.last_renewed_time: Optional[datetime.datetime] = None
         self.auto_renew = auto_renew
-        self.ready_for_dns_record_management = None
-        self.managed_host_names = None
+        self.ready_for_dns_record_management: Optional[bool] = None
+        self.managed_host_names: Optional[List["_models.HostName"]] = None
         self.consent = consent
-        self.domain_not_renewable_reasons = None
+        self.domain_not_renewable_reasons: Optional[List[Union[str, "_models.ResourceNotRenewableReason"]]] = None
         self.dns_type = dns_type
         self.dns_zone_id = dns_zone_id
         self.target_dns_type = target_dns_type
@@ -10304,7 +10303,7 @@ class ExtendedLocation(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.name = name
-        self.type = None
+        self.type: Optional[str] = None
 
 
 class Facebook(_serialization.Model):
@@ -10730,9 +10729,9 @@ class FunctionAppMajorVersion(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.display_text = None
-        self.value = None
-        self.minor_versions = None
+        self.display_text: Optional[str] = None
+        self.value: Optional[str] = None
+        self.minor_versions: Optional[List["_models.FunctionAppMinorVersion"]] = None
 
 
 class FunctionAppMinorVersion(_serialization.Model):
@@ -10763,9 +10762,9 @@ class FunctionAppMinorVersion(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.display_text = None
-        self.value = None
-        self.stack_settings = None
+        self.display_text: Optional[str] = None
+        self.value: Optional[str] = None
+        self.stack_settings: Optional["_models.FunctionAppRuntimes"] = None
 
 
 class FunctionAppRuntimes(_serialization.Model):
@@ -10793,8 +10792,8 @@ class FunctionAppRuntimes(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.linux_runtime_settings = None
-        self.windows_runtime_settings = None
+        self.linux_runtime_settings: Optional["_models.FunctionAppRuntimeSettings"] = None
+        self.windows_runtime_settings: Optional["_models.FunctionAppRuntimeSettings"] = None
 
 
 class FunctionAppRuntimeSettings(_serialization.Model):
@@ -10883,20 +10882,20 @@ class FunctionAppRuntimeSettings(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.runtime_version = None
-        self.remote_debugging_supported = None
-        self.app_insights_settings = None
-        self.git_hub_action_settings = None
-        self.app_settings_dictionary = None
-        self.site_config_properties_dictionary = None
-        self.supported_functions_extension_versions = None
-        self.is_preview = None
-        self.is_deprecated = None
-        self.is_hidden = None
-        self.end_of_life_date = None
-        self.is_auto_update = None
-        self.is_early_access = None
-        self.is_default = None
+        self.runtime_version: Optional[str] = None
+        self.remote_debugging_supported: Optional[bool] = None
+        self.app_insights_settings: Optional["_models.AppInsightsWebAppStackSettings"] = None
+        self.git_hub_action_settings: Optional["_models.GitHubActionWebAppStackSettings"] = None
+        self.app_settings_dictionary: Optional[Dict[str, str]] = None
+        self.site_config_properties_dictionary: Optional["_models.SiteConfigPropertiesDictionary"] = None
+        self.supported_functions_extension_versions: Optional[List[str]] = None
+        self.is_preview: Optional[bool] = None
+        self.is_deprecated: Optional[bool] = None
+        self.is_hidden: Optional[bool] = None
+        self.end_of_life_date: Optional[datetime.datetime] = None
+        self.is_auto_update: Optional[bool] = None
+        self.is_early_access: Optional[bool] = None
+        self.is_default: Optional[bool] = None
 
 
 class FunctionAppStack(ProxyOnlyResource):
@@ -10953,11 +10952,11 @@ class FunctionAppStack(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.location = None
-        self.display_text = None
-        self.value = None
-        self.major_versions = None
-        self.preferred_os = None
+        self.location: Optional[str] = None
+        self.display_text: Optional[str] = None
+        self.value: Optional[str] = None
+        self.major_versions: Optional[List["_models.FunctionAppMajorVersion"]] = None
+        self.preferred_os: Optional[Union[str, "_models.StackPreferredOs"]] = None
 
 
 class FunctionAppStackCollection(_serialization.Model):
@@ -10990,7 +10989,7 @@ class FunctionAppStackCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class FunctionEnvelope(ProxyOnlyResource):
@@ -11155,7 +11154,7 @@ class FunctionEnvelopeCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class FunctionsAlwaysReadyConfig(_serialization.Model):
@@ -11505,9 +11504,9 @@ class GeoRegion(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.description = None
-        self.display_name = None
-        self.org_domain = None
+        self.description: Optional[str] = None
+        self.display_name: Optional[str] = None
+        self.org_domain: Optional[str] = None
 
 
 class GeoRegionCollection(_serialization.Model):
@@ -11540,7 +11539,7 @@ class GeoRegionCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class GitHub(_serialization.Model):
@@ -11738,8 +11737,8 @@ class GitHubActionWebAppStackSettings(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.is_supported = None
-        self.supported_version = None
+        self.is_supported: Optional[bool] = None
+        self.supported_version: Optional[str] = None
 
 
 class GlobalCsmSkuDescription(_serialization.Model):
@@ -11823,8 +11822,7 @@ class GlobalValidation(_serialization.Model):
      ~azure.mgmt.web.v2024_04_01.models.UnauthenticatedClientActionV2
     :ivar redirect_to_provider: The default authentication provider to use when multiple providers
      are configured.
-     This setting is only needed if multiple providers are configured and the unauthenticated
-     client
+     This setting is only needed if multiple providers are configured and the unauthenticated client
      action is set to "RedirectToLoginPage".
     :vartype redirect_to_provider: str
     :ivar excluded_paths: The paths for which unauthenticated flow would not be redirected to the
@@ -11859,8 +11857,7 @@ class GlobalValidation(_serialization.Model):
          ~azure.mgmt.web.v2024_04_01.models.UnauthenticatedClientActionV2
         :keyword redirect_to_provider: The default authentication provider to use when multiple
          providers are configured.
-         This setting is only needed if multiple providers are configured and the unauthenticated
-         client
+         This setting is only needed if multiple providers are configured and the unauthenticated client
          action is set to "RedirectToLoginPage".
         :paramtype redirect_to_provider: str
         :keyword excluded_paths: The paths for which unauthenticated flow would not be redirected to
@@ -12052,8 +12049,8 @@ class HostingEnvironmentProfile(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.id = id
-        self.name = None
-        self.type = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class HostKeys(_serialization.Model):
@@ -12272,7 +12269,7 @@ class HostNameBinding(ProxyOnlyResource):
         self.host_name_type = host_name_type
         self.ssl_state = ssl_state
         self.thumbprint = thumbprint
-        self.virtual_ip = None
+        self.virtual_ip: Optional[str] = None
 
 
 class HostNameBindingCollection(_serialization.Model):
@@ -12305,7 +12302,7 @@ class HostNameBindingCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class HostNameSslState(_serialization.Model):
@@ -12633,7 +12630,7 @@ class HybridConnectionCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class HybridConnectionKey(ProxyOnlyResource):
@@ -12678,8 +12675,8 @@ class HybridConnectionKey(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.send_key_name = None
-        self.send_key_value = None
+        self.send_key_name: Optional[str] = None
+        self.send_key_value: Optional[str] = None
 
 
 class HybridConnectionLimits(ProxyOnlyResource):
@@ -12725,8 +12722,8 @@ class HybridConnectionLimits(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.current = None
-        self.maximum = None
+        self.current: Optional[int] = None
+        self.maximum: Optional[int] = None
 
 
 class Identifier(ProxyOnlyResource):
@@ -12801,7 +12798,7 @@ class IdentifierCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class IdentityProviders(_serialization.Model):
@@ -12970,7 +12967,7 @@ class InboundEnvironmentEndpointCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class IpAddress(_serialization.Model):
@@ -13048,8 +13045,8 @@ class IpSecurityRestriction(_serialization.Model):
 
      * If the property is null or empty (default), all hosts(or lack of) are allowed.
      * A value is compared using ordinal-ignore-case (excluding port number).
-     * Subdomain wildcards are permitted but don't match the root domain. For example,
-     *.contoso.com matches the subdomain foo.contoso.com
+     * Subdomain wildcards are permitted but don't match the root domain. For example, *.contoso.com
+     matches the subdomain foo.contoso.com
        but not the root domain contoso.com or multi-level foo.bar.contoso.com
      * Unicode host names are allowed but are converted to Punycode for matching.
 
@@ -13131,8 +13128,8 @@ class IpSecurityRestriction(_serialization.Model):
 
          * If the property is null or empty (default), all hosts(or lack of) are allowed.
          * A value is compared using ordinal-ignore-case (excluding port number).
-         * Subdomain wildcards are permitted but don't match the root domain. For example,
-         *.contoso.com matches the subdomain foo.contoso.com
+         * Subdomain wildcards are permitted but don't match the root domain. For example, *.contoso.com
+         matches the subdomain foo.contoso.com
            but not the root domain contoso.com or multi-level foo.bar.contoso.com
          * Unicode host names are allowed but are converted to Punycode for matching.
 
@@ -13272,8 +13269,8 @@ class KeyValuePairStringObject(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.key = None
-        self.value = None
+        self.key: Optional[str] = None
+        self.value: Optional[JSON] = None
 
 
 class KubeEnvironment(Resource):
@@ -13288,7 +13285,7 @@ class KubeEnvironment(Resource):
     :ivar name: Resource Name.
     :vartype name: str
     :ivar kind: Kind of resource. If the resource is an app, you can refer to
-     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
      for details supported values for kind.
     :vartype kind: str
     :ivar location: Resource Location. Required.
@@ -13383,7 +13380,7 @@ class KubeEnvironment(Resource):
     ) -> None:
         """
         :keyword kind: Kind of resource. If the resource is an app, you can refer to
-         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
          for details supported values for kind.
         :paramtype kind: str
         :keyword location: Resource Location. Required.
@@ -13416,10 +13413,10 @@ class KubeEnvironment(Resource):
         """
         super().__init__(kind=kind, location=location, tags=tags, **kwargs)
         self.extended_location = extended_location
-        self.provisioning_state = None
-        self.deployment_errors = None
+        self.provisioning_state: Optional[Union[str, "_models.KubeEnvironmentProvisioningState"]] = None
+        self.deployment_errors: Optional[str] = None
         self.internal_load_balancer_enabled = internal_load_balancer_enabled
-        self.default_domain = None
+        self.default_domain: Optional[str] = None
         self.static_ip = static_ip
         self.environment_type = environment_type
         self.arc_configuration = arc_configuration
@@ -13458,7 +13455,7 @@ class KubeEnvironmentCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class KubeEnvironmentPatchResource(ProxyOnlyResource):
@@ -13567,10 +13564,10 @@ class KubeEnvironmentPatchResource(ProxyOnlyResource):
         :paramtype aks_resource_id: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.provisioning_state = None
-        self.deployment_errors = None
+        self.provisioning_state: Optional[Union[str, "_models.KubeEnvironmentProvisioningState"]] = None
+        self.deployment_errors: Optional[str] = None
         self.internal_load_balancer_enabled = internal_load_balancer_enabled
-        self.default_domain = None
+        self.default_domain: Optional[str] = None
         self.static_ip = static_ip
         self.arc_configuration = arc_configuration
         self.app_logs_configuration = app_logs_configuration
@@ -13609,8 +13606,8 @@ class KubeEnvironmentProfile(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.id = id
-        self.name = None
-        self.type = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class LegacyMicrosoftAccount(_serialization.Model):
@@ -13718,14 +13715,14 @@ class LinuxJavaContainerSettings(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.java11_runtime = None
-        self.java8_runtime = None
-        self.is_preview = None
-        self.is_deprecated = None
-        self.is_hidden = None
-        self.end_of_life_date = None
-        self.is_auto_update = None
-        self.is_early_access = None
+        self.java11_runtime: Optional[str] = None
+        self.java8_runtime: Optional[str] = None
+        self.is_preview: Optional[bool] = None
+        self.is_deprecated: Optional[bool] = None
+        self.is_hidden: Optional[bool] = None
+        self.end_of_life_date: Optional[datetime.datetime] = None
+        self.is_auto_update: Optional[bool] = None
+        self.is_early_access: Optional[bool] = None
 
 
 class LocalizableString(_serialization.Model):
@@ -13949,7 +13946,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype principal_id: str
     :ivar user_assigned_identities: The list of user assigned identities associated with the
      resource. The user identity dictionary key references will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.web.v2024_04_01.models.UserAssignedIdentity]
     """
@@ -13979,14 +13976,14 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.web.v2024_04_01.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The list of user assigned identities associated with the
          resource. The user identity dictionary key references will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.web.v2024_04_01.models.UserAssignedIdentity]
         """
         super().__init__(**kwargs)
         self.type = type
-        self.tenant_id = None
-        self.principal_id = None
+        self.tenant_id: Optional[str] = None
+        self.principal_id: Optional[str] = None
         self.user_assigned_identities = user_assigned_identities
 
 
@@ -14257,9 +14254,9 @@ class MigrateMySqlStatus(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.migration_operation_status = None
-        self.operation_id = None
-        self.local_my_sql_enabled = None
+        self.migration_operation_status: Optional[Union[str, "_models.OperationStatus"]] = None
+        self.operation_id: Optional[str] = None
+        self.local_my_sql_enabled: Optional[bool] = None
 
 
 class MSDeploy(ProxyOnlyResource):
@@ -14401,7 +14398,7 @@ class MSDeployLog(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.entries = None
+        self.entries: Optional[List["_models.MSDeployLogEntry"]] = None
 
 
 class MSDeployLogEntry(_serialization.Model):
@@ -14432,9 +14429,9 @@ class MSDeployLogEntry(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.time = None
-        self.type = None
-        self.message = None
+        self.time: Optional[datetime.datetime] = None
+        self.type: Optional[Union[str, "_models.MSDeployLogEntryType"]] = None
+        self.message: Optional[str] = None
 
 
 class MSDeployStatus(ProxyOnlyResource):
@@ -14493,11 +14490,11 @@ class MSDeployStatus(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.deployer = None
-        self.provisioning_state = None
-        self.start_time = None
-        self.end_time = None
-        self.complete = None
+        self.deployer: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.MSDeployProvisioningState"]] = None
+        self.start_time: Optional[datetime.datetime] = None
+        self.end_time: Optional[datetime.datetime] = None
+        self.complete: Optional[bool] = None
 
 
 class NameIdentifier(_serialization.Model):
@@ -14550,7 +14547,7 @@ class NameIdentifierCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class NameValuePair(_serialization.Model):
@@ -14630,10 +14627,10 @@ class NetworkFeatures(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.virtual_network_name = None
-        self.virtual_network_connection = None
-        self.hybrid_connections = None
-        self.hybrid_connections_v2 = None
+        self.virtual_network_name: Optional[str] = None
+        self.virtual_network_connection: Optional["_models.VnetInfo"] = None
+        self.hybrid_connections: Optional[List["_models.RelayServiceConnectionEntity"]] = None
+        self.hybrid_connections_v2: Optional[List["_models.HybridConnection"]] = None
 
 
 class NetworkTrace(_serialization.Model):
@@ -15195,12 +15192,12 @@ class OperationResult(OperationResultProperties):
             error=error,
             **kwargs
         )
-        self.tracking_id = None
-        self.inputs = None
-        self.inputs_link = None
-        self.outputs = None
-        self.outputs_link = None
-        self.tracked_properties = None
+        self.tracking_id: Optional[str] = None
+        self.inputs: Optional[JSON] = None
+        self.inputs_link: Optional["_models.ContentLink"] = None
+        self.outputs: Optional[JSON] = None
+        self.outputs_link: Optional["_models.ContentLink"] = None
+        self.tracked_properties: Optional[JSON] = None
         self.retry_history = retry_history
         self.iteration_count = iteration_count
 
@@ -15270,7 +15267,7 @@ class OutboundEnvironmentEndpointCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class PerfMonCounterCollection(_serialization.Model):
@@ -15303,7 +15300,7 @@ class PerfMonCounterCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class PerfMonResponse(_serialization.Model):
@@ -15449,7 +15446,7 @@ class PremierAddOn(Resource):
     :ivar name: Resource Name.
     :vartype name: str
     :ivar kind: Kind of resource. If the resource is an app, you can refer to
-     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
      for details supported values for kind.
     :vartype kind: str
     :ivar location: Resource Location. Required.
@@ -15506,7 +15503,7 @@ class PremierAddOn(Resource):
     ) -> None:
         """
         :keyword kind: Kind of resource. If the resource is an app, you can refer to
-         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
          for details supported values for kind.
         :paramtype kind: str
         :keyword location: Resource Location. Required.
@@ -15679,7 +15676,7 @@ class PremierAddOnOfferCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class PremierAddOnPatchResource(ProxyOnlyResource):
@@ -15924,7 +15921,7 @@ class PrivateEndpointConnectionCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class PrivateLinkConnectionApprovalRequestResource(ProxyOnlyResource):  # pylint: disable=name-too-long
@@ -16102,9 +16099,9 @@ class PrivateLinkResourceProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.group_id = None
-        self.required_members = None
-        self.required_zone_names = None
+        self.group_id: Optional[str] = None
+        self.required_members: Optional[List[str]] = None
+        self.required_zone_names: Optional[List[str]] = None
 
 
 class PrivateLinkResourcesWrapper(_serialization.Model):
@@ -16386,7 +16383,7 @@ class ProcessInfo(ProxyOnlyResource):
         :paramtype description: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.identifier = None
+        self.identifier: Optional[int] = None
         self.deployment_name = deployment_name
         self.href = href
         self.minidump = minidump
@@ -16454,7 +16451,7 @@ class ProcessInfoCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ProcessModuleInfo(ProxyOnlyResource):
@@ -16605,7 +16602,7 @@ class ProcessModuleInfoCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ProcessThreadInfo(ProxyOnlyResource):
@@ -16717,7 +16714,7 @@ class ProcessThreadInfo(ProxyOnlyResource):
         :paramtype wait_reason: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.identifier = None
+        self.identifier: Optional[int] = None
         self.href = href
         self.process = process
         self.start_address = start_address
@@ -16761,7 +16758,7 @@ class ProcessThreadInfoCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class PublicCertificate(ProxyOnlyResource):
@@ -16825,7 +16822,7 @@ class PublicCertificate(ProxyOnlyResource):
         super().__init__(kind=kind, **kwargs)
         self.blob = blob
         self.public_certificate_location = public_certificate_location
-        self.thumbprint = None
+        self.thumbprint: Optional[str] = None
 
 
 class PublicCertificateCollection(_serialization.Model):
@@ -16858,7 +16855,7 @@ class PublicCertificateCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class PublishingCredentialsPoliciesCollection(_serialization.Model):
@@ -16892,7 +16889,7 @@ class PublishingCredentialsPoliciesCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class PushSettings(ProxyOnlyResource):
@@ -17378,7 +17375,7 @@ class Recommendation(ProxyOnlyResource):
         self.message = message
         self.level = level
         self.channels = channels
-        self.category_tags = None
+        self.category_tags: Optional[List[str]] = None
         self.action_name = action_name
         self.enabled = enabled
         self.states = states
@@ -17424,7 +17421,7 @@ class RecommendationCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class RecommendationRule(ProxyOnlyResource):
@@ -17561,7 +17558,7 @@ class RecommendationRule(ProxyOnlyResource):
         self.action_name = action_name
         self.level = level
         self.channels = channels
-        self.category_tags = None
+        self.category_tags: Optional[List[str]] = None
         self.is_dynamic = is_dynamic
         self.extension_name = extension_name
         self.blade_name = blade_name
@@ -17902,7 +17899,7 @@ class RemotePrivateEndpointConnection(ProxyOnlyResource):
         :paramtype ip_addresses: list[str]
         """
         super().__init__(kind=kind, **kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[str] = None
         self.private_endpoint = private_endpoint
         self.private_link_service_connection_state = private_link_service_connection_state
         self.ip_addresses = ip_addresses
@@ -17974,7 +17971,7 @@ class RemotePrivateEndpointConnectionARMResource(ProxyOnlyResource):  # pylint: 
         :paramtype ip_addresses: list[str]
         """
         super().__init__(kind=kind, **kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[str] = None
         self.private_endpoint = private_endpoint
         self.private_link_service_connection_state = private_link_service_connection_state
         self.ip_addresses = ip_addresses
@@ -18196,9 +18193,9 @@ class WorkflowResource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
 
@@ -18387,7 +18384,7 @@ class ResourceCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ResourceConfig(_serialization.Model):
@@ -18501,7 +18498,7 @@ class ResourceHealthMetadataCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ResourceMetricAvailability(_serialization.Model):
@@ -18528,8 +18525,8 @@ class ResourceMetricAvailability(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.time_grain = None
-        self.retention = None
+        self.time_grain: Optional[str] = None
+        self.retention: Optional[str] = None
 
 
 class ResourceMetricDefinition(ProxyOnlyResource):
@@ -18588,11 +18585,11 @@ class ResourceMetricDefinition(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.unit = None
-        self.primary_aggregation_type = None
-        self.metric_availabilities = None
-        self.resource_uri = None
-        self.properties = None
+        self.unit: Optional[str] = None
+        self.primary_aggregation_type: Optional[str] = None
+        self.metric_availabilities: Optional[List["_models.ResourceMetricAvailability"]] = None
+        self.resource_uri: Optional[str] = None
+        self.properties: Optional[Dict[str, str]] = None
 
 
 class ResourceMetricDefinitionCollection(_serialization.Model):
@@ -18625,7 +18622,7 @@ class ResourceMetricDefinitionCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ResourceNameAvailability(_serialization.Model):
@@ -18694,7 +18691,7 @@ class ResourceNameAvailabilityRequest(_serialization.Model):
     :vartype is_fqdn: bool
     :ivar environment_id: Azure Resource Manager ID of the customer's selected Container Apps
      Environment on which to host the Function app. This must be of the form
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.
     :vartype environment_id: str
     """
 
@@ -18730,7 +18727,7 @@ class ResourceNameAvailabilityRequest(_serialization.Model):
         :paramtype is_fqdn: bool
         :keyword environment_id: Azure Resource Manager ID of the customer's selected Container Apps
          Environment on which to host the Function app. This must be of the form
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.  # pylint: disable=line-too-long
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.
         :paramtype environment_id: str
         """
         super().__init__(**kwargs)
@@ -18771,8 +18768,8 @@ class ResourceReference(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.id = id
-        self.name = None
-        self.type = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class Response(_serialization.Model):
@@ -19400,7 +19397,7 @@ class Site(Resource):
     :ivar name: Resource Name.
     :vartype name: str
     :ivar kind: Kind of resource. If the resource is an app, you can refer to
-     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
      for details supported values for kind.
     :vartype kind: str
     :ivar location: Resource Location. Required.
@@ -19437,7 +19434,7 @@ class Site(Resource):
      hostnames.
     :vartype host_name_ssl_states: list[~azure.mgmt.web.v2024_04_01.models.HostNameSslState]
     :ivar server_farm_id: Resource ID of the associated App Service plan, formatted as:
-     "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
     :vartype server_farm_id: str
     :ivar reserved: :code:`<code>true</code>` if reserved; otherwise, :code:`<code>false</code>`.
     :vartype reserved: bool
@@ -19565,11 +19562,11 @@ class Site(Resource):
     :ivar virtual_network_subnet_id: Azure Resource Manager ID of the Virtual network and subnet to
      be joined by Regional VNET Integration.
      This must be of the form
-     /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
     :vartype virtual_network_subnet_id: str
     :ivar managed_environment_id: Azure Resource Manager ID of the customer's selected Managed
      Environment on which to host this app. This must be of the form
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.
     :vartype managed_environment_id: str
     :ivar sku: Current SKU of application based on associated App Service Plan. Some valid SKU
      values are Free, Shared, Basic, Dynamic, FlexConsumption, Standard, Premium, PremiumV2,
@@ -19727,7 +19724,7 @@ class Site(Resource):
     ) -> None:
         """
         :keyword kind: Kind of resource. If the resource is an app, you can refer to
-         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
          for details supported values for kind.
         :paramtype kind: str
         :keyword location: Resource Location. Required.
@@ -19746,7 +19743,7 @@ class Site(Resource):
          app's hostnames.
         :paramtype host_name_ssl_states: list[~azure.mgmt.web.v2024_04_01.models.HostNameSslState]
         :keyword server_farm_id: Resource ID of the associated App Service plan, formatted as:
-         "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".  # pylint: disable=line-too-long
+         "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
         :paramtype server_farm_id: str
         :keyword reserved: :code:`<code>true</code>` if reserved; otherwise,
          :code:`<code>false</code>`.
@@ -19844,29 +19841,29 @@ class Site(Resource):
         :keyword virtual_network_subnet_id: Azure Resource Manager ID of the Virtual network and subnet
          to be joined by Regional VNET Integration.
          This must be of the form
-         /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.  # pylint: disable=line-too-long
+         /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
         :paramtype virtual_network_subnet_id: str
         :keyword managed_environment_id: Azure Resource Manager ID of the customer's selected Managed
          Environment on which to host this app. This must be of the form
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.  # pylint: disable=line-too-long
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.
         :paramtype managed_environment_id: str
         """
         super().__init__(kind=kind, location=location, tags=tags, **kwargs)
         self.identity = identity
         self.extended_location = extended_location
-        self.state = None
-        self.host_names = None
-        self.repository_site_name = None
-        self.usage_state = None
+        self.state: Optional[str] = None
+        self.host_names: Optional[List[str]] = None
+        self.repository_site_name: Optional[str] = None
+        self.usage_state: Optional[Union[str, "_models.UsageState"]] = None
         self.enabled = enabled
-        self.enabled_host_names = None
-        self.availability_state = None
+        self.enabled_host_names: Optional[List[str]] = None
+        self.availability_state: Optional[Union[str, "_models.SiteAvailabilityState"]] = None
         self.host_name_ssl_states = host_name_ssl_states
         self.server_farm_id = server_farm_id
         self.reserved = reserved
         self.is_xenon = is_xenon
         self.hyper_v = hyper_v
-        self.last_modified_time_utc = None
+        self.last_modified_time_utc: Optional[datetime.datetime] = None
         self.dns_configuration = dns_configuration
         self.vnet_route_all_enabled = vnet_route_all_enabled
         self.vnet_image_pull_enabled = vnet_image_pull_enabled
@@ -19877,9 +19874,9 @@ class Site(Resource):
         self.dapr_config = dapr_config
         self.workload_profile_name = workload_profile_name
         self.resource_config = resource_config
-        self.traffic_manager_host_names = None
+        self.traffic_manager_host_names: Optional[List[str]] = None
         self.scm_site_also_stopped = scm_site_also_stopped
-        self.target_swap_slot = None
+        self.target_swap_slot: Optional[str] = None
         self.hosting_environment_profile = hosting_environment_profile
         self.client_affinity_enabled = client_affinity_enabled
         self.client_cert_enabled = client_cert_enabled
@@ -19889,27 +19886,27 @@ class Site(Resource):
         self.end_to_end_encryption_enabled = end_to_end_encryption_enabled
         self.host_names_disabled = host_names_disabled
         self.custom_domain_verification_id = custom_domain_verification_id
-        self.outbound_ip_addresses = None
-        self.possible_outbound_ip_addresses = None
+        self.outbound_ip_addresses: Optional[str] = None
+        self.possible_outbound_ip_addresses: Optional[str] = None
         self.container_size = container_size
         self.daily_memory_time_quota = daily_memory_time_quota
-        self.suspended_till = None
-        self.max_number_of_workers = None
+        self.suspended_till: Optional[datetime.datetime] = None
+        self.max_number_of_workers: Optional[int] = None
         self.cloning_info = cloning_info
-        self.resource_group = None
-        self.is_default_container = None
-        self.default_host_name = None
-        self.slot_swap_status = None
+        self.resource_group: Optional[str] = None
+        self.is_default_container: Optional[bool] = None
+        self.default_host_name: Optional[str] = None
+        self.slot_swap_status: Optional["_models.SlotSwapStatus"] = None
         self.https_only = https_only
         self.redundancy_mode = redundancy_mode
-        self.in_progress_operation_id = None
+        self.in_progress_operation_id: Optional[str] = None
         self.public_network_access = public_network_access
         self.storage_account_required = storage_account_required
         self.key_vault_reference_identity = key_vault_reference_identity
         self.auto_generated_domain_name_label_scope = auto_generated_domain_name_label_scope
         self.virtual_network_subnet_id = virtual_network_subnet_id
         self.managed_environment_id = managed_environment_id
-        self.sku = None
+        self.sku: Optional[str] = None
 
 
 class SiteAuthSettings(ProxyOnlyResource):
@@ -19948,8 +19945,7 @@ class SiteAuthSettings(ProxyOnlyResource):
     :vartype allowed_external_redirect_urls: list[str]
     :ivar default_provider: The default authentication provider to use when multiple providers are
      configured.
-     This setting is only needed if multiple providers are configured and the unauthenticated
-     client
+     This setting is only needed if multiple providers are configured and the unauthenticated client
      action is set to "RedirectToLoginPage". Known values are: "AzureActiveDirectory", "Facebook",
      "Google", "MicrosoftAccount", "Twitter", and "Github".
     :vartype default_provider: str or
@@ -20220,8 +20216,7 @@ class SiteAuthSettings(ProxyOnlyResource):
         :paramtype allowed_external_redirect_urls: list[str]
         :keyword default_provider: The default authentication provider to use when multiple providers
          are configured.
-         This setting is only needed if multiple providers are configured and the unauthenticated
-         client
+         This setting is only needed if multiple providers are configured and the unauthenticated client
          action is set to "RedirectToLoginPage". Known values are: "AzureActiveDirectory", "Facebook",
          "Google", "MicrosoftAccount", "Twitter", and "Github".
         :paramtype default_provider: str or
@@ -21157,7 +21152,7 @@ class SiteConfig(_serialization.Model):
         self.app_settings = app_settings
         self.metadata = metadata
         self.connection_strings = connection_strings
-        self.machine_key = None
+        self.machine_key: Optional["_models.SiteMachineKey"] = None
         self.handler_mappings = handler_mappings
         self.document_root = document_root
         self.scm_type = scm_type
@@ -21242,10 +21237,10 @@ class SiteConfigPropertiesDictionary(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.use32_bit_worker_process = None
-        self.linux_fx_version = None
-        self.java_version = None
-        self.power_shell_version = None
+        self.use32_bit_worker_process: Optional[bool] = None
+        self.linux_fx_version: Optional[str] = None
+        self.java_version: Optional[str] = None
+        self.power_shell_version: Optional[str] = None
 
 
 class SiteConfigResource(ProxyOnlyResource):
@@ -21858,7 +21853,7 @@ class SiteConfigResource(ProxyOnlyResource):
         self.app_settings = app_settings
         self.metadata = metadata
         self.connection_strings = connection_strings
-        self.machine_key = None
+        self.machine_key: Optional["_models.SiteMachineKey"] = None
         self.handler_mappings = handler_mappings
         self.document_root = document_root
         self.scm_type = scm_type
@@ -21940,7 +21935,7 @@ class SiteConfigResourceCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class SiteConfigurationSnapshotInfo(ProxyOnlyResource):
@@ -21985,8 +21980,8 @@ class SiteConfigurationSnapshotInfo(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.time = None
-        self.snapshot_id = None
+        self.time: Optional[datetime.datetime] = None
+        self.snapshot_id: Optional[int] = None
 
 
 class SiteConfigurationSnapshotInfoCollection(_serialization.Model):
@@ -22019,7 +22014,7 @@ class SiteConfigurationSnapshotInfoCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class SiteContainer(ProxyOnlyResource):
@@ -22141,8 +22136,8 @@ class SiteContainer(ProxyOnlyResource):
         self.user_name = user_name
         self.password_secret = password_secret
         self.user_managed_identity_client_id = user_managed_identity_client_id
-        self.created_time = None
-        self.last_modified_time = None
+        self.created_time: Optional[datetime.datetime] = None
+        self.last_modified_time: Optional[datetime.datetime] = None
         self.volume_mounts = volume_mounts
         self.environment_variables = environment_variables
 
@@ -22177,7 +22172,7 @@ class SiteContainerCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class SiteDnsConfig(_serialization.Model):
@@ -22251,7 +22246,7 @@ class SiteDnsConfig(_serialization.Model):
         self.dns_retry_attempt_timeout = dns_retry_attempt_timeout
         self.dns_retry_attempt_count = dns_retry_attempt_count
         self.dns_max_cache_timeout = dns_max_cache_timeout
-        self.dns_legacy_sort_order = None
+        self.dns_legacy_sort_order: Optional[bool] = None
 
 
 class SiteExtensionInfo(ProxyOnlyResource):
@@ -22467,7 +22462,7 @@ class SiteExtensionInfoCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class SiteLimits(_serialization.Model):
@@ -22663,7 +22658,7 @@ class SitePatchResource(ProxyOnlyResource):
      hostnames.
     :vartype host_name_ssl_states: list[~azure.mgmt.web.v2024_04_01.models.HostNameSslState]
     :ivar server_farm_id: Resource ID of the associated App Service plan, formatted as:
-     "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
     :vartype server_farm_id: str
     :ivar reserved: :code:`<code>true</code>` if reserved; otherwise, :code:`<code>false</code>`.
     :vartype reserved: bool
@@ -22759,7 +22754,7 @@ class SitePatchResource(ProxyOnlyResource):
     :ivar virtual_network_subnet_id: Azure Resource Manager ID of the Virtual network and subnet to
      be joined by Regional VNET Integration.
      This must be of the form
-     /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
     :vartype virtual_network_subnet_id: str
     """
 
@@ -22884,7 +22879,7 @@ class SitePatchResource(ProxyOnlyResource):
          app's hostnames.
         :paramtype host_name_ssl_states: list[~azure.mgmt.web.v2024_04_01.models.HostNameSslState]
         :keyword server_farm_id: Resource ID of the associated App Service plan, formatted as:
-         "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".  # pylint: disable=line-too-long
+         "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
         :paramtype server_farm_id: str
         :keyword reserved: :code:`<code>true</code>` if reserved; otherwise,
          :code:`<code>false</code>`.
@@ -22950,29 +22945,29 @@ class SitePatchResource(ProxyOnlyResource):
         :keyword virtual_network_subnet_id: Azure Resource Manager ID of the Virtual network and subnet
          to be joined by Regional VNET Integration.
          This must be of the form
-         /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.  # pylint: disable=line-too-long
+         /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
         :paramtype virtual_network_subnet_id: str
         """
         super().__init__(kind=kind, **kwargs)
         self.identity = identity
-        self.state = None
-        self.host_names = None
-        self.repository_site_name = None
-        self.usage_state = None
+        self.state: Optional[str] = None
+        self.host_names: Optional[List[str]] = None
+        self.repository_site_name: Optional[str] = None
+        self.usage_state: Optional[Union[str, "_models.UsageState"]] = None
         self.enabled = enabled
-        self.enabled_host_names = None
-        self.availability_state = None
+        self.enabled_host_names: Optional[List[str]] = None
+        self.availability_state: Optional[Union[str, "_models.SiteAvailabilityState"]] = None
         self.host_name_ssl_states = host_name_ssl_states
         self.server_farm_id = server_farm_id
         self.reserved = reserved
         self.is_xenon = is_xenon
         self.hyper_v = hyper_v
-        self.last_modified_time_utc = None
+        self.last_modified_time_utc: Optional[datetime.datetime] = None
         self.dns_configuration = dns_configuration
         self.site_config = site_config
-        self.traffic_manager_host_names = None
+        self.traffic_manager_host_names: Optional[List[str]] = None
         self.scm_site_also_stopped = scm_site_also_stopped
-        self.target_swap_slot = None
+        self.target_swap_slot: Optional[str] = None
         self.hosting_environment_profile = hosting_environment_profile
         self.client_affinity_enabled = client_affinity_enabled
         self.client_cert_enabled = client_cert_enabled
@@ -22980,20 +22975,20 @@ class SitePatchResource(ProxyOnlyResource):
         self.client_cert_exclusion_paths = client_cert_exclusion_paths
         self.host_names_disabled = host_names_disabled
         self.custom_domain_verification_id = custom_domain_verification_id
-        self.outbound_ip_addresses = None
-        self.possible_outbound_ip_addresses = None
+        self.outbound_ip_addresses: Optional[str] = None
+        self.possible_outbound_ip_addresses: Optional[str] = None
         self.container_size = container_size
         self.daily_memory_time_quota = daily_memory_time_quota
-        self.suspended_till = None
-        self.max_number_of_workers = None
+        self.suspended_till: Optional[datetime.datetime] = None
+        self.max_number_of_workers: Optional[int] = None
         self.cloning_info = cloning_info
-        self.resource_group = None
-        self.is_default_container = None
-        self.default_host_name = None
-        self.slot_swap_status = None
+        self.resource_group: Optional[str] = None
+        self.is_default_container: Optional[bool] = None
+        self.default_host_name: Optional[str] = None
+        self.slot_swap_status: Optional["_models.SlotSwapStatus"] = None
         self.https_only = https_only
         self.redundancy_mode = redundancy_mode
-        self.in_progress_operation_id = None
+        self.in_progress_operation_id: Optional[str] = None
         self.storage_account_required = storage_account_required
         self.key_vault_reference_identity = key_vault_reference_identity
         self.virtual_network_subnet_id = virtual_network_subnet_id
@@ -23423,7 +23418,7 @@ class SkuInfoCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class SkuInfos(_serialization.Model):
@@ -23582,13 +23577,13 @@ class SlotDifference(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.level = None
-        self.setting_type = None
-        self.diff_rule = None
-        self.setting_name = None
-        self.value_in_current_slot = None
-        self.value_in_target_slot = None
-        self.description = None
+        self.level: Optional[str] = None
+        self.setting_type: Optional[str] = None
+        self.diff_rule: Optional[str] = None
+        self.setting_name: Optional[str] = None
+        self.value_in_current_slot: Optional[str] = None
+        self.value_in_target_slot: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class SlotDifferenceCollection(_serialization.Model):
@@ -23621,7 +23616,7 @@ class SlotDifferenceCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class SlotSwapStatus(_serialization.Model):
@@ -23652,9 +23647,9 @@ class SlotSwapStatus(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.timestamp_utc = None
-        self.source_slot_name = None
-        self.destination_slot_name = None
+        self.timestamp_utc: Optional[datetime.datetime] = None
+        self.source_slot_name: Optional[str] = None
+        self.destination_slot_name: Optional[str] = None
 
 
 class SlowRequestsBasedTrigger(_serialization.Model):
@@ -23741,7 +23736,7 @@ class Snapshot(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.time = None
+        self.time: Optional[str] = None
 
 
 class SnapshotCollection(_serialization.Model):
@@ -23774,7 +23769,7 @@ class SnapshotCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class SnapshotRecoverySource(_serialization.Model):
@@ -23784,9 +23779,9 @@ class SnapshotRecoverySource(_serialization.Model):
      SouthCentralUS.
     :vartype location: str
     :ivar id: ARM resource ID of the source app.
-    /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}
+     /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}
      for production slots and
-    /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName}
+     /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName}
      for other slots.
     :vartype id: str
     """
@@ -23808,9 +23803,9 @@ class SnapshotRecoverySource(_serialization.Model):
          SouthCentralUS.
         :paramtype location: str
         :keyword id: ARM resource ID of the source app.
-        /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}
+         /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}
          for production slots and
-        /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName}
+         /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slotName}
          for other slots.
         :paramtype id: str
         """
@@ -24084,7 +24079,7 @@ class SourceControlCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class StackMajorVersion(_serialization.Model):
@@ -24389,7 +24384,7 @@ class StampCapacityCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class StaticSiteARMResource(Resource):
@@ -24404,7 +24399,7 @@ class StaticSiteARMResource(Resource):
     :ivar name: Resource Name.
     :vartype name: str
     :ivar kind: Kind of resource. If the resource is an app, you can refer to
-     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+     https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
      for details supported values for kind.
     :vartype kind: str
     :ivar location: Resource Location. Required.
@@ -24539,7 +24534,7 @@ class StaticSiteARMResource(Resource):
     ) -> None:
         """
         :keyword kind: Kind of resource. If the resource is an app, you can refer to
-         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference  # pylint: disable=line-too-long
+         https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference
          for details supported values for kind.
         :paramtype kind: str
         :keyword location: Resource Location. Required.
@@ -24583,24 +24578,26 @@ class StaticSiteARMResource(Resource):
         super().__init__(kind=kind, location=location, tags=tags, **kwargs)
         self.sku = sku
         self.identity = identity
-        self.default_hostname = None
+        self.default_hostname: Optional[str] = None
         self.repository_url = repository_url
         self.branch = branch
-        self.custom_domains = None
+        self.custom_domains: Optional[List[str]] = None
         self.repository_token = repository_token
         self.build_properties = build_properties
-        self.private_endpoint_connections = None
+        self.private_endpoint_connections: Optional[
+            List["_models.ResponseMessageEnvelopeRemotePrivateEndpointConnection"]
+        ] = None
         self.staging_environment_policy = staging_environment_policy
         self.allow_config_file_updates = allow_config_file_updates
         self.template_properties = template_properties
-        self.content_distribution_endpoint = None
-        self.key_vault_reference_identity = None
-        self.user_provided_function_apps = None
-        self.linked_backends = None
+        self.content_distribution_endpoint: Optional[str] = None
+        self.key_vault_reference_identity: Optional[str] = None
+        self.user_provided_function_apps: Optional[List["_models.StaticSiteUserProvidedFunctionApp"]] = None
+        self.linked_backends: Optional[List["_models.StaticSiteLinkedBackend"]] = None
         self.provider = provider
         self.enterprise_grade_cdn_status = enterprise_grade_cdn_status
         self.public_network_access = public_network_access
-        self.database_connections = None
+        self.database_connections: Optional[List["_models.DatabaseConnectionOverview"]] = None
 
 
 class StaticSiteBasicAuthPropertiesARMResource(ProxyOnlyResource):
@@ -24678,7 +24675,7 @@ class StaticSiteBasicAuthPropertiesARMResource(ProxyOnlyResource):
         self.secret_url = secret_url
         self.applicable_environments_mode = applicable_environments_mode
         self.environments = environments
-        self.secret_state = None
+        self.secret_state: Optional[str] = None
 
 
 class StaticSiteBasicAuthPropertiesCollection(_serialization.Model):
@@ -24713,7 +24710,7 @@ class StaticSiteBasicAuthPropertiesCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class StaticSiteBuildARMResource(ProxyOnlyResource):
@@ -24797,16 +24794,16 @@ class StaticSiteBuildARMResource(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.build_id = None
-        self.source_branch = None
-        self.pull_request_title = None
-        self.hostname = None
-        self.created_time_utc = None
-        self.last_updated_on = None
-        self.status = None
-        self.user_provided_function_apps = None
-        self.linked_backends = None
-        self.database_connections = None
+        self.build_id: Optional[str] = None
+        self.source_branch: Optional[str] = None
+        self.pull_request_title: Optional[str] = None
+        self.hostname: Optional[str] = None
+        self.created_time_utc: Optional[datetime.datetime] = None
+        self.last_updated_on: Optional[datetime.datetime] = None
+        self.status: Optional[Union[str, "_models.BuildStatus"]] = None
+        self.user_provided_function_apps: Optional[List["_models.StaticSiteUserProvidedFunctionApp"]] = None
+        self.linked_backends: Optional[List["_models.StaticSiteLinkedBackend"]] = None
+        self.database_connections: Optional[List["_models.DatabaseConnectionOverview"]] = None
 
 
 class StaticSiteBuildCollection(_serialization.Model):
@@ -24839,7 +24836,7 @@ class StaticSiteBuildCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class StaticSiteBuildProperties(_serialization.Model):
@@ -24952,7 +24949,7 @@ class StaticSiteCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class StaticSiteCustomDomainOverviewARMResource(ProxyOnlyResource):  # pylint: disable=name-too-long
@@ -25010,11 +25007,11 @@ class StaticSiteCustomDomainOverviewARMResource(ProxyOnlyResource):  # pylint: d
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.domain_name = None
-        self.created_on = None
-        self.status = None
-        self.validation_token = None
-        self.error_message = None
+        self.domain_name: Optional[str] = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.status: Optional[Union[str, "_models.CustomDomainStatus"]] = None
+        self.validation_token: Optional[str] = None
+        self.error_message: Optional[str] = None
 
 
 class StaticSiteCustomDomainOverviewCollection(_serialization.Model):
@@ -25049,7 +25046,7 @@ class StaticSiteCustomDomainOverviewCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class StaticSiteCustomDomainRequestPropertiesARMResource(ProxyOnlyResource):  # pylint: disable=name-too-long
@@ -25124,9 +25121,9 @@ class StaticSiteDatabaseConnectionConfigurationFileOverview(_serialization.Model
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.file_name = None
-        self.contents = None
-        self.type = None
+        self.file_name: Optional[str] = None
+        self.contents: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class StaticSiteFunctionOverviewARMResource(ProxyOnlyResource):
@@ -25172,8 +25169,8 @@ class StaticSiteFunctionOverviewARMResource(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.function_name = None
-        self.trigger_type = None
+        self.function_name: Optional[str] = None
+        self.trigger_type: Optional[Union[str, "_models.TriggerTypes"]] = None
 
 
 class StaticSiteFunctionOverviewCollection(_serialization.Model):
@@ -25207,7 +25204,7 @@ class StaticSiteFunctionOverviewCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class StaticSiteLinkedBackend(_serialization.Model):
@@ -25249,8 +25246,8 @@ class StaticSiteLinkedBackend(_serialization.Model):
         super().__init__(**kwargs)
         self.backend_resource_id = backend_resource_id
         self.region = region
-        self.created_on = None
-        self.provisioning_state = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.provisioning_state: Optional[str] = None
 
 
 class StaticSiteLinkedBackendARMResource(ProxyOnlyResource):
@@ -25314,8 +25311,8 @@ class StaticSiteLinkedBackendARMResource(ProxyOnlyResource):
         super().__init__(kind=kind, **kwargs)
         self.backend_resource_id = backend_resource_id
         self.region = region
-        self.created_on = None
-        self.provisioning_state = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.provisioning_state: Optional[str] = None
 
 
 class StaticSiteLinkedBackendsCollection(_serialization.Model):
@@ -25348,7 +25345,7 @@ class StaticSiteLinkedBackendsCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class StaticSitePatchResource(ProxyOnlyResource):
@@ -25509,24 +25506,26 @@ class StaticSitePatchResource(ProxyOnlyResource):
         :paramtype public_network_access: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.default_hostname = None
+        self.default_hostname: Optional[str] = None
         self.repository_url = repository_url
         self.branch = branch
-        self.custom_domains = None
+        self.custom_domains: Optional[List[str]] = None
         self.repository_token = repository_token
         self.build_properties = build_properties
-        self.private_endpoint_connections = None
+        self.private_endpoint_connections: Optional[
+            List["_models.ResponseMessageEnvelopeRemotePrivateEndpointConnection"]
+        ] = None
         self.staging_environment_policy = staging_environment_policy
         self.allow_config_file_updates = allow_config_file_updates
         self.template_properties = template_properties
-        self.content_distribution_endpoint = None
-        self.key_vault_reference_identity = None
-        self.user_provided_function_apps = None
-        self.linked_backends = None
+        self.content_distribution_endpoint: Optional[str] = None
+        self.key_vault_reference_identity: Optional[str] = None
+        self.user_provided_function_apps: Optional[List["_models.StaticSiteUserProvidedFunctionApp"]] = None
+        self.linked_backends: Optional[List["_models.StaticSiteLinkedBackend"]] = None
         self.provider = provider
         self.enterprise_grade_cdn_status = enterprise_grade_cdn_status
         self.public_network_access = public_network_access
-        self.database_connections = None
+        self.database_connections: Optional[List["_models.DatabaseConnectionOverview"]] = None
 
 
 class StaticSiteResetPropertiesARMResource(ProxyOnlyResource):
@@ -25628,8 +25627,8 @@ class StaticSitesWorkflowPreview(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.path = None
-        self.contents = None
+        self.path: Optional[str] = None
+        self.contents: Optional[str] = None
 
 
 class StaticSitesWorkflowPreviewRequest(ProxyOnlyResource):
@@ -25802,9 +25801,9 @@ class StaticSiteUserARMResource(ProxyOnlyResource):
         :paramtype roles: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.provider = None
-        self.user_id = None
-        self.display_name = None
+        self.provider: Optional[str] = None
+        self.user_id: Optional[str] = None
+        self.display_name: Optional[str] = None
         self.roles = roles
 
 
@@ -25838,7 +25837,7 @@ class StaticSiteUserCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class StaticSiteUserInvitationRequestResource(ProxyOnlyResource):
@@ -25959,8 +25958,8 @@ class StaticSiteUserInvitationResponseResource(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.expires_on = None
-        self.invitation_url = None
+        self.expires_on: Optional[datetime.datetime] = None
+        self.invitation_url: Optional[str] = None
 
 
 class StaticSiteUserProvidedFunctionApp(ProxyOnlyResource):
@@ -26023,7 +26022,7 @@ class StaticSiteUserProvidedFunctionApp(ProxyOnlyResource):
         super().__init__(kind=kind, **kwargs)
         self.function_app_resource_id = function_app_resource_id
         self.function_app_region = function_app_region
-        self.created_on = None
+        self.created_on: Optional[datetime.datetime] = None
 
 
 class StaticSiteUserProvidedFunctionAppARMResource(ProxyOnlyResource):  # pylint: disable=name-too-long
@@ -26086,7 +26085,7 @@ class StaticSiteUserProvidedFunctionAppARMResource(ProxyOnlyResource):  # pylint
         super().__init__(kind=kind, **kwargs)
         self.function_app_resource_id = function_app_resource_id
         self.function_app_region = function_app_region
-        self.created_on = None
+        self.created_on: Optional[datetime.datetime] = None
 
 
 class StaticSiteUserProvidedFunctionAppsCollection(_serialization.Model):  # pylint: disable=name-too-long
@@ -26121,7 +26120,7 @@ class StaticSiteUserProvidedFunctionAppsCollection(_serialization.Model):  # pyl
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class StaticSiteZipDeploymentARMResource(ProxyOnlyResource):
@@ -26452,7 +26451,7 @@ class StorageMigrationResponse(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.operation_id = None
+        self.operation_id: Optional[str] = None
 
 
 class StringDictionary(ProxyOnlyResource):
@@ -26561,7 +26560,7 @@ class SubResource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class SupportTopic(_serialization.Model):
@@ -26588,8 +26587,8 @@ class SupportTopic(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.pes_id = None
+        self.id: Optional[str] = None
+        self.pes_id: Optional[str] = None
 
 
 class SwiftVirtualNetwork(ProxyOnlyResource):
@@ -26780,7 +26779,7 @@ class TldLegalAgreementCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class TokenStore(_serialization.Model):
@@ -26947,7 +26946,7 @@ class TopLevelDomainCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class TriggeredJobHistory(ProxyOnlyResource):
@@ -27024,7 +27023,7 @@ class TriggeredJobHistoryCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class TriggeredJobRun(_serialization.Model):
@@ -27279,7 +27278,7 @@ class TriggeredWebJobCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class Twitter(_serialization.Model):
@@ -27421,14 +27420,14 @@ class Usage(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.display_name = None
-        self.resource_name = None
-        self.unit = None
-        self.current_value = None
-        self.limit = None
-        self.next_reset_time = None
-        self.compute_mode = None
-        self.site_mode = None
+        self.display_name: Optional[str] = None
+        self.resource_name: Optional[str] = None
+        self.unit: Optional[str] = None
+        self.current_value: Optional[int] = None
+        self.limit: Optional[int] = None
+        self.next_reset_time: Optional[datetime.datetime] = None
+        self.compute_mode: Optional[Union[str, "_models.ComputeModeOptions"]] = None
+        self.site_mode: Optional[str] = None
 
 
 class UsageCollection(_serialization.Model):
@@ -27461,7 +27460,7 @@ class UsageCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class User(ProxyOnlyResource):
@@ -27564,8 +27563,8 @@ class UserAssignedIdentity(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.client_id = None
+        self.principal_id: Optional[str] = None
+        self.client_id: Optional[str] = None
 
 
 class ValidateRequest(_serialization.Model):
@@ -27948,8 +27947,8 @@ class VirtualNetworkProfile(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.id = id
-        self.name = None
-        self.type = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.subnet = subnet
 
 
@@ -28074,10 +28073,10 @@ class VnetInfo(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.vnet_resource_id = vnet_resource_id
-        self.cert_thumbprint = None
+        self.cert_thumbprint: Optional[str] = None
         self.cert_blob = cert_blob
-        self.routes = None
-        self.resync_required = None
+        self.routes: Optional[List["_models.VnetRoute"]] = None
+        self.resync_required: Optional[bool] = None
         self.dns_servers = dns_servers
         self.is_swift = is_swift
 
@@ -28165,10 +28164,10 @@ class VnetInfoResource(ProxyOnlyResource):
         """
         super().__init__(kind=kind, **kwargs)
         self.vnet_resource_id = vnet_resource_id
-        self.cert_thumbprint = None
+        self.cert_thumbprint: Optional[str] = None
         self.cert_blob = cert_blob
-        self.routes = None
-        self.resync_required = None
+        self.routes: Optional[List["_models.VnetRoute"]] = None
+        self.resync_required: Optional[bool] = None
         self.dns_servers = dns_servers
         self.is_swift = is_swift
 
@@ -28528,7 +28527,7 @@ class WebAppCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class WebAppInstanceStatusCollection(_serialization.Model):
@@ -28561,7 +28560,7 @@ class WebAppInstanceStatusCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class WebAppMajorVersion(_serialization.Model):
@@ -28592,9 +28591,9 @@ class WebAppMajorVersion(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.display_text = None
-        self.value = None
-        self.minor_versions = None
+        self.display_text: Optional[str] = None
+        self.value: Optional[str] = None
+        self.minor_versions: Optional[List["_models.WebAppMinorVersion"]] = None
 
 
 class WebAppMinorVersion(_serialization.Model):
@@ -28625,9 +28624,9 @@ class WebAppMinorVersion(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.display_text = None
-        self.value = None
-        self.stack_settings = None
+        self.display_text: Optional[str] = None
+        self.value: Optional[str] = None
+        self.stack_settings: Optional["_models.WebAppRuntimes"] = None
 
 
 class WebAppRuntimes(_serialization.Model):
@@ -28666,10 +28665,10 @@ class WebAppRuntimes(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.linux_runtime_settings = None
-        self.windows_runtime_settings = None
-        self.linux_container_settings = None
-        self.windows_container_settings = None
+        self.linux_runtime_settings: Optional["_models.WebAppRuntimeSettings"] = None
+        self.windows_runtime_settings: Optional["_models.WebAppRuntimeSettings"] = None
+        self.linux_container_settings: Optional["_models.LinuxJavaContainerSettings"] = None
+        self.windows_container_settings: Optional["_models.WindowsJavaContainerSettings"] = None
 
 
 class WebAppRuntimeSettings(_serialization.Model):
@@ -28736,16 +28735,16 @@ class WebAppRuntimeSettings(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.runtime_version = None
-        self.remote_debugging_supported = None
-        self.app_insights_settings = None
-        self.git_hub_action_settings = None
-        self.is_preview = None
-        self.is_deprecated = None
-        self.is_hidden = None
-        self.end_of_life_date = None
-        self.is_auto_update = None
-        self.is_early_access = None
+        self.runtime_version: Optional[str] = None
+        self.remote_debugging_supported: Optional[bool] = None
+        self.app_insights_settings: Optional["_models.AppInsightsWebAppStackSettings"] = None
+        self.git_hub_action_settings: Optional["_models.GitHubActionWebAppStackSettings"] = None
+        self.is_preview: Optional[bool] = None
+        self.is_deprecated: Optional[bool] = None
+        self.is_hidden: Optional[bool] = None
+        self.end_of_life_date: Optional[datetime.datetime] = None
+        self.is_auto_update: Optional[bool] = None
+        self.is_early_access: Optional[bool] = None
 
 
 class WebAppStack(ProxyOnlyResource):
@@ -28802,11 +28801,11 @@ class WebAppStack(ProxyOnlyResource):
         :paramtype kind: str
         """
         super().__init__(kind=kind, **kwargs)
-        self.location = None
-        self.display_text = None
-        self.value = None
-        self.major_versions = None
-        self.preferred_os = None
+        self.location: Optional[str] = None
+        self.display_text: Optional[str] = None
+        self.value: Optional[str] = None
+        self.major_versions: Optional[List["_models.WebAppMajorVersion"]] = None
+        self.preferred_os: Optional[Union[str, "_models.StackPreferredOs"]] = None
 
 
 class WebAppStackCollection(_serialization.Model):
@@ -28839,7 +28838,7 @@ class WebAppStackCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class WebJob(ProxyOnlyResource):
@@ -28962,7 +28961,7 @@ class WebJobCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class WebSiteInstanceStatus(ProxyOnlyResource):
@@ -29108,14 +29107,14 @@ class WindowsJavaContainerSettings(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.java_container = None
-        self.java_container_version = None
-        self.is_preview = None
-        self.is_deprecated = None
-        self.is_hidden = None
-        self.end_of_life_date = None
-        self.is_auto_update = None
-        self.is_early_access = None
+        self.java_container: Optional[str] = None
+        self.java_container_version: Optional[str] = None
+        self.is_preview: Optional[bool] = None
+        self.is_deprecated: Optional[bool] = None
+        self.is_hidden: Optional[bool] = None
+        self.end_of_life_date: Optional[datetime.datetime] = None
+        self.is_auto_update: Optional[bool] = None
+        self.is_early_access: Optional[bool] = None
 
 
 class WorkerPoolCollection(_serialization.Model):
@@ -29148,7 +29147,7 @@ class WorkerPoolCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class WorkerPoolResource(ProxyOnlyResource):
@@ -29231,7 +29230,7 @@ class WorkerPoolResource(ProxyOnlyResource):
         self.compute_mode = compute_mode
         self.worker_size = worker_size
         self.worker_count = worker_count
-        self.instance_names = None
+        self.instance_names: Optional[List[str]] = None
 
 
 class Workflow(WorkflowResource):
@@ -29369,15 +29368,15 @@ class Workflow(WorkflowResource):
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.identity = identity
-        self.provisioning_state = None
-        self.created_time = None
-        self.changed_time = None
+        self.provisioning_state: Optional[Union[str, "_models.WorkflowProvisioningState"]] = None
+        self.created_time: Optional[datetime.datetime] = None
+        self.changed_time: Optional[datetime.datetime] = None
         self.state = state
-        self.version = None
-        self.access_endpoint = None
+        self.version: Optional[str] = None
+        self.access_endpoint: Optional[str] = None
         self.endpoints_configuration = endpoints_configuration
         self.access_control = access_control
-        self.sku = None
+        self.sku: Optional["_models.WorkflowSku"] = None
         self.integration_account = integration_account
         self.integration_service_environment = integration_service_environment
         self.definition = definition
@@ -29475,9 +29474,9 @@ class WorkflowEnvelope(_serialization.Model):
         :paramtype properties: ~azure.mgmt.web.v2024_04_01.models.WorkflowEnvelopeProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.kind = kind
         self.location = location
         self.properties = properties
@@ -29513,7 +29512,7 @@ class WorkflowEnvelopeCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class WorkflowEnvelopeProperties(_serialization.Model):
@@ -29746,7 +29745,7 @@ class WorkflowOutputParameter(WorkflowParameter):
         :paramtype description: str
         """
         super().__init__(type=type, value=value, metadata=metadata, description=description, **kwargs)
-        self.error = None
+        self.error: Optional[JSON] = None
 
 
 class WorkflowRun(SubResource):
@@ -29829,20 +29828,20 @@ class WorkflowRun(SubResource):
         :paramtype correlation: ~azure.mgmt.web.v2024_04_01.models.Correlation
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.type = None
-        self.wait_end_time = None
-        self.start_time = None
-        self.end_time = None
-        self.status = None
-        self.code = None
-        self.error = None
-        self.correlation_id = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.wait_end_time: Optional[datetime.datetime] = None
+        self.start_time: Optional[datetime.datetime] = None
+        self.end_time: Optional[datetime.datetime] = None
+        self.status: Optional[Union[str, "_models.WorkflowStatus"]] = None
+        self.code: Optional[str] = None
+        self.error: Optional[JSON] = None
+        self.correlation_id: Optional[str] = None
         self.correlation = correlation
-        self.workflow = None
-        self.trigger = None
-        self.outputs = None
-        self.response = None
+        self.workflow: Optional["_models.ResourceReference"] = None
+        self.trigger: Optional["_models.WorkflowRunTrigger"] = None
+        self.outputs: Optional[Dict[str, "_models.WorkflowOutputParameter"]] = None
+        self.response: Optional["_models.WorkflowRunTrigger"] = None
 
 
 class WorkflowRunAction(SubResource):
@@ -29928,18 +29927,18 @@ class WorkflowRunAction(SubResource):
         :paramtype retry_history: list[~azure.mgmt.web.v2024_04_01.models.RetryHistory]
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.type = None
-        self.start_time = None
-        self.end_time = None
-        self.status = None
-        self.code = None
-        self.error = None
-        self.tracking_id = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.start_time: Optional[datetime.datetime] = None
+        self.end_time: Optional[datetime.datetime] = None
+        self.status: Optional[Union[str, "_models.WorkflowStatus"]] = None
+        self.code: Optional[str] = None
+        self.error: Optional[JSON] = None
+        self.tracking_id: Optional[str] = None
         self.correlation = correlation
-        self.inputs_link = None
-        self.outputs_link = None
-        self.tracked_properties = None
+        self.inputs_link: Optional["_models.ContentLink"] = None
+        self.outputs_link: Optional["_models.ContentLink"] = None
+        self.tracked_properties: Optional[JSON] = None
         self.retry_history = retry_history
 
 
@@ -30132,12 +30131,12 @@ class WorkflowRunActionRepetitionDefinition(WorkflowResource):
         self.status = status
         self.code = code
         self.error = error
-        self.tracking_id = None
-        self.inputs = None
-        self.inputs_link = None
-        self.outputs = None
-        self.outputs_link = None
-        self.tracked_properties = None
+        self.tracking_id: Optional[str] = None
+        self.inputs: Optional[JSON] = None
+        self.inputs_link: Optional["_models.ContentLink"] = None
+        self.outputs: Optional[JSON] = None
+        self.outputs_link: Optional["_models.ContentLink"] = None
+        self.tracked_properties: Optional[JSON] = None
         self.retry_history = retry_history
         self.iteration_count = iteration_count
         self.repetition_indexes = repetition_indexes
@@ -30420,20 +30419,20 @@ class WorkflowRunTrigger(_serialization.Model):
         :paramtype correlation: ~azure.mgmt.web.v2024_04_01.models.Correlation
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.inputs = None
-        self.inputs_link = None
-        self.outputs = None
-        self.outputs_link = None
-        self.scheduled_time = None
-        self.start_time = None
-        self.end_time = None
-        self.tracking_id = None
+        self.name: Optional[str] = None
+        self.inputs: Optional[JSON] = None
+        self.inputs_link: Optional["_models.ContentLink"] = None
+        self.outputs: Optional[JSON] = None
+        self.outputs_link: Optional["_models.ContentLink"] = None
+        self.scheduled_time: Optional[datetime.datetime] = None
+        self.start_time: Optional[datetime.datetime] = None
+        self.end_time: Optional[datetime.datetime] = None
+        self.tracking_id: Optional[str] = None
         self.correlation = correlation
-        self.code = None
-        self.status = None
-        self.error = None
-        self.tracked_properties = None
+        self.code: Optional[str] = None
+        self.status: Optional[Union[str, "_models.WorkflowStatus"]] = None
+        self.error: Optional[JSON] = None
+        self.tracked_properties: Optional[JSON] = None
 
 
 class WorkflowSku(_serialization.Model):
@@ -30547,17 +30546,17 @@ class WorkflowTrigger(SubResource):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.type = None
-        self.provisioning_state = None
-        self.created_time = None
-        self.changed_time = None
-        self.state = None
-        self.status = None
-        self.last_execution_time = None
-        self.next_execution_time = None
-        self.recurrence = None
-        self.workflow = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.WorkflowTriggerProvisioningState"]] = None
+        self.created_time: Optional[datetime.datetime] = None
+        self.changed_time: Optional[datetime.datetime] = None
+        self.state: Optional[Union[str, "_models.WorkflowState"]] = None
+        self.status: Optional[Union[str, "_models.WorkflowStatus"]] = None
+        self.last_execution_time: Optional[datetime.datetime] = None
+        self.next_execution_time: Optional[datetime.datetime] = None
+        self.recurrence: Optional["_models.WorkflowTriggerRecurrence"] = None
+        self.workflow: Optional["_models.ResourceReference"] = None
 
 
 class WorkflowTriggerCallbackUrl(_serialization.Model):
@@ -30611,10 +30610,10 @@ class WorkflowTriggerCallbackUrl(_serialization.Model):
         :paramtype queries: ~azure.mgmt.web.v2024_04_01.models.WorkflowTriggerListCallbackUrlQueries
         """
         super().__init__(**kwargs)
-        self.value = None
-        self.method = None
-        self.base_path = None
-        self.relative_path = None
+        self.value: Optional[str] = None
+        self.method: Optional[str] = None
+        self.base_path: Optional[str] = None
+        self.relative_path: Optional[str] = None
         self.relative_path_parameters = relative_path_parameters
         self.queries = queries
 
@@ -30721,20 +30720,20 @@ class WorkflowTriggerHistory(SubResource):
         :paramtype correlation: ~azure.mgmt.web.v2024_04_01.models.Correlation
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.type = None
-        self.start_time = None
-        self.end_time = None
-        self.scheduled_time = None
-        self.status = None
-        self.code = None
-        self.error = None
-        self.tracking_id = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.start_time: Optional[datetime.datetime] = None
+        self.end_time: Optional[datetime.datetime] = None
+        self.scheduled_time: Optional[datetime.datetime] = None
+        self.status: Optional[Union[str, "_models.WorkflowStatus"]] = None
+        self.code: Optional[str] = None
+        self.error: Optional[JSON] = None
+        self.tracking_id: Optional[str] = None
         self.correlation = correlation
-        self.inputs_link = None
-        self.outputs_link = None
-        self.fired = None
-        self.run = None
+        self.inputs_link: Optional["_models.ContentLink"] = None
+        self.outputs_link: Optional["_models.ContentLink"] = None
+        self.fired: Optional[bool] = None
+        self.run: Optional["_models.ResourceReference"] = None
 
 
 class WorkflowTriggerHistoryFilter(_serialization.Model):
@@ -31048,15 +31047,15 @@ class WorkflowVersion(WorkflowResource):
         :paramtype parameters: dict[str, ~azure.mgmt.web.v2024_04_01.models.WorkflowParameter]
         """
         super().__init__(location=location, tags=tags, **kwargs)
-        self.provisioning_state = None
-        self.created_time = None
-        self.changed_time = None
+        self.provisioning_state: Optional[Union[str, "_models.WorkflowProvisioningState"]] = None
+        self.created_time: Optional[datetime.datetime] = None
+        self.changed_time: Optional[datetime.datetime] = None
         self.state = state
-        self.version = None
-        self.access_endpoint = None
+        self.version: Optional[str] = None
+        self.access_endpoint: Optional[str] = None
         self.endpoints_configuration = endpoints_configuration
         self.access_control = access_control
-        self.sku = None
+        self.sku: Optional["_models.WorkflowSku"] = None
         self.integration_account = integration_account
         self.definition = definition
         self.parameters = parameters
