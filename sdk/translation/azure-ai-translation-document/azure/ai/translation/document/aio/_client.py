@@ -15,7 +15,7 @@ from azure.core.credentials import AzureKeyCredential
 from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 
-from .._serialization import Deserializer, Serializer
+from .._utils.serialization import Deserializer, Serializer
 from ._configuration import DocumentTranslationClientConfiguration, SingleDocumentTranslationClientConfiguration
 from ._operations import DocumentTranslationClientOperationsMixin, SingleDocumentTranslationClientOperationsMixin
 
@@ -29,12 +29,13 @@ class DocumentTranslationClient(DocumentTranslationClientOperationsMixin):
     :param endpoint: Supported document Translation endpoint, protocol and hostname, for example:
      https://{TranslatorResourceName}.cognitiveservices.azure.com/translator. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is either a
-     AzureKeyCredential type or a TokenCredential type. Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a key
+     credential type or a token credential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2024-05-01".
-     Note that overriding this default value may result in unsupported behavior.
+    :keyword api_version: The API version to use for this operation. Default value is
+     "2024-11-01-preview". Note that overriding this default value may result in unsupported
+     behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -45,6 +46,7 @@ class DocumentTranslationClient(DocumentTranslationClientOperationsMixin):
     ) -> None:
         _endpoint = "{endpoint}/translator"
         self._config = DocumentTranslationClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -113,12 +115,13 @@ class SingleDocumentTranslationClient(SingleDocumentTranslationClientOperationsM
     :param endpoint: Supported document Translation endpoint, protocol and hostname, for example:
      https://{TranslatorResourceName}.cognitiveservices.azure.com/translator. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is either a
-     AzureKeyCredential type or a TokenCredential type. Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a key
+     credential type or a token credential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2024-05-01".
-     Note that overriding this default value may result in unsupported behavior.
+    :keyword api_version: The API version to use for this operation. Default value is
+     "2024-11-01-preview". Note that overriding this default value may result in unsupported
+     behavior.
     :paramtype api_version: str
     """
 
@@ -127,6 +130,7 @@ class SingleDocumentTranslationClient(SingleDocumentTranslationClientOperationsM
     ) -> None:
         _endpoint = "{endpoint}/translator"
         self._config = SingleDocumentTranslationClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
