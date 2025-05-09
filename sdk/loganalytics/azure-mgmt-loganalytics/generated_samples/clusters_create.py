@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -34,7 +35,7 @@ def main():
         resource_group_name="oiautorest6685",
         cluster_name="oiautorest6685",
         parameters={
-            "location": "australiasoutheast",
+            "location": "eastus",
             "sku": {"capacity": 1000, "name": "CapacityReservation"},
             "tags": {"tag1": "val1"},
         },
@@ -42,6 +43,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/ClustersCreate.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2025-02-01/examples/ClustersCreate.json
 if __name__ == "__main__":
     main()
