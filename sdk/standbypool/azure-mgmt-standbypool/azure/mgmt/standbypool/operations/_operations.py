@@ -34,8 +34,8 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._configuration import StandbyPoolMgmtClientConfiguration
-from .._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
-from .._serialization import Deserializer, Serializer
+from .._utils.model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
+from .._utils.serialization import Deserializer, Serializer
 from .._validation import api_version_validation
 
 T = TypeVar("T")
@@ -630,7 +630,7 @@ class Operations:
         :attr:`operations` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: StandbyPoolMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -731,7 +731,7 @@ class StandbyVirtualMachinePoolsOperations:
         :attr:`standby_virtual_machine_pools` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: StandbyPoolMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -1515,7 +1515,7 @@ class StandbyVirtualMachinesOperations:
         :attr:`standby_virtual_machines` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: StandbyPoolMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -1703,7 +1703,7 @@ class StandbyVirtualMachinePoolRuntimeViewsOperations:  # pylint: disable=name-t
         :attr:`standby_virtual_machine_pool_runtime_views` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: StandbyPoolMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -1917,7 +1917,7 @@ class StandbyContainerGroupPoolsOperations:
         :attr:`standby_container_group_pools` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: StandbyPoolMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -2701,7 +2701,7 @@ class StandbyContainerGroupPoolRuntimeViewsOperations:  # pylint: disable=name-t
         :attr:`standby_container_group_pool_runtime_views` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: StandbyPoolMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
