@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.containerservice import ContainerServiceClient
+from azure.mgmt.containerservice.v2025_03_02_preview import ContainerServiceClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
@@ -20,11 +20,11 @@ class TestContainerServiceOperationStatusResultOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_operation_status_result_list(self, resource_group):
         response = self.client.operation_status_result.list(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2023-10-02-preview",
+            api_version="2025-03-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -32,12 +32,12 @@ class TestContainerServiceOperationStatusResultOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_operation_status_result_get(self, resource_group):
         response = self.client.operation_status_result.get(
             resource_group_name=resource_group.name,
             resource_name="str",
             operation_id="str",
-            api_version="2023-10-02-preview",
+            api_version="2025-03-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -45,13 +45,13 @@ class TestContainerServiceOperationStatusResultOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_by_agent_pool(self, resource_group):
+    def test_operation_status_result_get_by_agent_pool(self, resource_group):
         response = self.client.operation_status_result.get_by_agent_pool(
             resource_group_name=resource_group.name,
             resource_name="str",
             agent_pool_name="str",
             operation_id="str",
-            api_version="2023-10-02-preview",
+            api_version="2025-03-02-preview",
         )
 
         # please add some check logic here by yourself
