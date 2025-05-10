@@ -7,31 +7,23 @@
 
 from abc import ABC
 import json
-from typing import Any, Dict, IO, List, Mapping, Optional, TYPE_CHECKING, Tuple, Union
+from typing import Any, Dict, Generic, IO, List, Mapping, Optional, TYPE_CHECKING, Tuple, TypeVar, Union
 
-from ._configuration import DocumentTranslationClientConfiguration, SingleDocumentTranslationClientConfiguration
-from ._model_base import Model, SdkJSONEncoder
+from .._utils.model_base import Model, SdkJSONEncoder
 
 if TYPE_CHECKING:
-    from azure.core import PipelineClient
-
-    from ._serialization import Deserializer, Serializer
+    from .serialization import Deserializer, Serializer
 
 
-class DocumentTranslationClientMixinABC(ABC):
+TClient = TypeVar("TClient")
+TConfig = TypeVar("TConfig")
+
+
+class ClientMixinABC(ABC, Generic[TClient, TConfig]):
     """DO NOT use this class. It is for internal typing use only."""
 
-    _client: "PipelineClient"
-    _config: DocumentTranslationClientConfiguration
-    _serialize: "Serializer"
-    _deserialize: "Deserializer"
-
-
-class SingleDocumentTranslationClientMixinABC(ABC):
-    """DO NOT use this class. It is for internal typing use only."""
-
-    _client: "PipelineClient"
-    _config: SingleDocumentTranslationClientConfiguration
+    _client: TClient
+    _config: TConfig
     _serialize: "Serializer"
     _deserialize: "Deserializer"
 
