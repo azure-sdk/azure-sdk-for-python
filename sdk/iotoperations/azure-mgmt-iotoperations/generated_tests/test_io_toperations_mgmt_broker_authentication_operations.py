@@ -55,6 +55,7 @@ class TestIoTOperationsMgmtBrokerAuthenticationOperations(AzureMgmtRecordedTestC
                             },
                             "serviceAccountTokenSettings": {"audiences": ["str"]},
                             "x509Settings": {
+                                "additionalValidation": "str",
                                 "authorizationAttributes": {"str": {"attributes": {"str": "str"}, "subject": "str"}},
                                 "trustedClientCaCert": "str",
                             },
