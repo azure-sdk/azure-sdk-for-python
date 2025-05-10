@@ -1,5 +1,21 @@
 # Release History
 
+## 14.1.0 (2025-05-10)
+
+### Features Added
+
+  - Model Policies has a new parameter soft_delete_policy
+  - Model Registry has a new parameter auto_generated_domain_name_label_scope
+  - Model Registry has a new parameter metadata_search
+  - Model Registry has a new parameter network_rule_bypass_allowed_for_tasks
+  - Model Registry has a new parameter role_assignment_mode
+  - Model RegistryNameCheckRequest has a new parameter auto_generated_domain_name_label_scope
+  - Model RegistryNameCheckRequest has a new parameter resource_group_name
+  - Model RegistryNameStatus has a new parameter available_login_server_name
+  - Model RegistryUpdateParameters has a new parameter metadata_search
+  - Model RegistryUpdateParameters has a new parameter network_rule_bypass_allowed_for_tasks
+  - Model RegistryUpdateParameters has a new parameter role_assignment_mode
+
 ## 14.0.0 (2025-04-27)
 
 ### Breaking Changes
