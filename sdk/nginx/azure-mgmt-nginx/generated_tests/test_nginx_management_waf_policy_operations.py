@@ -14,70 +14,57 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestNginxManagementConfigurationsOperations(AzureMgmtRecordedTestCase):
+class TestNginxManagementWafPolicyOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(NginxManagementClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_configurations_list(self, resource_group):
-        response = self.client.configurations.list(
+    def test_waf_policy_get(self, resource_group):
+        response = self.client.waf_policy.get(
+            resource_group_name=resource_group.name,
+            deployment_name="str",
+            waf_policy_name="str",
+            api_version="2025-03-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_waf_policy_begin_create(self, resource_group):
+        response = self.client.waf_policy.begin_create(
+            resource_group_name=resource_group.name,
+            deployment_name="str",
+            waf_policy_name="str",
+            api_version="2025-03-01-preview",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_waf_policy_begin_delete(self, resource_group):
+        response = self.client.waf_policy.begin_delete(
+            resource_group_name=resource_group.name,
+            deployment_name="str",
+            waf_policy_name="str",
+            api_version="2025-03-01-preview",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_waf_policy_list(self, resource_group):
+        response = self.client.waf_policy.list(
             resource_group_name=resource_group.name,
             deployment_name="str",
             api_version="2025-03-01-preview",
         )
         result = [r for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_configurations_get(self, resource_group):
-        response = self.client.configurations.get(
-            resource_group_name=resource_group.name,
-            deployment_name="str",
-            configuration_name="str",
-            api_version="2025-03-01-preview",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_configurations_begin_create_or_update(self, resource_group):
-        response = self.client.configurations.begin_create_or_update(
-            resource_group_name=resource_group.name,
-            deployment_name="str",
-            configuration_name="str",
-            api_version="2025-03-01-preview",
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_configurations_begin_delete(self, resource_group):
-        response = self.client.configurations.begin_delete(
-            resource_group_name=resource_group.name,
-            deployment_name="str",
-            configuration_name="str",
-            api_version="2025-03-01-preview",
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_configurations_analysis(self, resource_group):
-        response = self.client.configurations.analysis(
-            resource_group_name=resource_group.name,
-            deployment_name="str",
-            configuration_name="str",
-            api_version="2025-03-01-preview",
-        )
-
         # please add some check logic here by yourself
         # ...

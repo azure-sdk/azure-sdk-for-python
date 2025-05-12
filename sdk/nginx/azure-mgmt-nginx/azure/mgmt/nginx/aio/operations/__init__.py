@@ -16,6 +16,8 @@ from ._api_keys_operations import ApiKeysOperations  # type: ignore
 from ._certificates_operations import CertificatesOperations  # type: ignore
 from ._configurations_operations import ConfigurationsOperations  # type: ignore
 from ._deployments_operations import DeploymentsOperations  # type: ignore
+from ._waf_policy_operations import WafPolicyOperations  # type: ignore
+from ._default_waf_policy_operations import DefaultWafPolicyOperations  # type: ignore
 from ._operations import Operations  # type: ignore
 
 from ._patch import __all__ as _patch_all
@@ -27,6 +29,8 @@ __all__ = [
     "CertificatesOperations",
     "ConfigurationsOperations",
     "DeploymentsOperations",
+    "WafPolicyOperations",
+    "DefaultWafPolicyOperations",
     "Operations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])  # pyright: ignore

@@ -24,7 +24,7 @@ class TestNginxManagementDeploymentsOperations(AzureMgmtRecordedTestCase):
         response = self.client.deployments.get(
             resource_group_name=resource_group.name,
             deployment_name="str",
-            api_version="2024-11-01-preview",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -36,7 +36,7 @@ class TestNginxManagementDeploymentsOperations(AzureMgmtRecordedTestCase):
         response = self.client.deployments.begin_create_or_update(
             resource_group_name=resource_group.name,
             deployment_name="str",
-            api_version="2024-11-01-preview",
+            api_version="2025-03-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -48,7 +48,7 @@ class TestNginxManagementDeploymentsOperations(AzureMgmtRecordedTestCase):
         response = self.client.deployments.begin_update(
             resource_group_name=resource_group.name,
             deployment_name="str",
-            api_version="2024-11-01-preview",
+            api_version="2025-03-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -60,7 +60,7 @@ class TestNginxManagementDeploymentsOperations(AzureMgmtRecordedTestCase):
         response = self.client.deployments.begin_delete(
             resource_group_name=resource_group.name,
             deployment_name="str",
-            api_version="2024-11-01-preview",
+            api_version="2025-03-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -70,7 +70,7 @@ class TestNginxManagementDeploymentsOperations(AzureMgmtRecordedTestCase):
     @recorded_by_proxy
     def test_deployments_list(self, resource_group):
         response = self.client.deployments.list(
-            api_version="2024-11-01-preview",
+            api_version="2025-03-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -81,7 +81,7 @@ class TestNginxManagementDeploymentsOperations(AzureMgmtRecordedTestCase):
     def test_deployments_list_by_resource_group(self, resource_group):
         response = self.client.deployments.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-11-01-preview",
+            api_version="2025-03-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
