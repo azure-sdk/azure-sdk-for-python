@@ -1,5 +1,12 @@
 # Release History
 
+## 3.2.0 (2025-04-25)
+
+### Features Added
+
+  - Model FluxConfiguration has a new parameter oci_repository
+  - Model FluxConfigurationPatch has a new parameter oci_repository
+
 ## 3.1.0 (2023-09-21)
 
 ### Features Added

@@ -9,13 +9,18 @@
 # regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, Optional, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING, cast
+from typing_extensions import Self
 
+from azure.core.pipeline import policies
+from azure.core.settings import settings
 from azure.mgmt.core import AsyncARMPipelineClient
+from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 from azure.profiles import KnownProfiles, ProfileDefinition
 from azure.profiles.multiapiclient import MultiApiClientMixin
 
-from .._serialization import Deserializer, Serializer
+from .._utils.serialization import Deserializer, Serializer
 from ._configuration import SourceControlConfigurationClientConfiguration
 
 if TYPE_CHECKING:
@@ -24,7 +29,7 @@ if TYPE_CHECKING:
 
 class _SDKClient(object):
     def __init__(self, *args, **kwargs):
-        """This is a fake class to support current implemetation of MultiApiClientMixin."
+        """This is a fake class to support current implementation of MultiApiClientMixin."
         Will be removed in final version of multiapi azure-core based client
         """
         pass
@@ -74,14 +79,37 @@ class SourceControlConfigurationClient(MultiApiClientMixin, _SDKClient):
         credential: "AsyncTokenCredential",
         subscription_id: str,
         api_version: Optional[str] = None,
-        base_url: str = "https://management.azure.com",
+        base_url: Optional[str] = None,
         profile: KnownProfiles = KnownProfiles.default,
         **kwargs: Any
     ) -> None:
         if api_version:
             kwargs.setdefault('api_version', api_version)
-        self._config = SourceControlConfigurationClientConfiguration(credential, subscription_id, **kwargs)
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
+        self._config = SourceControlConfigurationClientConfiguration(credential, subscription_id, credential_scopes=credential_scopes, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                AsyncARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=cast(str, base_url), policies=_policies, **kwargs)
         super(SourceControlConfigurationClient, self).__init__(
             api_version=api_version,
             profile=profile
@@ -108,6 +136,7 @@ class SourceControlConfigurationClient(MultiApiClientMixin, _SDKClient):
            * 2022-07-01: :mod:`v2022_07_01.models<azure.mgmt.kubernetesconfiguration.v2022_07_01.models>`
            * 2022-11-01: :mod:`v2022_11_01.models<azure.mgmt.kubernetesconfiguration.v2022_11_01.models>`
            * 2023-05-01: :mod:`v2023_05_01.models<azure.mgmt.kubernetesconfiguration.v2023_05_01.models>`
+           * 2024-04-01-preview: :mod:`v2024_04_01_preview.models<azure.mgmt.kubernetesconfiguration.v2024_04_01_preview.models>`
         """
         if api_version == '2020-07-01-preview':
             from ..v2020_07_01_preview import models
@@ -147,6 +176,9 @@ class SourceControlConfigurationClient(MultiApiClientMixin, _SDKClient):
             return models
         elif api_version == '2023-05-01':
             from ..v2023_05_01 import models
+            return models
+        elif api_version == '2024-04-01-preview':
+            from ..v2024_04_01_preview import models
             return models
         raise ValueError("API version {} is not available".format(api_version))
 
@@ -270,6 +302,7 @@ class SourceControlConfigurationClient(MultiApiClientMixin, _SDKClient):
            * 2022-07-01: :class:`FluxConfigOperationStatusOperations<azure.mgmt.kubernetesconfiguration.v2022_07_01.aio.operations.FluxConfigOperationStatusOperations>`
            * 2022-11-01: :class:`FluxConfigOperationStatusOperations<azure.mgmt.kubernetesconfiguration.v2022_11_01.aio.operations.FluxConfigOperationStatusOperations>`
            * 2023-05-01: :class:`FluxConfigOperationStatusOperations<azure.mgmt.kubernetesconfiguration.v2023_05_01.aio.operations.FluxConfigOperationStatusOperations>`
+           * 2024-04-01-preview: :class:`FluxConfigOperationStatusOperations<azure.mgmt.kubernetesconfiguration.v2024_04_01_preview.aio.operations.FluxConfigOperationStatusOperations>`
         """
         api_version = self._get_api_version('flux_config_operation_status')
         if api_version == '2021-11-01-preview':
@@ -284,6 +317,8 @@ class SourceControlConfigurationClient(MultiApiClientMixin, _SDKClient):
             from ..v2022_11_01.aio.operations import FluxConfigOperationStatusOperations as OperationClass
         elif api_version == '2023-05-01':
             from ..v2023_05_01.aio.operations import FluxConfigOperationStatusOperations as OperationClass
+        elif api_version == '2024-04-01-preview':
+            from ..v2024_04_01_preview.aio.operations import FluxConfigOperationStatusOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'flux_config_operation_status'".format(api_version))
         self._config.api_version = api_version
@@ -299,6 +334,7 @@ class SourceControlConfigurationClient(MultiApiClientMixin, _SDKClient):
            * 2022-07-01: :class:`FluxConfigurationsOperations<azure.mgmt.kubernetesconfiguration.v2022_07_01.aio.operations.FluxConfigurationsOperations>`
            * 2022-11-01: :class:`FluxConfigurationsOperations<azure.mgmt.kubernetesconfiguration.v2022_11_01.aio.operations.FluxConfigurationsOperations>`
            * 2023-05-01: :class:`FluxConfigurationsOperations<azure.mgmt.kubernetesconfiguration.v2023_05_01.aio.operations.FluxConfigurationsOperations>`
+           * 2024-04-01-preview: :class:`FluxConfigurationsOperations<azure.mgmt.kubernetesconfiguration.v2024_04_01_preview.aio.operations.FluxConfigurationsOperations>`
         """
         api_version = self._get_api_version('flux_configurations')
         if api_version == '2021-11-01-preview':
@@ -313,6 +349,8 @@ class SourceControlConfigurationClient(MultiApiClientMixin, _SDKClient):
             from ..v2022_11_01.aio.operations import FluxConfigurationsOperations as OperationClass
         elif api_version == '2023-05-01':
             from ..v2023_05_01.aio.operations import FluxConfigurationsOperations as OperationClass
+        elif api_version == '2024-04-01-preview':
+            from ..v2024_04_01_preview.aio.operations import FluxConfigurationsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'flux_configurations'".format(api_version))
         self._config.api_version = api_version
