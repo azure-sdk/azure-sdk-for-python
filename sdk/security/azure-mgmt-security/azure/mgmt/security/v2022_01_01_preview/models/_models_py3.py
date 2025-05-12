@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -7,21 +6,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from collections.abc import MutableMapping
 import datetime
-import sys
 from typing import Any, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
-
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+JSON = MutableMapping[str, Any]
 
 
 class CloudErrorBody(_serialization.Model):
@@ -61,11 +54,11 @@ class CloudErrorBody(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.CloudErrorBody"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class Condition(_serialization.Model):
@@ -78,7 +71,7 @@ class Condition(_serialization.Model):
      see examples.
     :vartype value: str
     :ivar operator: The governance rule Condition's Operator, for example Equals for severity or In
-     for list of assessments, see examples. Known values are: "Equals" and "In".
+     for list of assessments, see examples. Known values are: "Equals", "In", and "In".
     :vartype operator: str or
      ~azure.mgmt.security.v2022_01_01_preview.models.GovernanceRuleConditionOperator
     """
@@ -105,7 +98,7 @@ class Condition(_serialization.Model):
          keys, see examples.
         :paramtype value: str
         :keyword operator: The governance rule Condition's Operator, for example Equals for severity or
-         In for list of assessments, see examples. Known values are: "Equals" and "In".
+         In for list of assessments, see examples. Known values are: "Equals", "In", and "In".
         :paramtype operator: str or
          ~azure.mgmt.security.v2022_01_01_preview.models.GovernanceRuleConditionOperator
         """
@@ -139,8 +132,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ExecuteGovernanceRuleParams(_serialization.Model):
@@ -191,9 +184,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class GovernanceAssignment(Resource):
@@ -359,8 +352,8 @@ class GovernanceAssignmentsList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.GovernanceAssignment"]] = None
+        self.next_link: Optional[str] = None
 
 
 class GovernanceEmailNotification(_serialization.Model):
@@ -395,7 +388,7 @@ class GovernanceEmailNotification(_serialization.Model):
         self.disable_owner_email_notification = disable_owner_email_notification
 
 
-class GovernanceRule(Resource):  # pylint: disable=too-many-instance-attributes
+class GovernanceRule(Resource):
     """Governance rule over a given scope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -543,7 +536,7 @@ class GovernanceRule(Resource):  # pylint: disable=too-many-instance-attributes
         :paramtype metadata: ~azure.mgmt.security.v2022_01_01_preview.models.GovernanceRuleMetadata
         """
         super().__init__(**kwargs)
-        self.tenant_id = None
+        self.tenant_id: Optional[str] = None
         self.display_name = display_name
         self.description = description
         self.remediation_timeframe = remediation_timeframe
@@ -619,8 +612,8 @@ class GovernanceRuleList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.GovernanceRule"]] = None
+        self.next_link: Optional[str] = None
 
 
 class GovernanceRuleMetadata(_serialization.Model):
@@ -655,10 +648,10 @@ class GovernanceRuleMetadata(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.created_by = None
-        self.created_on = None
-        self.updated_by = None
-        self.updated_on = None
+        self.created_by: Optional[str] = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.updated_by: Optional[str] = None
+        self.updated_on: Optional[datetime.datetime] = None
 
 
 class GovernanceRuleOwnerSource(_serialization.Model):
@@ -718,7 +711,7 @@ class OperationResultAutoGenerated(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.status = None
+        self.status: Optional[Union[str, "_models.OperationResult"]] = None
 
 
 class RemediationEta(_serialization.Model):
