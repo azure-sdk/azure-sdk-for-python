@@ -1,11 +1,6 @@
 {
-  "commit": "9b3aa35e75751e751070a7af1f96518cb8820e44",
+  "commit": "5d1d249638483d74d716e0b83f6d6ab7239cc3e2",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.2",
-  "use": [
-    "@autorest/python@6.2.7",
-    "@autorest/modelerfour@4.24.3"
-  ],
-  "autorest_command": "autorest specification/billingbenefits/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.2.7 --use=@autorest/modelerfour@4.24.3 --version=3.9.2 --version-tolerant=False",
-  "readme": "specification/billingbenefits/resource-manager/readme.md"
+  "typespec_src": "specification/billingbenefits/BillingBenefits.Management",
+  "@azure-tools/typespec-python": "0.44.2"
 }
