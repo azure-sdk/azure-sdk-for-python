@@ -101,7 +101,7 @@ with tracer.start_as_current_span(scenario):
             model=os.environ["MODEL_DEPLOYMENT_NAME"],
             name="my-agent",
             instructions="You are a helpful agent",
-            toolset=toolset
+            toolset=toolset,
         )
         print(f"Created agent, ID: {agent.id}")
 
