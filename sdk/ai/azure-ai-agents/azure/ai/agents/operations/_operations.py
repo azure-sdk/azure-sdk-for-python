@@ -1,4 +1,4 @@
-# pylint: disable=line-too-long,useless-suppression,too-many-lines
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -46,638 +46,13 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_threads_create_request(**kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads"
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_threads_list_request(
-    *,
-    limit: Optional[int] = None,
-    order: Optional[Union[str, _models.ListSortOrder]] = None,
-    after: Optional[str] = None,
-    before: Optional[str] = None,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads"
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if limit is not None:
-        _params["limit"] = _SERIALIZER.query("limit", limit, "int")
-    if order is not None:
-        _params["order"] = _SERIALIZER.query("order", order, "str")
-    if after is not None:
-        _params["after"] = _SERIALIZER.query("after", after, "str")
-    if before is not None:
-        _params["before"] = _SERIALIZER.query("before", before, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_threads_get_request(thread_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_threads_update_request(thread_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_threads_delete_request(thread_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_messages_create_request(thread_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}/messages"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_messages_list_request(
-    thread_id: str,
-    *,
-    run_id: Optional[str] = None,
-    limit: Optional[int] = None,
-    order: Optional[Union[str, _models.ListSortOrder]] = None,
-    after: Optional[str] = None,
-    before: Optional[str] = None,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}/messages"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    if run_id is not None:
-        _params["run_id"] = _SERIALIZER.query("run_id", run_id, "str")
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if limit is not None:
-        _params["limit"] = _SERIALIZER.query("limit", limit, "int")
-    if order is not None:
-        _params["order"] = _SERIALIZER.query("order", order, "str")
-    if after is not None:
-        _params["after"] = _SERIALIZER.query("after", after, "str")
-    if before is not None:
-        _params["before"] = _SERIALIZER.query("before", before, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_messages_get_request(thread_id: str, message_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}/messages/{messageId}"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-        "messageId": _SERIALIZER.url("message_id", message_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_messages_update_request(thread_id: str, message_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}/messages/{messageId}"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-        "messageId": _SERIALIZER.url("message_id", message_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_runs_create_request(
-    thread_id: str, *, include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}/runs"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if include is not None:
-        _params["include[]"] = _SERIALIZER.query("include", include, "[str]", div=",")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_runs_list_request(
-    thread_id: str,
-    *,
-    limit: Optional[int] = None,
-    order: Optional[Union[str, _models.ListSortOrder]] = None,
-    after: Optional[str] = None,
-    before: Optional[str] = None,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}/runs"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if limit is not None:
-        _params["limit"] = _SERIALIZER.query("limit", limit, "int")
-    if order is not None:
-        _params["order"] = _SERIALIZER.query("order", order, "str")
-    if after is not None:
-        _params["after"] = _SERIALIZER.query("after", after, "str")
-    if before is not None:
-        _params["before"] = _SERIALIZER.query("before", before, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_runs_get_request(thread_id: str, run_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}/runs/{runId}"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-        "runId": _SERIALIZER.url("run_id", run_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_runs_update_request(thread_id: str, run_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}/runs/{runId}"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-        "runId": _SERIALIZER.url("run_id", run_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_runs_submit_tool_outputs_request(thread_id: str, run_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}/runs/{runId}/submit_tool_outputs"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-        "runId": _SERIALIZER.url("run_id", run_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_runs_cancel_request(thread_id: str, run_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}/runs/{runId}/cancel"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-        "runId": _SERIALIZER.url("run_id", run_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_run_steps_get_request(
-    thread_id: str,
-    run_id: str,
-    step_id: str,
-    *,
-    include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}/runs/{runId}/steps/{stepId}"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-        "runId": _SERIALIZER.url("run_id", run_id, "str"),
-        "stepId": _SERIALIZER.url("step_id", step_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if include is not None:
-        _params["include[]"] = _SERIALIZER.query("include", include, "[str]", div=",")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_run_steps_list_request(
-    thread_id: str,
-    run_id: str,
-    *,
-    include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
-    limit: Optional[int] = None,
-    order: Optional[Union[str, _models.ListSortOrder]] = None,
-    after: Optional[str] = None,
-    before: Optional[str] = None,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/threads/{threadId}/runs/{runId}/steps"
-    path_format_arguments = {
-        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
-        "runId": _SERIALIZER.url("run_id", run_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    if include is not None:
-        _params["include[]"] = _SERIALIZER.query("include", include, "[str]", div=",")
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if limit is not None:
-        _params["limit"] = _SERIALIZER.query("limit", limit, "int")
-    if order is not None:
-        _params["order"] = _SERIALIZER.query("order", order, "str")
-    if after is not None:
-        _params["after"] = _SERIALIZER.query("after", after, "str")
-    if before is not None:
-        _params["before"] = _SERIALIZER.query("before", before, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_files_list_request(
-    *, purpose: Optional[Union[str, _models.FilePurpose]] = None, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/files"
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if purpose is not None:
-        _params["purpose"] = _SERIALIZER.query("purpose", purpose, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_files_upload_file_request(**kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/files"
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_files_delete_request(file_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/files/{fileId}"
-    path_format_arguments = {
-        "fileId": _SERIALIZER.url("file_id", file_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_files_get_request(file_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/files/{fileId}"
-    path_format_arguments = {
-        "fileId": _SERIALIZER.url("file_id", file_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_files_get_file_content_request(file_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
-    accept = _headers.pop("Accept", "application/octet-stream")
-
-    # Construct URL
-    _url = "/files/{fileId}/content"
-    path_format_arguments = {
-        "fileId": _SERIALIZER.url("file_id", file_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
 def build_vector_stores_list_request(
     *,
     limit: Optional[int] = None,
     order: Optional[Union[str, _models.ListSortOrder]] = None,
     after: Optional[str] = None,
     before: Optional[str] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -810,7 +185,7 @@ def build_vector_store_files_list_request(
     order: Optional[Union[str, _models.ListSortOrder]] = None,
     after: Optional[str] = None,
     before: Optional[str] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -1014,11 +389,12 @@ def build_vector_store_file_batches_list_files_request(  # pylint: disable=name-
     order: Optional[Union[str, _models.ListSortOrder]] = None,
     after: Optional[str] = None,
     before: Optional[str] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1033,6 +409,7 @@ def build_vector_store_file_batches_list_files_request(  # pylint: disable=name-
     # Construct parameters
     if filter is not None:
         _params["filter"] = _SERIALIZER.query("filter", filter, "str")
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
     if limit is not None:
         _params["limit"] = _SERIALIZER.query("limit", limit, "int")
     if order is not None:
@@ -1041,6 +418,1024 @@ def build_vector_store_file_batches_list_files_request(  # pylint: disable=name-
         _params["after"] = _SERIALIZER.query("after", after, "str")
     if before is not None:
         _params["before"] = _SERIALIZER.query("before", before, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_list_vector_stores_request(  # pylint: disable=name-too-long
+    *,
+    limit: Optional[int] = None,
+    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    **kwargs: Any,
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if limit is not None:
+        _params["limit"] = _SERIALIZER.query("limit", limit, "int")
+    if order is not None:
+        _params["order"] = _SERIALIZER.query("order", order, "str")
+    if after is not None:
+        _params["after"] = _SERIALIZER.query("after", after, "str")
+    if before is not None:
+        _params["before"] = _SERIALIZER.query("before", before, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_create_vector_store_request(  # pylint: disable=name-too-long
+    **kwargs: Any,
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_get_vector_store_request(  # pylint: disable=name-too-long
+    vector_store_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/{vectorStoreId}"
+    path_format_arguments = {
+        "vectorStoreId": _SERIALIZER.url("vector_store_id", vector_store_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_modify_vector_store_request(  # pylint: disable=name-too-long
+    vector_store_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/{vectorStoreId}"
+    path_format_arguments = {
+        "vectorStoreId": _SERIALIZER.url("vector_store_id", vector_store_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_delete_vector_store_request(  # pylint: disable=name-too-long
+    vector_store_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/{vectorStoreId}"
+    path_format_arguments = {
+        "vectorStoreId": _SERIALIZER.url("vector_store_id", vector_store_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_list_vector_store_files_request(  # pylint: disable=name-too-long
+    vector_store_id: str,
+    *,
+    filter: Optional[Union[str, _models.VectorStoreFileStatusFilter]] = None,
+    limit: Optional[int] = None,
+    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    **kwargs: Any,
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/{vectorStoreId}"
+    path_format_arguments = {
+        "vectorStoreId": _SERIALIZER.url("vector_store_id", vector_store_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    if filter is not None:
+        _params["filter"] = _SERIALIZER.query("filter", filter, "str")
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if limit is not None:
+        _params["limit"] = _SERIALIZER.query("limit", limit, "int")
+    if order is not None:
+        _params["order"] = _SERIALIZER.query("order", order, "str")
+    if after is not None:
+        _params["after"] = _SERIALIZER.query("after", after, "str")
+    if before is not None:
+        _params["before"] = _SERIALIZER.query("before", before, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_create_vector_store_file_request(  # pylint: disable=name-too-long
+    vector_store_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/{vectorStoreId}"
+    path_format_arguments = {
+        "vectorStoreId": _SERIALIZER.url("vector_store_id", vector_store_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_get_vector_store_file_request(  # pylint: disable=name-too-long
+    vector_store_id: str, file_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/{fileId}/{vectorStoreId}"
+    path_format_arguments = {
+        "vectorStoreId": _SERIALIZER.url("vector_store_id", vector_store_id, "str"),
+        "fileId": _SERIALIZER.url("file_id", file_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_delete_vector_store_file_request(  # pylint: disable=name-too-long
+    vector_store_id: str, file_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/{fileId}/{vectorStoreId}"
+    path_format_arguments = {
+        "vectorStoreId": _SERIALIZER.url("vector_store_id", vector_store_id, "str"),
+        "fileId": _SERIALIZER.url("file_id", file_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_create_vector_store_file_batch_request(  # pylint: disable=name-too-long
+    vector_store_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/{vectorStoreId}"
+    path_format_arguments = {
+        "vectorStoreId": _SERIALIZER.url("vector_store_id", vector_store_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_get_vector_store_file_batch_request(  # pylint: disable=name-too-long
+    vector_store_id: str, batch_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/{batchId}/{vectorStoreId}"
+    path_format_arguments = {
+        "vectorStoreId": _SERIALIZER.url("vector_store_id", vector_store_id, "str"),
+        "batchId": _SERIALIZER.url("batch_id", batch_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_cancel_vector_store_file_batch_request(  # pylint: disable=name-too-long
+    vector_store_id: str, batch_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/{batchId}/cancel/{vectorStoreId}"
+    path_format_arguments = {
+        "vectorStoreId": _SERIALIZER.url("vector_store_id", vector_store_id, "str"),
+        "batchId": _SERIALIZER.url("batch_id", batch_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_vector_stores_client_list_vector_store_file_batch_files_request(  # pylint: disable=name-too-long
+    vector_store_id: str,
+    batch_id: str,
+    *,
+    filter: Optional[Union[str, _models.VectorStoreFileStatusFilter]] = None,
+    limit: Optional[int] = None,
+    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    **kwargs: Any,
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/{batchId}/files/{vectorStoreId}"
+    path_format_arguments = {
+        "vectorStoreId": _SERIALIZER.url("vector_store_id", vector_store_id, "str"),
+        "batchId": _SERIALIZER.url("batch_id", batch_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    if filter is not None:
+        _params["filter"] = _SERIALIZER.query("filter", filter, "str")
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if limit is not None:
+        _params["limit"] = _SERIALIZER.query("limit", limit, "int")
+    if order is not None:
+        _params["order"] = _SERIALIZER.query("order", order, "str")
+    if after is not None:
+        _params["after"] = _SERIALIZER.query("after", after, "str")
+    if before is not None:
+        _params["before"] = _SERIALIZER.query("before", before, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_threads_create_request(**kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_threads_list_request(
+    *,
+    limit: Optional[int] = None,
+    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    **kwargs: Any,
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if limit is not None:
+        _params["limit"] = _SERIALIZER.query("limit", limit, "int")
+    if order is not None:
+        _params["order"] = _SERIALIZER.query("order", order, "str")
+    if after is not None:
+        _params["after"] = _SERIALIZER.query("after", after, "str")
+    if before is not None:
+        _params["before"] = _SERIALIZER.query("before", before, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_threads_get_request(thread_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_threads_update_request(thread_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_threads_delete_request(thread_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_messages_create_request(thread_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}/messages"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_messages_list_request(
+    thread_id: str,
+    *,
+    run_id: Optional[str] = None,
+    limit: Optional[int] = None,
+    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    **kwargs: Any,
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}/messages"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    if run_id is not None:
+        _params["run_id"] = _SERIALIZER.query("run_id", run_id, "str")
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if limit is not None:
+        _params["limit"] = _SERIALIZER.query("limit", limit, "int")
+    if order is not None:
+        _params["order"] = _SERIALIZER.query("order", order, "str")
+    if after is not None:
+        _params["after"] = _SERIALIZER.query("after", after, "str")
+    if before is not None:
+        _params["before"] = _SERIALIZER.query("before", before, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_messages_get_request(thread_id: str, message_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}/messages/{messageId}"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+        "messageId": _SERIALIZER.url("message_id", message_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_messages_update_request(thread_id: str, message_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}/messages/{messageId}"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+        "messageId": _SERIALIZER.url("message_id", message_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_runs_create_request(
+    thread_id: str, *, include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}/runs"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if include is not None:
+        _params["include[]"] = _SERIALIZER.query("include", include, "[str]", div=",")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_runs_list_request(
+    thread_id: str,
+    *,
+    limit: Optional[int] = None,
+    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    **kwargs: Any,
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}/runs"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if limit is not None:
+        _params["limit"] = _SERIALIZER.query("limit", limit, "int")
+    if order is not None:
+        _params["order"] = _SERIALIZER.query("order", order, "str")
+    if after is not None:
+        _params["after"] = _SERIALIZER.query("after", after, "str")
+    if before is not None:
+        _params["before"] = _SERIALIZER.query("before", before, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_runs_get_request(thread_id: str, run_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}/runs/{runId}"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+        "runId": _SERIALIZER.url("run_id", run_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_runs_update_request(thread_id: str, run_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}/runs/{runId}"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+        "runId": _SERIALIZER.url("run_id", run_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_runs_submit_tool_outputs_request(thread_id: str, run_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}/runs/{runId}/submit_tool_outputs"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+        "runId": _SERIALIZER.url("run_id", run_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_runs_cancel_request(thread_id: str, run_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}/runs/{runId}/cancel"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+        "runId": _SERIALIZER.url("run_id", run_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_run_steps_get_request(
+    thread_id: str,
+    run_id: str,
+    step_id: str,
+    *,
+    include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
+    **kwargs: Any,
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}/runs/{runId}/steps/{stepId}"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+        "runId": _SERIALIZER.url("run_id", run_id, "str"),
+        "stepId": _SERIALIZER.url("step_id", step_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if include is not None:
+        _params["include[]"] = _SERIALIZER.query("include", include, "[str]", div=",")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_run_steps_list_request(
+    thread_id: str,
+    run_id: str,
+    *,
+    include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
+    limit: Optional[int] = None,
+    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    **kwargs: Any,
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads/{threadId}/runs/{runId}/steps"
+    path_format_arguments = {
+        "threadId": _SERIALIZER.url("thread_id", thread_id, "str"),
+        "runId": _SERIALIZER.url("run_id", run_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    if include is not None:
+        _params["include[]"] = _SERIALIZER.query("include", include, "[str]", div=",")
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if limit is not None:
+        _params["limit"] = _SERIALIZER.query("limit", limit, "int")
+    if order is not None:
+        _params["order"] = _SERIALIZER.query("order", order, "str")
+    if after is not None:
+        _params["after"] = _SERIALIZER.query("after", after, "str")
+    if before is not None:
+        _params["before"] = _SERIALIZER.query("before", before, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_files_list_request(
+    *, purpose: Optional[Union[str, _models.FilePurpose]] = None, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/files"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if purpose is not None:
+        _params["purpose"] = _SERIALIZER.query("purpose", purpose, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_files_upload_file_request(**kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/files"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_files_delete_request(file_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/files/{fileId}"
+    path_format_arguments = {
+        "fileId": _SERIALIZER.url("file_id", file_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_files_get_request(file_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/files/{fileId}"
+    path_format_arguments = {
+        "fileId": _SERIALIZER.url("file_id", file_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_files_get_file_content_request(file_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
+    accept = _headers.pop("Accept", "application/octet-stream")
+
+    # Construct URL
+    _url = "/files/{fileId}/content"
+    path_format_arguments = {
+        "fileId": _SERIALIZER.url("file_id", file_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -1076,7 +1471,7 @@ def build_agents_list_agents_request(
     order: Optional[Union[str, _models.ListSortOrder]] = None,
     after: Optional[str] = None,
     before: Optional[str] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -1201,6 +1596,2668 @@ def build_agents_create_thread_and_run_request(**kwargs: Any) -> HttpRequest:  #
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
+class VectorStoresOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.ai.agents.AgentsClient`'s
+        :attr:`vector_stores` attribute.
+    """
+
+    def __init__(self, *args, **kwargs) -> None:
+        input_args = list(args)
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+
+    @distributed_trace
+    def list(
+        self,
+        *,
+        limit: Optional[int] = None,
+        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        before: Optional[str] = None,
+        **kwargs: Any,
+    ) -> Iterable["_models.VectorStore"]:
+        """Returns a list of vector stores.
+
+        :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
+         100, and the default is 20. Default value is None.
+        :paramtype limit: int
+        :keyword order: Sort order by the created_at timestamp of the objects. asc for ascending order
+         and desc for descending order. Known values are: "asc" and "desc". Default value is None.
+        :paramtype order: str or ~azure.ai.agents.models.ListSortOrder
+        :keyword before: A cursor for use in pagination. before is an object ID that defines your place
+         in the list. For instance, if you make a list request and receive 100 objects, ending with
+         obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of
+         the list. Default value is None.
+        :paramtype before: str
+        :return: An iterator like instance of VectorStore
+        :rtype: ~azure.core.paging.ItemPaged[~azure.ai.agents.models.VectorStore]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.VectorStore]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(_continuation_token=None):
+
+            _request = build_vector_stores_list_request(
+                limit=limit,
+                order=order,
+                after=_continuation_token,
+                before=before,
+                api_version=self._config.api_version,
+                headers=_headers,
+                params=_params,
+            )
+            path_format_arguments = {
+                "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            }
+            _request.url = self._client.format_url(_request.url, **path_format_arguments)
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.VectorStore], deserialized.get("data", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("last_id") or None, iter(list_of_elem)
+
+        def get_next(_continuation_token=None):
+            _request = prepare_request(_continuation_token)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @overload
+    def create(
+        self,
+        *,
+        content_type: str = "application/json",
+        file_ids: Optional[List[str]] = None,
+        name: Optional[str] = None,
+        store_configuration: Optional[_models.VectorStoreConfiguration] = None,
+        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
+        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStore:
+        """Creates a vector store.
+
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword file_ids: A list of file IDs that the vector store should use. Useful for tools like
+         ``file_search`` that can access files. Default value is None.
+        :paramtype file_ids: list[str]
+        :keyword name: The name of the vector store. Default value is None.
+        :paramtype name: str
+        :keyword store_configuration: The vector store configuration, used when vector store is created
+         from Azure asset URIs. Default value is None.
+        :paramtype store_configuration: ~azure.ai.agents.models.VectorStoreConfiguration
+        :keyword expires_after: Details on when this vector store expires. Default value is None.
+        :paramtype expires_after: ~azure.ai.agents.models.VectorStoreExpirationPolicy
+        :keyword chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will
+         use the auto strategy. Only applicable if file_ids is non-empty. Default value is None.
+        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
+        :keyword metadata: A set of up to 16 key/value pairs that can be attached to an object, used
+         for storing additional information about that object in a structured format. Keys may be up to
+         64 characters in length and values may be up to 512 characters in length. Default value is
+         None.
+        :paramtype metadata: dict[str, str]
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> _models.VectorStore:
+        """Creates a vector store.
+
+        :param body: Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create(self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any) -> _models.VectorStore:
+        """Creates a vector store.
+
+        :param body: Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def create(
+        self,
+        body: Union[JSON, IO[bytes]] = _Unset,
+        *,
+        file_ids: Optional[List[str]] = None,
+        name: Optional[str] = None,
+        store_configuration: Optional[_models.VectorStoreConfiguration] = None,
+        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
+        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStore:
+        """Creates a vector store.
+
+        :param body: Is either a JSON type or a IO[bytes] type. Required.
+        :type body: JSON or IO[bytes]
+        :keyword file_ids: A list of file IDs that the vector store should use. Useful for tools like
+         ``file_search`` that can access files. Default value is None.
+        :paramtype file_ids: list[str]
+        :keyword name: The name of the vector store. Default value is None.
+        :paramtype name: str
+        :keyword store_configuration: The vector store configuration, used when vector store is created
+         from Azure asset URIs. Default value is None.
+        :paramtype store_configuration: ~azure.ai.agents.models.VectorStoreConfiguration
+        :keyword expires_after: Details on when this vector store expires. Default value is None.
+        :paramtype expires_after: ~azure.ai.agents.models.VectorStoreExpirationPolicy
+        :keyword chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will
+         use the auto strategy. Only applicable if file_ids is non-empty. Default value is None.
+        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
+        :keyword metadata: A set of up to 16 key/value pairs that can be attached to an object, used
+         for storing additional information about that object in a structured format. Keys may be up to
+         64 characters in length and values may be up to 512 characters in length. Default value is
+         None.
+        :paramtype metadata: dict[str, str]
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.VectorStore] = kwargs.pop("cls", None)
+
+        if body is _Unset:
+            body = {
+                "chunking_strategy": chunking_strategy,
+                "configuration": store_configuration,
+                "expires_after": expires_after,
+                "file_ids": file_ids,
+                "metadata": metadata,
+                "name": name,
+            }
+            body = {k: v for k, v in body.items() if v is not None}
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_vector_stores_create_request(
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStore, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def get(self, vector_store_id: str, **kwargs: Any) -> _models.VectorStore:
+        """Returns the vector store object matching the specified ID.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.VectorStore] = kwargs.pop("cls", None)
+
+        _request = build_vector_stores_get_request(
+            vector_store_id=vector_store_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStore, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def modify(
+        self,
+        vector_store_id: str,
+        *,
+        content_type: str = "application/json",
+        name: Optional[str] = None,
+        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStore:
+        """Modifies an existing vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword name: The name of the vector store. Default value is None.
+        :paramtype name: str
+        :keyword expires_after: Details on when this vector store expires. Default value is None.
+        :paramtype expires_after: ~azure.ai.agents.models.VectorStoreExpirationPolicy
+        :keyword metadata: A set of up to 16 key/value pairs that can be attached to an object, used
+         for storing additional information about that object in a structured format. Keys may be up to
+         64 characters in length and values may be up to 512 characters in length. Default value is
+         None.
+        :paramtype metadata: dict[str, str]
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def modify(
+        self, vector_store_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStore:
+        """Modifies an existing vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def modify(
+        self, vector_store_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStore:
+        """Modifies an existing vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def modify(
+        self,
+        vector_store_id: str,
+        body: Union[JSON, IO[bytes]] = _Unset,
+        *,
+        name: Optional[str] = None,
+        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStore:
+        """Modifies an existing vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Is either a JSON type or a IO[bytes] type. Required.
+        :type body: JSON or IO[bytes]
+        :keyword name: The name of the vector store. Default value is None.
+        :paramtype name: str
+        :keyword expires_after: Details on when this vector store expires. Default value is None.
+        :paramtype expires_after: ~azure.ai.agents.models.VectorStoreExpirationPolicy
+        :keyword metadata: A set of up to 16 key/value pairs that can be attached to an object, used
+         for storing additional information about that object in a structured format. Keys may be up to
+         64 characters in length and values may be up to 512 characters in length. Default value is
+         None.
+        :paramtype metadata: dict[str, str]
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.VectorStore] = kwargs.pop("cls", None)
+
+        if body is _Unset:
+            body = {"expires_after": expires_after, "metadata": metadata, "name": name}
+            body = {k: v for k, v in body.items() if v is not None}
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_vector_stores_modify_request(
+            vector_store_id=vector_store_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStore, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def delete(self, vector_store_id: str, **kwargs: Any) -> _models.VectorStoreDeletionStatus:
+        """Deletes the vector store object matching the specified ID.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :return: VectorStoreDeletionStatus. The VectorStoreDeletionStatus is compatible with
+         MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreDeletionStatus
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.VectorStoreDeletionStatus] = kwargs.pop("cls", None)
+
+        _request = build_vector_stores_delete_request(
+            vector_store_id=vector_store_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreDeletionStatus, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+
+class VectorStoreFilesOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.ai.agents.AgentsClient`'s
+        :attr:`vector_store_files` attribute.
+    """
+
+    def __init__(self, *args, **kwargs) -> None:
+        input_args = list(args)
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+
+    @distributed_trace
+    def list(
+        self,
+        vector_store_id: str,
+        *,
+        filter: Optional[Union[str, _models.VectorStoreFileStatusFilter]] = None,
+        limit: Optional[int] = None,
+        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        before: Optional[str] = None,
+        **kwargs: Any,
+    ) -> Iterable["_models.VectorStoreFile"]:
+        """Returns a list of vector store files.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :keyword filter: Filter by file status. Known values are: "in_progress", "completed", "failed",
+         and "cancelled". Default value is None.
+        :paramtype filter: str or ~azure.ai.agents.models.VectorStoreFileStatusFilter
+        :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
+         100, and the default is 20. Default value is None.
+        :paramtype limit: int
+        :keyword order: Sort order by the created_at timestamp of the objects. asc for ascending order
+         and desc for descending order. Known values are: "asc" and "desc". Default value is None.
+        :paramtype order: str or ~azure.ai.agents.models.ListSortOrder
+        :keyword before: A cursor for use in pagination. before is an object ID that defines your place
+         in the list. For instance, if you make a list request and receive 100 objects, ending with
+         obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of
+         the list. Default value is None.
+        :paramtype before: str
+        :return: An iterator like instance of VectorStoreFile
+        :rtype: ~azure.core.paging.ItemPaged[~azure.ai.agents.models.VectorStoreFile]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.VectorStoreFile]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(_continuation_token=None):
+
+            _request = build_vector_store_files_list_request(
+                vector_store_id=vector_store_id,
+                filter=filter,
+                limit=limit,
+                order=order,
+                after=_continuation_token,
+                before=before,
+                api_version=self._config.api_version,
+                headers=_headers,
+                params=_params,
+            )
+            path_format_arguments = {
+                "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            }
+            _request.url = self._client.format_url(_request.url, **path_format_arguments)
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.VectorStoreFile], deserialized.get("data", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("last_id") or None, iter(list_of_elem)
+
+        def get_next(_continuation_token=None):
+            _request = prepare_request(_continuation_token)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @overload
+    def create(
+        self,
+        vector_store_id: str,
+        *,
+        content_type: str = "application/json",
+        file_id: Optional[str] = None,
+        data_source: Optional[_models.VectorStoreDataSource] = None,
+        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStoreFile:
+        """Create a vector store file by attaching a file to a vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword file_id: Identifier of the file. Default value is None.
+        :paramtype file_id: str
+        :keyword data_source: Azure asset ID. Default value is None.
+        :paramtype data_source: ~azure.ai.agents.models.VectorStoreDataSource
+        :keyword chunking_strategy: The chunking strategy used to chunk the file. If not set, uses the
+         auto strategy. Default value is None.
+        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
+        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFile
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create(
+        self, vector_store_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStoreFile:
+        """Create a vector store file by attaching a file to a vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFile
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create(
+        self, vector_store_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStoreFile:
+        """Create a vector store file by attaching a file to a vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFile
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def create(
+        self,
+        vector_store_id: str,
+        body: Union[JSON, IO[bytes]] = _Unset,
+        *,
+        file_id: Optional[str] = None,
+        data_source: Optional[_models.VectorStoreDataSource] = None,
+        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStoreFile:
+        """Create a vector store file by attaching a file to a vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Is either a JSON type or a IO[bytes] type. Required.
+        :type body: JSON or IO[bytes]
+        :keyword file_id: Identifier of the file. Default value is None.
+        :paramtype file_id: str
+        :keyword data_source: Azure asset ID. Default value is None.
+        :paramtype data_source: ~azure.ai.agents.models.VectorStoreDataSource
+        :keyword chunking_strategy: The chunking strategy used to chunk the file. If not set, uses the
+         auto strategy. Default value is None.
+        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
+        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFile
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.VectorStoreFile] = kwargs.pop("cls", None)
+
+        if body is _Unset:
+            body = {"chunking_strategy": chunking_strategy, "data_source": data_source, "file_id": file_id}
+            body = {k: v for k, v in body.items() if v is not None}
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_vector_store_files_create_request(
+            vector_store_id=vector_store_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreFile, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def get(self, vector_store_id: str, file_id: str, **kwargs: Any) -> _models.VectorStoreFile:
+        """Retrieves a vector store file.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param file_id: Identifier of the file. Required.
+        :type file_id: str
+        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFile
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.VectorStoreFile] = kwargs.pop("cls", None)
+
+        _request = build_vector_store_files_get_request(
+            vector_store_id=vector_store_id,
+            file_id=file_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreFile, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def delete(self, vector_store_id: str, file_id: str, **kwargs: Any) -> _models.VectorStoreFileDeletionStatus:
+        """Deletes a vector store file. This removes the file‐to‐store link (does not delete the file
+        itself).
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param file_id: Identifier of the file. Required.
+        :type file_id: str
+        :return: VectorStoreFileDeletionStatus. The VectorStoreFileDeletionStatus is compatible with
+         MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileDeletionStatus
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.VectorStoreFileDeletionStatus] = kwargs.pop("cls", None)
+
+        _request = build_vector_store_files_delete_request(
+            vector_store_id=vector_store_id,
+            file_id=file_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreFileDeletionStatus, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+
+class VectorStoreFileBatchesOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.ai.agents.AgentsClient`'s
+        :attr:`vector_store_file_batches` attribute.
+    """
+
+    def __init__(self, *args, **kwargs) -> None:
+        input_args = list(args)
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+
+    @overload
+    def create(
+        self,
+        vector_store_id: str,
+        *,
+        content_type: str = "application/json",
+        file_ids: Optional[List[str]] = None,
+        data_sources: Optional[List[_models.VectorStoreDataSource]] = None,
+        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStoreFileBatch:
+        """Create a vector store file batch.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword file_ids: List of file identifiers. Default value is None.
+        :paramtype file_ids: list[str]
+        :keyword data_sources: List of Azure assets. Default value is None.
+        :paramtype data_sources: list[~azure.ai.agents.models.VectorStoreDataSource]
+        :keyword chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will
+         use the auto strategy. Default value is None.
+        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
+        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create(
+        self, vector_store_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStoreFileBatch:
+        """Create a vector store file batch.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create(
+        self, vector_store_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStoreFileBatch:
+        """Create a vector store file batch.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def create(
+        self,
+        vector_store_id: str,
+        body: Union[JSON, IO[bytes]] = _Unset,
+        *,
+        file_ids: Optional[List[str]] = None,
+        data_sources: Optional[List[_models.VectorStoreDataSource]] = None,
+        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStoreFileBatch:
+        """Create a vector store file batch.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Is either a JSON type or a IO[bytes] type. Required.
+        :type body: JSON or IO[bytes]
+        :keyword file_ids: List of file identifiers. Default value is None.
+        :paramtype file_ids: list[str]
+        :keyword data_sources: List of Azure assets. Default value is None.
+        :paramtype data_sources: list[~azure.ai.agents.models.VectorStoreDataSource]
+        :keyword chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will
+         use the auto strategy. Default value is None.
+        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
+        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.VectorStoreFileBatch] = kwargs.pop("cls", None)
+
+        if body is _Unset:
+            body = {"chunking_strategy": chunking_strategy, "data_sources": data_sources, "file_ids": file_ids}
+            body = {k: v for k, v in body.items() if v is not None}
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_vector_store_file_batches_create_request(
+            vector_store_id=vector_store_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreFileBatch, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def get(self, vector_store_id: str, batch_id: str, **kwargs: Any) -> _models.VectorStoreFileBatch:
+        """Retrieve a vector store file batch.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param batch_id: Identifier of the file batch. Required.
+        :type batch_id: str
+        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.VectorStoreFileBatch] = kwargs.pop("cls", None)
+
+        _request = build_vector_store_file_batches_get_request(
+            vector_store_id=vector_store_id,
+            batch_id=batch_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreFileBatch, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def cancel(self, vector_store_id: str, batch_id: str, **kwargs: Any) -> _models.VectorStoreFileBatch:
+        """Cancel a vector store file batch. This attempts to cancel the processing of files in this batch
+        as soon as possible.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param batch_id: Identifier of the file batch. Required.
+        :type batch_id: str
+        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.VectorStoreFileBatch] = kwargs.pop("cls", None)
+
+        _request = build_vector_store_file_batches_cancel_request(
+            vector_store_id=vector_store_id,
+            batch_id=batch_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreFileBatch, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def list_files(
+        self,
+        vector_store_id: str,
+        batch_id: str,
+        *,
+        filter: Optional[Union[str, _models.VectorStoreFileStatusFilter]] = None,
+        limit: Optional[int] = None,
+        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        before: Optional[str] = None,
+        **kwargs: Any,
+    ) -> Iterable["_models.VectorStoreFile"]:
+        """Returns a list of vector store files in a batch.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param batch_id: Identifier of the file batch. Required.
+        :type batch_id: str
+        :keyword filter: Filter by file status. Known values are: "in_progress", "completed", "failed",
+         and "cancelled". Default value is None.
+        :paramtype filter: str or ~azure.ai.agents.models.VectorStoreFileStatusFilter
+        :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
+         100, and the default is 20. Default value is None.
+        :paramtype limit: int
+        :keyword order: Sort order by the created_at timestamp of the objects. asc for ascending order
+         and desc for descending order. Known values are: "asc" and "desc". Default value is None.
+        :paramtype order: str or ~azure.ai.agents.models.ListSortOrder
+        :keyword before: A cursor for use in pagination. before is an object ID that defines your place
+         in the list. For instance, if you make a list request and receive 100 objects, ending with
+         obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of
+         the list. Default value is None.
+        :paramtype before: str
+        :return: An iterator like instance of VectorStoreFile
+        :rtype: ~azure.core.paging.ItemPaged[~azure.ai.agents.models.VectorStoreFile]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.VectorStoreFile]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(_continuation_token=None):
+
+            _request = build_vector_store_file_batches_list_files_request(
+                vector_store_id=vector_store_id,
+                batch_id=batch_id,
+                filter=filter,
+                limit=limit,
+                order=order,
+                after=_continuation_token,
+                before=before,
+                api_version=self._config.api_version,
+                headers=_headers,
+                params=_params,
+            )
+            path_format_arguments = {
+                "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            }
+            _request.url = self._client.format_url(_request.url, **path_format_arguments)
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.VectorStoreFile], deserialized.get("data", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("last_id") or None, iter(list_of_elem)
+
+        def get_next(_continuation_token=None):
+            _request = prepare_request(_continuation_token)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+
+class VectorStoresClientOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.ai.agents.AgentsClient`'s
+        :attr:`vector_stores_client` attribute.
+    """
+
+    def __init__(self, *args, **kwargs) -> None:
+        input_args = list(args)
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+
+    @distributed_trace
+    def list_vector_stores(
+        self,
+        *,
+        limit: Optional[int] = None,
+        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        before: Optional[str] = None,
+        **kwargs: Any,
+    ) -> Iterable["_models.VectorStore"]:
+        """Returns a list of vector stores.
+
+        :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
+         100, and the default is 20. Default value is None.
+        :paramtype limit: int
+        :keyword order: Sort order by the created_at timestamp of the objects. asc for ascending order
+         and desc for descending order. Known values are: "asc" and "desc". Default value is None.
+        :paramtype order: str or ~azure.ai.agents.models.ListSortOrder
+        :keyword before: A cursor for use in pagination. before is an object ID that defines your place
+         in the list. For instance, if you make a list request and receive 100 objects, ending with
+         obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of
+         the list. Default value is None.
+        :paramtype before: str
+        :return: An iterator like instance of VectorStore
+        :rtype: ~azure.core.paging.ItemPaged[~azure.ai.agents.models.VectorStore]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.VectorStore]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(_continuation_token=None):
+
+            _request = build_vector_stores_client_list_vector_stores_request(
+                limit=limit,
+                order=order,
+                after=_continuation_token,
+                before=before,
+                api_version=self._config.api_version,
+                headers=_headers,
+                params=_params,
+            )
+            path_format_arguments = {
+                "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            }
+            _request.url = self._client.format_url(_request.url, **path_format_arguments)
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.VectorStore], deserialized.get("data", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("last_id") or None, iter(list_of_elem)
+
+        def get_next(_continuation_token=None):
+            _request = prepare_request(_continuation_token)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @overload
+    def create_vector_store(
+        self,
+        *,
+        content_type: str = "application/json",
+        file_ids: Optional[List[str]] = None,
+        name: Optional[str] = None,
+        store_configuration: Optional[_models.VectorStoreConfiguration] = None,
+        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
+        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStore:
+        """Creates a vector store.
+
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword file_ids: A list of file IDs that the vector store should use. Useful for tools like
+         ``file_search`` that can access files. Default value is None.
+        :paramtype file_ids: list[str]
+        :keyword name: The name of the vector store. Default value is None.
+        :paramtype name: str
+        :keyword store_configuration: The vector store configuration, used when vector store is created
+         from Azure asset URIs. Default value is None.
+        :paramtype store_configuration: ~azure.ai.agents.models.VectorStoreConfiguration
+        :keyword expires_after: Details on when this vector store expires. Default value is None.
+        :paramtype expires_after: ~azure.ai.agents.models.VectorStoreExpirationPolicy
+        :keyword chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will
+         use the auto strategy. Only applicable if file_ids is non-empty. Default value is None.
+        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
+        :keyword metadata: A set of up to 16 key/value pairs that can be attached to an object, used
+         for storing additional information about that object in a structured format. Keys may be up to
+         64 characters in length and values may be up to 512 characters in length. Default value is
+         None.
+        :paramtype metadata: dict[str, str]
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create_vector_store(
+        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStore:
+        """Creates a vector store.
+
+        :param body: Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create_vector_store(
+        self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStore:
+        """Creates a vector store.
+
+        :param body: Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def create_vector_store(
+        self,
+        body: Union[JSON, IO[bytes]] = _Unset,
+        *,
+        file_ids: Optional[List[str]] = None,
+        name: Optional[str] = None,
+        store_configuration: Optional[_models.VectorStoreConfiguration] = None,
+        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
+        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStore:
+        """Creates a vector store.
+
+        :param body: Is either a JSON type or a IO[bytes] type. Required.
+        :type body: JSON or IO[bytes]
+        :keyword file_ids: A list of file IDs that the vector store should use. Useful for tools like
+         ``file_search`` that can access files. Default value is None.
+        :paramtype file_ids: list[str]
+        :keyword name: The name of the vector store. Default value is None.
+        :paramtype name: str
+        :keyword store_configuration: The vector store configuration, used when vector store is created
+         from Azure asset URIs. Default value is None.
+        :paramtype store_configuration: ~azure.ai.agents.models.VectorStoreConfiguration
+        :keyword expires_after: Details on when this vector store expires. Default value is None.
+        :paramtype expires_after: ~azure.ai.agents.models.VectorStoreExpirationPolicy
+        :keyword chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will
+         use the auto strategy. Only applicable if file_ids is non-empty. Default value is None.
+        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
+        :keyword metadata: A set of up to 16 key/value pairs that can be attached to an object, used
+         for storing additional information about that object in a structured format. Keys may be up to
+         64 characters in length and values may be up to 512 characters in length. Default value is
+         None.
+        :paramtype metadata: dict[str, str]
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.VectorStore] = kwargs.pop("cls", None)
+
+        if body is _Unset:
+            body = {
+                "chunking_strategy": chunking_strategy,
+                "configuration": store_configuration,
+                "expires_after": expires_after,
+                "file_ids": file_ids,
+                "metadata": metadata,
+                "name": name,
+            }
+            body = {k: v for k, v in body.items() if v is not None}
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_vector_stores_client_create_vector_store_request(
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStore, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def get_vector_store(self, vector_store_id: str, **kwargs: Any) -> _models.VectorStore:
+        """Returns the vector store object matching the specified ID.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.VectorStore] = kwargs.pop("cls", None)
+
+        _request = build_vector_stores_client_get_vector_store_request(
+            vector_store_id=vector_store_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStore, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def modify_vector_store(
+        self,
+        vector_store_id: str,
+        *,
+        content_type: str = "application/json",
+        name: Optional[str] = None,
+        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStore:
+        """Modifies an existing vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword name: The name of the vector store. Default value is None.
+        :paramtype name: str
+        :keyword expires_after: Details on when this vector store expires. Default value is None.
+        :paramtype expires_after: ~azure.ai.agents.models.VectorStoreExpirationPolicy
+        :keyword metadata: A set of up to 16 key/value pairs that can be attached to an object, used
+         for storing additional information about that object in a structured format. Keys may be up to
+         64 characters in length and values may be up to 512 characters in length. Default value is
+         None.
+        :paramtype metadata: dict[str, str]
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def modify_vector_store(
+        self, vector_store_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStore:
+        """Modifies an existing vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def modify_vector_store(
+        self, vector_store_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStore:
+        """Modifies an existing vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def modify_vector_store(
+        self,
+        vector_store_id: str,
+        body: Union[JSON, IO[bytes]] = _Unset,
+        *,
+        name: Optional[str] = None,
+        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStore:
+        """Modifies an existing vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Is either a JSON type or a IO[bytes] type. Required.
+        :type body: JSON or IO[bytes]
+        :keyword name: The name of the vector store. Default value is None.
+        :paramtype name: str
+        :keyword expires_after: Details on when this vector store expires. Default value is None.
+        :paramtype expires_after: ~azure.ai.agents.models.VectorStoreExpirationPolicy
+        :keyword metadata: A set of up to 16 key/value pairs that can be attached to an object, used
+         for storing additional information about that object in a structured format. Keys may be up to
+         64 characters in length and values may be up to 512 characters in length. Default value is
+         None.
+        :paramtype metadata: dict[str, str]
+        :return: VectorStore. The VectorStore is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.VectorStore] = kwargs.pop("cls", None)
+
+        if body is _Unset:
+            body = {"expires_after": expires_after, "metadata": metadata, "name": name}
+            body = {k: v for k, v in body.items() if v is not None}
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_vector_stores_client_modify_vector_store_request(
+            vector_store_id=vector_store_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStore, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def delete_vector_store(self, vector_store_id: str, **kwargs: Any) -> _models.VectorStoreDeletionStatus:
+        """Deletes the vector store object matching the specified ID.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :return: VectorStoreDeletionStatus. The VectorStoreDeletionStatus is compatible with
+         MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreDeletionStatus
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.VectorStoreDeletionStatus] = kwargs.pop("cls", None)
+
+        _request = build_vector_stores_client_delete_vector_store_request(
+            vector_store_id=vector_store_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreDeletionStatus, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def list_vector_store_files(
+        self,
+        vector_store_id: str,
+        *,
+        filter: Optional[Union[str, _models.VectorStoreFileStatusFilter]] = None,
+        limit: Optional[int] = None,
+        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        before: Optional[str] = None,
+        **kwargs: Any,
+    ) -> Iterable["_models.VectorStoreFile"]:
+        """Returns a list of vector store files.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :keyword filter: Filter by file status. Known values are: "in_progress", "completed", "failed",
+         and "cancelled". Default value is None.
+        :paramtype filter: str or ~azure.ai.agents.models.VectorStoreFileStatusFilter
+        :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
+         100, and the default is 20. Default value is None.
+        :paramtype limit: int
+        :keyword order: Sort order by the created_at timestamp of the objects. asc for ascending order
+         and desc for descending order. Known values are: "asc" and "desc". Default value is None.
+        :paramtype order: str or ~azure.ai.agents.models.ListSortOrder
+        :keyword before: A cursor for use in pagination. before is an object ID that defines your place
+         in the list. For instance, if you make a list request and receive 100 objects, ending with
+         obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of
+         the list. Default value is None.
+        :paramtype before: str
+        :return: An iterator like instance of VectorStoreFile
+        :rtype: ~azure.core.paging.ItemPaged[~azure.ai.agents.models.VectorStoreFile]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.VectorStoreFile]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(_continuation_token=None):
+
+            _request = build_vector_stores_client_list_vector_store_files_request(
+                vector_store_id=vector_store_id,
+                filter=filter,
+                limit=limit,
+                order=order,
+                after=_continuation_token,
+                before=before,
+                api_version=self._config.api_version,
+                headers=_headers,
+                params=_params,
+            )
+            path_format_arguments = {
+                "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            }
+            _request.url = self._client.format_url(_request.url, **path_format_arguments)
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.VectorStoreFile], deserialized.get("data", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("last_id") or None, iter(list_of_elem)
+
+        def get_next(_continuation_token=None):
+            _request = prepare_request(_continuation_token)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @overload
+    def create_vector_store_file(
+        self,
+        vector_store_id: str,
+        *,
+        content_type: str = "application/json",
+        file_id: Optional[str] = None,
+        data_source: Optional[_models.VectorStoreDataSource] = None,
+        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStoreFile:
+        """Create a vector store file by attaching a file to a vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword file_id: Identifier of the file. Default value is None.
+        :paramtype file_id: str
+        :keyword data_source: Azure asset ID. Default value is None.
+        :paramtype data_source: ~azure.ai.agents.models.VectorStoreDataSource
+        :keyword chunking_strategy: The chunking strategy used to chunk the file. If not set, uses the
+         auto strategy. Default value is None.
+        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
+        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFile
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create_vector_store_file(
+        self, vector_store_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStoreFile:
+        """Create a vector store file by attaching a file to a vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFile
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create_vector_store_file(
+        self, vector_store_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStoreFile:
+        """Create a vector store file by attaching a file to a vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFile
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def create_vector_store_file(
+        self,
+        vector_store_id: str,
+        body: Union[JSON, IO[bytes]] = _Unset,
+        *,
+        file_id: Optional[str] = None,
+        data_source: Optional[_models.VectorStoreDataSource] = None,
+        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStoreFile:
+        """Create a vector store file by attaching a file to a vector store.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Is either a JSON type or a IO[bytes] type. Required.
+        :type body: JSON or IO[bytes]
+        :keyword file_id: Identifier of the file. Default value is None.
+        :paramtype file_id: str
+        :keyword data_source: Azure asset ID. Default value is None.
+        :paramtype data_source: ~azure.ai.agents.models.VectorStoreDataSource
+        :keyword chunking_strategy: The chunking strategy used to chunk the file. If not set, uses the
+         auto strategy. Default value is None.
+        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
+        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFile
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.VectorStoreFile] = kwargs.pop("cls", None)
+
+        if body is _Unset:
+            body = {"chunking_strategy": chunking_strategy, "data_source": data_source, "file_id": file_id}
+            body = {k: v for k, v in body.items() if v is not None}
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_vector_stores_client_create_vector_store_file_request(
+            vector_store_id=vector_store_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreFile, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def get_vector_store_file(self, vector_store_id: str, file_id: str, **kwargs: Any) -> _models.VectorStoreFile:
+        """Retrieves a vector store file.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param file_id: Identifier of the file. Required.
+        :type file_id: str
+        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFile
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.VectorStoreFile] = kwargs.pop("cls", None)
+
+        _request = build_vector_stores_client_get_vector_store_file_request(
+            vector_store_id=vector_store_id,
+            file_id=file_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreFile, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def delete_vector_store_file(
+        self, vector_store_id: str, file_id: str, **kwargs: Any
+    ) -> _models.VectorStoreFileDeletionStatus:
+        """Deletes a vector store file. This removes the file‐to‐store link (does not delete the file
+        itself).
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param file_id: Identifier of the file. Required.
+        :type file_id: str
+        :return: VectorStoreFileDeletionStatus. The VectorStoreFileDeletionStatus is compatible with
+         MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileDeletionStatus
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.VectorStoreFileDeletionStatus] = kwargs.pop("cls", None)
+
+        _request = build_vector_stores_client_delete_vector_store_file_request(
+            vector_store_id=vector_store_id,
+            file_id=file_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreFileDeletionStatus, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def create_vector_store_file_batch(
+        self,
+        vector_store_id: str,
+        *,
+        content_type: str = "application/json",
+        file_ids: Optional[List[str]] = None,
+        data_sources: Optional[List[_models.VectorStoreDataSource]] = None,
+        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStoreFileBatch:
+        """Create a vector store file batch.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword file_ids: List of file identifiers. Default value is None.
+        :paramtype file_ids: list[str]
+        :keyword data_sources: List of Azure assets. Default value is None.
+        :paramtype data_sources: list[~azure.ai.agents.models.VectorStoreDataSource]
+        :keyword chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will
+         use the auto strategy. Default value is None.
+        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
+        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create_vector_store_file_batch(
+        self, vector_store_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStoreFileBatch:
+        """Create a vector store file batch.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create_vector_store_file_batch(
+        self, vector_store_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.VectorStoreFileBatch:
+        """Create a vector store file batch.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def create_vector_store_file_batch(
+        self,
+        vector_store_id: str,
+        body: Union[JSON, IO[bytes]] = _Unset,
+        *,
+        file_ids: Optional[List[str]] = None,
+        data_sources: Optional[List[_models.VectorStoreDataSource]] = None,
+        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        **kwargs: Any,
+    ) -> _models.VectorStoreFileBatch:
+        """Create a vector store file batch.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param body: Is either a JSON type or a IO[bytes] type. Required.
+        :type body: JSON or IO[bytes]
+        :keyword file_ids: List of file identifiers. Default value is None.
+        :paramtype file_ids: list[str]
+        :keyword data_sources: List of Azure assets. Default value is None.
+        :paramtype data_sources: list[~azure.ai.agents.models.VectorStoreDataSource]
+        :keyword chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will
+         use the auto strategy. Default value is None.
+        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
+        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.VectorStoreFileBatch] = kwargs.pop("cls", None)
+
+        if body is _Unset:
+            body = {"chunking_strategy": chunking_strategy, "data_sources": data_sources, "file_ids": file_ids}
+            body = {k: v for k, v in body.items() if v is not None}
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_vector_stores_client_create_vector_store_file_batch_request(
+            vector_store_id=vector_store_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreFileBatch, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def get_vector_store_file_batch(
+        self, vector_store_id: str, batch_id: str, **kwargs: Any
+    ) -> _models.VectorStoreFileBatch:
+        """Retrieve a vector store file batch.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param batch_id: Identifier of the file batch. Required.
+        :type batch_id: str
+        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.VectorStoreFileBatch] = kwargs.pop("cls", None)
+
+        _request = build_vector_stores_client_get_vector_store_file_batch_request(
+            vector_store_id=vector_store_id,
+            batch_id=batch_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreFileBatch, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def cancel_vector_store_file_batch(
+        self, vector_store_id: str, batch_id: str, **kwargs: Any
+    ) -> _models.VectorStoreFileBatch:
+        """Cancel a vector store file batch. This attempts to cancel the processing of files in this batch
+        as soon as possible.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param batch_id: Identifier of the file batch. Required.
+        :type batch_id: str
+        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
+        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.VectorStoreFileBatch] = kwargs.pop("cls", None)
+
+        _request = build_vector_stores_client_cancel_vector_store_file_batch_request(
+            vector_store_id=vector_store_id,
+            batch_id=batch_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.VectorStoreFileBatch, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def list_vector_store_file_batch_files(
+        self,
+        vector_store_id: str,
+        batch_id: str,
+        *,
+        filter: Optional[Union[str, _models.VectorStoreFileStatusFilter]] = None,
+        limit: Optional[int] = None,
+        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        before: Optional[str] = None,
+        **kwargs: Any,
+    ) -> Iterable["_models.VectorStoreFile"]:
+        """Returns a list of vector store files in a batch.
+
+        :param vector_store_id: Identifier of the vector store. Required.
+        :type vector_store_id: str
+        :param batch_id: Identifier of the file batch. Required.
+        :type batch_id: str
+        :keyword filter: Filter by file status. Known values are: "in_progress", "completed", "failed",
+         and "cancelled". Default value is None.
+        :paramtype filter: str or ~azure.ai.agents.models.VectorStoreFileStatusFilter
+        :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
+         100, and the default is 20. Default value is None.
+        :paramtype limit: int
+        :keyword order: Sort order by the created_at timestamp of the objects. asc for ascending order
+         and desc for descending order. Known values are: "asc" and "desc". Default value is None.
+        :paramtype order: str or ~azure.ai.agents.models.ListSortOrder
+        :keyword before: A cursor for use in pagination. before is an object ID that defines your place
+         in the list. For instance, if you make a list request and receive 100 objects, ending with
+         obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of
+         the list. Default value is None.
+        :paramtype before: str
+        :return: An iterator like instance of VectorStoreFile
+        :rtype: ~azure.core.paging.ItemPaged[~azure.ai.agents.models.VectorStoreFile]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.VectorStoreFile]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(_continuation_token=None):
+
+            _request = build_vector_stores_client_list_vector_store_file_batch_files_request(
+                vector_store_id=vector_store_id,
+                batch_id=batch_id,
+                filter=filter,
+                limit=limit,
+                order=order,
+                after=_continuation_token,
+                before=before,
+                api_version=self._config.api_version,
+                headers=_headers,
+                params=_params,
+            )
+            path_format_arguments = {
+                "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            }
+            _request.url = self._client.format_url(_request.url, **path_format_arguments)
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.VectorStoreFile], deserialized.get("data", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("last_id") or None, iter(list_of_elem)
+
+        def get_next(_continuation_token=None):
+            _request = prepare_request(_continuation_token)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+
 class ThreadsOperations:
     """
     .. warning::
@@ -1211,7 +4268,7 @@ class ThreadsOperations:
         :attr:`threads` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -1226,7 +4283,7 @@ class ThreadsOperations:
         messages: Optional[List[_models.ThreadMessageOptions]] = None,
         tool_resources: Optional[_models.ToolResources] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.AgentThread:
         """Creates a new thread. Threads contain messages and can be run by agents.
 
@@ -1288,7 +4345,7 @@ class ThreadsOperations:
         messages: Optional[List[_models.ThreadMessageOptions]] = None,
         tool_resources: Optional[_models.ToolResources] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.AgentThread:
         """Creates a new thread. Threads contain messages and can be run by agents.
 
@@ -1381,7 +4438,7 @@ class ThreadsOperations:
         limit: Optional[int] = None,
         order: Optional[Union[str, _models.ListSortOrder]] = None,
         before: Optional[str] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> Iterable["_models.AgentThread"]:
         """Gets a list of threads that were previously created.
 
@@ -1522,7 +4579,7 @@ class ThreadsOperations:
         content_type: str = "application/json",
         tool_resources: Optional[_models.ToolResources] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.AgentThread:
         """Modifies an existing thread.
 
@@ -1591,7 +4648,7 @@ class ThreadsOperations:
         *,
         tool_resources: Optional[_models.ToolResources] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.AgentThread:
         """Modifies an existing thread.
 
@@ -1748,7 +4805,7 @@ class MessagesOperations:
         :attr:`messages` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -1765,7 +4822,7 @@ class MessagesOperations:
         content_type: str = "application/json",
         attachments: Optional[List[_models.MessageAttachment]] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadMessage:
         """Creates a new message on a specified thread.
 
@@ -1844,7 +4901,7 @@ class MessagesOperations:
         content: "_types.MessageInputContent" = _Unset,
         attachments: Optional[List[_models.MessageAttachment]] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadMessage:
         """Creates a new message on a specified thread.
 
@@ -1951,7 +5008,7 @@ class MessagesOperations:
         limit: Optional[int] = None,
         order: Optional[Union[str, _models.ListSortOrder]] = None,
         before: Optional[str] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> Iterable["_models.ThreadMessage"]:
         """Gets a list of messages that exist on a thread.
 
@@ -2101,7 +5158,7 @@ class MessagesOperations:
         *,
         content_type: str = "application/json",
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadMessage:
         """Modifies an existing message on an existing thread.
 
@@ -2170,7 +5227,7 @@ class MessagesOperations:
         body: Union[JSON, IO[bytes]] = _Unset,
         *,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadMessage:
         """Modifies an existing message on an existing thread.
 
@@ -2264,7 +5321,7 @@ class RunsOperations:
         :attr:`runs` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -2294,7 +5351,7 @@ class RunsOperations:
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         parallel_tool_calls: Optional[bool] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadRun:
         """Creates a new run for an agent thread.
 
@@ -2392,7 +5449,7 @@ class RunsOperations:
         *,
         include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
         content_type: str = "application/json",
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadRun:
         """Creates a new run for an agent thread.
 
@@ -2421,7 +5478,7 @@ class RunsOperations:
         *,
         include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
         content_type: str = "application/json",
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadRun:
         """Creates a new run for an agent thread.
 
@@ -2465,7 +5522,7 @@ class RunsOperations:
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         parallel_tool_calls: Optional[bool] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadRun:
         """Creates a new run for an agent thread.
 
@@ -2644,7 +5701,7 @@ class RunsOperations:
         limit: Optional[int] = None,
         order: Optional[Union[str, _models.ListSortOrder]] = None,
         before: Optional[str] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> Iterable["_models.ThreadRun"]:
         """Gets a list of runs for a specified thread.
 
@@ -2791,7 +5848,7 @@ class RunsOperations:
         *,
         content_type: str = "application/json",
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadRun:
         """Modifies an existing thread run.
 
@@ -2860,7 +5917,7 @@ class RunsOperations:
         body: Union[JSON, IO[bytes]] = _Unset,
         *,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadRun:
         """Modifies an existing thread run.
 
@@ -2952,7 +6009,7 @@ class RunsOperations:
         tool_outputs: List[_models.ToolOutput],
         content_type: str = "application/json",
         stream_parameter: Optional[bool] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadRun:
         """Submits outputs from tools as requested by tool calls in a run.
 
@@ -3022,7 +6079,7 @@ class RunsOperations:
         *,
         tool_outputs: List[_models.ToolOutput] = _Unset,
         stream_parameter: Optional[bool] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadRun:
         """Submits outputs from tools as requested by tool calls in a run.
 
@@ -3181,7 +6238,7 @@ class RunStepsOperations:
         :attr:`run_steps` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -3196,7 +6253,7 @@ class RunStepsOperations:
         step_id: str,
         *,
         include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.RunStep:
         """Retrieves a single run step from a thread run.
 
@@ -3278,7 +6335,7 @@ class RunStepsOperations:
         limit: Optional[int] = None,
         order: Optional[Union[str, _models.ListSortOrder]] = None,
         before: Optional[str] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> Iterable["_models.RunStep"]:
         """Gets a list of run steps from a thread run.
 
@@ -3374,7 +6431,7 @@ class FilesOperations:
         :attr:`files` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -3694,1350 +6751,7 @@ class FilesOperations:
         return deserialized  # type: ignore
 
 
-class VectorStoresOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.ai.agents.AgentsClient`'s
-        :attr:`vector_stores` attribute.
-    """
-
-    def __init__(self, *args, **kwargs):
-        input_args = list(args)
-        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-
-    @distributed_trace
-    def list(
-        self,
-        *,
-        limit: Optional[int] = None,
-        order: Optional[Union[str, _models.ListSortOrder]] = None,
-        before: Optional[str] = None,
-        **kwargs: Any
-    ) -> Iterable["_models.VectorStore"]:
-        """Returns a list of vector stores.
-
-        :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
-         100, and the default is 20. Default value is None.
-        :paramtype limit: int
-        :keyword order: Sort order by the created_at timestamp of the objects. asc for ascending order
-         and desc for descending order. Known values are: "asc" and "desc". Default value is None.
-        :paramtype order: str or ~azure.ai.agents.models.ListSortOrder
-        :keyword before: A cursor for use in pagination. before is an object ID that defines your place
-         in the list. For instance, if you make a list request and receive 100 objects, ending with
-         obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of
-         the list. Default value is None.
-        :paramtype before: str
-        :return: An iterator like instance of VectorStore
-        :rtype: ~azure.core.paging.ItemPaged[~azure.ai.agents.models.VectorStore]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.VectorStore]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(_continuation_token=None):
-
-            _request = build_vector_stores_list_request(
-                limit=limit,
-                order=order,
-                after=_continuation_token,
-                before=before,
-                api_version=self._config.api_version,
-                headers=_headers,
-                params=_params,
-            )
-            path_format_arguments = {
-                "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-            }
-            _request.url = self._client.format_url(_request.url, **path_format_arguments)
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.VectorStore], deserialized.get("data", []))
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("last_id") or None, iter(list_of_elem)
-
-        def get_next(_continuation_token=None):
-            _request = prepare_request(_continuation_token)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @overload
-    def create(
-        self,
-        *,
-        content_type: str = "application/json",
-        file_ids: Optional[List[str]] = None,
-        name: Optional[str] = None,
-        store_configuration: Optional[_models.VectorStoreConfiguration] = None,
-        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
-        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
-        metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
-    ) -> _models.VectorStore:
-        """Creates a vector store.
-
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword file_ids: A list of file IDs that the vector store should use. Useful for tools like
-         ``file_search`` that can access files. Default value is None.
-        :paramtype file_ids: list[str]
-        :keyword name: The name of the vector store. Default value is None.
-        :paramtype name: str
-        :keyword store_configuration: The vector store configuration, used when vector store is created
-         from Azure asset URIs. Default value is None.
-        :paramtype store_configuration: ~azure.ai.agents.models.VectorStoreConfiguration
-        :keyword expires_after: Details on when this vector store expires. Default value is None.
-        :paramtype expires_after: ~azure.ai.agents.models.VectorStoreExpirationPolicy
-        :keyword chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will
-         use the auto strategy. Only applicable if file_ids is non-empty. Default value is None.
-        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
-        :keyword metadata: A set of up to 16 key/value pairs that can be attached to an object, used
-         for storing additional information about that object in a structured format. Keys may be up to
-         64 characters in length and values may be up to 512 characters in length. Default value is
-         None.
-        :paramtype metadata: dict[str, str]
-        :return: VectorStore. The VectorStore is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStore
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def create(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> _models.VectorStore:
-        """Creates a vector store.
-
-        :param body: Required.
-        :type body: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: VectorStore. The VectorStore is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStore
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def create(self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any) -> _models.VectorStore:
-        """Creates a vector store.
-
-        :param body: Required.
-        :type body: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: VectorStore. The VectorStore is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStore
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def create(
-        self,
-        body: Union[JSON, IO[bytes]] = _Unset,
-        *,
-        file_ids: Optional[List[str]] = None,
-        name: Optional[str] = None,
-        store_configuration: Optional[_models.VectorStoreConfiguration] = None,
-        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
-        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
-        metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
-    ) -> _models.VectorStore:
-        """Creates a vector store.
-
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
-        :keyword file_ids: A list of file IDs that the vector store should use. Useful for tools like
-         ``file_search`` that can access files. Default value is None.
-        :paramtype file_ids: list[str]
-        :keyword name: The name of the vector store. Default value is None.
-        :paramtype name: str
-        :keyword store_configuration: The vector store configuration, used when vector store is created
-         from Azure asset URIs. Default value is None.
-        :paramtype store_configuration: ~azure.ai.agents.models.VectorStoreConfiguration
-        :keyword expires_after: Details on when this vector store expires. Default value is None.
-        :paramtype expires_after: ~azure.ai.agents.models.VectorStoreExpirationPolicy
-        :keyword chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will
-         use the auto strategy. Only applicable if file_ids is non-empty. Default value is None.
-        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
-        :keyword metadata: A set of up to 16 key/value pairs that can be attached to an object, used
-         for storing additional information about that object in a structured format. Keys may be up to
-         64 characters in length and values may be up to 512 characters in length. Default value is
-         None.
-        :paramtype metadata: dict[str, str]
-        :return: VectorStore. The VectorStore is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStore
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = kwargs.pop("params", {}) or {}
-
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.VectorStore] = kwargs.pop("cls", None)
-
-        if body is _Unset:
-            body = {
-                "chunking_strategy": chunking_strategy,
-                "configuration": store_configuration,
-                "expires_after": expires_after,
-                "file_ids": file_ids,
-                "metadata": metadata,
-                "name": name,
-            }
-            body = {k: v for k, v in body.items() if v is not None}
-        content_type = content_type or "application/json"
-        _content = None
-        if isinstance(body, (IOBase, bytes)):
-            _content = body
-        else:
-            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
-
-        _request = build_vector_stores_create_request(
-            content_type=content_type,
-            api_version=self._config.api_version,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.VectorStore, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def get(self, vector_store_id: str, **kwargs: Any) -> _models.VectorStore:
-        """Returns the vector store object matching the specified ID.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :return: VectorStore. The VectorStore is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStore
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[_models.VectorStore] = kwargs.pop("cls", None)
-
-        _request = build_vector_stores_get_request(
-            vector_store_id=vector_store_id,
-            api_version=self._config.api_version,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.VectorStore, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
-    def modify(
-        self,
-        vector_store_id: str,
-        *,
-        content_type: str = "application/json",
-        name: Optional[str] = None,
-        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
-        metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
-    ) -> _models.VectorStore:
-        """Modifies an existing vector store.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword name: The name of the vector store. Default value is None.
-        :paramtype name: str
-        :keyword expires_after: Details on when this vector store expires. Default value is None.
-        :paramtype expires_after: ~azure.ai.agents.models.VectorStoreExpirationPolicy
-        :keyword metadata: A set of up to 16 key/value pairs that can be attached to an object, used
-         for storing additional information about that object in a structured format. Keys may be up to
-         64 characters in length and values may be up to 512 characters in length. Default value is
-         None.
-        :paramtype metadata: dict[str, str]
-        :return: VectorStore. The VectorStore is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStore
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def modify(
-        self, vector_store_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.VectorStore:
-        """Modifies an existing vector store.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param body: Required.
-        :type body: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: VectorStore. The VectorStore is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStore
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def modify(
-        self, vector_store_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.VectorStore:
-        """Modifies an existing vector store.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param body: Required.
-        :type body: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: VectorStore. The VectorStore is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStore
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def modify(
-        self,
-        vector_store_id: str,
-        body: Union[JSON, IO[bytes]] = _Unset,
-        *,
-        name: Optional[str] = None,
-        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
-        metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
-    ) -> _models.VectorStore:
-        """Modifies an existing vector store.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
-        :keyword name: The name of the vector store. Default value is None.
-        :paramtype name: str
-        :keyword expires_after: Details on when this vector store expires. Default value is None.
-        :paramtype expires_after: ~azure.ai.agents.models.VectorStoreExpirationPolicy
-        :keyword metadata: A set of up to 16 key/value pairs that can be attached to an object, used
-         for storing additional information about that object in a structured format. Keys may be up to
-         64 characters in length and values may be up to 512 characters in length. Default value is
-         None.
-        :paramtype metadata: dict[str, str]
-        :return: VectorStore. The VectorStore is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStore
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = kwargs.pop("params", {}) or {}
-
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.VectorStore] = kwargs.pop("cls", None)
-
-        if body is _Unset:
-            body = {"expires_after": expires_after, "metadata": metadata, "name": name}
-            body = {k: v for k, v in body.items() if v is not None}
-        content_type = content_type or "application/json"
-        _content = None
-        if isinstance(body, (IOBase, bytes)):
-            _content = body
-        else:
-            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
-
-        _request = build_vector_stores_modify_request(
-            vector_store_id=vector_store_id,
-            content_type=content_type,
-            api_version=self._config.api_version,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.VectorStore, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def delete(self, vector_store_id: str, **kwargs: Any) -> _models.VectorStoreDeletionStatus:
-        """Deletes the vector store object matching the specified ID.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :return: VectorStoreDeletionStatus. The VectorStoreDeletionStatus is compatible with
-         MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreDeletionStatus
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[_models.VectorStoreDeletionStatus] = kwargs.pop("cls", None)
-
-        _request = build_vector_stores_delete_request(
-            vector_store_id=vector_store_id,
-            api_version=self._config.api_version,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.VectorStoreDeletionStatus, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-
-class VectorStoreFilesOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.ai.agents.AgentsClient`'s
-        :attr:`vector_store_files` attribute.
-    """
-
-    def __init__(self, *args, **kwargs):
-        input_args = list(args)
-        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-
-    @distributed_trace
-    def list(
-        self,
-        vector_store_id: str,
-        *,
-        filter: Optional[Union[str, _models.VectorStoreFileStatusFilter]] = None,
-        limit: Optional[int] = None,
-        order: Optional[Union[str, _models.ListSortOrder]] = None,
-        before: Optional[str] = None,
-        **kwargs: Any
-    ) -> Iterable["_models.VectorStoreFile"]:
-        """Returns a list of vector store files.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :keyword filter: Filter by file status. Known values are: "in_progress", "completed", "failed",
-         and "cancelled". Default value is None.
-        :paramtype filter: str or ~azure.ai.agents.models.VectorStoreFileStatusFilter
-        :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
-         100, and the default is 20. Default value is None.
-        :paramtype limit: int
-        :keyword order: Sort order by the created_at timestamp of the objects. asc for ascending order
-         and desc for descending order. Known values are: "asc" and "desc". Default value is None.
-        :paramtype order: str or ~azure.ai.agents.models.ListSortOrder
-        :keyword before: A cursor for use in pagination. before is an object ID that defines your place
-         in the list. For instance, if you make a list request and receive 100 objects, ending with
-         obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of
-         the list. Default value is None.
-        :paramtype before: str
-        :return: An iterator like instance of VectorStoreFile
-        :rtype: ~azure.core.paging.ItemPaged[~azure.ai.agents.models.VectorStoreFile]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.VectorStoreFile]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(_continuation_token=None):
-
-            _request = build_vector_store_files_list_request(
-                vector_store_id=vector_store_id,
-                filter=filter,
-                limit=limit,
-                order=order,
-                after=_continuation_token,
-                before=before,
-                api_version=self._config.api_version,
-                headers=_headers,
-                params=_params,
-            )
-            path_format_arguments = {
-                "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-            }
-            _request.url = self._client.format_url(_request.url, **path_format_arguments)
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.VectorStoreFile], deserialized.get("data", []))
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("last_id") or None, iter(list_of_elem)
-
-        def get_next(_continuation_token=None):
-            _request = prepare_request(_continuation_token)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @overload
-    def create(
-        self,
-        vector_store_id: str,
-        *,
-        content_type: str = "application/json",
-        file_id: Optional[str] = None,
-        data_source: Optional[_models.VectorStoreDataSource] = None,
-        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
-        **kwargs: Any
-    ) -> _models.VectorStoreFile:
-        """Create a vector store file by attaching a file to a vector store.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword file_id: Identifier of the file. Default value is None.
-        :paramtype file_id: str
-        :keyword data_source: Azure asset ID. Default value is None.
-        :paramtype data_source: ~azure.ai.agents.models.VectorStoreDataSource
-        :keyword chunking_strategy: The chunking strategy used to chunk the file. If not set, uses the
-         auto strategy. Default value is None.
-        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
-        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreFile
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def create(
-        self, vector_store_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.VectorStoreFile:
-        """Create a vector store file by attaching a file to a vector store.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param body: Required.
-        :type body: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreFile
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def create(
-        self, vector_store_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.VectorStoreFile:
-        """Create a vector store file by attaching a file to a vector store.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param body: Required.
-        :type body: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreFile
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def create(
-        self,
-        vector_store_id: str,
-        body: Union[JSON, IO[bytes]] = _Unset,
-        *,
-        file_id: Optional[str] = None,
-        data_source: Optional[_models.VectorStoreDataSource] = None,
-        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
-        **kwargs: Any
-    ) -> _models.VectorStoreFile:
-        """Create a vector store file by attaching a file to a vector store.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
-        :keyword file_id: Identifier of the file. Default value is None.
-        :paramtype file_id: str
-        :keyword data_source: Azure asset ID. Default value is None.
-        :paramtype data_source: ~azure.ai.agents.models.VectorStoreDataSource
-        :keyword chunking_strategy: The chunking strategy used to chunk the file. If not set, uses the
-         auto strategy. Default value is None.
-        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
-        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreFile
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = kwargs.pop("params", {}) or {}
-
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.VectorStoreFile] = kwargs.pop("cls", None)
-
-        if body is _Unset:
-            body = {"chunking_strategy": chunking_strategy, "data_source": data_source, "file_id": file_id}
-            body = {k: v for k, v in body.items() if v is not None}
-        content_type = content_type or "application/json"
-        _content = None
-        if isinstance(body, (IOBase, bytes)):
-            _content = body
-        else:
-            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
-
-        _request = build_vector_store_files_create_request(
-            vector_store_id=vector_store_id,
-            content_type=content_type,
-            api_version=self._config.api_version,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.VectorStoreFile, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def get(self, vector_store_id: str, file_id: str, **kwargs: Any) -> _models.VectorStoreFile:
-        """Retrieves a vector store file.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param file_id: Identifier of the file. Required.
-        :type file_id: str
-        :return: VectorStoreFile. The VectorStoreFile is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreFile
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[_models.VectorStoreFile] = kwargs.pop("cls", None)
-
-        _request = build_vector_store_files_get_request(
-            vector_store_id=vector_store_id,
-            file_id=file_id,
-            api_version=self._config.api_version,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.VectorStoreFile, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def delete(self, vector_store_id: str, file_id: str, **kwargs: Any) -> _models.VectorStoreFileDeletionStatus:
-        """Deletes a vector store file. This removes the file‐to‐store link (does not delete the file
-        itself).
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param file_id: Identifier of the file. Required.
-        :type file_id: str
-        :return: VectorStoreFileDeletionStatus. The VectorStoreFileDeletionStatus is compatible with
-         MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreFileDeletionStatus
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[_models.VectorStoreFileDeletionStatus] = kwargs.pop("cls", None)
-
-        _request = build_vector_store_files_delete_request(
-            vector_store_id=vector_store_id,
-            file_id=file_id,
-            api_version=self._config.api_version,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.VectorStoreFileDeletionStatus, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-
-class VectorStoreFileBatchesOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.ai.agents.AgentsClient`'s
-        :attr:`vector_store_file_batches` attribute.
-    """
-
-    def __init__(self, *args, **kwargs):
-        input_args = list(args)
-        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-
-    @overload
-    def create(
-        self,
-        vector_store_id: str,
-        *,
-        content_type: str = "application/json",
-        file_ids: Optional[List[str]] = None,
-        data_sources: Optional[List[_models.VectorStoreDataSource]] = None,
-        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
-        **kwargs: Any
-    ) -> _models.VectorStoreFileBatch:
-        """Create a vector store file batch.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword file_ids: List of file identifiers. Default value is None.
-        :paramtype file_ids: list[str]
-        :keyword data_sources: List of Azure assets. Default value is None.
-        :paramtype data_sources: list[~azure.ai.agents.models.VectorStoreDataSource]
-        :keyword chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will
-         use the auto strategy. Default value is None.
-        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
-        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def create(
-        self, vector_store_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.VectorStoreFileBatch:
-        """Create a vector store file batch.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param body: Required.
-        :type body: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def create(
-        self, vector_store_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.VectorStoreFileBatch:
-        """Create a vector store file batch.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param body: Required.
-        :type body: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def create(
-        self,
-        vector_store_id: str,
-        body: Union[JSON, IO[bytes]] = _Unset,
-        *,
-        file_ids: Optional[List[str]] = None,
-        data_sources: Optional[List[_models.VectorStoreDataSource]] = None,
-        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
-        **kwargs: Any
-    ) -> _models.VectorStoreFileBatch:
-        """Create a vector store file batch.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
-        :keyword file_ids: List of file identifiers. Default value is None.
-        :paramtype file_ids: list[str]
-        :keyword data_sources: List of Azure assets. Default value is None.
-        :paramtype data_sources: list[~azure.ai.agents.models.VectorStoreDataSource]
-        :keyword chunking_strategy: The chunking strategy used to chunk the file(s). If not set, will
-         use the auto strategy. Default value is None.
-        :paramtype chunking_strategy: ~azure.ai.agents.models.VectorStoreChunkingStrategyRequest
-        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = kwargs.pop("params", {}) or {}
-
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.VectorStoreFileBatch] = kwargs.pop("cls", None)
-
-        if body is _Unset:
-            body = {"chunking_strategy": chunking_strategy, "data_sources": data_sources, "file_ids": file_ids}
-            body = {k: v for k, v in body.items() if v is not None}
-        content_type = content_type or "application/json"
-        _content = None
-        if isinstance(body, (IOBase, bytes)):
-            _content = body
-        else:
-            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
-
-        _request = build_vector_store_file_batches_create_request(
-            vector_store_id=vector_store_id,
-            content_type=content_type,
-            api_version=self._config.api_version,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.VectorStoreFileBatch, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def get(self, vector_store_id: str, batch_id: str, **kwargs: Any) -> _models.VectorStoreFileBatch:
-        """Retrieve a vector store file batch.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param batch_id: Identifier of the file batch. Required.
-        :type batch_id: str
-        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[_models.VectorStoreFileBatch] = kwargs.pop("cls", None)
-
-        _request = build_vector_store_file_batches_get_request(
-            vector_store_id=vector_store_id,
-            batch_id=batch_id,
-            api_version=self._config.api_version,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.VectorStoreFileBatch, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def cancel(self, vector_store_id: str, batch_id: str, **kwargs: Any) -> _models.VectorStoreFileBatch:
-        """Cancel a vector store file batch. This attempts to cancel the processing of files in this batch
-        as soon as possible.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param batch_id: Identifier of the file batch. Required.
-        :type batch_id: str
-        :return: VectorStoreFileBatch. The VectorStoreFileBatch is compatible with MutableMapping
-        :rtype: ~azure.ai.agents.models.VectorStoreFileBatch
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[_models.VectorStoreFileBatch] = kwargs.pop("cls", None)
-
-        _request = build_vector_store_file_batches_cancel_request(
-            vector_store_id=vector_store_id,
-            batch_id=batch_id,
-            api_version=self._config.api_version,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.VectorStoreFileBatch, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def list_files(
-        self,
-        vector_store_id: str,
-        batch_id: str,
-        *,
-        filter: Optional[Union[str, _models.VectorStoreFileStatusFilter]] = None,
-        limit: Optional[int] = None,
-        order: Optional[Union[str, _models.ListSortOrder]] = None,
-        before: Optional[str] = None,
-        **kwargs: Any
-    ) -> Iterable["_models.VectorStoreFile"]:
-        """Returns a list of vector store files in a batch.
-
-        :param vector_store_id: Identifier of the vector store. Required.
-        :type vector_store_id: str
-        :param batch_id: Identifier of the file batch. Required.
-        :type batch_id: str
-        :keyword filter: Filter by file status. Known values are: "in_progress", "completed", "failed",
-         and "cancelled". Default value is None.
-        :paramtype filter: str or ~azure.ai.agents.models.VectorStoreFileStatusFilter
-        :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
-         100, and the default is 20. Default value is None.
-        :paramtype limit: int
-        :keyword order: Sort order by the created_at timestamp of the objects. asc for ascending order
-         and desc for descending order. Known values are: "asc" and "desc". Default value is None.
-        :paramtype order: str or ~azure.ai.agents.models.ListSortOrder
-        :keyword before: A cursor for use in pagination. before is an object ID that defines your place
-         in the list. For instance, if you make a list request and receive 100 objects, ending with
-         obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of
-         the list. Default value is None.
-        :paramtype before: str
-        :return: An iterator like instance of VectorStoreFile
-        :rtype: ~azure.core.paging.ItemPaged[~azure.ai.agents.models.VectorStoreFile]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.VectorStoreFile]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(_continuation_token=None):
-
-            _request = build_vector_store_file_batches_list_files_request(
-                vector_store_id=vector_store_id,
-                batch_id=batch_id,
-                filter=filter,
-                limit=limit,
-                order=order,
-                after=_continuation_token,
-                before=before,
-                headers=_headers,
-                params=_params,
-            )
-            path_format_arguments = {
-                "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-            }
-            _request.url = self._client.format_url(_request.url, **path_format_arguments)
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.VectorStoreFile], deserialized.get("data", []))
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("last_id") or None, iter(list_of_elem)
-
-        def get_next(_continuation_token=None):
-            _request = prepare_request(_continuation_token)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-
-class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientConfiguration]):
+class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient[HttpRequest, HttpResponse], AgentsClientConfiguration]):
 
     @overload
     def create_agent(
@@ -5054,7 +6768,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         top_p: Optional[float] = None,
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.Agent:
         """Creates a new agent.
 
@@ -5146,7 +6860,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         top_p: Optional[float] = None,
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.Agent:
         """Creates a new agent.
 
@@ -5275,7 +6989,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         limit: Optional[int] = None,
         order: Optional[Union[str, _models.ListSortOrder]] = None,
         before: Optional[str] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> Iterable["_models.Agent"]:
         """Gets a list of agents that were previously created.
 
@@ -5424,7 +7138,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         top_p: Optional[float] = None,
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.Agent:
         """Modifies an existing agent.
 
@@ -5529,7 +7243,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         top_p: Optional[float] = None,
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.Agent:
         """Modifies an existing agent.
 
@@ -5735,7 +7449,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         parallel_tool_calls: Optional[bool] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadRun:
         """Creates a new agent thread and immediately starts a run using that new thread.
 
@@ -5870,7 +7584,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         parallel_tool_calls: Optional[bool] = None,
         metadata: Optional[Dict[str, str]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> _models.ThreadRun:
         """Creates a new agent thread and immediately starts a run using that new thread.
 

@@ -12,14 +12,15 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ._patch import *  # pylint: disable=unused-wildcard-import
 
+from ._operations import VectorStoresOperations  # type: ignore
+from ._operations import VectorStoreFilesOperations  # type: ignore
+from ._operations import VectorStoreFileBatchesOperations  # type: ignore
+from ._operations import VectorStoresClientOperations  # type: ignore
 from ._operations import ThreadsOperations  # type: ignore
 from ._operations import MessagesOperations  # type: ignore
 from ._operations import RunsOperations  # type: ignore
 from ._operations import RunStepsOperations  # type: ignore
 from ._operations import FilesOperations  # type: ignore
-from ._operations import VectorStoresOperations  # type: ignore
-from ._operations import VectorStoreFilesOperations  # type: ignore
-from ._operations import VectorStoreFileBatchesOperations  # type: ignore
 from ._operations import AgentsClientOperationsMixin  # type: ignore
 
 from ._patch import __all__ as _patch_all
@@ -27,14 +28,15 @@ from ._patch import *
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "VectorStoresOperations",
+    "VectorStoreFilesOperations",
+    "VectorStoreFileBatchesOperations",
+    "VectorStoresClientOperations",
     "ThreadsOperations",
     "MessagesOperations",
     "RunsOperations",
     "RunStepsOperations",
     "FilesOperations",
-    "VectorStoresOperations",
-    "VectorStoreFilesOperations",
-    "VectorStoreFileBatchesOperations",
     "AgentsClientOperationsMixin",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])  # pyright: ignore

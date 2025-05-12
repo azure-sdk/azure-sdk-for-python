@@ -25,6 +25,7 @@ from .operations import (
     ThreadsOperations,
     VectorStoreFileBatchesOperations,
     VectorStoreFilesOperations,
+    VectorStoresClientOperations,
     VectorStoresOperations,
 )
 
@@ -35,6 +36,14 @@ if TYPE_CHECKING:
 class AgentsClient(AgentsClientOperationsMixin):  # pylint: disable=too-many-instance-attributes
     """AgentsClient.
 
+    :ivar vector_stores: VectorStoresOperations operations
+    :vartype vector_stores: azure.ai.agents.operations.VectorStoresOperations
+    :ivar vector_store_files: VectorStoreFilesOperations operations
+    :vartype vector_store_files: azure.ai.agents.operations.VectorStoreFilesOperations
+    :ivar vector_store_file_batches: VectorStoreFileBatchesOperations operations
+    :vartype vector_store_file_batches: azure.ai.agents.operations.VectorStoreFileBatchesOperations
+    :ivar vector_stores_client: VectorStoresClientOperations operations
+    :vartype vector_stores_client: azure.ai.agents.operations.VectorStoresClientOperations
     :ivar threads: ThreadsOperations operations
     :vartype threads: azure.ai.agents.operations.ThreadsOperations
     :ivar messages: MessagesOperations operations
@@ -45,12 +54,6 @@ class AgentsClient(AgentsClientOperationsMixin):  # pylint: disable=too-many-ins
     :vartype run_steps: azure.ai.agents.operations.RunStepsOperations
     :ivar files: FilesOperations operations
     :vartype files: azure.ai.agents.operations.FilesOperations
-    :ivar vector_stores: VectorStoresOperations operations
-    :vartype vector_stores: azure.ai.agents.operations.VectorStoresOperations
-    :ivar vector_store_files: VectorStoreFilesOperations operations
-    :vartype vector_store_files: azure.ai.agents.operations.VectorStoreFilesOperations
-    :ivar vector_store_file_batches: VectorStoreFileBatchesOperations operations
-    :vartype vector_store_file_batches: azure.ai.agents.operations.VectorStoreFileBatchesOperations
     :param endpoint: Project endpoint in the form of:
      https://<aiservices-id>.services.ai.azure.com/api/projects/<project-name>. Required.
     :type endpoint: str
@@ -87,11 +90,6 @@ class AgentsClient(AgentsClientOperationsMixin):  # pylint: disable=too-many-ins
         self._serialize = Serializer()
         self._deserialize = Deserializer()
         self._serialize.client_side_validation = False
-        self.threads = ThreadsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.messages = MessagesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.runs = RunsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.run_steps = RunStepsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.files = FilesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.vector_stores = VectorStoresOperations(self._client, self._config, self._serialize, self._deserialize)
         self.vector_store_files = VectorStoreFilesOperations(
             self._client, self._config, self._serialize, self._deserialize
@@ -99,6 +97,14 @@ class AgentsClient(AgentsClientOperationsMixin):  # pylint: disable=too-many-ins
         self.vector_store_file_batches = VectorStoreFileBatchesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.vector_stores_client = VectorStoresClientOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.threads = ThreadsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.messages = MessagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.runs = RunsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.run_steps = RunStepsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.files = FilesOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
