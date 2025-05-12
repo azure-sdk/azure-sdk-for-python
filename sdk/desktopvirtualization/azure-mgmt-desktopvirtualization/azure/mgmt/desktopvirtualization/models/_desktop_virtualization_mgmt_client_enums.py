@@ -36,6 +36,16 @@ class ApplicationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DESKTOP = "Desktop"
 
 
+class CanaryPolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Policy on whether a Canary VM should be provisioned during a session host provisioning
+    operation.
+    """
+
+    AUTO = "Auto"
+    NEVER = "Never"
+    ALWAYS = "Always"
+
+
 class CommandLineSetting(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies whether this published application can be launched with command line arguments
     provided by the client, command line arguments specified at publish time, or no command line
@@ -68,12 +78,72 @@ class DayOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SUNDAY = "Sunday"
 
 
+class DiffDiskOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the ephemeral disk settings for operating system disk."""
+
+    LOCAL = "Local"
+    """Operating system disk local setting"""
+
+
+class DiffDiskPlacement(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or sets specifies the ephemeral disk placement for operating system disk. The defaulting
+    behavior is: CacheDisk if one is configured for the VM size otherwise ResourceDisk is used.
+    Refer to the VM size documentation for Windows VM at
+    https://docs.microsoft.com/azure/virtual-machines/windows/sizes and Linux VM at
+    https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a
+    cache disk. Possible values include: 'CacheDisk', 'ResourceDisk'.
+    """
+
+    CACHE_DISK = "CacheDisk"
+    """Cache disk placement"""
+    RESOURCE_DISK = "ResourceDisk"
+    """Resource disk placement"""
+
+
+class DirectUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will
+    attempt this connection type when making connections. This means that this connection is
+    possible, but is not guaranteed, as there are other factors that may prevent this connection
+    type, Disabled: UDP will not attempt this connection type when making connections.
+    """
+
+    DEFAULT = "Default"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class DomainJoinType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of domain join done by the virtual machine."""
+
+    ACTIVE_DIRECTORY = "ActiveDirectory"
+    """Using microsoft active directory."""
+    AZURE_ACTIVE_DIRECTORY = "AzureActiveDirectory"
+    """Using microsoft azure active directory."""
+
+
+class FailedSessionHostCleanupPolicySHC(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The policy that should be applied when the Session Host provisioning operation fails."""
+
+    KEEP_ALL = "KeepAll"
+    KEEP_ONE = "KeepOne"
+    KEEP_NONE = "KeepNone"
+
+
 class FailHealthCheckOnStagingFailure(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Parameter indicating how the health check should behave if this package fails staging."""
 
     UNHEALTHY = "Unhealthy"
     NEEDS_ASSISTANCE = "NeedsAssistance"
     DO_NOT_FAIL = "DoNotFail"
+
+
+class FaultType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Hostpool update fault type."""
+
+    SERVICE_ERROR = "ServiceError"
+    """Fault caused by service error."""
+    USER_ERROR = "UserError"
+    """Fault caused by user error."""
 
 
 class HealthCheckName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -146,6 +216,13 @@ class HealthCheckResult(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """We received a Shutdown notification."""
 
 
+class HostPoolProvisioningAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Action types for controlling hostpool provisioning."""
+
+    CANCEL = "Cancel"
+    """Cancel the hostpool provisioning."""
+
+
 class HostpoolPublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enabled allows this resource to be accessed from both public and private networks, Disabled
     allows this resource to only be accessed via private endpoints.
@@ -171,12 +248,67 @@ class HostPoolType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PersonalDesktopAssignmentType must be Direct."""
 
 
+class HostPoolUpdateAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Action types for controlling hostpool update."""
+
+    START = "Start"
+    """Start the hostpool update."""
+    PAUSE = "Pause"
+    """Pause the hostpool update."""
+    CANCEL = "Cancel"
+    """Cancel the hostpool update."""
+    RETRY = "Retry"
+    """Retry the hostpool update."""
+    RESUME = "Resume"
+    """Resume the hostpool update."""
+
+
 class LoadBalancerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of the load balancer."""
 
     BREADTH_FIRST = "BreadthFirst"
     DEPTH_FIRST = "DepthFirst"
     PERSISTENT = "Persistent"
+    MULTIPLE_PERSISTENT = "MultiplePersistent"
+
+
+class ManagedPrivateUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will
+    attempt this connection type when making connections. This means that this connection is
+    possible, but is not guaranteed, as there are other factors that may prevent this connection
+    type, Disabled: UDP will not attempt this connection type when making connections.
+    """
+
+    DEFAULT = "Default"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of managed service identity (where both SystemAssigned and UserAssigned types are
+    allowed).
+    """
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
+
+
+class ManagementType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of management for this hostpool, Automated or Standard. The default value is
+    Automated.
+    """
+
+    AUTOMATED = "Automated"
+    STANDARD = "Standard"
+
+
+class OperationTypeSHM(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """OperationTypeSHM."""
+
+    INITIATE_SESSION_HOST_UPDATE = "InitiateSessionHostUpdate"
+    VALIDATE_SESSION_HOST_UPDATE = "ValidateSessionHostUpdate"
 
 
 class PackageTimestamped(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -197,8 +329,13 @@ class PreferredAppGroupType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of preferred application group type, default to Desktop Application Group."""
 
     NONE = "None"
+    """This value is read only, it is not accepted on input."""
     DESKTOP = "Desktop"
+    """Users access the full Windows desktop from a session host. Available with pooled or personal
+    host pools."""
     RAIL_APPLICATIONS = "RailApplications"
+    """Users access individual applications you select and publish to the application group. Available
+    with pooled host pools only."""
 
 
 class PrivateEndpointConnectionProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -227,11 +364,32 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CANCELED = "Canceled"
 
 
+class ProvisioningStateSHC(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Provisioning state of the Session Host Configuration."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    PROVISIONING = "Provisioning"
+
+
 class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enabled allows this resource to be accessed from both public and private networks, Disabled
     allows this resource to only be accessed via private endpoints.
     """
 
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class PublicUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will
+    attempt this connection type when making connections. This means that this connection is
+    possible, but is not guaranteed, as there are other factors that may prevent this connection
+    type, Disabled: UDP will not attempt this connection type when making connections.
+    """
+
+    DEFAULT = "Default"
     ENABLED = "Enabled"
     DISABLED = "Disabled"
 
@@ -242,6 +400,18 @@ class RegistrationTokenOperation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DELETE = "Delete"
     NONE = "None"
     UPDATE = "Update"
+
+
+class RelayUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will
+    attempt this connection type when making connections. This means that this connection is
+    possible, but is not guaranteed, as there are other factors that may prevent this connection
+    type, Disabled: UDP will not attempt this connection type when making connections.
+    """
+
+    DEFAULT = "Default"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
 
 
 class RemoteApplicationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -256,18 +426,22 @@ class ScalingHostPoolType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     POOLED = "Pooled"
     """Users get a new (random) SessionHost every time it connects to the HostPool."""
+    PERSONAL = "Personal"
+    """Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType =
+    Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will
+    always be redirected to their assigned SessionHost."""
 
 
-class ScalingScheduleDaysOfWeekItem(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """ScalingScheduleDaysOfWeekItem."""
+class ScalingMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The desired scaling method to be used to scale the hosts in the assigned host pool."""
 
-    SUNDAY = "Sunday"
-    MONDAY = "Monday"
-    TUESDAY = "Tuesday"
-    WEDNESDAY = "Wednesday"
-    THURSDAY = "Thursday"
-    FRIDAY = "Friday"
-    SATURDAY = "Saturday"
+    POWER_MANAGE = "PowerManage"
+    """Scaling will manage hosts in the host pool by power managing the hosts, but will not change the
+    host pool size."""
+    CREATE_DELETE_POWER_MANAGE = "CreateDeletePowerManage"
+    """Scaling will manage the hosts in the host pool by power managing the hosts, as well as creating
+    and deleting hosts to modify the host pool size. This requires the create delete object to be
+    set, and the assigned hostpool to have a session host config property."""
 
 
 class SessionHandlingOperation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -389,6 +563,15 @@ class StopHostsWhen(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ZERO_ACTIVE_SESSIONS = "ZeroActiveSessions"
 
 
+class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of image session hosts use in the hostpool."""
+
+    MARKETPLACE = "Marketplace"
+    """Using default marketplace images offered by Azure Marketplace."""
+    CUSTOM = "Custom"
+    """Using a custom image."""
+
+
 class UpdateState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Update state of a SessionHost."""
 
@@ -397,3 +580,26 @@ class UpdateState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     STARTED = "Started"
     SUCCEEDED = "Succeeded"
     FAILED = "Failed"
+
+
+class VirtualMachineDiskType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The disk type used by virtual machine in hostpool session host."""
+
+    STANDARD_LRS = "Standard_LRS"
+    """Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access."""
+    PREMIUM_LRS = "Premium_LRS"
+    """Premium SSD locally redundant storage. Best for production and performance sensitive workloads."""
+    STANDARD_SSD_LRS = "StandardSSD_LRS"
+    """Standard SSD locally redundant storage. Best for web servers, lightly used enterprise
+    applications and dev/test."""
+
+
+class VirtualMachineSecurityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The security type used by virtual machine in hostpool session host. Default is Standard."""
+
+    STANDARD = "Standard"
+    """Standard security protocol. No additional parameters"""
+    TRUSTED_LAUNCH = "TrustedLaunch"
+    """TrustedLaunch allows for secure boot adn vTPM"""
+    CONFIDENTIAL_VM = "ConfidentialVM"
+    """Confidential Virtual Machine security protocol"""

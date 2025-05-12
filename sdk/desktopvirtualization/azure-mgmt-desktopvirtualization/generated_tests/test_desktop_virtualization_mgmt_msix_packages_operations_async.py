@@ -21,12 +21,12 @@ class TestDesktopVirtualizationMgmtMSIXPackagesOperationsAsync(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_msix_packages_get(self, resource_group):
         response = await self.client.msix_packages.get(
             resource_group_name=resource_group.name,
             host_pool_name="str",
             msix_package_full_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -34,7 +34,7 @@ class TestDesktopVirtualizationMgmtMSIXPackagesOperationsAsync(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create_or_update(self, resource_group):
+    async def test_msix_packages_create_or_update(self, resource_group):
         response = await self.client.msix_packages.create_or_update(
             resource_group_name=resource_group.name,
             host_pool_name="str",
@@ -73,7 +73,7 @@ class TestDesktopVirtualizationMgmtMSIXPackagesOperationsAsync(AzureMgmtRecorded
                 "type": "str",
                 "version": "str",
             },
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -81,12 +81,12 @@ class TestDesktopVirtualizationMgmtMSIXPackagesOperationsAsync(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
+    async def test_msix_packages_delete(self, resource_group):
         response = await self.client.msix_packages.delete(
             resource_group_name=resource_group.name,
             host_pool_name="str",
             msix_package_full_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -94,12 +94,12 @@ class TestDesktopVirtualizationMgmtMSIXPackagesOperationsAsync(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_msix_packages_update(self, resource_group):
         response = await self.client.msix_packages.update(
             resource_group_name=resource_group.name,
             host_pool_name="str",
             msix_package_full_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -107,11 +107,11 @@ class TestDesktopVirtualizationMgmtMSIXPackagesOperationsAsync(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_msix_packages_list(self, resource_group):
         response = self.client.msix_packages.list(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself

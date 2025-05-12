@@ -7,24 +7,30 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, Awaitable, TYPE_CHECKING
+from typing import Any, Awaitable, Optional, TYPE_CHECKING, cast
 from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
+from azure.core.settings import settings
 from azure.mgmt.core import AsyncARMPipelineClient
 from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from .. import models as _models
-from .._serialization import Deserializer, Serializer
+from .._utils.serialization import Deserializer, Serializer
 from ._configuration import DesktopVirtualizationMgmtClientConfiguration
 from .operations import (
+    ActiveSessionHostConfigurationsOperations,
     AppAttachPackageInfoOperations,
     AppAttachPackageOperations,
     ApplicationGroupsOperations,
     ApplicationsOperations,
+    ControlSessionHostProvisioningOperations,
+    ControlSessionHostUpdateOperations,
     DesktopsOperations,
     HostPoolsOperations,
+    InitiateSessionHostUpdateOperations,
     MSIXPackagesOperations,
     MsixImagesOperations,
     Operations,
@@ -33,6 +39,11 @@ from .operations import (
     ScalingPlanPersonalSchedulesOperations,
     ScalingPlanPooledSchedulesOperations,
     ScalingPlansOperations,
+    SessionHostConfigurationsOperations,
+    SessionHostManagementsOperations,
+    SessionHostManagementsUpdateStatusOperations,
+    SessionHostOperations,
+    SessionHostProvisioningStatusesOperations,
     SessionHostsOperations,
     StartMenuItemsOperations,
     UserSessionsOperations,
@@ -40,11 +51,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class DesktopVirtualizationMgmtClient:  # pylint: disable=too-many-instance-attributes
     """DesktopVirtualizationMgmtClient.
 
     :ivar operations: Operations operations
@@ -77,10 +87,37 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
     :vartype desktops: azure.mgmt.desktopvirtualization.aio.operations.DesktopsOperations
     :ivar host_pools: HostPoolsOperations operations
     :vartype host_pools: azure.mgmt.desktopvirtualization.aio.operations.HostPoolsOperations
+    :ivar session_host_managements: SessionHostManagementsOperations operations
+    :vartype session_host_managements:
+     azure.mgmt.desktopvirtualization.aio.operations.SessionHostManagementsOperations
+    :ivar initiate_session_host_update: InitiateSessionHostUpdateOperations operations
+    :vartype initiate_session_host_update:
+     azure.mgmt.desktopvirtualization.aio.operations.InitiateSessionHostUpdateOperations
+    :ivar control_session_host_update: ControlSessionHostUpdateOperations operations
+    :vartype control_session_host_update:
+     azure.mgmt.desktopvirtualization.aio.operations.ControlSessionHostUpdateOperations
+    :ivar control_session_host_provisioning: ControlSessionHostProvisioningOperations operations
+    :vartype control_session_host_provisioning:
+     azure.mgmt.desktopvirtualization.aio.operations.ControlSessionHostProvisioningOperations
+    :ivar session_host_managements_update_status: SessionHostManagementsUpdateStatusOperations
+     operations
+    :vartype session_host_managements_update_status:
+     azure.mgmt.desktopvirtualization.aio.operations.SessionHostManagementsUpdateStatusOperations
+    :ivar session_host_provisioning_statuses: SessionHostProvisioningStatusesOperations operations
+    :vartype session_host_provisioning_statuses:
+     azure.mgmt.desktopvirtualization.aio.operations.SessionHostProvisioningStatusesOperations
+    :ivar session_host_configurations: SessionHostConfigurationsOperations operations
+    :vartype session_host_configurations:
+     azure.mgmt.desktopvirtualization.aio.operations.SessionHostConfigurationsOperations
+    :ivar active_session_host_configurations: ActiveSessionHostConfigurationsOperations operations
+    :vartype active_session_host_configurations:
+     azure.mgmt.desktopvirtualization.aio.operations.ActiveSessionHostConfigurationsOperations
     :ivar user_sessions: UserSessionsOperations operations
     :vartype user_sessions: azure.mgmt.desktopvirtualization.aio.operations.UserSessionsOperations
     :ivar session_hosts: SessionHostsOperations operations
     :vartype session_hosts: azure.mgmt.desktopvirtualization.aio.operations.SessionHostsOperations
+    :ivar session_host: SessionHostOperations operations
+    :vartype session_host: azure.mgmt.desktopvirtualization.aio.operations.SessionHostOperations
     :ivar msix_packages: MSIXPackagesOperations operations
     :vartype msix_packages: azure.mgmt.desktopvirtualization.aio.operations.MSIXPackagesOperations
     :ivar app_attach_package_info: AppAttachPackageInfoOperations operations
@@ -95,23 +132,27 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
-    :param base_url: Service URL. Default value is "https://management.azure.com".
+    :param base_url: Service URL. Default value is None.
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-04-03". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2025-03-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
+    :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+     Retry-After header is present.
     """
 
     def __init__(
-        self,
-        credential: "AsyncTokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "AsyncTokenCredential", subscription_id: str, base_url: Optional[str] = None, **kwargs: Any
     ) -> None:
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
         self._config = DesktopVirtualizationMgmtClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, subscription_id=subscription_id, credential_scopes=credential_scopes, **kwargs
         )
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -130,7 +171,9 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(
+            base_url=cast(str, base_url), policies=_policies, **kwargs
+        )
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -158,8 +201,33 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
         self.applications = ApplicationsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.desktops = DesktopsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.host_pools = HostPoolsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.session_host_managements = SessionHostManagementsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.initiate_session_host_update = InitiateSessionHostUpdateOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.control_session_host_update = ControlSessionHostUpdateOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.control_session_host_provisioning = ControlSessionHostProvisioningOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.session_host_managements_update_status = SessionHostManagementsUpdateStatusOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.session_host_provisioning_statuses = SessionHostProvisioningStatusesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.session_host_configurations = SessionHostConfigurationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.active_session_host_configurations = ActiveSessionHostConfigurationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.user_sessions = UserSessionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.session_hosts = SessionHostsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.session_host = SessionHostOperations(self._client, self._config, self._serialize, self._deserialize)
         self.msix_packages = MSIXPackagesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.app_attach_package_info = AppAttachPackageInfoOperations(
             self._client, self._config, self._serialize, self._deserialize

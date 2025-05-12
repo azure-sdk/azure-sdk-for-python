@@ -20,11 +20,11 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_app_attach_package_get(self, resource_group):
         response = self.client.app_attach_package.get(
             resource_group_name=resource_group.name,
             app_attach_package_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -32,13 +32,14 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_or_update(self, resource_group):
+    def test_app_attach_package_create_or_update(self, resource_group):
         response = self.client.app_attach_package.create_or_update(
             resource_group_name=resource_group.name,
             app_attach_package_name="str",
             app_attach_package={
                 "location": "str",
                 "properties": {
+                    "customData": "str",
                     "failHealthCheckOnStagingFailure": "str",
                     "hostPoolReferences": ["str"],
                     "image": {
@@ -70,6 +71,8 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
                         "version": "str",
                     },
                     "keyVaultURL": "str",
+                    "packageLookbackUrl": "str",
+                    "packageOwnerName": "str",
                     "provisioningState": "str",
                 },
                 "id": "str",
@@ -85,7 +88,7 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -93,11 +96,11 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
+    def test_app_attach_package_delete(self, resource_group):
         response = self.client.app_attach_package.delete(
             resource_group_name=resource_group.name,
             app_attach_package_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -105,11 +108,11 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_app_attach_package_update(self, resource_group):
         response = self.client.app_attach_package.update(
             resource_group_name=resource_group.name,
             app_attach_package_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -117,10 +120,10 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_app_attach_package_list_by_resource_group(self, resource_group):
         response = self.client.app_attach_package.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -128,9 +131,9 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
+    def test_app_attach_package_list_by_subscription(self, resource_group):
         response = self.client.app_attach_package.list_by_subscription(
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

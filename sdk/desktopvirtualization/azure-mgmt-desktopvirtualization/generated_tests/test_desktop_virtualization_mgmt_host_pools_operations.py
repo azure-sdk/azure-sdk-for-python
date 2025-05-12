@@ -20,11 +20,11 @@ class TestDesktopVirtualizationMgmtHostPoolsOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_host_pools_get(self, resource_group):
         response = self.client.host_pools.get(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -32,7 +32,7 @@ class TestDesktopVirtualizationMgmtHostPoolsOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_or_update(self, resource_group):
+    def test_host_pools_create_or_update(self, resource_group):
         response = self.client.host_pools.create_or_update(
             resource_group_name=resource_group.name,
             host_pool_name="str",
@@ -52,12 +52,20 @@ class TestDesktopVirtualizationMgmtHostPoolsOperations(AzureMgmtRecordedTestCase
                 "cloudPcResource": bool,
                 "customRdpProperty": "str",
                 "description": "str",
+                "directUDP": "str",
                 "etag": "str",
                 "friendlyName": "str",
                 "id": "str",
-                "identity": {"principalId": "str", "tenantId": "str", "type": "SystemAssigned"},
+                "identity": {
+                    "type": "str",
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                },
                 "kind": "str",
                 "managedBy": "str",
+                "managedPrivateUDP": "str",
+                "managementType": "str",
                 "maxSessionLimit": 0,
                 "name": "str",
                 "objectId": "str",
@@ -87,11 +95,13 @@ class TestDesktopVirtualizationMgmtHostPoolsOperations(AzureMgmtRecordedTestCase
                     }
                 ],
                 "publicNetworkAccess": "str",
+                "publicUDP": "str",
                 "registrationInfo": {
                     "expirationTime": "2020-02-20 00:00:00",
                     "registrationTokenOperation": "str",
                     "token": "str",
                 },
+                "relayUDP": "str",
                 "ring": 0,
                 "sku": {"name": "str", "capacity": 0, "family": "str", "size": "str", "tier": "str"},
                 "ssoClientId": "str",
@@ -112,7 +122,7 @@ class TestDesktopVirtualizationMgmtHostPoolsOperations(AzureMgmtRecordedTestCase
                 "validationEnvironment": bool,
                 "vmTemplate": "str",
             },
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -120,11 +130,11 @@ class TestDesktopVirtualizationMgmtHostPoolsOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
+    def test_host_pools_delete(self, resource_group):
         response = self.client.host_pools.delete(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -132,11 +142,11 @@ class TestDesktopVirtualizationMgmtHostPoolsOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_host_pools_update(self, resource_group):
         response = self.client.host_pools.update(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -144,10 +154,10 @@ class TestDesktopVirtualizationMgmtHostPoolsOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_host_pools_list_by_resource_group(self, resource_group):
         response = self.client.host_pools.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -155,9 +165,9 @@ class TestDesktopVirtualizationMgmtHostPoolsOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_host_pools_list(self, resource_group):
         response = self.client.host_pools.list(
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -165,11 +175,11 @@ class TestDesktopVirtualizationMgmtHostPoolsOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_retrieve_registration_token(self, resource_group):
+    def test_host_pools_retrieve_registration_token(self, resource_group):
         response = self.client.host_pools.retrieve_registration_token(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -177,11 +187,11 @@ class TestDesktopVirtualizationMgmtHostPoolsOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_registration_tokens(self, resource_group):
+    def test_host_pools_list_registration_tokens(self, resource_group):
         response = self.client.host_pools.list_registration_tokens(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
