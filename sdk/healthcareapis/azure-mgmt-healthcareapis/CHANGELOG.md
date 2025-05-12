@@ -1,5 +1,12 @@
 # Release History
 
+## 2.2.0b1 (2025-04-22)
+
+### Features Added
+
+  - Model `StorageConfiguration` added property `storage_indexing_configuration`
+  - Added model `StorageIndexingConfiguration`
+
 ## 2.1.0 (2024-04-22)
 
 ### Features Added
