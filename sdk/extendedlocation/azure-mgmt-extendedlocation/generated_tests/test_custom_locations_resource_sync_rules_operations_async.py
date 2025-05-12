@@ -15,62 +15,53 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestCustomLocationsCustomLocationsOperationsAsync(AzureMgmtRecordedTestCase):
+class TestCustomLocationsResourceSyncRulesOperationsAsync(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(CustomLocations, is_async=True)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_custom_locations_list_by_subscription(self, resource_group):
-        response = self.client.custom_locations.list_by_subscription(
-            api_version="2021-08-31-preview",
-        )
-        result = [r async for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_custom_locations_list_by_resource_group(self, resource_group):
-        response = self.client.custom_locations.list_by_resource_group(
-            resource_group_name=resource_group.name,
-            api_version="2021-08-31-preview",
-        )
-        result = [r async for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_custom_locations_get(self, resource_group):
-        response = await self.client.custom_locations.get(
+    async def test_resource_sync_rules_list_by_custom_location_id(self, resource_group):
+        response = self.client.resource_sync_rules.list_by_custom_location_id(
             resource_group_name=resource_group.name,
             resource_name="str",
             api_version="2021-08-31-preview",
         )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_resource_sync_rules_get(self, resource_group):
+        response = await self.client.resource_sync_rules.get(
+            resource_group_name=resource_group.name,
+            resource_name="str",
+            child_resource_name="str",
+            api_version="2021-08-31-preview",
+        )
 
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_custom_locations_begin_create_or_update(self, resource_group):
+    async def test_resource_sync_rules_begin_create_or_update(self, resource_group):
         response = await (
-            await self.client.custom_locations.begin_create_or_update(
+            await self.client.resource_sync_rules.begin_create_or_update(
                 resource_group_name=resource_group.name,
                 resource_name="str",
+                child_resource_name="str",
                 parameters={
                     "location": "str",
-                    "authentication": {"type": "str", "value": "str"},
-                    "clusterExtensionIds": ["str"],
-                    "displayName": "str",
-                    "hostResourceId": "str",
-                    "hostType": "str",
                     "id": "str",
-                    "identity": {"principalId": "str", "tenantId": "str", "type": "str"},
                     "name": "str",
-                    "namespace": "str",
+                    "priority": 0,
                     "provisioningState": "str",
+                    "selector": {
+                        "matchExpressions": [{"key": "str", "operator": "str", "values": ["str"]}],
+                        "matchLabels": {"str": "str"},
+                    },
                     "systemData": {
                         "createdAt": "2020-02-20 00:00:00",
                         "createdBy": "str",
@@ -80,6 +71,7 @@ class TestCustomLocationsCustomLocationsOperationsAsync(AzureMgmtRecordedTestCas
                         "lastModifiedByType": "str",
                     },
                     "tags": {"str": "str"},
+                    "targetResourceGroup": "str",
                     "type": "str",
                 },
                 api_version="2021-08-31-preview",
@@ -91,10 +83,11 @@ class TestCustomLocationsCustomLocationsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_custom_locations_update(self, resource_group):
-        response = await self.client.custom_locations.update(
+    async def test_resource_sync_rules_update(self, resource_group):
+        response = await self.client.resource_sync_rules.update(
             resource_group_name=resource_group.name,
             resource_name="str",
+            child_resource_name="str",
             api_version="2021-08-31-preview",
         )
 
@@ -103,37 +96,11 @@ class TestCustomLocationsCustomLocationsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_custom_locations_begin_delete(self, resource_group):
-        response = await (
-            await self.client.custom_locations.begin_delete(
-                resource_group_name=resource_group.name,
-                resource_name="str",
-                api_version="2021-08-31-preview",
-            )
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_custom_locations_list_enabled_resource_types(self, resource_group):
-        response = self.client.custom_locations.list_enabled_resource_types(
+    async def test_resource_sync_rules_delete(self, resource_group):
+        response = await self.client.resource_sync_rules.delete(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2021-08-31-preview",
-        )
-        result = [r async for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_custom_locations_find_target_resource_group(self, resource_group):
-        response = await self.client.custom_locations.find_target_resource_group(
-            resource_group_name=resource_group.name,
-            resource_name="str",
-            parameters={"labels": {"str": "str"}},
+            child_resource_name="str",
             api_version="2021-08-31-preview",
         )
 

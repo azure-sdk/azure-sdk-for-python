@@ -1,5 +1,41 @@
 # Release History
 
+## 3.0.0b1 (2025-04-22)
+
+### Features Added
+
+  - Model `CustomLocations` added property `operations`
+  - Model `CustomLocations` added property `resource_sync_rules`
+  - Model `ProxyResource` added property `system_data`
+  - Model `Resource` added property `system_data`
+  - Model `TrackedResource` added property `system_data`
+  - Added enum `ActionType`
+  - Added model `CustomLocationFindTargetResourceGroupProperties`
+  - Added model `CustomLocationFindTargetResourceGroupResult`
+  - Added model `EnabledResourceTypeListResult`
+  - Added model `MatchExpressionsProperties`
+  - Added model `Operation`
+  - Added model `OperationDisplay`
+  - Added model `OperationListResult`
+  - Added enum `Origin`
+  - Added model `PatchableResourceSyncRule`
+  - Added model `ResourceSyncRule`
+  - Added model `ResourceSyncRuleListResult`
+  - Added model `ResourceSyncRulePropertiesSelector`
+  - Model `CustomLocationsOperations` added method `find_target_resource_group`
+  - Added model `Operations`
+  - Added model `ResourceSyncRulesOperations`
+  - Method `CustomLocationsOperations.find_target_resource_group` has a new overload `def find_target_resource_group(self: None, resource_group_name: str, resource_name: str, parameters: CustomLocationFindTargetResourceGroupProperties, content_type: str)`
+  - Method `CustomLocationsOperations.find_target_resource_group` has a new overload `def find_target_resource_group(self: None, resource_group_name: str, resource_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ResourceSyncRulesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, resource_name: str, child_resource_name: str, parameters: ResourceSyncRule, content_type: str)`
+  - Method `ResourceSyncRulesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, resource_name: str, child_resource_name: str, parameters: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Deleted or renamed model `CustomLocationOperation`
+  - Deleted or renamed model `CustomLocationOperationsList`
+  - Deleted or renamed method `CustomLocationsOperations.list_operations`
+
 ## 2.0.0 (2024-10-30)
 
 ### Breaking Changes
