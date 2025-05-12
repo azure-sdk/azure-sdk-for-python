@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -9,10 +8,9 @@
 
 from typing import Any, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -64,8 +62,8 @@ class AuthenticationDetailsProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.authentication_provisioning_state = None
-        self.granted_permissions = None
+        self.authentication_provisioning_state: Optional[Union[str, "_models.AuthenticationProvisioningState"]] = None
+        self.granted_permissions: Optional[List[Union[str, "_models.PermissionProperty"]]] = None
         self.authentication_type: Optional[str] = None
 
 
@@ -131,7 +129,7 @@ class AwAssumeRoleAuthenticationDetailsProperties(AuthenticationDetailsPropertie
         """
         super().__init__(**kwargs)
         self.authentication_type: str = "awsAssumeRole"
-        self.account_id = None
+        self.account_id: Optional[str] = None
         self.aws_assume_role_arn = aws_assume_role_arn
         self.aws_external_id = aws_external_id
 
@@ -197,7 +195,7 @@ class AwsCredsAuthenticationDetailsProperties(AuthenticationDetailsProperties):
         """
         super().__init__(**kwargs)
         self.authentication_type: str = "awsCreds"
-        self.account_id = None
+        self.account_id: Optional[str] = None
         self.aws_access_key_id = aws_access_key_id
         self.aws_secret_access_key = aws_secret_access_key
 
@@ -239,11 +237,11 @@ class CloudErrorBody(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.CloudErrorBody"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class Resource(_serialization.Model):
@@ -274,9 +272,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class ConnectorSetting(Resource):
@@ -369,7 +367,7 @@ class ConnectorSettingList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -396,11 +394,11 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
-class GcpCredentialsDetailsProperties(AuthenticationDetailsProperties):  # pylint: disable=too-many-instance-attributes
+class GcpCredentialsDetailsProperties(AuthenticationDetailsProperties):
     """GCP cloud account connector based service to service credentials, the credentials are composed
     of the organization ID and a JSON API key (write only).
 
@@ -606,7 +604,7 @@ class HybridComputeSettingsProperties(_serialization.Model):
          ~azure.mgmt.security.v2020_01_01_preview.models.ServicePrincipalProperties
         """
         super().__init__(**kwargs)
-        self.hybrid_compute_provisioning_state = None
+        self.hybrid_compute_provisioning_state: Optional[Union[str, "_models.HybridComputeProvisioningState"]] = None
         self.auto_provision = auto_provision
         self.resource_group_name = resource_group_name
         self.region = region
@@ -744,8 +742,8 @@ class SecurityContactList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.SecurityContact"]] = None
+        self.next_link: Optional[str] = None
 
 
 class SecurityContactPropertiesAlertNotifications(_serialization.Model):  # pylint: disable=name-too-long

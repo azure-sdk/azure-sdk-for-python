@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -64,8 +63,8 @@ class CustomAlertRule(_serialization.Model):
         :paramtype is_enabled: bool
         """
         super().__init__(**kwargs)
-        self.display_name = None
-        self.description = None
+        self.display_name: Optional[str] = None
+        self.description: Optional[str] = None
         self.is_enabled = is_enabled
         self.rule_type: Optional[str] = None
 
@@ -395,7 +394,7 @@ class ListCustomAlertRule(CustomAlertRule):
         """
         super().__init__(is_enabled=is_enabled, **kwargs)
         self.rule_type: str = "ListCustomAlertRule"
-        self.value_type = None
+        self.value_type: Optional[Union[str, "_models.ValueType"]] = None
 
 
 class AllowlistCustomAlertRule(ListCustomAlertRule):
@@ -716,11 +715,11 @@ class CloudErrorBody(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.CloudErrorBody"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ConnectionFromIpNotAllowed(AllowlistCustomAlertRule):
@@ -913,9 +912,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class DeviceSecurityGroup(Resource):
@@ -1015,7 +1014,7 @@ class DeviceSecurityGroupList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class DirectMethodInvokesNotInAllowedRange(TimeWindowCustomAlertRule):
@@ -1114,8 +1113,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class FailedLocalLoginsNotInAllowedRange(TimeWindowCustomAlertRule):
@@ -1498,7 +1497,7 @@ class TagsResource(_serialization.Model):
         self.tags = tags
 
 
-class IoTSecurityAggregatedAlert(Resource, TagsResource):  # pylint: disable=too-many-instance-attributes
+class IoTSecurityAggregatedAlert(Resource, TagsResource):
     """Security Solution Aggregated Alert information.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1591,22 +1590,22 @@ class IoTSecurityAggregatedAlert(Resource, TagsResource):  # pylint: disable=too
         """
         super().__init__(tags=tags, **kwargs)
         self.tags = tags
-        self.alert_type = None
-        self.alert_display_name = None
-        self.aggregated_date_utc = None
-        self.vendor_name = None
-        self.reported_severity = None
-        self.remediation_steps = None
-        self.description = None
-        self.count = None
-        self.effected_resource_type = None
-        self.system_source = None
-        self.action_taken = None
-        self.log_analytics_query = None
-        self.top_devices_list = None
-        self.id = None
-        self.name = None
-        self.type = None
+        self.alert_type: Optional[str] = None
+        self.alert_display_name: Optional[str] = None
+        self.aggregated_date_utc: Optional[datetime.date] = None
+        self.vendor_name: Optional[str] = None
+        self.reported_severity: Optional[Union[str, "_models.ReportedSeverity"]] = None
+        self.remediation_steps: Optional[str] = None
+        self.description: Optional[str] = None
+        self.count: Optional[int] = None
+        self.effected_resource_type: Optional[str] = None
+        self.system_source: Optional[str] = None
+        self.action_taken: Optional[str] = None
+        self.log_analytics_query: Optional[str] = None
+        self.top_devices_list: Optional[List["_models.IoTSecurityAggregatedAlertPropertiesTopDevicesListItem"]] = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class IoTSecurityAggregatedAlertList(_serialization.Model):
@@ -1640,7 +1639,7 @@ class IoTSecurityAggregatedAlertList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class IoTSecurityAggregatedAlertPropertiesTopDevicesListItem(_serialization.Model):  # pylint: disable=name-too-long
@@ -1671,12 +1670,12 @@ class IoTSecurityAggregatedAlertPropertiesTopDevicesListItem(_serialization.Mode
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.device_id = None
-        self.alerts_count = None
-        self.last_occurrence = None
+        self.device_id: Optional[str] = None
+        self.alerts_count: Optional[int] = None
+        self.last_occurrence: Optional[str] = None
 
 
-class IoTSecurityAggregatedRecommendation(Resource, TagsResource):  # pylint: disable=too-many-instance-attributes
+class IoTSecurityAggregatedRecommendation(Resource, TagsResource):
     """IoT Security solution recommendation information.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1756,18 +1755,18 @@ class IoTSecurityAggregatedRecommendation(Resource, TagsResource):  # pylint: di
         super().__init__(tags=tags, **kwargs)
         self.tags = tags
         self.recommendation_name = recommendation_name
-        self.recommendation_display_name = None
-        self.description = None
-        self.recommendation_type_id = None
-        self.detected_by = None
-        self.remediation_steps = None
-        self.reported_severity = None
-        self.healthy_devices = None
-        self.unhealthy_device_count = None
-        self.log_analytics_query = None
-        self.id = None
-        self.name = None
-        self.type = None
+        self.recommendation_display_name: Optional[str] = None
+        self.description: Optional[str] = None
+        self.recommendation_type_id: Optional[str] = None
+        self.detected_by: Optional[str] = None
+        self.remediation_steps: Optional[str] = None
+        self.reported_severity: Optional[Union[str, "_models.ReportedSeverity"]] = None
+        self.healthy_devices: Optional[int] = None
+        self.unhealthy_device_count: Optional[int] = None
+        self.log_analytics_query: Optional[str] = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class IoTSecurityAggregatedRecommendationList(_serialization.Model):
@@ -1803,7 +1802,7 @@ class IoTSecurityAggregatedRecommendationList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class IoTSecurityAlertedDevice(_serialization.Model):
@@ -1830,8 +1829,8 @@ class IoTSecurityAlertedDevice(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.device_id = None
-        self.alerts_count = None
+        self.device_id: Optional[str] = None
+        self.alerts_count: Optional[int] = None
 
 
 class IoTSecurityDeviceAlert(_serialization.Model):
@@ -1864,9 +1863,9 @@ class IoTSecurityDeviceAlert(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.alert_display_name = None
-        self.reported_severity = None
-        self.alerts_count = None
+        self.alert_display_name: Optional[str] = None
+        self.reported_severity: Optional[Union[str, "_models.ReportedSeverity"]] = None
+        self.alerts_count: Optional[int] = None
 
 
 class IoTSecurityDeviceRecommendation(_serialization.Model):
@@ -1899,9 +1898,9 @@ class IoTSecurityDeviceRecommendation(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.recommendation_display_name = None
-        self.reported_severity = None
-        self.devices_count = None
+        self.recommendation_display_name: Optional[str] = None
+        self.reported_severity: Optional[Union[str, "_models.ReportedSeverity"]] = None
+        self.devices_count: Optional[int] = None
 
 
 class IoTSecuritySolutionAnalyticsModel(Resource):
@@ -1985,9 +1984,11 @@ class IoTSecuritySolutionAnalyticsModel(Resource):
          list[~azure.mgmt.security.v2019_08_01.models.IoTSecurityDeviceRecommendation]
         """
         super().__init__(**kwargs)
-        self.metrics = None
-        self.unhealthy_device_count = None
-        self.devices_metrics = None
+        self.metrics: Optional["_models.IoTSeverityMetrics"] = None
+        self.unhealthy_device_count: Optional[int] = None
+        self.devices_metrics: Optional[
+            List["_models.IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem"]
+        ] = None
         self.top_alerted_devices = top_alerted_devices
         self.most_prevalent_device_alerts = most_prevalent_device_alerts
         self.most_prevalent_device_recommendations = most_prevalent_device_recommendations
@@ -2025,7 +2026,7 @@ class IoTSecuritySolutionAnalyticsModelList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem(
@@ -2062,7 +2063,7 @@ class IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem(
         self.devices_metrics = devices_metrics
 
 
-class IoTSecuritySolutionModel(Resource, TagsResource):  # pylint: disable=too-many-instance-attributes
+class IoTSecuritySolutionModel(Resource, TagsResource):
     """IoT Security solution configuration and resource information.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2199,7 +2200,7 @@ class IoTSecuritySolutionModel(Resource, TagsResource):  # pylint: disable=too-m
         super().__init__(tags=tags, **kwargs)
         self.tags = tags
         self.location = location
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.workspace = workspace
         self.display_name = display_name
         self.status = status
@@ -2207,13 +2208,13 @@ class IoTSecuritySolutionModel(Resource, TagsResource):  # pylint: disable=too-m
         self.disabled_data_sources = disabled_data_sources
         self.iot_hubs = iot_hubs
         self.user_defined_resources = user_defined_resources
-        self.auto_discovered_resources = None
+        self.auto_discovered_resources: Optional[List[str]] = None
         self.recommendations_configuration = recommendations_configuration
         self.unmasked_ip_logging_status = unmasked_ip_logging_status
         self.additional_workspaces = additional_workspaces
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class IoTSecuritySolutionsList(_serialization.Model):
@@ -2246,7 +2247,7 @@ class IoTSecuritySolutionsList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class IoTSeverityMetrics(_serialization.Model):
@@ -2734,7 +2735,7 @@ class RecommendationConfigurationProperties(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.recommendation_type = recommendation_type
-        self.name = None
+        self.name: Optional[str] = None
         self.status = status
 
 
