@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.astro import AstroMgmtClient
 
 """
@@ -26,7 +28,7 @@ from azure.mgmt.astro import AstroMgmtClient
 def main():
     client = AstroMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="43454B17-172A-40FE-80FA-549EA23D12B3",
+        subscription_id="A4679760-5C37-44EA-A4B8-8A7628B13824",
     )
 
     response = client.organizations.begin_create_or_update(
@@ -34,40 +36,41 @@ def main():
         organization_name="U.1-:7",
         resource={
             "identity": {"type": "None", "userAssignedIdentities": {}},
-            "location": "mhqthlsatwvqkl",
+            "location": "pgfkugslgnsxeqpjs",
             "properties": {
                 "marketplace": {
                     "offerDetails": {
-                        "offerId": "krzkefmpxztqyusidzgpchfaswuyce",
-                        "planId": "kndxzygsanuiqzwbfbbvoipv",
-                        "planName": "pwqjwlq",
-                        "publisherId": "gfsqxygpnerxmvols",
-                        "termId": "pwds",
-                        "termUnit": "xyygyzcazkuelz",
+                        "offerId": "tvidibzbxevtvnrdp",
+                        "planId": "lwcvzdqecwkeracahmixnh",
+                        "planName": "d",
+                        "publisherId": "kt",
+                        "renewalMode": "Auto",
+                        "termId": "kopnnjsp",
+                        "termUnit": "rs",
                     },
-                    "subscriptionId": "ntthclydlpqmasr",
+                    "subscriptionId": "emasc",
                     "subscriptionStatus": "PendingFulfillmentStart",
                 },
                 "partnerOrganizationProperties": {
-                    "organizationId": "lskgzdmziusgrsucv",
-                    "organizationName": "3-",
+                    "organizationId": "juomtfzwkjwnhhpodfnrqdv",
+                    "organizationName": "U.1-:7",
                     "singleSignOnProperties": {
-                        "aadDomains": ["kfbleh"],
-                        "enterpriseAppId": "mklfypyujwumgwdzae",
+                        "aadDomains": ["fcnqoizqxcdclmy"],
+                        "enterpriseAppId": "srkwxktx",
                         "provisioningState": "Succeeded",
                         "singleSignOnState": "Initial",
-                        "singleSignOnUrl": "ymmtzkyghvinvhgnqlzwrr",
+                        "singleSignOnUrl": "l",
                     },
-                    "workspaceId": "vcrupxwpaba",
+                    "workspaceId": "nnryjcmiohmkbvhngfgxigpodvhl",
                     "workspaceName": "9.:06",
                 },
                 "provisioningState": "Succeeded",
                 "user": {
                     "emailAddress": ".K_@e7N-g1.xjqnbPs",
-                    "firstName": "nfh",
-                    "lastName": "lazfbstcccykibvcrxpmglqam",
-                    "phoneNumber": "inxkscllh",
-                    "upn": "xtutvycpxjrtoftx",
+                    "firstName": "ucowvrccqpqpkdg",
+                    "lastName": "fwwtnwggrtibghoijfzajrhgyo",
+                    "phoneNumber": "brnngpezmqecvflklbhsibq",
+                    "upn": "zbdgbbqg",
                 },
             },
             "tags": {},
@@ -76,6 +79,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_CreateOrUpdate_MaximumSet_Gen.json
+# x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2024-08-27/examples/Organizations_CreateOrUpdate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
