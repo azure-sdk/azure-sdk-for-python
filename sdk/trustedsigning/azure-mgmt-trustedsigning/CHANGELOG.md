@@ -1,5 +1,386 @@
 # Release History
 
+## 1.0.0b2 (2025-04-27)
+
+### Features Added
+
+  - Model `AccountSku` added parameter `kwargs` in method `as_dict`
+  - Model `AccountSku` added method `deserialize`
+  - Model `AccountSku` added method `enable_additional_properties_sending`
+  - Model `AccountSku` added method `from_dict`
+  - Model `AccountSku` added method `is_xml_model`
+  - Model `AccountSku` added method `serialize`
+  - Model `AccountSku` added property `additional_properties`
+  - Model `Certificate` added parameter `kwargs` in method `as_dict`
+  - Model `Certificate` added method `deserialize`
+  - Model `Certificate` added method `enable_additional_properties_sending`
+  - Model `Certificate` added method `from_dict`
+  - Model `Certificate` added method `is_xml_model`
+  - Model `Certificate` added method `serialize`
+  - Model `Certificate` added property `enhanced_key_usage`
+  - Model `Certificate` added property `requested_at`
+  - Model `Certificate` added property `effective_at`
+  - Model `Certificate` added property `reason`
+  - Model `Certificate` added property `remarks`
+  - Model `Certificate` added property `status_revocation_status`
+  - Model `Certificate` added property `failure_reason`
+  - Model `Certificate` added property `additional_properties`
+  - Model `CertificateProfile` added parameter `kwargs` in method `as_dict`
+  - Model `CertificateProfile` added method `deserialize`
+  - Model `CertificateProfile` added method `enable_additional_properties_sending`
+  - Model `CertificateProfile` added method `from_dict`
+  - Model `CertificateProfile` added method `is_xml_model`
+  - Model `CertificateProfile` added method `serialize`
+  - Model `CertificateProfile` added property `profile_type`
+  - Model `CertificateProfile` added property `include_street_address`
+  - Model `CertificateProfile` added property `include_city`
+  - Model `CertificateProfile` added property `include_state`
+  - Model `CertificateProfile` added property `include_country`
+  - Model `CertificateProfile` added property `include_postal_code`
+  - Model `CertificateProfile` added property `identity_validation_id`
+  - Model `CertificateProfile` added property `provisioning_state`
+  - Model `CertificateProfile` added property `status`
+  - Model `CertificateProfile` added property `certificates`
+  - Model `CertificateProfile` added property `additional_properties`
+  - Model `CheckNameAvailability` added parameter `kwargs` in method `as_dict`
+  - Model `CheckNameAvailability` added method `deserialize`
+  - Model `CheckNameAvailability` added method `enable_additional_properties_sending`
+  - Model `CheckNameAvailability` added method `from_dict`
+  - Model `CheckNameAvailability` added method `is_xml_model`
+  - Model `CheckNameAvailability` added method `serialize`
+  - Model `CheckNameAvailability` added property `additional_properties`
+  - Model `CheckNameAvailabilityResult` added parameter `kwargs` in method `as_dict`
+  - Model `CheckNameAvailabilityResult` added method `deserialize`
+  - Model `CheckNameAvailabilityResult` added method `enable_additional_properties_sending`
+  - Model `CheckNameAvailabilityResult` added method `from_dict`
+  - Model `CheckNameAvailabilityResult` added method `is_xml_model`
+  - Model `CheckNameAvailabilityResult` added method `serialize`
+  - Model `CheckNameAvailabilityResult` added property `additional_properties`
+  - Model `CodeSigningAccount` added parameter `kwargs` in method `as_dict`
+  - Model `CodeSigningAccount` added method `deserialize`
+  - Model `CodeSigningAccount` added method `enable_additional_properties_sending`
+  - Model `CodeSigningAccount` added method `from_dict`
+  - Model `CodeSigningAccount` added method `is_xml_model`
+  - Model `CodeSigningAccount` added method `serialize`
+  - Model `CodeSigningAccount` added property `account_uri`
+  - Model `CodeSigningAccount` added property `sku`
+  - Model `CodeSigningAccount` added property `provisioning_state`
+  - Model `CodeSigningAccount` added property `additional_properties`
+  - Model `CodeSigningAccountPatch` added parameter `kwargs` in method `as_dict`
+  - Model `CodeSigningAccountPatch` added method `deserialize`
+  - Model `CodeSigningAccountPatch` added method `enable_additional_properties_sending`
+  - Model `CodeSigningAccountPatch` added method `from_dict`
+  - Model `CodeSigningAccountPatch` added method `is_xml_model`
+  - Model `CodeSigningAccountPatch` added method `serialize`
+  - Model `CodeSigningAccountPatch` added property `sku`
+  - Model `CodeSigningAccountPatch` added property `additional_properties`
+  - Model `ErrorAdditionalInfo` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorAdditionalInfo` added method `deserialize`
+  - Model `ErrorAdditionalInfo` added method `enable_additional_properties_sending`
+  - Model `ErrorAdditionalInfo` added method `from_dict`
+  - Model `ErrorAdditionalInfo` added method `is_xml_model`
+  - Model `ErrorAdditionalInfo` added method `serialize`
+  - Model `ErrorAdditionalInfo` added property `additional_properties`
+  - Model `ErrorDetail` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorDetail` added method `deserialize`
+  - Model `ErrorDetail` added method `enable_additional_properties_sending`
+  - Model `ErrorDetail` added method `from_dict`
+  - Model `ErrorDetail` added method `is_xml_model`
+  - Model `ErrorDetail` added method `serialize`
+  - Model `ErrorDetail` added property `additional_properties`
+  - Model `ErrorResponse` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorResponse` added method `deserialize`
+  - Model `ErrorResponse` added method `enable_additional_properties_sending`
+  - Model `ErrorResponse` added method `from_dict`
+  - Model `ErrorResponse` added method `is_xml_model`
+  - Model `ErrorResponse` added method `serialize`
+  - Model `ErrorResponse` added property `additional_properties`
+  - Model `Operation` added parameter `kwargs` in method `as_dict`
+  - Model `Operation` added method `deserialize`
+  - Model `Operation` added method `enable_additional_properties_sending`
+  - Model `Operation` added method `from_dict`
+  - Model `Operation` added method `is_xml_model`
+  - Model `Operation` added method `serialize`
+  - Model `Operation` added property `additional_properties`
+  - Model `OperationDisplay` added parameter `kwargs` in method `as_dict`
+  - Model `OperationDisplay` added method `deserialize`
+  - Model `OperationDisplay` added method `enable_additional_properties_sending`
+  - Model `OperationDisplay` added method `from_dict`
+  - Model `OperationDisplay` added method `is_xml_model`
+  - Model `OperationDisplay` added method `serialize`
+  - Model `OperationDisplay` added property `additional_properties`
+  - Model `ProxyResource` added parameter `kwargs` in method `as_dict`
+  - Model `ProxyResource` added method `deserialize`
+  - Model `ProxyResource` added method `enable_additional_properties_sending`
+  - Model `ProxyResource` added method `from_dict`
+  - Model `ProxyResource` added method `is_xml_model`
+  - Model `ProxyResource` added method `serialize`
+  - Model `ProxyResource` added property `additional_properties`
+  - Model `Resource` added parameter `kwargs` in method `as_dict`
+  - Model `Resource` added method `deserialize`
+  - Model `Resource` added method `enable_additional_properties_sending`
+  - Model `Resource` added method `from_dict`
+  - Model `Resource` added method `is_xml_model`
+  - Model `Resource` added method `serialize`
+  - Model `Resource` added property `additional_properties`
+  - Model `RevokeCertificate` added parameter `kwargs` in method `as_dict`
+  - Model `RevokeCertificate` added method `deserialize`
+  - Model `RevokeCertificate` added method `enable_additional_properties_sending`
+  - Model `RevokeCertificate` added method `from_dict`
+  - Model `RevokeCertificate` added method `is_xml_model`
+  - Model `RevokeCertificate` added method `serialize`
+  - Model `RevokeCertificate` added property `additional_properties`
+  - Model `SystemData` added parameter `kwargs` in method `as_dict`
+  - Model `SystemData` added method `deserialize`
+  - Model `SystemData` added method `enable_additional_properties_sending`
+  - Model `SystemData` added method `from_dict`
+  - Model `SystemData` added method `is_xml_model`
+  - Model `SystemData` added method `serialize`
+  - Model `SystemData` added property `additional_properties`
+  - Model `TrackedResource` added parameter `kwargs` in method `as_dict`
+  - Model `TrackedResource` added method `deserialize`
+  - Model `TrackedResource` added method `enable_additional_properties_sending`
+  - Model `TrackedResource` added method `from_dict`
+  - Model `TrackedResource` added method `is_xml_model`
+  - Model `TrackedResource` added method `serialize`
+  - Model `TrackedResource` added property `additional_properties`
+  - Added model `AccountSkuPatch`
+  - Added model `CertificateProfileListResult`
+  - Added model `CodeSigningAccountListResult`
+  - Added model `OperationListResult`
+
+### Breaking Changes
+
+  - Deleted or renamed client `TrustedSigningMgmtClient`
+  - Method `AccountSku.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `AccountSku.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `AccountSku.clear`
+  - Deleted or renamed method `AccountSku.copy`
+  - Deleted or renamed method `AccountSku.get`
+  - Deleted or renamed method `AccountSku.items`
+  - Deleted or renamed method `AccountSku.keys`
+  - Deleted or renamed method `AccountSku.pop`
+  - Deleted or renamed method `AccountSku.popitem`
+  - Deleted or renamed method `AccountSku.setdefault`
+  - Deleted or renamed method `AccountSku.update`
+  - Deleted or renamed method `AccountSku.values`
+  - Model `Certificate` deleted or renamed its instance variable `revocation`
+  - Method `Certificate.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Certificate.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Certificate.clear`
+  - Deleted or renamed method `Certificate.copy`
+  - Deleted or renamed method `Certificate.get`
+  - Deleted or renamed method `Certificate.items`
+  - Deleted or renamed method `Certificate.keys`
+  - Deleted or renamed method `Certificate.pop`
+  - Deleted or renamed method `Certificate.popitem`
+  - Deleted or renamed method `Certificate.setdefault`
+  - Deleted or renamed method `Certificate.update`
+  - Deleted or renamed method `Certificate.values`
+  - Model `CertificateProfile` deleted or renamed its instance variable `properties`
+  - Method `CertificateProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CertificateProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CertificateProfile.clear`
+  - Deleted or renamed method `CertificateProfile.copy`
+  - Deleted or renamed method `CertificateProfile.get`
+  - Deleted or renamed method `CertificateProfile.items`
+  - Deleted or renamed method `CertificateProfile.keys`
+  - Deleted or renamed method `CertificateProfile.pop`
+  - Deleted or renamed method `CertificateProfile.popitem`
+  - Deleted or renamed method `CertificateProfile.setdefault`
+  - Deleted or renamed method `CertificateProfile.update`
+  - Deleted or renamed method `CertificateProfile.values`
+  - Method `CheckNameAvailability.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CheckNameAvailability.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CheckNameAvailability.clear`
+  - Deleted or renamed method `CheckNameAvailability.copy`
+  - Deleted or renamed method `CheckNameAvailability.get`
+  - Deleted or renamed method `CheckNameAvailability.items`
+  - Deleted or renamed method `CheckNameAvailability.keys`
+  - Deleted or renamed method `CheckNameAvailability.pop`
+  - Deleted or renamed method `CheckNameAvailability.popitem`
+  - Deleted or renamed method `CheckNameAvailability.setdefault`
+  - Deleted or renamed method `CheckNameAvailability.update`
+  - Deleted or renamed method `CheckNameAvailability.values`
+  - Method `CheckNameAvailabilityResult.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CheckNameAvailabilityResult.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CheckNameAvailabilityResult.clear`
+  - Deleted or renamed method `CheckNameAvailabilityResult.copy`
+  - Deleted or renamed method `CheckNameAvailabilityResult.get`
+  - Deleted or renamed method `CheckNameAvailabilityResult.items`
+  - Deleted or renamed method `CheckNameAvailabilityResult.keys`
+  - Deleted or renamed method `CheckNameAvailabilityResult.pop`
+  - Deleted or renamed method `CheckNameAvailabilityResult.popitem`
+  - Deleted or renamed method `CheckNameAvailabilityResult.setdefault`
+  - Deleted or renamed method `CheckNameAvailabilityResult.update`
+  - Deleted or renamed method `CheckNameAvailabilityResult.values`
+  - Model `CodeSigningAccount` deleted or renamed its instance variable `properties`
+  - Method `CodeSigningAccount.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CodeSigningAccount.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CodeSigningAccount.clear`
+  - Deleted or renamed method `CodeSigningAccount.copy`
+  - Deleted or renamed method `CodeSigningAccount.get`
+  - Deleted or renamed method `CodeSigningAccount.items`
+  - Deleted or renamed method `CodeSigningAccount.keys`
+  - Deleted or renamed method `CodeSigningAccount.pop`
+  - Deleted or renamed method `CodeSigningAccount.popitem`
+  - Deleted or renamed method `CodeSigningAccount.setdefault`
+  - Deleted or renamed method `CodeSigningAccount.update`
+  - Deleted or renamed method `CodeSigningAccount.values`
+  - Model `CodeSigningAccountPatch` deleted or renamed its instance variable `properties`
+  - Method `CodeSigningAccountPatch.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CodeSigningAccountPatch.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CodeSigningAccountPatch.clear`
+  - Deleted or renamed method `CodeSigningAccountPatch.copy`
+  - Deleted or renamed method `CodeSigningAccountPatch.get`
+  - Deleted or renamed method `CodeSigningAccountPatch.items`
+  - Deleted or renamed method `CodeSigningAccountPatch.keys`
+  - Deleted or renamed method `CodeSigningAccountPatch.pop`
+  - Deleted or renamed method `CodeSigningAccountPatch.popitem`
+  - Deleted or renamed method `CodeSigningAccountPatch.setdefault`
+  - Deleted or renamed method `CodeSigningAccountPatch.update`
+  - Deleted or renamed method `CodeSigningAccountPatch.values`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorAdditionalInfo.clear`
+  - Deleted or renamed method `ErrorAdditionalInfo.copy`
+  - Deleted or renamed method `ErrorAdditionalInfo.get`
+  - Deleted or renamed method `ErrorAdditionalInfo.items`
+  - Deleted or renamed method `ErrorAdditionalInfo.keys`
+  - Deleted or renamed method `ErrorAdditionalInfo.pop`
+  - Deleted or renamed method `ErrorAdditionalInfo.popitem`
+  - Deleted or renamed method `ErrorAdditionalInfo.setdefault`
+  - Deleted or renamed method `ErrorAdditionalInfo.update`
+  - Deleted or renamed method `ErrorAdditionalInfo.values`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorDetail.clear`
+  - Deleted or renamed method `ErrorDetail.copy`
+  - Deleted or renamed method `ErrorDetail.get`
+  - Deleted or renamed method `ErrorDetail.items`
+  - Deleted or renamed method `ErrorDetail.keys`
+  - Deleted or renamed method `ErrorDetail.pop`
+  - Deleted or renamed method `ErrorDetail.popitem`
+  - Deleted or renamed method `ErrorDetail.setdefault`
+  - Deleted or renamed method `ErrorDetail.update`
+  - Deleted or renamed method `ErrorDetail.values`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorResponse.clear`
+  - Deleted or renamed method `ErrorResponse.copy`
+  - Deleted or renamed method `ErrorResponse.get`
+  - Deleted or renamed method `ErrorResponse.items`
+  - Deleted or renamed method `ErrorResponse.keys`
+  - Deleted or renamed method `ErrorResponse.pop`
+  - Deleted or renamed method `ErrorResponse.popitem`
+  - Deleted or renamed method `ErrorResponse.setdefault`
+  - Deleted or renamed method `ErrorResponse.update`
+  - Deleted or renamed method `ErrorResponse.values`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Operation.clear`
+  - Deleted or renamed method `Operation.copy`
+  - Deleted or renamed method `Operation.get`
+  - Deleted or renamed method `Operation.items`
+  - Deleted or renamed method `Operation.keys`
+  - Deleted or renamed method `Operation.pop`
+  - Deleted or renamed method `Operation.popitem`
+  - Deleted or renamed method `Operation.setdefault`
+  - Deleted or renamed method `Operation.update`
+  - Deleted or renamed method `Operation.values`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `OperationDisplay.clear`
+  - Deleted or renamed method `OperationDisplay.copy`
+  - Deleted or renamed method `OperationDisplay.get`
+  - Deleted or renamed method `OperationDisplay.items`
+  - Deleted or renamed method `OperationDisplay.keys`
+  - Deleted or renamed method `OperationDisplay.pop`
+  - Deleted or renamed method `OperationDisplay.popitem`
+  - Deleted or renamed method `OperationDisplay.setdefault`
+  - Deleted or renamed method `OperationDisplay.update`
+  - Deleted or renamed method `OperationDisplay.values`
+  - Method `ProxyResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ProxyResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ProxyResource.clear`
+  - Deleted or renamed method `ProxyResource.copy`
+  - Deleted or renamed method `ProxyResource.get`
+  - Deleted or renamed method `ProxyResource.items`
+  - Deleted or renamed method `ProxyResource.keys`
+  - Deleted or renamed method `ProxyResource.pop`
+  - Deleted or renamed method `ProxyResource.popitem`
+  - Deleted or renamed method `ProxyResource.setdefault`
+  - Deleted or renamed method `ProxyResource.update`
+  - Deleted or renamed method `ProxyResource.values`
+  - Method `Resource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Resource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Resource.clear`
+  - Deleted or renamed method `Resource.copy`
+  - Deleted or renamed method `Resource.get`
+  - Deleted or renamed method `Resource.items`
+  - Deleted or renamed method `Resource.keys`
+  - Deleted or renamed method `Resource.pop`
+  - Deleted or renamed method `Resource.popitem`
+  - Deleted or renamed method `Resource.setdefault`
+  - Deleted or renamed method `Resource.update`
+  - Deleted or renamed method `Resource.values`
+  - Method `RevokeCertificate.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `RevokeCertificate.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `RevokeCertificate.clear`
+  - Deleted or renamed method `RevokeCertificate.copy`
+  - Deleted or renamed method `RevokeCertificate.get`
+  - Deleted or renamed method `RevokeCertificate.items`
+  - Deleted or renamed method `RevokeCertificate.keys`
+  - Deleted or renamed method `RevokeCertificate.pop`
+  - Deleted or renamed method `RevokeCertificate.popitem`
+  - Deleted or renamed method `RevokeCertificate.setdefault`
+  - Deleted or renamed method `RevokeCertificate.update`
+  - Deleted or renamed method `RevokeCertificate.values`
+  - Method `SystemData.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SystemData.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SystemData.clear`
+  - Deleted or renamed method `SystemData.copy`
+  - Deleted or renamed method `SystemData.get`
+  - Deleted or renamed method `SystemData.items`
+  - Deleted or renamed method `SystemData.keys`
+  - Deleted or renamed method `SystemData.pop`
+  - Deleted or renamed method `SystemData.popitem`
+  - Deleted or renamed method `SystemData.setdefault`
+  - Deleted or renamed method `SystemData.update`
+  - Deleted or renamed method `SystemData.values`
+  - Method `TrackedResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `TrackedResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `TrackedResource.clear`
+  - Deleted or renamed method `TrackedResource.copy`
+  - Deleted or renamed method `TrackedResource.get`
+  - Deleted or renamed method `TrackedResource.items`
+  - Deleted or renamed method `TrackedResource.keys`
+  - Deleted or renamed method `TrackedResource.pop`
+  - Deleted or renamed method `TrackedResource.popitem`
+  - Deleted or renamed method `TrackedResource.setdefault`
+  - Deleted or renamed method `TrackedResource.update`
+  - Deleted or renamed method `TrackedResource.values`
+  - Deleted or renamed model `CertificateProfileProperties`
+  - Deleted or renamed model `CodeSigningAccountPatchProperties`
+  - Deleted or renamed model `CodeSigningAccountProperties`
+  - Deleted or renamed model `Revocation`
+  - `AccountSku.__init__` had all overloads removed
+  - `Certificate.__init__` had all overloads removed
+  - `CertificateProfile.__init__` had all overloads removed
+  - `CheckNameAvailability.__init__` had all overloads removed
+  - `CodeSigningAccount.__init__` had all overloads removed
+  - `CodeSigningAccountPatch.__init__` had all overloads removed
+  - `ErrorResponse.__init__` had all overloads removed
+  - `Operation.__init__` had all overloads removed
+  - `RevokeCertificate.__init__` had all overloads removed
+  - `SystemData.__init__` had all overloads removed
+  - `TrackedResource.__init__` had all overloads removed
+  - `CertificateProfilesOperations.begin_create` had an overload `def begin_create(self: None, resource_group_name: str, account_name: str, profile_name: str, resource: JSON, content_type: str)` removed
+  - `CertificateProfilesOperations.revoke_certificate` had an overload `def revoke_certificate(self: None, resource_group_name: str, account_name: str, profile_name: str, body: JSON, content_type: str)` removed
+  - `CodeSigningAccountsOperations.begin_create` had an overload `def begin_create(self: None, resource_group_name: str, account_name: str, resource: JSON, content_type: str)` removed
+  - `CodeSigningAccountsOperations.begin_update` had an overload `def begin_update(self: None, resource_group_name: str, account_name: str, properties: JSON, content_type: str)` removed
+  - `CodeSigningAccountsOperations.check_name_availability` had an overload `def check_name_availability(self: None, body: JSON, content_type: str)` removed
+
 ## 1.0.0b1 (2024-09-27)
 
 ### Other Changes
