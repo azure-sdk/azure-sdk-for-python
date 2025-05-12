@@ -18,17 +18,6 @@ class AadConnectivityStateEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CONNECTED = "Connected"
 
 
-class AdaptiveApplicationControlIssue(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """An alert that machines within a group can have."""
-
-    VIOLATIONS_AUDITED = "ViolationsAudited"
-    VIOLATIONS_BLOCKED = "ViolationsBlocked"
-    MSI_AND_SCRIPT_VIOLATIONS_AUDITED = "MsiAndScriptViolationsAudited"
-    MSI_AND_SCRIPT_VIOLATIONS_BLOCKED = "MsiAndScriptViolationsBlocked"
-    EXECUTABLE_VIOLATIONS_AUDITED = "ExecutableViolationsAudited"
-    RULES_VIOLATED_MANUALLY = "RulesViolatedManually"
-
-
 class AssessmentStatusCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Programmatic code for the status of the assessment."""
 
@@ -67,16 +56,6 @@ class Categories(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     IO_T = "IoT"
 
 
-class ConfigurationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The configuration status of the machines group or machine or rule."""
-
-    CONFIGURED = "Configured"
-    NOT_CONFIGURED = "NotConfigured"
-    IN_PROGRESS = "InProgress"
-    FAILED = "Failed"
-    NO_STATUS = "NoStatus"
-
-
 class ConnectionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """ConnectionType."""
 
@@ -91,29 +70,6 @@ class ControlType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Microsoft Defender for Cloud managed assessments"""
     CUSTOM = "Custom"
     """Non Microsoft Defender for Cloud managed assessments"""
-
-
-class Direction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The rule's direction."""
-
-    INBOUND = "Inbound"
-    OUTBOUND = "Outbound"
-
-
-class EnforcementMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The application control policy enforcement/protection mode of the machine group."""
-
-    AUDIT = "Audit"
-    ENFORCE = "Enforce"
-    NONE = "None"
-
-
-class EnforcementSupport(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The machine supportability of Enforce feature."""
-
-    SUPPORTED = "Supported"
-    NOT_SUPPORTED = "NotSupported"
-    UNKNOWN = "Unknown"
 
 
 class ExpandControlsEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -140,17 +96,6 @@ class ExternalSecuritySolutionKindEnum(str, Enum, metaclass=CaseInsensitiveEnumM
     AAD = "AAD"
 
 
-class FileType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of the file (for Linux files - Executable is used)."""
-
-    EXE = "Exe"
-    DLL = "Dll"
-    MSI = "Msi"
-    SCRIPT = "Script"
-    EXECUTABLE = "Executable"
-    UNKNOWN = "Unknown"
-
-
 class ImplementationEffort(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The implementation effort required to remediate this assessment."""
 
@@ -173,34 +118,6 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SUCCEEDED = "Succeeded"
     FAILED = "Failed"
     UPDATING = "Updating"
-
-
-class RecommendationAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The recommendation action of the machine or rule."""
-
-    RECOMMENDED = "Recommended"
-    ADD = "Add"
-    REMOVE = "Remove"
-
-
-class RecommendationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The initial recommendation status of the machine group or machine."""
-
-    RECOMMENDED = "Recommended"
-    NOT_RECOMMENDED = "NotRecommended"
-    NOT_AVAILABLE = "NotAvailable"
-    NO_STATUS = "NoStatus"
-
-
-class RecommendationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of the rule to be allowed."""
-
-    FILE = "File"
-    FILE_HASH = "FileHash"
-    PUBLISHER_SIGNATURE = "PublisherSignature"
-    PRODUCT_SIGNATURE = "ProductSignature"
-    BINARY_SIGNATURE = "BinarySignature"
-    VERSION_AND_ABOVE_SIGNATURE = "VersionAndAboveSignature"
 
 
 class SecurityFamily(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -241,16 +158,6 @@ class Source(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """SQL Resource in an on premise machine connected to Azure cloud"""
 
 
-class SourceSystem(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The source type of the machine group."""
-
-    AZURE_APP_LOCKER = "Azure_AppLocker"
-    AZURE_AUDIT_D = "Azure_AuditD"
-    NON_AZURE_APP_LOCKER = "NonAzure_AppLocker"
-    NON_AZURE_AUDIT_D = "NonAzure_AuditD"
-    NONE = "None"
-
-
 class Status(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The status of the port."""
 
@@ -277,13 +184,6 @@ class Threats(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     THREAT_RESISTANCE = "threatResistance"
     MISSING_COVERAGE = "missingCoverage"
     DENIAL_OF_SERVICE = "denialOfService"
-
-
-class TransportProtocol(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """TransportProtocol."""
-
-    TCP = "TCP"
-    UDP = "UDP"
 
 
 class UserImpact(str, Enum, metaclass=CaseInsensitiveEnumMeta):
