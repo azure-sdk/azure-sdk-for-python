@@ -1,12 +1,12 @@
 {
-  "commit": "5485fc4eb11debd9cc8d92ec156b573998aae977",
+  "commit": "6032e983040c7056993fd312ca3c5a61fd8091c5",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "autorest": "3.10.2",
   "use": [
-    "@autorest/python@6.13.16",
+    "@autorest/python@6.34.1",
     "@autorest/modelerfour@4.27.0"
   ],
-  "autorest_command": "autorest specification/security/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.13.16 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
+  "autorest_command": "autorest specification/security/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.34.1 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
   "readme": "specification/security/resource-manager/readme.md",
   "package-2023-11-15": "2023-09-12 12:04:57 -0700 32c178f2467f792a322f56174be244135d2c907f Microsoft.Security/stable/2023-11-15/apiCollections.json",
   "package-preview-2023-03-only": "2023-03-23 11:34:42 +0200 2db2beee2fed67b08d273fdac7a51aba02ac2f80 Microsoft.Security/preview/2023-03-01-preview/securityConnectors.json",

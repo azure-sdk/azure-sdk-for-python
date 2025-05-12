@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -36,8 +35,8 @@ class ActionableRemediation(_serialization.Model):
     :ivar inherit_from_parent_state: Update Settings.
 
      Enabled - Resource should inherit configurations from parent.
-     Disabled - Resource should not inherit configurations from parent. Known values are:
-     "Disabled" and "Enabled".
+     Disabled - Resource should not inherit configurations from parent. Known values are: "Disabled"
+     and "Enabled".
     :vartype inherit_from_parent_state: str or
      ~azure.mgmt.security.v2023_09_01_preview.models.InheritFromParentState
     """
@@ -75,8 +74,8 @@ class ActionableRemediation(_serialization.Model):
         :keyword inherit_from_parent_state: Update Settings.
 
          Enabled - Resource should inherit configurations from parent.
-         Disabled - Resource should not inherit configurations from parent. Known values are:
-         "Disabled" and "Enabled".
+         Disabled - Resource should not inherit configurations from parent. Known values are: "Disabled"
+         and "Enabled".
         :paramtype inherit_from_parent_state: str or
          ~azure.mgmt.security.v2023_09_01_preview.models.InheritFromParentState
         """
@@ -117,7 +116,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -141,9 +140,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class ProxyResource(Resource):
@@ -153,7 +152,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -169,7 +168,7 @@ class AzureDevOpsOrg(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -203,7 +202,7 @@ class AzureDevOpsOrg(ProxyResource):
         :paramtype properties: ~azure.mgmt.security.v2023_09_01_preview.models.AzureDevOpsOrgProperties
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.properties = properties
 
 
@@ -298,8 +297,8 @@ class AzureDevOpsOrgProperties(_serialization.Model):
      ~azure.mgmt.security.v2023_09_01_preview.models.DevOpsProvisioningState
     :ivar onboarding_state: Details about resource onboarding status across all connectors.
 
-     OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-     This is only applicable to top-level resources.
+     OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+     is only applicable to top-level resources.
      Onboarded - this resource has already been onboarded by the specified connector.
      NotOnboarded - this resource has not been onboarded to any connector.
      NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -347,8 +346,8 @@ class AzureDevOpsOrgProperties(_serialization.Model):
          ~azure.mgmt.security.v2023_09_01_preview.models.DevOpsProvisioningState
         :keyword onboarding_state: Details about resource onboarding status across all connectors.
 
-         OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-         This is only applicable to top-level resources.
+         OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+         is only applicable to top-level resources.
          Onboarded - this resource has already been onboarded by the specified connector.
          NotOnboarded - this resource has not been onboarded to any connector.
          NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -360,8 +359,8 @@ class AzureDevOpsOrgProperties(_serialization.Model):
          ~azure.mgmt.security.v2023_09_01_preview.models.ActionableRemediation
         """
         super().__init__(**kwargs)
-        self.provisioning_status_message = None
-        self.provisioning_status_update_time_utc = None
+        self.provisioning_status_message: Optional[str] = None
+        self.provisioning_status_update_time_utc: Optional[datetime.datetime] = None
         self.provisioning_state = provisioning_state
         self.onboarding_state = onboarding_state
         self.actionable_remediation = actionable_remediation
@@ -373,7 +372,7 @@ class AzureDevOpsProject(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -409,7 +408,7 @@ class AzureDevOpsProject(ProxyResource):
          ~azure.mgmt.security.v2023_09_01_preview.models.AzureDevOpsProjectProperties
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.properties = properties
 
 
@@ -512,8 +511,8 @@ class AzureDevOpsProjectProperties(_serialization.Model):
     :vartype project_id: str
     :ivar onboarding_state: Details about resource onboarding status across all connectors.
 
-     OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-     This is only applicable to top-level resources.
+     OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+     is only applicable to top-level resources.
      Onboarded - this resource has already been onboarded by the specified connector.
      NotOnboarded - this resource has not been onboarded to any connector.
      NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -567,8 +566,8 @@ class AzureDevOpsProjectProperties(_serialization.Model):
         :paramtype parent_org_name: str
         :keyword onboarding_state: Details about resource onboarding status across all connectors.
 
-         OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-         This is only applicable to top-level resources.
+         OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+         is only applicable to top-level resources.
          Onboarded - this resource has already been onboarded by the specified connector.
          NotOnboarded - this resource has not been onboarded to any connector.
          NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -580,11 +579,11 @@ class AzureDevOpsProjectProperties(_serialization.Model):
          ~azure.mgmt.security.v2023_09_01_preview.models.ActionableRemediation
         """
         super().__init__(**kwargs)
-        self.provisioning_status_message = None
-        self.provisioning_status_update_time_utc = None
+        self.provisioning_status_message: Optional[str] = None
+        self.provisioning_status_update_time_utc: Optional[datetime.datetime] = None
         self.provisioning_state = provisioning_state
         self.parent_org_name = parent_org_name
-        self.project_id = None
+        self.project_id: Optional[str] = None
         self.onboarding_state = onboarding_state
         self.actionable_remediation = actionable_remediation
 
@@ -595,7 +594,7 @@ class AzureDevOpsRepository(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -633,7 +632,7 @@ class AzureDevOpsRepository(ProxyResource):
          ~azure.mgmt.security.v2023_09_01_preview.models.AzureDevOpsRepositoryProperties
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.properties = properties
 
 
@@ -703,8 +702,8 @@ class AzureDevOpsRepositoryProperties(_serialization.Model):
     :vartype visibility: str
     :ivar onboarding_state: Details about resource onboarding status across all connectors.
 
-     OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-     This is only applicable to top-level resources.
+     OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+     is only applicable to top-level resources.
      Onboarded - this resource has already been onboarded by the specified connector.
      NotOnboarded - this resource has not been onboarded to any connector.
      NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -766,8 +765,8 @@ class AzureDevOpsRepositoryProperties(_serialization.Model):
         :paramtype parent_project_name: str
         :keyword onboarding_state: Details about resource onboarding status across all connectors.
 
-         OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-         This is only applicable to top-level resources.
+         OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+         is only applicable to top-level resources.
          Onboarded - this resource has already been onboarded by the specified connector.
          NotOnboarded - this resource has not been onboarded to any connector.
          NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -779,14 +778,14 @@ class AzureDevOpsRepositoryProperties(_serialization.Model):
          ~azure.mgmt.security.v2023_09_01_preview.models.ActionableRemediation
         """
         super().__init__(**kwargs)
-        self.provisioning_status_message = None
-        self.provisioning_status_update_time_utc = None
+        self.provisioning_status_message: Optional[str] = None
+        self.provisioning_status_update_time_utc: Optional[datetime.datetime] = None
         self.provisioning_state = provisioning_state
         self.parent_org_name = parent_org_name
         self.parent_project_name = parent_project_name
-        self.repo_id = None
-        self.repo_url = None
-        self.visibility = None
+        self.repo_id: Optional[str] = None
+        self.repo_url: Optional[str] = None
+        self.visibility: Optional[str] = None
         self.onboarding_state = onboarding_state
         self.actionable_remediation = actionable_remediation
 
@@ -868,7 +867,7 @@ class DevOpsConfiguration(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -904,7 +903,7 @@ class DevOpsConfiguration(ProxyResource):
          ~azure.mgmt.security.v2023_09_01_preview.models.DevOpsConfigurationProperties
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.properties = properties
 
 
@@ -1019,8 +1018,8 @@ class DevOpsConfigurationProperties(_serialization.Model):
         :paramtype top_level_inventory_list: list[str]
         """
         super().__init__(**kwargs)
-        self.provisioning_status_message = None
-        self.provisioning_status_update_time_utc = None
+        self.provisioning_status_message: Optional[str] = None
+        self.provisioning_status_update_time_utc: Optional[datetime.datetime] = None
         self.provisioning_state = provisioning_state
         self.authorization = authorization
         self.auto_discovery = auto_discovery
@@ -1051,8 +1050,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -1092,11 +1091,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -1126,7 +1125,7 @@ class GitHubOwner(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1160,7 +1159,7 @@ class GitHubOwner(ProxyResource):
         :paramtype properties: ~azure.mgmt.security.v2023_09_01_preview.models.GitHubOwnerProperties
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.properties = properties
 
 
@@ -1259,8 +1258,8 @@ class GitHubOwnerProperties(_serialization.Model):
     :vartype git_hub_internal_id: str
     :ivar onboarding_state: Details about resource onboarding status across all connectors.
 
-     OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-     This is only applicable to top-level resources.
+     OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+     is only applicable to top-level resources.
      Onboarded - this resource has already been onboarded by the specified connector.
      NotOnboarded - this resource has not been onboarded to any connector.
      NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -1307,8 +1306,8 @@ class GitHubOwnerProperties(_serialization.Model):
          ~azure.mgmt.security.v2023_09_01_preview.models.DevOpsProvisioningState
         :keyword onboarding_state: Details about resource onboarding status across all connectors.
 
-         OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-         This is only applicable to top-level resources.
+         OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+         is only applicable to top-level resources.
          Onboarded - this resource has already been onboarded by the specified connector.
          NotOnboarded - this resource has not been onboarded to any connector.
          NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -1317,11 +1316,11 @@ class GitHubOwnerProperties(_serialization.Model):
          ~azure.mgmt.security.v2023_09_01_preview.models.OnboardingState
         """
         super().__init__(**kwargs)
-        self.provisioning_status_message = None
-        self.provisioning_status_update_time_utc = None
+        self.provisioning_status_message: Optional[str] = None
+        self.provisioning_status_update_time_utc: Optional[datetime.datetime] = None
         self.provisioning_state = provisioning_state
-        self.owner_url = None
-        self.git_hub_internal_id = None
+        self.owner_url: Optional[str] = None
+        self.git_hub_internal_id: Optional[str] = None
         self.onboarding_state = onboarding_state
 
 
@@ -1331,7 +1330,7 @@ class GitHubRepository(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1366,7 +1365,7 @@ class GitHubRepository(ProxyResource):
          ~azure.mgmt.security.v2023_09_01_preview.models.GitHubRepositoryProperties
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.properties = properties
 
 
@@ -1437,8 +1436,8 @@ class GitHubRepositoryProperties(_serialization.Model):
     :vartype repo_full_name: str
     :ivar onboarding_state: Details about resource onboarding status across all connectors.
 
-     OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-     This is only applicable to top-level resources.
+     OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+     is only applicable to top-level resources.
      Onboarded - this resource has already been onboarded by the specified connector.
      NotOnboarded - this resource has not been onboarded to any connector.
      NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -1495,8 +1494,8 @@ class GitHubRepositoryProperties(_serialization.Model):
          ~azure.mgmt.security.v2023_09_01_preview.models.DevOpsProvisioningState
         :keyword onboarding_state: Details about resource onboarding status across all connectors.
 
-         OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-         This is only applicable to top-level resources.
+         OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+         is only applicable to top-level resources.
          Onboarded - this resource has already been onboarded by the specified connector.
          NotOnboarded - this resource has not been onboarded to any connector.
          NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -1507,14 +1506,14 @@ class GitHubRepositoryProperties(_serialization.Model):
         :paramtype parent_owner_name: str
         """
         super().__init__(**kwargs)
-        self.provisioning_status_message = None
-        self.provisioning_status_update_time_utc = None
+        self.provisioning_status_message: Optional[str] = None
+        self.provisioning_status_update_time_utc: Optional[datetime.datetime] = None
         self.provisioning_state = provisioning_state
-        self.repo_id = None
-        self.repo_name = None
-        self.repo_full_name = None
+        self.repo_id: Optional[str] = None
+        self.repo_name: Optional[str] = None
+        self.repo_full_name: Optional[str] = None
         self.onboarding_state = onboarding_state
-        self.repo_url = None
+        self.repo_url: Optional[str] = None
         self.parent_owner_name = parent_owner_name
 
 
@@ -1524,7 +1523,7 @@ class GitLabGroup(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1558,7 +1557,7 @@ class GitLabGroup(ProxyResource):
         :paramtype properties: ~azure.mgmt.security.v2023_09_01_preview.models.GitLabGroupProperties
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.properties = properties
 
 
@@ -1666,8 +1665,8 @@ class GitLabGroupProperties(_serialization.Model):
     :vartype url: str
     :ivar onboarding_state: Details about resource onboarding status across all connectors.
 
-     OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-     This is only applicable to top-level resources.
+     OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+     is only applicable to top-level resources.
      Onboarded - this resource has already been onboarded by the specified connector.
      NotOnboarded - this resource has not been onboarded to any connector.
      NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -1716,8 +1715,8 @@ class GitLabGroupProperties(_serialization.Model):
          ~azure.mgmt.security.v2023_09_01_preview.models.DevOpsProvisioningState
         :keyword onboarding_state: Details about resource onboarding status across all connectors.
 
-         OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-         This is only applicable to top-level resources.
+         OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+         is only applicable to top-level resources.
          Onboarded - this resource has already been onboarded by the specified connector.
          NotOnboarded - this resource has not been onboarded to any connector.
          NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -1726,12 +1725,12 @@ class GitLabGroupProperties(_serialization.Model):
          ~azure.mgmt.security.v2023_09_01_preview.models.OnboardingState
         """
         super().__init__(**kwargs)
-        self.provisioning_status_message = None
-        self.provisioning_status_update_time_utc = None
+        self.provisioning_status_message: Optional[str] = None
+        self.provisioning_status_update_time_utc: Optional[datetime.datetime] = None
         self.provisioning_state = provisioning_state
-        self.fully_qualified_name = None
-        self.fully_qualified_friendly_name = None
-        self.url = None
+        self.fully_qualified_name: Optional[str] = None
+        self.fully_qualified_friendly_name: Optional[str] = None
+        self.url: Optional[str] = None
         self.onboarding_state = onboarding_state
 
 
@@ -1741,7 +1740,7 @@ class GitLabProject(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1775,7 +1774,7 @@ class GitLabProject(ProxyResource):
         :paramtype properties: ~azure.mgmt.security.v2023_09_01_preview.models.GitLabProjectProperties
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.properties = properties
 
 
@@ -1847,8 +1846,8 @@ class GitLabProjectProperties(_serialization.Model):
     :vartype url: str
     :ivar onboarding_state: Details about resource onboarding status across all connectors.
 
-     OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-     This is only applicable to top-level resources.
+     OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+     is only applicable to top-level resources.
      Onboarded - this resource has already been onboarded by the specified connector.
      NotOnboarded - this resource has not been onboarded to any connector.
      NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -1899,8 +1898,8 @@ class GitLabProjectProperties(_serialization.Model):
          ~azure.mgmt.security.v2023_09_01_preview.models.DevOpsProvisioningState
         :keyword onboarding_state: Details about resource onboarding status across all connectors.
 
-         OnboardedByOtherConnector - this resource has already been onboarded to another connector.
-         This is only applicable to top-level resources.
+         OnboardedByOtherConnector - this resource has already been onboarded to another connector. This
+         is only applicable to top-level resources.
          Onboarded - this resource has already been onboarded by the specified connector.
          NotOnboarded - this resource has not been onboarded to any connector.
          NotApplicable - the onboarding state is not applicable to the current endpoint. Known values
@@ -1909,13 +1908,13 @@ class GitLabProjectProperties(_serialization.Model):
          ~azure.mgmt.security.v2023_09_01_preview.models.OnboardingState
         """
         super().__init__(**kwargs)
-        self.provisioning_status_message = None
-        self.provisioning_status_update_time_utc = None
+        self.provisioning_status_message: Optional[str] = None
+        self.provisioning_status_update_time_utc: Optional[datetime.datetime] = None
         self.provisioning_state = provisioning_state
-        self.fully_qualified_name = None
-        self.fully_qualified_friendly_name = None
-        self.fully_qualified_parent_group_name = None
-        self.url = None
+        self.fully_qualified_name: Optional[str] = None
+        self.fully_qualified_friendly_name: Optional[str] = None
+        self.fully_qualified_parent_group_name: Optional[str] = None
+        self.url: Optional[str] = None
         self.onboarding_state = onboarding_state
 
 

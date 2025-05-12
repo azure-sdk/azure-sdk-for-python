@@ -1,5 +1,27 @@
 # Release History
 
+## 8.0.0 (2025-05-12)
+
+### Features Added
+
+  - Added operation group CustomRecommendationsOperations
+  - Added operation group SecurityStandardsOperations
+  - Added operation group StandardAssignmentsOperations
+  - Model DefenderForStorageSetting has a new parameter properties
+
+### Breaking Changes
+
+  - Model DefenderForStorageSetting no longer has parameter cap_gb_per_month
+  - Model DefenderForStorageSetting no longer has parameter is_enabled_properties_is_enabled
+  - Model DefenderForStorageSetting no longer has parameter is_enabled_properties_malware_scanning_on_upload_is_enabled
+  - Model DefenderForStorageSetting no longer has parameter is_enabled_properties_sensitive_data_discovery_is_enabled
+  - Model DefenderForStorageSetting no longer has parameter operation_status_properties_malware_scanning_operation_status
+  - Model DefenderForStorageSetting no longer has parameter operation_status_properties_sensitive_data_discovery_operation_status
+  - Model DefenderForStorageSetting no longer has parameter override_subscription_level_settings
+  - Model DefenderForStorageSetting no longer has parameter scan_results_event_grid_topic_resource_id
+  - Removed operation group AdaptiveApplicationControlsOperations
+  - Removed operation group AdaptiveNetworkHardeningsOperations
+
 ## 7.0.0 (2024-05-20)
 
 ### Features Added
