@@ -1,5 +1,9 @@
 # Release History
 
+## 1.2.0b3 (2025-05-12)
+
+change log generation failed!!!
+
 ## 1.2.0b2 (2025-04-21)
 
 ### Features Added
