@@ -20,12 +20,12 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_scaling_plan_pooled_schedules_get(self, resource_group):
         response = self.client.scaling_plan_pooled_schedules.get(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -33,31 +33,38 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create(self, resource_group):
+    def test_scaling_plan_pooled_schedules_create(self, resource_group):
         response = self.client.scaling_plan_pooled_schedules.create(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
             scaling_plan_schedule={
                 "daysOfWeek": ["str"],
+                "offPeakStartTime": {"hour": 0, "minute": 0},
+                "peakStartTime": {"hour": 0, "minute": 0},
+                "rampDownCapacityThresholdPct": 0,
+                "rampDownStartTime": {"hour": 0, "minute": 0},
+                "rampUpCapacityThresholdPct": 0,
+                "rampUpStartTime": {"hour": 0, "minute": 0},
+                "createDelete": {
+                    "rampDownMaximumHostPoolSize": 0,
+                    "rampDownMinimumHostPoolSize": 0,
+                    "rampUpMaximumHostPoolSize": 0,
+                    "rampUpMinimumHostPoolSize": 0,
+                },
                 "id": "str",
                 "name": "str",
                 "offPeakLoadBalancingAlgorithm": "str",
-                "offPeakStartTime": {"hour": 0, "minute": 0},
                 "peakLoadBalancingAlgorithm": "str",
-                "peakStartTime": {"hour": 0, "minute": 0},
-                "rampDownCapacityThresholdPct": 0,
                 "rampDownForceLogoffUsers": bool,
                 "rampDownLoadBalancingAlgorithm": "str",
                 "rampDownMinimumHostsPct": 0,
                 "rampDownNotificationMessage": "str",
-                "rampDownStartTime": {"hour": 0, "minute": 0},
                 "rampDownStopHostsWhen": "str",
                 "rampDownWaitTimeMinutes": 0,
-                "rampUpCapacityThresholdPct": 0,
                 "rampUpLoadBalancingAlgorithm": "str",
                 "rampUpMinimumHostsPct": 0,
-                "rampUpStartTime": {"hour": 0, "minute": 0},
+                "scalingMethod": "str",
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -68,7 +75,7 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperations(AzureMgm
                 },
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -76,12 +83,12 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
+    def test_scaling_plan_pooled_schedules_delete(self, resource_group):
         response = self.client.scaling_plan_pooled_schedules.delete(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -89,12 +96,12 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_scaling_plan_pooled_schedules_update(self, resource_group):
         response = self.client.scaling_plan_pooled_schedules.update(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
             scaling_plan_schedule_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -102,11 +109,11 @@ class TestDesktopVirtualizationMgmtScalingPlanPooledSchedulesOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_scaling_plan_pooled_schedules_list(self, resource_group):
         response = self.client.scaling_plan_pooled_schedules.list(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

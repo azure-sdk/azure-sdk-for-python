@@ -20,11 +20,11 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_workspace(self, resource_group):
+    def test_private_endpoint_connections_list_by_workspace(self, resource_group):
         response = self.client.private_endpoint_connections.list_by_workspace(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -32,12 +32,12 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_by_workspace(self, resource_group):
+    def test_private_endpoint_connections_get_by_workspace(self, resource_group):
         response = self.client.private_endpoint_connections.get_by_workspace(
             resource_group_name=resource_group.name,
             workspace_name="str",
             private_endpoint_connection_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -45,12 +45,12 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete_by_workspace(self, resource_group):
+    def test_private_endpoint_connections_delete_by_workspace(self, resource_group):
         response = self.client.private_endpoint_connections.delete_by_workspace(
             resource_group_name=resource_group.name,
             workspace_name="str",
             private_endpoint_connection_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -58,7 +58,7 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update_by_workspace(self, resource_group):
+    def test_private_endpoint_connections_update_by_workspace(self, resource_group):
         response = self.client.private_endpoint_connections.update_by_workspace(
             resource_group_name=resource_group.name,
             workspace_name="str",
@@ -80,7 +80,7 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperations(AzureMgm
                 },
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -88,11 +88,11 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_host_pool(self, resource_group):
+    def test_private_endpoint_connections_list_by_host_pool(self, resource_group):
         response = self.client.private_endpoint_connections.list_by_host_pool(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -100,12 +100,12 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_by_host_pool(self, resource_group):
+    def test_private_endpoint_connections_get_by_host_pool(self, resource_group):
         response = self.client.private_endpoint_connections.get_by_host_pool(
             resource_group_name=resource_group.name,
             host_pool_name="str",
             private_endpoint_connection_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -113,12 +113,12 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete_by_host_pool(self, resource_group):
+    def test_private_endpoint_connections_delete_by_host_pool(self, resource_group):
         response = self.client.private_endpoint_connections.delete_by_host_pool(
             resource_group_name=resource_group.name,
             host_pool_name="str",
             private_endpoint_connection_name="str",
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -126,7 +126,7 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperations(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update_by_host_pool(self, resource_group):
+    def test_private_endpoint_connections_update_by_host_pool(self, resource_group):
         response = self.client.private_endpoint_connections.update_by_host_pool(
             resource_group_name=resource_group.name,
             host_pool_name="str",
@@ -148,7 +148,7 @@ class TestDesktopVirtualizationMgmtPrivateEndpointConnectionsOperations(AzureMgm
                 },
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2025-03-01-preview",
         )
 
         # please add some check logic here by yourself
