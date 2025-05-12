@@ -16,7 +16,7 @@ from azure.mgmt.communication import CommunicationServiceManagementClient
     pip install azure-identity
     pip install azure-mgmt-communication
 # USAGE
-    python list_by_subscription.py
+    python create_or_update_with_disable_local_auth.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -31,11 +31,14 @@ def main():
         subscription_id="11112222-3333-4444-5555-666677778888",
     )
 
-    response = client.communication_services.list_by_subscription()
-    for item in response:
-        print(item)
+    response = client.communication_services.begin_create_or_update(
+        resource_group_name="MyResourceGroup",
+        communication_service_name="MyCommunicationResource",
+        parameters={"location": "Global", "properties": {"dataLocation": "United States", "disableLocalAuth": True}},
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2025-06-01/examples/communicationServices/listBySubscription.json
+# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2025-06-01/examples/communicationServices/createOrUpdateWithDisableLocalAuth.json
 if __name__ == "__main__":
     main()
