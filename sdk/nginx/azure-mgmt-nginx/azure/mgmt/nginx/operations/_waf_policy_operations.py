@@ -43,7 +43,7 @@ _SERIALIZER.client_side_validation = False
 
 
 def build_get_request(
-    resource_group_name: str, deployment_name: str, certificate_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, deployment_name: str, waf_policy_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -54,7 +54,7 @@ def build_get_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/wafPolicies/{wafPolicyName}",
     )
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -67,9 +67,9 @@ def build_get_request(
             "str",
             pattern=r"^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
         ),
-        "certificateName": _SERIALIZER.url(
-            "certificate_name",
-            certificate_name,
+        "wafPolicyName": _SERIALIZER.url(
+            "waf_policy_name",
+            waf_policy_name,
             "str",
             pattern=r"^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
         ),
@@ -86,8 +86,8 @@ def build_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_or_update_request(
-    resource_group_name: str, deployment_name: str, certificate_name: str, subscription_id: str, **kwargs: Any
+def build_create_request(
+    resource_group_name: str, deployment_name: str, waf_policy_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -99,7 +99,7 @@ def build_create_or_update_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/wafPolicies/{wafPolicyName}",
     )
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -112,9 +112,9 @@ def build_create_or_update_request(
             "str",
             pattern=r"^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
         ),
-        "certificateName": _SERIALIZER.url(
-            "certificate_name",
-            certificate_name,
+        "wafPolicyName": _SERIALIZER.url(
+            "waf_policy_name",
+            waf_policy_name,
             "str",
             pattern=r"^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
         ),
@@ -134,7 +134,7 @@ def build_create_or_update_request(
 
 
 def build_delete_request(
-    resource_group_name: str, deployment_name: str, certificate_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, deployment_name: str, waf_policy_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -145,7 +145,7 @@ def build_delete_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/wafPolicies/{wafPolicyName}",
     )
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -158,9 +158,9 @@ def build_delete_request(
             "str",
             pattern=r"^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
         ),
-        "certificateName": _SERIALIZER.url(
-            "certificate_name",
-            certificate_name,
+        "wafPolicyName": _SERIALIZER.url(
+            "waf_policy_name",
+            waf_policy_name,
             "str",
             pattern=r"^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
         ),
@@ -189,7 +189,7 @@ def build_list_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/wafPolicies",
     )
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -215,14 +215,14 @@ def build_list_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class CertificatesOperations:
+class WafPolicyOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.nginx.NginxManagementClient`'s
-        :attr:`certificates` attribute.
+        :attr:`waf_policy` attribute.
     """
 
     models = _models
@@ -236,21 +236,21 @@ class CertificatesOperations:
 
     @distributed_trace
     def get(
-        self, resource_group_name: str, deployment_name: str, certificate_name: str, **kwargs: Any
-    ) -> _models.NginxCertificate:
-        """Get a certificate of given NGINX deployment.
+        self, resource_group_name: str, deployment_name: str, waf_policy_name: str, **kwargs: Any
+    ) -> _models.NginxDeploymentWafPolicy:
+        """Get the Nginx Waf Policy of given Nginx deployment.
 
-        Get a certificate of given NGINX deployment.
+        Get the Nginx Waf Policy of given Nginx deployment.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param deployment_name: The name of targeted NGINX deployment. Required.
         :type deployment_name: str
-        :param certificate_name: The name of certificate. Required.
-        :type certificate_name: str
-        :return: NginxCertificate or the result of cls(response)
-        :rtype: ~azure.mgmt.nginx.models.NginxCertificate
+        :param waf_policy_name: The name of Waf Policy. Required.
+        :type waf_policy_name: str
+        :return: NginxDeploymentWafPolicy or the result of cls(response)
+        :rtype: ~azure.mgmt.nginx.models.NginxDeploymentWafPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -265,12 +265,12 @@ class CertificatesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.NginxCertificate] = kwargs.pop("cls", None)
+        cls: ClsType[_models.NginxDeploymentWafPolicy] = kwargs.pop("cls", None)
 
         _request = build_get_request(
             resource_group_name=resource_group_name,
             deployment_name=deployment_name,
-            certificate_name=certificate_name,
+            waf_policy_name=waf_policy_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -290,19 +290,19 @@ class CertificatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("NginxCertificate", pipeline_response.http_response)
+        deserialized = self._deserialize("NginxDeploymentWafPolicy", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
 
-    def _create_or_update_initial(
+    def _create_initial(
         self,
         resource_group_name: str,
         deployment_name: str,
-        certificate_name: str,
-        body: Optional[Union[_models.NginxCertificate, IO[bytes]]] = None,
+        waf_policy_name: str,
+        body: Optional[Union[_models.NginxDeploymentWafPolicy, IO[bytes]]] = None,
         **kwargs: Any
     ) -> Iterator[bytes]:
         error_map: MutableMapping = {
@@ -327,14 +327,14 @@ class CertificatesOperations:
             _content = body
         else:
             if body is not None:
-                _json = self._serialize.body(body, "NginxCertificate")
+                _json = self._serialize.body(body, "NginxDeploymentWafPolicy")
             else:
                 _json = None
 
-        _request = build_create_or_update_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             deployment_name=deployment_name,
-            certificate_name=certificate_name,
+            waf_policy_name=waf_policy_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -362,105 +362,112 @@ class CertificatesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Operation-Location"] = self._deserialize(
+                "str", response.headers.get("Operation-Location")
+            )
+
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
     @overload
-    def begin_create_or_update(
+    def begin_create(
         self,
         resource_group_name: str,
         deployment_name: str,
-        certificate_name: str,
-        body: Optional[_models.NginxCertificate] = None,
+        waf_policy_name: str,
+        body: Optional[_models.NginxDeploymentWafPolicy] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.NginxCertificate]:
-        """Create or update the NGINX certificates for given NGINX deployment.
+    ) -> LROPoller[_models.NginxDeploymentWafPolicy]:
+        """Create or update the Nginx Waf Policy for given Nginx deployment.
 
-        Create or update the NGINX certificates for given NGINX deployment.
+        Create or update the Nginx Waf Policy for given Nginx deployment.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param deployment_name: The name of targeted NGINX deployment. Required.
         :type deployment_name: str
-        :param certificate_name: The name of certificate. Required.
-        :type certificate_name: str
-        :param body: The certificate. Default value is None.
-        :type body: ~azure.mgmt.nginx.models.NginxCertificate
+        :param waf_policy_name: The name of Waf Policy. Required.
+        :type waf_policy_name: str
+        :param body: The Nginx Deployment Waf Policy. Default value is None.
+        :type body: ~azure.mgmt.nginx.models.NginxDeploymentWafPolicy
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns either NginxCertificate or the result of
+        :return: An instance of LROPoller that returns either NginxDeploymentWafPolicy or the result of
          cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.nginx.models.NginxCertificate]
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.nginx.models.NginxDeploymentWafPolicy]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    def begin_create(
         self,
         resource_group_name: str,
         deployment_name: str,
-        certificate_name: str,
+        waf_policy_name: str,
         body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.NginxCertificate]:
-        """Create or update the NGINX certificates for given NGINX deployment.
+    ) -> LROPoller[_models.NginxDeploymentWafPolicy]:
+        """Create or update the Nginx Waf Policy for given Nginx deployment.
 
-        Create or update the NGINX certificates for given NGINX deployment.
+        Create or update the Nginx Waf Policy for given Nginx deployment.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param deployment_name: The name of targeted NGINX deployment. Required.
         :type deployment_name: str
-        :param certificate_name: The name of certificate. Required.
-        :type certificate_name: str
-        :param body: The certificate. Default value is None.
+        :param waf_policy_name: The name of Waf Policy. Required.
+        :type waf_policy_name: str
+        :param body: The Nginx Deployment Waf Policy. Default value is None.
         :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns either NginxCertificate or the result of
+        :return: An instance of LROPoller that returns either NginxDeploymentWafPolicy or the result of
          cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.nginx.models.NginxCertificate]
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.nginx.models.NginxDeploymentWafPolicy]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace
-    def begin_create_or_update(
+    def begin_create(
         self,
         resource_group_name: str,
         deployment_name: str,
-        certificate_name: str,
-        body: Optional[Union[_models.NginxCertificate, IO[bytes]]] = None,
+        waf_policy_name: str,
+        body: Optional[Union[_models.NginxDeploymentWafPolicy, IO[bytes]]] = None,
         **kwargs: Any
-    ) -> LROPoller[_models.NginxCertificate]:
-        """Create or update the NGINX certificates for given NGINX deployment.
+    ) -> LROPoller[_models.NginxDeploymentWafPolicy]:
+        """Create or update the Nginx Waf Policy for given Nginx deployment.
 
-        Create or update the NGINX certificates for given NGINX deployment.
+        Create or update the Nginx Waf Policy for given Nginx deployment.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param deployment_name: The name of targeted NGINX deployment. Required.
         :type deployment_name: str
-        :param certificate_name: The name of certificate. Required.
-        :type certificate_name: str
-        :param body: The certificate. Is either a NginxCertificate type or a IO[bytes] type. Default
-         value is None.
-        :type body: ~azure.mgmt.nginx.models.NginxCertificate or IO[bytes]
-        :return: An instance of LROPoller that returns either NginxCertificate or the result of
+        :param waf_policy_name: The name of Waf Policy. Required.
+        :type waf_policy_name: str
+        :param body: The Nginx Deployment Waf Policy. Is either a NginxDeploymentWafPolicy type or a
+         IO[bytes] type. Default value is None.
+        :type body: ~azure.mgmt.nginx.models.NginxDeploymentWafPolicy or IO[bytes]
+        :return: An instance of LROPoller that returns either NginxDeploymentWafPolicy or the result of
          cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.nginx.models.NginxCertificate]
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.nginx.models.NginxDeploymentWafPolicy]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -468,15 +475,15 @@ class CertificatesOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.NginxCertificate] = kwargs.pop("cls", None)
+        cls: ClsType[_models.NginxDeploymentWafPolicy] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._create_or_update_initial(
+            raw_result = self._create_initial(
                 resource_group_name=resource_group_name,
                 deployment_name=deployment_name,
-                certificate_name=certificate_name,
+                waf_policy_name=waf_policy_name,
                 body=body,
                 api_version=api_version,
                 content_type=content_type,
@@ -489,7 +496,7 @@ class CertificatesOperations:
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("NginxCertificate", pipeline_response.http_response)
+            deserialized = self._deserialize("NginxDeploymentWafPolicy", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -503,18 +510,18 @@ class CertificatesOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.NginxCertificate].from_continuation_token(
+            return LROPoller[_models.NginxDeploymentWafPolicy].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.NginxCertificate](
+        return LROPoller[_models.NginxDeploymentWafPolicy](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
     def _delete_initial(
-        self, resource_group_name: str, deployment_name: str, certificate_name: str, **kwargs: Any
+        self, resource_group_name: str, deployment_name: str, waf_policy_name: str, **kwargs: Any
     ) -> Iterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -533,7 +540,7 @@ class CertificatesOperations:
         _request = build_delete_request(
             resource_group_name=resource_group_name,
             deployment_name=deployment_name,
-            certificate_name=certificate_name,
+            waf_policy_name=waf_policy_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -575,19 +582,19 @@ class CertificatesOperations:
 
     @distributed_trace
     def begin_delete(
-        self, resource_group_name: str, deployment_name: str, certificate_name: str, **kwargs: Any
+        self, resource_group_name: str, deployment_name: str, waf_policy_name: str, **kwargs: Any
     ) -> LROPoller[None]:
-        """Deletes a certificate from the NGINX deployment.
+        """Reset the Nginx Waf Policy of given Nginx deployment to default.
 
-        Deletes a certificate from the NGINX deployment.
+        Reset the Nginx Waf Policy of given Nginx deployment to default.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param deployment_name: The name of targeted NGINX deployment. Required.
         :type deployment_name: str
-        :param certificate_name: The name of certificate. Required.
-        :type certificate_name: str
+        :param waf_policy_name: The name of Waf Policy. Required.
+        :type waf_policy_name: str
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -604,7 +611,7 @@ class CertificatesOperations:
             raw_result = self._delete_initial(
                 resource_group_name=resource_group_name,
                 deployment_name=deployment_name,
-                certificate_name=certificate_name,
+                waf_policy_name=waf_policy_name,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -636,25 +643,26 @@ class CertificatesOperations:
     @distributed_trace
     def list(
         self, resource_group_name: str, deployment_name: str, **kwargs: Any
-    ) -> Iterable["_models.NginxCertificate"]:
-        """List all certificates of given NGINX deployment.
+    ) -> Iterable["_models.NginxDeploymentWafPolicyMetadata"]:
+        """List Waf Policies of given Nginx deployment.
 
-        List all certificates of given NGINX deployment.
+        List Waf Policies of given Nginx deployment.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param deployment_name: The name of targeted NGINX deployment. Required.
         :type deployment_name: str
-        :return: An iterator like instance of either NginxCertificate or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.nginx.models.NginxCertificate]
+        :return: An iterator like instance of either NginxDeploymentWafPolicyMetadata or the result of
+         cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.nginx.models.NginxDeploymentWafPolicyMetadata]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.NginxCertificateListResponse] = kwargs.pop("cls", None)
+        cls: ClsType[_models.NginxDeploymentWafPolicyListResponse] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -695,7 +703,7 @@ class CertificatesOperations:
             return _request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("NginxCertificateListResponse", pipeline_response)
+            deserialized = self._deserialize("NginxDeploymentWafPolicyListResponse", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
