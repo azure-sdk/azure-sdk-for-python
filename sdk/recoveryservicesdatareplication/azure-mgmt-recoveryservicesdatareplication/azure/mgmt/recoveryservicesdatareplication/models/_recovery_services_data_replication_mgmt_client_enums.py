@@ -16,12 +16,79 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INTERNAL = "Internal"
 
 
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
+
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
+
+
 class HealthStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets or sets the fabric health."""
 
     NORMAL = "Normal"
+    """Healthy Status."""
     WARNING = "Warning"
+    """Warning Status."""
     CRITICAL = "Critical"
+    """Critical Status."""
+
+
+class JobObjectType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or sets the object type."""
+
+    AVS_DISK_POOL = "AvsDiskPool"
+    """AVS disk pool."""
+    FABRIC_AGENT = "FabricAgent"
+    """Fabric agent level workflow."""
+    FABRIC = "Fabric"
+    """Fabric level job."""
+    POLICY = "Policy"
+    """Policy level job."""
+    PROTECTED_ITEM = "ProtectedItem"
+    """Protected item level job."""
+    RECOVERY_PLAN = "RecoveryPlan"
+    """Recovery plan level job."""
+    REPLICATION_EXTENSION = "ReplicationExtension"
+    """Replication extension level job."""
+    VAULT = "Vault"
+    """Vault level job."""
+
+
+class JobState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or sets the job state."""
+
+    PENDING = "Pending"
+    """Job has not been started."""
+    STARTED = "Started"
+    """Job is in progress."""
+    CANCELLING = "Cancelling"
+    """Job cancellation is in progress."""
+    SUCCEEDED = "Succeeded"
+    """Job has completed successfully."""
+    FAILED = "Failed"
+    """Job failed."""
+    CANCELLED = "Cancelled"
+    """Job has been cancelled."""
+    COMPLETED_WITH_INFORMATION = "CompletedWithInformation"
+    """Job has completed with information."""
+    COMPLETED_WITH_WARNINGS = "CompletedWithWarnings"
+    """Job has completed with warnings."""
+    COMPLETED_WITH_ERRORS = "CompletedWithErrors"
+    """Job has completed with errors."""
+
+
+class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of managed service identity (where both SystemAssigned and UserAssigned types are
+    allowed).
+    """
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
 
 
 class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -34,169 +101,262 @@ class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     USER_SYSTEM = "user,system"
 
 
+class PrivateEndpointConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or sets the status."""
+
+    APPROVED = "Approved"
+    """Approved Status."""
+    DISCONNECTED = "Disconnected"
+    """Disconnected Status."""
+    PENDING = "Pending"
+    """Pending Status."""
+    REJECTED = "Rejected"
+    """Rejected Status."""
+
+
 class ProtectedItemActiveLocation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets or sets the location of the protected item."""
 
     PRIMARY = "Primary"
+    """Protected item is active on Primary."""
     RECOVERY = "Recovery"
+    """Protected item is active on Recovery."""
 
 
 class ProtectionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets or sets the protection state."""
 
     UNPROTECTED_STATES_BEGIN = "UnprotectedStatesBegin"
+    """Begin marker for unprotected states."""
     ENABLING_PROTECTION = "EnablingProtection"
+    """Enable protection is in progress."""
     ENABLING_FAILED = "EnablingFailed"
+    """Enable protection failed."""
     DISABLING_PROTECTION = "DisablingProtection"
+    """Disabling protection is in progress."""
     MARKED_FOR_DELETION = "MarkedForDeletion"
+    """Disabling protection succeeded. This is a transient state before the protected item is deleted."""
     DISABLING_FAILED = "DisablingFailed"
+    """Disable protection failed."""
     UNPROTECTED_STATES_END = "UnprotectedStatesEnd"
+    """End marker for unprotected states."""
     INITIAL_REPLICATION_STATES_BEGIN = "InitialReplicationStatesBegin"
+    """Begin marker for initial replication states."""
     INITIAL_REPLICATION_IN_PROGRESS = "InitialReplicationInProgress"
+    """Initial replication is in progress."""
     INITIAL_REPLICATION_COMPLETED_ON_PRIMARY = "InitialReplicationCompletedOnPrimary"
+    """Initial replication has completed on the primary side."""
     INITIAL_REPLICATION_COMPLETED_ON_RECOVERY = "InitialReplicationCompletedOnRecovery"
+    """Initial replication has completed on the recovery side."""
     INITIAL_REPLICATION_FAILED = "InitialReplicationFailed"
+    """Initial replication failed and would need to be started again."""
     INITIAL_REPLICATION_STATES_END = "InitialReplicationStatesEnd"
+    """End marker for initial replication states."""
     PROTECTED_STATES_BEGIN = "ProtectedStatesBegin"
+    """Begin marker for protected steady-state states."""
     PROTECTED = "Protected"
+    """Protected item is protected and replication is on-going. Any issues with replication will be
+    surfaced separately via the health property and will not affect the state."""
     PROTECTED_STATES_END = "ProtectedStatesEnd"
+    """End marker for protected steady-state states."""
     PLANNED_FAILOVER_TRANSITION_STATES_BEGIN = "PlannedFailoverTransitionStatesBegin"
+    """Begin marker for planned failover transition states."""
     PLANNED_FAILOVER_INITIATED = "PlannedFailoverInitiated"
+    """Planned failover has been initiated."""
     PLANNED_FAILOVER_COMPLETING = "PlannedFailoverCompleting"
+    """Planned failover preparing protected entities is in progress."""
     PLANNED_FAILOVER_COMPLETED = "PlannedFailoverCompleted"
+    """Planned failover has been completed successfully."""
     PLANNED_FAILOVER_FAILED = "PlannedFailoverFailed"
+    """Planned failover initiation failed."""
     PLANNED_FAILOVER_COMPLETION_FAILED = "PlannedFailoverCompletionFailed"
+    """Planned failover preparing protected entities failed."""
     PLANNED_FAILOVER_TRANSITION_STATES_END = "PlannedFailoverTransitionStatesEnd"
+    """End marker for planned failover transition states."""
     UNPLANNED_FAILOVER_TRANSITION_STATES_BEGIN = "UnplannedFailoverTransitionStatesBegin"
+    """Begin marker for unplanned failover transition states."""
     UNPLANNED_FAILOVER_INITIATED = "UnplannedFailoverInitiated"
+    """Unplanned failover has been initiated."""
     UNPLANNED_FAILOVER_COMPLETING = "UnplannedFailoverCompleting"
+    """Unplanned failover preparing protected entities is in progress."""
     UNPLANNED_FAILOVER_COMPLETED = "UnplannedFailoverCompleted"
+    """Unplanned failover preparing protected entities is in progress."""
     UNPLANNED_FAILOVER_FAILED = "UnplannedFailoverFailed"
+    """Unplanned failover initiation failed."""
     UNPLANNED_FAILOVER_COMPLETION_FAILED = "UnplannedFailoverCompletionFailed"
+    """Unplanned failover preparing protected entities failed."""
     UNPLANNED_FAILOVER_TRANSITION_STATES_END = "UnplannedFailoverTransitionStatesEnd"
+    """End marker for unplanned failover transition states."""
     COMMIT_FAILOVER_STATES_BEGIN = "CommitFailoverStatesBegin"
+    """Begin marker for commit failover states."""
     COMMIT_FAILOVER_IN_PROGRESS_ON_PRIMARY = "CommitFailoverInProgressOnPrimary"
+    """Commit failover is in progress on the primary side."""
     COMMIT_FAILOVER_IN_PROGRESS_ON_RECOVERY = "CommitFailoverInProgressOnRecovery"
+    """Commit failover is in progress on the recovery side."""
     COMMIT_FAILOVER_COMPLETED = "CommitFailoverCompleted"
+    """Commit failover has been completed successfully."""
     COMMIT_FAILOVER_FAILED_ON_PRIMARY = "CommitFailoverFailedOnPrimary"
+    """Commit failover failed on the primary side."""
     COMMIT_FAILOVER_FAILED_ON_RECOVERY = "CommitFailoverFailedOnRecovery"
+    """Commit failover failed on the recovery side."""
     COMMIT_FAILOVER_STATES_END = "CommitFailoverStatesEnd"
+    """End marker for commit failover states."""
     CANCEL_FAILOVER_STATES_BEGIN = "CancelFailoverStatesBegin"
+    """Begin marker for cancel failover states."""
     CANCEL_FAILOVER_IN_PROGRESS_ON_PRIMARY = "CancelFailoverInProgressOnPrimary"
+    """Cancel failover is in progress on the primary side."""
     CANCEL_FAILOVER_IN_PROGRESS_ON_RECOVERY = "CancelFailoverInProgressOnRecovery"
+    """Cancel failover is in progress on the recovery side."""
     CANCEL_FAILOVER_FAILED_ON_PRIMARY = "CancelFailoverFailedOnPrimary"
+    """Cancel failover failed on the primary side."""
     CANCEL_FAILOVER_FAILED_ON_RECOVERY = "CancelFailoverFailedOnRecovery"
+    """Cancel failover failed on the recovery side."""
     CANCEL_FAILOVER_STATES_END = "CancelFailoverStatesEnd"
+    """End marker for cancel failover states."""
     CHANGE_RECOVERY_POINT_STATES_BEGIN = "ChangeRecoveryPointStatesBegin"
+    """Begin marker for change recovery point states."""
     CHANGE_RECOVERY_POINT_INITIATED = "ChangeRecoveryPointInitiated"
+    """Change recovery point has been initiated.."""
     CHANGE_RECOVERY_POINT_COMPLETED = "ChangeRecoveryPointCompleted"
+    """Change recovery point has been completed successfully."""
     CHANGE_RECOVERY_POINT_FAILED = "ChangeRecoveryPointFailed"
+    """Change recovery point has failed."""
     CHANGE_RECOVERY_POINT_STATES_END = "ChangeRecoveryPointStatesEnd"
+    """End marker for change recovery point states."""
     REPROTECT_STATES_BEGIN = "ReprotectStatesBegin"
+    """Begin marker for reprotect states."""
     REPROTECT_INITIATED = "ReprotectInitiated"
+    """Reprotect has been initiated."""
     REPROTECT_FAILED = "ReprotectFailed"
+    """Reprotect has failed."""
     REPROTECT_STATES_END = "ReprotectStatesEnd"
+    """End marker for reprotect states."""
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Gets or sets the provisioning state of the Dra."""
+    """Gets or sets the provisioning state of the email configuration."""
 
     CANCELED = "Canceled"
+    """Resource creation has been canceled"""
     CREATING = "Creating"
+    """Resource is being created."""
     DELETING = "Deleting"
+    """Resource is being deleted."""
     DELETED = "Deleted"
+    """Resource has been deleted."""
     FAILED = "Failed"
+    """Resource creation failed."""
     SUCCEEDED = "Succeeded"
+    """Resource creation/update succeeded."""
     UPDATING = "Updating"
+    """Resource is being updated."""
 
 
 class RecoveryPointType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets or sets the recovery point type."""
 
     APPLICATION_CONSISTENT = "ApplicationConsistent"
+    """Application consistent recovery point."""
     CRASH_CONSISTENT = "CrashConsistent"
+    """Crash consistent recovery point."""
 
 
 class ReplicationVaultType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets or sets the type of vault."""
 
     DISASTER_RECOVERY = "DisasterRecovery"
+    """Disaster recovery vault."""
     MIGRATE = "Migrate"
+    """Migrate vault."""
 
 
 class ResynchronizationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets or sets the resynchronization state."""
 
     NONE = "None"
+    """Resynchronization is not active."""
     RESYNCHRONIZATION_INITIATED = "ResynchronizationInitiated"
+    """Resynchronization has been initiated."""
     RESYNCHRONIZATION_COMPLETED = "ResynchronizationCompleted"
+    """Resynchronization has been completed successfully."""
     RESYNCHRONIZATION_FAILED = "ResynchronizationFailed"
+    """Resynchronization has failed and would need to be started again."""
 
 
 class TaskState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets or sets the task state."""
 
     PENDING = "Pending"
+    """Task has not been started."""
     STARTED = "Started"
+    """Task is in progress."""
     SUCCEEDED = "Succeeded"
+    """Task has completed successfully."""
     FAILED = "Failed"
+    """Task failed."""
     CANCELLED = "Cancelled"
+    """Task has been cancelled."""
     SKIPPED = "Skipped"
+    """Task has been skipped."""
 
 
 class TestFailoverState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets or sets the test failover state."""
 
     NONE = "None"
+    """Test failover is not active."""
     TEST_FAILOVER_INITIATED = "TestFailoverInitiated"
+    """Test failover has been initiated."""
     TEST_FAILOVER_COMPLETING = "TestFailoverCompleting"
+    """Preparing test protected entities is in progress."""
     TEST_FAILOVER_COMPLETED = "TestFailoverCompleted"
+    """Test failover has been completed successfully."""
     TEST_FAILOVER_FAILED = "TestFailoverFailed"
+    """Test failover initiation failed.."""
     TEST_FAILOVER_COMPLETION_FAILED = "TestFailoverCompletionFailed"
+    """Preparing test protected entities failed."""
     TEST_FAILOVER_CLEANUP_INITIATED = "TestFailoverCleanupInitiated"
+    """Test failover cleanup has been initiated."""
     TEST_FAILOVER_CLEANUP_COMPLETING = "TestFailoverCleanupCompleting"
+    """Cleaning up test protected entities is in progress."""
     MARKED_FOR_DELETION = "MarkedForDeletion"
+    """Test failover cleanup has completed/failed. This is a transient state before the state is moved
+    back to None."""
+
+
+class VaultIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or sets the identityType which can be either SystemAssigned or None."""
+
+    NONE = "None"
+    """No identity."""
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    """System assigned identity."""
+    USER_ASSIGNED = "UserAssigned"
+    """User assigned identity."""
 
 
 class VMNicSelection(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets or sets the selection type of the NIC."""
 
     NOT_SELECTED = "NotSelected"
+    """Not Selected."""
     SELECTED_BY_USER = "SelectedByUser"
+    """Selected by user."""
     SELECTED_BY_DEFAULT = "SelectedByDefault"
+    """Default selection by ASR."""
     SELECTED_BY_USER_OVERRIDE = "SelectedByUserOverride"
+    """NIC configuration overridden by user. Differs from SelectedByUser in the sense that the legacy
+    SelectedByUser is used both for explicit modification by user and implicit approval of user if
+    the settings are used for TFO/FO. SelectedByUserOverride implies user overriding at least one
+    of the configurations."""
 
 
 class VMwareToAzureMigrateResyncState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets or sets the resync state."""
 
     NONE = "None"
+    """None state."""
     PREPARED_FOR_RESYNCHRONIZATION = "PreparedForResynchronization"
+    """Prepared for resynchronization state."""
     STARTED_RESYNCHRONIZATION = "StartedResynchronization"
-
-
-class WorkflowObjectType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Gets or sets the object type."""
-
-    AVS_DISK_POOL = "AvsDiskPool"
-    DRA = "Dra"
-    FABRIC = "Fabric"
-    POLICY = "Policy"
-    PROTECTED_ITEM = "ProtectedItem"
-    RECOVERY_PLAN = "RecoveryPlan"
-    REPLICATION_EXTENSION = "ReplicationExtension"
-    VAULT = "Vault"
-
-
-class WorkflowState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Gets or sets the workflow state."""
-
-    PENDING = "Pending"
-    STARTED = "Started"
-    CANCELLING = "Cancelling"
-    SUCCEEDED = "Succeeded"
-    FAILED = "Failed"
-    CANCELLED = "Cancelled"
-    COMPLETED_WITH_INFORMATION = "CompletedWithInformation"
-    COMPLETED_WITH_WARNINGS = "CompletedWithWarnings"
-    COMPLETED_WITH_ERRORS = "CompletedWithErrors"
+    """Started resynchronization state."""
