@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.cdn import CdnManagementClient
@@ -50,6 +48,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDOrigins_Create.json
+# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2025-04-15/examples/AFDOrigins_Create.json
 if __name__ == "__main__":
     main()
