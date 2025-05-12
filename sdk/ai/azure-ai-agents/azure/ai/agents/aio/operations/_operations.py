@@ -3942,7 +3942,9 @@ class VectorStoreFileBatchesOperations:
         return AsyncItemPaged(get_next, extract_data)
 
 
-class AgentsClientOperationsMixin(ClientMixinABC[AsyncPipelineClient, AgentsClientConfiguration]):
+class AgentsClientOperationsMixin(
+    ClientMixinABC[AsyncPipelineClient[HttpRequest, AsyncHttpResponse], AgentsClientConfiguration]
+):
 
     @overload
     async def create_agent(
