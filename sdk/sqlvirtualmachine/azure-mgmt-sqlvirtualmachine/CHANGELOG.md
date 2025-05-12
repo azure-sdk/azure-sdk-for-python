@@ -1,0 +1,290 @@
+# Release History
+
+## 1.0.0 (2025-05-09)
+
+### Features Added
+
+  - Model `AutoBackupSettings` added property `storage_container_name`
+  - Model `AutoBackupSettings` added property `days_of_week`
+  - Model `AutoPatchingSettings` added property `additional_vm_patch`
+  - Model `AvailabilityGroupListener` added property `properties`
+  - Model `AvailabilityGroupListener` added property `system_data`
+  - Model `ProxyResource` added property `system_data`
+  - Model `Resource` added property `system_data`
+  - Model `SQLStorageSettings` added property `use_storage_pool`
+  - Model `ServerConfigurationsManagementSettings` added property `sql_instance_settings`
+  - Model `ServerConfigurationsManagementSettings` added property `azure_ad_authentication_settings`
+  - Model `SqlVirtualMachine` added property `properties`
+  - Model `SqlVirtualMachine` added property `system_data`
+  - Model `SqlVirtualMachineGroup` added property `properties`
+  - Model `SqlVirtualMachineGroup` added property `system_data`
+  - Model `StorageConfigurationSettings` added property `sql_system_db_on_data_disk`
+  - Model `StorageConfigurationSettings` added property `enable_storage_config_blade`
+  - Model `TrackedResource` added property `system_data`
+  - Model `WsfcDomainProfile` added property `is_sql_service_account_gmsa`
+  - Model `WsfcDomainProfile` added property `cluster_subnet_type`
+  - Added model `AADAuthenticationSettings`
+  - Added enum `AdditionalOsPatch`
+  - Added enum `AdditionalVmPatch`
+  - Added model `AgConfiguration`
+  - Added model `AgReplica`
+  - Added enum `AssessmentDayOfWeek`
+  - Added model `AssessmentSettings`
+  - Added enum `AutoBackupDaysOfWeek`
+  - Added model `AvailabilityGroupListenerProperties`
+  - Added enum `ClusterSubnetType`
+  - Added enum `Commit`
+  - Added enum `CreatedByType`
+  - Added model `DiskConfigAssessmentRequest`
+  - Added model `ErrorAdditionalInfo`
+  - Added model `ErrorDetail`
+  - Added model `ErrorResponse`
+  - Added enum `Failover`
+  - Added enum `LeastPrivilegeMode`
+  - Added model `MultiSubnetIpConfiguration`
+  - Added enum `OsType`
+  - Added enum `ReadableSecondary`
+  - Added enum `Role`
+  - Added model `SQLInstanceSettings`
+  - Added model `SQLTempDbSettings`
+  - Added model `Schedule`
+  - Added model `SqlVirtualMachineGroupProperties`
+  - Added model `SqlVirtualMachineProperties`
+  - Added model `SqlVmTroubleshooting`
+  - Added model `SystemData`
+  - Added model `TroubleshootingAdditionalProperties`
+  - Added enum `TroubleshootingScenario`
+  - Added model `TroubleshootingStatus`
+  - Added model `UnhealthyReplicaInfo`
+  - Added model `VirtualMachineIdentity`
+  - Added enum `VmIdentityType`
+  - Model `AvailabilityGroupListenersOperations` added parameter `kwargs` in method `__init__`
+  - Model `AvailabilityGroupListenersOperations` added parameter `expand` in method `get`
+  - Model `AvailabilityGroupListenersOperations` added parameter `kwargs` in method `get`
+  - Model `AvailabilityGroupListenersOperations` added parameter `kwargs` in method `list_by_group`
+  - Model `AvailabilityGroupListenersOperations` added method `begin_create_or_update`
+  - Model `AvailabilityGroupListenersOperations` added method `begin_delete`
+  - Model `Operations` added parameter `kwargs` in method `__init__`
+  - Model `Operations` added parameter `kwargs` in method `list`
+  - Model `SqlVirtualMachineGroupsOperations` added parameter `kwargs` in method `__init__`
+  - Model `SqlVirtualMachineGroupsOperations` added parameter `kwargs` in method `get`
+  - Model `SqlVirtualMachineGroupsOperations` added parameter `kwargs` in method `list`
+  - Model `SqlVirtualMachineGroupsOperations` added parameter `kwargs` in method `list_by_resource_group`
+  - Model `SqlVirtualMachineGroupsOperations` added method `begin_create_or_update`
+  - Model `SqlVirtualMachineGroupsOperations` added method `begin_delete`
+  - Model `SqlVirtualMachineGroupsOperations` added method `begin_update`
+  - Model `SqlVirtualMachineGroupsOperations` added method `list_by_sql_vm_group`
+  - Model `SqlVirtualMachinesOperations` added parameter `kwargs` in method `__init__`
+  - Model `SqlVirtualMachinesOperations` added parameter `kwargs` in method `get`
+  - Model `SqlVirtualMachinesOperations` added parameter `kwargs` in method `list`
+  - Model `SqlVirtualMachinesOperations` added parameter `kwargs` in method `list_by_resource_group`
+  - Model `SqlVirtualMachinesOperations` added method `begin_create_or_update`
+  - Model `SqlVirtualMachinesOperations` added method `begin_delete`
+  - Model `SqlVirtualMachinesOperations` added method `begin_fetch_dc_assessment`
+  - Model `SqlVirtualMachinesOperations` added method `begin_redeploy`
+  - Model `SqlVirtualMachinesOperations` added method `begin_start_assessment`
+  - Model `SqlVirtualMachinesOperations` added method `begin_troubleshoot`
+  - Model `SqlVirtualMachinesOperations` added method `begin_update`
+  - Method `AdditionalFeaturesServerConfigurations.__init__` has a new overload `def __init__(self: None, is_r_services_enabled: Optional[bool])`
+  - Method `AdditionalFeaturesServerConfigurations.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutoBackupSettings.__init__` has a new overload `def __init__(self: None, enable: Optional[bool], enable_encryption: Optional[bool], retention_period: Optional[int], storage_account_url: Optional[str], storage_container_name: Optional[str], storage_access_key: Optional[str], password: Optional[str], backup_system_dbs: Optional[bool], backup_schedule_type: Optional[Union[str, _models.BackupScheduleType]], full_backup_frequency: Optional[Union[str, _models.FullBackupFrequencyType]], days_of_week: Optional[List[Union[str, _models.AutoBackupDaysOfWeek]]], full_backup_start_time: Optional[int], full_backup_window_hours: Optional[int], log_backup_frequency: Optional[int])`
+  - Method `AutoBackupSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutoPatchingSettings.__init__` has a new overload `def __init__(self: None, enable: Optional[bool], day_of_week: Optional[Union[str, _models.DayOfWeek]], maintenance_window_starting_hour: Optional[int], maintenance_window_duration: Optional[int], additional_vm_patch: Optional[Union[str, _models.AdditionalVmPatch]])`
+  - Method `AutoPatchingSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AvailabilityGroupListener.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.AvailabilityGroupListenerProperties])`
+  - Method `AvailabilityGroupListener.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `KeyVaultCredentialSettings.__init__` has a new overload `def __init__(self: None, enable: Optional[bool], credential_name: Optional[str], azure_key_vault_url: Optional[str], service_principal_name: Optional[str], service_principal_secret: Optional[str])`
+  - Method `KeyVaultCredentialSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `LoadBalancerConfiguration.__init__` has a new overload `def __init__(self: None, private_ip_address: Optional[_models.PrivateIPAddress], public_ip_address_resource_id: Optional[str], load_balancer_resource_id: Optional[str], probe_port: Optional[int], sql_virtual_machine_instances: Optional[List[str]])`
+  - Method `LoadBalancerConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateIPAddress.__init__` has a new overload `def __init__(self: None, ip_address: Optional[str], subnet_resource_id: Optional[str])`
+  - Method `PrivateIPAddress.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ResourceIdentity.__init__` has a new overload `def __init__(self: None, type: Optional[Union[str, _models.IdentityType]])`
+  - Method `ResourceIdentity.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SQLStorageSettings.__init__` has a new overload `def __init__(self: None, luns: Optional[List[int]], default_file_path: Optional[str], use_storage_pool: Optional[bool])`
+  - Method `SQLStorageSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ServerConfigurationsManagementSettings.__init__` has a new overload `def __init__(self: None, sql_connectivity_update_settings: Optional[_models.SqlConnectivityUpdateSettings], sql_workload_type_update_settings: Optional[_models.SqlWorkloadTypeUpdateSettings], sql_storage_update_settings: Optional[_models.SqlStorageUpdateSettings], additional_features_server_configurations: Optional[_models.AdditionalFeaturesServerConfigurations], sql_instance_settings: Optional[_models.SQLInstanceSettings], azure_ad_authentication_settings: Optional[_models.AADAuthenticationSettings])`
+  - Method `ServerConfigurationsManagementSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SqlConnectivityUpdateSettings.__init__` has a new overload `def __init__(self: None, connectivity_type: Optional[Union[str, _models.ConnectivityType]], port: Optional[int], sql_auth_update_user_name: Optional[str], sql_auth_update_password: Optional[str])`
+  - Method `SqlConnectivityUpdateSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SqlStorageUpdateSettings.__init__` has a new overload `def __init__(self: None, disk_count: Optional[int], starting_device_id: Optional[int], disk_configuration_type: Optional[Union[str, _models.DiskConfigurationType]])`
+  - Method `SqlStorageUpdateSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SqlVirtualMachine.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]], identity: Optional[_models.ResourceIdentity], properties: Optional[_models.SqlVirtualMachineProperties])`
+  - Method `SqlVirtualMachine.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SqlVirtualMachine.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `SqlVirtualMachine.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SqlVirtualMachineGroup.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]], properties: Optional[_models.SqlVirtualMachineGroupProperties])`
+  - Method `SqlVirtualMachineGroup.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SqlVirtualMachineGroup.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `SqlVirtualMachineGroup.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SqlVirtualMachineGroupUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]])`
+  - Method `SqlVirtualMachineGroupUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SqlVirtualMachineUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]])`
+  - Method `SqlVirtualMachineUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SqlWorkloadTypeUpdateSettings.__init__` has a new overload `def __init__(self: None, sql_workload_type: Optional[Union[str, _models.SqlWorkloadType]])`
+  - Method `SqlWorkloadTypeUpdateSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `StorageConfigurationSettings.__init__` has a new overload `def __init__(self: None, sql_data_settings: Optional[_models.SQLStorageSettings], sql_log_settings: Optional[_models.SQLStorageSettings], sql_temp_db_settings: Optional[_models.SQLTempDbSettings], sql_system_db_on_data_disk: Optional[bool], disk_configuration_type: Optional[Union[str, _models.DiskConfigurationType]], storage_workload_type: Optional[Union[str, _models.StorageWorkloadType]], enable_storage_config_blade: Optional[bool])`
+  - Method `StorageConfigurationSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WsfcDomainCredentials.__init__` has a new overload `def __init__(self: None, cluster_bootstrap_account_password: Optional[str], cluster_operator_account_password: Optional[str], sql_service_account_password: Optional[str])`
+  - Method `WsfcDomainCredentials.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WsfcDomainProfile.__init__` has a new overload `def __init__(self: None, domain_fqdn: Optional[str], ou_path: Optional[str], cluster_bootstrap_account: Optional[str], cluster_operator_account: Optional[str], sql_service_account: Optional[str], is_sql_service_account_gmsa: Optional[bool], file_share_witness_path: Optional[str], storage_account_url: Optional[str], storage_account_primary_key: Optional[str], cluster_subnet_type: Optional[Union[str, _models.ClusterSubnetType]])`
+  - Method `WsfcDomainProfile.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AADAuthenticationSettings.__init__` has a new overload `def __init__(self: None, client_id: Optional[str])`
+  - Method `AADAuthenticationSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AgConfiguration.__init__` has a new overload `def __init__(self: None, replicas: Optional[List[_models.AgReplica]])`
+  - Method `AgConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AgReplica.__init__` has a new overload `def __init__(self: None, sql_virtual_machine_instance_id: Optional[str], role: Optional[Union[str, _models.Role]], commit: Optional[Union[str, _models.Commit]], failover: Optional[Union[str, _models.Failover]], readable_secondary: Optional[Union[str, _models.ReadableSecondary]])`
+  - Method `AgReplica.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AssessmentSettings.__init__` has a new overload `def __init__(self: None, enable: Optional[bool], run_immediately: Optional[bool], schedule: Optional[_models.Schedule])`
+  - Method `AssessmentSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AvailabilityGroupListenerProperties.__init__` has a new overload `def __init__(self: None, availability_group_name: Optional[str], load_balancer_configurations: Optional[List[_models.LoadBalancerConfiguration]], multi_subnet_ip_configurations: Optional[List[_models.MultiSubnetIpConfiguration]], create_default_availability_group_if_not_exist: Optional[bool], port: Optional[int], availability_group_configuration: Optional[_models.AgConfiguration])`
+  - Method `AvailabilityGroupListenerProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DiskConfigAssessmentRequest.__init__` has a new overload `def __init__(self: None, run_disk_config_rules: Optional[bool])`
+  - Method `DiskConfigAssessmentRequest.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, error: Optional[_models.ErrorDetail])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `MultiSubnetIpConfiguration.__init__` has a new overload `def __init__(self: None, private_ip_address: _models.PrivateIPAddress, sql_virtual_machine_instance: str)`
+  - Method `MultiSubnetIpConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SQLInstanceSettings.__init__` has a new overload `def __init__(self: None, collation: Optional[str], max_dop: Optional[int], is_optimize_for_ad_hoc_workloads_enabled: Optional[bool], min_server_memory_mb: Optional[int], max_server_memory_mb: Optional[int], is_lpim_enabled: Optional[bool], is_ifi_enabled: Optional[bool])`
+  - Method `SQLInstanceSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SQLTempDbSettings.__init__` has a new overload `def __init__(self: None, data_file_size: Optional[int], data_growth: Optional[int], log_file_size: Optional[int], log_growth: Optional[int], data_file_count: Optional[int], persist_folder: Optional[bool], persist_folder_path: Optional[str], luns: Optional[List[int]], default_file_path: Optional[str], use_storage_pool: Optional[bool])`
+  - Method `SQLTempDbSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Schedule.__init__` has a new overload `def __init__(self: None, enable: Optional[bool], weekly_interval: Optional[int], monthly_occurrence: Optional[int], day_of_week: Optional[Union[str, _models.AssessmentDayOfWeek]], start_time: Optional[str])`
+  - Method `Schedule.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SqlVirtualMachineGroupProperties.__init__` has a new overload `def __init__(self: None, sql_image_offer: Optional[str], sql_image_sku: Optional[Union[str, _models.SqlVmGroupImageSku]], wsfc_domain_profile: Optional[_models.WsfcDomainProfile])`
+  - Method `SqlVirtualMachineGroupProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SqlVirtualMachineProperties.__init__` has a new overload `def __init__(self: None, virtual_machine_resource_id: Optional[str], sql_image_offer: Optional[str], sql_server_license_type: Optional[Union[str, _models.SqlServerLicenseType]], sql_management: Optional[Union[str, _models.SqlManagementMode]], least_privilege_mode: Optional[Union[str, _models.LeastPrivilegeMode]], sql_image_sku: Optional[Union[str, _models.SqlImageSku]], sql_virtual_machine_group_resource_id: Optional[str], wsfc_domain_credentials: Optional[_models.WsfcDomainCredentials], wsfc_static_ip: Optional[str], auto_patching_settings: Optional[_models.AutoPatchingSettings], auto_backup_settings: Optional[_models.AutoBackupSettings], key_vault_credential_settings: Optional[_models.KeyVaultCredentialSettings], server_configurations_management_settings: Optional[_models.ServerConfigurationsManagementSettings], storage_configuration_settings: Optional[_models.StorageConfigurationSettings], assessment_settings: Optional[_models.AssessmentSettings], enable_automatic_upgrade: Optional[bool], virtual_machine_identity_settings: Optional[_models.VirtualMachineIdentity])`
+  - Method `SqlVirtualMachineProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SqlVmTroubleshooting.__init__` has a new overload `def __init__(self: None, start_time_utc: Optional[datetime], end_time_utc: Optional[datetime], troubleshooting_scenario: Optional[Union[str, _models.TroubleshootingScenario]], properties: Optional[_models.TroubleshootingAdditionalProperties])`
+  - Method `SqlVmTroubleshooting.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, created_by: Optional[str], created_by_type: Optional[Union[str, _models.CreatedByType]], created_at: Optional[datetime], last_modified_by: Optional[str], last_modified_by_type: Optional[Union[str, _models.CreatedByType]], last_modified_at: Optional[datetime])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `TroubleshootingAdditionalProperties.__init__` has a new overload `def __init__(self: None, unhealthy_replica_info: Optional[_models.UnhealthyReplicaInfo])`
+  - Method `TroubleshootingAdditionalProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `UnhealthyReplicaInfo.__init__` has a new overload `def __init__(self: None, availability_group_name: Optional[str])`
+  - Method `UnhealthyReplicaInfo.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineIdentity.__init__` has a new overload `def __init__(self: None, type: Optional[Union[str, _models.VmIdentityType]], resource_id: Optional[str])`
+  - Method `VirtualMachineIdentity.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AvailabilityGroupListenersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, sql_virtual_machine_group_name: str, availability_group_listener_name: str, parameters: AvailabilityGroupListener, content_type: str)`
+  - Method `AvailabilityGroupListenersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, sql_virtual_machine_group_name: str, availability_group_listener_name: str, parameters: JSON, content_type: str)`
+  - Method `AvailabilityGroupListenersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, sql_virtual_machine_group_name: str, availability_group_listener_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `SqlVirtualMachineGroupsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, sql_virtual_machine_group_name: str, parameters: SqlVirtualMachineGroup, content_type: str)`
+  - Method `SqlVirtualMachineGroupsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, sql_virtual_machine_group_name: str, parameters: JSON, content_type: str)`
+  - Method `SqlVirtualMachineGroupsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, sql_virtual_machine_group_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `SqlVirtualMachineGroupsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, sql_virtual_machine_group_name: str, parameters: SqlVirtualMachineGroupUpdate, content_type: str)`
+  - Method `SqlVirtualMachineGroupsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, sql_virtual_machine_group_name: str, parameters: JSON, content_type: str)`
+  - Method `SqlVirtualMachineGroupsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, sql_virtual_machine_group_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `SqlVirtualMachinesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, sql_virtual_machine_name: str, parameters: SqlVirtualMachine, content_type: str)`
+  - Method `SqlVirtualMachinesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, sql_virtual_machine_name: str, parameters: JSON, content_type: str)`
+  - Method `SqlVirtualMachinesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, sql_virtual_machine_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `SqlVirtualMachinesOperations.begin_fetch_dc_assessment` has a new overload `def begin_fetch_dc_assessment(self: None, resource_group_name: str, sql_virtual_machine_name: str, parameters: DiskConfigAssessmentRequest, content_type: str)`
+  - Method `SqlVirtualMachinesOperations.begin_fetch_dc_assessment` has a new overload `def begin_fetch_dc_assessment(self: None, resource_group_name: str, sql_virtual_machine_name: str, parameters: JSON, content_type: str)`
+  - Method `SqlVirtualMachinesOperations.begin_fetch_dc_assessment` has a new overload `def begin_fetch_dc_assessment(self: None, resource_group_name: str, sql_virtual_machine_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `SqlVirtualMachinesOperations.begin_troubleshoot` has a new overload `def begin_troubleshoot(self: None, resource_group_name: str, sql_virtual_machine_name: str, parameters: SqlVmTroubleshooting, content_type: str)`
+  - Method `SqlVirtualMachinesOperations.begin_troubleshoot` has a new overload `def begin_troubleshoot(self: None, resource_group_name: str, sql_virtual_machine_name: str, parameters: JSON, content_type: str)`
+  - Method `SqlVirtualMachinesOperations.begin_troubleshoot` has a new overload `def begin_troubleshoot(self: None, resource_group_name: str, sql_virtual_machine_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `SqlVirtualMachinesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, sql_virtual_machine_name: str, parameters: SqlVirtualMachineUpdate, content_type: str)`
+  - Method `SqlVirtualMachinesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, sql_virtual_machine_name: str, parameters: JSON, content_type: str)`
+  - Method `SqlVirtualMachinesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, sql_virtual_machine_name: str, parameters: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Deleted or renamed client `SqlVirtualMachineManagementClient`
+  - Deleted or renamed model `SqlVirtualMachineManagementClientConfiguration`
+  - Model `AdditionalFeaturesServerConfigurations` deleted or renamed its instance variable `is_rservices_enabled`
+  - Model `AdditionalFeaturesServerConfigurations` deleted or renamed its instance variable `additional_properties`
+  - Model `AutoBackupSettings` deleted or renamed its instance variable `additional_properties`
+  - Model `AutoPatchingSettings` deleted or renamed its instance variable `additional_properties`
+  - Model `AvailabilityGroupListener` deleted or renamed its instance variable `provisioning_state`
+  - Model `AvailabilityGroupListener` deleted or renamed its instance variable `availability_group_name`
+  - Model `AvailabilityGroupListener` deleted or renamed its instance variable `load_balancer_configurations`
+  - Model `AvailabilityGroupListener` deleted or renamed its instance variable `create_default_availability_group_if_not_exist`
+  - Model `AvailabilityGroupListener` deleted or renamed its instance variable `port`
+  - Model `AvailabilityGroupListener` deleted or renamed its instance variable `additional_properties`
+  - Model `KeyVaultCredentialSettings` deleted or renamed its instance variable `additional_properties`
+  - Model `LoadBalancerConfiguration` deleted or renamed its instance variable `additional_properties`
+  - Model `Operation` deleted or renamed its instance variable `additional_properties`
+  - Model `OperationDisplay` deleted or renamed its instance variable `additional_properties`
+  - Model `PrivateIPAddress` deleted or renamed its instance variable `additional_properties`
+  - Model `ProxyResource` deleted or renamed its instance variable `additional_properties`
+  - Model `Resource` deleted or renamed its instance variable `additional_properties`
+  - Model `ResourceIdentity` deleted or renamed its instance variable `additional_properties`
+  - Model `SQLStorageSettings` deleted or renamed its instance variable `additional_properties`
+  - Model `ServerConfigurationsManagementSettings` deleted or renamed its instance variable `additional_properties`
+  - Model `SqlConnectivityUpdateSettings` deleted or renamed its instance variable `additional_properties`
+  - Model `SqlStorageUpdateSettings` deleted or renamed its instance variable `additional_properties`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `virtual_machine_resource_id`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `provisioning_state`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `sql_image_offer`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `sql_server_license_type`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `sql_management`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `sql_image_sku`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `sql_virtual_machine_group_resource_id`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `wsfc_domain_credentials`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `auto_patching_settings`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `auto_backup_settings`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `key_vault_credential_settings`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `server_configurations_management_settings`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `storage_configuration_settings`
+  - Model `SqlVirtualMachine` deleted or renamed its instance variable `additional_properties`
+  - Model `SqlVirtualMachineGroup` deleted or renamed its instance variable `provisioning_state`
+  - Model `SqlVirtualMachineGroup` deleted or renamed its instance variable `sql_image_offer`
+  - Model `SqlVirtualMachineGroup` deleted or renamed its instance variable `sql_image_sku`
+  - Model `SqlVirtualMachineGroup` deleted or renamed its instance variable `scale_type`
+  - Model `SqlVirtualMachineGroup` deleted or renamed its instance variable `cluster_manager_type`
+  - Model `SqlVirtualMachineGroup` deleted or renamed its instance variable `cluster_configuration`
+  - Model `SqlVirtualMachineGroup` deleted or renamed its instance variable `wsfc_domain_profile`
+  - Model `SqlVirtualMachineGroup` deleted or renamed its instance variable `additional_properties`
+  - Model `SqlVirtualMachineGroupUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `SqlVirtualMachineUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `SqlWorkloadTypeUpdateSettings` deleted or renamed its instance variable `additional_properties`
+  - Model `StorageConfigurationSettings` deleted or renamed its instance variable `additional_properties`
+  - Model `TrackedResource` deleted or renamed its instance variable `additional_properties`
+  - Model `WsfcDomainCredentials` deleted or renamed its instance variable `additional_properties`
+  - Model `WsfcDomainProfile` deleted or renamed its instance variable `additional_properties`
+  - Deleted or renamed model `AvailabilityGroupListenerPaged`
+  - Deleted or renamed model `OperationPaged`
+  - Deleted or renamed model `SqlVirtualMachineGroupPaged`
+  - Deleted or renamed model `SqlVirtualMachinePaged`
+  - Model `AvailabilityGroupListenersOperations` deleted or renamed its instance variable `api_version`
+  - Model `AvailabilityGroupListenersOperations` deleted or renamed its instance variable `config`
+  - Method `AvailabilityGroupListenersOperations.get` deleted or renamed its parameter `custom_headers` of kind `positional_or_keyword`
+  - Method `AvailabilityGroupListenersOperations.get` deleted or renamed its parameter `raw` of kind `positional_or_keyword`
+  - Method `AvailabilityGroupListenersOperations.list_by_group` deleted or renamed its parameter `custom_headers` of kind `positional_or_keyword`
+  - Method `AvailabilityGroupListenersOperations.list_by_group` deleted or renamed its parameter `raw` of kind `positional_or_keyword`
+  - Deleted or renamed method `AvailabilityGroupListenersOperations.create_or_update`
+  - Deleted or renamed method `AvailabilityGroupListenersOperations.delete`
+  - Model `Operations` deleted or renamed its instance variable `api_version`
+  - Model `Operations` deleted or renamed its instance variable `config`
+  - Method `Operations.list` deleted or renamed its parameter `custom_headers` of kind `positional_or_keyword`
+  - Method `Operations.list` deleted or renamed its parameter `raw` of kind `positional_or_keyword`
+  - Model `SqlVirtualMachineGroupsOperations` deleted or renamed its instance variable `api_version`
+  - Model `SqlVirtualMachineGroupsOperations` deleted or renamed its instance variable `config`
+  - Method `SqlVirtualMachineGroupsOperations.get` deleted or renamed its parameter `custom_headers` of kind `positional_or_keyword`
+  - Method `SqlVirtualMachineGroupsOperations.get` deleted or renamed its parameter `raw` of kind `positional_or_keyword`
+  - Method `SqlVirtualMachineGroupsOperations.list` deleted or renamed its parameter `custom_headers` of kind `positional_or_keyword`
+  - Method `SqlVirtualMachineGroupsOperations.list` deleted or renamed its parameter `raw` of kind `positional_or_keyword`
+  - Method `SqlVirtualMachineGroupsOperations.list_by_resource_group` deleted or renamed its parameter `custom_headers` of kind `positional_or_keyword`
+  - Method `SqlVirtualMachineGroupsOperations.list_by_resource_group` deleted or renamed its parameter `raw` of kind `positional_or_keyword`
+  - Deleted or renamed method `SqlVirtualMachineGroupsOperations.create_or_update`
+  - Deleted or renamed method `SqlVirtualMachineGroupsOperations.delete`
+  - Deleted or renamed method `SqlVirtualMachineGroupsOperations.update`
+  - Model `SqlVirtualMachinesOperations` deleted or renamed its instance variable `api_version`
+  - Model `SqlVirtualMachinesOperations` deleted or renamed its instance variable `config`
+  - Method `SqlVirtualMachinesOperations.get` changed its parameter `expand` from `positional_or_keyword` to `keyword_only`
+  - Method `SqlVirtualMachinesOperations.get` deleted or renamed its parameter `custom_headers` of kind `positional_or_keyword`
+  - Method `SqlVirtualMachinesOperations.get` deleted or renamed its parameter `raw` of kind `positional_or_keyword`
+  - Method `SqlVirtualMachinesOperations.list` deleted or renamed its parameter `custom_headers` of kind `positional_or_keyword`
+  - Method `SqlVirtualMachinesOperations.list` deleted or renamed its parameter `raw` of kind `positional_or_keyword`
+  - Method `SqlVirtualMachinesOperations.list_by_resource_group` deleted or renamed its parameter `custom_headers` of kind `positional_or_keyword`
+  - Method `SqlVirtualMachinesOperations.list_by_resource_group` deleted or renamed its parameter `raw` of kind `positional_or_keyword`
+  - Deleted or renamed method `SqlVirtualMachinesOperations.create_or_update`
+  - Deleted or renamed method `SqlVirtualMachinesOperations.delete`
+  - Deleted or renamed method `SqlVirtualMachinesOperations.list_by_sql_vm_group`
+  - Deleted or renamed method `SqlVirtualMachinesOperations.update`
+
+## 1.0.0b1 (1970-01-01)
+
+- Initial version
