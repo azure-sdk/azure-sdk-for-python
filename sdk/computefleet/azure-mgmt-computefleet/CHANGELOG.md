@@ -1,5 +1,1770 @@
 # Release History
 
+## 2.0.0 (2025-04-27)
+
+### Features Added
+
+  - Model `AdditionalCapabilities` added parameter `kwargs` in method `as_dict`
+  - Model `AdditionalCapabilities` added method `deserialize`
+  - Model `AdditionalCapabilities` added method `enable_additional_properties_sending`
+  - Model `AdditionalCapabilities` added method `from_dict`
+  - Model `AdditionalCapabilities` added method `is_xml_model`
+  - Model `AdditionalCapabilities` added method `serialize`
+  - Model `AdditionalCapabilities` added property `additional_properties`
+  - Model `AdditionalLocationsProfile` added parameter `kwargs` in method `as_dict`
+  - Model `AdditionalLocationsProfile` added method `deserialize`
+  - Model `AdditionalLocationsProfile` added method `enable_additional_properties_sending`
+  - Model `AdditionalLocationsProfile` added method `from_dict`
+  - Model `AdditionalLocationsProfile` added method `is_xml_model`
+  - Model `AdditionalLocationsProfile` added method `serialize`
+  - Model `AdditionalLocationsProfile` added property `additional_properties`
+  - Model `AdditionalUnattendContent` added parameter `kwargs` in method `as_dict`
+  - Model `AdditionalUnattendContent` added method `deserialize`
+  - Model `AdditionalUnattendContent` added method `enable_additional_properties_sending`
+  - Model `AdditionalUnattendContent` added method `from_dict`
+  - Model `AdditionalUnattendContent` added method `is_xml_model`
+  - Model `AdditionalUnattendContent` added method `serialize`
+  - Model `AdditionalUnattendContent` added property `additional_properties`
+  - Model `ApiEntityReference` added parameter `kwargs` in method `as_dict`
+  - Model `ApiEntityReference` added method `deserialize`
+  - Model `ApiEntityReference` added method `enable_additional_properties_sending`
+  - Model `ApiEntityReference` added method `from_dict`
+  - Model `ApiEntityReference` added method `is_xml_model`
+  - Model `ApiEntityReference` added method `serialize`
+  - Model `ApiEntityReference` added property `additional_properties`
+  - Model `ApiError` added parameter `kwargs` in method `as_dict`
+  - Model `ApiError` added method `deserialize`
+  - Model `ApiError` added method `enable_additional_properties_sending`
+  - Model `ApiError` added method `from_dict`
+  - Model `ApiError` added method `is_xml_model`
+  - Model `ApiError` added method `serialize`
+  - Model `ApiError` added property `additional_properties`
+  - Model `ApiErrorBase` added parameter `kwargs` in method `as_dict`
+  - Model `ApiErrorBase` added method `deserialize`
+  - Model `ApiErrorBase` added method `enable_additional_properties_sending`
+  - Model `ApiErrorBase` added method `from_dict`
+  - Model `ApiErrorBase` added method `is_xml_model`
+  - Model `ApiErrorBase` added method `serialize`
+  - Model `ApiErrorBase` added property `additional_properties`
+  - Model `ApplicationProfile` added parameter `kwargs` in method `as_dict`
+  - Model `ApplicationProfile` added method `deserialize`
+  - Model `ApplicationProfile` added method `enable_additional_properties_sending`
+  - Model `ApplicationProfile` added method `from_dict`
+  - Model `ApplicationProfile` added method `is_xml_model`
+  - Model `ApplicationProfile` added method `serialize`
+  - Model `ApplicationProfile` added property `additional_properties`
+  - Model `BaseVirtualMachineProfile` added parameter `kwargs` in method `as_dict`
+  - Model `BaseVirtualMachineProfile` added method `deserialize`
+  - Model `BaseVirtualMachineProfile` added method `enable_additional_properties_sending`
+  - Model `BaseVirtualMachineProfile` added method `from_dict`
+  - Model `BaseVirtualMachineProfile` added method `is_xml_model`
+  - Model `BaseVirtualMachineProfile` added method `serialize`
+  - Model `BaseVirtualMachineProfile` added property `additional_properties`
+  - Model `BootDiagnostics` added parameter `kwargs` in method `as_dict`
+  - Model `BootDiagnostics` added method `deserialize`
+  - Model `BootDiagnostics` added method `enable_additional_properties_sending`
+  - Model `BootDiagnostics` added method `from_dict`
+  - Model `BootDiagnostics` added method `is_xml_model`
+  - Model `BootDiagnostics` added method `serialize`
+  - Model `BootDiagnostics` added property `additional_properties`
+  - Model `CapacityReservationProfile` added parameter `kwargs` in method `as_dict`
+  - Model `CapacityReservationProfile` added method `deserialize`
+  - Model `CapacityReservationProfile` added method `enable_additional_properties_sending`
+  - Model `CapacityReservationProfile` added method `from_dict`
+  - Model `CapacityReservationProfile` added method `is_xml_model`
+  - Model `CapacityReservationProfile` added method `serialize`
+  - Model `CapacityReservationProfile` added property `additional_properties`
+  - Model `ComputeProfile` added parameter `kwargs` in method `as_dict`
+  - Model `ComputeProfile` added method `deserialize`
+  - Model `ComputeProfile` added method `enable_additional_properties_sending`
+  - Model `ComputeProfile` added method `from_dict`
+  - Model `ComputeProfile` added method `is_xml_model`
+  - Model `ComputeProfile` added method `serialize`
+  - Model `ComputeProfile` added property `additional_properties`
+  - Model `DiagnosticsProfile` added parameter `kwargs` in method `as_dict`
+  - Model `DiagnosticsProfile` added method `deserialize`
+  - Model `DiagnosticsProfile` added method `enable_additional_properties_sending`
+  - Model `DiagnosticsProfile` added method `from_dict`
+  - Model `DiagnosticsProfile` added method `is_xml_model`
+  - Model `DiagnosticsProfile` added method `serialize`
+  - Model `DiagnosticsProfile` added property `additional_properties`
+  - Model `DiffDiskSettings` added parameter `kwargs` in method `as_dict`
+  - Model `DiffDiskSettings` added method `deserialize`
+  - Model `DiffDiskSettings` added method `enable_additional_properties_sending`
+  - Model `DiffDiskSettings` added method `from_dict`
+  - Model `DiffDiskSettings` added method `is_xml_model`
+  - Model `DiffDiskSettings` added method `serialize`
+  - Model `DiffDiskSettings` added property `additional_properties`
+  - Model `DiskEncryptionSetParameters` added parameter `kwargs` in method `as_dict`
+  - Model `DiskEncryptionSetParameters` added method `deserialize`
+  - Model `DiskEncryptionSetParameters` added method `enable_additional_properties_sending`
+  - Model `DiskEncryptionSetParameters` added method `from_dict`
+  - Model `DiskEncryptionSetParameters` added method `is_xml_model`
+  - Model `DiskEncryptionSetParameters` added method `serialize`
+  - Model `DiskEncryptionSetParameters` added property `additional_properties`
+  - Model `EncryptionIdentity` added parameter `kwargs` in method `as_dict`
+  - Model `EncryptionIdentity` added method `deserialize`
+  - Model `EncryptionIdentity` added method `enable_additional_properties_sending`
+  - Model `EncryptionIdentity` added method `from_dict`
+  - Model `EncryptionIdentity` added method `is_xml_model`
+  - Model `EncryptionIdentity` added method `serialize`
+  - Model `EncryptionIdentity` added property `additional_properties`
+  - Model `ErrorAdditionalInfo` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorAdditionalInfo` added method `deserialize`
+  - Model `ErrorAdditionalInfo` added method `enable_additional_properties_sending`
+  - Model `ErrorAdditionalInfo` added method `from_dict`
+  - Model `ErrorAdditionalInfo` added method `is_xml_model`
+  - Model `ErrorAdditionalInfo` added method `serialize`
+  - Model `ErrorAdditionalInfo` added property `additional_properties`
+  - Model `ErrorDetail` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorDetail` added method `deserialize`
+  - Model `ErrorDetail` added method `enable_additional_properties_sending`
+  - Model `ErrorDetail` added method `from_dict`
+  - Model `ErrorDetail` added method `is_xml_model`
+  - Model `ErrorDetail` added method `serialize`
+  - Model `ErrorDetail` added property `additional_properties`
+  - Model `ErrorResponse` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorResponse` added method `deserialize`
+  - Model `ErrorResponse` added method `enable_additional_properties_sending`
+  - Model `ErrorResponse` added method `from_dict`
+  - Model `ErrorResponse` added method `is_xml_model`
+  - Model `ErrorResponse` added method `serialize`
+  - Model `ErrorResponse` added property `additional_properties`
+  - Model `Fleet` added parameter `kwargs` in method `as_dict`
+  - Model `Fleet` added method `deserialize`
+  - Model `Fleet` added method `enable_additional_properties_sending`
+  - Model `Fleet` added method `from_dict`
+  - Model `Fleet` added method `is_xml_model`
+  - Model `Fleet` added method `serialize`
+  - Model `Fleet` added property `provisioning_state`
+  - Model `Fleet` added property `spot_priority_profile`
+  - Model `Fleet` added property `regular_priority_profile`
+  - Model `Fleet` added property `vm_sizes_profile`
+  - Model `Fleet` added property `vm_attributes`
+  - Model `Fleet` added property `additional_locations_profile`
+  - Model `Fleet` added property `compute_profile`
+  - Model `Fleet` added property `time_created`
+  - Model `Fleet` added property `unique_id`
+  - Model `Fleet` added property `additional_properties`
+  - Model `FleetProperties` added parameter `kwargs` in method `as_dict`
+  - Model `FleetProperties` added method `deserialize`
+  - Model `FleetProperties` added method `enable_additional_properties_sending`
+  - Model `FleetProperties` added method `from_dict`
+  - Model `FleetProperties` added method `is_xml_model`
+  - Model `FleetProperties` added method `serialize`
+  - Model `FleetProperties` added property `additional_properties`
+  - Model `FleetUpdate` added parameter `kwargs` in method `as_dict`
+  - Model `FleetUpdate` added method `deserialize`
+  - Model `FleetUpdate` added method `enable_additional_properties_sending`
+  - Model `FleetUpdate` added method `from_dict`
+  - Model `FleetUpdate` added method `is_xml_model`
+  - Model `FleetUpdate` added method `serialize`
+  - Model `FleetUpdate` added property `additional_properties`
+  - Model `ImageReference` added parameter `kwargs` in method `as_dict`
+  - Model `ImageReference` added method `deserialize`
+  - Model `ImageReference` added method `enable_additional_properties_sending`
+  - Model `ImageReference` added method `from_dict`
+  - Model `ImageReference` added method `is_xml_model`
+  - Model `ImageReference` added method `serialize`
+  - Model `ImageReference` added property `additional_properties`
+  - Model `InnerError` added parameter `kwargs` in method `as_dict`
+  - Model `InnerError` added method `deserialize`
+  - Model `InnerError` added method `enable_additional_properties_sending`
+  - Model `InnerError` added method `from_dict`
+  - Model `InnerError` added method `is_xml_model`
+  - Model `InnerError` added method `serialize`
+  - Model `InnerError` added property `additional_properties`
+  - Model `KeyVaultSecretReference` added parameter `kwargs` in method `as_dict`
+  - Model `KeyVaultSecretReference` added method `deserialize`
+  - Model `KeyVaultSecretReference` added method `enable_additional_properties_sending`
+  - Model `KeyVaultSecretReference` added method `from_dict`
+  - Model `KeyVaultSecretReference` added method `is_xml_model`
+  - Model `KeyVaultSecretReference` added method `serialize`
+  - Model `KeyVaultSecretReference` added property `additional_properties`
+  - Model `LinuxConfiguration` added parameter `kwargs` in method `as_dict`
+  - Model `LinuxConfiguration` added method `deserialize`
+  - Model `LinuxConfiguration` added method `enable_additional_properties_sending`
+  - Model `LinuxConfiguration` added method `from_dict`
+  - Model `LinuxConfiguration` added method `is_xml_model`
+  - Model `LinuxConfiguration` added method `serialize`
+  - Model `LinuxConfiguration` added property `additional_properties`
+  - Model `LinuxPatchSettings` added parameter `kwargs` in method `as_dict`
+  - Model `LinuxPatchSettings` added method `deserialize`
+  - Model `LinuxPatchSettings` added method `enable_additional_properties_sending`
+  - Model `LinuxPatchSettings` added method `from_dict`
+  - Model `LinuxPatchSettings` added method `is_xml_model`
+  - Model `LinuxPatchSettings` added method `serialize`
+  - Model `LinuxPatchSettings` added property `additional_properties`
+  - Model `LinuxVMGuestPatchAutomaticByPlatformSettings` added parameter `kwargs` in method `as_dict`
+  - Model `LinuxVMGuestPatchAutomaticByPlatformSettings` added method `deserialize`
+  - Model `LinuxVMGuestPatchAutomaticByPlatformSettings` added method `enable_additional_properties_sending`
+  - Model `LinuxVMGuestPatchAutomaticByPlatformSettings` added method `from_dict`
+  - Model `LinuxVMGuestPatchAutomaticByPlatformSettings` added method `is_xml_model`
+  - Model `LinuxVMGuestPatchAutomaticByPlatformSettings` added method `serialize`
+  - Model `LinuxVMGuestPatchAutomaticByPlatformSettings` added property `additional_properties`
+  - Model `LocationProfile` added parameter `kwargs` in method `as_dict`
+  - Model `LocationProfile` added method `deserialize`
+  - Model `LocationProfile` added method `enable_additional_properties_sending`
+  - Model `LocationProfile` added method `from_dict`
+  - Model `LocationProfile` added method `is_xml_model`
+  - Model `LocationProfile` added method `serialize`
+  - Model `LocationProfile` added property `additional_properties`
+  - Model `ManagedServiceIdentity` added parameter `kwargs` in method `as_dict`
+  - Model `ManagedServiceIdentity` added method `deserialize`
+  - Model `ManagedServiceIdentity` added method `enable_additional_properties_sending`
+  - Model `ManagedServiceIdentity` added method `from_dict`
+  - Model `ManagedServiceIdentity` added method `is_xml_model`
+  - Model `ManagedServiceIdentity` added method `serialize`
+  - Model `ManagedServiceIdentity` added property `additional_properties`
+  - Enum `ManagedServiceIdentityType` added member `SYSTEM_ASSIGNED_USER_ASSIGNED`
+  - Model `ManagedServiceIdentityUpdate` added parameter `kwargs` in method `as_dict`
+  - Model `ManagedServiceIdentityUpdate` added method `deserialize`
+  - Model `ManagedServiceIdentityUpdate` added method `enable_additional_properties_sending`
+  - Model `ManagedServiceIdentityUpdate` added method `from_dict`
+  - Model `ManagedServiceIdentityUpdate` added method `is_xml_model`
+  - Model `ManagedServiceIdentityUpdate` added method `serialize`
+  - Model `ManagedServiceIdentityUpdate` added property `additional_properties`
+  - Model `OSImageNotificationProfile` added parameter `kwargs` in method `as_dict`
+  - Model `OSImageNotificationProfile` added method `deserialize`
+  - Model `OSImageNotificationProfile` added method `enable_additional_properties_sending`
+  - Model `OSImageNotificationProfile` added method `from_dict`
+  - Model `OSImageNotificationProfile` added method `is_xml_model`
+  - Model `OSImageNotificationProfile` added method `serialize`
+  - Model `OSImageNotificationProfile` added property `additional_properties`
+  - Model `Operation` added parameter `kwargs` in method `as_dict`
+  - Model `Operation` added method `deserialize`
+  - Model `Operation` added method `enable_additional_properties_sending`
+  - Model `Operation` added method `from_dict`
+  - Model `Operation` added method `is_xml_model`
+  - Model `Operation` added method `serialize`
+  - Model `Operation` added property `additional_properties`
+  - Model `OperationDisplay` added parameter `kwargs` in method `as_dict`
+  - Model `OperationDisplay` added method `deserialize`
+  - Model `OperationDisplay` added method `enable_additional_properties_sending`
+  - Model `OperationDisplay` added method `from_dict`
+  - Model `OperationDisplay` added method `is_xml_model`
+  - Model `OperationDisplay` added method `serialize`
+  - Model `OperationDisplay` added property `additional_properties`
+  - Model `PatchSettings` added parameter `kwargs` in method `as_dict`
+  - Model `PatchSettings` added method `deserialize`
+  - Model `PatchSettings` added method `enable_additional_properties_sending`
+  - Model `PatchSettings` added method `from_dict`
+  - Model `PatchSettings` added method `is_xml_model`
+  - Model `PatchSettings` added method `serialize`
+  - Model `PatchSettings` added property `additional_properties`
+  - Model `Plan` added parameter `kwargs` in method `as_dict`
+  - Model `Plan` added method `deserialize`
+  - Model `Plan` added method `enable_additional_properties_sending`
+  - Model `Plan` added method `from_dict`
+  - Model `Plan` added method `is_xml_model`
+  - Model `Plan` added method `serialize`
+  - Model `Plan` added property `additional_properties`
+  - Model `ProxyAgentSettings` added parameter `kwargs` in method `as_dict`
+  - Model `ProxyAgentSettings` added method `deserialize`
+  - Model `ProxyAgentSettings` added method `enable_additional_properties_sending`
+  - Model `ProxyAgentSettings` added method `from_dict`
+  - Model `ProxyAgentSettings` added method `is_xml_model`
+  - Model `ProxyAgentSettings` added method `serialize`
+  - Model `ProxyAgentSettings` added property `additional_properties`
+  - Model `PublicIPAddressSku` added parameter `kwargs` in method `as_dict`
+  - Model `PublicIPAddressSku` added method `deserialize`
+  - Model `PublicIPAddressSku` added method `enable_additional_properties_sending`
+  - Model `PublicIPAddressSku` added method `from_dict`
+  - Model `PublicIPAddressSku` added method `is_xml_model`
+  - Model `PublicIPAddressSku` added method `serialize`
+  - Model `PublicIPAddressSku` added property `additional_properties`
+  - Model `RegularPriorityProfile` added parameter `kwargs` in method `as_dict`
+  - Model `RegularPriorityProfile` added method `deserialize`
+  - Model `RegularPriorityProfile` added method `enable_additional_properties_sending`
+  - Model `RegularPriorityProfile` added method `from_dict`
+  - Model `RegularPriorityProfile` added method `is_xml_model`
+  - Model `RegularPriorityProfile` added method `serialize`
+  - Model `RegularPriorityProfile` added property `additional_properties`
+  - Model `Resource` added parameter `kwargs` in method `as_dict`
+  - Model `Resource` added method `deserialize`
+  - Model `Resource` added method `enable_additional_properties_sending`
+  - Model `Resource` added method `from_dict`
+  - Model `Resource` added method `is_xml_model`
+  - Model `Resource` added method `serialize`
+  - Model `Resource` added property `additional_properties`
+  - Model `ResourcePlanUpdate` added parameter `kwargs` in method `as_dict`
+  - Model `ResourcePlanUpdate` added method `deserialize`
+  - Model `ResourcePlanUpdate` added method `enable_additional_properties_sending`
+  - Model `ResourcePlanUpdate` added method `from_dict`
+  - Model `ResourcePlanUpdate` added method `is_xml_model`
+  - Model `ResourcePlanUpdate` added method `serialize`
+  - Model `ResourcePlanUpdate` added property `additional_properties`
+  - Model `ScheduledEventsProfile` added parameter `kwargs` in method `as_dict`
+  - Model `ScheduledEventsProfile` added method `deserialize`
+  - Model `ScheduledEventsProfile` added method `enable_additional_properties_sending`
+  - Model `ScheduledEventsProfile` added method `from_dict`
+  - Model `ScheduledEventsProfile` added method `is_xml_model`
+  - Model `ScheduledEventsProfile` added method `serialize`
+  - Model `ScheduledEventsProfile` added property `additional_properties`
+  - Model `SecurityPostureReference` added parameter `kwargs` in method `as_dict`
+  - Model `SecurityPostureReference` added method `deserialize`
+  - Model `SecurityPostureReference` added method `enable_additional_properties_sending`
+  - Model `SecurityPostureReference` added method `from_dict`
+  - Model `SecurityPostureReference` added method `is_xml_model`
+  - Model `SecurityPostureReference` added method `serialize`
+  - Model `SecurityPostureReference` added property `additional_properties`
+  - Model `SecurityProfile` added parameter `kwargs` in method `as_dict`
+  - Model `SecurityProfile` added method `deserialize`
+  - Model `SecurityProfile` added method `enable_additional_properties_sending`
+  - Model `SecurityProfile` added method `from_dict`
+  - Model `SecurityProfile` added method `is_xml_model`
+  - Model `SecurityProfile` added method `serialize`
+  - Model `SecurityProfile` added property `additional_properties`
+  - Model `ServiceArtifactReference` added parameter `kwargs` in method `as_dict`
+  - Model `ServiceArtifactReference` added method `deserialize`
+  - Model `ServiceArtifactReference` added method `enable_additional_properties_sending`
+  - Model `ServiceArtifactReference` added method `from_dict`
+  - Model `ServiceArtifactReference` added method `is_xml_model`
+  - Model `ServiceArtifactReference` added method `serialize`
+  - Model `ServiceArtifactReference` added property `additional_properties`
+  - Model `SpotPriorityProfile` added parameter `kwargs` in method `as_dict`
+  - Model `SpotPriorityProfile` added method `deserialize`
+  - Model `SpotPriorityProfile` added method `enable_additional_properties_sending`
+  - Model `SpotPriorityProfile` added method `from_dict`
+  - Model `SpotPriorityProfile` added method `is_xml_model`
+  - Model `SpotPriorityProfile` added method `serialize`
+  - Model `SpotPriorityProfile` added property `additional_properties`
+  - Model `SshConfiguration` added parameter `kwargs` in method `as_dict`
+  - Model `SshConfiguration` added method `deserialize`
+  - Model `SshConfiguration` added method `enable_additional_properties_sending`
+  - Model `SshConfiguration` added method `from_dict`
+  - Model `SshConfiguration` added method `is_xml_model`
+  - Model `SshConfiguration` added method `serialize`
+  - Model `SshConfiguration` added property `additional_properties`
+  - Model `SshPublicKey` added parameter `kwargs` in method `as_dict`
+  - Model `SshPublicKey` added method `deserialize`
+  - Model `SshPublicKey` added method `enable_additional_properties_sending`
+  - Model `SshPublicKey` added method `from_dict`
+  - Model `SshPublicKey` added method `is_xml_model`
+  - Model `SshPublicKey` added method `serialize`
+  - Model `SshPublicKey` added property `additional_properties`
+  - Model `SubResource` added parameter `kwargs` in method `as_dict`
+  - Model `SubResource` added method `deserialize`
+  - Model `SubResource` added method `enable_additional_properties_sending`
+  - Model `SubResource` added method `from_dict`
+  - Model `SubResource` added method `is_xml_model`
+  - Model `SubResource` added method `serialize`
+  - Model `SubResource` added property `additional_properties`
+  - Model `SystemData` added parameter `kwargs` in method `as_dict`
+  - Model `SystemData` added method `deserialize`
+  - Model `SystemData` added method `enable_additional_properties_sending`
+  - Model `SystemData` added method `from_dict`
+  - Model `SystemData` added method `is_xml_model`
+  - Model `SystemData` added method `serialize`
+  - Model `SystemData` added property `additional_properties`
+  - Model `TerminateNotificationProfile` added parameter `kwargs` in method `as_dict`
+  - Model `TerminateNotificationProfile` added method `deserialize`
+  - Model `TerminateNotificationProfile` added method `enable_additional_properties_sending`
+  - Model `TerminateNotificationProfile` added method `from_dict`
+  - Model `TerminateNotificationProfile` added method `is_xml_model`
+  - Model `TerminateNotificationProfile` added method `serialize`
+  - Model `TerminateNotificationProfile` added property `additional_properties`
+  - Model `TrackedResource` added parameter `kwargs` in method `as_dict`
+  - Model `TrackedResource` added method `deserialize`
+  - Model `TrackedResource` added method `enable_additional_properties_sending`
+  - Model `TrackedResource` added method `from_dict`
+  - Model `TrackedResource` added method `is_xml_model`
+  - Model `TrackedResource` added method `serialize`
+  - Model `TrackedResource` added property `additional_properties`
+  - Model `UefiSettings` added parameter `kwargs` in method `as_dict`
+  - Model `UefiSettings` added method `deserialize`
+  - Model `UefiSettings` added method `enable_additional_properties_sending`
+  - Model `UefiSettings` added method `from_dict`
+  - Model `UefiSettings` added method `is_xml_model`
+  - Model `UefiSettings` added method `serialize`
+  - Model `UefiSettings` added property `additional_properties`
+  - Model `UserAssignedIdentity` added parameter `kwargs` in method `as_dict`
+  - Model `UserAssignedIdentity` added method `deserialize`
+  - Model `UserAssignedIdentity` added method `enable_additional_properties_sending`
+  - Model `UserAssignedIdentity` added method `from_dict`
+  - Model `UserAssignedIdentity` added method `is_xml_model`
+  - Model `UserAssignedIdentity` added method `serialize`
+  - Model `UserAssignedIdentity` added property `additional_properties`
+  - Model `VMAttributeMinMaxDouble` added parameter `kwargs` in method `as_dict`
+  - Model `VMAttributeMinMaxDouble` added method `deserialize`
+  - Model `VMAttributeMinMaxDouble` added method `enable_additional_properties_sending`
+  - Model `VMAttributeMinMaxDouble` added method `from_dict`
+  - Model `VMAttributeMinMaxDouble` added method `is_xml_model`
+  - Model `VMAttributeMinMaxDouble` added method `serialize`
+  - Model `VMAttributeMinMaxDouble` added property `additional_properties`
+  - Model `VMAttributeMinMaxInteger` added parameter `kwargs` in method `as_dict`
+  - Model `VMAttributeMinMaxInteger` added method `deserialize`
+  - Model `VMAttributeMinMaxInteger` added method `enable_additional_properties_sending`
+  - Model `VMAttributeMinMaxInteger` added method `from_dict`
+  - Model `VMAttributeMinMaxInteger` added method `is_xml_model`
+  - Model `VMAttributeMinMaxInteger` added method `serialize`
+  - Model `VMAttributeMinMaxInteger` added property `additional_properties`
+  - Model `VMAttributes` added parameter `kwargs` in method `as_dict`
+  - Model `VMAttributes` added method `deserialize`
+  - Model `VMAttributes` added method `enable_additional_properties_sending`
+  - Model `VMAttributes` added method `from_dict`
+  - Model `VMAttributes` added method `is_xml_model`
+  - Model `VMAttributes` added method `serialize`
+  - Model `VMAttributes` added property `additional_properties`
+  - Model `VMDiskSecurityProfile` added parameter `kwargs` in method `as_dict`
+  - Model `VMDiskSecurityProfile` added method `deserialize`
+  - Model `VMDiskSecurityProfile` added method `enable_additional_properties_sending`
+  - Model `VMDiskSecurityProfile` added method `from_dict`
+  - Model `VMDiskSecurityProfile` added method `is_xml_model`
+  - Model `VMDiskSecurityProfile` added method `serialize`
+  - Model `VMDiskSecurityProfile` added property `additional_properties`
+  - Model `VMGalleryApplication` added parameter `kwargs` in method `as_dict`
+  - Model `VMGalleryApplication` added method `deserialize`
+  - Model `VMGalleryApplication` added method `enable_additional_properties_sending`
+  - Model `VMGalleryApplication` added method `from_dict`
+  - Model `VMGalleryApplication` added method `is_xml_model`
+  - Model `VMGalleryApplication` added method `serialize`
+  - Model `VMGalleryApplication` added property `additional_properties`
+  - Model `VMSizeProperties` added parameter `kwargs` in method `as_dict`
+  - Model `VMSizeProperties` added method `deserialize`
+  - Model `VMSizeProperties` added method `enable_additional_properties_sending`
+  - Model `VMSizeProperties` added method `from_dict`
+  - Model `VMSizeProperties` added method `is_xml_model`
+  - Model `VMSizeProperties` added method `serialize`
+  - Model `VMSizeProperties` added property `additional_properties`
+  - Model `VaultCertificate` added parameter `kwargs` in method `as_dict`
+  - Model `VaultCertificate` added method `deserialize`
+  - Model `VaultCertificate` added method `enable_additional_properties_sending`
+  - Model `VaultCertificate` added method `from_dict`
+  - Model `VaultCertificate` added method `is_xml_model`
+  - Model `VaultCertificate` added method `serialize`
+  - Model `VaultCertificate` added property `additional_properties`
+  - Model `VaultSecretGroup` added parameter `kwargs` in method `as_dict`
+  - Model `VaultSecretGroup` added method `deserialize`
+  - Model `VaultSecretGroup` added method `enable_additional_properties_sending`
+  - Model `VaultSecretGroup` added method `from_dict`
+  - Model `VaultSecretGroup` added method `is_xml_model`
+  - Model `VaultSecretGroup` added method `serialize`
+  - Model `VaultSecretGroup` added property `additional_properties`
+  - Model `VirtualHardDisk` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualHardDisk` added method `deserialize`
+  - Model `VirtualHardDisk` added method `enable_additional_properties_sending`
+  - Model `VirtualHardDisk` added method `from_dict`
+  - Model `VirtualHardDisk` added method `is_xml_model`
+  - Model `VirtualHardDisk` added method `serialize`
+  - Model `VirtualHardDisk` added property `additional_properties`
+  - Model `VirtualMachineScaleSet` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSet` added method `deserialize`
+  - Model `VirtualMachineScaleSet` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSet` added method `from_dict`
+  - Model `VirtualMachineScaleSet` added method `is_xml_model`
+  - Model `VirtualMachineScaleSet` added method `serialize`
+  - Model `VirtualMachineScaleSet` added property `name`
+  - Model `VirtualMachineScaleSet` added property `additional_properties`
+  - Model `VirtualMachineScaleSetDataDisk` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetDataDisk` added method `deserialize`
+  - Model `VirtualMachineScaleSetDataDisk` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetDataDisk` added method `from_dict`
+  - Model `VirtualMachineScaleSetDataDisk` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetDataDisk` added method `serialize`
+  - Model `VirtualMachineScaleSetDataDisk` added property `additional_properties`
+  - Model `VirtualMachineScaleSetExtension` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetExtension` added method `deserialize`
+  - Model `VirtualMachineScaleSetExtension` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetExtension` added method `from_dict`
+  - Model `VirtualMachineScaleSetExtension` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetExtension` added method `serialize`
+  - Model `VirtualMachineScaleSetExtension` added property `additional_properties`
+  - Model `VirtualMachineScaleSetExtensionProfile` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetExtensionProfile` added method `deserialize`
+  - Model `VirtualMachineScaleSetExtensionProfile` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetExtensionProfile` added method `from_dict`
+  - Model `VirtualMachineScaleSetExtensionProfile` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetExtensionProfile` added method `serialize`
+  - Model `VirtualMachineScaleSetExtensionProfile` added property `additional_properties`
+  - Model `VirtualMachineScaleSetExtensionProperties` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetExtensionProperties` added method `deserialize`
+  - Model `VirtualMachineScaleSetExtensionProperties` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetExtensionProperties` added method `from_dict`
+  - Model `VirtualMachineScaleSetExtensionProperties` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetExtensionProperties` added method `serialize`
+  - Model `VirtualMachineScaleSetExtensionProperties` added property `additional_properties`
+  - Model `VirtualMachineScaleSetHardwareProfile` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetHardwareProfile` added method `deserialize`
+  - Model `VirtualMachineScaleSetHardwareProfile` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetHardwareProfile` added method `from_dict`
+  - Model `VirtualMachineScaleSetHardwareProfile` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetHardwareProfile` added method `serialize`
+  - Model `VirtualMachineScaleSetHardwareProfile` added property `additional_properties`
+  - Model `VirtualMachineScaleSetIPConfiguration` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetIPConfiguration` added method `deserialize`
+  - Model `VirtualMachineScaleSetIPConfiguration` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetIPConfiguration` added method `from_dict`
+  - Model `VirtualMachineScaleSetIPConfiguration` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetIPConfiguration` added method `serialize`
+  - Model `VirtualMachineScaleSetIPConfiguration` added property `additional_properties`
+  - Model `VirtualMachineScaleSetIPConfigurationProperties` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetIPConfigurationProperties` added method `deserialize`
+  - Model `VirtualMachineScaleSetIPConfigurationProperties` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetIPConfigurationProperties` added method `from_dict`
+  - Model `VirtualMachineScaleSetIPConfigurationProperties` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetIPConfigurationProperties` added method `serialize`
+  - Model `VirtualMachineScaleSetIPConfigurationProperties` added property `additional_properties`
+  - Model `VirtualMachineScaleSetIpTag` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetIpTag` added method `deserialize`
+  - Model `VirtualMachineScaleSetIpTag` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetIpTag` added method `from_dict`
+  - Model `VirtualMachineScaleSetIpTag` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetIpTag` added method `serialize`
+  - Model `VirtualMachineScaleSetIpTag` added property `additional_properties`
+  - Model `VirtualMachineScaleSetManagedDiskParameters` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetManagedDiskParameters` added method `deserialize`
+  - Model `VirtualMachineScaleSetManagedDiskParameters` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetManagedDiskParameters` added method `from_dict`
+  - Model `VirtualMachineScaleSetManagedDiskParameters` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetManagedDiskParameters` added method `serialize`
+  - Model `VirtualMachineScaleSetManagedDiskParameters` added property `additional_properties`
+  - Model `VirtualMachineScaleSetNetworkConfiguration` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetNetworkConfiguration` added method `deserialize`
+  - Model `VirtualMachineScaleSetNetworkConfiguration` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetNetworkConfiguration` added method `from_dict`
+  - Model `VirtualMachineScaleSetNetworkConfiguration` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetNetworkConfiguration` added method `serialize`
+  - Model `VirtualMachineScaleSetNetworkConfiguration` added property `additional_properties`
+  - Model `VirtualMachineScaleSetNetworkConfigurationDnsSettings` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetNetworkConfigurationDnsSettings` added method `deserialize`
+  - Model `VirtualMachineScaleSetNetworkConfigurationDnsSettings` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetNetworkConfigurationDnsSettings` added method `from_dict`
+  - Model `VirtualMachineScaleSetNetworkConfigurationDnsSettings` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetNetworkConfigurationDnsSettings` added method `serialize`
+  - Model `VirtualMachineScaleSetNetworkConfigurationDnsSettings` added property `additional_properties`
+  - Model `VirtualMachineScaleSetNetworkConfigurationProperties` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetNetworkConfigurationProperties` added method `deserialize`
+  - Model `VirtualMachineScaleSetNetworkConfigurationProperties` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetNetworkConfigurationProperties` added method `from_dict`
+  - Model `VirtualMachineScaleSetNetworkConfigurationProperties` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetNetworkConfigurationProperties` added method `serialize`
+  - Model `VirtualMachineScaleSetNetworkConfigurationProperties` added property `additional_properties`
+  - Model `VirtualMachineScaleSetNetworkProfile` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetNetworkProfile` added method `deserialize`
+  - Model `VirtualMachineScaleSetNetworkProfile` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetNetworkProfile` added method `from_dict`
+  - Model `VirtualMachineScaleSetNetworkProfile` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetNetworkProfile` added method `serialize`
+  - Model `VirtualMachineScaleSetNetworkProfile` added property `additional_properties`
+  - Model `VirtualMachineScaleSetOSDisk` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetOSDisk` added method `deserialize`
+  - Model `VirtualMachineScaleSetOSDisk` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetOSDisk` added method `from_dict`
+  - Model `VirtualMachineScaleSetOSDisk` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetOSDisk` added method `serialize`
+  - Model `VirtualMachineScaleSetOSDisk` added property `additional_properties`
+  - Model `VirtualMachineScaleSetOSProfile` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetOSProfile` added method `deserialize`
+  - Model `VirtualMachineScaleSetOSProfile` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetOSProfile` added method `from_dict`
+  - Model `VirtualMachineScaleSetOSProfile` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetOSProfile` added method `serialize`
+  - Model `VirtualMachineScaleSetOSProfile` added property `additional_properties`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfiguration` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfiguration` added method `deserialize`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfiguration` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfiguration` added method `from_dict`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfiguration` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfiguration` added method `serialize`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfiguration` added property `additional_properties`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings` added method `deserialize`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings` added method `from_dict`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings` added method `serialize`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings` added property `additional_properties`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationProperties` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationProperties` added method `deserialize`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationProperties` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationProperties` added method `from_dict`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationProperties` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationProperties` added method `serialize`
+  - Model `VirtualMachineScaleSetPublicIPAddressConfigurationProperties` added property `additional_properties`
+  - Model `VirtualMachineScaleSetStorageProfile` added parameter `kwargs` in method `as_dict`
+  - Model `VirtualMachineScaleSetStorageProfile` added method `deserialize`
+  - Model `VirtualMachineScaleSetStorageProfile` added method `enable_additional_properties_sending`
+  - Model `VirtualMachineScaleSetStorageProfile` added method `from_dict`
+  - Model `VirtualMachineScaleSetStorageProfile` added method `is_xml_model`
+  - Model `VirtualMachineScaleSetStorageProfile` added method `serialize`
+  - Model `VirtualMachineScaleSetStorageProfile` added property `additional_properties`
+  - Model `VmSizeProfile` added parameter `kwargs` in method `as_dict`
+  - Model `VmSizeProfile` added method `deserialize`
+  - Model `VmSizeProfile` added method `enable_additional_properties_sending`
+  - Model `VmSizeProfile` added method `from_dict`
+  - Model `VmSizeProfile` added method `is_xml_model`
+  - Model `VmSizeProfile` added method `serialize`
+  - Model `VmSizeProfile` added property `additional_properties`
+  - Model `WinRMConfiguration` added parameter `kwargs` in method `as_dict`
+  - Model `WinRMConfiguration` added method `deserialize`
+  - Model `WinRMConfiguration` added method `enable_additional_properties_sending`
+  - Model `WinRMConfiguration` added method `from_dict`
+  - Model `WinRMConfiguration` added method `is_xml_model`
+  - Model `WinRMConfiguration` added method `serialize`
+  - Model `WinRMConfiguration` added property `additional_properties`
+  - Model `WinRMListener` added parameter `kwargs` in method `as_dict`
+  - Model `WinRMListener` added method `deserialize`
+  - Model `WinRMListener` added method `enable_additional_properties_sending`
+  - Model `WinRMListener` added method `from_dict`
+  - Model `WinRMListener` added method `is_xml_model`
+  - Model `WinRMListener` added method `serialize`
+  - Model `WinRMListener` added property `additional_properties`
+  - Model `WindowsConfiguration` added parameter `kwargs` in method `as_dict`
+  - Model `WindowsConfiguration` added method `deserialize`
+  - Model `WindowsConfiguration` added method `enable_additional_properties_sending`
+  - Model `WindowsConfiguration` added method `from_dict`
+  - Model `WindowsConfiguration` added method `is_xml_model`
+  - Model `WindowsConfiguration` added method `serialize`
+  - Model `WindowsConfiguration` added property `additional_properties`
+  - Model `WindowsVMGuestPatchAutomaticByPlatformSettings` added parameter `kwargs` in method `as_dict`
+  - Model `WindowsVMGuestPatchAutomaticByPlatformSettings` added method `deserialize`
+  - Model `WindowsVMGuestPatchAutomaticByPlatformSettings` added method `enable_additional_properties_sending`
+  - Model `WindowsVMGuestPatchAutomaticByPlatformSettings` added method `from_dict`
+  - Model `WindowsVMGuestPatchAutomaticByPlatformSettings` added method `is_xml_model`
+  - Model `WindowsVMGuestPatchAutomaticByPlatformSettings` added method `serialize`
+  - Model `WindowsVMGuestPatchAutomaticByPlatformSettings` added property `additional_properties`
+  - Added model `BasePriorityProfile`
+  - Added model `ComponentsQjfoe3SchemasManagedserviceidentityupdatePropertiesUserassignedidentitiesAdditionalproperties`
+  - Added model `FleetListResult`
+  - Added model `OperationListResult`
+  - Added enum `StatusLevelTypes`
+  - Added model `SubResourceReadOnly`
+  - Added model `VirtualMachineScaleSetListResult`
+
+### Breaking Changes
+
+  - Deleted or renamed client `ComputeFleetMgmtClient`
+  - Method `AdditionalCapabilities.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `AdditionalCapabilities.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `AdditionalCapabilities.clear`
+  - Deleted or renamed method `AdditionalCapabilities.copy`
+  - Deleted or renamed method `AdditionalCapabilities.get`
+  - Deleted or renamed method `AdditionalCapabilities.items`
+  - Deleted or renamed method `AdditionalCapabilities.keys`
+  - Deleted or renamed method `AdditionalCapabilities.pop`
+  - Deleted or renamed method `AdditionalCapabilities.popitem`
+  - Deleted or renamed method `AdditionalCapabilities.setdefault`
+  - Deleted or renamed method `AdditionalCapabilities.update`
+  - Deleted or renamed method `AdditionalCapabilities.values`
+  - Method `AdditionalLocationsProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `AdditionalLocationsProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `AdditionalLocationsProfile.clear`
+  - Deleted or renamed method `AdditionalLocationsProfile.copy`
+  - Deleted or renamed method `AdditionalLocationsProfile.get`
+  - Deleted or renamed method `AdditionalLocationsProfile.items`
+  - Deleted or renamed method `AdditionalLocationsProfile.keys`
+  - Deleted or renamed method `AdditionalLocationsProfile.pop`
+  - Deleted or renamed method `AdditionalLocationsProfile.popitem`
+  - Deleted or renamed method `AdditionalLocationsProfile.setdefault`
+  - Deleted or renamed method `AdditionalLocationsProfile.update`
+  - Deleted or renamed method `AdditionalLocationsProfile.values`
+  - Method `AdditionalUnattendContent.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `AdditionalUnattendContent.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `AdditionalUnattendContent.clear`
+  - Deleted or renamed method `AdditionalUnattendContent.copy`
+  - Deleted or renamed method `AdditionalUnattendContent.get`
+  - Deleted or renamed method `AdditionalUnattendContent.items`
+  - Deleted or renamed method `AdditionalUnattendContent.keys`
+  - Deleted or renamed method `AdditionalUnattendContent.pop`
+  - Deleted or renamed method `AdditionalUnattendContent.popitem`
+  - Deleted or renamed method `AdditionalUnattendContent.setdefault`
+  - Deleted or renamed method `AdditionalUnattendContent.update`
+  - Deleted or renamed method `AdditionalUnattendContent.values`
+  - Method `ApiEntityReference.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ApiEntityReference.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ApiEntityReference.clear`
+  - Deleted or renamed method `ApiEntityReference.copy`
+  - Deleted or renamed method `ApiEntityReference.get`
+  - Deleted or renamed method `ApiEntityReference.items`
+  - Deleted or renamed method `ApiEntityReference.keys`
+  - Deleted or renamed method `ApiEntityReference.pop`
+  - Deleted or renamed method `ApiEntityReference.popitem`
+  - Deleted or renamed method `ApiEntityReference.setdefault`
+  - Deleted or renamed method `ApiEntityReference.update`
+  - Deleted or renamed method `ApiEntityReference.values`
+  - Method `ApiError.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ApiError.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ApiError.clear`
+  - Deleted or renamed method `ApiError.copy`
+  - Deleted or renamed method `ApiError.get`
+  - Deleted or renamed method `ApiError.items`
+  - Deleted or renamed method `ApiError.keys`
+  - Deleted or renamed method `ApiError.pop`
+  - Deleted or renamed method `ApiError.popitem`
+  - Deleted or renamed method `ApiError.setdefault`
+  - Deleted or renamed method `ApiError.update`
+  - Deleted or renamed method `ApiError.values`
+  - Method `ApiErrorBase.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ApiErrorBase.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ApiErrorBase.clear`
+  - Deleted or renamed method `ApiErrorBase.copy`
+  - Deleted or renamed method `ApiErrorBase.get`
+  - Deleted or renamed method `ApiErrorBase.items`
+  - Deleted or renamed method `ApiErrorBase.keys`
+  - Deleted or renamed method `ApiErrorBase.pop`
+  - Deleted or renamed method `ApiErrorBase.popitem`
+  - Deleted or renamed method `ApiErrorBase.setdefault`
+  - Deleted or renamed method `ApiErrorBase.update`
+  - Deleted or renamed method `ApiErrorBase.values`
+  - Method `ApplicationProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ApplicationProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ApplicationProfile.clear`
+  - Deleted or renamed method `ApplicationProfile.copy`
+  - Deleted or renamed method `ApplicationProfile.get`
+  - Deleted or renamed method `ApplicationProfile.items`
+  - Deleted or renamed method `ApplicationProfile.keys`
+  - Deleted or renamed method `ApplicationProfile.pop`
+  - Deleted or renamed method `ApplicationProfile.popitem`
+  - Deleted or renamed method `ApplicationProfile.setdefault`
+  - Deleted or renamed method `ApplicationProfile.update`
+  - Deleted or renamed method `ApplicationProfile.values`
+  - Method `BaseVirtualMachineProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `BaseVirtualMachineProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `BaseVirtualMachineProfile.clear`
+  - Deleted or renamed method `BaseVirtualMachineProfile.copy`
+  - Deleted or renamed method `BaseVirtualMachineProfile.get`
+  - Deleted or renamed method `BaseVirtualMachineProfile.items`
+  - Deleted or renamed method `BaseVirtualMachineProfile.keys`
+  - Deleted or renamed method `BaseVirtualMachineProfile.pop`
+  - Deleted or renamed method `BaseVirtualMachineProfile.popitem`
+  - Deleted or renamed method `BaseVirtualMachineProfile.setdefault`
+  - Deleted or renamed method `BaseVirtualMachineProfile.update`
+  - Deleted or renamed method `BaseVirtualMachineProfile.values`
+  - Method `BootDiagnostics.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `BootDiagnostics.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `BootDiagnostics.clear`
+  - Deleted or renamed method `BootDiagnostics.copy`
+  - Deleted or renamed method `BootDiagnostics.get`
+  - Deleted or renamed method `BootDiagnostics.items`
+  - Deleted or renamed method `BootDiagnostics.keys`
+  - Deleted or renamed method `BootDiagnostics.pop`
+  - Deleted or renamed method `BootDiagnostics.popitem`
+  - Deleted or renamed method `BootDiagnostics.setdefault`
+  - Deleted or renamed method `BootDiagnostics.update`
+  - Deleted or renamed method `BootDiagnostics.values`
+  - Method `CapacityReservationProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CapacityReservationProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CapacityReservationProfile.clear`
+  - Deleted or renamed method `CapacityReservationProfile.copy`
+  - Deleted or renamed method `CapacityReservationProfile.get`
+  - Deleted or renamed method `CapacityReservationProfile.items`
+  - Deleted or renamed method `CapacityReservationProfile.keys`
+  - Deleted or renamed method `CapacityReservationProfile.pop`
+  - Deleted or renamed method `CapacityReservationProfile.popitem`
+  - Deleted or renamed method `CapacityReservationProfile.setdefault`
+  - Deleted or renamed method `CapacityReservationProfile.update`
+  - Deleted or renamed method `CapacityReservationProfile.values`
+  - Method `ComputeProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ComputeProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ComputeProfile.clear`
+  - Deleted or renamed method `ComputeProfile.copy`
+  - Deleted or renamed method `ComputeProfile.get`
+  - Deleted or renamed method `ComputeProfile.items`
+  - Deleted or renamed method `ComputeProfile.keys`
+  - Deleted or renamed method `ComputeProfile.pop`
+  - Deleted or renamed method `ComputeProfile.popitem`
+  - Deleted or renamed method `ComputeProfile.setdefault`
+  - Deleted or renamed method `ComputeProfile.update`
+  - Deleted or renamed method `ComputeProfile.values`
+  - Method `DiagnosticsProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `DiagnosticsProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `DiagnosticsProfile.clear`
+  - Deleted or renamed method `DiagnosticsProfile.copy`
+  - Deleted or renamed method `DiagnosticsProfile.get`
+  - Deleted or renamed method `DiagnosticsProfile.items`
+  - Deleted or renamed method `DiagnosticsProfile.keys`
+  - Deleted or renamed method `DiagnosticsProfile.pop`
+  - Deleted or renamed method `DiagnosticsProfile.popitem`
+  - Deleted or renamed method `DiagnosticsProfile.setdefault`
+  - Deleted or renamed method `DiagnosticsProfile.update`
+  - Deleted or renamed method `DiagnosticsProfile.values`
+  - Method `DiffDiskSettings.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `DiffDiskSettings.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `DiffDiskSettings.clear`
+  - Deleted or renamed method `DiffDiskSettings.copy`
+  - Deleted or renamed method `DiffDiskSettings.get`
+  - Deleted or renamed method `DiffDiskSettings.items`
+  - Deleted or renamed method `DiffDiskSettings.keys`
+  - Deleted or renamed method `DiffDiskSettings.pop`
+  - Deleted or renamed method `DiffDiskSettings.popitem`
+  - Deleted or renamed method `DiffDiskSettings.setdefault`
+  - Deleted or renamed method `DiffDiskSettings.update`
+  - Deleted or renamed method `DiffDiskSettings.values`
+  - Method `DiskEncryptionSetParameters.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `DiskEncryptionSetParameters.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `DiskEncryptionSetParameters.clear`
+  - Deleted or renamed method `DiskEncryptionSetParameters.copy`
+  - Deleted or renamed method `DiskEncryptionSetParameters.get`
+  - Deleted or renamed method `DiskEncryptionSetParameters.items`
+  - Deleted or renamed method `DiskEncryptionSetParameters.keys`
+  - Deleted or renamed method `DiskEncryptionSetParameters.pop`
+  - Deleted or renamed method `DiskEncryptionSetParameters.popitem`
+  - Deleted or renamed method `DiskEncryptionSetParameters.setdefault`
+  - Deleted or renamed method `DiskEncryptionSetParameters.update`
+  - Deleted or renamed method `DiskEncryptionSetParameters.values`
+  - Method `EncryptionIdentity.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `EncryptionIdentity.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `EncryptionIdentity.clear`
+  - Deleted or renamed method `EncryptionIdentity.copy`
+  - Deleted or renamed method `EncryptionIdentity.get`
+  - Deleted or renamed method `EncryptionIdentity.items`
+  - Deleted or renamed method `EncryptionIdentity.keys`
+  - Deleted or renamed method `EncryptionIdentity.pop`
+  - Deleted or renamed method `EncryptionIdentity.popitem`
+  - Deleted or renamed method `EncryptionIdentity.setdefault`
+  - Deleted or renamed method `EncryptionIdentity.update`
+  - Deleted or renamed method `EncryptionIdentity.values`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorAdditionalInfo.clear`
+  - Deleted or renamed method `ErrorAdditionalInfo.copy`
+  - Deleted or renamed method `ErrorAdditionalInfo.get`
+  - Deleted or renamed method `ErrorAdditionalInfo.items`
+  - Deleted or renamed method `ErrorAdditionalInfo.keys`
+  - Deleted or renamed method `ErrorAdditionalInfo.pop`
+  - Deleted or renamed method `ErrorAdditionalInfo.popitem`
+  - Deleted or renamed method `ErrorAdditionalInfo.setdefault`
+  - Deleted or renamed method `ErrorAdditionalInfo.update`
+  - Deleted or renamed method `ErrorAdditionalInfo.values`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorDetail.clear`
+  - Deleted or renamed method `ErrorDetail.copy`
+  - Deleted or renamed method `ErrorDetail.get`
+  - Deleted or renamed method `ErrorDetail.items`
+  - Deleted or renamed method `ErrorDetail.keys`
+  - Deleted or renamed method `ErrorDetail.pop`
+  - Deleted or renamed method `ErrorDetail.popitem`
+  - Deleted or renamed method `ErrorDetail.setdefault`
+  - Deleted or renamed method `ErrorDetail.update`
+  - Deleted or renamed method `ErrorDetail.values`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorResponse.clear`
+  - Deleted or renamed method `ErrorResponse.copy`
+  - Deleted or renamed method `ErrorResponse.get`
+  - Deleted or renamed method `ErrorResponse.items`
+  - Deleted or renamed method `ErrorResponse.keys`
+  - Deleted or renamed method `ErrorResponse.pop`
+  - Deleted or renamed method `ErrorResponse.popitem`
+  - Deleted or renamed method `ErrorResponse.setdefault`
+  - Deleted or renamed method `ErrorResponse.update`
+  - Deleted or renamed method `ErrorResponse.values`
+  - Model `Fleet` deleted or renamed its instance variable `properties`
+  - Method `Fleet.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Fleet.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Fleet.clear`
+  - Deleted or renamed method `Fleet.copy`
+  - Deleted or renamed method `Fleet.get`
+  - Deleted or renamed method `Fleet.items`
+  - Deleted or renamed method `Fleet.keys`
+  - Deleted or renamed method `Fleet.pop`
+  - Deleted or renamed method `Fleet.popitem`
+  - Deleted or renamed method `Fleet.setdefault`
+  - Deleted or renamed method `Fleet.update`
+  - Deleted or renamed method `Fleet.values`
+  - Method `FleetProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `FleetProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `FleetProperties.clear`
+  - Deleted or renamed method `FleetProperties.copy`
+  - Deleted or renamed method `FleetProperties.get`
+  - Deleted or renamed method `FleetProperties.items`
+  - Deleted or renamed method `FleetProperties.keys`
+  - Deleted or renamed method `FleetProperties.pop`
+  - Deleted or renamed method `FleetProperties.popitem`
+  - Deleted or renamed method `FleetProperties.setdefault`
+  - Deleted or renamed method `FleetProperties.update`
+  - Deleted or renamed method `FleetProperties.values`
+  - Method `FleetUpdate.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `FleetUpdate.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `FleetUpdate.clear`
+  - Deleted or renamed method `FleetUpdate.copy`
+  - Deleted or renamed method `FleetUpdate.get`
+  - Deleted or renamed method `FleetUpdate.items`
+  - Deleted or renamed method `FleetUpdate.keys`
+  - Deleted or renamed method `FleetUpdate.pop`
+  - Deleted or renamed method `FleetUpdate.popitem`
+  - Deleted or renamed method `FleetUpdate.setdefault`
+  - Deleted or renamed method `FleetUpdate.update`
+  - Deleted or renamed method `FleetUpdate.values`
+  - Method `ImageReference.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ImageReference.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ImageReference.clear`
+  - Deleted or renamed method `ImageReference.copy`
+  - Deleted or renamed method `ImageReference.get`
+  - Deleted or renamed method `ImageReference.items`
+  - Deleted or renamed method `ImageReference.keys`
+  - Deleted or renamed method `ImageReference.pop`
+  - Deleted or renamed method `ImageReference.popitem`
+  - Deleted or renamed method `ImageReference.setdefault`
+  - Deleted or renamed method `ImageReference.update`
+  - Deleted or renamed method `ImageReference.values`
+  - Method `InnerError.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `InnerError.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `InnerError.clear`
+  - Deleted or renamed method `InnerError.copy`
+  - Deleted or renamed method `InnerError.get`
+  - Deleted or renamed method `InnerError.items`
+  - Deleted or renamed method `InnerError.keys`
+  - Deleted or renamed method `InnerError.pop`
+  - Deleted or renamed method `InnerError.popitem`
+  - Deleted or renamed method `InnerError.setdefault`
+  - Deleted or renamed method `InnerError.update`
+  - Deleted or renamed method `InnerError.values`
+  - Method `KeyVaultSecretReference.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `KeyVaultSecretReference.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `KeyVaultSecretReference.clear`
+  - Deleted or renamed method `KeyVaultSecretReference.copy`
+  - Deleted or renamed method `KeyVaultSecretReference.get`
+  - Deleted or renamed method `KeyVaultSecretReference.items`
+  - Deleted or renamed method `KeyVaultSecretReference.keys`
+  - Deleted or renamed method `KeyVaultSecretReference.pop`
+  - Deleted or renamed method `KeyVaultSecretReference.popitem`
+  - Deleted or renamed method `KeyVaultSecretReference.setdefault`
+  - Deleted or renamed method `KeyVaultSecretReference.update`
+  - Deleted or renamed method `KeyVaultSecretReference.values`
+  - Method `LinuxConfiguration.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `LinuxConfiguration.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `LinuxConfiguration.clear`
+  - Deleted or renamed method `LinuxConfiguration.copy`
+  - Deleted or renamed method `LinuxConfiguration.get`
+  - Deleted or renamed method `LinuxConfiguration.items`
+  - Deleted or renamed method `LinuxConfiguration.keys`
+  - Deleted or renamed method `LinuxConfiguration.pop`
+  - Deleted or renamed method `LinuxConfiguration.popitem`
+  - Deleted or renamed method `LinuxConfiguration.setdefault`
+  - Deleted or renamed method `LinuxConfiguration.update`
+  - Deleted or renamed method `LinuxConfiguration.values`
+  - Method `LinuxPatchSettings.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `LinuxPatchSettings.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `LinuxPatchSettings.clear`
+  - Deleted or renamed method `LinuxPatchSettings.copy`
+  - Deleted or renamed method `LinuxPatchSettings.get`
+  - Deleted or renamed method `LinuxPatchSettings.items`
+  - Deleted or renamed method `LinuxPatchSettings.keys`
+  - Deleted or renamed method `LinuxPatchSettings.pop`
+  - Deleted or renamed method `LinuxPatchSettings.popitem`
+  - Deleted or renamed method `LinuxPatchSettings.setdefault`
+  - Deleted or renamed method `LinuxPatchSettings.update`
+  - Deleted or renamed method `LinuxPatchSettings.values`
+  - Method `LinuxVMGuestPatchAutomaticByPlatformSettings.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `LinuxVMGuestPatchAutomaticByPlatformSettings.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `LinuxVMGuestPatchAutomaticByPlatformSettings.clear`
+  - Deleted or renamed method `LinuxVMGuestPatchAutomaticByPlatformSettings.copy`
+  - Deleted or renamed method `LinuxVMGuestPatchAutomaticByPlatformSettings.get`
+  - Deleted or renamed method `LinuxVMGuestPatchAutomaticByPlatformSettings.items`
+  - Deleted or renamed method `LinuxVMGuestPatchAutomaticByPlatformSettings.keys`
+  - Deleted or renamed method `LinuxVMGuestPatchAutomaticByPlatformSettings.pop`
+  - Deleted or renamed method `LinuxVMGuestPatchAutomaticByPlatformSettings.popitem`
+  - Deleted or renamed method `LinuxVMGuestPatchAutomaticByPlatformSettings.setdefault`
+  - Deleted or renamed method `LinuxVMGuestPatchAutomaticByPlatformSettings.update`
+  - Deleted or renamed method `LinuxVMGuestPatchAutomaticByPlatformSettings.values`
+  - Method `LocationProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `LocationProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `LocationProfile.clear`
+  - Deleted or renamed method `LocationProfile.copy`
+  - Deleted or renamed method `LocationProfile.get`
+  - Deleted or renamed method `LocationProfile.items`
+  - Deleted or renamed method `LocationProfile.keys`
+  - Deleted or renamed method `LocationProfile.pop`
+  - Deleted or renamed method `LocationProfile.popitem`
+  - Deleted or renamed method `LocationProfile.setdefault`
+  - Deleted or renamed method `LocationProfile.update`
+  - Deleted or renamed method `LocationProfile.values`
+  - Method `ManagedServiceIdentity.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ManagedServiceIdentity.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ManagedServiceIdentity.clear`
+  - Deleted or renamed method `ManagedServiceIdentity.copy`
+  - Deleted or renamed method `ManagedServiceIdentity.get`
+  - Deleted or renamed method `ManagedServiceIdentity.items`
+  - Deleted or renamed method `ManagedServiceIdentity.keys`
+  - Deleted or renamed method `ManagedServiceIdentity.pop`
+  - Deleted or renamed method `ManagedServiceIdentity.popitem`
+  - Deleted or renamed method `ManagedServiceIdentity.setdefault`
+  - Deleted or renamed method `ManagedServiceIdentity.update`
+  - Deleted or renamed method `ManagedServiceIdentity.values`
+  - Deleted or renamed enum value `ManagedServiceIdentityType.SYSTEM_AND_USER_ASSIGNED`
+  - Method `ManagedServiceIdentityUpdate.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ManagedServiceIdentityUpdate.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.clear`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.copy`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.get`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.items`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.keys`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.pop`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.popitem`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.setdefault`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.update`
+  - Deleted or renamed method `ManagedServiceIdentityUpdate.values`
+  - Method `OSImageNotificationProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `OSImageNotificationProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `OSImageNotificationProfile.clear`
+  - Deleted or renamed method `OSImageNotificationProfile.copy`
+  - Deleted or renamed method `OSImageNotificationProfile.get`
+  - Deleted or renamed method `OSImageNotificationProfile.items`
+  - Deleted or renamed method `OSImageNotificationProfile.keys`
+  - Deleted or renamed method `OSImageNotificationProfile.pop`
+  - Deleted or renamed method `OSImageNotificationProfile.popitem`
+  - Deleted or renamed method `OSImageNotificationProfile.setdefault`
+  - Deleted or renamed method `OSImageNotificationProfile.update`
+  - Deleted or renamed method `OSImageNotificationProfile.values`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Operation.clear`
+  - Deleted or renamed method `Operation.copy`
+  - Deleted or renamed method `Operation.get`
+  - Deleted or renamed method `Operation.items`
+  - Deleted or renamed method `Operation.keys`
+  - Deleted or renamed method `Operation.pop`
+  - Deleted or renamed method `Operation.popitem`
+  - Deleted or renamed method `Operation.setdefault`
+  - Deleted or renamed method `Operation.update`
+  - Deleted or renamed method `Operation.values`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `OperationDisplay.clear`
+  - Deleted or renamed method `OperationDisplay.copy`
+  - Deleted or renamed method `OperationDisplay.get`
+  - Deleted or renamed method `OperationDisplay.items`
+  - Deleted or renamed method `OperationDisplay.keys`
+  - Deleted or renamed method `OperationDisplay.pop`
+  - Deleted or renamed method `OperationDisplay.popitem`
+  - Deleted or renamed method `OperationDisplay.setdefault`
+  - Deleted or renamed method `OperationDisplay.update`
+  - Deleted or renamed method `OperationDisplay.values`
+  - Method `PatchSettings.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `PatchSettings.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `PatchSettings.clear`
+  - Deleted or renamed method `PatchSettings.copy`
+  - Deleted or renamed method `PatchSettings.get`
+  - Deleted or renamed method `PatchSettings.items`
+  - Deleted or renamed method `PatchSettings.keys`
+  - Deleted or renamed method `PatchSettings.pop`
+  - Deleted or renamed method `PatchSettings.popitem`
+  - Deleted or renamed method `PatchSettings.setdefault`
+  - Deleted or renamed method `PatchSettings.update`
+  - Deleted or renamed method `PatchSettings.values`
+  - Method `Plan.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Plan.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Plan.clear`
+  - Deleted or renamed method `Plan.copy`
+  - Deleted or renamed method `Plan.get`
+  - Deleted or renamed method `Plan.items`
+  - Deleted or renamed method `Plan.keys`
+  - Deleted or renamed method `Plan.pop`
+  - Deleted or renamed method `Plan.popitem`
+  - Deleted or renamed method `Plan.setdefault`
+  - Deleted or renamed method `Plan.update`
+  - Deleted or renamed method `Plan.values`
+  - Method `ProxyAgentSettings.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ProxyAgentSettings.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ProxyAgentSettings.clear`
+  - Deleted or renamed method `ProxyAgentSettings.copy`
+  - Deleted or renamed method `ProxyAgentSettings.get`
+  - Deleted or renamed method `ProxyAgentSettings.items`
+  - Deleted or renamed method `ProxyAgentSettings.keys`
+  - Deleted or renamed method `ProxyAgentSettings.pop`
+  - Deleted or renamed method `ProxyAgentSettings.popitem`
+  - Deleted or renamed method `ProxyAgentSettings.setdefault`
+  - Deleted or renamed method `ProxyAgentSettings.update`
+  - Deleted or renamed method `ProxyAgentSettings.values`
+  - Method `PublicIPAddressSku.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `PublicIPAddressSku.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `PublicIPAddressSku.clear`
+  - Deleted or renamed method `PublicIPAddressSku.copy`
+  - Deleted or renamed method `PublicIPAddressSku.get`
+  - Deleted or renamed method `PublicIPAddressSku.items`
+  - Deleted or renamed method `PublicIPAddressSku.keys`
+  - Deleted or renamed method `PublicIPAddressSku.pop`
+  - Deleted or renamed method `PublicIPAddressSku.popitem`
+  - Deleted or renamed method `PublicIPAddressSku.setdefault`
+  - Deleted or renamed method `PublicIPAddressSku.update`
+  - Deleted or renamed method `PublicIPAddressSku.values`
+  - Method `RegularPriorityProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `RegularPriorityProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `RegularPriorityProfile.clear`
+  - Deleted or renamed method `RegularPriorityProfile.copy`
+  - Deleted or renamed method `RegularPriorityProfile.get`
+  - Deleted or renamed method `RegularPriorityProfile.items`
+  - Deleted or renamed method `RegularPriorityProfile.keys`
+  - Deleted or renamed method `RegularPriorityProfile.pop`
+  - Deleted or renamed method `RegularPriorityProfile.popitem`
+  - Deleted or renamed method `RegularPriorityProfile.setdefault`
+  - Deleted or renamed method `RegularPriorityProfile.update`
+  - Deleted or renamed method `RegularPriorityProfile.values`
+  - Method `Resource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Resource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Resource.clear`
+  - Deleted or renamed method `Resource.copy`
+  - Deleted or renamed method `Resource.get`
+  - Deleted or renamed method `Resource.items`
+  - Deleted or renamed method `Resource.keys`
+  - Deleted or renamed method `Resource.pop`
+  - Deleted or renamed method `Resource.popitem`
+  - Deleted or renamed method `Resource.setdefault`
+  - Deleted or renamed method `Resource.update`
+  - Deleted or renamed method `Resource.values`
+  - Method `ResourcePlanUpdate.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ResourcePlanUpdate.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ResourcePlanUpdate.clear`
+  - Deleted or renamed method `ResourcePlanUpdate.copy`
+  - Deleted or renamed method `ResourcePlanUpdate.get`
+  - Deleted or renamed method `ResourcePlanUpdate.items`
+  - Deleted or renamed method `ResourcePlanUpdate.keys`
+  - Deleted or renamed method `ResourcePlanUpdate.pop`
+  - Deleted or renamed method `ResourcePlanUpdate.popitem`
+  - Deleted or renamed method `ResourcePlanUpdate.setdefault`
+  - Deleted or renamed method `ResourcePlanUpdate.update`
+  - Deleted or renamed method `ResourcePlanUpdate.values`
+  - Method `ScheduledEventsProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ScheduledEventsProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ScheduledEventsProfile.clear`
+  - Deleted or renamed method `ScheduledEventsProfile.copy`
+  - Deleted or renamed method `ScheduledEventsProfile.get`
+  - Deleted or renamed method `ScheduledEventsProfile.items`
+  - Deleted or renamed method `ScheduledEventsProfile.keys`
+  - Deleted or renamed method `ScheduledEventsProfile.pop`
+  - Deleted or renamed method `ScheduledEventsProfile.popitem`
+  - Deleted or renamed method `ScheduledEventsProfile.setdefault`
+  - Deleted or renamed method `ScheduledEventsProfile.update`
+  - Deleted or renamed method `ScheduledEventsProfile.values`
+  - Method `SecurityPostureReference.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SecurityPostureReference.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SecurityPostureReference.clear`
+  - Deleted or renamed method `SecurityPostureReference.copy`
+  - Deleted or renamed method `SecurityPostureReference.get`
+  - Deleted or renamed method `SecurityPostureReference.items`
+  - Deleted or renamed method `SecurityPostureReference.keys`
+  - Deleted or renamed method `SecurityPostureReference.pop`
+  - Deleted or renamed method `SecurityPostureReference.popitem`
+  - Deleted or renamed method `SecurityPostureReference.setdefault`
+  - Deleted or renamed method `SecurityPostureReference.update`
+  - Deleted or renamed method `SecurityPostureReference.values`
+  - Method `SecurityProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SecurityProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SecurityProfile.clear`
+  - Deleted or renamed method `SecurityProfile.copy`
+  - Deleted or renamed method `SecurityProfile.get`
+  - Deleted or renamed method `SecurityProfile.items`
+  - Deleted or renamed method `SecurityProfile.keys`
+  - Deleted or renamed method `SecurityProfile.pop`
+  - Deleted or renamed method `SecurityProfile.popitem`
+  - Deleted or renamed method `SecurityProfile.setdefault`
+  - Deleted or renamed method `SecurityProfile.update`
+  - Deleted or renamed method `SecurityProfile.values`
+  - Method `ServiceArtifactReference.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ServiceArtifactReference.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ServiceArtifactReference.clear`
+  - Deleted or renamed method `ServiceArtifactReference.copy`
+  - Deleted or renamed method `ServiceArtifactReference.get`
+  - Deleted or renamed method `ServiceArtifactReference.items`
+  - Deleted or renamed method `ServiceArtifactReference.keys`
+  - Deleted or renamed method `ServiceArtifactReference.pop`
+  - Deleted or renamed method `ServiceArtifactReference.popitem`
+  - Deleted or renamed method `ServiceArtifactReference.setdefault`
+  - Deleted or renamed method `ServiceArtifactReference.update`
+  - Deleted or renamed method `ServiceArtifactReference.values`
+  - Method `SpotPriorityProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SpotPriorityProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SpotPriorityProfile.clear`
+  - Deleted or renamed method `SpotPriorityProfile.copy`
+  - Deleted or renamed method `SpotPriorityProfile.get`
+  - Deleted or renamed method `SpotPriorityProfile.items`
+  - Deleted or renamed method `SpotPriorityProfile.keys`
+  - Deleted or renamed method `SpotPriorityProfile.pop`
+  - Deleted or renamed method `SpotPriorityProfile.popitem`
+  - Deleted or renamed method `SpotPriorityProfile.setdefault`
+  - Deleted or renamed method `SpotPriorityProfile.update`
+  - Deleted or renamed method `SpotPriorityProfile.values`
+  - Method `SshConfiguration.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SshConfiguration.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SshConfiguration.clear`
+  - Deleted or renamed method `SshConfiguration.copy`
+  - Deleted or renamed method `SshConfiguration.get`
+  - Deleted or renamed method `SshConfiguration.items`
+  - Deleted or renamed method `SshConfiguration.keys`
+  - Deleted or renamed method `SshConfiguration.pop`
+  - Deleted or renamed method `SshConfiguration.popitem`
+  - Deleted or renamed method `SshConfiguration.setdefault`
+  - Deleted or renamed method `SshConfiguration.update`
+  - Deleted or renamed method `SshConfiguration.values`
+  - Method `SshPublicKey.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SshPublicKey.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SshPublicKey.clear`
+  - Deleted or renamed method `SshPublicKey.copy`
+  - Deleted or renamed method `SshPublicKey.get`
+  - Deleted or renamed method `SshPublicKey.items`
+  - Deleted or renamed method `SshPublicKey.keys`
+  - Deleted or renamed method `SshPublicKey.pop`
+  - Deleted or renamed method `SshPublicKey.popitem`
+  - Deleted or renamed method `SshPublicKey.setdefault`
+  - Deleted or renamed method `SshPublicKey.update`
+  - Deleted or renamed method `SshPublicKey.values`
+  - Method `SubResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SubResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SubResource.clear`
+  - Deleted or renamed method `SubResource.copy`
+  - Deleted or renamed method `SubResource.get`
+  - Deleted or renamed method `SubResource.items`
+  - Deleted or renamed method `SubResource.keys`
+  - Deleted or renamed method `SubResource.pop`
+  - Deleted or renamed method `SubResource.popitem`
+  - Deleted or renamed method `SubResource.setdefault`
+  - Deleted or renamed method `SubResource.update`
+  - Deleted or renamed method `SubResource.values`
+  - Method `SystemData.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SystemData.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SystemData.clear`
+  - Deleted or renamed method `SystemData.copy`
+  - Deleted or renamed method `SystemData.get`
+  - Deleted or renamed method `SystemData.items`
+  - Deleted or renamed method `SystemData.keys`
+  - Deleted or renamed method `SystemData.pop`
+  - Deleted or renamed method `SystemData.popitem`
+  - Deleted or renamed method `SystemData.setdefault`
+  - Deleted or renamed method `SystemData.update`
+  - Deleted or renamed method `SystemData.values`
+  - Method `TerminateNotificationProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `TerminateNotificationProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `TerminateNotificationProfile.clear`
+  - Deleted or renamed method `TerminateNotificationProfile.copy`
+  - Deleted or renamed method `TerminateNotificationProfile.get`
+  - Deleted or renamed method `TerminateNotificationProfile.items`
+  - Deleted or renamed method `TerminateNotificationProfile.keys`
+  - Deleted or renamed method `TerminateNotificationProfile.pop`
+  - Deleted or renamed method `TerminateNotificationProfile.popitem`
+  - Deleted or renamed method `TerminateNotificationProfile.setdefault`
+  - Deleted or renamed method `TerminateNotificationProfile.update`
+  - Deleted or renamed method `TerminateNotificationProfile.values`
+  - Method `TrackedResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `TrackedResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `TrackedResource.clear`
+  - Deleted or renamed method `TrackedResource.copy`
+  - Deleted or renamed method `TrackedResource.get`
+  - Deleted or renamed method `TrackedResource.items`
+  - Deleted or renamed method `TrackedResource.keys`
+  - Deleted or renamed method `TrackedResource.pop`
+  - Deleted or renamed method `TrackedResource.popitem`
+  - Deleted or renamed method `TrackedResource.setdefault`
+  - Deleted or renamed method `TrackedResource.update`
+  - Deleted or renamed method `TrackedResource.values`
+  - Method `UefiSettings.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `UefiSettings.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `UefiSettings.clear`
+  - Deleted or renamed method `UefiSettings.copy`
+  - Deleted or renamed method `UefiSettings.get`
+  - Deleted or renamed method `UefiSettings.items`
+  - Deleted or renamed method `UefiSettings.keys`
+  - Deleted or renamed method `UefiSettings.pop`
+  - Deleted or renamed method `UefiSettings.popitem`
+  - Deleted or renamed method `UefiSettings.setdefault`
+  - Deleted or renamed method `UefiSettings.update`
+  - Deleted or renamed method `UefiSettings.values`
+  - Method `UserAssignedIdentity.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `UserAssignedIdentity.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `UserAssignedIdentity.clear`
+  - Deleted or renamed method `UserAssignedIdentity.copy`
+  - Deleted or renamed method `UserAssignedIdentity.get`
+  - Deleted or renamed method `UserAssignedIdentity.items`
+  - Deleted or renamed method `UserAssignedIdentity.keys`
+  - Deleted or renamed method `UserAssignedIdentity.pop`
+  - Deleted or renamed method `UserAssignedIdentity.popitem`
+  - Deleted or renamed method `UserAssignedIdentity.setdefault`
+  - Deleted or renamed method `UserAssignedIdentity.update`
+  - Deleted or renamed method `UserAssignedIdentity.values`
+  - Method `VMAttributeMinMaxDouble.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VMAttributeMinMaxDouble.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VMAttributeMinMaxDouble.clear`
+  - Deleted or renamed method `VMAttributeMinMaxDouble.copy`
+  - Deleted or renamed method `VMAttributeMinMaxDouble.get`
+  - Deleted or renamed method `VMAttributeMinMaxDouble.items`
+  - Deleted or renamed method `VMAttributeMinMaxDouble.keys`
+  - Deleted or renamed method `VMAttributeMinMaxDouble.pop`
+  - Deleted or renamed method `VMAttributeMinMaxDouble.popitem`
+  - Deleted or renamed method `VMAttributeMinMaxDouble.setdefault`
+  - Deleted or renamed method `VMAttributeMinMaxDouble.update`
+  - Deleted or renamed method `VMAttributeMinMaxDouble.values`
+  - Method `VMAttributeMinMaxInteger.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VMAttributeMinMaxInteger.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VMAttributeMinMaxInteger.clear`
+  - Deleted or renamed method `VMAttributeMinMaxInteger.copy`
+  - Deleted or renamed method `VMAttributeMinMaxInteger.get`
+  - Deleted or renamed method `VMAttributeMinMaxInteger.items`
+  - Deleted or renamed method `VMAttributeMinMaxInteger.keys`
+  - Deleted or renamed method `VMAttributeMinMaxInteger.pop`
+  - Deleted or renamed method `VMAttributeMinMaxInteger.popitem`
+  - Deleted or renamed method `VMAttributeMinMaxInteger.setdefault`
+  - Deleted or renamed method `VMAttributeMinMaxInteger.update`
+  - Deleted or renamed method `VMAttributeMinMaxInteger.values`
+  - Method `VMAttributes.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VMAttributes.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VMAttributes.clear`
+  - Deleted or renamed method `VMAttributes.copy`
+  - Deleted or renamed method `VMAttributes.get`
+  - Deleted or renamed method `VMAttributes.items`
+  - Deleted or renamed method `VMAttributes.keys`
+  - Deleted or renamed method `VMAttributes.pop`
+  - Deleted or renamed method `VMAttributes.popitem`
+  - Deleted or renamed method `VMAttributes.setdefault`
+  - Deleted or renamed method `VMAttributes.update`
+  - Deleted or renamed method `VMAttributes.values`
+  - Method `VMDiskSecurityProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VMDiskSecurityProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VMDiskSecurityProfile.clear`
+  - Deleted or renamed method `VMDiskSecurityProfile.copy`
+  - Deleted or renamed method `VMDiskSecurityProfile.get`
+  - Deleted or renamed method `VMDiskSecurityProfile.items`
+  - Deleted or renamed method `VMDiskSecurityProfile.keys`
+  - Deleted or renamed method `VMDiskSecurityProfile.pop`
+  - Deleted or renamed method `VMDiskSecurityProfile.popitem`
+  - Deleted or renamed method `VMDiskSecurityProfile.setdefault`
+  - Deleted or renamed method `VMDiskSecurityProfile.update`
+  - Deleted or renamed method `VMDiskSecurityProfile.values`
+  - Method `VMGalleryApplication.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VMGalleryApplication.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VMGalleryApplication.clear`
+  - Deleted or renamed method `VMGalleryApplication.copy`
+  - Deleted or renamed method `VMGalleryApplication.get`
+  - Deleted or renamed method `VMGalleryApplication.items`
+  - Deleted or renamed method `VMGalleryApplication.keys`
+  - Deleted or renamed method `VMGalleryApplication.pop`
+  - Deleted or renamed method `VMGalleryApplication.popitem`
+  - Deleted or renamed method `VMGalleryApplication.setdefault`
+  - Deleted or renamed method `VMGalleryApplication.update`
+  - Deleted or renamed method `VMGalleryApplication.values`
+  - Method `VMSizeProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VMSizeProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VMSizeProperties.clear`
+  - Deleted or renamed method `VMSizeProperties.copy`
+  - Deleted or renamed method `VMSizeProperties.get`
+  - Deleted or renamed method `VMSizeProperties.items`
+  - Deleted or renamed method `VMSizeProperties.keys`
+  - Deleted or renamed method `VMSizeProperties.pop`
+  - Deleted or renamed method `VMSizeProperties.popitem`
+  - Deleted or renamed method `VMSizeProperties.setdefault`
+  - Deleted or renamed method `VMSizeProperties.update`
+  - Deleted or renamed method `VMSizeProperties.values`
+  - Method `VaultCertificate.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VaultCertificate.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VaultCertificate.clear`
+  - Deleted or renamed method `VaultCertificate.copy`
+  - Deleted or renamed method `VaultCertificate.get`
+  - Deleted or renamed method `VaultCertificate.items`
+  - Deleted or renamed method `VaultCertificate.keys`
+  - Deleted or renamed method `VaultCertificate.pop`
+  - Deleted or renamed method `VaultCertificate.popitem`
+  - Deleted or renamed method `VaultCertificate.setdefault`
+  - Deleted or renamed method `VaultCertificate.update`
+  - Deleted or renamed method `VaultCertificate.values`
+  - Method `VaultSecretGroup.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VaultSecretGroup.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VaultSecretGroup.clear`
+  - Deleted or renamed method `VaultSecretGroup.copy`
+  - Deleted or renamed method `VaultSecretGroup.get`
+  - Deleted or renamed method `VaultSecretGroup.items`
+  - Deleted or renamed method `VaultSecretGroup.keys`
+  - Deleted or renamed method `VaultSecretGroup.pop`
+  - Deleted or renamed method `VaultSecretGroup.popitem`
+  - Deleted or renamed method `VaultSecretGroup.setdefault`
+  - Deleted or renamed method `VaultSecretGroup.update`
+  - Deleted or renamed method `VaultSecretGroup.values`
+  - Method `VirtualHardDisk.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualHardDisk.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualHardDisk.clear`
+  - Deleted or renamed method `VirtualHardDisk.copy`
+  - Deleted or renamed method `VirtualHardDisk.get`
+  - Deleted or renamed method `VirtualHardDisk.items`
+  - Deleted or renamed method `VirtualHardDisk.keys`
+  - Deleted or renamed method `VirtualHardDisk.pop`
+  - Deleted or renamed method `VirtualHardDisk.popitem`
+  - Deleted or renamed method `VirtualHardDisk.setdefault`
+  - Deleted or renamed method `VirtualHardDisk.update`
+  - Deleted or renamed method `VirtualHardDisk.values`
+  - Method `VirtualMachineScaleSet.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSet.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSet.clear`
+  - Deleted or renamed method `VirtualMachineScaleSet.copy`
+  - Deleted or renamed method `VirtualMachineScaleSet.get`
+  - Deleted or renamed method `VirtualMachineScaleSet.items`
+  - Deleted or renamed method `VirtualMachineScaleSet.keys`
+  - Deleted or renamed method `VirtualMachineScaleSet.pop`
+  - Deleted or renamed method `VirtualMachineScaleSet.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSet.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSet.update`
+  - Deleted or renamed method `VirtualMachineScaleSet.values`
+  - Method `VirtualMachineScaleSetDataDisk.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetDataDisk.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetDataDisk.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetDataDisk.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetDataDisk.get`
+  - Deleted or renamed method `VirtualMachineScaleSetDataDisk.items`
+  - Deleted or renamed method `VirtualMachineScaleSetDataDisk.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetDataDisk.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetDataDisk.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetDataDisk.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetDataDisk.update`
+  - Deleted or renamed method `VirtualMachineScaleSetDataDisk.values`
+  - Method `VirtualMachineScaleSetExtension.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetExtension.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetExtension.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetExtension.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetExtension.get`
+  - Deleted or renamed method `VirtualMachineScaleSetExtension.items`
+  - Deleted or renamed method `VirtualMachineScaleSetExtension.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetExtension.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetExtension.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetExtension.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetExtension.update`
+  - Deleted or renamed method `VirtualMachineScaleSetExtension.values`
+  - Method `VirtualMachineScaleSetExtensionProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetExtensionProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProfile.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProfile.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProfile.get`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProfile.items`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProfile.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProfile.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProfile.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProfile.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProfile.update`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProfile.values`
+  - Method `VirtualMachineScaleSetExtensionProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetExtensionProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProperties.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProperties.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProperties.get`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProperties.items`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProperties.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProperties.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProperties.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProperties.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProperties.update`
+  - Deleted or renamed method `VirtualMachineScaleSetExtensionProperties.values`
+  - Method `VirtualMachineScaleSetHardwareProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetHardwareProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetHardwareProfile.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetHardwareProfile.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetHardwareProfile.get`
+  - Deleted or renamed method `VirtualMachineScaleSetHardwareProfile.items`
+  - Deleted or renamed method `VirtualMachineScaleSetHardwareProfile.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetHardwareProfile.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetHardwareProfile.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetHardwareProfile.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetHardwareProfile.update`
+  - Deleted or renamed method `VirtualMachineScaleSetHardwareProfile.values`
+  - Method `VirtualMachineScaleSetIPConfiguration.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetIPConfiguration.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfiguration.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfiguration.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfiguration.get`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfiguration.items`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfiguration.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfiguration.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfiguration.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfiguration.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfiguration.update`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfiguration.values`
+  - Method `VirtualMachineScaleSetIPConfigurationProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetIPConfigurationProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfigurationProperties.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfigurationProperties.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfigurationProperties.get`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfigurationProperties.items`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfigurationProperties.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfigurationProperties.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfigurationProperties.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfigurationProperties.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfigurationProperties.update`
+  - Deleted or renamed method `VirtualMachineScaleSetIPConfigurationProperties.values`
+  - Method `VirtualMachineScaleSetIpTag.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetIpTag.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetIpTag.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetIpTag.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetIpTag.get`
+  - Deleted or renamed method `VirtualMachineScaleSetIpTag.items`
+  - Deleted or renamed method `VirtualMachineScaleSetIpTag.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetIpTag.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetIpTag.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetIpTag.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetIpTag.update`
+  - Deleted or renamed method `VirtualMachineScaleSetIpTag.values`
+  - Method `VirtualMachineScaleSetManagedDiskParameters.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetManagedDiskParameters.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetManagedDiskParameters.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetManagedDiskParameters.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetManagedDiskParameters.get`
+  - Deleted or renamed method `VirtualMachineScaleSetManagedDiskParameters.items`
+  - Deleted or renamed method `VirtualMachineScaleSetManagedDiskParameters.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetManagedDiskParameters.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetManagedDiskParameters.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetManagedDiskParameters.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetManagedDiskParameters.update`
+  - Deleted or renamed method `VirtualMachineScaleSetManagedDiskParameters.values`
+  - Method `VirtualMachineScaleSetNetworkConfiguration.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetNetworkConfiguration.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfiguration.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfiguration.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfiguration.get`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfiguration.items`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfiguration.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfiguration.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfiguration.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfiguration.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfiguration.update`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfiguration.values`
+  - Method `VirtualMachineScaleSetNetworkConfigurationDnsSettings.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetNetworkConfigurationDnsSettings.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationDnsSettings.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationDnsSettings.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationDnsSettings.get`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationDnsSettings.items`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationDnsSettings.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationDnsSettings.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationDnsSettings.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationDnsSettings.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationDnsSettings.update`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationDnsSettings.values`
+  - Method `VirtualMachineScaleSetNetworkConfigurationProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetNetworkConfigurationProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationProperties.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationProperties.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationProperties.get`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationProperties.items`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationProperties.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationProperties.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationProperties.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationProperties.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationProperties.update`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkConfigurationProperties.values`
+  - Method `VirtualMachineScaleSetNetworkProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetNetworkProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkProfile.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkProfile.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkProfile.get`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkProfile.items`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkProfile.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkProfile.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkProfile.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkProfile.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkProfile.update`
+  - Deleted or renamed method `VirtualMachineScaleSetNetworkProfile.values`
+  - Method `VirtualMachineScaleSetOSDisk.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetOSDisk.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetOSDisk.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetOSDisk.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetOSDisk.get`
+  - Deleted or renamed method `VirtualMachineScaleSetOSDisk.items`
+  - Deleted or renamed method `VirtualMachineScaleSetOSDisk.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetOSDisk.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetOSDisk.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetOSDisk.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetOSDisk.update`
+  - Deleted or renamed method `VirtualMachineScaleSetOSDisk.values`
+  - Method `VirtualMachineScaleSetOSProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetOSProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetOSProfile.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetOSProfile.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetOSProfile.get`
+  - Deleted or renamed method `VirtualMachineScaleSetOSProfile.items`
+  - Deleted or renamed method `VirtualMachineScaleSetOSProfile.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetOSProfile.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetOSProfile.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetOSProfile.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetOSProfile.update`
+  - Deleted or renamed method `VirtualMachineScaleSetOSProfile.values`
+  - Method `VirtualMachineScaleSetPublicIPAddressConfiguration.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetPublicIPAddressConfiguration.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfiguration.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfiguration.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfiguration.get`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfiguration.items`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfiguration.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfiguration.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfiguration.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfiguration.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfiguration.update`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfiguration.values`
+  - Method `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.get`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.items`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.update`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.values`
+  - Method `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.get`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.items`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.update`
+  - Deleted or renamed method `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.values`
+  - Method `VirtualMachineScaleSetStorageProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VirtualMachineScaleSetStorageProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VirtualMachineScaleSetStorageProfile.clear`
+  - Deleted or renamed method `VirtualMachineScaleSetStorageProfile.copy`
+  - Deleted or renamed method `VirtualMachineScaleSetStorageProfile.get`
+  - Deleted or renamed method `VirtualMachineScaleSetStorageProfile.items`
+  - Deleted or renamed method `VirtualMachineScaleSetStorageProfile.keys`
+  - Deleted or renamed method `VirtualMachineScaleSetStorageProfile.pop`
+  - Deleted or renamed method `VirtualMachineScaleSetStorageProfile.popitem`
+  - Deleted or renamed method `VirtualMachineScaleSetStorageProfile.setdefault`
+  - Deleted or renamed method `VirtualMachineScaleSetStorageProfile.update`
+  - Deleted or renamed method `VirtualMachineScaleSetStorageProfile.values`
+  - Method `VmSizeProfile.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `VmSizeProfile.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `VmSizeProfile.clear`
+  - Deleted or renamed method `VmSizeProfile.copy`
+  - Deleted or renamed method `VmSizeProfile.get`
+  - Deleted or renamed method `VmSizeProfile.items`
+  - Deleted or renamed method `VmSizeProfile.keys`
+  - Deleted or renamed method `VmSizeProfile.pop`
+  - Deleted or renamed method `VmSizeProfile.popitem`
+  - Deleted or renamed method `VmSizeProfile.setdefault`
+  - Deleted or renamed method `VmSizeProfile.update`
+  - Deleted or renamed method `VmSizeProfile.values`
+  - Method `WinRMConfiguration.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `WinRMConfiguration.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `WinRMConfiguration.clear`
+  - Deleted or renamed method `WinRMConfiguration.copy`
+  - Deleted or renamed method `WinRMConfiguration.get`
+  - Deleted or renamed method `WinRMConfiguration.items`
+  - Deleted or renamed method `WinRMConfiguration.keys`
+  - Deleted or renamed method `WinRMConfiguration.pop`
+  - Deleted or renamed method `WinRMConfiguration.popitem`
+  - Deleted or renamed method `WinRMConfiguration.setdefault`
+  - Deleted or renamed method `WinRMConfiguration.update`
+  - Deleted or renamed method `WinRMConfiguration.values`
+  - Method `WinRMListener.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `WinRMListener.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `WinRMListener.clear`
+  - Deleted or renamed method `WinRMListener.copy`
+  - Deleted or renamed method `WinRMListener.get`
+  - Deleted or renamed method `WinRMListener.items`
+  - Deleted or renamed method `WinRMListener.keys`
+  - Deleted or renamed method `WinRMListener.pop`
+  - Deleted or renamed method `WinRMListener.popitem`
+  - Deleted or renamed method `WinRMListener.setdefault`
+  - Deleted or renamed method `WinRMListener.update`
+  - Deleted or renamed method `WinRMListener.values`
+  - Method `WindowsConfiguration.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `WindowsConfiguration.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `WindowsConfiguration.clear`
+  - Deleted or renamed method `WindowsConfiguration.copy`
+  - Deleted or renamed method `WindowsConfiguration.get`
+  - Deleted or renamed method `WindowsConfiguration.items`
+  - Deleted or renamed method `WindowsConfiguration.keys`
+  - Deleted or renamed method `WindowsConfiguration.pop`
+  - Deleted or renamed method `WindowsConfiguration.popitem`
+  - Deleted or renamed method `WindowsConfiguration.setdefault`
+  - Deleted or renamed method `WindowsConfiguration.update`
+  - Deleted or renamed method `WindowsConfiguration.values`
+  - Method `WindowsVMGuestPatchAutomaticByPlatformSettings.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `WindowsVMGuestPatchAutomaticByPlatformSettings.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `WindowsVMGuestPatchAutomaticByPlatformSettings.clear`
+  - Deleted or renamed method `WindowsVMGuestPatchAutomaticByPlatformSettings.copy`
+  - Deleted or renamed method `WindowsVMGuestPatchAutomaticByPlatformSettings.get`
+  - Deleted or renamed method `WindowsVMGuestPatchAutomaticByPlatformSettings.items`
+  - Deleted or renamed method `WindowsVMGuestPatchAutomaticByPlatformSettings.keys`
+  - Deleted or renamed method `WindowsVMGuestPatchAutomaticByPlatformSettings.pop`
+  - Deleted or renamed method `WindowsVMGuestPatchAutomaticByPlatformSettings.popitem`
+  - Deleted or renamed method `WindowsVMGuestPatchAutomaticByPlatformSettings.setdefault`
+  - Deleted or renamed method `WindowsVMGuestPatchAutomaticByPlatformSettings.update`
+  - Deleted or renamed method `WindowsVMGuestPatchAutomaticByPlatformSettings.values`
+  - `AdditionalCapabilities.__init__` had all overloads removed
+  - `AdditionalLocationsProfile.__init__` had all overloads removed
+  - `AdditionalUnattendContent.__init__` had all overloads removed
+  - `ApiEntityReference.__init__` had all overloads removed
+  - `ApiError.__init__` had all overloads removed
+  - `ApiErrorBase.__init__` had all overloads removed
+  - `ApplicationProfile.__init__` had all overloads removed
+  - `BaseVirtualMachineProfile.__init__` had all overloads removed
+  - `BootDiagnostics.__init__` had all overloads removed
+  - `CapacityReservationProfile.__init__` had all overloads removed
+  - `ComputeProfile.__init__` had all overloads removed
+  - `DiagnosticsProfile.__init__` had all overloads removed
+  - `DiffDiskSettings.__init__` had all overloads removed
+  - `DiskEncryptionSetParameters.__init__` had all overloads removed
+  - `EncryptionIdentity.__init__` had all overloads removed
+  - `ErrorResponse.__init__` had all overloads removed
+  - `Fleet.__init__` had all overloads removed
+  - `FleetProperties.__init__` had all overloads removed
+  - `FleetUpdate.__init__` had all overloads removed
+  - `ImageReference.__init__` had all overloads removed
+  - `InnerError.__init__` had all overloads removed
+  - `KeyVaultSecretReference.__init__` had all overloads removed
+  - `LinuxConfiguration.__init__` had all overloads removed
+  - `LinuxPatchSettings.__init__` had all overloads removed
+  - `LinuxVMGuestPatchAutomaticByPlatformSettings.__init__` had all overloads removed
+  - `LocationProfile.__init__` had all overloads removed
+  - `ManagedServiceIdentity.__init__` had all overloads removed
+  - `ManagedServiceIdentityUpdate.__init__` had all overloads removed
+  - `OSImageNotificationProfile.__init__` had all overloads removed
+  - `Operation.__init__` had all overloads removed
+  - `PatchSettings.__init__` had all overloads removed
+  - `Plan.__init__` had all overloads removed
+  - `ProxyAgentSettings.__init__` had all overloads removed
+  - `PublicIPAddressSku.__init__` had all overloads removed
+  - `RegularPriorityProfile.__init__` had all overloads removed
+  - `ResourcePlanUpdate.__init__` had all overloads removed
+  - `ScheduledEventsProfile.__init__` had all overloads removed
+  - `SecurityPostureReference.__init__` had all overloads removed
+  - `SecurityProfile.__init__` had all overloads removed
+  - `ServiceArtifactReference.__init__` had all overloads removed
+  - `SpotPriorityProfile.__init__` had all overloads removed
+  - `SshConfiguration.__init__` had all overloads removed
+  - `SshPublicKey.__init__` had all overloads removed
+  - `SubResource.__init__` had all overloads removed
+  - `SystemData.__init__` had all overloads removed
+  - `TerminateNotificationProfile.__init__` had all overloads removed
+  - `TrackedResource.__init__` had all overloads removed
+  - `UefiSettings.__init__` had all overloads removed
+  - `VMAttributeMinMaxDouble.__init__` had all overloads removed
+  - `VMAttributeMinMaxInteger.__init__` had all overloads removed
+  - `VMAttributes.__init__` had all overloads removed
+  - `VMDiskSecurityProfile.__init__` had all overloads removed
+  - `VMGalleryApplication.__init__` had all overloads removed
+  - `VMSizeProperties.__init__` had all overloads removed
+  - `VaultCertificate.__init__` had all overloads removed
+  - `VaultSecretGroup.__init__` had all overloads removed
+  - `VirtualHardDisk.__init__` had all overloads removed
+  - `VirtualMachineScaleSetDataDisk.__init__` had all overloads removed
+  - `VirtualMachineScaleSetExtension.__init__` had all overloads removed
+  - `VirtualMachineScaleSetExtensionProfile.__init__` had all overloads removed
+  - `VirtualMachineScaleSetExtensionProperties.__init__` had all overloads removed
+  - `VirtualMachineScaleSetHardwareProfile.__init__` had all overloads removed
+  - `VirtualMachineScaleSetIPConfiguration.__init__` had all overloads removed
+  - `VirtualMachineScaleSetIPConfigurationProperties.__init__` had all overloads removed
+  - `VirtualMachineScaleSetIpTag.__init__` had all overloads removed
+  - `VirtualMachineScaleSetManagedDiskParameters.__init__` had all overloads removed
+  - `VirtualMachineScaleSetNetworkConfiguration.__init__` had all overloads removed
+  - `VirtualMachineScaleSetNetworkConfigurationDnsSettings.__init__` had all overloads removed
+  - `VirtualMachineScaleSetNetworkConfigurationProperties.__init__` had all overloads removed
+  - `VirtualMachineScaleSetNetworkProfile.__init__` had all overloads removed
+  - `VirtualMachineScaleSetOSDisk.__init__` had all overloads removed
+  - `VirtualMachineScaleSetOSProfile.__init__` had all overloads removed
+  - `VirtualMachineScaleSetPublicIPAddressConfiguration.__init__` had all overloads removed
+  - `VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings.__init__` had all overloads removed
+  - `VirtualMachineScaleSetPublicIPAddressConfigurationProperties.__init__` had all overloads removed
+  - `VirtualMachineScaleSetStorageProfile.__init__` had all overloads removed
+  - `VmSizeProfile.__init__` had all overloads removed
+  - `WinRMConfiguration.__init__` had all overloads removed
+  - `WinRMListener.__init__` had all overloads removed
+  - `WindowsConfiguration.__init__` had all overloads removed
+  - `WindowsVMGuestPatchAutomaticByPlatformSettings.__init__` had all overloads removed
+  - `FleetsOperations.begin_create_or_update` had an overload `def begin_create_or_update(self: None, resource_group_name: str, fleet_name: str, resource: JSON, content_type: str)` removed
+  - `FleetsOperations.begin_update` had an overload `def begin_update(self: None, resource_group_name: str, fleet_name: str, properties: JSON, content_type: str)` removed
+
 ## 1.0.0 (2024-10-22)
 
 ### Features Added
