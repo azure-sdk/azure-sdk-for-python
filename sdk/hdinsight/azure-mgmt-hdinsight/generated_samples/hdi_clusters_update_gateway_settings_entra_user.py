@@ -16,7 +16,7 @@ from azure.mgmt.hdinsight import HDInsightManagementClient
     pip install azure-identity
     pip install azure-mgmt-hdinsight
 # USAGE
-    python patch_linux_hadoop_cluster.py
+    python hdi_clusters_update_gateway_settings_entra_user.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -31,14 +31,22 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.clusters.update(
+    client.clusters.begin_update_gateway_settings(
         resource_group_name="rg1",
         cluster_name="cluster1",
-        parameters={"tags": {"key1": "val1", "key2": "val2"}},
-    )
-    print(response)
+        parameters={
+            "restAuthCredential.isEnabled": False,
+            "restAuthEntraUsers": [
+                {
+                    "displayName": "displayName",
+                    "objectId": "00000000-0000-0000-0000-000000000000",
+                    "upn": "user@microsoft.com",
+                }
+            ],
+        },
+    ).result()
 
 
-# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2025-01-15-preview/examples/PatchLinuxHadoopCluster.json
+# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2025-01-15-preview/examples/HDI_Clusters_UpdateGatewaySettings_EntraUser.json
 if __name__ == "__main__":
     main()
