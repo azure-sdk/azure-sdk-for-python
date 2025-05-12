@@ -1,4 +1,4 @@
-# pylint: disable=line-too-long,useless-suppression,too-many-lines
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1019,6 +1019,7 @@ def build_vector_store_file_batches_list_files_request(  # pylint: disable=name-
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1033,6 +1034,7 @@ def build_vector_store_file_batches_list_files_request(  # pylint: disable=name-
     # Construct parameters
     if filter is not None:
         _params["filter"] = _SERIALIZER.query("filter", filter, "str")
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
     if limit is not None:
         _params["limit"] = _SERIALIZER.query("limit", limit, "int")
     if order is not None:
@@ -1211,7 +1213,7 @@ class ThreadsOperations:
         :attr:`threads` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -1748,7 +1750,7 @@ class MessagesOperations:
         :attr:`messages` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -2264,7 +2266,7 @@ class RunsOperations:
         :attr:`runs` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -3181,7 +3183,7 @@ class RunStepsOperations:
         :attr:`run_steps` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -3374,7 +3376,7 @@ class FilesOperations:
         :attr:`files` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -3704,7 +3706,7 @@ class VectorStoresOperations:
         :attr:`vector_stores` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -4261,7 +4263,7 @@ class VectorStoreFilesOperations:
         :attr:`vector_store_files` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -4653,7 +4655,7 @@ class VectorStoreFileBatchesOperations:
         :attr:`vector_store_file_batches` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -5003,6 +5005,7 @@ class VectorStoreFileBatchesOperations:
                 order=order,
                 after=_continuation_token,
                 before=before,
+                api_version=self._config.api_version,
                 headers=_headers,
                 params=_params,
             )
@@ -5037,7 +5040,7 @@ class VectorStoreFileBatchesOperations:
         return ItemPaged(get_next, extract_data)
 
 
-class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientConfiguration]):
+class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient[HttpRequest, HttpResponse], AgentsClientConfiguration]):
 
     @overload
     def create_agent(
