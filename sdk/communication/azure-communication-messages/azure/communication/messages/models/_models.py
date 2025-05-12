@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,38 +8,40 @@
 # --------------------------------------------------------------------------
 # pylint: disable=useless-super-delegation
 
+import datetime
 from typing import Any, Dict, List, Literal, Mapping, Optional, TYPE_CHECKING, Union, overload
 
-from .. import _model_base
-from .._model_base import rest_discriminator, rest_field
+from azure.core.exceptions import ODataV4Format
+
+from .._utils.model_base import Model as _Model, rest_discriminator, rest_field
 from ._enums import (
     CommunicationMessageKind,
     CommunicationMessagesChannel,
     MessageActionBindingKind,
     MessageContentKind,
+    MessagePlatformKind,
     MessageTemplateBindingsKind,
     MessageTemplateValueKind,
+    ParticipantKind,
 )
 
 if TYPE_CHECKING:
     from .. import models as _models
 
 
-class ActionBindings(_model_base.Model):
+class ActionBindings(_Model):
     """Binding actions to the interactive message.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     WhatsAppButtonActionBindings, WhatsAppListActionBindings, WhatsAppUrlActionBindings
-
-    All required parameters must be populated in order to send to server.
 
     :ivar kind: Kind of the MessageActionBinding. Required. Known values are: "whatsAppListAction",
      "whatsAppButtonAction", and "whatsAppUrlAction".
     :vartype kind: str or ~azure.communication.messages.models.MessageActionBindingKind
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
-    kind: str = rest_discriminator(name="kind")
+    __mapping__: Dict[str, _Model] = {}
+    kind: str = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])
     """Kind of the MessageActionBinding. Required. Known values are: \"whatsAppListAction\",
      \"whatsAppButtonAction\", and \"whatsAppUrlAction\"."""
 
@@ -61,10 +63,8 @@ class ActionBindings(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ActionGroup(_model_base.Model):
+class ActionGroup(_Model):
     """The Action Group content.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar title: Title of the ActionGroup. Required.
     :vartype title: str
@@ -72,9 +72,11 @@ class ActionGroup(_model_base.Model):
     :vartype items_property: list[~azure.communication.messages.models.ActionGroupItem]
     """
 
-    title: str = rest_field()
+    title: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Title of the ActionGroup. Required."""
-    items_property: List["_models.ActionGroupItem"] = rest_field(name="items")
+    items_property: List["_models.ActionGroupItem"] = rest_field(
+        name="items", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Array of items in ActionGroup. Required."""
 
     @overload
@@ -96,22 +98,20 @@ class ActionGroup(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageContent(_model_base.Model):
+class MessageContent(_Model):
     """The message content object used to create interactive messages components.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ButtonSetContent, DocumentMessageContent, ActionGroupContent, ImageMessageContent,
     TextMessageContent, LinkContent, VideoMessageContent
 
-    All required parameters must be populated in order to send to server.
-
     :ivar kind: Kind of MessageContent. Required. Known values are: "text", "image", "video",
      "document", "group", "buttonSet", and "url".
     :vartype kind: str or ~azure.communication.messages.models.MessageContentKind
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
-    kind: str = rest_discriminator(name="kind")
+    __mapping__: Dict[str, _Model] = {}
+    kind: str = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])
     """Kind of MessageContent. Required. Known values are: \"text\", \"image\", \"video\",
      \"document\", \"group\", \"buttonSet\", and \"url\"."""
 
@@ -136,8 +136,6 @@ class MessageContent(_model_base.Model):
 class ActionGroupContent(MessageContent, discriminator="group"):
     """The action content of type ActionGroup.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar kind: Message content kind is actionGroup. Required. The ActionSet content type.
     :vartype kind: str or ~azure.communication.messages.models.GROUP
     :ivar title: Title of the actionGroup content. Required.
@@ -146,11 +144,11 @@ class ActionGroupContent(MessageContent, discriminator="group"):
     :vartype groups: list[~azure.communication.messages.models.ActionGroup]
     """
 
-    kind: Literal[MessageContentKind.GROUP] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageContentKind.GROUP] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message content kind is actionGroup. Required. The ActionSet content type."""
-    title: str = rest_field()
+    title: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Title of the actionGroup content. Required."""
-    groups: List["_models.ActionGroup"] = rest_field()
+    groups: List["_models.ActionGroup"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Set or group of actions. Required."""
 
     @overload
@@ -172,10 +170,8 @@ class ActionGroupContent(MessageContent, discriminator="group"):
         super().__init__(*args, kind=MessageContentKind.GROUP, **kwargs)
 
 
-class ActionGroupItem(_model_base.Model):
+class ActionGroupItem(_Model):
     """The Action group item in the content.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar id: Id of the Item. Required.
     :vartype id: str
@@ -185,11 +181,11 @@ class ActionGroupItem(_model_base.Model):
     :vartype description: str
     """
 
-    id: str = rest_field()
+    id: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Id of the Item. Required."""
-    title: str = rest_field()
+    title: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Title of the Item. Required."""
-    description: str = rest_field()
+    description: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Description of the Item. Required."""
 
     @overload
@@ -212,7 +208,140 @@ class ActionGroupItem(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class NotificationContent(_model_base.Model):
+class AddParticipantsOptions(_Model):
+    """Request payload for adding participants to a conversation.
+
+    :ivar participants: List of participants to add. Required.
+    :vartype participants: list[~azure.communication.messages.models.ConversationParticipant]
+    """
+
+    participants: List["_models.ConversationParticipant"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """List of participants to add. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        participants: List["_models.ConversationParticipant"],
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class AddParticipantsResult(_Model):
+    """Response for the add participants operation.
+
+    :ivar invalid_participants: List of Ids with Errors if failed to be added. Required.
+    :vartype invalid_participants:
+     list[~azure.communication.messages.models.UpdateParticipantsResult]
+    """
+
+    invalid_participants: List["_models.UpdateParticipantsResult"] = rest_field(
+        name="invalidParticipants", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """List of Ids with Errors if failed to be added. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        invalid_participants: List["_models.UpdateParticipantsResult"],
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class ConversationMessageContent(_Model):
+    """Details of the conversation message content.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    AudioConversationMessageContent, DocumentConversationMessageContent,
+    ImageConversationMessageContent, TemplateConversationMessageContent,
+    TextConversationMessageContent, VideoConversationMessageContent
+
+    :ivar kind: The type discriminator describing a message type. Required. Known values are:
+     "text", "image", "image_v0", "document", "video", "audio", "template", "sticker", "reaction",
+     and "interactive".
+    :vartype kind: str or ~azure.communication.messages.models.CommunicationMessageKind
+    """
+
+    __mapping__: Dict[str, _Model] = {}
+    kind: str = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])
+    """The type discriminator describing a message type. Required. Known values are: \"text\",
+     \"image\", \"image_v0\", \"document\", \"video\", \"audio\", \"template\", \"sticker\",
+     \"reaction\", and \"interactive\"."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        kind: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class AudioConversationMessageContent(ConversationMessageContent, discriminator="audio"):
+    """A request to send an audio conversation message.
+
+    :ivar kind: Message notification type is audio. Required. Audio message type.
+    :vartype kind: str or ~azure.communication.messages.models.AUDIO
+    :ivar media_uri: A media url for the file. Required if the type is one of the supported media
+     types, e.g. image. Required.
+    :vartype media_uri: str
+    """
+
+    kind: Literal[CommunicationMessageKind.AUDIO] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Message notification type is audio. Required. Audio message type."""
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
+    """A media url for the file. Required if the type is one of the supported media types, e.g. image.
+     Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        media_uri: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, kind=CommunicationMessageKind.AUDIO, **kwargs)
+
+
+class NotificationContent(_Model):
     """Details of the message to send.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -221,26 +350,26 @@ class NotificationContent(_model_base.Model):
     StickerNotificationContent, TemplateNotificationContent, TextNotificationContent,
     VideoNotificationContent
 
-    All required parameters must be populated in order to send to server.
-
     :ivar channel_registration_id: The Channel Registration ID for the Business Identifier.
      Required.
     :vartype channel_registration_id: str
     :ivar to: The native external platform user identifiers of the recipient. Required.
     :vartype to: list[str]
-    :ivar kind: The type discriminator describing a notification type. Required. Known values are:
+    :ivar kind: The type discriminator describing a message type. Required. Known values are:
      "text", "image", "image_v0", "document", "video", "audio", "template", "sticker", "reaction",
      and "interactive".
     :vartype kind: str or ~azure.communication.messages.models.CommunicationMessageKind
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
-    channel_registration_id: str = rest_field(name="channelRegistrationId")
+    __mapping__: Dict[str, _Model] = {}
+    channel_registration_id: str = rest_field(
+        name="channelRegistrationId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The Channel Registration ID for the Business Identifier. Required."""
-    to: List[str] = rest_field()
+    to: List[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The native external platform user identifiers of the recipient. Required."""
-    kind: str = rest_discriminator(name="kind")
-    """The type discriminator describing a notification type. Required. Known values are: \"text\",
+    kind: str = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])
+    """The type discriminator describing a message type. Required. Known values are: \"text\",
      \"image\", \"image_v0\", \"document\", \"video\", \"audio\", \"template\", \"sticker\",
      \"reaction\", and \"interactive\"."""
 
@@ -267,8 +396,6 @@ class NotificationContent(_model_base.Model):
 class AudioNotificationContent(NotificationContent, discriminator="audio"):
     """A request to send an audio notification.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar channel_registration_id: The Channel Registration ID for the Business Identifier.
      Required.
     :vartype channel_registration_id: str
@@ -281,9 +408,9 @@ class AudioNotificationContent(NotificationContent, discriminator="audio"):
     :vartype media_uri: str
     """
 
-    kind: Literal[CommunicationMessageKind.AUDIO] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[CommunicationMessageKind.AUDIO] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message notification type is audio. Required. Audio message type."""
-    media_uri: str = rest_field(name="mediaUri")
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
     """A media url for the file. Required if the type is one of the supported media types, e.g. image.
      Required."""
 
@@ -307,10 +434,82 @@ class AudioNotificationContent(NotificationContent, discriminator="audio"):
         super().__init__(*args, kind=CommunicationMessageKind.AUDIO, **kwargs)
 
 
-class ButtonContent(_model_base.Model):
-    """The message content of type Button information.
+class Contact(_Model):
+    """Details of an external platform contact.
 
-    All required parameters must be populated in order to send to server.
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    BotContact, CommunicationContact, WhatsAppContact
+
+    :ivar id: External platform identifier. Required.
+    :vartype id: str
+    :ivar kind: Type of message platform (e.g., WhatsApp). Required. Known values are:
+     "communication", "bot", and "whatsApp".
+    :vartype kind: str or ~azure.communication.messages.models.MessagePlatformKind
+    """
+
+    __mapping__: Dict[str, _Model] = {}
+    id: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """External platform identifier. Required."""
+    kind: str = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])
+    """Type of message platform (e.g., WhatsApp). Required. Known values are: \"communication\",
+     \"bot\", and \"whatsApp\"."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        kind: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class BotContact(Contact, discriminator="bot"):
+    """Bot Contact.
+
+    :ivar id: External platform identifier. Required.
+    :vartype id: str
+    :ivar kind: Contact type is bot. Required. Bot platform.
+    :vartype kind: str or ~azure.communication.messages.models.BOT
+    :ivar bot_app_id: Bot App Id of the Bot Contact. Required.
+    :vartype bot_app_id: str
+    """
+
+    kind: Literal[MessagePlatformKind.BOT] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Contact type is bot. Required. Bot platform."""
+    bot_app_id: str = rest_field(name="botAppId", visibility=["read", "create", "update", "delete", "query"])
+    """Bot App Id of the Bot Contact. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        bot_app_id: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, kind=MessagePlatformKind.BOT, **kwargs)
+
+
+class ButtonContent(_Model):
+    """The message content of type Button information.
 
     :ivar id: Unique Id of the button content. Required.
     :vartype id: str
@@ -318,9 +517,9 @@ class ButtonContent(_model_base.Model):
     :vartype title: str
     """
 
-    id: str = rest_field()
+    id: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Unique Id of the button content. Required."""
-    title: str = rest_field()
+    title: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Title of the button content. Required."""
 
     @overload
@@ -345,17 +544,15 @@ class ButtonContent(_model_base.Model):
 class ButtonSetContent(MessageContent, discriminator="buttonSet"):
     """The message content of type ButtonSet/ List of buttons information.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar kind: Message content kind is Button. Required. The ButtonSet content type.
     :vartype kind: str or ~azure.communication.messages.models.BUTTON_SET
     :ivar buttons: Unique Id of the button content. Required.
     :vartype buttons: list[~azure.communication.messages.models.ButtonContent]
     """
 
-    kind: Literal[MessageContentKind.BUTTON_SET] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageContentKind.BUTTON_SET] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message content kind is Button. Required. The ButtonSet content type."""
-    buttons: List["_models.ButtonContent"] = rest_field()
+    buttons: List["_models.ButtonContent"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Unique Id of the button content. Required."""
 
     @overload
@@ -376,10 +573,246 @@ class ButtonSetContent(MessageContent, discriminator="buttonSet"):
         super().__init__(*args, kind=MessageContentKind.BUTTON_SET, **kwargs)
 
 
+class CommunicationContact(Contact, discriminator="communication"):
+    """Communication Contact.
+
+    :ivar id: External platform identifier. Required.
+    :vartype id: str
+    :ivar kind: Contact type is communication. Required. Azure Communication platform.
+    :vartype kind: str or ~azure.communication.messages.models.COMMUNICATION
+    """
+
+    kind: Literal[MessagePlatformKind.COMMUNICATION] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Contact type is communication. Required. Azure Communication platform."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, kind=MessagePlatformKind.COMMUNICATION, **kwargs)
+
+
+class CommunicationConversation(_Model):
+    """A conversation.
+
+    :ivar id: The conversation ID. Required.
+    :vartype id: str
+    :ivar topic: The conversation topic.
+    :vartype topic: str
+    :ivar delivery_channel_ids: List of delivery channel IDs.
+    :vartype delivery_channel_ids: list[str]
+    :ivar outbound_delivery_strategy: Outbound delivery strategy for the conversation. Known values
+     are: "internalOnly" and "allParticipants".
+    :vartype outbound_delivery_strategy: str or
+     ~azure.communication.messages.models.OutboundDeliveryStrategyKind
+    :ivar participants: List of participants involved in the conversation.
+    :vartype participants: list[~azure.communication.messages.models.ConversationParticipant]
+    """
+
+    id: str = rest_field(visibility=["read"])
+    """The conversation ID. Required."""
+    topic: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The conversation topic."""
+    delivery_channel_ids: Optional[List[str]] = rest_field(
+        name="deliveryChannelIds", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """List of delivery channel IDs."""
+    outbound_delivery_strategy: Optional[Union[str, "_models.OutboundDeliveryStrategyKind"]] = rest_field(
+        name="outboundDeliveryStrategy", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Outbound delivery strategy for the conversation. Known values are: \"internalOnly\" and
+     \"allParticipants\"."""
+    participants: Optional[List["_models.ConversationParticipant"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """List of participants involved in the conversation."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        topic: Optional[str] = None,
+        delivery_channel_ids: Optional[List[str]] = None,
+        outbound_delivery_strategy: Optional[Union[str, "_models.OutboundDeliveryStrategyKind"]] = None,
+        participants: Optional[List["_models.ConversationParticipant"]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class ConversationMessageItem(_Model):
+    """The conversation message as returned from the service.
+
+    :ivar id: Message ID. Required.
+    :vartype id: str
+    :ivar sequence_id: Message sequence ID.
+    :vartype sequence_id: int
+    :ivar message: Payload of a threaded conversation message. Required.
+    :vartype message: ~azure.communication.messages.models.ConversationMessageContent
+    :ivar sender_display_name: The display name of the message sender.
+    :vartype sender_display_name: str
+    :ivar sender_communication_identifier: The communication identifier of the message sender.
+     Required.
+    :vartype sender_communication_identifier: str
+    :ivar created_on: Timestamp when the message is sent. Required.
+    :vartype created_on: ~datetime.datetime
+    """
+
+    id: str = rest_field(visibility=["read"])
+    """Message ID. Required."""
+    sequence_id: Optional[int] = rest_field(
+        name="sequenceId", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Message sequence ID."""
+    message: "_models.ConversationMessageContent" = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Payload of a threaded conversation message. Required."""
+    sender_display_name: Optional[str] = rest_field(
+        name="senderDisplayName", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The display name of the message sender."""
+    sender_communication_identifier: str = rest_field(
+        name="senderCommunicationIdentifier", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The communication identifier of the message sender. Required."""
+    created_on: datetime.datetime = rest_field(
+        name="createdOn", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
+    """Timestamp when the message is sent. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        message: "_models.ConversationMessageContent",
+        sender_communication_identifier: str,
+        created_on: datetime.datetime,
+        sequence_id: Optional[int] = None,
+        sender_display_name: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class ConversationParticipant(_Model):
+    """Advanced Messaging conversation participant.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    ExternalConversationParticipant, InternalConversationParticipant
+
+    :ivar id: Participant Identifier. Required.
+    :vartype id: str
+    :ivar display_name: Participant display name.
+    :vartype display_name: str
+    :ivar kind: The type discriminator describing a participant type. Required. Known values are:
+     "internal" and "external".
+    :vartype kind: str or ~azure.communication.messages.models.ParticipantKind
+    """
+
+    __mapping__: Dict[str, _Model] = {}
+    id: str = rest_field(visibility=["read"])
+    """Participant Identifier. Required."""
+    display_name: Optional[str] = rest_field(
+        name="displayName", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Participant display name."""
+    kind: str = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])
+    """The type discriminator describing a participant type. Required. Known values are: \"internal\"
+     and \"external\"."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        kind: str,
+        display_name: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class DocumentConversationMessageContent(ConversationMessageContent, discriminator="document"):
+    """A request to send a document conversation message.
+
+    :ivar kind: Message notification type is document. Required. Document message type.
+    :vartype kind: str or ~azure.communication.messages.models.DOCUMENT
+    :ivar caption: Optional text content.
+    :vartype caption: str
+    :ivar file_name: Optional name for the file.
+    :vartype file_name: str
+    :ivar media_uri: A media url for the file. Required if the type is one of the supported media
+     types, e.g. image. Required.
+    :vartype media_uri: str
+    """
+
+    kind: Literal[CommunicationMessageKind.DOCUMENT] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Message notification type is document. Required. Document message type."""
+    caption: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Optional text content."""
+    file_name: Optional[str] = rest_field(name="fileName", visibility=["read", "create", "update", "delete", "query"])
+    """Optional name for the file."""
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
+    """A media url for the file. Required if the type is one of the supported media types, e.g. image.
+     Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        media_uri: str,
+        caption: Optional[str] = None,
+        file_name: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, kind=CommunicationMessageKind.DOCUMENT, **kwargs)
+
+
 class DocumentMessageContent(MessageContent, discriminator="document"):
     """The message content of type document information.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar kind: Message content kind is document. Required. The document content type.
     :vartype kind: str or ~azure.communication.messages.models.DOCUMENT
@@ -387,9 +820,9 @@ class DocumentMessageContent(MessageContent, discriminator="document"):
     :vartype media_uri: str
     """
 
-    kind: Literal[MessageContentKind.DOCUMENT] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageContentKind.DOCUMENT] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message content kind is document. Required. The document content type."""
-    media_uri: str = rest_field(name="mediaUri")
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
     """MediaUri of the media content. Required."""
 
     @overload
@@ -413,14 +846,12 @@ class DocumentMessageContent(MessageContent, discriminator="document"):
 class DocumentNotificationContent(NotificationContent, discriminator="document"):
     """A request to send a document notification.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar channel_registration_id: The Channel Registration ID for the Business Identifier.
      Required.
     :vartype channel_registration_id: str
     :ivar to: The native external platform user identifiers of the recipient. Required.
     :vartype to: list[str]
-    :ivar kind: Message notification type is image. Required. Document message type.
+    :ivar kind: Message notification type is document. Required. Document message type.
     :vartype kind: str or ~azure.communication.messages.models.DOCUMENT
     :ivar caption: Optional text content.
     :vartype caption: str
@@ -431,13 +862,13 @@ class DocumentNotificationContent(NotificationContent, discriminator="document")
     :vartype media_uri: str
     """
 
-    kind: Literal[CommunicationMessageKind.DOCUMENT] = rest_discriminator(name="kind")  # type: ignore
-    """Message notification type is image. Required. Document message type."""
-    caption: Optional[str] = rest_field()
+    kind: Literal[CommunicationMessageKind.DOCUMENT] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Message notification type is document. Required. Document message type."""
+    caption: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Optional text content."""
-    file_name: Optional[str] = rest_field(name="fileName")
+    file_name: Optional[str] = rest_field(name="fileName", visibility=["read", "create", "update", "delete", "query"])
     """Optional name for the file."""
-    media_uri: str = rest_field(name="mediaUri")
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
     """A media url for the file. Required if the type is one of the supported media types, e.g. image.
      Required."""
 
@@ -463,10 +894,112 @@ class DocumentNotificationContent(NotificationContent, discriminator="document")
         super().__init__(*args, kind=CommunicationMessageKind.DOCUMENT, **kwargs)
 
 
+class ExternalConversationParticipant(ConversationParticipant, discriminator="external"):
+    """External conversation participant.
+
+    :ivar id: Participant Identifier. Required.
+    :vartype id: str
+    :ivar display_name: Participant display name.
+    :vartype display_name: str
+    :ivar kind: Participant type is external. Required. A participant on other platforms
+    :vartype kind: str or ~azure.communication.messages.models.EXTERNAL
+    :ivar contacts: List of external platform identifiers for the participant. Required.
+    :vartype contacts: list[~azure.communication.messages.models.Contact]
+    """
+
+    kind: Literal[ParticipantKind.EXTERNAL] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Participant type is external. Required. A participant on other platforms"""
+    contacts: List["_models.Contact"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """List of external platform identifiers for the participant. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        contacts: List["_models.Contact"],
+        display_name: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, kind=ParticipantKind.EXTERNAL, **kwargs)
+
+
+class GetConversationThreadAnalysisResult(_Model):
+    """Result of the get conversation messages AI Analysis operation.
+
+    :ivar summary: The AI summary of the conversation messages. Required.
+    :vartype summary: str
+    """
+
+    summary: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The AI summary of the conversation messages. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        summary: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class ImageConversationMessageContent(ConversationMessageContent, discriminator="image"):
+    """A request to send an image conversation message.
+
+    :ivar kind: Message notification type is image. Required. Image message type.
+    :vartype kind: str or ~azure.communication.messages.models.IMAGE
+    :ivar content: Optional text content.
+    :vartype content: str
+    :ivar media_uri: A media url for the file. Required if the type is one of the supported media
+     types, e.g. image. Required.
+    :vartype media_uri: str
+    """
+
+    kind: Literal[CommunicationMessageKind.IMAGE] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Message notification type is image. Required. Image message type."""
+    content: Optional[str] = rest_field(name="caption", visibility=["read", "create", "update", "delete", "query"])
+    """Optional text content."""
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
+    """A media url for the file. Required if the type is one of the supported media types, e.g. image.
+     Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        media_uri: str,
+        content: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, kind=CommunicationMessageKind.IMAGE, **kwargs)
+
+
 class ImageMessageContent(MessageContent, discriminator="image"):
     """The message content of type image information.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar kind: Message content kind is image. Required. The image content type.
     :vartype kind: str or ~azure.communication.messages.models.IMAGE
@@ -474,9 +1007,9 @@ class ImageMessageContent(MessageContent, discriminator="image"):
     :vartype media_uri: str
     """
 
-    kind: Literal[MessageContentKind.IMAGE] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageContentKind.IMAGE] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message content kind is image. Required. The image content type."""
-    media_uri: str = rest_field(name="mediaUri")
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
     """MediaUri of the media content. Required."""
 
     @overload
@@ -500,8 +1033,6 @@ class ImageMessageContent(MessageContent, discriminator="image"):
 class ImageNotificationContent(NotificationContent, discriminator="image"):
     """A request to send an image notification.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar channel_registration_id: The Channel Registration ID for the Business Identifier.
      Required.
     :vartype channel_registration_id: str
@@ -516,11 +1047,11 @@ class ImageNotificationContent(NotificationContent, discriminator="image"):
     :vartype media_uri: str
     """
 
-    kind: Literal[CommunicationMessageKind.IMAGE] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[CommunicationMessageKind.IMAGE] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message notification type is image. Required. Image message type."""
-    content: Optional[str] = rest_field(name="caption")
+    content: Optional[str] = rest_field(name="caption", visibility=["read", "create", "update", "delete", "query"])
     """Optional text content."""
-    media_uri: str = rest_field(name="mediaUri")
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
     """A media url for the file. Required if the type is one of the supported media types, e.g. image.
      Required."""
 
@@ -545,10 +1076,8 @@ class ImageNotificationContent(NotificationContent, discriminator="image"):
         super().__init__(*args, kind=CommunicationMessageKind.IMAGE, **kwargs)
 
 
-class InteractiveMessage(_model_base.Model):
+class InteractiveMessage(_Model):
     """The Interactive message content to which user can read and respond.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar header: Gets or Sets Header content. Supports the following types:text, images etc.
     :vartype header: ~azure.communication.messages.models.MessageContent
@@ -562,13 +1091,15 @@ class InteractiveMessage(_model_base.Model):
     :vartype action: ~azure.communication.messages.models.ActionBindings
     """
 
-    header: Optional["_models.MessageContent"] = rest_field()
+    header: Optional["_models.MessageContent"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Gets or Sets Header content. Supports the following types:text, images etc."""
-    body: "_models.TextMessageContent" = rest_field()
+    body: "_models.TextMessageContent" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Gets or Sets Message body content. Emojis, markdown, and links are supported. Required."""
-    footer: Optional["_models.TextMessageContent"] = rest_field()
+    footer: Optional["_models.TextMessageContent"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Gets or Sets Message footer content. Emojis, markdown, and links are supported."""
-    action: "_models.ActionBindings" = rest_field()
+    action: "_models.ActionBindings" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The binding object to get or set Action which describes options user have to respond to
      message. Required."""
 
@@ -596,8 +1127,6 @@ class InteractiveMessage(_model_base.Model):
 class InteractiveNotificationContent(NotificationContent, discriminator="interactive"):
     """A request to send an Interactive message notification.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar channel_registration_id: The Channel Registration ID for the Business Identifier.
      Required.
     :vartype channel_registration_id: str
@@ -610,9 +1139,11 @@ class InteractiveNotificationContent(NotificationContent, discriminator="interac
     :vartype interactive_message: ~azure.communication.messages.models.InteractiveMessage
     """
 
-    kind: Literal[CommunicationMessageKind.INTERACTIVE] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[CommunicationMessageKind.INTERACTIVE] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message notification type is Interactive. Required. Interactive Actionable message type."""
-    interactive_message: "_models.InteractiveMessage" = rest_field(name="interactiveMessage")
+    interactive_message: "_models.InteractiveMessage" = rest_field(
+        name="interactiveMessage", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The interactive message content. Required."""
 
     @overload
@@ -635,10 +1166,46 @@ class InteractiveNotificationContent(NotificationContent, discriminator="interac
         super().__init__(*args, kind=CommunicationMessageKind.INTERACTIVE, **kwargs)
 
 
+class InternalConversationParticipant(ConversationParticipant, discriminator="internal"):
+    """Internal conversation participant.
+
+    :ivar id: Participant Identifier. Required.
+    :vartype id: str
+    :ivar display_name: Participant display name.
+    :vartype display_name: str
+    :ivar kind: Participant type is internal. Required. A participant internal to Azure
+     Communication Services.
+    :vartype kind: str or ~azure.communication.messages.models.INTERNAL
+    :ivar contact: The internal platform identifiers for the participant. Required.
+    :vartype contact: ~azure.communication.messages.models.Contact
+    """
+
+    kind: Literal[ParticipantKind.INTERNAL] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Participant type is internal. Required. A participant internal to Azure Communication Services."""
+    contact: "_models.Contact" = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The internal platform identifiers for the participant. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        contact: "_models.Contact",
+        display_name: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, kind=ParticipantKind.INTERNAL, **kwargs)
+
+
 class LinkContent(MessageContent, discriminator="url"):
     """The message content of type Url information.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar kind: Message content kind is url. Required. The Url content type.
     :vartype kind: str or ~azure.communication.messages.models.URL
@@ -648,11 +1215,11 @@ class LinkContent(MessageContent, discriminator="url"):
     :vartype url: str
     """
 
-    kind: Literal[MessageContentKind.URL] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageContentKind.URL] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message content kind is url. Required. The Url content type."""
-    title: str = rest_field()
+    title: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Title of the url content. Required."""
-    url: str = rest_field()
+    url: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The url in the content. Required."""
 
     @overload
@@ -677,8 +1244,6 @@ class LinkContent(MessageContent, discriminator="url"):
 class MediaNotificationContent(NotificationContent, discriminator="image_v0"):
     """@deprecated A request to send an image notification.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar channel_registration_id: The Channel Registration ID for the Business Identifier.
      Required.
     :vartype channel_registration_id: str
@@ -694,12 +1259,12 @@ class MediaNotificationContent(NotificationContent, discriminator="image_v0"):
     :vartype media_uri: str
     """
 
-    kind: Literal[CommunicationMessageKind.IMAGE_V0] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[CommunicationMessageKind.IMAGE_V0] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message notification type is image. Required. Image message type. Legacy image type for
      ``MediaNotificationContent`` which is being deprecated"""
-    content: Optional[str] = rest_field()
+    content: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Optional text content."""
-    media_uri: str = rest_field(name="mediaUri")
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
     """A media url for the file. Required if the type is one of the supported media types, e.g. image.
      Required."""
 
@@ -724,9 +1289,36 @@ class MediaNotificationContent(NotificationContent, discriminator="image_v0"):
         super().__init__(*args, kind=CommunicationMessageKind.IMAGE_V0, **kwargs)
 
 
-class MessageReceipt(_model_base.Model):
-    """Receipt of the sending one message.
+class Message(_Model):
+    """Details of a message.
 
+    :ivar content: Content of the message. Required.
+    :vartype content: str
+    """
+
+    content: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Content of the message. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        content: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class MessageReceipt(_Model):
+    """Receipt of the sending one message.
 
     :ivar message_id: The message id. Required.
     :vartype message_id: str
@@ -734,9 +1326,9 @@ class MessageReceipt(_model_base.Model):
     :vartype to: str
     """
 
-    message_id: str = rest_field(name="messageId")
+    message_id: str = rest_field(name="messageId", visibility=["read", "create", "update", "delete", "query"])
     """The message id. Required."""
-    to: str = rest_field()
+    to: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The native external platform user identifier of the recipient. Required."""
 
     @overload
@@ -758,10 +1350,8 @@ class MessageReceipt(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageTemplate(_model_base.Model):
+class MessageTemplate(_Model):
     """The template object used to create templates.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the template. Required.
     :vartype name: str
@@ -774,14 +1364,18 @@ class MessageTemplate(_model_base.Model):
     :vartype bindings: ~azure.communication.messages.models.MessageTemplateBindings
     """
 
-    name: str = rest_field()
+    name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Name of the template. Required."""
-    language: str = rest_field()
+    language: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The template's language, in the ISO 639 format, consist of a two-letter language code followed
      by an optional two-letter country code, e.g., 'en' or 'en_US'. Required."""
-    template_values: Optional[List["_models.MessageTemplateValue"]] = rest_field(name="values")
+    template_values: Optional[List["_models.MessageTemplateValue"]] = rest_field(
+        name="values", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The template values."""
-    bindings: Optional["_models.MessageTemplateBindings"] = rest_field()
+    bindings: Optional["_models.MessageTemplateBindings"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The binding object to link values to the template specific locations."""
 
     @overload
@@ -805,20 +1399,18 @@ class MessageTemplate(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageTemplateBindings(_model_base.Model):
+class MessageTemplateBindings(_Model):
     """The binding object to link values to the template specific locations.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     WhatsAppMessageTemplateBindings
 
-    All required parameters must be populated in order to send to server.
-
     :ivar kind: The type discriminator describing a template bindings type. Required. "whatsApp"
     :vartype kind: str or ~azure.communication.messages.models.MessageTemplateBindingsKind
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
-    kind: str = rest_discriminator(name="kind")
+    __mapping__: Dict[str, _Model] = {}
+    kind: str = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])
     """The type discriminator describing a template bindings type. Required. \"whatsApp\""""
 
     @overload
@@ -839,14 +1431,12 @@ class MessageTemplateBindings(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageTemplateValue(_model_base.Model):
+class MessageTemplateValue(_Model):
     """The class describes a parameter of a template.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     MessageTemplateDocument, MessageTemplateImage, MessageTemplateLocation,
     MessageTemplateQuickAction, MessageTemplateText, MessageTemplateVideo
-
-    All required parameters must be populated in order to send to server.
 
     :ivar name: Template binding reference name. Required.
     :vartype name: str
@@ -855,10 +1445,10 @@ class MessageTemplateValue(_model_base.Model):
     :vartype kind: str or ~azure.communication.messages.models.MessageTemplateValueKind
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
-    name: str = rest_field()
+    __mapping__: Dict[str, _Model] = {}
+    name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Template binding reference name. Required."""
-    kind: str = rest_discriminator(name="kind")
+    kind: str = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])
     """The type discriminator describing a template parameter type. Required. Known values are:
      \"text\", \"image\", \"document\", \"video\", \"location\", and \"quickAction\"."""
 
@@ -884,8 +1474,6 @@ class MessageTemplateValue(_model_base.Model):
 class MessageTemplateDocument(MessageTemplateValue, discriminator="document"):
     """The message template's document value information.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar name: Template binding reference name. Required.
     :vartype name: str
     :ivar kind: Message parameter type is document. Required. The document template parameter type.
@@ -898,13 +1486,13 @@ class MessageTemplateDocument(MessageTemplateValue, discriminator="document"):
     :vartype file_name: str
     """
 
-    kind: Literal[MessageTemplateValueKind.DOCUMENT] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageTemplateValueKind.DOCUMENT] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message parameter type is document. Required. The document template parameter type."""
-    url: str = rest_field()
+    url: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The (public) URL of the media. Required."""
-    caption: Optional[str] = rest_field()
+    caption: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The [optional] caption of the media object."""
-    file_name: Optional[str] = rest_field(name="fileName")
+    file_name: Optional[str] = rest_field(name="fileName", visibility=["read", "create", "update", "delete", "query"])
     """The [optional] filename of the media file."""
 
     @overload
@@ -931,8 +1519,6 @@ class MessageTemplateDocument(MessageTemplateValue, discriminator="document"):
 class MessageTemplateImage(MessageTemplateValue, discriminator="image"):
     """The message template's image value information.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar name: Template binding reference name. Required.
     :vartype name: str
     :ivar kind: Message parameter type is image. Required. The image template parameter type.
@@ -945,13 +1531,13 @@ class MessageTemplateImage(MessageTemplateValue, discriminator="image"):
     :vartype file_name: str
     """
 
-    kind: Literal[MessageTemplateValueKind.IMAGE] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageTemplateValueKind.IMAGE] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message parameter type is image. Required. The image template parameter type."""
-    url: str = rest_field()
+    url: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The (public) URL of the media. Required."""
-    caption: Optional[str] = rest_field()
+    caption: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The [optional] caption of the media object."""
-    file_name: Optional[str] = rest_field(name="fileName")
+    file_name: Optional[str] = rest_field(name="fileName", visibility=["read", "create", "update", "delete", "query"])
     """The [optional] filename of the media file."""
 
     @overload
@@ -975,14 +1561,11 @@ class MessageTemplateImage(MessageTemplateValue, discriminator="image"):
         super().__init__(*args, kind=MessageTemplateValueKind.IMAGE, **kwargs)
 
 
-class MessageTemplateItem(_model_base.Model):
+class MessageTemplateItem(_Model):
     """The message template as returned from the service.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     WhatsAppMessageTemplateItem
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar name: The template's name. Required.
     :vartype name: str
@@ -996,16 +1579,18 @@ class MessageTemplateItem(_model_base.Model):
     :vartype kind: str or ~azure.communication.messages.models.CommunicationMessagesChannel
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     name: str = rest_field(visibility=["read"])
     """The template's name. Required."""
-    language: str = rest_field()
+    language: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The template's language, in the ISO 639 format, consist of a two-letter language code followed
      by an optional two-letter country code, e.g., 'en' or 'en_US'. Required."""
-    status: Union[str, "_models.MessageTemplateStatus"] = rest_field()
+    status: Union[str, "_models.MessageTemplateStatus"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The aggregated template status. Required. Known values are: \"approved\", \"rejected\",
      \"pending\", and \"paused\"."""
-    kind: str = rest_discriminator(name="kind")
+    kind: str = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])
     """The type discriminator describing a template type. Required. \"whatsApp\""""
 
     @overload
@@ -1031,8 +1616,6 @@ class MessageTemplateItem(_model_base.Model):
 class MessageTemplateLocation(MessageTemplateValue, discriminator="location"):
     """The message template's location value information.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar name: Template binding reference name. Required.
     :vartype name: str
     :ivar kind: Message parameter type is location. Required. The location template parameter type.
@@ -1047,15 +1630,17 @@ class MessageTemplateLocation(MessageTemplateValue, discriminator="location"):
     :vartype longitude: float
     """
 
-    kind: Literal[MessageTemplateValueKind.LOCATION] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageTemplateValueKind.LOCATION] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message parameter type is location. Required. The location template parameter type."""
-    location_name: Optional[str] = rest_field(name="locationName")
+    location_name: Optional[str] = rest_field(
+        name="locationName", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The [Optional] name of the location."""
-    address: Optional[str] = rest_field()
+    address: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The [Optional] address of the location."""
-    latitude: float = rest_field()
+    latitude: float = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The latitude of the location. Required."""
-    longitude: float = rest_field()
+    longitude: float = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The longitude of the location. Required."""
 
     @overload
@@ -1083,8 +1668,6 @@ class MessageTemplateLocation(MessageTemplateValue, discriminator="location"):
 class MessageTemplateQuickAction(MessageTemplateValue, discriminator="quickAction"):
     """The message template's quick action value information.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar name: Template binding reference name. Required.
     :vartype name: str
     :ivar kind: Message parameter type is quick action. Required. The quick action template
@@ -1096,11 +1679,11 @@ class MessageTemplateQuickAction(MessageTemplateValue, discriminator="quickActio
     :vartype payload: str
     """
 
-    kind: Literal[MessageTemplateValueKind.QUICK_ACTION] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageTemplateValueKind.QUICK_ACTION] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message parameter type is quick action. Required. The quick action template parameter type."""
-    text: Optional[str] = rest_field()
+    text: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The [Optional] quick action text."""
-    payload: Optional[str] = rest_field()
+    payload: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The [Optional] quick action payload."""
 
     @overload
@@ -1126,8 +1709,6 @@ class MessageTemplateQuickAction(MessageTemplateValue, discriminator="quickActio
 class MessageTemplateText(MessageTemplateValue, discriminator="text"):
     """The message template's text value information.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar name: Template binding reference name. Required.
     :vartype name: str
     :ivar kind: Message parameter type is text. Required. The text template parameter type.
@@ -1136,9 +1717,9 @@ class MessageTemplateText(MessageTemplateValue, discriminator="text"):
     :vartype text: str
     """
 
-    kind: Literal[MessageTemplateValueKind.TEXT] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageTemplateValueKind.TEXT] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message parameter type is text. Required. The text template parameter type."""
-    text: str = rest_field()
+    text: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The text value. Required."""
 
     @overload
@@ -1163,8 +1744,6 @@ class MessageTemplateText(MessageTemplateValue, discriminator="text"):
 class MessageTemplateVideo(MessageTemplateValue, discriminator="video"):
     """The message template's video value information.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar name: Template binding reference name. Required.
     :vartype name: str
     :ivar kind: Message parameter type is video. Required. The video template parameter type.
@@ -1177,13 +1756,13 @@ class MessageTemplateVideo(MessageTemplateValue, discriminator="video"):
     :vartype file_name: str
     """
 
-    kind: Literal[MessageTemplateValueKind.VIDEO] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageTemplateValueKind.VIDEO] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message parameter type is video. Required. The video template parameter type."""
-    url: str = rest_field()
+    url: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The (public) URL of the media. Required."""
-    caption: Optional[str] = rest_field()
+    caption: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The [optional] caption of the media object."""
-    file_name: Optional[str] = rest_field(name="fileName")
+    file_name: Optional[str] = rest_field(name="fileName", visibility=["read", "create", "update", "delete", "query"])
     """The [optional] filename of the media file."""
 
     @overload
@@ -1210,8 +1789,6 @@ class MessageTemplateVideo(MessageTemplateValue, discriminator="video"):
 class ReactionNotificationContent(NotificationContent, discriminator="reaction"):
     """A request to send a Reaction notification.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar channel_registration_id: The Channel Registration ID for the Business Identifier.
      Required.
     :vartype channel_registration_id: str
@@ -1219,17 +1796,17 @@ class ReactionNotificationContent(NotificationContent, discriminator="reaction")
     :vartype to: list[str]
     :ivar kind: Message notification type is reaction. Required. Reaction message type.
     :vartype kind: str or ~azure.communication.messages.models.REACTION
-    :ivar emoji: emoji content like uD83D. Required.
+    :ivar emoji: emoji content like \\uD83D\\uDE00. Required.
     :vartype emoji: str
     :ivar message_id: ID of the previous message you want to reply to. Required.
     :vartype message_id: str
     """
 
-    kind: Literal[CommunicationMessageKind.REACTION] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[CommunicationMessageKind.REACTION] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message notification type is reaction. Required. Reaction message type."""
-    emoji: str = rest_field()
-    """emoji content like :) Required."""
-    message_id: str = rest_field(name="messageId")
+    emoji: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """emoji content like \uD83D\uDE00. Required."""
+    message_id: str = rest_field(name="messageId", visibility=["read", "create", "update", "delete", "query"])
     """ID of the previous message you want to reply to. Required."""
 
     @overload
@@ -1253,15 +1830,145 @@ class ReactionNotificationContent(NotificationContent, discriminator="reaction")
         super().__init__(*args, kind=CommunicationMessageKind.REACTION, **kwargs)
 
 
-class SendMessageResult(_model_base.Model):
-    """Result of the send message operation.
+class RemoveParticipantsOptions(_Model):
+    """Request payload for removing participants from a conversation.
 
+    :ivar participant_ids: The participant IDs to remove. Required.
+    :vartype participant_ids: list[str]
+    """
+
+    participant_ids: List[str] = rest_field(
+        name="participantIds", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The participant IDs to remove. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        participant_ids: List[str],
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class RemoveParticipantsResult(_Model):
+    """Response for the remove participants operation.
+
+    :ivar invalid_participants: List of Ids with Errors if failed to be added. Required.
+    :vartype invalid_participants:
+     list[~azure.communication.messages.models.UpdateParticipantsResult]
+    """
+
+    invalid_participants: List["_models.UpdateParticipantsResult"] = rest_field(
+        name="invalidParticipants", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """List of Ids with Errors if failed to be added. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        invalid_participants: List["_models.UpdateParticipantsResult"],
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class SendConversationMessageOptions(_Model):
+    """Request payload for sending a conversation message.
+
+    :ivar request: Details of a send conversation message request. Required.
+    :vartype request: ~azure.communication.messages.models.ConversationMessageContent
+    :ivar outbound_delivery_strategy: The options of the outbound delivery strategy for messages
+     sent by participants in a conversation.
+     Supports internalOnly, allChannels. Known values are: "internalOnly" and "allParticipants".
+    :vartype outbound_delivery_strategy: str or
+     ~azure.communication.messages.models.OutboundDeliveryStrategyKind
+    """
+
+    request: "_models.ConversationMessageContent" = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Details of a send conversation message request. Required."""
+    outbound_delivery_strategy: Optional[Union[str, "_models.OutboundDeliveryStrategyKind"]] = rest_field(
+        name="outboundDeliveryStrategy", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The options of the outbound delivery strategy for messages sent by participants in a
+     conversation.
+     Supports internalOnly, allChannels. Known values are: \"internalOnly\" and \"allParticipants\"."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        request: "_models.ConversationMessageContent",
+        outbound_delivery_strategy: Optional[Union[str, "_models.OutboundDeliveryStrategyKind"]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class SendConversationMessageResult(_Model):
+    """Result of the send conversation message operation.
+
+    :ivar message_id: A server-generated Advanced Messaging conversation message id. Required.
+    :vartype message_id: str
+    """
+
+    message_id: str = rest_field(name="messageId", visibility=["read", "create", "update", "delete", "query"])
+    """A server-generated Advanced Messaging conversation message id. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        message_id: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class SendMessageResult(_Model):
+    """Result of the send message operation.
 
     :ivar receipts: Receipts of the send message operation. Required.
     :vartype receipts: list[~azure.communication.messages.models.MessageReceipt]
     """
 
-    receipts: List["_models.MessageReceipt"] = rest_field()
+    receipts: List["_models.MessageReceipt"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Receipts of the send message operation. Required."""
 
     @overload
@@ -1285,8 +1992,6 @@ class SendMessageResult(_model_base.Model):
 class StickerNotificationContent(NotificationContent, discriminator="sticker"):
     """A request to send a Sticker notification.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar channel_registration_id: The Channel Registration ID for the Business Identifier.
      Required.
     :vartype channel_registration_id: str
@@ -1299,9 +2004,9 @@ class StickerNotificationContent(NotificationContent, discriminator="sticker"):
     :vartype media_uri: str
     """
 
-    kind: Literal[CommunicationMessageKind.STICKER] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[CommunicationMessageKind.STICKER] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message notification type is sticker. Required. Sticker message type."""
-    media_uri: str = rest_field(name="mediaUri")
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
     """A media url for the file. Required if the type is one of the supported media types, e.g. image.
      Required."""
 
@@ -1325,10 +2030,40 @@ class StickerNotificationContent(NotificationContent, discriminator="sticker"):
         super().__init__(*args, kind=CommunicationMessageKind.STICKER, **kwargs)
 
 
+class TemplateConversationMessageContent(ConversationMessageContent, discriminator="template"):
+    """A request to send a template conversation message.
+
+    :ivar kind: Message notification type is template. Required. Template message type.
+    :vartype kind: str or ~azure.communication.messages.models.TEMPLATE
+    :ivar template: The template object used to create templates. Required.
+    :vartype template: ~azure.communication.messages.models.MessageTemplate
+    """
+
+    kind: Literal[CommunicationMessageKind.TEMPLATE] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Message notification type is template. Required. Template message type."""
+    template: "_models.MessageTemplate" = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The template object used to create templates. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        template: "_models.MessageTemplate",
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, kind=CommunicationMessageKind.TEMPLATE, **kwargs)
+
+
 class TemplateNotificationContent(NotificationContent, discriminator="template"):
     """A request to send a template notification.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar channel_registration_id: The Channel Registration ID for the Business Identifier.
      Required.
@@ -1341,9 +2076,9 @@ class TemplateNotificationContent(NotificationContent, discriminator="template")
     :vartype template: ~azure.communication.messages.models.MessageTemplate
     """
 
-    kind: Literal[CommunicationMessageKind.TEMPLATE] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[CommunicationMessageKind.TEMPLATE] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message notification type is template. Required. Template message type."""
-    template: "_models.MessageTemplate" = rest_field()
+    template: "_models.MessageTemplate" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The template object used to create templates. Required."""
 
     @overload
@@ -1366,10 +2101,40 @@ class TemplateNotificationContent(NotificationContent, discriminator="template")
         super().__init__(*args, kind=CommunicationMessageKind.TEMPLATE, **kwargs)
 
 
+class TextConversationMessageContent(ConversationMessageContent, discriminator="text"):
+    """A request to send a text conversation message.
+
+    :ivar kind: Message notification type is text. Required. Text message type.
+    :vartype kind: str or ~azure.communication.messages.models.TEXT
+    :ivar content: Message content. Required.
+    :vartype content: str
+    """
+
+    kind: Literal[CommunicationMessageKind.TEXT] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Message notification type is text. Required. Text message type."""
+    content: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Message content. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        content: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, kind=CommunicationMessageKind.TEXT, **kwargs)
+
+
 class TextMessageContent(MessageContent, discriminator="text"):
     """The message content of type text information.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar kind: Message content kind is text. Required. The text content type.
     :vartype kind: str or ~azure.communication.messages.models.TEXT
@@ -1377,9 +2142,9 @@ class TextMessageContent(MessageContent, discriminator="text"):
     :vartype text: str
     """
 
-    kind: Literal[MessageContentKind.TEXT] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageContentKind.TEXT] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message content kind is text. Required. The text content type."""
-    text: str = rest_field()
+    text: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The text value. Required."""
 
     @overload
@@ -1403,8 +2168,6 @@ class TextMessageContent(MessageContent, discriminator="text"):
 class TextNotificationContent(NotificationContent, discriminator="text"):
     """A request to send a text notification.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar channel_registration_id: The Channel Registration ID for the Business Identifier.
      Required.
     :vartype channel_registration_id: str
@@ -1416,9 +2179,9 @@ class TextNotificationContent(NotificationContent, discriminator="text"):
     :vartype content: str
     """
 
-    kind: Literal[CommunicationMessageKind.TEXT] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[CommunicationMessageKind.TEXT] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message notification type is text. Required. Text message type."""
-    content: str = rest_field()
+    content: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Message content. Required."""
 
     @overload
@@ -1441,10 +2204,80 @@ class TextNotificationContent(NotificationContent, discriminator="text"):
         super().__init__(*args, kind=CommunicationMessageKind.TEXT, **kwargs)
 
 
+class UpdateParticipantsResult(_Model):
+    """Response for the remove participants operation.
+
+    :ivar id: Participant User Id. Required.
+    :vartype id: str
+    :ivar error: Error of the participant operation.
+    :vartype error: ~azure.core.ODataV4Format
+    """
+
+    id: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Participant User Id. Required."""
+    error: Optional[ODataV4Format] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Error of the participant operation."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        error: Optional[ODataV4Format] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class VideoConversationMessageContent(ConversationMessageContent, discriminator="video"):
+    """A request to send a video conversation message.
+
+    :ivar kind: Message notification type is video. Required. Video message type.
+    :vartype kind: str or ~azure.communication.messages.models.VIDEO
+    :ivar caption: Optional text content.
+    :vartype caption: str
+    :ivar media_uri: A media url for the file. Required if the type is one of the supported media
+     types, e.g. image. Required.
+    :vartype media_uri: str
+    """
+
+    kind: Literal[CommunicationMessageKind.VIDEO] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Message notification type is video. Required. Video message type."""
+    caption: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Optional text content."""
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
+    """A media url for the file. Required if the type is one of the supported media types, e.g. image.
+     Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        media_uri: str,
+        caption: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, kind=CommunicationMessageKind.VIDEO, **kwargs)
+
+
 class VideoMessageContent(MessageContent, discriminator="video"):
     """The message content of type video information.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar kind: Message content kind is video. Required. The video content type.
     :vartype kind: str or ~azure.communication.messages.models.VIDEO
@@ -1452,9 +2285,9 @@ class VideoMessageContent(MessageContent, discriminator="video"):
     :vartype media_uri: str
     """
 
-    kind: Literal[MessageContentKind.VIDEO] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageContentKind.VIDEO] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message content kind is video. Required. The video content type."""
-    media_uri: str = rest_field(name="mediaUri")
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
     """MediaUri of the media content. Required."""
 
     @overload
@@ -1478,14 +2311,12 @@ class VideoMessageContent(MessageContent, discriminator="video"):
 class VideoNotificationContent(NotificationContent, discriminator="video"):
     """A request to send a video notification.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar channel_registration_id: The Channel Registration ID for the Business Identifier.
      Required.
     :vartype channel_registration_id: str
     :ivar to: The native external platform user identifiers of the recipient. Required.
     :vartype to: list[str]
-    :ivar kind: Message notification type is image. Required. Video message type.
+    :ivar kind: Message notification type is video. Required. Video message type.
     :vartype kind: str or ~azure.communication.messages.models.VIDEO
     :ivar caption: Optional text content.
     :vartype caption: str
@@ -1494,11 +2325,11 @@ class VideoNotificationContent(NotificationContent, discriminator="video"):
     :vartype media_uri: str
     """
 
-    kind: Literal[CommunicationMessageKind.VIDEO] = rest_discriminator(name="kind")  # type: ignore
-    """Message notification type is image. Required. Video message type."""
-    caption: Optional[str] = rest_field()
+    kind: Literal[CommunicationMessageKind.VIDEO] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Message notification type is video. Required. Video message type."""
+    caption: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Optional text content."""
-    media_uri: str = rest_field(name="mediaUri")
+    media_uri: str = rest_field(name="mediaUri", visibility=["read", "create", "update", "delete", "query"])
     """A media url for the file. Required if the type is one of the supported media types, e.g. image.
      Required."""
 
@@ -1526,8 +2357,6 @@ class VideoNotificationContent(NotificationContent, discriminator="video"):
 class WhatsAppButtonActionBindings(ActionBindings, discriminator="whatsAppButtonAction"):
     """WhatsApp Binding actions to the interactive message.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar kind: Message action binding type is WhatsAppButtonAction. Required. The WhatsApp Button
      action binding kind.
     :vartype kind: str or ~azure.communication.messages.models.WHATS_APP_BUTTON_ACTION
@@ -1535,10 +2364,10 @@ class WhatsAppButtonActionBindings(ActionBindings, discriminator="whatsAppButton
     :vartype content: ~azure.communication.messages.models.ButtonSetContent
     """
 
-    kind: Literal[MessageActionBindingKind.WHATS_APP_BUTTON_ACTION] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageActionBindingKind.WHATS_APP_BUTTON_ACTION] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message action binding type is WhatsAppButtonAction. Required. The WhatsApp Button action
      binding kind."""
-    content: "_models.ButtonSetContent" = rest_field()
+    content: "_models.ButtonSetContent" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Action content of Interactive message. Required."""
 
     @overload
@@ -1559,10 +2388,38 @@ class WhatsAppButtonActionBindings(ActionBindings, discriminator="whatsAppButton
         super().__init__(*args, kind=MessageActionBindingKind.WHATS_APP_BUTTON_ACTION, **kwargs)
 
 
+class WhatsAppContact(Contact, discriminator="whatsApp"):
+    """WhatsApp Contact.
+
+    :ivar id: External platform identifier. Required.
+    :vartype id: str
+    :ivar kind: Contact type is whatsApp. Required. WhatsApp platform.
+    :vartype kind: str or ~azure.communication.messages.models.WHATS_APP
+    """
+
+    kind: Literal[MessagePlatformKind.WHATS_APP] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
+    """Contact type is whatsApp. Required. WhatsApp platform."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, kind=MessagePlatformKind.WHATS_APP, **kwargs)
+
+
 class WhatsAppListActionBindings(ActionBindings, discriminator="whatsAppListAction"):
     """WhatsApp List Binding actions to the interactive message.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar kind: Message action binding type is WhatsAppListAction. Required. The WhatsApp List
      action binding kind.
@@ -1571,10 +2428,10 @@ class WhatsAppListActionBindings(ActionBindings, discriminator="whatsAppListActi
     :vartype content: ~azure.communication.messages.models.ActionGroupContent
     """
 
-    kind: Literal[MessageActionBindingKind.WHATS_APP_LIST_ACTION] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageActionBindingKind.WHATS_APP_LIST_ACTION] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message action binding type is WhatsAppListAction. Required. The WhatsApp List action binding
      kind."""
-    content: "_models.ActionGroupContent" = rest_field()
+    content: "_models.ActionGroupContent" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Action content of Interactive message. Required."""
 
     @overload
@@ -1598,10 +2455,8 @@ class WhatsAppListActionBindings(ActionBindings, discriminator="whatsAppListActi
 class WhatsAppMessageTemplateBindings(MessageTemplateBindings, discriminator="whatsApp"):
     """The template bindings for WhatsApp.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar kind: MessageTemplateBindings is whatsApp. Required. The WhatsApp template type.
-    :vartype kind: str or ~azure.communication.messages.models.WHATSAPP
+    :vartype kind: str or ~azure.communication.messages.models.WHATS_APP
     :ivar header: The header template bindings.
     :vartype header:
      list[~azure.communication.messages.models.WhatsAppMessageTemplateBindingsComponent]
@@ -1616,15 +2471,23 @@ class WhatsAppMessageTemplateBindings(MessageTemplateBindings, discriminator="wh
      list[~azure.communication.messages.models.WhatsAppMessageTemplateBindingsButton]
     """
 
-    kind: Literal[MessageTemplateBindingsKind.WHATSAPP] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageTemplateBindingsKind.WHATS_APP] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """MessageTemplateBindings is whatsApp. Required. The WhatsApp template type."""
-    header: Optional[List["_models.WhatsAppMessageTemplateBindingsComponent"]] = rest_field()
+    header: Optional[List["_models.WhatsAppMessageTemplateBindingsComponent"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The header template bindings."""
-    body: Optional[List["_models.WhatsAppMessageTemplateBindingsComponent"]] = rest_field()
+    body: Optional[List["_models.WhatsAppMessageTemplateBindingsComponent"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The body template bindings."""
-    footer: Optional[List["_models.WhatsAppMessageTemplateBindingsComponent"]] = rest_field()
+    footer: Optional[List["_models.WhatsAppMessageTemplateBindingsComponent"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The footer template bindings."""
-    buttons: Optional[List["_models.WhatsAppMessageTemplateBindingsButton"]] = rest_field()
+    buttons: Optional[List["_models.WhatsAppMessageTemplateBindingsButton"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The button template bindings."""
 
     @overload
@@ -1645,13 +2508,11 @@ class WhatsAppMessageTemplateBindings(MessageTemplateBindings, discriminator="wh
         """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, kind=MessageTemplateBindingsKind.WHATSAPP, **kwargs)
+        super().__init__(*args, kind=MessageTemplateBindingsKind.WHATS_APP, **kwargs)
 
 
-class WhatsAppMessageTemplateBindingsButton(_model_base.Model):
+class WhatsAppMessageTemplateBindingsButton(_Model):
     """The template bindings component button for WhatsApp.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar sub_type: The WhatsApp button sub type. Required. Known values are: "quickReply" and
      "url".
@@ -1660,9 +2521,11 @@ class WhatsAppMessageTemplateBindingsButton(_model_base.Model):
     :vartype ref_value: str
     """
 
-    sub_type: Union[str, "_models.WhatsAppMessageButtonSubType"] = rest_field(name="subType")
+    sub_type: Union[str, "_models.WhatsAppMessageButtonSubType"] = rest_field(
+        name="subType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The WhatsApp button sub type. Required. Known values are: \"quickReply\" and \"url\"."""
-    ref_value: str = rest_field(name="refValue")
+    ref_value: str = rest_field(name="refValue", visibility=["read", "create", "update", "delete", "query"])
     """The name of the referenced item in the template values. Required."""
 
     @overload
@@ -1684,16 +2547,14 @@ class WhatsAppMessageTemplateBindingsButton(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class WhatsAppMessageTemplateBindingsComponent(_model_base.Model):
+class WhatsAppMessageTemplateBindingsComponent(_Model):
     """The template bindings component for WhatsApp.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar ref_value: The name of the referenced item in the template values. Required.
     :vartype ref_value: str
     """
 
-    ref_value: str = rest_field(name="refValue")
+    ref_value: str = rest_field(name="refValue", visibility=["read", "create", "update", "delete", "query"])
     """The name of the referenced item in the template values. Required."""
 
     @overload
@@ -1717,9 +2578,6 @@ class WhatsAppMessageTemplateBindingsComponent(_model_base.Model):
 class WhatsAppMessageTemplateItem(MessageTemplateItem, discriminator="whatsApp"):
     """The WhatsApp-specific template response contract.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar name: The template's name. Required.
     :vartype name: str
     :ivar language: The template's language, in the ISO 639 format, consist of a two-letter
@@ -1733,12 +2591,12 @@ class WhatsAppMessageTemplateItem(MessageTemplateItem, discriminator="whatsApp")
     :vartype content: any
     :ivar kind: Message template response type is whatsApp. Required. The WhatsApp communication
      messages channel type.
-    :vartype kind: str or ~azure.communication.messages.models.WHATSAPP
+    :vartype kind: str or ~azure.communication.messages.models.WHATS_APP
     """
 
-    content: Optional[Any] = rest_field()
+    content: Optional[Any] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """WhatsApp platform's template content. This is the payload returned from WhatsApp API."""
-    kind: Literal[CommunicationMessagesChannel.WHATSAPP] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[CommunicationMessagesChannel.WHATS_APP] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message template response type is whatsApp. Required. The WhatsApp communication messages
      channel type."""
 
@@ -1759,13 +2617,11 @@ class WhatsAppMessageTemplateItem(MessageTemplateItem, discriminator="whatsApp")
         """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, kind=CommunicationMessagesChannel.WHATSAPP, **kwargs)
+        super().__init__(*args, kind=CommunicationMessagesChannel.WHATS_APP, **kwargs)
 
 
 class WhatsAppUrlActionBindings(ActionBindings, discriminator="whatsAppUrlAction"):
     """WhatsApp Binding actions to the interactive message.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar kind: Message action binding type is WhatsAppUrlAction. Required. The WhatsApp Url action
      binding kind.
@@ -1774,10 +2630,10 @@ class WhatsAppUrlActionBindings(ActionBindings, discriminator="whatsAppUrlAction
     :vartype content: ~azure.communication.messages.models.LinkContent
     """
 
-    kind: Literal[MessageActionBindingKind.WHATS_APP_URL_ACTION] = rest_discriminator(name="kind")  # type: ignore
+    kind: Literal[MessageActionBindingKind.WHATS_APP_URL_ACTION] = rest_discriminator(name="kind", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """Message action binding type is WhatsAppUrlAction. Required. The WhatsApp Url action binding
      kind."""
-    content: "_models.LinkContent" = rest_field()
+    content: "_models.LinkContent" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Action content of Interactive message. Required."""
 
     @overload

@@ -14,6 +14,8 @@ if TYPE_CHECKING:
 
 from ._client import NotificationMessagesClient  # type: ignore
 from ._client import MessageTemplateClient  # type: ignore
+from ._client import ConversationAdministrationClient  # type: ignore
+from ._client import ConversationThreadClient  # type: ignore
 from ._version import VERSION
 
 __version__ = VERSION
@@ -28,6 +30,8 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "NotificationMessagesClient",
     "MessageTemplateClient",
+    "ConversationAdministrationClient",
+    "ConversationThreadClient",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])  # pyright: ignore
 
