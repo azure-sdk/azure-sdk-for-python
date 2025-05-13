@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10,20 +11,17 @@
 import datetime
 from typing import Any, Dict, List, Mapping, Optional, TYPE_CHECKING, Union, overload
 
-from .. import _model_base
-from .._model_base import rest_field
+from .._utils.model_base import Model as _Model, rest_field
 
 if TYPE_CHECKING:
     from .. import models as _models
 
 
-class Resource(_model_base.Model):
-    """Common fields that are returned in the response for all Azure Resource Manager resources.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
+class Resource(_Model):
+    """Resource.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -37,7 +35,7 @@ class Resource(_model_base.Model):
 
     id: Optional[str] = rest_field(visibility=["read"])
     """Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long"""
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}."""
     name: Optional[str] = rest_field(visibility=["read"])
     """The name of the resource."""
     type: Optional[str] = rest_field(visibility=["read"])
@@ -48,14 +46,10 @@ class Resource(_model_base.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which
-    has 'tags' and a 'location'.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
+    """Tracked Resource.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -71,7 +65,7 @@ class TrackedResource(Resource):
     :vartype location: str
     """
 
-    tags: Optional[Dict[str, str]] = rest_field()
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Resource tags."""
     location: str = rest_field(visibility=["read", "create"])
     """The geo-location where the resource lives. Required."""
@@ -98,11 +92,8 @@ class TrackedResource(Resource):
 class Account(TrackedResource):
     """A Playwright service account resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -120,7 +111,9 @@ class Account(TrackedResource):
     :vartype properties: ~azure.mgmt.playwrighttesting.models.AccountProperties
     """
 
-    properties: Optional["_models.AccountProperties"] = rest_field()
+    properties: Optional["_models.AccountProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource-specific properties for this resource."""
 
     @overload
@@ -143,11 +136,8 @@ class Account(TrackedResource):
         super().__init__(*args, **kwargs)
 
 
-class AccountFreeTrialProperties(_model_base.Model):
+class AccountFreeTrialProperties(_Model):
     """The Playwright service account quota resource free-trial properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar created_at: The free-trial createdAt utcDateTime. Required.
     :vartype created_at: ~datetime.datetime
@@ -174,10 +164,8 @@ class AccountFreeTrialProperties(_model_base.Model):
     """The free-trial percentage used. Required."""
 
 
-class AccountProperties(_model_base.Model):
+class AccountProperties(_Model):
     """Account resource properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar dashboard_uri: The Playwright testing dashboard URI for the account resource.
     :vartype dashboard_uri: str
@@ -194,8 +182,8 @@ class AccountProperties(_model_base.Model):
      results, including artifacts like traces and screenshots, in the Playwright portal. This
      enables faster and more efficient troubleshooting. Known values are: "Enabled" and "Disabled".
     :vartype reporting: str or ~azure.mgmt.playwrighttesting.models.EnablementStatus
-    :ivar local_auth: When enabled, this feature allows the workspace to use local auth(through
-     access key) for authentication of test runs. Known values are: "Enabled" and "Disabled".
+    :ivar local_auth: When enabled, this feature allows the workspace to use local auth (through
+     service access token) for executing operations. Known values are: "Enabled" and "Disabled".
     :vartype local_auth: str or ~azure.mgmt.playwrighttesting.models.EnablementStatus
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
      "Failed", "Canceled", "Creating", "Deleting", and "Accepted".
@@ -204,22 +192,30 @@ class AccountProperties(_model_base.Model):
 
     dashboard_uri: Optional[str] = rest_field(name="dashboardUri", visibility=["read"])
     """The Playwright testing dashboard URI for the account resource."""
-    regional_affinity: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(name="regionalAffinity")
+    regional_affinity: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(
+        name="regionalAffinity", visibility=["read", "create", "update", "delete", "query"]
+    )
     """This property sets the connection region for Playwright client workers to cloud-hosted
      browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower
      latency. If disabled, workers connect to browsers in the Azure region in which the workspace
      was initially created. Known values are: \"Enabled\" and \"Disabled\"."""
-    scalable_execution: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(name="scalableExecution")
+    scalable_execution: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(
+        name="scalableExecution", visibility=["read", "create", "update", "delete", "query"]
+    )
     """When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase
      the number of parallel workers for a test run, significantly minimizing test completion
      durations. Known values are: \"Enabled\" and \"Disabled\"."""
-    reporting: Optional[Union[str, "_models.EnablementStatus"]] = rest_field()
+    reporting: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """When enabled, this feature allows the workspace to upload and display test results, including
      artifacts like traces and screenshots, in the Playwright portal. This enables faster and more
      efficient troubleshooting. Known values are: \"Enabled\" and \"Disabled\"."""
-    local_auth: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(name="localAuth")
-    """When enabled, this feature allows the workspace to use local auth(through access key) for
-     authentication of test runs. Known values are: \"Enabled\" and \"Disabled\"."""
+    local_auth: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(
+        name="localAuth", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """When enabled, this feature allows the workspace to use local auth (through service access
+     token) for executing operations. Known values are: \"Enabled\" and \"Disabled\"."""
     provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = rest_field(
         name="provisioningState", visibility=["read"]
     )
@@ -248,13 +244,10 @@ class AccountProperties(_model_base.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
-    tags and a location.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
+    """Proxy Resource.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -270,10 +263,8 @@ class ProxyResource(Resource):
 class AccountQuota(ProxyResource):
     """A quota resource for a Playwright service account.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -287,7 +278,9 @@ class AccountQuota(ProxyResource):
     :vartype properties: ~azure.mgmt.playwrighttesting.models.AccountQuotaProperties
     """
 
-    properties: Optional["_models.AccountQuotaProperties"] = rest_field()
+    properties: Optional["_models.AccountQuotaProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource-specific properties for this resource."""
 
     @overload
@@ -308,10 +301,8 @@ class AccountQuota(ProxyResource):
         super().__init__(*args, **kwargs)
 
 
-class AccountQuotaProperties(_model_base.Model):
+class AccountQuotaProperties(_Model):
     """The Playwright service account quota resource properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar free_trial: The Playwright service account quota resource free-trial properties.
     :vartype free_trial: ~azure.mgmt.playwrighttesting.models.AccountFreeTrialProperties
@@ -320,7 +311,9 @@ class AccountQuotaProperties(_model_base.Model):
     :vartype provisioning_state: str or ~azure.mgmt.playwrighttesting.models.ProvisioningState
     """
 
-    free_trial: Optional["_models.AccountFreeTrialProperties"] = rest_field(name="freeTrial")
+    free_trial: Optional["_models.AccountFreeTrialProperties"] = rest_field(
+        name="freeTrial", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The Playwright service account quota resource free-trial properties."""
     provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = rest_field(
         name="provisioningState", visibility=["read"]
@@ -346,7 +339,7 @@ class AccountQuotaProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class AccountUpdate(_model_base.Model):
+class AccountUpdate(_Model):
     """The type used for update operations of the Account.
 
     :ivar tags: Resource tags.
@@ -355,9 +348,11 @@ class AccountUpdate(_model_base.Model):
     :vartype properties: ~azure.mgmt.playwrighttesting.models.AccountUpdateProperties
     """
 
-    tags: Optional[Dict[str, str]] = rest_field()
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Resource tags."""
-    properties: Optional["_models.AccountUpdateProperties"] = rest_field()
+    properties: Optional["_models.AccountUpdateProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource-specific properties for this resource."""
 
     @overload
@@ -379,7 +374,7 @@ class AccountUpdate(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class AccountUpdateProperties(_model_base.Model):
+class AccountUpdateProperties(_Model):
     """The updatable properties of the Account.
 
     :ivar regional_affinity: This property sets the connection region for Playwright client workers
@@ -395,27 +390,35 @@ class AccountUpdateProperties(_model_base.Model):
      results, including artifacts like traces and screenshots, in the Playwright portal. This
      enables faster and more efficient troubleshooting. Known values are: "Enabled" and "Disabled".
     :vartype reporting: str or ~azure.mgmt.playwrighttesting.models.EnablementStatus
-    :ivar local_auth: When enabled, this feature allows the workspace to use local auth(through
-     access key) for authentication of test runs. Known values are: "Enabled" and "Disabled".
+    :ivar local_auth: When enabled, this feature allows the workspace to use local auth (through
+     service access token) for executing operations. Known values are: "Enabled" and "Disabled".
     :vartype local_auth: str or ~azure.mgmt.playwrighttesting.models.EnablementStatus
     """
 
-    regional_affinity: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(name="regionalAffinity")
+    regional_affinity: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(
+        name="regionalAffinity", visibility=["read", "create", "update", "delete", "query"]
+    )
     """This property sets the connection region for Playwright client workers to cloud-hosted
      browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower
      latency. If disabled, workers connect to browsers in the Azure region in which the workspace
      was initially created. Known values are: \"Enabled\" and \"Disabled\"."""
-    scalable_execution: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(name="scalableExecution")
+    scalable_execution: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(
+        name="scalableExecution", visibility=["read", "create", "update", "delete", "query"]
+    )
     """When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase
      the number of parallel workers for a test run, significantly minimizing test completion
      durations. Known values are: \"Enabled\" and \"Disabled\"."""
-    reporting: Optional[Union[str, "_models.EnablementStatus"]] = rest_field()
+    reporting: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """When enabled, this feature allows the workspace to upload and display test results, including
      artifacts like traces and screenshots, in the Playwright portal. This enables faster and more
      efficient troubleshooting. Known values are: \"Enabled\" and \"Disabled\"."""
-    local_auth: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(name="localAuth")
-    """When enabled, this feature allows the workspace to use local auth(through access key) for
-     authentication of test runs. Known values are: \"Enabled\" and \"Disabled\"."""
+    local_auth: Optional[Union[str, "_models.EnablementStatus"]] = rest_field(
+        name="localAuth", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """When enabled, this feature allows the workspace to use local auth (through service access
+     token) for executing operations. Known values are: \"Enabled\" and \"Disabled\"."""
 
     @overload
     def __init__(
@@ -438,7 +441,7 @@ class AccountUpdateProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class CheckNameAvailabilityRequest(_model_base.Model):
+class CheckNameAvailabilityRequest(_Model):
     """The check availability request body.
 
     :ivar name: The name of the resource for which availability needs to be checked.
@@ -447,9 +450,9 @@ class CheckNameAvailabilityRequest(_model_base.Model):
     :vartype type: str
     """
 
-    name: Optional[str] = rest_field()
+    name: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The name of the resource for which availability needs to be checked."""
-    type: Optional[str] = rest_field()
+    type: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The resource type."""
 
     @overload
@@ -471,7 +474,7 @@ class CheckNameAvailabilityRequest(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class CheckNameAvailabilityResponse(_model_base.Model):
+class CheckNameAvailabilityResponse(_Model):
     """The check availability result.
 
     :ivar name_available: Indicates if the resource name is available.
@@ -483,12 +486,16 @@ class CheckNameAvailabilityResponse(_model_base.Model):
     :vartype message: str
     """
 
-    name_available: Optional[bool] = rest_field(name="nameAvailable")
+    name_available: Optional[bool] = rest_field(
+        name="nameAvailable", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Indicates if the resource name is available."""
-    reason: Optional[Union[str, "_models.CheckNameAvailabilityReason"]] = rest_field()
+    reason: Optional[Union[str, "_models.CheckNameAvailabilityReason"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The reason why the given name is not available. Known values are: \"Invalid\" and
      \"AlreadyExists\"."""
-    message: Optional[str] = rest_field()
+    message: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Detailed reason why the given name is not available."""
 
     @overload
@@ -511,10 +518,8 @@ class CheckNameAvailabilityResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ErrorAdditionalInfo(_model_base.Model):
+class ErrorAdditionalInfo(_Model):
     """The resource management error additional info.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar type: The additional info type.
     :vartype type: str
@@ -528,10 +533,8 @@ class ErrorAdditionalInfo(_model_base.Model):
     """The additional info."""
 
 
-class ErrorDetail(_model_base.Model):
+class ErrorDetail(_Model):
     """The error detail.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar code: The error code.
     :vartype code: str
@@ -559,15 +562,14 @@ class ErrorDetail(_model_base.Model):
     """The error additional info."""
 
 
-class ErrorResponse(_model_base.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed
-    operations.
+class ErrorResponse(_Model):
+    """Error response.
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.playwrighttesting.models.ErrorDetail
     """
 
-    error: Optional["_models.ErrorDetail"] = rest_field()
+    error: Optional["_models.ErrorDetail"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The error object."""
 
     @overload
@@ -588,11 +590,8 @@ class ErrorResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class FreeTrialProperties(_model_base.Model):
+class FreeTrialProperties(_Model):
     """The subscription quota resource free-trial properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar account_id: The Playwright service account id. Required.
     :vartype account_id: str
@@ -608,10 +607,8 @@ class FreeTrialProperties(_model_base.Model):
      \"NotRegistered\"."""
 
 
-class Operation(_model_base.Model):
-    """Details of a REST API operation, returned from the Resource Provider Operations API.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
+class Operation(_Model):
+    """REST API Operation.
 
     :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
      "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
@@ -637,7 +634,9 @@ class Operation(_model_base.Model):
     is_data_action: Optional[bool] = rest_field(name="isDataAction", visibility=["read"])
     """Whether the operation applies to data-plane. This is \"true\" for data-plane operations and
      \"false\" for Azure Resource Manager/control-plane operations."""
-    display: Optional["_models.OperationDisplay"] = rest_field()
+    display: Optional["_models.OperationDisplay"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Localized display information for this particular operation."""
     origin: Optional[Union[str, "_models.Origin"]] = rest_field(visibility=["read"])
     """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
@@ -665,10 +664,8 @@ class Operation(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OperationDisplay(_model_base.Model):
+class OperationDisplay(_Model):
     """Localized display information for and operation.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
      Monitoring Insights" or "Microsoft Compute".
@@ -701,10 +698,8 @@ class OperationDisplay(_model_base.Model):
 class Quota(ProxyResource):
     """A subscription quota resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -718,7 +713,9 @@ class Quota(ProxyResource):
     :vartype properties: ~azure.mgmt.playwrighttesting.models.QuotaProperties
     """
 
-    properties: Optional["_models.QuotaProperties"] = rest_field()
+    properties: Optional["_models.QuotaProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource-specific properties for this resource."""
 
     @overload
@@ -739,10 +736,8 @@ class Quota(ProxyResource):
         super().__init__(*args, **kwargs)
 
 
-class QuotaProperties(_model_base.Model):
+class QuotaProperties(_Model):
     """The subscription quota resource properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar free_trial: The subscription quota resource free-trial properties.
     :vartype free_trial: ~azure.mgmt.playwrighttesting.models.FreeTrialProperties
@@ -754,7 +749,9 @@ class QuotaProperties(_model_base.Model):
     :vartype provisioning_state: str or ~azure.mgmt.playwrighttesting.models.ProvisioningState
     """
 
-    free_trial: Optional["_models.FreeTrialProperties"] = rest_field(name="freeTrial")
+    free_trial: Optional["_models.FreeTrialProperties"] = rest_field(
+        name="freeTrial", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The subscription quota resource free-trial properties."""
     offering_type: Optional[Union[str, "_models.OfferingType"]] = rest_field(name="offeringType", visibility=["read"])
     """Indicates the offering type for the subscription. Known values are: \"NotApplicable\",
@@ -783,7 +780,7 @@ class QuotaProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SystemData(_model_base.Model):
+class SystemData(_Model):
     """Metadata pertaining to creation and last modification of the resource.
 
     :ivar created_by: The identity that created the resource.
@@ -802,19 +799,29 @@ class SystemData(_model_base.Model):
     :vartype last_modified_at: ~datetime.datetime
     """
 
-    created_by: Optional[str] = rest_field(name="createdBy")
+    created_by: Optional[str] = rest_field(name="createdBy", visibility=["read", "create", "update", "delete", "query"])
     """The identity that created the resource."""
-    created_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(name="createdByType")
+    created_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(
+        name="createdByType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    created_at: Optional[datetime.datetime] = rest_field(name="createdAt", format="rfc3339")
+    created_at: Optional[datetime.datetime] = rest_field(
+        name="createdAt", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The timestamp of resource creation (UTC)."""
-    last_modified_by: Optional[str] = rest_field(name="lastModifiedBy")
+    last_modified_by: Optional[str] = rest_field(
+        name="lastModifiedBy", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The identity that last modified the resource."""
-    last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(name="lastModifiedByType")
+    last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(
+        name="lastModifiedByType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    last_modified_at: Optional[datetime.datetime] = rest_field(name="lastModifiedAt", format="rfc3339")
+    last_modified_at: Optional[datetime.datetime] = rest_field(
+        name="lastModifiedAt", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The timestamp of resource last modification (UTC)."""
 
     @overload
