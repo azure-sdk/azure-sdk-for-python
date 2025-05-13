@@ -19,6 +19,94 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Actions are for internal-only APIs."""
 
 
+class AkriConnectorsImagePullPolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Image pull policy."""
+
+    ALWAYS = "Always"
+    """Always pull the image."""
+    IF_NOT_PRESENT = "IfNotPresent"
+    """IfNotPresent pull the image."""
+    NEVER = "Never"
+    """Never pull the image."""
+
+
+class AkriConnectorsMqttAuthenticationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """AkriConnectorsMqttAuthenticationMethod properties."""
+
+    SERVICE_ACCOUNT_TOKEN = "ServiceAccountToken"
+    """Service Account Token authentication."""
+
+
+class AkriConnectorsMqttProtocolType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Mqtt protocol types."""
+
+    MQTT = "Mqtt"
+    """Mqtt protocol."""
+
+
+class AkriConnectorsRegistrySettingsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """AkriConnectorsRegistrySettings properties."""
+
+    REGISTRY_ENDPOINT_REF = "RegistryEndpointRef"
+    """A Registry Endpoint reference."""
+    CONTAINER_REGISTRY = "ContainerRegistry"
+    """A Container Registry reference."""
+
+
+class AkriConnectorsTagDigestType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """AkriConnectorsTagDigestType values."""
+
+    TAG = "Tag"
+    """Indicates that a tag should be specified."""
+    DIGEST = "Digest"
+    """Indicates that a digest should be specified."""
+
+
+class AkriConnectorTemplateAllocationPolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """AkriConnectorTemplateAllocationPolicy properties."""
+
+    BUCKETIZED = "Bucketized"
+    """Bucketized allocation policy."""
+
+
+class AkriConnectorTemplateHelmRegistrySettingsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """AkriConnectorTemplateHelmRegistrySettingsType values."""
+
+    REGISTRY_ENDPOINT_REF = "RegistryEndpointRef"
+    """A Registry Endpoint reference."""
+    CONTAINER_REGISTRY = "ContainerRegistry"
+    """A Container Registry reference."""
+
+
+class AkriConnectorTemplateManagedConfigurationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Managed configuration types."""
+
+    IMAGE_CONFIGURATION = "ImageConfiguration"
+    """Image Configuration Type."""
+    STATEFUL_SET_CONFIGURATION = "StatefulSetConfiguration"
+    """StatefulSet Configuration Type."""
+
+
+class AkriConnectorTemplateRuntimeConfigurationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Runtime configuration types."""
+
+    HELM_CONFIGURATION = "HelmConfiguration"
+    """Helm Configuration Type."""
+    MANAGED_CONFIGURATION = "ManagedConfiguration"
+    """Managed Configuration Type."""
+
+
+class AkriDiscoveryHandlerScheduleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """AkriDiscoveryHandlerScheduleType properties."""
+
+    CRON = "Cron"
+    """The schedule is a cron expression."""
+    RUN_ONCE = "RunOnce"
+    """The discovery handler should run once."""
+    CONTINUOUS = "Continuous"
+    """The discovery handler should run continuously."""
+
+
 class BrokerAuthenticationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Broker Authentication Mode."""
 
@@ -28,6 +116,15 @@ class BrokerAuthenticationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """ServiceAccountToken authentication configuration."""
     X509 = "X509"
     """X.509 authentication configuration."""
+
+
+class BrokerAuthenticatorValidationMethods(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """X509 authentication validation methods."""
+
+    NONE = "None"
+    """No additional validation is performed"""
+    AZURE_DEVICE_REGISTRY = "AzureDeviceRegistry"
+    """Additional validation is performed using the Azure Device Registry."""
 
 
 class BrokerMemoryProfile(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -41,6 +138,17 @@ class BrokerMemoryProfile(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Medium memory profile."""
     HIGH = "High"
     """High memory profile."""
+
+
+class BrokerPersistencePolicyMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Broker Persistence Policy Mode values."""
+
+    ALL = "All"
+    """Policy mode for All."""
+    NONE = "None"
+    """Policy mode for None."""
+    CUSTOM = "Custom"
+    """Indicates that the policy is a custom policy."""
 
 
 class BrokerProtocolType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -61,6 +169,18 @@ class BrokerResourceDefinitionMethods(str, Enum, metaclass=CaseInsensitiveEnumMe
     """Allowed Publishing to Broker"""
     SUBSCRIBE = "Subscribe"
     """Allowed Subscribing to Broker"""
+
+
+class BrokerStateStoreKeyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Broker State Store Key Type properties."""
+
+    PATTERN = "Pattern"
+    """Used for glob-style pattern matching."""
+    STRING = "String"
+    """Used to do exact match, for example, when a key contains characters that might be otherwise
+    matched as a pattern (*, ?, [0-9])."""
+    BINARY = "Binary"
+    """Used to match a binary key."""
 
 
 class CertManagerIssuerKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -161,6 +281,47 @@ class DataflowEndpointKafkaPartitionStrategy(str, Enum, metaclass=CaseInsensitiv
     """PROPERTY Option"""
 
 
+class DataflowEnpointHostType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """DataflowEndpoint Host Type properties."""
+
+    FABRIC_RT = "FabricRT"
+    """Fabric Real-Time Type"""
+    EVENT_GRID = "EventGrid"
+    """EventGrid Type"""
+    LOCAL_BROKER = "LocalBroker"
+    """Local MQTT Type"""
+    EVENTHUB = "Eventhub"
+    """EventHub Type"""
+    CUSTOM_MQTT = "CustomMqtt"
+    """Custom MQTT Type"""
+    CUSTOM_KAFKA = "CustomKafka"
+    """Custom Kafka Type"""
+
+
+class DataflowGraphNodeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """DataflowGraph node types."""
+
+    SOURCE = "Source"
+    """Dataflow source node."""
+    GRAPH = "Graph"
+    """Dataflow graph node."""
+    DESTINATION = "Destination"
+    """Dataflow destination node."""
+
+
+class DataflowGraphSerializationFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Serialization format for dataflow graph."""
+
+    DELTA = "Delta"
+    """Delta Format"""
+    JSON = "Json"
+    """JSON Format"""
+    PARQUET = "Parquet"
+    """Parquet Format"""
+    AVRO = "Avro"
+    """Avro serialization format."""
+
+
 class DataflowMappingType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Dataflow type mapping properties."""
 
@@ -174,6 +335,17 @@ class DataflowMappingType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Pass-through type"""
     BUILT_IN_FUNCTION = "BuiltInFunction"
     """Built in function type"""
+
+
+class DataflowOpenTelemetryAuthenticationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Dataflow OpenTelemetry authentication method values."""
+
+    SERVICE_ACCOUNT_TOKEN = "ServiceAccountToken"
+    """Uses serviceaccount token."""
+    X509_CERTIFICATE = "X509Certificate"
+    """Uses x509 certificate."""
+    ANONYMOUS = "Anonymous"
+    """Connects anonymously."""
 
 
 class DataLakeStorageAuthMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -202,6 +374,8 @@ class EndpointType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Local Storage Type"""
     MQTT = "Mqtt"
     """Broker Type"""
+    OPEN_TELEMETRY = "OpenTelemetry"
+    """OpenTelemetry Type"""
 
 
 class ExtendedLocationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -225,6 +399,17 @@ class FilterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     FILTER = "Filter"
     """Filter type"""
+
+
+class InstanceFeatureMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The enum defining mode of a feature."""
+
+    STABLE = "Stable"
+    """Opt in to enable a stable feature"""
+    PREVIEW = "Preview"
+    """Opt in to enable a preview feature"""
+    DISABLED = "Disabled"
+    """Opt out of a feature"""
 
 
 class KafkaAuthMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -372,6 +557,28 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource is Deleting."""
     ACCEPTED = "Accepted"
     """Resource has been Accepted."""
+
+
+class RegistryEndpointAuthenticationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The authentication method."""
+
+    SYSTEM_ASSIGNED_MANAGED_IDENTITY = "SystemAssignedManagedIdentity"
+    """SystemAssignedManagedIdentity type"""
+    USER_ASSIGNED_MANAGED_IDENTITY = "UserAssignedManagedIdentity"
+    """UserAssignedManagedIdentity type"""
+    ANONYMOUS = "Anonymous"
+    """Anonymous Option"""
+    ARTIFACT_PULL_SECRET = "ArtifactPullSecret"
+    """Artifact Pull Secret authentication"""
+
+
+class RegistryEndpointTrustedSigningKeyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """RegistryEndpointTrustedSigningKeyType values."""
+
+    SECRET = "Secret"
+    """Trust settings stored in a Kubernetes Secret."""
+    CONFIG_MAP = "ConfigMap"
+    """Trust settings stored in a Kubernetes ConfigMap."""
 
 
 class ServiceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
