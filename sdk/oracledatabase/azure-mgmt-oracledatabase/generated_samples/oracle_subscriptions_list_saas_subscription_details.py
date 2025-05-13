@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -34,6 +35,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/oracleSubscriptions_listSaasSubscriptionDetails.json
+# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2025-03-01/examples/oracleSubscriptions_listSaasSubscriptionDetails.json
 if __name__ == "__main__":
     main()

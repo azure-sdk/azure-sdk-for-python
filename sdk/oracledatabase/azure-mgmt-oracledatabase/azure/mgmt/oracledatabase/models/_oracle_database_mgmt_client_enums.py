@@ -16,6 +16,17 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INTERNAL = "Internal"
 
 
+class AddSubscriptionOperationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Add Subscription Operation state enum."""
+
+    SUCCEEDED = "Succeeded"
+    """Succeeded - State when Add Subscription operation succeeded"""
+    UPDATING = "Updating"
+    """Updating - State when Add Subscription operation is being Updated"""
+    FAILED = "Failed"
+    """Failed - State when Add Subscription operation failed"""
+
+
 class AutonomousDatabaseBackupLifecycleState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Autonomous database backup lifecycle state enum."""
 
@@ -218,6 +229,10 @@ class DataBaseType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Regular DB"""
     CLONE = "Clone"
     """Clone DB"""
+    CLONE_FROM_BACKUP_TIMESTAMP = "CloneFromBackupTimestamp"
+    """Clone DB from backup timestamp"""
+    CROSS_REGION_DISASTER_RECOVERY = "CrossRegionDisasterRecovery"
+    """Cross Region Disaster Recovery"""
 
 
 class DataSafeStatusType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -373,6 +388,42 @@ class DnsPrivateZonesLifecycleState(str, Enum, metaclass=CaseInsensitiveEnumMeta
     """DNS Private Zones is updating"""
 
 
+class ExadbVmClusterLifecycleState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Exadata VM cluster on Exascale Infrastructure lifecycle state enum."""
+
+    PROVISIONING = "Provisioning"
+    """Indicates that resource in Provisioning state"""
+    AVAILABLE = "Available"
+    """Indicates that resource in Available state"""
+    UPDATING = "Updating"
+    """Indicates that resource in Updating state"""
+    TERMINATING = "Terminating"
+    """Indicates that resource in Terminating state"""
+    TERMINATED = "Terminated"
+    """Indicates that resource in Terminated state"""
+    MAINTENANCE_IN_PROGRESS = "MaintenanceInProgress"
+    """Indicates that resource Maintenance in progress state"""
+    FAILED = "Failed"
+    """Indicates that resource in Failed state"""
+
+
+class ExascaleDbStorageVaultLifecycleState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Exadata Database Storage Vault lifecycle state enum."""
+
+    PROVISIONING = "Provisioning"
+    """Indicates that resource in Provisioning state"""
+    AVAILABLE = "Available"
+    """Indicates that resource in Available state"""
+    UPDATING = "Updating"
+    """Indicates that resource in Updating state"""
+    TERMINATING = "Terminating"
+    """Indicates that resource in Terminating state"""
+    TERMINATED = "Terminated"
+    """Indicates that resource in Terminated state"""
+    FAILED = "Failed"
+    """Indicates that resource in Failed state"""
+
+
 class GenerateType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Generate type enum."""
 
@@ -380,6 +431,24 @@ class GenerateType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Generate single"""
     ALL = "All"
     """Generate all"""
+
+
+class GridImageType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """GridImageType enum."""
+
+    RELEASE_UPDATE = "ReleaseUpdate"
+    """Release update"""
+    CUSTOM_IMAGE = "CustomImage"
+    """Custom image"""
+
+
+class HardwareType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Hardware Type enum."""
+
+    COMPUTE = "COMPUTE"
+    """Hardware type is Database Server"""
+    CELL = "CELL"
+    """Hardware type is Storage Server"""
 
 
 class HostFormatType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -617,6 +686,15 @@ class SessionModeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Redirect session mode"""
 
 
+class ShapeFamily(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Allowed values for GI Minor Versions shapeFamily filter."""
+
+    EXADATA = "EXADATA"
+    """Family value for Exadata Shape"""
+    EXADB_XS = "EXADB_XS"
+    """Family value for Exadb XS Shape"""
+
+
 class SourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Source type enum."""
 
@@ -645,6 +723,17 @@ class SyntaxFormatType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Ezconnect format"""
     EZCONNECTPLUS = "Ezconnectplus"
     """Ezconnectplus format"""
+
+
+class SystemShapes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Allowed values for System Shapes."""
+
+    EXADATA_X9_M = "Exadata.X9M"
+    """Exadata X9M shape"""
+    EXADATA_X11_M = "Exadata.X11M"
+    """Exadata X11M shape"""
+    EXA_DB_XS = "ExaDbXS"
+    """Exadata DB on Exascale Infrastructure shape"""
 
 
 class TlsAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):

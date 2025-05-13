@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,7 +16,7 @@ from azure.mgmt.oracledatabase import OracleDatabaseMgmtClient
     pip install azure-identity
     pip install azure-mgmt-oracledatabase
 # USAGE
-    python gi_versions_list_by_location.py
+    python exascale_db_storage_vaults_list_by_resource_group_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +31,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.gi_versions.list_by_location(
-        location="eastus",
+    response = client.exascale_db_storage_vaults.list_by_resource_group(
+        resource_group_name="rgopenapi",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/giVersions_listByLocation.json
+# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2025-03-01/examples/ExascaleDbStorageVaults_ListByResourceGroup_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

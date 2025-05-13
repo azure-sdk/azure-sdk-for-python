@@ -7,15 +7,18 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, Awaitable, TYPE_CHECKING
+from typing import Any, Awaitable, Optional, TYPE_CHECKING, cast
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
+from azure.core.settings import settings
 from azure.mgmt.core import AsyncARMPipelineClient
 from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from .. import models as _models
-from .._serialization import Deserializer, Serializer
+from .._utils.serialization import Deserializer, Serializer
 from ._configuration import OracleDatabaseMgmtClientConfiguration
 from .operations import (
     AutonomousDatabaseBackupsOperations,
@@ -30,6 +33,11 @@ from .operations import (
     DbSystemShapesOperations,
     DnsPrivateViewsOperations,
     DnsPrivateZonesOperations,
+    ExadbVmClustersOperations,
+    ExascaleDbNodesOperations,
+    ExascaleDbStorageVaultsOperations,
+    FlexComponentsOperations,
+    GiMinorVersionsOperations,
     GiVersionsOperations,
     Operations,
     OracleSubscriptionsOperations,
@@ -38,11 +46,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class OracleDatabaseMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class OracleDatabaseMgmtClient:  # pylint: disable=too-many-instance-attributes
     """OracleDatabaseMgmtClient.
 
     :ivar operations: Operations operations
@@ -55,6 +62,11 @@ class OracleDatabaseMgmtClient:  # pylint: disable=client-accepts-api-version-ke
      azure.mgmt.oracledatabase.aio.operations.CloudExadataInfrastructuresOperations
     :ivar cloud_vm_clusters: CloudVmClustersOperations operations
     :vartype cloud_vm_clusters: azure.mgmt.oracledatabase.aio.operations.CloudVmClustersOperations
+    :ivar exadb_vm_clusters: ExadbVmClustersOperations operations
+    :vartype exadb_vm_clusters: azure.mgmt.oracledatabase.aio.operations.ExadbVmClustersOperations
+    :ivar exascale_db_storage_vaults: ExascaleDbStorageVaultsOperations operations
+    :vartype exascale_db_storage_vaults:
+     azure.mgmt.oracledatabase.aio.operations.ExascaleDbStorageVaultsOperations
     :ivar autonomous_database_character_sets: AutonomousDatabaseCharacterSetsOperations operations
     :vartype autonomous_database_character_sets:
      azure.mgmt.oracledatabase.aio.operations.AutonomousDatabaseCharacterSetsOperations
@@ -71,8 +83,12 @@ class OracleDatabaseMgmtClient:  # pylint: disable=client-accepts-api-version-ke
     :vartype dns_private_views: azure.mgmt.oracledatabase.aio.operations.DnsPrivateViewsOperations
     :ivar dns_private_zones: DnsPrivateZonesOperations operations
     :vartype dns_private_zones: azure.mgmt.oracledatabase.aio.operations.DnsPrivateZonesOperations
+    :ivar flex_components: FlexComponentsOperations operations
+    :vartype flex_components: azure.mgmt.oracledatabase.aio.operations.FlexComponentsOperations
     :ivar gi_versions: GiVersionsOperations operations
     :vartype gi_versions: azure.mgmt.oracledatabase.aio.operations.GiVersionsOperations
+    :ivar gi_minor_versions: GiMinorVersionsOperations operations
+    :vartype gi_minor_versions: azure.mgmt.oracledatabase.aio.operations.GiMinorVersionsOperations
     :ivar system_versions: SystemVersionsOperations operations
     :vartype system_versions: azure.mgmt.oracledatabase.aio.operations.SystemVersionsOperations
     :ivar oracle_subscriptions: OracleSubscriptionsOperations operations
@@ -88,13 +104,15 @@ class OracleDatabaseMgmtClient:  # pylint: disable=client-accepts-api-version-ke
     :ivar virtual_network_addresses: VirtualNetworkAddressesOperations operations
     :vartype virtual_network_addresses:
      azure.mgmt.oracledatabase.aio.operations.VirtualNetworkAddressesOperations
+    :ivar exascale_db_nodes: ExascaleDbNodesOperations operations
+    :vartype exascale_db_nodes: azure.mgmt.oracledatabase.aio.operations.ExascaleDbNodesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
-    :param base_url: Service URL. Default value is "https://management.azure.com".
+    :param base_url: Service URL. Default value is None.
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-09-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2025-03-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -102,15 +120,17 @@ class OracleDatabaseMgmtClient:  # pylint: disable=client-accepts-api-version-ke
     """
 
     def __init__(
-        self,
-        credential: "AsyncTokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "AsyncTokenCredential", subscription_id: str, base_url: Optional[str] = None, **kwargs: Any
     ) -> None:
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
         self._config = OracleDatabaseMgmtClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, subscription_id=subscription_id, credential_scopes=credential_scopes, **kwargs
         )
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -129,7 +149,9 @@ class OracleDatabaseMgmtClient:  # pylint: disable=client-accepts-api-version-ke
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(
+            base_url=cast(str, base_url), policies=_policies, **kwargs
+        )
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -143,6 +165,12 @@ class OracleDatabaseMgmtClient:  # pylint: disable=client-accepts-api-version-ke
             self._client, self._config, self._serialize, self._deserialize
         )
         self.cloud_vm_clusters = CloudVmClustersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.exadb_vm_clusters = ExadbVmClustersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.exascale_db_storage_vaults = ExascaleDbStorageVaultsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.autonomous_database_character_sets = AutonomousDatabaseCharacterSetsOperations(
@@ -161,7 +189,11 @@ class OracleDatabaseMgmtClient:  # pylint: disable=client-accepts-api-version-ke
         self.dns_private_zones = DnsPrivateZonesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.flex_components = FlexComponentsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.gi_versions = GiVersionsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.gi_minor_versions = GiMinorVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.system_versions = SystemVersionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.oracle_subscriptions = OracleSubscriptionsOperations(
             self._client, self._config, self._serialize, self._deserialize
@@ -172,6 +204,9 @@ class OracleDatabaseMgmtClient:  # pylint: disable=client-accepts-api-version-ke
         self.db_servers = DbServersOperations(self._client, self._config, self._serialize, self._deserialize)
         self.db_nodes = DbNodesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.virtual_network_addresses = VirtualNetworkAddressesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.exascale_db_nodes = ExascaleDbNodesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 
@@ -202,7 +237,7 @@ class OracleDatabaseMgmtClient:  # pylint: disable=client-accepts-api-version-ke
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "OracleDatabaseMgmtClient":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 
