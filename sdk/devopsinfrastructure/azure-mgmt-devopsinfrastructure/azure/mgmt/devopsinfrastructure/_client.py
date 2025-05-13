@@ -7,16 +7,18 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING, cast
 from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
+from azure.core.settings import settings
 from azure.mgmt.core import ARMPipelineClient
 from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from ._configuration import DevOpsInfrastructureMgmtClientConfiguration
-from ._serialization import Deserializer, Serializer
+from ._utils.serialization import Deserializer, Serializer
 from .operations import (
     ImageVersionsOperations,
     Operations,
@@ -50,9 +52,9 @@ class DevOpsInfrastructureMgmtClient:
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
-    :param base_url: Service host. Default value is "https://management.azure.com".
+    :param base_url: Service host. Default value is None.
     :type base_url: str
-    :keyword api_version: The API version to use for this operation. Default value is "2024-10-19".
+    :keyword api_version: The API version to use for this operation. Default value is "2025-01-21".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -60,16 +62,22 @@ class DevOpsInfrastructureMgmtClient:
     """
 
     def __init__(
-        self,
-        credential: "TokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "TokenCredential", subscription_id: str, base_url: Optional[str] = None, **kwargs: Any
     ) -> None:
         _endpoint = "{endpoint}"
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
         self._config = DevOpsInfrastructureMgmtClientConfiguration(
-            credential=credential, subscription_id=subscription_id, base_url=base_url, **kwargs
+            credential=credential,
+            subscription_id=subscription_id,
+            base_url=cast(str, base_url),
+            credential_scopes=credential_scopes,
+            **kwargs
         )
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -88,7 +96,7 @@ class DevOpsInfrastructureMgmtClient:
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client: ARMPipelineClient = ARMPipelineClient(base_url=_endpoint, policies=_policies, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=cast(str, _endpoint), policies=_policies, **kwargs)
 
         self._serialize = Serializer()
         self._deserialize = Deserializer()
