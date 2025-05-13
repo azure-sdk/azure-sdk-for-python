@@ -1,0 +1,31 @@
+{
+    "CrossLanguagePackageId": "Azure.ProgrammableConnectivity",
+    "CrossLanguageDefinitionId": {
+        "azure.programmableconnectivity.models.DeviceLocationVerificationContent": "Azure.ProgrammableConnectivity.DeviceLocationVerificationContent",
+        "azure.programmableconnectivity.models.DeviceLocationVerificationResult": "Azure.ProgrammableConnectivity.DeviceLocationVerificationResult",
+        "azure.programmableconnectivity.models.Ipv4Address": "Azure.ProgrammableConnectivity.Ipv4Address",
+        "azure.programmableconnectivity.models.Ipv6Address": "Azure.ProgrammableConnectivity.Ipv6Address",
+        "azure.programmableconnectivity.models.LocationDevice": "Azure.ProgrammableConnectivity.LocationDevice",
+        "azure.programmableconnectivity.models.NetworkIdentifier": "Azure.ProgrammableConnectivity.NetworkIdentifier",
+        "azure.programmableconnectivity.models.NetworkRetrievalResult": "Azure.ProgrammableConnectivity.NetworkRetrievalResult",
+        "azure.programmableconnectivity.models.NumberVerificationResult": "Azure.ProgrammableConnectivity.NumberVerificationResult",
+        "azure.programmableconnectivity.models.NumberVerificationWithCodeContent": "Azure.ProgrammableConnectivity.NumberVerificationWithCodeContent",
+        "azure.programmableconnectivity.models.NumberVerificationWithoutCodeContent": "Azure.ProgrammableConnectivity.NumberVerificationWithoutCodeContent",
+        "azure.programmableconnectivity.models.SimSwapRetrievalContent": "Azure.ProgrammableConnectivity.SimSwapRetrievalContent",
+        "azure.programmableconnectivity.models.SimSwapRetrievalResult": "Azure.ProgrammableConnectivity.SimSwapRetrievalResult",
+        "azure.programmableconnectivity.models.SimSwapVerificationContent": "Azure.ProgrammableConnectivity.SimSwapVerificationContent",
+        "azure.programmableconnectivity.models.SimSwapVerificationResult": "Azure.ProgrammableConnectivity.SimSwapVerificationResult",
+        "azure.programmableconnectivity.operations.DeviceLocationOperations.verify": "Azure.ProgrammableConnectivity.DeviceLocation.verify",
+        "azure.programmableconnectivity.aio.operations.DeviceLocationOperations.verify": "Azure.ProgrammableConnectivity.DeviceLocation.verify",
+        "azure.programmableconnectivity.operations.DeviceNetworkOperations.retrieve": "Azure.ProgrammableConnectivity.DeviceNetwork.retrieve",
+        "azure.programmableconnectivity.aio.operations.DeviceNetworkOperations.retrieve": "Azure.ProgrammableConnectivity.DeviceNetwork.retrieve",
+        "azure.programmableconnectivity.operations.NumberVerificationOperations.verify_without_code": "Azure.ProgrammableConnectivity.NumberVerification.verifyWithoutCode",
+        "azure.programmableconnectivity.aio.operations.NumberVerificationOperations.verify_without_code": "Azure.ProgrammableConnectivity.NumberVerification.verifyWithoutCode",
+        "azure.programmableconnectivity.operations.NumberVerificationOperations.verify_with_code": "Azure.ProgrammableConnectivity.NumberVerification.verifyWithCode",
+        "azure.programmableconnectivity.aio.operations.NumberVerificationOperations.verify_with_code": "Azure.ProgrammableConnectivity.NumberVerification.verifyWithCode",
+        "azure.programmableconnectivity.operations.SimSwapOperations.retrieve": "Azure.ProgrammableConnectivity.SimSwap.retrieve",
+        "azure.programmableconnectivity.aio.operations.SimSwapOperations.retrieve": "Azure.ProgrammableConnectivity.SimSwap.retrieve",
+        "azure.programmableconnectivity.operations.SimSwapOperations.verify": "Azure.ProgrammableConnectivity.SimSwap.verify",
+        "azure.programmableconnectivity.aio.operations.SimSwapOperations.verify": "Azure.ProgrammableConnectivity.SimSwap.verify"
+    }
+}

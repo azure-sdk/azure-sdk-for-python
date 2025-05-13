@@ -32,3 +32,5 @@ extends:
     Artifacts:
     - name: azure-mgmt-programmableconnectivity
       safeName: azuremgmtprogrammableconnectivity
+    - name: azure-programmableconnectivity
+      safeName: azureprogrammableconnectivity
