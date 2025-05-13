@@ -1,0 +1,22 @@
+{
+    "CrossLanguagePackageId": "Microsoft.Marketplace",
+    "CrossLanguageDefinitionId": {
+        "azure.mgmt.reviews.models.ErrorAdditionalInfo": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+        "azure.mgmt.reviews.models.ErrorDetail": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+        "azure.mgmt.reviews.models.ErrorResponse": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+        "azure.mgmt.reviews.models.Operation": "Azure.ResourceManager.CommonTypes.Operation",
+        "azure.mgmt.reviews.models.OperationDisplay": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+        "azure.mgmt.reviews.models.Resource": "Azure.ResourceManager.CommonTypes.Resource",
+        "azure.mgmt.reviews.models.ProxyResource": "Azure.ResourceManager.CommonTypes.ProxyResource",
+        "azure.mgmt.reviews.models.SystemData": "Azure.ResourceManager.CommonTypes.SystemData",
+        "azure.mgmt.reviews.models.UserHasReview": "Microsoft.Marketplace.UserHasReview",
+        "azure.mgmt.reviews.models.UserHasReviewProperties": "Microsoft.Marketplace.UserHasReviewProperties",
+        "azure.mgmt.reviews.models.Origin": "Azure.ResourceManager.CommonTypes.Origin",
+        "azure.mgmt.reviews.models.ActionType": "Azure.ResourceManager.CommonTypes.ActionType",
+        "azure.mgmt.reviews.models.CreatedByType": "Azure.ResourceManager.CommonTypes.createdByType",
+        "azure.mgmt.reviews.operations.Operations.list": "Azure.ResourceManager.Operations.list",
+        "azure.mgmt.reviews.aio.operations.Operations.list": "Azure.ResourceManager.Operations.list",
+        "azure.mgmt.reviews.operations.RatingAndReviewsOperationsOperations.check_user_has_review": "Microsoft.Marketplace.RatingAndReviewsOperations.checkUserHasReview",
+        "azure.mgmt.reviews.aio.operations.RatingAndReviewsOperationsOperations.check_user_has_review": "Microsoft.Marketplace.RatingAndReviewsOperations.checkUserHasReview"
+    }
+}
