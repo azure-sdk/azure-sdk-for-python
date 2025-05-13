@@ -16,7 +16,7 @@ from azure.mgmt.containerservicefleet import ContainerServiceFleetMgmtClient
     pip install azure-identity
     pip install azure-mgmt-containerservicefleet
 # USAGE
-    python update_runs_get.py
+    python gates_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -31,14 +31,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.update_runs.get(
+    response = client.gates.get(
         resource_group_name="rg1",
         fleet_name="fleet1",
-        update_run_name="run1",
+        gate_name="12345678-910a-bcde-f000-000000000000",
     )
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2025-04-01-preview/examples/UpdateRuns_Get.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2025-04-01-preview/examples/Gates_Get.json
 if __name__ == "__main__":
     main()

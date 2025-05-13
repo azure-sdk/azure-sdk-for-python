@@ -24,7 +24,7 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
         response = self.client.update_runs.list_by_fleet(
             resource_group_name=resource_group.name,
             fleet_name="str",
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             fleet_name="str",
             update_run_name="str",
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -64,6 +64,24 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
                     "nodeImageSelection": {"selectedNodeImageVersions": [{"version": "str"}]},
                     "stages": [
                         {
+                            "afterGates": [
+                                {
+                                    "displayName": "str",
+                                    "gateId": "str",
+                                    "status": {
+                                        "completedTime": "2020-02-20 00:00:00",
+                                        "error": {
+                                            "additionalInfo": [{"info": {}, "type": "str"}],
+                                            "code": "str",
+                                            "details": [...],
+                                            "message": "str",
+                                            "target": "str",
+                                        },
+                                        "startTime": "2020-02-20 00:00:00",
+                                        "state": "str",
+                                    },
+                                }
+                            ],
                             "afterStageWaitStatus": {
                                 "status": {
                                     "completedTime": "2020-02-20 00:00:00",
@@ -79,8 +97,62 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
                                 },
                                 "waitDurationInSeconds": 0,
                             },
+                            "beforeGates": [
+                                {
+                                    "displayName": "str",
+                                    "gateId": "str",
+                                    "status": {
+                                        "completedTime": "2020-02-20 00:00:00",
+                                        "error": {
+                                            "additionalInfo": [{"info": {}, "type": "str"}],
+                                            "code": "str",
+                                            "details": [...],
+                                            "message": "str",
+                                            "target": "str",
+                                        },
+                                        "startTime": "2020-02-20 00:00:00",
+                                        "state": "str",
+                                    },
+                                }
+                            ],
                             "groups": [
                                 {
+                                    "afterGates": [
+                                        {
+                                            "displayName": "str",
+                                            "gateId": "str",
+                                            "status": {
+                                                "completedTime": "2020-02-20 00:00:00",
+                                                "error": {
+                                                    "additionalInfo": [{"info": {}, "type": "str"}],
+                                                    "code": "str",
+                                                    "details": [...],
+                                                    "message": "str",
+                                                    "target": "str",
+                                                },
+                                                "startTime": "2020-02-20 00:00:00",
+                                                "state": "str",
+                                            },
+                                        }
+                                    ],
+                                    "beforeGates": [
+                                        {
+                                            "displayName": "str",
+                                            "gateId": "str",
+                                            "status": {
+                                                "completedTime": "2020-02-20 00:00:00",
+                                                "error": {
+                                                    "additionalInfo": [{"info": {}, "type": "str"}],
+                                                    "code": "str",
+                                                    "details": [...],
+                                                    "message": "str",
+                                                    "target": "str",
+                                                },
+                                                "startTime": "2020-02-20 00:00:00",
+                                                "state": "str",
+                                            },
+                                        }
+                                    ],
                                     "members": [
                                         {
                                             "clusterResourceId": "str",
@@ -144,7 +216,23 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
                         "state": "str",
                     },
                 },
-                "strategy": {"stages": [{"name": "str", "afterStageWaitInSeconds": 0, "groups": [{"name": "str"}]}]},
+                "strategy": {
+                    "stages": [
+                        {
+                            "name": "str",
+                            "afterGates": [{"type": "str", "displayName": "str"}],
+                            "afterStageWaitInSeconds": 0,
+                            "beforeGates": [{"type": "str", "displayName": "str"}],
+                            "groups": [
+                                {
+                                    "name": "str",
+                                    "afterGates": [{"type": "str", "displayName": "str"}],
+                                    "beforeGates": [{"type": "str", "displayName": "str"}],
+                                }
+                            ],
+                        }
+                    ]
+                },
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -156,7 +244,7 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
                 "type": "str",
                 "updateStrategyId": "str",
             },
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -169,7 +257,7 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             fleet_name="str",
             update_run_name="str",
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -183,7 +271,7 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
             fleet_name="str",
             update_run_name="str",
             body={"targets": [{"name": "str", "type": "str"}]},
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -196,7 +284,7 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             fleet_name="str",
             update_run_name="str",
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -209,7 +297,7 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             fleet_name="str",
             update_run_name="str",
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself

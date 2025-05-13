@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -41,7 +42,21 @@ def main():
                     "upgrade": {"kubernetesVersion": "1.26.1", "type": "Full"},
                 },
                 "strategy": {
-                    "stages": [{"afterStageWaitInSeconds": 3600, "groups": [{"name": "group-a"}], "name": "stage1"}]
+                    "stages": [
+                        {
+                            "afterGates": [{"displayName": "gate after stage1", "type": "Approval"}],
+                            "afterStageWaitInSeconds": 3600,
+                            "beforeGates": [{"displayName": "gate before stage1", "type": "Approval"}],
+                            "groups": [
+                                {
+                                    "afterGates": [{"displayName": "gate after group-a", "type": "Approval"}],
+                                    "beforeGates": [{"displayName": "gate before group-a", "type": "Approval"}],
+                                    "name": "group-a",
+                                }
+                            ],
+                            "name": "stage1",
+                        }
+                    ]
                 },
                 "updateStrategyId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ContainerService/fleets/myFleet/updateStrategies/strategy1",
             }
@@ -50,6 +65,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2025-03-01/examples/UpdateRuns_CreateOrUpdate.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2025-04-01-preview/examples/UpdateRuns_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

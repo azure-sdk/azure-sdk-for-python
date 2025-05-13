@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -36,7 +37,6 @@ def main():
         auto_upgrade_profile_name="autoupgradeprofile1",
         resource={
             "properties": {
-                "autoUpgradeProfileStatus": {"lastTriggerError": {}},
                 "channel": "Stable",
                 "disabled": True,
                 "nodeImageSelection": {"type": "Latest"},
@@ -47,6 +47,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2025-03-01/examples/AutoUpgradeProfiles_CreateOrUpdate_MaximumSet_Gen.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2025-04-01-preview/examples/AutoUpgradeProfiles_CreateOrUpdate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

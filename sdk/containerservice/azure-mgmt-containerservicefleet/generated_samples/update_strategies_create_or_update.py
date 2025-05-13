@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -33,11 +34,25 @@ def main():
     response = client.fleet_update_strategies.begin_create_or_update(
         resource_group_name="rg1",
         fleet_name="fleet1",
-        update_strategy_name="strartegy1",
+        update_strategy_name="strategy1",
         resource={
             "properties": {
                 "strategy": {
-                    "stages": [{"afterStageWaitInSeconds": 3600, "groups": [{"name": "group-a"}], "name": "stage1"}]
+                    "stages": [
+                        {
+                            "afterGates": [{"displayName": "gate after stage1", "type": "Approval"}],
+                            "afterStageWaitInSeconds": 3600,
+                            "beforeGates": [{"displayName": "gate before stage1", "type": "Approval"}],
+                            "groups": [
+                                {
+                                    "afterGates": [{"displayName": "gate after group-a", "type": "Approval"}],
+                                    "beforeGates": [{"displayName": "gate before group-a", "type": "Approval"}],
+                                    "name": "group-a",
+                                }
+                            ],
+                            "name": "stage1",
+                        }
+                    ]
                 }
             }
         },
@@ -45,6 +60,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2025-03-01/examples/UpdateStrategies_CreateOrUpdate.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2025-04-01-preview/examples/UpdateStrategies_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

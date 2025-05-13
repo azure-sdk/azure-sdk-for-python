@@ -33,26 +33,21 @@ from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
 from ..._utils.serialization import Deserializer, Serializer
-from ...operations._fleet_update_strategies_operations import (
-    build_create_or_update_request,
-    build_delete_request,
-    build_get_request,
-    build_list_by_fleet_request,
-)
+from ...operations._gates_operations import build_get_request, build_list_by_fleet_request, build_update_request
 from .._configuration import ContainerServiceFleetMgmtClientConfiguration
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class FleetUpdateStrategiesOperations:
+class GatesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.containerservicefleet.aio.ContainerServiceFleetMgmtClient`'s
-        :attr:`fleet_update_strategies` attribute.
+        :attr:`gates` attribute.
     """
 
     models = _models
@@ -67,26 +62,23 @@ class FleetUpdateStrategiesOperations:
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list_by_fleet(
-        self, resource_group_name: str, fleet_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.FleetUpdateStrategy"]:
-        """List FleetUpdateStrategy resources by Fleet.
+    def list_by_fleet(self, resource_group_name: str, fleet_name: str, **kwargs: Any) -> AsyncIterable["_models.Gate"]:
+        """List Gate resources by Fleet.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param fleet_name: The name of the Fleet resource. Required.
         :type fleet_name: str
-        :return: An iterator like instance of either FleetUpdateStrategy or the result of cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.containerservicefleet.models.FleetUpdateStrategy]
+        :return: An iterator like instance of either Gate or the result of cls(response)
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.containerservicefleet.models.Gate]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.FleetUpdateStrategyListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.GateListResult] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -127,7 +119,7 @@ class FleetUpdateStrategiesOperations:
             return _request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("FleetUpdateStrategyListResult", pipeline_response)
+            deserialized = self._deserialize("GateListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -152,20 +144,18 @@ class FleetUpdateStrategiesOperations:
         return AsyncItemPaged(get_next, extract_data)
 
     @distributed_trace_async
-    async def get(
-        self, resource_group_name: str, fleet_name: str, update_strategy_name: str, **kwargs: Any
-    ) -> _models.FleetUpdateStrategy:
-        """Get a FleetUpdateStrategy.
+    async def get(self, resource_group_name: str, fleet_name: str, gate_name: str, **kwargs: Any) -> _models.Gate:
+        """Get a Gate.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param fleet_name: The name of the Fleet resource. Required.
         :type fleet_name: str
-        :param update_strategy_name: The name of the UpdateStrategy resource. Required.
-        :type update_strategy_name: str
-        :return: FleetUpdateStrategy or the result of cls(response)
-        :rtype: ~azure.mgmt.containerservicefleet.models.FleetUpdateStrategy
+        :param gate_name: The name of the Gate resource, a GUID. Required.
+        :type gate_name: str
+        :return: Gate or the result of cls(response)
+        :rtype: ~azure.mgmt.containerservicefleet.models.Gate
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -180,12 +170,12 @@ class FleetUpdateStrategiesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.FleetUpdateStrategy] = kwargs.pop("cls", None)
+        cls: ClsType[_models.Gate] = kwargs.pop("cls", None)
 
         _request = build_get_request(
             resource_group_name=resource_group_name,
             fleet_name=fleet_name,
-            update_strategy_name=update_strategy_name,
+            gate_name=gate_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -205,19 +195,19 @@ class FleetUpdateStrategiesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("FleetUpdateStrategy", pipeline_response.http_response)
+        deserialized = self._deserialize("Gate", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
 
-    async def _create_or_update_initial(
+    async def _update_initial(
         self,
         resource_group_name: str,
         fleet_name: str,
-        update_strategy_name: str,
-        resource: Union[_models.FleetUpdateStrategy, IO[bytes]],
+        gate_name: str,
+        properties: Union[_models.GatePatch, IO[bytes]],
         if_match: Optional[str] = None,
         if_none_match: Optional[str] = None,
         **kwargs: Any
@@ -240,15 +230,15 @@ class FleetUpdateStrategiesOperations:
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(resource, (IOBase, bytes)):
-            _content = resource
+        if isinstance(properties, (IOBase, bytes)):
+            _content = properties
         else:
-            _json = self._serialize.body(resource, "FleetUpdateStrategy")
+            _json = self._serialize.body(properties, "GatePatch")
 
-        _request = build_create_or_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             fleet_name=fleet_name,
-            update_strategy_name=update_strategy_name,
+            gate_name=gate_name,
             subscription_id=self._config.subscription_id,
             if_match=if_match,
             if_none_match=if_none_match,
@@ -269,237 +259,7 @@ class FleetUpdateStrategiesOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 201]:
-            try:
-                await response.read()  # Load the body in memory and close the socket
-            except (StreamConsumedError, StreamClosedError):
-                pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        response_headers = {}
-        if response.status_code == 201:
-            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
-
-        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
-
-        if cls:
-            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
-    async def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        fleet_name: str,
-        update_strategy_name: str,
-        resource: _models.FleetUpdateStrategy,
-        if_match: Optional[str] = None,
-        if_none_match: Optional[str] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.FleetUpdateStrategy]:
-        """Create a FleetUpdateStrategy.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param fleet_name: The name of the Fleet resource. Required.
-        :type fleet_name: str
-        :param update_strategy_name: The name of the UpdateStrategy resource. Required.
-        :type update_strategy_name: str
-        :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.containerservicefleet.models.FleetUpdateStrategy
-        :param if_match: The request should only proceed if an entity matches this string. Default
-         value is None.
-        :type if_match: str
-        :param if_none_match: The request should only proceed if no entity matches this string. Default
-         value is None.
-        :type if_none_match: str
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns either FleetUpdateStrategy or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.containerservicefleet.models.FleetUpdateStrategy]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        fleet_name: str,
-        update_strategy_name: str,
-        resource: IO[bytes],
-        if_match: Optional[str] = None,
-        if_none_match: Optional[str] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.FleetUpdateStrategy]:
-        """Create a FleetUpdateStrategy.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param fleet_name: The name of the Fleet resource. Required.
-        :type fleet_name: str
-        :param update_strategy_name: The name of the UpdateStrategy resource. Required.
-        :type update_strategy_name: str
-        :param resource: Resource create parameters. Required.
-        :type resource: IO[bytes]
-        :param if_match: The request should only proceed if an entity matches this string. Default
-         value is None.
-        :type if_match: str
-        :param if_none_match: The request should only proceed if no entity matches this string. Default
-         value is None.
-        :type if_none_match: str
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns either FleetUpdateStrategy or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.containerservicefleet.models.FleetUpdateStrategy]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        fleet_name: str,
-        update_strategy_name: str,
-        resource: Union[_models.FleetUpdateStrategy, IO[bytes]],
-        if_match: Optional[str] = None,
-        if_none_match: Optional[str] = None,
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.FleetUpdateStrategy]:
-        """Create a FleetUpdateStrategy.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param fleet_name: The name of the Fleet resource. Required.
-        :type fleet_name: str
-        :param update_strategy_name: The name of the UpdateStrategy resource. Required.
-        :type update_strategy_name: str
-        :param resource: Resource create parameters. Is either a FleetUpdateStrategy type or a
-         IO[bytes] type. Required.
-        :type resource: ~azure.mgmt.containerservicefleet.models.FleetUpdateStrategy or IO[bytes]
-        :param if_match: The request should only proceed if an entity matches this string. Default
-         value is None.
-        :type if_match: str
-        :param if_none_match: The request should only proceed if no entity matches this string. Default
-         value is None.
-        :type if_none_match: str
-        :return: An instance of AsyncLROPoller that returns either FleetUpdateStrategy or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.containerservicefleet.models.FleetUpdateStrategy]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.FleetUpdateStrategy] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._create_or_update_initial(
-                resource_group_name=resource_group_name,
-                fleet_name=fleet_name,
-                update_strategy_name=update_strategy_name,
-                resource=resource,
-                if_match=if_match,
-                if_none_match=if_none_match,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            await raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("FleetUpdateStrategy", pipeline_response.http_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})  # type: ignore
-            return deserialized
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod,
-                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
-            )
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller[_models.FleetUpdateStrategy].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller[_models.FleetUpdateStrategy](
-            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
-        )
-
-    async def _delete_initial(
-        self,
-        resource_group_name: str,
-        fleet_name: str,
-        update_strategy_name: str,
-        if_match: Optional[str] = None,
-        **kwargs: Any
-    ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
-
-        _request = build_delete_request(
-            resource_group_name=resource_group_name,
-            fleet_name=fleet_name,
-            update_strategy_name=update_strategy_name,
-            subscription_id=self._config.subscription_id,
-            if_match=if_match,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _decompress = kwargs.pop("decompress", True)
-        _stream = True
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202, 204]:
+        if response.status_code not in [200, 202]:
             try:
                 await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
@@ -520,46 +280,134 @@ class FleetUpdateStrategiesOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace_async
-    async def begin_delete(
+    @overload
+    async def begin_update(
         self,
         resource_group_name: str,
         fleet_name: str,
-        update_strategy_name: str,
+        gate_name: str,
+        properties: _models.GatePatch,
         if_match: Optional[str] = None,
+        if_none_match: Optional[str] = None,
+        *,
+        content_type: str = "application/json",
         **kwargs: Any
-    ) -> AsyncLROPoller[None]:
-        """Delete a FleetUpdateStrategy.
+    ) -> AsyncLROPoller[_models.Gate]:
+        """Update a Gate.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param fleet_name: The name of the Fleet resource. Required.
         :type fleet_name: str
-        :param update_strategy_name: The name of the UpdateStrategy resource. Required.
-        :type update_strategy_name: str
+        :param gate_name: The name of the Gate resource, a GUID. Required.
+        :type gate_name: str
+        :param properties: The resource properties to be updated. Required.
+        :type properties: ~azure.mgmt.containerservicefleet.models.GatePatch
         :param if_match: The request should only proceed if an entity matches this string. Default
          value is None.
         :type if_match: str
-        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :param if_none_match: The request should only proceed if no entity matches this string. Default
+         value is None.
+        :type if_none_match: str
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of AsyncLROPoller that returns either Gate or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.containerservicefleet.models.Gate]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        _headers = kwargs.pop("headers", {}) or {}
+
+    @overload
+    async def begin_update(
+        self,
+        resource_group_name: str,
+        fleet_name: str,
+        gate_name: str,
+        properties: IO[bytes],
+        if_match: Optional[str] = None,
+        if_none_match: Optional[str] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.Gate]:
+        """Update a Gate.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param fleet_name: The name of the Fleet resource. Required.
+        :type fleet_name: str
+        :param gate_name: The name of the Gate resource, a GUID. Required.
+        :type gate_name: str
+        :param properties: The resource properties to be updated. Required.
+        :type properties: IO[bytes]
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
+        :param if_none_match: The request should only proceed if no entity matches this string. Default
+         value is None.
+        :type if_none_match: str
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of AsyncLROPoller that returns either Gate or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.containerservicefleet.models.Gate]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def begin_update(
+        self,
+        resource_group_name: str,
+        fleet_name: str,
+        gate_name: str,
+        properties: Union[_models.GatePatch, IO[bytes]],
+        if_match: Optional[str] = None,
+        if_none_match: Optional[str] = None,
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.Gate]:
+        """Update a Gate.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param fleet_name: The name of the Fleet resource. Required.
+        :type fleet_name: str
+        :param gate_name: The name of the Gate resource, a GUID. Required.
+        :type gate_name: str
+        :param properties: The resource properties to be updated. Is either a GatePatch type or a
+         IO[bytes] type. Required.
+        :type properties: ~azure.mgmt.containerservicefleet.models.GatePatch or IO[bytes]
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
+        :param if_none_match: The request should only proceed if no entity matches this string. Default
+         value is None.
+        :type if_none_match: str
+        :return: An instance of AsyncLROPoller that returns either Gate or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.containerservicefleet.models.Gate]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.Gate] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._delete_initial(
+            raw_result = await self._update_initial(
                 resource_group_name=resource_group_name,
                 fleet_name=fleet_name,
-                update_strategy_name=update_strategy_name,
+                gate_name=gate_name,
+                properties=properties,
                 if_match=if_match,
+                if_none_match=if_none_match,
                 api_version=api_version,
+                content_type=content_type,
                 cls=lambda x, y, z: x,
                 headers=_headers,
                 params=_params,
@@ -568,24 +416,27 @@ class FleetUpdateStrategiesOperations:
             await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("Gate", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, None, {})  # type: ignore
+                return cls(pipeline_response, deserialized, {})  # type: ignore
+            return deserialized
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod,
-                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
             )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[None].from_continuation_token(
+            return AsyncLROPoller[_models.Gate].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[_models.Gate](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
