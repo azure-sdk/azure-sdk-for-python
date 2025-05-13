@@ -11,15 +11,14 @@
 import datetime
 from typing import Any, Dict, List, Literal, Mapping, Optional, TYPE_CHECKING, Union, overload
 
-from .. import _model_base
-from .._model_base import rest_discriminator, rest_field
+from .._utils.model_base import Model as _Model, rest_discriminator, rest_field
 from ._enums import SourceType
 
 if TYPE_CHECKING:
     from .. import models as _models
 
 
-class DateTimeFilter(_model_base.Model):
+class DateTimeFilter(_Model):
     """UTC DateTime filter for dependency map visualization apis.
 
     :ivar start_date_time_utc: Start date time for dependency map visualization query.
@@ -56,7 +55,7 @@ class DateTimeFilter(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class DependencyMapVisualizationFilter(_model_base.Model):
+class DependencyMapVisualizationFilter(_Model):
     """Filters for dependency map visualization apis.
 
     :ivar date_time: DateTime filter.
@@ -93,8 +92,8 @@ class DependencyMapVisualizationFilter(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class Resource(_model_base.Model):
-    """Common fields that are returned in the response for all Azure Resource Manager resources.
+class Resource(_Model):
+    """Resource.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -122,8 +121,7 @@ class Resource(_model_base.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which
-    has 'tags' and a 'location'.
+    """Tracked Resource.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -213,7 +211,7 @@ class DiscoverySourceResource(TrackedResource):
         super().__init__(*args, **kwargs)
 
 
-class DiscoverySourceResourceProperties(_model_base.Model):
+class DiscoverySourceResourceProperties(_Model):
     """The properties of Discovery Source resource.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -228,7 +226,7 @@ class DiscoverySourceResourceProperties(_model_base.Model):
     :vartype source_id: str
     """
 
-    __mapping__: Dict[str, _model_base.Model] = {}
+    __mapping__: Dict[str, _Model] = {}
     provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = rest_field(
         name="provisioningState", visibility=["read"]
     )
@@ -258,7 +256,7 @@ class DiscoverySourceResourceProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class DiscoverySourceResourceTagsUpdate(_model_base.Model):
+class DiscoverySourceResourceTagsUpdate(_Model):
     """The type used for updating tags in DiscoverySourceResource resources.
 
     :ivar tags: Resource tags.
@@ -286,7 +284,7 @@ class DiscoverySourceResourceTagsUpdate(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ErrorAdditionalInfo(_model_base.Model):
+class ErrorAdditionalInfo(_Model):
     """The resource management error additional info.
 
     :ivar type: The additional info type.
@@ -301,7 +299,7 @@ class ErrorAdditionalInfo(_model_base.Model):
     """The additional info."""
 
 
-class ErrorDetail(_model_base.Model):
+class ErrorDetail(_Model):
     """The error detail.
 
     :ivar code: The error code.
@@ -330,9 +328,8 @@ class ErrorDetail(_model_base.Model):
     """The error additional info."""
 
 
-class ErrorResponse(_model_base.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed
-    operations.
+class ErrorResponse(_Model):
+    """Error response.
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.dependencymap.models.ErrorDetail
@@ -359,7 +356,7 @@ class ErrorResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ExportDependenciesRequest(_model_base.Model):
+class ExportDependenciesRequest(_Model):
     """ExportDependencies request model.
 
     :ivar focused_machine_id: Machine arm id. Required.
@@ -396,7 +393,7 @@ class ExportDependenciesRequest(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class GetConnectionsForProcessOnFocusedMachineRequest(_model_base.Model):  # pylint: disable=name-too-long
+class GetConnectionsForProcessOnFocusedMachineRequest(_Model):  # pylint: disable=name-too-long
     """GetConnectionsForProcessOnFocusedMachine request model.
 
     :ivar focused_machine_id: Machine arm id. Required.
@@ -440,7 +437,7 @@ class GetConnectionsForProcessOnFocusedMachineRequest(_model_base.Model):  # pyl
         super().__init__(*args, **kwargs)
 
 
-class GetConnectionsWithConnectedMachineForFocusedMachineRequest(_model_base.Model):  # pylint: disable=name-too-long
+class GetConnectionsWithConnectedMachineForFocusedMachineRequest(_Model):  # pylint: disable=name-too-long
     """GetConnectionsWithConnectedMachineForFocusedMachine request model.
 
     :ivar focused_machine_id: Source machine arm id. Required.
@@ -484,7 +481,7 @@ class GetConnectionsWithConnectedMachineForFocusedMachineRequest(_model_base.Mod
         super().__init__(*args, **kwargs)
 
 
-class GetDependencyViewForFocusedMachineRequest(_model_base.Model):  # pylint: disable=name-too-long
+class GetDependencyViewForFocusedMachineRequest(_Model):  # pylint: disable=name-too-long
     """GetDependencyViewForFocusedMachine request model.
 
     :ivar focused_machine_id: Machine arm id. Required.
@@ -568,7 +565,7 @@ class MapsResource(TrackedResource):
         super().__init__(*args, **kwargs)
 
 
-class MapsResourceProperties(_model_base.Model):
+class MapsResourceProperties(_Model):
     """The properties of Maps resource.
 
     :ivar provisioning_state: Provisioning state of Maps resource. Known values are: "Succeeded",
@@ -583,7 +580,7 @@ class MapsResourceProperties(_model_base.Model):
      \"Provisioning\", \"Updating\", \"Deleting\", and \"Accepted\"."""
 
 
-class MapsResourceTagsUpdate(_model_base.Model):
+class MapsResourceTagsUpdate(_Model):
     """The type used for updating tags in MapsResource resources.
 
     :ivar tags: Resource tags.
@@ -646,8 +643,8 @@ class OffAzureDiscoverySourceResourceProperties(
         super().__init__(*args, source_type=SourceType.OFF_AZURE, **kwargs)
 
 
-class Operation(_model_base.Model):
-    """Details of a REST API operation, returned from the Resource Provider Operations API.
+class Operation(_Model):
+    """REST API Operation.
 
     :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
      "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
@@ -703,7 +700,7 @@ class Operation(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OperationDisplay(_model_base.Model):
+class OperationDisplay(_Model):
     """Localized display information for and operation.
 
     :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
@@ -734,7 +731,7 @@ class OperationDisplay(_model_base.Model):
      views."""
 
 
-class ProcessNameFilter(_model_base.Model):
+class ProcessNameFilter(_Model):
     """Process name filter for dependency map visualization apis.
 
     :ivar operator: Operator for process name filter. Required. Known values are: "contains" and
@@ -772,7 +769,7 @@ class ProcessNameFilter(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SystemData(_model_base.Model):
+class SystemData(_Model):
     """Metadata pertaining to creation and last modification of the resource.
 
     :ivar created_by: The identity that created the resource.
