@@ -1,0 +1,6 @@
+{
+  "commit": "340ffd6770ca88a1ecb5d97607edf86cd079d474",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/marketplacecatalog/Reviews.Management",
+  "@azure-tools/typespec-python": "0.44.2"
+}
