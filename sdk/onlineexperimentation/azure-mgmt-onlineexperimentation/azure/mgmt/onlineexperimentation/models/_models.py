@@ -11,14 +11,13 @@
 import datetime
 from typing import Any, Dict, List, Mapping, Optional, TYPE_CHECKING, Union, overload
 
-from .. import _model_base
-from .._model_base import rest_field
+from .._utils.model_base import Model as _Model, rest_field
 
 if TYPE_CHECKING:
     from .. import models as _models
 
 
-class CustomerManagedKeyEncryption(_model_base.Model):
+class CustomerManagedKeyEncryption(_Model):
     """Customer-managed key encryption properties for the resource.
 
     :ivar key_encryption_key_identity: All identity configuration for Customer-managed key settings
@@ -66,7 +65,7 @@ class CustomerManagedKeyEncryption(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ErrorAdditionalInfo(_model_base.Model):
+class ErrorAdditionalInfo(_Model):
     """The resource management error additional info.
 
     :ivar type: The additional info type.
@@ -81,7 +80,7 @@ class ErrorAdditionalInfo(_model_base.Model):
     """The additional info."""
 
 
-class ErrorDetail(_model_base.Model):
+class ErrorDetail(_Model):
     """The error detail.
 
     :ivar code: The error code.
@@ -110,9 +109,8 @@ class ErrorDetail(_model_base.Model):
     """The error additional info."""
 
 
-class ErrorResponse(_model_base.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed
-    operations.
+class ErrorResponse(_Model):
+    """Error response.
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.onlineexperimentation.models.ErrorDetail
@@ -139,7 +137,7 @@ class ErrorResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class KeyEncryptionKeyIdentity(_model_base.Model):
+class KeyEncryptionKeyIdentity(_Model):
     """All identity configuration for Customer-managed key settings defining which identity should be
     used to auth to Key Vault.
 
@@ -198,7 +196,7 @@ class KeyEncryptionKeyIdentity(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ManagedServiceIdentity(_model_base.Model):
+class ManagedServiceIdentity(_Model):
     """Managed service identity (system assigned and/or user assigned identities).
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
@@ -250,7 +248,7 @@ class ManagedServiceIdentity(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OnlineExperimentationWorkspaceSku(_model_base.Model):
+class OnlineExperimentationWorkspaceSku(_Model):
     """The SKU (Stock Keeping Unit) assigned to this resource.
 
     :ivar name: The name of the SKU. Ex - F0, P0. It is typically a letter+number code. Required.
@@ -290,8 +288,8 @@ class OnlineExperimentationWorkspaceSku(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class Resource(_model_base.Model):
-    """Common fields that are returned in the response for all Azure Resource Manager resources.
+class Resource(_Model):
+    """Resource.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -319,8 +317,7 @@ class Resource(_model_base.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which
-    has 'tags' and a 'location'.
+    """Tracked Resource.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -425,7 +422,7 @@ class OnlineExperimentWorkspace(TrackedResource):
         super().__init__(*args, **kwargs)
 
 
-class OnlineExperimentWorkspacePatch(_model_base.Model):
+class OnlineExperimentWorkspacePatch(_Model):
     """Partial update of an online experiment workspace resource.
 
     :ivar identity: The managed service identities assigned to this resource.
@@ -475,7 +472,7 @@ class OnlineExperimentWorkspacePatch(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OnlineExperimentWorkspacePatchProperties(_model_base.Model):
+class OnlineExperimentWorkspacePatchProperties(_Model):
     """OnlineExperimentWorkspacePatchProperties.
 
     :ivar log_analytics_workspace_resource_id: The resource identifier of the Log Analytics
@@ -524,7 +521,7 @@ class OnlineExperimentWorkspacePatchProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OnlineExperimentWorkspaceProperties(_model_base.Model):
+class OnlineExperimentWorkspaceProperties(_Model):
     """The properties of an online experiment workspace.
 
     :ivar workspace_id: The Id of the workspace.
@@ -601,8 +598,8 @@ class OnlineExperimentWorkspaceProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class Operation(_model_base.Model):
-    """Details of a REST API operation, returned from the Resource Provider Operations API.
+class Operation(_Model):
+    """REST API Operation.
 
     :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
      "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
@@ -658,7 +655,7 @@ class Operation(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OperationDisplay(_model_base.Model):
+class OperationDisplay(_Model):
     """Localized display information for and operation.
 
     :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
@@ -689,7 +686,7 @@ class OperationDisplay(_model_base.Model):
      views."""
 
 
-class ResourceEncryptionConfiguration(_model_base.Model):
+class ResourceEncryptionConfiguration(_Model):
     """The encryption configuration for the online experiment workspace resource.
 
     :ivar customer_managed_key_encryption: All Customer-managed key encryption properties for the
@@ -721,7 +718,7 @@ class ResourceEncryptionConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SystemData(_model_base.Model):
+class SystemData(_Model):
     """Metadata pertaining to creation and last modification of the resource.
 
     :ivar created_by: The identity that created the resource.
@@ -788,16 +785,16 @@ class SystemData(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class UserAssignedIdentity(_model_base.Model):
+class UserAssignedIdentity(_Model):
     """User assigned identity properties.
 
-    :ivar client_id: The client ID of the assigned identity.
-    :vartype client_id: str
     :ivar principal_id: The principal ID of the assigned identity.
     :vartype principal_id: str
+    :ivar client_id: The client ID of the assigned identity.
+    :vartype client_id: str
     """
 
-    client_id: Optional[str] = rest_field(name="clientId", visibility=["read"])
-    """The client ID of the assigned identity."""
     principal_id: Optional[str] = rest_field(name="principalId", visibility=["read"])
     """The principal ID of the assigned identity."""
+    client_id: Optional[str] = rest_field(name="clientId", visibility=["read"])
+    """The client ID of the assigned identity."""
