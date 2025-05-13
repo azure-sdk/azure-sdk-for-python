@@ -11,17 +11,14 @@
 import datetime
 from typing import Any, Dict, List, Mapping, Optional, TYPE_CHECKING, Union, overload
 
-from .. import _model_base
-from .._model_base import rest_field
+from .._utils.model_base import Model as _Model, rest_field
 
 if TYPE_CHECKING:
     from .. import models as _models
 
 
-class Resource(_model_base.Model):
-    """Common fields that are returned in the response for all Azure Resource Manager resources.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
+class Resource(_Model):
+    """Resource.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -49,11 +46,7 @@ class Resource(_model_base.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which
-    has 'tags' and a 'location'.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
+    """Tracked Resource.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -98,9 +91,6 @@ class TrackedResource(Resource):
 
 class Asset(TrackedResource):
     """Asset definition.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -154,9 +144,6 @@ class Asset(TrackedResource):
 class AssetEndpointProfile(TrackedResource):
     """Asset Endpoint Profile definition.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
@@ -206,11 +193,8 @@ class AssetEndpointProfile(TrackedResource):
         super().__init__(*args, **kwargs)
 
 
-class AssetEndpointProfileProperties(_model_base.Model):
+class AssetEndpointProfileProperties(_Model):
     """Defines the Asset Endpoint Profile properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar uuid: Globally unique, immutable, non-reusable id.
     :vartype uuid: str
@@ -295,10 +279,8 @@ class AssetEndpointProfileProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class AssetEndpointProfileStatus(_model_base.Model):
+class AssetEndpointProfileStatus(_Model):
     """Defines the asset endpoint profile status properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar errors: Array object to transfer and persist errors that originate from the Edge.
     :vartype errors: list[~azure.mgmt.deviceregistry.models.AssetEndpointProfileStatusError]
@@ -308,10 +290,8 @@ class AssetEndpointProfileStatus(_model_base.Model):
     """Array object to transfer and persist errors that originate from the Edge."""
 
 
-class AssetEndpointProfileStatusError(_model_base.Model):
+class AssetEndpointProfileStatusError(_Model):
     """Defines the asset endpoint profile status error properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar code: Error code for classification of errors (ex: 400, 404, 500, etc.).
     :vartype code: int
@@ -327,7 +307,7 @@ class AssetEndpointProfileStatusError(_model_base.Model):
      “targetAddress 'foo' is not a valid url”)."""
 
 
-class AssetEndpointProfileUpdate(_model_base.Model):
+class AssetEndpointProfileUpdate(_Model):
     """The type used for update operations of the AssetEndpointProfile.
 
     :ivar tags: Resource tags.
@@ -362,7 +342,7 @@ class AssetEndpointProfileUpdate(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class AssetEndpointProfileUpdateProperties(_model_base.Model):
+class AssetEndpointProfileUpdateProperties(_Model):
     """The updatable properties of the AssetEndpointProfile.
 
     :ivar target_address: The local valid URI specifying the network address/DNS name of a
@@ -420,11 +400,8 @@ class AssetEndpointProfileUpdateProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class AssetProperties(_model_base.Model):
+class AssetProperties(_Model):
     """Defines the asset properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar uuid: Globally unique, immutable, non-reusable id.
     :vartype uuid: str
@@ -603,10 +580,8 @@ class AssetProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class AssetStatus(_model_base.Model):
+class AssetStatus(_Model):
     """Defines the asset status properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar errors: Array object to transfer and persist errors that originate from the Edge.
     :vartype errors: list[~azure.mgmt.deviceregistry.models.AssetStatusError]
@@ -634,11 +609,8 @@ class AssetStatus(_model_base.Model):
     """Array of event statuses that describe the status of each event."""
 
 
-class AssetStatusDataset(_model_base.Model):
+class AssetStatusDataset(_Model):
     """Defines the asset status dataset properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar name: The name of the dataset. Must be unique within the status.datasets array. This name
      is used to correlate between the spec and status dataset information. Required.
@@ -656,10 +628,8 @@ class AssetStatusDataset(_model_base.Model):
     """The message schema reference object."""
 
 
-class AssetStatusError(_model_base.Model):
+class AssetStatusError(_Model):
     """Defines the asset status error properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar code: Error code for classification of errors (ex: 400, 404, 500, etc.).
     :vartype code: int
@@ -675,11 +645,8 @@ class AssetStatusError(_model_base.Model):
      Id 'foo' does not exist”)."""
 
 
-class AssetStatusEvent(_model_base.Model):
+class AssetStatusEvent(_Model):
     """Defines the asset status event properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar name: The name of the event. Must be unique within the status.events array. This name is
      used to correlate between the spec and status event information. Required.
@@ -697,7 +664,7 @@ class AssetStatusEvent(_model_base.Model):
     """The message schema reference object."""
 
 
-class AssetUpdate(_model_base.Model):
+class AssetUpdate(_Model):
     """The type used for update operations of the Asset.
 
     :ivar tags: Resource tags.
@@ -732,7 +699,7 @@ class AssetUpdate(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class AssetUpdateProperties(_model_base.Model):
+class AssetUpdateProperties(_Model):
     """The updatable properties of the Asset.
 
     :ivar enabled: Enabled/Disabled status of the asset.
@@ -869,9 +836,8 @@ class AssetUpdateProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class Authentication(_model_base.Model):
+class Authentication(_Model):
     """Definition of the client authentication mechanism to the server.
-
 
     :ivar method: Defines the method to authenticate the user of the client at the server.
      Required. Known values are: "Anonymous", "Certificate", and "UsernamePassword".
@@ -921,10 +887,7 @@ class Authentication(_model_base.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
-    tags and a location.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
+    """Proxy Resource.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -943,8 +906,6 @@ class ProxyResource(Resource):
 class BillingContainer(ProxyResource):
     """billingContainer Model as Azure resource whose sole purpose is to keep track of billables
     resources under a subscription.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -988,10 +949,8 @@ class BillingContainer(ProxyResource):
         super().__init__(*args, **kwargs)
 
 
-class BillingContainerProperties(_model_base.Model):
+class BillingContainerProperties(_Model):
     """Defines the billingContainer properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Succeeded",
      "Failed", "Canceled", "Accepted", and "Deleting".
@@ -1005,9 +964,8 @@ class BillingContainerProperties(_model_base.Model):
      \"Accepted\", and \"Deleting\"."""
 
 
-class DataPointBase(_model_base.Model):
+class DataPointBase(_Model):
     """Defines the data point properties.
-
 
     :ivar name: The name of the data point. Required.
     :vartype name: str
@@ -1054,7 +1012,6 @@ class DataPointBase(_model_base.Model):
 class DataPoint(DataPointBase):
     """Defines the data point properties.
 
-
     :ivar name: The name of the data point. Required.
     :vartype name: str
     :ivar data_source: The address of the source of the data in the asset (e.g. URL) so that a
@@ -1097,9 +1054,8 @@ class DataPoint(DataPointBase):
         super().__init__(*args, **kwargs)
 
 
-class Dataset(_model_base.Model):
+class Dataset(_Model):
     """Defines the dataset properties.
-
 
     :ivar name: Name of the dataset. Required.
     :vartype name: str
@@ -1149,10 +1105,8 @@ class Dataset(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class ErrorAdditionalInfo(_model_base.Model):
+class ErrorAdditionalInfo(_Model):
     """The resource management error additional info.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar type: The additional info type.
     :vartype type: str
@@ -1166,10 +1120,8 @@ class ErrorAdditionalInfo(_model_base.Model):
     """The additional info."""
 
 
-class ErrorDetail(_model_base.Model):
+class ErrorDetail(_Model):
     """The error detail.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar code: The error code.
     :vartype code: str
@@ -1197,9 +1149,8 @@ class ErrorDetail(_model_base.Model):
     """The error additional info."""
 
 
-class ErrorResponse(_model_base.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed
-    operations.
+class ErrorResponse(_Model):
+    """Error response.
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.deviceregistry.models.ErrorDetail
@@ -1226,9 +1177,8 @@ class ErrorResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class EventBase(_model_base.Model):
+class EventBase(_Model):
     """Defines the event properties.
-
 
     :ivar name: The name of the event. Required.
     :vartype name: str
@@ -1280,7 +1230,6 @@ class EventBase(_model_base.Model):
 class Event(EventBase):
     """Defines the event properties.
 
-
     :ivar name: The name of the event. Required.
     :vartype name: str
     :ivar event_notifier: The address of the notifier of the event in the asset (e.g. URL) so that
@@ -1325,9 +1274,8 @@ class Event(EventBase):
         super().__init__(*args, **kwargs)
 
 
-class ExtendedLocation(_model_base.Model):
+class ExtendedLocation(_Model):
     """The extended location.
-
 
     :ivar type: The extended location type. Required.
     :vartype type: str
@@ -1359,11 +1307,8 @@ class ExtendedLocation(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class MessageSchemaReference(_model_base.Model):
+class MessageSchemaReference(_Model):
     """Defines the message schema reference properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar schema_registry_namespace: The message schema registry namespace. Required.
     :vartype schema_registry_namespace: str
@@ -1381,10 +1326,8 @@ class MessageSchemaReference(_model_base.Model):
     """The message schema version. Required."""
 
 
-class Operation(_model_base.Model):
-    """Details of a REST API operation, returned from the Resource Provider Operations API.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
+class Operation(_Model):
+    """REST API Operation.
 
     :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
      "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
@@ -1440,10 +1383,8 @@ class Operation(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OperationDisplay(_model_base.Model):
+class OperationDisplay(_Model):
     """Localized display information for and operation.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
      Monitoring Insights" or "Microsoft Compute".
@@ -1473,11 +1414,8 @@ class OperationDisplay(_model_base.Model):
      views."""
 
 
-class OperationStatusResult(_model_base.Model):
+class OperationStatusResult(_Model):
     """The current status of an async operation.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
@@ -1552,7 +1490,7 @@ class OperationStatusResult(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SystemData(_model_base.Model):
+class SystemData(_Model):
     """Metadata pertaining to creation and last modification of the resource.
 
     :ivar created_by: The identity that created the resource.
@@ -1619,9 +1557,8 @@ class SystemData(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class Topic(_model_base.Model):
+class Topic(_Model):
     """Object that describes the topic information.
-
 
     :ivar path: The topic path for messages published to an MQTT broker. Required.
     :vartype path: str
@@ -1657,9 +1594,8 @@ class Topic(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class UsernamePasswordCredentials(_model_base.Model):
+class UsernamePasswordCredentials(_Model):
     """The credentials for authentication mode UsernamePassword.
-
 
     :ivar username_secret_name: The name of the secret containing the username. Required.
     :vartype username_secret_name: str
@@ -1695,9 +1631,8 @@ class UsernamePasswordCredentials(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class X509Credentials(_model_base.Model):
+class X509Credentials(_Model):
     """The x509 certificate for authentication mode Certificate.
-
 
     :ivar certificate_secret_name: The name of the secret containing the certificate and private
      key (e.g. stored as .der/.pem or .der/.pfx). Required.
