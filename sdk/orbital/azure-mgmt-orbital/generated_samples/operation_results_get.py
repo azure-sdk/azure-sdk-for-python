@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.orbital import AzureOrbital
 
 """
@@ -29,10 +31,10 @@ def main():
         subscription_id="12345678-1234-1234-1234-123456789098",
     )
 
-    response = client.operations_results.begin_get(
+    response = client.operations_results.get(
         location="eastus2",
         operation_id="30972f1b-b61d-4fd8-bd34-3dcfa24670f3",
-    ).result()
+    )
     print(response)
 
 
