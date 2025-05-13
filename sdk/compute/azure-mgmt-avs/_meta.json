@@ -1,11 +1,6 @@
 {
-  "commit": "abb0052f400b0215d4fbbf479e5bbc54714199e0",
+  "commit": "6eec0425b447967d716a5dde9aae784ebcdc7244",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.10.2",
-  "use": [
-    "@autorest/python@6.19.0",
-    "@autorest/modelerfour@4.27.0"
-  ],
-  "autorest_command": "autorest specification/vmware/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.19.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
-  "readme": "specification/vmware/resource-manager/readme.md"
+  "typespec_src": "specification/vmware/Microsoft.AVS.Management",
+  "@azure-tools/typespec-python": "0.44.1"
 }
