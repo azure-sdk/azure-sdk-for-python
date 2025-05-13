@@ -51,14 +51,6 @@ class EventStatusValues(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     RESOLVED = "Resolved"
 
 
-class EventSubTypeValues(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Sub type of the event. Currently used to determine retirement communications for health
-    advisory events.
-    """
-
-    RETIREMENT = "Retirement"
-
-
 class EventTypeValues(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Type of event."""
 
