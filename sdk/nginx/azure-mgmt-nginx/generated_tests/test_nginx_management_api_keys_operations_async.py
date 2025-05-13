@@ -21,27 +21,13 @@ class TestNginxManagementApiKeysOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_api_keys_create_or_update(self, resource_group):
-        response = await self.client.api_keys.create_or_update(
+    async def test_api_keys_list(self, resource_group):
+        response = self.client.api_keys.list(
             resource_group_name=resource_group.name,
             deployment_name="str",
-            api_key_name="str",
             api_version="2024-11-01-preview",
         )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_api_keys_delete(self, resource_group):
-        response = await self.client.api_keys.delete(
-            resource_group_name=resource_group.name,
-            deployment_name="str",
-            api_key_name="str",
-            api_version="2024-11-01-preview",
-        )
-
+        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
 
@@ -60,12 +46,41 @@ class TestNginxManagementApiKeysOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_api_keys_list(self, resource_group):
-        response = self.client.api_keys.list(
+    async def test_api_keys_create_or_update(self, resource_group):
+        response = await self.client.api_keys.create_or_update(
             resource_group_name=resource_group.name,
             deployment_name="str",
+            api_key_name="str",
+            body={
+                "endDateTime": "2020-02-20 00:00:00",
+                "hint": "str",
+                "id": "str",
+                "name": "str",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "type": "str",
+            },
             api_version="2024-11-01-preview",
         )
-        result = [r async for r in response]
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_api_keys_delete(self, resource_group):
+        response = await self.client.api_keys.delete(
+            resource_group_name=resource_group.name,
+            deployment_name="str",
+            api_key_name="str",
+            api_version="2024-11-01-preview",
+        )
+
         # please add some check logic here by yourself
         # ...
