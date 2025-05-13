@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -30,7 +31,7 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.virtual_network_addresses.list_by_cloud_vm_cluster(
+    response = client.virtual_network_addresses.list_by_parent(
         resource_group_name="rg000",
         cloudvmclustername="cluster1",
     )
@@ -38,6 +39,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/virtualNetworkAddresses_listByParent.json
+# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2025-03-01/examples/virtualNetworkAddresses_listByParent.json
 if __name__ == "__main__":
     main()
