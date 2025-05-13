@@ -1,0 +1,27 @@
+{
+    "CrossLanguagePackageId": "Microsoft.App.DynamicSessions",
+    "CrossLanguageDefinitionId": {
+        "microsoft.app.dynamicsessions.models.SessionCodeExecutionRequest": "Microsoft.App.DynamicSessions.SessionCodeExecutionRequest",
+        "microsoft.app.dynamicsessions.models.SessionCodeExecutionResource": "Microsoft.App.DynamicSessions.SessionCodeExecutionResource",
+        "microsoft.app.dynamicsessions.models.SessionCodeExecutionResult": "Microsoft.App.DynamicSessions.SessionCodeExecutionResult",
+        "microsoft.app.dynamicsessions.models.SessionResourceFile": "Microsoft.App.DynamicSessions.SessionResourceFile",
+        "microsoft.app.dynamicsessions.models.UploadRequest": "Microsoft.App.DynamicSessions.upload.Request.anonymous",
+        "microsoft.app.dynamicsessions.models.CodeInputType": "Microsoft.App.DynamicSessions.CodeInputType",
+        "microsoft.app.dynamicsessions.models.ExecutionType": "Microsoft.App.DynamicSessions.ExecutionType",
+        "microsoft.app.dynamicsessions.models.OperationState": "Azure.Core.Foundations.OperationState",
+        "microsoft.app.dynamicsessions.operations.CodeExecutionOperations.begin_execute": "Microsoft.App.DynamicSessions.CodeExecution.execute",
+        "microsoft.app.dynamicsessions.aio.operations.CodeExecutionOperations.begin_execute": "Microsoft.App.DynamicSessions.CodeExecution.execute",
+        "microsoft.app.dynamicsessions.operations.CodeExecutionOperations.get": "Microsoft.App.DynamicSessions.CodeExecution.get",
+        "microsoft.app.dynamicsessions.aio.operations.CodeExecutionOperations.get": "Microsoft.App.DynamicSessions.CodeExecution.get",
+        "microsoft.app.dynamicsessions.operations.SessionResourceFilesOperations.list": "Microsoft.App.DynamicSessions.SessionResourceFiles.list",
+        "microsoft.app.dynamicsessions.aio.operations.SessionResourceFilesOperations.list": "Microsoft.App.DynamicSessions.SessionResourceFiles.list",
+        "microsoft.app.dynamicsessions.operations.SessionResourceFilesOperations.get": "Microsoft.App.DynamicSessions.SessionResourceFiles.get",
+        "microsoft.app.dynamicsessions.aio.operations.SessionResourceFilesOperations.get": "Microsoft.App.DynamicSessions.SessionResourceFiles.get",
+        "microsoft.app.dynamicsessions.operations.SessionResourceFilesOperations.delete": "Microsoft.App.DynamicSessions.SessionResourceFiles.delete",
+        "microsoft.app.dynamicsessions.aio.operations.SessionResourceFilesOperations.delete": "Microsoft.App.DynamicSessions.SessionResourceFiles.delete",
+        "microsoft.app.dynamicsessions.operations.SessionResourceFilesOperations.upload": "Microsoft.App.DynamicSessions.SessionResourceFiles.upload",
+        "microsoft.app.dynamicsessions.aio.operations.SessionResourceFilesOperations.upload": "Microsoft.App.DynamicSessions.SessionResourceFiles.upload",
+        "microsoft.app.dynamicsessions.operations.SessionResourceFilesOperations.get_content": "Microsoft.App.DynamicSessions.SessionResourceFiles.getContent",
+        "microsoft.app.dynamicsessions.aio.operations.SessionResourceFilesOperations.get_content": "Microsoft.App.DynamicSessions.SessionResourceFiles.getContent"
+    }
+}
