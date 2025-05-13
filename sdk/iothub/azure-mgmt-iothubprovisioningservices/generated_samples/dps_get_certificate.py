@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.iothubprovisioningservices import IotDpsClient
 
 """
@@ -30,13 +32,13 @@ def main():
     )
 
     response = client.dps_certificate.get(
-        certificate_name="cert",
         resource_group_name="myResourceGroup",
         provisioning_service_name="myFirstProvisioningService",
+        certificate_name="cert",
     )
     print(response)
 
 
-# x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSGetCertificate.json
+# x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2025-02-01-preview/examples/DPSGetCertificate.json
 if __name__ == "__main__":
     main()

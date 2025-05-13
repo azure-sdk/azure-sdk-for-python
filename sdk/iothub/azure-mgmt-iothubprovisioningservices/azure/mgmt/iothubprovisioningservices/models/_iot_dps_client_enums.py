@@ -51,6 +51,14 @@ class IotDpsSku(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     S1 = "S1"
 
 
+class IotHubAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """IotHub MI authentication type: KeyBased, UserAssigned, SystemAssigned."""
+
+    KEY_BASED = "KeyBased"
+    USER_ASSIGNED = "UserAssigned"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+
+
 class IpFilterActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The desired action for requests captured by this rule."""
 

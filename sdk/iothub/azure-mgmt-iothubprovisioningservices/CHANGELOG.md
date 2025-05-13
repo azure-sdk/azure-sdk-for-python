@@ -1,5 +1,68 @@
 # Release History
 
+## 1.2.0b3 (2025-05-13)
+
+### Features Added
+
+  - Model `GroupIdInformation` added property `system_data`
+  - Model `IotHubDefinitionDescription` added property `authentication_type`
+  - Model `IotHubDefinitionDescription` added property `selected_user_assigned_identity_resource_id`
+  - Model `Resource` added property `system_data`
+  - Added model `ErrorAdditionalInfo`
+  - Added model `ErrorDetail`
+  - Added model `ErrorResponse`
+  - Added enum `IotHubAuthenticationType`
+  - Added model `ProxyResource`
+  - Added model `TrackedResource`
+  - Method `DpsCertificateOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, provisioning_service_name: str, certificate_name: str, certificate_description: IO[bytes], if_match: Optional[str], content_type: str)`
+  - Method `DpsCertificateOperations.verify_certificate` has a new overload `def verify_certificate(self: None, resource_group_name: str, provisioning_service_name: str, certificate_name: str, if_match: str, request: IO[bytes], certificate_name1: Optional[str], certificate_raw_bytes: Optional[bytes], certificate_is_verified: Optional[bool], certificate_purpose: Optional[Union[str, CertificatePurpose]], certificate_created: Optional[datetime], certificate_last_updated: Optional[datetime], certificate_has_private_key: Optional[bool], certificate_nonce: Optional[str], content_type: str)`
+  - Method `IotDpsResourceOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, provisioning_service_name: str, iot_dps_description: IO[bytes], content_type: str)`
+  - Method `IotDpsResourceOperations.begin_create_or_update_private_endpoint_connection` has a new overload `def begin_create_or_update_private_endpoint_connection(self: None, resource_group_name: str, provisioning_service_name: str, private_endpoint_connection_name: str, private_endpoint_connection: PrivateEndpointConnection, content_type: str)`
+  - Method `IotDpsResourceOperations.begin_create_or_update_private_endpoint_connection` has a new overload `def begin_create_or_update_private_endpoint_connection(self: None, resource_group_name: str, provisioning_service_name: str, private_endpoint_connection_name: str, private_endpoint_connection: IO[bytes], content_type: str)`
+  - Method `IotDpsResourceOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, provisioning_service_name: str, provisioning_service_tags: IO[bytes], content_type: str)`
+  - Method `IotDpsResourceOperations.check_provisioning_service_name_availability` has a new overload `def check_provisioning_service_name_availability(self: None, arguments: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Method `IotDpsSkuDefinitionListResult.__init__` removed default value `None` from its parameter `value`
+  - Model `ProvisioningServiceDescription` deleted or renamed its instance variable `resourcegroup`
+  - Model `ProvisioningServiceDescription` deleted or renamed its instance variable `subscriptionid`
+  - Method `ProvisioningServiceDescriptionListResult.__init__` removed default value `None` from its parameter `value`
+  - Model `Resource` deleted or renamed its instance variable `location`
+  - Model `Resource` deleted or renamed its instance variable `resourcegroup`
+  - Model `Resource` deleted or renamed its instance variable `subscriptionid`
+  - Model `Resource` deleted or renamed its instance variable `tags`
+  - Method `SharedAccessSignatureAuthorizationRuleListResult.__init__` removed default value `None` from its parameter `value`
+  - Deleted or renamed model `CertificateBodyDescription`
+  - Method `IotDpsResourceOperations.begin_create_or_update_private_endpoint_connection` inserted a `positional_or_keyword` parameter `provisioning_service_name`
+  - Method `IotDpsResourceOperations.begin_create_or_update_private_endpoint_connection` deleted or renamed its parameter `resource_name` of kind `positional_or_keyword`
+  - Method `IotDpsResourceOperations.begin_delete_private_endpoint_connection` inserted a `positional_or_keyword` parameter `provisioning_service_name`
+  - Method `IotDpsResourceOperations.begin_delete_private_endpoint_connection` deleted or renamed its parameter `resource_name` of kind `positional_or_keyword`
+  - Method `IotDpsResourceOperations.get_private_endpoint_connection` inserted a `positional_or_keyword` parameter `provisioning_service_name`
+  - Method `IotDpsResourceOperations.get_private_endpoint_connection` deleted or renamed its parameter `resource_name` of kind `positional_or_keyword`
+  - Method `IotDpsResourceOperations.get_private_link_resources` inserted a `positional_or_keyword` parameter `provisioning_service_name`
+  - Method `IotDpsResourceOperations.get_private_link_resources` deleted or renamed its parameter `resource_name` of kind `positional_or_keyword`
+  - Method `IotDpsResourceOperations.list_private_endpoint_connections` inserted a `positional_or_keyword` parameter `provisioning_service_name`
+  - Method `IotDpsResourceOperations.list_private_endpoint_connections` deleted or renamed its parameter `resource_name` of kind `positional_or_keyword`
+  - Method `IotDpsResourceOperations.list_private_link_resources` inserted a `positional_or_keyword` parameter `provisioning_service_name`
+  - Method `IotDpsResourceOperations.list_private_link_resources` deleted or renamed its parameter `resource_name` of kind `positional_or_keyword`
+  - Method `IotDpsResourceOperations.list_valid_skus` re-ordered its parameters from `['self', 'provisioning_service_name', 'resource_group_name', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'kwargs']`
+  - Method `IotDpsResourceOperations.begin_create_or_update_private_endpoint_connection` re-ordered its parameters from `['self', 'resource_group_name', 'resource_name', 'private_endpoint_connection_name', 'private_endpoint_connection', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'private_endpoint_connection_name', 'private_endpoint_connection', 'kwargs']`
+  - Method `IotDpsResourceOperations.list_keys` re-ordered its parameters from `['self', 'provisioning_service_name', 'resource_group_name', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'kwargs']`
+  - Method `IotDpsResourceOperations.begin_delete` re-ordered its parameters from `['self', 'provisioning_service_name', 'resource_group_name', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'kwargs']`
+  - Method `IotDpsResourceOperations.list_keys_for_key_name` re-ordered its parameters from `['self', 'provisioning_service_name', 'key_name', 'resource_group_name', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'key_name', 'kwargs']`
+  - Method `IotDpsResourceOperations.list_private_link_resources` re-ordered its parameters from `['self', 'resource_group_name', 'resource_name', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'kwargs']`
+  - Method `IotDpsResourceOperations.list_private_endpoint_connections` re-ordered its parameters from `['self', 'resource_group_name', 'resource_name', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'kwargs']`
+  - Method `IotDpsResourceOperations.get_private_endpoint_connection` re-ordered its parameters from `['self', 'resource_group_name', 'resource_name', 'private_endpoint_connection_name', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'private_endpoint_connection_name', 'kwargs']`
+  - Method `IotDpsResourceOperations.get_operation_result` re-ordered its parameters from `['self', 'operation_id', 'resource_group_name', 'provisioning_service_name', 'asyncinfo', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'operation_id', 'asyncinfo', 'kwargs']`
+  - Method `IotDpsResourceOperations.get` re-ordered its parameters from `['self', 'provisioning_service_name', 'resource_group_name', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'kwargs']`
+  - Method `IotDpsResourceOperations.get_private_link_resources` re-ordered its parameters from `['self', 'resource_group_name', 'resource_name', 'group_id', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'group_id', 'kwargs']`
+  - Method `IotDpsResourceOperations.begin_delete_private_endpoint_connection` re-ordered its parameters from `['self', 'resource_group_name', 'resource_name', 'private_endpoint_connection_name', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'private_endpoint_connection_name', 'kwargs']`
+  - Method `DpsCertificateOperations.generate_verification_code` re-ordered its parameters from `['self', 'certificate_name', 'if_match', 'resource_group_name', 'provisioning_service_name', 'certificate_name1', 'certificate_raw_bytes', 'certificate_is_verified', 'certificate_purpose', 'certificate_created', 'certificate_last_updated', 'certificate_has_private_key', 'certificate_nonce', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'certificate_name', 'if_match', 'certificate_name1', 'certificate_raw_bytes', 'certificate_is_verified', 'certificate_purpose', 'certificate_created', 'certificate_last_updated', 'certificate_has_private_key', 'certificate_nonce', 'kwargs']`
+  - Method `DpsCertificateOperations.verify_certificate` re-ordered its parameters from `['self', 'certificate_name', 'if_match', 'resource_group_name', 'provisioning_service_name', 'request', 'certificate_name1', 'certificate_raw_bytes', 'certificate_is_verified', 'certificate_purpose', 'certificate_created', 'certificate_last_updated', 'certificate_has_private_key', 'certificate_nonce', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'certificate_name', 'if_match', 'request', 'certificate_name1', 'certificate_raw_bytes', 'certificate_is_verified', 'certificate_purpose', 'certificate_created', 'certificate_last_updated', 'certificate_has_private_key', 'certificate_nonce', 'kwargs']`
+  - Method `DpsCertificateOperations.delete` re-ordered its parameters from `['self', 'resource_group_name', 'if_match', 'provisioning_service_name', 'certificate_name', 'certificate_name1', 'certificate_raw_bytes', 'certificate_is_verified', 'certificate_purpose', 'certificate_created', 'certificate_last_updated', 'certificate_has_private_key', 'certificate_nonce', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'certificate_name', 'if_match', 'certificate_name1', 'certificate_raw_bytes', 'certificate_is_verified', 'certificate_purpose', 'certificate_created', 'certificate_last_updated', 'certificate_has_private_key', 'certificate_nonce', 'kwargs']`
+  - Method `DpsCertificateOperations.get` re-ordered its parameters from `['self', 'certificate_name', 'resource_group_name', 'provisioning_service_name', 'if_match', 'kwargs']` to `['self', 'resource_group_name', 'provisioning_service_name', 'certificate_name', 'if_match', 'kwargs']`
+
 ## 1.2.0b2 (2023-06-16)
 
 ### Features Added
