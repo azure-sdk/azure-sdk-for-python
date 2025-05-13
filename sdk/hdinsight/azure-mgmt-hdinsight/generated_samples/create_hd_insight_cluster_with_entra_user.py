@@ -16,7 +16,7 @@ from azure.mgmt.hdinsight import HDInsightManagementClient
     pip install azure-identity
     pip install azure-mgmt-hdinsight
 # USAGE
-    python create_hd_insight_cluster_with_tls12.py
+    python create_hd_insight_cluster_with_entra_user.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -39,18 +39,23 @@ def main():
                 "clusterDefinition": {
                     "configurations": {
                         "gateway": {
-                            "restAuthCredential.isEnabled": True,
-                            "restAuthCredential.password": "**********",
-                            "restAuthCredential.username": "admin",
+                            "restAuthCredential.isEnabled": False,
+                            "restAuthEntraUsers": [
+                                {
+                                    "displayName": "displayName",
+                                    "objectId": "00000000-0000-0000-0000-000000000000",
+                                    "upn": "user@microsoft.com",
+                                }
+                            ],
                         }
                     },
                     "kind": "Hadoop",
                 },
-                "clusterVersion": "3.6",
+                "clusterVersion": "5.1",
                 "computeProfile": {
                     "roles": [
                         {
-                            "hardwareProfile": {"vmSize": "Large"},
+                            "hardwareProfile": {"vmSize": "Standard_E8_V3"},
                             "name": "headnode",
                             "osProfile": {
                                 "linuxOperatingSystemProfile": {"password": "**********", "username": "sshuser"}
@@ -58,7 +63,7 @@ def main():
                             "targetInstanceCount": 2,
                         },
                         {
-                            "hardwareProfile": {"vmSize": "Large"},
+                            "hardwareProfile": {"vmSize": "Standard_E8_V3"},
                             "name": "workernode",
                             "osProfile": {
                                 "linuxOperatingSystemProfile": {"password": "**********", "username": "sshuser"}
@@ -66,7 +71,7 @@ def main():
                             "targetInstanceCount": 3,
                         },
                         {
-                            "hardwareProfile": {"vmSize": "Small"},
+                            "hardwareProfile": {"vmSize": "Standard_E8_V3"},
                             "name": "zookeepernode",
                             "osProfile": {
                                 "linuxOperatingSystemProfile": {"password": "**********", "username": "sshuser"}
@@ -75,12 +80,11 @@ def main():
                         },
                     ]
                 },
-                "minSupportedTlsVersion": "1.2",
                 "osType": "Linux",
                 "storageProfile": {
                     "storageaccounts": [
                         {
-                            "container": "default8525",
+                            "container": "containername",
                             "enableSecureChannel": True,
                             "isDefault": True,
                             "key": "storagekey",
@@ -95,6 +99,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2025-01-15-preview/examples/CreateHDInsightClusterWithTLS12.json
+# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2025-01-15-preview/examples/CreateHDInsightClusterWithEntraUser.json
 if __name__ == "__main__":
     main()
