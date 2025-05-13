@@ -1,4 +1,4 @@
-# pylint: disable=line-too-long,useless-suppression,too-many-lines
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -34,7 +34,7 @@ from .._configuration import AgentsClientConfiguration
 from .._utils.model_base import Model as _Model, SdkJSONEncoder, _deserialize, _failsafe_deserialize
 from .._utils.serialization import Deserializer, Serializer
 from .._utils.utils import ClientMixinABC, prepare_multipart_form_data
-from ..servicepatterns import models as _servicepatterns_models1
+from ..servicepatterns import models as _servicepatterns_models2
 
 if TYPE_CHECKING:
     from .. import _types
