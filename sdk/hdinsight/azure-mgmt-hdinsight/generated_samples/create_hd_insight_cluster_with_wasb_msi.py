@@ -16,7 +16,7 @@ from azure.mgmt.hdinsight import HDInsightManagementClient
     pip install azure-identity
     pip install azure-mgmt-hdinsight
 # USAGE
-    python create_hd_insight_cluster_with_tls12.py
+    python create_hd_insight_cluster_with_wasb_msi.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,13 +28,19 @@ from azure.mgmt.hdinsight import HDInsightManagementClient
 def main():
     client = HDInsightManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="subId",
     )
 
     response = client.clusters.begin_create(
         resource_group_name="rg1",
         cluster_name="cluster1",
         parameters={
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msi": {}
+                },
+            },
             "properties": {
                 "clusterDefinition": {
                     "configurations": {
@@ -46,55 +52,73 @@ def main():
                     },
                     "kind": "Hadoop",
                 },
-                "clusterVersion": "3.6",
+                "clusterVersion": "5.1",
                 "computeProfile": {
                     "roles": [
                         {
-                            "hardwareProfile": {"vmSize": "Large"},
+                            "hardwareProfile": {"vmSize": "Standard_E8_V3"},
+                            "minInstanceCount": 1,
                             "name": "headnode",
                             "osProfile": {
                                 "linuxOperatingSystemProfile": {"password": "**********", "username": "sshuser"}
                             },
+                            "scriptActions": [],
                             "targetInstanceCount": 2,
+                            "virtualNetworkProfile": {
+                                "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetname",
+                                "subnet": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet",
+                            },
                         },
                         {
-                            "hardwareProfile": {"vmSize": "Large"},
+                            "hardwareProfile": {"vmSize": "Standard_E8_V3"},
+                            "minInstanceCount": 1,
                             "name": "workernode",
                             "osProfile": {
                                 "linuxOperatingSystemProfile": {"password": "**********", "username": "sshuser"}
                             },
+                            "scriptActions": [],
                             "targetInstanceCount": 3,
+                            "virtualNetworkProfile": {
+                                "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetname",
+                                "subnet": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet",
+                            },
                         },
                         {
-                            "hardwareProfile": {"vmSize": "Small"},
+                            "hardwareProfile": {"vmSize": "Standard_E8_V3"},
+                            "minInstanceCount": 1,
                             "name": "zookeepernode",
                             "osProfile": {
                                 "linuxOperatingSystemProfile": {"password": "**********", "username": "sshuser"}
                             },
+                            "scriptActions": [],
                             "targetInstanceCount": 3,
+                            "virtualNetworkProfile": {
+                                "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetname",
+                                "subnet": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet",
+                            },
                         },
                     ]
                 },
-                "minSupportedTlsVersion": "1.2",
                 "osType": "Linux",
                 "storageProfile": {
                     "storageaccounts": [
                         {
-                            "container": "default8525",
-                            "enableSecureChannel": True,
+                            "container": "containername",
                             "isDefault": True,
-                            "key": "storagekey",
+                            "msiResourceId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/msi",
                             "name": "mystorage.blob.core.windows.net",
+                            "resourceId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/mystorage",
                         }
                     ]
                 },
                 "tier": "Standard",
-            }
+            },
+            "tags": {"key1": "val1"},
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2025-01-15-preview/examples/CreateHDInsightClusterWithTLS12.json
+# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2025-01-15-preview/examples/CreateHDInsightClusterWithWasbMsi.json
 if __name__ == "__main__":
     main()
