@@ -1,0 +1,33 @@
+{
+    "CrossLanguagePackageId": "Azure.Monitor.LiveMetrics",
+    "CrossLanguageDefinitionId": {
+        "azure.applicationinsights.livemetrics.models.CollectionConfigurationError": "Azure.Monitor.LiveMetrics.CollectionConfigurationError",
+        "azure.applicationinsights.livemetrics.models.CollectionConfigurationInfo": "Azure.Monitor.LiveMetrics.CollectionConfigurationInfo",
+        "azure.applicationinsights.livemetrics.models.DerivedMetricInfo": "Azure.Monitor.LiveMetrics.DerivedMetricInfo",
+        "azure.applicationinsights.livemetrics.models.DocumentFilterConjunctionGroupInfo": "Azure.Monitor.LiveMetrics.DocumentFilterConjunctionGroupInfo",
+        "azure.applicationinsights.livemetrics.models.DocumentIngress": "Azure.Monitor.LiveMetrics.DocumentIngress",
+        "azure.applicationinsights.livemetrics.models.DocumentStreamInfo": "Azure.Monitor.LiveMetrics.DocumentStreamInfo",
+        "azure.applicationinsights.livemetrics.models.Event": "Azure.Monitor.LiveMetrics.Event",
+        "azure.applicationinsights.livemetrics.models.Exception": "Azure.Monitor.LiveMetrics.Exception",
+        "azure.applicationinsights.livemetrics.models.FilterConjunctionGroupInfo": "Azure.Monitor.LiveMetrics.FilterConjunctionGroupInfo",
+        "azure.applicationinsights.livemetrics.models.FilterInfo": "Azure.Monitor.LiveMetrics.FilterInfo",
+        "azure.applicationinsights.livemetrics.models.KeyValuePairStringString": "Azure.Monitor.LiveMetrics.KeyValuePairStringString",
+        "azure.applicationinsights.livemetrics.models.MetricPoint": "Azure.Monitor.LiveMetrics.MetricPoint",
+        "azure.applicationinsights.livemetrics.models.MonitoringDataPoint": "Azure.Monitor.LiveMetrics.MonitoringDataPoint",
+        "azure.applicationinsights.livemetrics.models.ProcessCpuData": "Azure.Monitor.LiveMetrics.ProcessCpuData",
+        "azure.applicationinsights.livemetrics.models.QuotaConfigurationInfo": "Azure.Monitor.LiveMetrics.QuotaConfigurationInfo",
+        "azure.applicationinsights.livemetrics.models.RemoteDependency": "Azure.Monitor.LiveMetrics.RemoteDependency",
+        "azure.applicationinsights.livemetrics.models.Request": "Azure.Monitor.LiveMetrics.Request",
+        "azure.applicationinsights.livemetrics.models.ServiceError": "Azure.Monitor.LiveMetrics.ServiceError",
+        "azure.applicationinsights.livemetrics.models.Trace": "Azure.Monitor.LiveMetrics.Trace",
+        "azure.applicationinsights.livemetrics.models.PredicateType": "Azure.Monitor.LiveMetrics.PredicateType",
+        "azure.applicationinsights.livemetrics.models.AggregationType": "Azure.Monitor.LiveMetrics.AggregationType",
+        "azure.applicationinsights.livemetrics.models.TelemetryType": "Azure.Monitor.LiveMetrics.TelemetryType",
+        "azure.applicationinsights.livemetrics.models.DocumentType": "Azure.Monitor.LiveMetrics.DocumentType",
+        "azure.applicationinsights.livemetrics.models.CollectionConfigurationErrorType": "Azure.Monitor.LiveMetrics.CollectionConfigurationErrorType",
+        "azure.applicationinsights.livemetrics.LiveMetricsClient.is_subscribed": "Azure.Monitor.LiveMetrics.isSubscribed",
+        "azure.applicationinsights.livemetrics.aio.LiveMetricsClient.is_subscribed": "Azure.Monitor.LiveMetrics.isSubscribed",
+        "azure.applicationinsights.livemetrics.LiveMetricsClient.publish": "Azure.Monitor.LiveMetrics.publish",
+        "azure.applicationinsights.livemetrics.aio.LiveMetricsClient.publish": "Azure.Monitor.LiveMetrics.publish"
+    }
+}
