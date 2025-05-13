@@ -1,5 +1,455 @@
 # Release History
 
+## 1.1.0b1 (2025-05-13)
+
+### Features Added
+
+  - Client `IoTOperationsMgmtClient` added operation group `dataflow_graph`
+  - Client `IoTOperationsMgmtClient` added operation group `registry_endpoint`
+  - Client `IoTOperationsMgmtClient` added operation group `akri_connector_template`
+  - Client `IoTOperationsMgmtClient` added operation group `akri_connector`
+  - Client `IoTOperationsMgmtClient` added operation group `akri_discovery_handler`
+  - Model `BrokerAuthenticatorMethodX509` added property `additional_validation`
+  - Model `BrokerProperties` added property `persistence`
+  - Model `DataflowEndpointProperties` added property `host_type`
+  - Model `DataflowEndpointProperties` added property `open_telemetry_settings`
+  - Enum `EndpointType` added member `OPEN_TELEMETRY`
+  - Model `InstanceProperties` added property `default_secret_provider_class_ref`
+  - Model `InstanceProperties` added property `features`
+  - Model `InstanceProperties` added property `adr_namespace_ref`
+  - Model `VolumeClaimResourceRequirements` added property `claims`
+  - Added model `AkriConnectorProperties`
+  - Added model `AkriConnectorResource`
+  - Added model `AkriConnectorTemplateAioMetadata`
+  - Added model `AkriConnectorTemplateAllocation`
+  - Added enum `AkriConnectorTemplateAllocationPolicy`
+  - Added model `AkriConnectorTemplateBucketizedAllocation`
+  - Added model `AkriConnectorTemplateDeviceInboundEndpointConfigurationSchemaRefs`
+  - Added model `AkriConnectorTemplateDeviceInboundEndpointType`
+  - Added model `AkriConnectorTemplateDiagnostics`
+  - Added model `AkriConnectorTemplateHelmAdvancedConfiguration`
+  - Added model `AkriConnectorTemplateHelmAuthSecretRef`
+  - Added model `AkriConnectorTemplateHelmConfiguration`
+  - Added model `AkriConnectorTemplateHelmConfigurationSettings`
+  - Added model `AkriConnectorTemplateHelmContainerRegistry`
+  - Added model `AkriConnectorTemplateHelmContainerRegistrySettings`
+  - Added model `AkriConnectorTemplateHelmDeleteConfiguration`
+  - Added model `AkriConnectorTemplateHelmInstallConfiguration`
+  - Added model `AkriConnectorTemplateHelmRegistryEndpointRef`
+  - Added model `AkriConnectorTemplateHelmRegistrySettings`
+  - Added enum `AkriConnectorTemplateHelmRegistrySettingsType`
+  - Added model `AkriConnectorTemplateHelmUpgradeConfiguration`
+  - Added model `AkriConnectorTemplateManagedConfiguration`
+  - Added model `AkriConnectorTemplateManagedConfigurationSettings`
+  - Added enum `AkriConnectorTemplateManagedConfigurationType`
+  - Added model `AkriConnectorTemplatePersistentVolumeClaim`
+  - Added model `AkriConnectorTemplateProperties`
+  - Added model `AkriConnectorTemplateResource`
+  - Added model `AkriConnectorTemplateRuntimeConfiguration`
+  - Added enum `AkriConnectorTemplateRuntimeConfigurationType`
+  - Added model `AkriConnectorTemplateRuntimeImageConfiguration`
+  - Added model `AkriConnectorTemplateRuntimeImageConfigurationSettings`
+  - Added model `AkriConnectorTemplateRuntimeStatefulSetConfiguration`
+  - Added model `AkriConnectorTemplateTrustList`
+  - Added model `AkriConnectorsContainerRegistry`
+  - Added model `AkriConnectorsContainerRegistrySettings`
+  - Added model `AkriConnectorsDiagnosticsLogs`
+  - Added model `AkriConnectorsDigest`
+  - Added enum `AkriConnectorsImagePullPolicy`
+  - Added model `AkriConnectorsImagePullSecret`
+  - Added model `AkriConnectorsMqttAuthentication`
+  - Added enum `AkriConnectorsMqttAuthenticationMethod`
+  - Added model `AkriConnectorsMqttConnectionConfiguration`
+  - Added enum `AkriConnectorsMqttProtocolType`
+  - Added model `AkriConnectorsRegistryEndpointRef`
+  - Added model `AkriConnectorsRegistrySettings`
+  - Added enum `AkriConnectorsRegistrySettingsType`
+  - Added model `AkriConnectorsSecret`
+  - Added model `AkriConnectorsServiceAccountAuthentication`
+  - Added model `AkriConnectorsServiceAccountTokenSettings`
+  - Added model `AkriConnectorsTag`
+  - Added model `AkriConnectorsTagDigestSettings`
+  - Added enum `AkriConnectorsTagDigestType`
+  - Added model `AkriDiscoveryHandlerAioMetadata`
+  - Added model `AkriDiscoveryHandlerDiagnostics`
+  - Added model `AkriDiscoveryHandlerDiscoverableDeviceEndpointType`
+  - Added model `AkriDiscoveryHandlerImageConfiguration`
+  - Added model `AkriDiscoveryHandlerProperties`
+  - Added model `AkriDiscoveryHandlerResource`
+  - Added model `AkriDiscoveryHandlerSchedule`
+  - Added model `AkriDiscoveryHandlerScheduleContinuous`
+  - Added model `AkriDiscoveryHandlerScheduleCron`
+  - Added model `AkriDiscoveryHandlerScheduleRunOnce`
+  - Added enum `AkriDiscoveryHandlerScheduleType`
+  - Added model `AzureDeviceRegistryNamespaceRef`
+  - Added enum `BrokerAuthenticatorValidationMethods`
+  - Added model `BrokerPersistence`
+  - Added model `BrokerPersistenceDynamicSettings`
+  - Added model `BrokerPersistenceEncryption`
+  - Added enum `BrokerPersistencePolicyMode`
+  - Added model `BrokerRetainMessagesCustomPolicy`
+  - Added model `BrokerRetainMessagesDynamic`
+  - Added model `BrokerRetainMessagesPolicy`
+  - Added model `BrokerRetainMessagesSettings`
+  - Added model `BrokerStateStoreCustomPolicy`
+  - Added model `BrokerStateStoreDynamic`
+  - Added enum `BrokerStateStoreKeyType`
+  - Added model `BrokerStateStorePolicy`
+  - Added model `BrokerStateStorePolicyResources`
+  - Added model `BrokerStateStorePolicySettings`
+  - Added model `BrokerSubscriberQueueCustomPolicy`
+  - Added model `BrokerSubscriberQueueCustomPolicySettings`
+  - Added model `BrokerSubscriberQueueDynamic`
+  - Added model `BrokerSubscriberQueuePolicy`
+  - Added model `DatafloGraphDestinationNode`
+  - Added model `DataflowEndpointAuthenticationAnonymous`
+  - Added model `DataflowEndpointOpenTelemetry`
+  - Added enum `DataflowEnpointHostType`
+  - Added model `DataflowGraphConnectionInput`
+  - Added model `DataflowGraphConnectionOutput`
+  - Added model `DataflowGraphDestinationNodeSettings`
+  - Added model `DataflowGraphGraphNode`
+  - Added model `DataflowGraphGraphNodeConfiguration`
+  - Added model `DataflowGraphNode`
+  - Added model `DataflowGraphNodeConnection`
+  - Added model `DataflowGraphNodeGraphSettings`
+  - Added enum `DataflowGraphNodeType`
+  - Added model `DataflowGraphProperties`
+  - Added model `DataflowGraphResource`
+  - Added model `DataflowGraphSchemaSettings`
+  - Added enum `DataflowGraphSerializationFormat`
+  - Added model `DataflowGraphSourceNode`
+  - Added model `DataflowGraphSourceSettings`
+  - Added model `DataflowOpenTelemetryAnonymousAuthentication`
+  - Added model `DataflowOpenTelemetryAuthentication`
+  - Added enum `DataflowOpenTelemetryAuthenticationMethod`
+  - Added model `DataflowOpenTelemetryServiceAccountAuthentication`
+  - Added model `DataflowOpenTelemetryX509CertificateAuthentication`
+  - Added model `InstanceFeature`
+  - Added enum `InstanceFeatureMode`
+  - Added model `RegistryEndpointAnonymousAuthentication`
+  - Added model `RegistryEndpointAnonymousSettings`
+  - Added model `RegistryEndpointArtifactPullSecretAuthentication`
+  - Added model `RegistryEndpointArtifactPullSecretSettings`
+  - Added model `RegistryEndpointAuthentication`
+  - Added enum `RegistryEndpointAuthenticationMethod`
+  - Added model `RegistryEndpointProperties`
+  - Added model `RegistryEndpointResource`
+  - Added model `RegistryEndpointSystemAssignedIdentityAuthentication`
+  - Added model `RegistryEndpointSystemAssignedManagedIdentitySettings`
+  - Added model `RegistryEndpointTrustedSettings`
+  - Added model `RegistryEndpointTrustedSigningKey`
+  - Added model `RegistryEndpointTrustedSigningKeyConfigMap`
+  - Added model `RegistryEndpointTrustedSigningKeySecret`
+  - Added enum `RegistryEndpointTrustedSigningKeyType`
+  - Added model `RegistryEndpointUserAssignedIdentityAuthentication`
+  - Added model `RegistryEndpointUserAssignedManagedIdentitySettings`
+  - Added model `SecretProviderClassRef`
+  - Added model `VolumeClaimResourceRequirementsClaims`
+  - Added model `AkriConnectorOperations`
+  - Added model `AkriConnectorTemplateOperations`
+  - Added model `AkriDiscoveryHandlerOperations`
+  - Added model `DataflowGraphOperations`
+  - Added model `RegistryEndpointOperations`
+  - Method `BrokerAuthenticationResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.BrokerAuthenticationProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `BrokerAuthenticatorMethodX509.__init__` has a new overload `def __init__(self: None, authorization_attributes: Optional[Dict[str, _models.BrokerAuthenticatorMethodX509Attributes]], trusted_client_ca_cert: Optional[str], additional_validation: Optional[Union[str, _models.BrokerAuthenticatorValidationMethods]])`
+  - Method `BrokerAuthorizationResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.BrokerAuthorizationProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `BrokerListenerResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.BrokerListenerProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `BrokerProperties.__init__` has a new overload `def __init__(self: None, advanced: Optional[_models.AdvancedSettings], cardinality: Optional[_models.Cardinality], diagnostics: Optional[_models.BrokerDiagnostics], disk_backed_message_buffer: Optional[_models.DiskBackedMessageBuffer], generate_resource_limits: Optional[_models.GenerateResourceLimits], memory_profile: Optional[Union[str, _models.BrokerMemoryProfile]], persistence: Optional[_models.BrokerPersistence])`
+  - Method `BrokerResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.BrokerProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `DataflowEndpointProperties.__init__` has a new overload `def __init__(self: None, endpoint_type: Union[str, _models.EndpointType], host_type: Optional[Union[str, _models.DataflowEnpointHostType]], data_explorer_settings: Optional[_models.DataflowEndpointDataExplorer], data_lake_storage_settings: Optional[_models.DataflowEndpointDataLakeStorage], fabric_one_lake_settings: Optional[_models.DataflowEndpointFabricOneLake], kafka_settings: Optional[_models.DataflowEndpointKafka], local_storage_settings: Optional[_models.DataflowEndpointLocalStorage], mqtt_settings: Optional[_models.DataflowEndpointMqtt], open_telemetry_settings: Optional[_models.DataflowEndpointOpenTelemetry])`
+  - Method `DataflowEndpointResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.DataflowEndpointProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `DataflowProfileResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.DataflowProfileProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `DataflowResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.DataflowProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `InstanceProperties.__init__` has a new overload `def __init__(self: None, schema_registry_ref: _models.SchemaRegistryRef, description: Optional[str], default_secret_provider_class_ref: Optional[_models.SecretProviderClassRef], features: Optional[Dict[str, _models.InstanceFeature]], adr_namespace_ref: Optional[_models.AzureDeviceRegistryNamespaceRef])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, display: Optional[_models.OperationDisplay])`
+  - Method `VolumeClaimResourceRequirements.__init__` has a new overload `def __init__(self: None, limits: Optional[Dict[str, str]], requests: Optional[Dict[str, str]], claims: Optional[List[_models.VolumeClaimResourceRequirementsClaims]])`
+  - Method `AkriConnectorResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.AkriConnectorProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `AkriConnectorResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateAioMetadata.__init__` has a new overload `def __init__(self: None, aio_min_version: Optional[str], aio_max_version: Optional[str])`
+  - Method `AkriConnectorTemplateAioMetadata.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateAllocation.__init__` has a new overload `def __init__(self: None, policy: str)`
+  - Method `AkriConnectorTemplateAllocation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateBucketizedAllocation.__init__` has a new overload `def __init__(self: None, bucket_size: int)`
+  - Method `AkriConnectorTemplateBucketizedAllocation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateBucketizedAllocation.__init__` has a new overload `def __init__(self: None, policy: str)`
+  - Method `AkriConnectorTemplateBucketizedAllocation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateDeviceInboundEndpointConfigurationSchemaRefs.__init__` has a new overload `def __init__(self: None, default_dataset_config_schema_ref: Optional[str], default_events_config_schema_ref: Optional[str], default_process_control_config_schema_ref: Optional[str], default_streams_config_schema_ref: Optional[str], additional_config_schema_ref: Optional[str])`
+  - Method `AkriConnectorTemplateDeviceInboundEndpointConfigurationSchemaRefs.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateDeviceInboundEndpointType.__init__` has a new overload `def __init__(self: None, endpoint_type: str, version: str, configuration_schema_refs: Optional[_models.AkriConnectorTemplateDeviceInboundEndpointConfigurationSchemaRefs])`
+  - Method `AkriConnectorTemplateDeviceInboundEndpointType.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateDiagnostics.__init__` has a new overload `def __init__(self: None, logs: _models.AkriConnectorsDiagnosticsLogs)`
+  - Method `AkriConnectorTemplateDiagnostics.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmAdvancedConfiguration.__init__` has a new overload `def __init__(self: None, delete: Optional[_models.AkriConnectorTemplateHelmDeleteConfiguration], install: Optional[_models.AkriConnectorTemplateHelmInstallConfiguration], upgrade: Optional[_models.AkriConnectorTemplateHelmUpgradeConfiguration])`
+  - Method `AkriConnectorTemplateHelmAdvancedConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmAuthSecretRef.__init__` has a new overload `def __init__(self: None, secret_ref: str, password_key: str, username_key: str)`
+  - Method `AkriConnectorTemplateHelmAuthSecretRef.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmConfiguration.__init__` has a new overload `def __init__(self: None, helm_configuration_settings: _models.AkriConnectorTemplateHelmConfigurationSettings)`
+  - Method `AkriConnectorTemplateHelmConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmConfiguration.__init__` has a new overload `def __init__(self: None, runtime_configuration_type: str)`
+  - Method `AkriConnectorTemplateHelmConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmConfigurationSettings.__init__` has a new overload `def __init__(self: None, release_name: str, version: str, registry_settings: Optional[_models.AkriConnectorTemplateHelmRegistrySettings], advanced_configuration: Optional[_models.AkriConnectorTemplateHelmAdvancedConfiguration], values_property: Optional[Dict[str, str]])`
+  - Method `AkriConnectorTemplateHelmConfigurationSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmContainerRegistry.__init__` has a new overload `def __init__(self: None, container_registry_settings: _models.AkriConnectorTemplateHelmContainerRegistrySettings)`
+  - Method `AkriConnectorTemplateHelmContainerRegistry.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmContainerRegistry.__init__` has a new overload `def __init__(self: None, registry_settings_type: str)`
+  - Method `AkriConnectorTemplateHelmContainerRegistry.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmContainerRegistrySettings.__init__` has a new overload `def __init__(self: None, registry: str, repository: str, auth_secret_ref: Optional[_models.AkriConnectorTemplateHelmAuthSecretRef])`
+  - Method `AkriConnectorTemplateHelmContainerRegistrySettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmDeleteConfiguration.__init__` has a new overload `def __init__(self: None, timeout: Optional[int], wait_for_jobs: Optional[bool], atomic: Optional[bool], disable_hooks: Optional[bool], wait: Optional[bool])`
+  - Method `AkriConnectorTemplateHelmDeleteConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmInstallConfiguration.__init__` has a new overload `def __init__(self: None, timeout: Optional[int], wait_for_jobs: Optional[bool], atomic: Optional[bool], disable_hooks: Optional[bool], wait: Optional[bool])`
+  - Method `AkriConnectorTemplateHelmInstallConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmRegistryEndpointRef.__init__` has a new overload `def __init__(self: None, registry_endpoint_ref: str)`
+  - Method `AkriConnectorTemplateHelmRegistryEndpointRef.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmRegistryEndpointRef.__init__` has a new overload `def __init__(self: None, registry_settings_type: str)`
+  - Method `AkriConnectorTemplateHelmRegistryEndpointRef.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmRegistrySettings.__init__` has a new overload `def __init__(self: None, registry_settings_type: str)`
+  - Method `AkriConnectorTemplateHelmRegistrySettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateHelmUpgradeConfiguration.__init__` has a new overload `def __init__(self: None, timeout: Optional[int], wait_for_jobs: Optional[bool], atomic: Optional[bool], disable_hooks: Optional[bool], wait: Optional[bool])`
+  - Method `AkriConnectorTemplateHelmUpgradeConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateManagedConfiguration.__init__` has a new overload `def __init__(self: None, managed_configuration_settings: _models.AkriConnectorTemplateManagedConfigurationSettings)`
+  - Method `AkriConnectorTemplateManagedConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateManagedConfiguration.__init__` has a new overload `def __init__(self: None, runtime_configuration_type: str)`
+  - Method `AkriConnectorTemplateManagedConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateManagedConfigurationSettings.__init__` has a new overload `def __init__(self: None, managed_configuration_type: str, allocation: Optional[_models.AkriConnectorTemplateAllocation], persistent_volume_claims: Optional[List[_models.AkriConnectorTemplatePersistentVolumeClaim]], additional_configuration: Optional[Dict[str, str]], persistent_volume_claim_templates: Optional[List[Dict[str, Any]]], secrets: Optional[List[_models.AkriConnectorsSecret]], trust_settings: Optional[_models.AkriConnectorTemplateTrustList])`
+  - Method `AkriConnectorTemplateManagedConfigurationSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplatePersistentVolumeClaim.__init__` has a new overload `def __init__(self: None, claim_name: str, mount_path: str)`
+  - Method `AkriConnectorTemplatePersistentVolumeClaim.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateProperties.__init__` has a new overload `def __init__(self: None, runtime_configuration: _models.AkriConnectorTemplateRuntimeConfiguration, device_inbound_endpoint_types: List[_models.AkriConnectorTemplateDeviceInboundEndpointType], aio_metadata: Optional[_models.AkriConnectorTemplateAioMetadata], diagnostics: Optional[_models.AkriConnectorTemplateDiagnostics], mqtt_connection_configuration: Optional[_models.AkriConnectorsMqttConnectionConfiguration])`
+  - Method `AkriConnectorTemplateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.AkriConnectorTemplateProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `AkriConnectorTemplateResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateRuntimeConfiguration.__init__` has a new overload `def __init__(self: None, runtime_configuration_type: str)`
+  - Method `AkriConnectorTemplateRuntimeConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateRuntimeImageConfiguration.__init__` has a new overload `def __init__(self: None, image_configuration_settings: _models.AkriConnectorTemplateRuntimeImageConfigurationSettings, allocation: Optional[_models.AkriConnectorTemplateAllocation], persistent_volume_claims: Optional[List[_models.AkriConnectorTemplatePersistentVolumeClaim]], additional_configuration: Optional[Dict[str, str]], persistent_volume_claim_templates: Optional[List[Dict[str, Any]]], secrets: Optional[List[_models.AkriConnectorsSecret]], trust_settings: Optional[_models.AkriConnectorTemplateTrustList])`
+  - Method `AkriConnectorTemplateRuntimeImageConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateRuntimeImageConfiguration.__init__` has a new overload `def __init__(self: None, managed_configuration_type: str, allocation: Optional[_models.AkriConnectorTemplateAllocation], persistent_volume_claims: Optional[List[_models.AkriConnectorTemplatePersistentVolumeClaim]], additional_configuration: Optional[Dict[str, str]], persistent_volume_claim_templates: Optional[List[Dict[str, Any]]], secrets: Optional[List[_models.AkriConnectorsSecret]], trust_settings: Optional[_models.AkriConnectorTemplateTrustList])`
+  - Method `AkriConnectorTemplateRuntimeImageConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateRuntimeImageConfigurationSettings.__init__` has a new overload `def __init__(self: None, image_name: str, image_pull_policy: Optional[Union[str, _models.AkriConnectorsImagePullPolicy]], replicas: Optional[int], registry_settings: Optional[_models.AkriConnectorsRegistrySettings], tag_digest_settings: Optional[_models.AkriConnectorsTagDigestSettings])`
+  - Method `AkriConnectorTemplateRuntimeImageConfigurationSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateRuntimeStatefulSetConfiguration.__init__` has a new overload `def __init__(self: None, stateful_set_configuration_settings: Dict[str, Any], allocation: Optional[_models.AkriConnectorTemplateAllocation], persistent_volume_claims: Optional[List[_models.AkriConnectorTemplatePersistentVolumeClaim]], additional_configuration: Optional[Dict[str, str]], persistent_volume_claim_templates: Optional[List[Dict[str, Any]]], secrets: Optional[List[_models.AkriConnectorsSecret]], trust_settings: Optional[_models.AkriConnectorTemplateTrustList])`
+  - Method `AkriConnectorTemplateRuntimeStatefulSetConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateRuntimeStatefulSetConfiguration.__init__` has a new overload `def __init__(self: None, managed_configuration_type: str, allocation: Optional[_models.AkriConnectorTemplateAllocation], persistent_volume_claims: Optional[List[_models.AkriConnectorTemplatePersistentVolumeClaim]], additional_configuration: Optional[Dict[str, str]], persistent_volume_claim_templates: Optional[List[Dict[str, Any]]], secrets: Optional[List[_models.AkriConnectorsSecret]], trust_settings: Optional[_models.AkriConnectorTemplateTrustList])`
+  - Method `AkriConnectorTemplateRuntimeStatefulSetConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorTemplateTrustList.__init__` has a new overload `def __init__(self: None, trust_list_secret_ref: str)`
+  - Method `AkriConnectorTemplateTrustList.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsContainerRegistry.__init__` has a new overload `def __init__(self: None, container_registry_settings: _models.AkriConnectorsContainerRegistrySettings)`
+  - Method `AkriConnectorsContainerRegistry.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsContainerRegistry.__init__` has a new overload `def __init__(self: None, registry_settings_type: str)`
+  - Method `AkriConnectorsContainerRegistry.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsContainerRegistrySettings.__init__` has a new overload `def __init__(self: None, registry: str, image_pull_secrets: Optional[List[_models.AkriConnectorsImagePullSecret]])`
+  - Method `AkriConnectorsContainerRegistrySettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsDiagnosticsLogs.__init__` has a new overload `def __init__(self: None, level: Optional[str])`
+  - Method `AkriConnectorsDiagnosticsLogs.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsDigest.__init__` has a new overload `def __init__(self: None, digest: str)`
+  - Method `AkriConnectorsDigest.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsDigest.__init__` has a new overload `def __init__(self: None, tag_digest_type: str)`
+  - Method `AkriConnectorsDigest.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsImagePullSecret.__init__` has a new overload `def __init__(self: None, secret_ref: str)`
+  - Method `AkriConnectorsImagePullSecret.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsMqttAuthentication.__init__` has a new overload `def __init__(self: None, method: str)`
+  - Method `AkriConnectorsMqttAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsMqttConnectionConfiguration.__init__` has a new overload `def __init__(self: None, authentication: Optional[_models.AkriConnectorsMqttAuthentication], host: Optional[str], protocol: Optional[Union[str, _models.AkriConnectorsMqttProtocolType]], keep_alive_seconds: Optional[int], max_inflight_messages: Optional[int], session_expiry_seconds: Optional[int], tls: Optional[_models.TlsProperties])`
+  - Method `AkriConnectorsMqttConnectionConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsRegistryEndpointRef.__init__` has a new overload `def __init__(self: None, registry_endpoint_ref: str)`
+  - Method `AkriConnectorsRegistryEndpointRef.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsRegistryEndpointRef.__init__` has a new overload `def __init__(self: None, registry_settings_type: str)`
+  - Method `AkriConnectorsRegistryEndpointRef.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsRegistrySettings.__init__` has a new overload `def __init__(self: None, registry_settings_type: str)`
+  - Method `AkriConnectorsRegistrySettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsSecret.__init__` has a new overload `def __init__(self: None, secret_key: str, secret_alias: str, secret_ref: str)`
+  - Method `AkriConnectorsSecret.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsServiceAccountAuthentication.__init__` has a new overload `def __init__(self: None, service_account_token_settings: _models.AkriConnectorsServiceAccountTokenSettings)`
+  - Method `AkriConnectorsServiceAccountAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsServiceAccountAuthentication.__init__` has a new overload `def __init__(self: None, method: str)`
+  - Method `AkriConnectorsServiceAccountAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsServiceAccountTokenSettings.__init__` has a new overload `def __init__(self: None, audience: str)`
+  - Method `AkriConnectorsServiceAccountTokenSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsTag.__init__` has a new overload `def __init__(self: None, tag: str)`
+  - Method `AkriConnectorsTag.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsTag.__init__` has a new overload `def __init__(self: None, tag_digest_type: str)`
+  - Method `AkriConnectorsTag.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorsTagDigestSettings.__init__` has a new overload `def __init__(self: None, tag_digest_type: str)`
+  - Method `AkriConnectorsTagDigestSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerAioMetadata.__init__` has a new overload `def __init__(self: None, aio_min_version: Optional[str], aio_max_version: Optional[str])`
+  - Method `AkriDiscoveryHandlerAioMetadata.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerDiagnostics.__init__` has a new overload `def __init__(self: None, logs: _models.AkriConnectorsDiagnosticsLogs)`
+  - Method `AkriDiscoveryHandlerDiagnostics.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerDiscoverableDeviceEndpointType.__init__` has a new overload `def __init__(self: None, endpoint_type: str, version: str)`
+  - Method `AkriDiscoveryHandlerDiscoverableDeviceEndpointType.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerImageConfiguration.__init__` has a new overload `def __init__(self: None, image_name: str, image_pull_policy: Optional[Union[str, _models.AkriConnectorsImagePullPolicy]], replicas: Optional[int], registry_settings: Optional[_models.AkriConnectorsRegistrySettings], tag_digest_settings: Optional[_models.AkriConnectorsTagDigestSettings])`
+  - Method `AkriDiscoveryHandlerImageConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerProperties.__init__` has a new overload `def __init__(self: None, discoverable_device_endpoint_types: List[_models.AkriDiscoveryHandlerDiscoverableDeviceEndpointType], image_configuration: _models.AkriDiscoveryHandlerImageConfiguration, schedule: _models.AkriDiscoveryHandlerSchedule, aio_metadata: Optional[_models.AkriDiscoveryHandlerAioMetadata], additional_configuration: Optional[Dict[str, str]], diagnostics: Optional[_models.AkriDiscoveryHandlerDiagnostics], mode: Optional[Union[str, _models.OperationalMode]], mqtt_connection_configuration: Optional[_models.AkriConnectorsMqttConnectionConfiguration], secrets: Optional[List[_models.AkriConnectorsSecret]])`
+  - Method `AkriDiscoveryHandlerProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.AkriDiscoveryHandlerProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `AkriDiscoveryHandlerResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerSchedule.__init__` has a new overload `def __init__(self: None, schedule_type: str)`
+  - Method `AkriDiscoveryHandlerSchedule.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerScheduleContinuous.__init__` has a new overload `def __init__(self: None, continuous: str)`
+  - Method `AkriDiscoveryHandlerScheduleContinuous.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerScheduleContinuous.__init__` has a new overload `def __init__(self: None, schedule_type: str)`
+  - Method `AkriDiscoveryHandlerScheduleContinuous.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerScheduleCron.__init__` has a new overload `def __init__(self: None, cron: str)`
+  - Method `AkriDiscoveryHandlerScheduleCron.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerScheduleCron.__init__` has a new overload `def __init__(self: None, schedule_type: str)`
+  - Method `AkriDiscoveryHandlerScheduleCron.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerScheduleRunOnce.__init__` has a new overload `def __init__(self: None, run_once: str)`
+  - Method `AkriDiscoveryHandlerScheduleRunOnce.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriDiscoveryHandlerScheduleRunOnce.__init__` has a new overload `def __init__(self: None, schedule_type: str)`
+  - Method `AkriDiscoveryHandlerScheduleRunOnce.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AzureDeviceRegistryNamespaceRef.__init__` has a new overload `def __init__(self: None, resource_id: str)`
+  - Method `AzureDeviceRegistryNamespaceRef.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerPersistence.__init__` has a new overload `def __init__(self: None, max_size: str, dynamic_settings: Optional[_models.BrokerPersistenceDynamicSettings], persistent_volume_claim_spec: Optional[_models.VolumeClaimSpec], retain: Optional[_models.BrokerRetainMessagesPolicy], state_store: Optional[_models.BrokerStateStorePolicy], subscriber_queue: Optional[_models.BrokerSubscriberQueuePolicy], encryption: Optional[_models.BrokerPersistenceEncryption])`
+  - Method `BrokerPersistence.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerPersistenceDynamicSettings.__init__` has a new overload `def __init__(self: None, user_property_key: str, user_property_value: str)`
+  - Method `BrokerPersistenceDynamicSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerPersistenceEncryption.__init__` has a new overload `def __init__(self: None, mode: Union[str, _models.OperationalMode])`
+  - Method `BrokerPersistenceEncryption.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerRetainMessagesCustomPolicy.__init__` has a new overload `def __init__(self: None, retain_settings: _models.BrokerRetainMessagesSettings)`
+  - Method `BrokerRetainMessagesCustomPolicy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerRetainMessagesCustomPolicy.__init__` has a new overload `def __init__(self: None, mode: str)`
+  - Method `BrokerRetainMessagesCustomPolicy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerRetainMessagesDynamic.__init__` has a new overload `def __init__(self: None, mode: Union[str, _models.OperationalMode])`
+  - Method `BrokerRetainMessagesDynamic.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerRetainMessagesPolicy.__init__` has a new overload `def __init__(self: None, mode: str)`
+  - Method `BrokerRetainMessagesPolicy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerRetainMessagesSettings.__init__` has a new overload `def __init__(self: None, topics: Optional[List[str]], dynamic: Optional[_models.BrokerRetainMessagesDynamic])`
+  - Method `BrokerRetainMessagesSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerStateStoreCustomPolicy.__init__` has a new overload `def __init__(self: None, state_store_settings: _models.BrokerStateStorePolicySettings)`
+  - Method `BrokerStateStoreCustomPolicy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerStateStoreCustomPolicy.__init__` has a new overload `def __init__(self: None, mode: str)`
+  - Method `BrokerStateStoreCustomPolicy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerStateStoreDynamic.__init__` has a new overload `def __init__(self: None, mode: Union[str, _models.OperationalMode])`
+  - Method `BrokerStateStoreDynamic.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerStateStorePolicy.__init__` has a new overload `def __init__(self: None, mode: str)`
+  - Method `BrokerStateStorePolicy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerStateStorePolicyResources.__init__` has a new overload `def __init__(self: None, key_type: Union[str, _models.BrokerStateStoreKeyType], keys_property: List[str])`
+  - Method `BrokerStateStorePolicyResources.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerStateStorePolicySettings.__init__` has a new overload `def __init__(self: None, state_store_resources: Optional[List[_models.BrokerStateStorePolicyResources]], dynamic: Optional[_models.BrokerStateStoreDynamic])`
+  - Method `BrokerStateStorePolicySettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerSubscriberQueueCustomPolicy.__init__` has a new overload `def __init__(self: None, subscriber_queue_settings: _models.BrokerSubscriberQueueCustomPolicySettings)`
+  - Method `BrokerSubscriberQueueCustomPolicy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerSubscriberQueueCustomPolicy.__init__` has a new overload `def __init__(self: None, mode: str)`
+  - Method `BrokerSubscriberQueueCustomPolicy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerSubscriberQueueCustomPolicySettings.__init__` has a new overload `def __init__(self: None, subscriber_client_ids: Optional[List[str]], dynamic: Optional[_models.BrokerSubscriberQueueDynamic], topics: Optional[List[str]])`
+  - Method `BrokerSubscriberQueueCustomPolicySettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerSubscriberQueueDynamic.__init__` has a new overload `def __init__(self: None, mode: Union[str, _models.OperationalMode])`
+  - Method `BrokerSubscriberQueueDynamic.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BrokerSubscriberQueuePolicy.__init__` has a new overload `def __init__(self: None, mode: str)`
+  - Method `BrokerSubscriberQueuePolicy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DatafloGraphDestinationNode.__init__` has a new overload `def __init__(self: None, name: str, destination_settings: _models.DataflowGraphDestinationNodeSettings)`
+  - Method `DatafloGraphDestinationNode.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DatafloGraphDestinationNode.__init__` has a new overload `def __init__(self: None, name: str, type: str)`
+  - Method `DatafloGraphDestinationNode.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowEndpointOpenTelemetry.__init__` has a new overload `def __init__(self: None, host: str, authentication: _models.DataflowOpenTelemetryAuthentication, batching: Optional[_models.BatchingConfiguration], tls: Optional[_models.TlsProperties])`
+  - Method `DataflowEndpointOpenTelemetry.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphConnectionInput.__init__` has a new overload `def __init__(self: None, name: str, schema: Optional[_models.DataflowGraphSchemaSettings])`
+  - Method `DataflowGraphConnectionInput.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphConnectionOutput.__init__` has a new overload `def __init__(self: None, name: str)`
+  - Method `DataflowGraphConnectionOutput.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphDestinationNodeSettings.__init__` has a new overload `def __init__(self: None, endpoint_ref: str, data_destination: str, output_schema_settings: Optional[_models.DataflowGraphSchemaSettings])`
+  - Method `DataflowGraphDestinationNodeSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphGraphNode.__init__` has a new overload `def __init__(self: None, name: str, graph_settings: _models.DataflowGraphNodeGraphSettings)`
+  - Method `DataflowGraphGraphNode.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphGraphNode.__init__` has a new overload `def __init__(self: None, name: str, type: str)`
+  - Method `DataflowGraphGraphNode.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphGraphNodeConfiguration.__init__` has a new overload `def __init__(self: None, key: str, value: str)`
+  - Method `DataflowGraphGraphNodeConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphNode.__init__` has a new overload `def __init__(self: None, name: str, type: str)`
+  - Method `DataflowGraphNode.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphNodeConnection.__init__` has a new overload `def __init__(self: None, from_property: _models.DataflowGraphConnectionInput, to: _models.DataflowGraphConnectionOutput)`
+  - Method `DataflowGraphNodeConnection.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphNodeGraphSettings.__init__` has a new overload `def __init__(self: None, registry_endpoint_ref: str, artifact: str, configuration: Optional[List[_models.DataflowGraphGraphNodeConfiguration]])`
+  - Method `DataflowGraphNodeGraphSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphProperties.__init__` has a new overload `def __init__(self: None, nodes: List[_models.DataflowGraphNode], node_connections: List[_models.DataflowGraphNodeConnection], mode: Optional[Union[str, _models.OperationalMode]], request_disk_persistence: Optional[Union[str, _models.OperationalMode]])`
+  - Method `DataflowGraphProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.DataflowGraphProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `DataflowGraphResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphSchemaSettings.__init__` has a new overload `def __init__(self: None, schema_ref: str, serialization_format: Optional[Union[str, _models.DataflowGraphSerializationFormat]])`
+  - Method `DataflowGraphSchemaSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphSourceNode.__init__` has a new overload `def __init__(self: None, name: str, source_settings: _models.DataflowGraphSourceSettings)`
+  - Method `DataflowGraphSourceNode.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphSourceNode.__init__` has a new overload `def __init__(self: None, name: str, type: str)`
+  - Method `DataflowGraphSourceNode.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowGraphSourceSettings.__init__` has a new overload `def __init__(self: None, endpoint_ref: str, data_sources: List[str])`
+  - Method `DataflowGraphSourceSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowOpenTelemetryAnonymousAuthentication.__init__` has a new overload `def __init__(self: None, anonymous_settings: _models.DataflowEndpointAuthenticationAnonymous)`
+  - Method `DataflowOpenTelemetryAnonymousAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowOpenTelemetryAnonymousAuthentication.__init__` has a new overload `def __init__(self: None, method: str)`
+  - Method `DataflowOpenTelemetryAnonymousAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowOpenTelemetryAuthentication.__init__` has a new overload `def __init__(self: None, method: str)`
+  - Method `DataflowOpenTelemetryAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowOpenTelemetryServiceAccountAuthentication.__init__` has a new overload `def __init__(self: None, service_account_token_settings: _models.DataflowEndpointAuthenticationServiceAccountToken)`
+  - Method `DataflowOpenTelemetryServiceAccountAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowOpenTelemetryServiceAccountAuthentication.__init__` has a new overload `def __init__(self: None, method: str)`
+  - Method `DataflowOpenTelemetryServiceAccountAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowOpenTelemetryX509CertificateAuthentication.__init__` has a new overload `def __init__(self: None, x509_certificate_settings: _models.DataflowEndpointAuthenticationX509)`
+  - Method `DataflowOpenTelemetryX509CertificateAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataflowOpenTelemetryX509CertificateAuthentication.__init__` has a new overload `def __init__(self: None, method: str)`
+  - Method `DataflowOpenTelemetryX509CertificateAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `InstanceFeature.__init__` has a new overload `def __init__(self: None, mode: Optional[Union[str, _models.InstanceFeatureMode]], settings: Optional[Dict[str, Union[str, _models.OperationalMode]]])`
+  - Method `InstanceFeature.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointAnonymousAuthentication.__init__` has a new overload `def __init__(self: None, anonymous_settings: _models.RegistryEndpointAnonymousSettings)`
+  - Method `RegistryEndpointAnonymousAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointAnonymousAuthentication.__init__` has a new overload `def __init__(self: None, method: str)`
+  - Method `RegistryEndpointAnonymousAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointArtifactPullSecretAuthentication.__init__` has a new overload `def __init__(self: None, artifact_pull_secret_settings: _models.RegistryEndpointArtifactPullSecretSettings)`
+  - Method `RegistryEndpointArtifactPullSecretAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointArtifactPullSecretAuthentication.__init__` has a new overload `def __init__(self: None, method: str)`
+  - Method `RegistryEndpointArtifactPullSecretAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointArtifactPullSecretSettings.__init__` has a new overload `def __init__(self: None, secret_ref: str)`
+  - Method `RegistryEndpointArtifactPullSecretSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointAuthentication.__init__` has a new overload `def __init__(self: None, method: str)`
+  - Method `RegistryEndpointAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointProperties.__init__` has a new overload `def __init__(self: None, host: str, authentication: _models.RegistryEndpointAuthentication, trust_settings: Optional[_models.RegistryEndpointTrustedSettings])`
+  - Method `RegistryEndpointProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.RegistryEndpointProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `RegistryEndpointResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointSystemAssignedIdentityAuthentication.__init__` has a new overload `def __init__(self: None, system_assigned_managed_identity_settings: _models.RegistryEndpointSystemAssignedManagedIdentitySettings)`
+  - Method `RegistryEndpointSystemAssignedIdentityAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointSystemAssignedIdentityAuthentication.__init__` has a new overload `def __init__(self: None, method: str)`
+  - Method `RegistryEndpointSystemAssignedIdentityAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointSystemAssignedManagedIdentitySettings.__init__` has a new overload `def __init__(self: None, audience: Optional[str])`
+  - Method `RegistryEndpointSystemAssignedManagedIdentitySettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointTrustedSettings.__init__` has a new overload `def __init__(self: None, trusted_signing_keys: _models.RegistryEndpointTrustedSigningKey)`
+  - Method `RegistryEndpointTrustedSettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointTrustedSigningKey.__init__` has a new overload `def __init__(self: None, type: str)`
+  - Method `RegistryEndpointTrustedSigningKey.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointTrustedSigningKeyConfigMap.__init__` has a new overload `def __init__(self: None, config_map_ref: str)`
+  - Method `RegistryEndpointTrustedSigningKeyConfigMap.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointTrustedSigningKeyConfigMap.__init__` has a new overload `def __init__(self: None, type: str)`
+  - Method `RegistryEndpointTrustedSigningKeyConfigMap.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointTrustedSigningKeySecret.__init__` has a new overload `def __init__(self: None, secret_ref: str)`
+  - Method `RegistryEndpointTrustedSigningKeySecret.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointTrustedSigningKeySecret.__init__` has a new overload `def __init__(self: None, type: str)`
+  - Method `RegistryEndpointTrustedSigningKeySecret.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointUserAssignedIdentityAuthentication.__init__` has a new overload `def __init__(self: None, user_assigned_managed_identity_settings: _models.RegistryEndpointUserAssignedManagedIdentitySettings)`
+  - Method `RegistryEndpointUserAssignedIdentityAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointUserAssignedIdentityAuthentication.__init__` has a new overload `def __init__(self: None, method: str)`
+  - Method `RegistryEndpointUserAssignedIdentityAuthentication.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RegistryEndpointUserAssignedManagedIdentitySettings.__init__` has a new overload `def __init__(self: None, client_id: str, tenant_id: str, scope: Optional[str])`
+  - Method `RegistryEndpointUserAssignedManagedIdentitySettings.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SecretProviderClassRef.__init__` has a new overload `def __init__(self: None, resource_id: str)`
+  - Method `SecretProviderClassRef.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VolumeClaimResourceRequirementsClaims.__init__` has a new overload `def __init__(self: None, name: str)`
+  - Method `VolumeClaimResourceRequirementsClaims.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AkriConnectorOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, akri_connector_template_name: str, akri_connector_name: str, resource: AkriConnectorResource, content_type: str)`
+  - Method `AkriConnectorOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, akri_connector_template_name: str, akri_connector_name: str, resource: JSON, content_type: str)`
+  - Method `AkriConnectorOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, akri_connector_template_name: str, akri_connector_name: str, resource: IO[bytes], content_type: str)`
+  - Method `AkriConnectorTemplateOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, akri_connector_template_name: str, resource: AkriConnectorTemplateResource, content_type: str)`
+  - Method `AkriConnectorTemplateOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, akri_connector_template_name: str, resource: JSON, content_type: str)`
+  - Method `AkriConnectorTemplateOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, akri_connector_template_name: str, resource: IO[bytes], content_type: str)`
+  - Method `AkriDiscoveryHandlerOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, akri_discovery_handler_name: str, resource: AkriDiscoveryHandlerResource, content_type: str)`
+  - Method `AkriDiscoveryHandlerOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, akri_discovery_handler_name: str, resource: JSON, content_type: str)`
+  - Method `AkriDiscoveryHandlerOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, akri_discovery_handler_name: str, resource: IO[bytes], content_type: str)`
+  - Method `DataflowGraphOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, dataflow_profile_name: str, dataflow_graph_name: str, resource: DataflowGraphResource, content_type: str)`
+  - Method `DataflowGraphOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, dataflow_profile_name: str, dataflow_graph_name: str, resource: JSON, content_type: str)`
+  - Method `DataflowGraphOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, dataflow_profile_name: str, dataflow_graph_name: str, resource: IO[bytes], content_type: str)`
+  - Method `RegistryEndpointOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, registry_endpoint_name: str, resource: RegistryEndpointResource, content_type: str)`
+  - Method `RegistryEndpointOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, registry_endpoint_name: str, resource: JSON, content_type: str)`
+  - Method `RegistryEndpointOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, instance_name: str, registry_endpoint_name: str, resource: IO[bytes], content_type: str)`
+
 ## 1.0.0 (2024-12-16)
 
 ### Other Changes
