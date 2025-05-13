@@ -31,3 +31,5 @@ extends:
     Artifacts:
     - name: azure-mgmt-applicationinsights
       safeName: azuremgmtapplicationinsights
+    - name: azure-applicationinsights-livemetrics
+      safeName: azureapplicationinsightslivemetrics
