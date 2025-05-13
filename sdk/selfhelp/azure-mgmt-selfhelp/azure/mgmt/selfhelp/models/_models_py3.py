@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -163,8 +162,8 @@ class ClassificationService(_serialization.Model):
         :paramtype resource_types: list[str]
         """
         super().__init__(**kwargs)
-        self.service_id = None
-        self.display_name = None
+        self.service_id: Optional[str] = None
+        self.display_name: Optional[str] = None
         self.resource_types = resource_types
 
 
@@ -286,7 +285,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -315,10 +314,10 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class ProxyResource(Resource):
@@ -328,7 +327,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -347,7 +346,7 @@ class DiagnosticResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -410,9 +409,9 @@ class DiagnosticResource(ProxyResource):
         super().__init__(**kwargs)
         self.global_parameters = global_parameters
         self.insights = insights
-        self.accepted_at = None
-        self.provisioning_state = None
-        self.diagnostics = None
+        self.accepted_at: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.DiagnosticProvisioningState"]] = None
+        self.diagnostics: Optional[List["_models.Diagnostic"]] = None
 
 
 class DiscoveryNlpRequest(_serialization.Model):
@@ -495,11 +494,17 @@ class DiscoveryNlpResponse(_serialization.Model):
 class DiscoveryResponse(_serialization.Model):
     """Discovery response.
 
-    :ivar value: The list of metadata.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The SolutionMetadataResource items on this page. Required.
     :vartype value: list[~azure.mgmt.selfhelp.models.SolutionMetadataResource]
-    :ivar next_link: The link used to get the next page of solution metadata.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[SolutionMetadataResource]"},
@@ -507,16 +512,12 @@ class DiscoveryResponse(_serialization.Model):
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.SolutionMetadataResource"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: List["_models.SolutionMetadataResource"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: The list of metadata.
+        :keyword value: The SolutionMetadataResource items on this page. Required.
         :paramtype value: list[~azure.mgmt.selfhelp.models.SolutionMetadataResource]
-        :keyword next_link: The link used to get the next page of solution metadata.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -561,9 +562,9 @@ class Error(_serialization.Model):
         :paramtype details: list[~azure.mgmt.selfhelp.models.Error]
         """
         super().__init__(**kwargs)
-        self.code = None
-        self.type = None
-        self.message = None
+        self.code: Optional[str] = None
+        self.type: Optional[str] = None
+        self.message: Optional[str] = None
         self.details = details
 
 
@@ -591,8 +592,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -631,11 +632,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -868,11 +869,11 @@ class Operation(_serialization.Model):
         :paramtype display: ~azure.mgmt.selfhelp.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.is_data_action = None
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
         self.display = display
-        self.origin = None
-        self.action_type = None
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
 
 
 class OperationDisplay(_serialization.Model):
@@ -911,10 +912,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -942,8 +943,8 @@ class OperationListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class ReplacementMaps(_serialization.Model):
@@ -1150,7 +1151,7 @@ class RestartTroubleshooterResponse(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.troubleshooter_resource_name = None
+        self.troubleshooter_resource_name: Optional[str] = None
 
 
 class SearchResult(_serialization.Model):
@@ -1315,7 +1316,7 @@ class SimplifiedSolutionsResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1376,10 +1377,10 @@ class SimplifiedSolutionsResource(ProxyResource):
         super().__init__(**kwargs)
         self.solution_id = solution_id
         self.parameters = parameters
-        self.title = None
-        self.appendix = None
-        self.content = None
-        self.provisioning_state = None
+        self.title: Optional[str] = None
+        self.appendix: Optional[Dict[str, str]] = None
+        self.content: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.SolutionProvisioningState"]] = None
 
 
 class SolutionMetadataProperties(_serialization.Model):
@@ -1418,9 +1419,9 @@ class SolutionMetadataProperties(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.solution_id = solution_id
-        self.solution_type = None
-        self.description = None
-        self.required_inputs = None
+        self.solution_type: Optional[Union[str, "_models.SolutionType"]] = None
+        self.description: Optional[str] = None
+        self.required_inputs: Optional[List[str]] = None
 
 
 class SolutionMetadataResource(ProxyResource):
@@ -1429,7 +1430,7 @@ class SolutionMetadataResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1475,7 +1476,7 @@ class SolutionNlpMetadataResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1625,21 +1626,21 @@ class SolutionPatchRequestBody(_serialization.Model):
         super().__init__(**kwargs)
         self.trigger_criteria = trigger_criteria
         self.parameters = parameters
-        self.solution_id = None
-        self.provisioning_state = None
-        self.title = None
-        self.content = None
-        self.replacement_maps = None
-        self.sections = None
+        self.solution_id: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.SolutionProvisioningState"]] = None
+        self.title: Optional[str] = None
+        self.content: Optional[str] = None
+        self.replacement_maps: Optional["_models.ReplacementMaps"] = None
+        self.sections: Optional[List["_models.Section"]] = None
 
 
-class SolutionResource(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SolutionResource(ProxyResource):
     """Solution response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1712,12 +1713,12 @@ class SolutionResource(ProxyResource):  # pylint: disable=too-many-instance-attr
         super().__init__(**kwargs)
         self.trigger_criteria = trigger_criteria
         self.parameters = parameters
-        self.solution_id = None
-        self.provisioning_state = None
-        self.title = None
-        self.content = None
-        self.replacement_maps = None
-        self.sections = None
+        self.solution_id: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.SolutionProvisioningState"]] = None
+        self.title: Optional[str] = None
+        self.content: Optional[str] = None
+        self.replacement_maps: Optional["_models.ReplacementMaps"] = None
+        self.sections: Optional[List["_models.Section"]] = None
 
 
 class SolutionResourceSelfHelp(ProxyResource):
@@ -1726,7 +1727,7 @@ class SolutionResourceSelfHelp(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1738,7 +1739,7 @@ class SolutionResourceSelfHelp(ProxyResource):
     :vartype system_data: ~azure.mgmt.selfhelp.models.SystemData
     :ivar solution_id: SolutionId is a unique id to identify a solution. You can retrieve the
      solution id using the Discovery api -
-     https://learn.microsoft.com/en-us/rest/api/help/discovery-solution/list?view=rest-help-2023-09-01-preview&tabs=HTTP.  # pylint: disable=line-too-long
+     https://learn.microsoft.com/en-us/rest/api/help/discovery-solution/list?view=rest-help-2023-09-01-preview&tabs=HTTP.
     :vartype solution_id: str
     :ivar title: The title.
     :vartype title: str
@@ -1777,11 +1778,11 @@ class SolutionResourceSelfHelp(ProxyResource):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.solution_id = None
-        self.title = None
-        self.content = None
-        self.replacement_maps = None
-        self.sections = None
+        self.solution_id: Optional[str] = None
+        self.title: Optional[str] = None
+        self.content: Optional[str] = None
+        self.replacement_maps: Optional["_models.ReplacementMapsSelfHelp"] = None
+        self.sections: Optional[List["_models.SectionSelfHelp"]] = None
 
 
 class SolutionsDiagnostic(_serialization.Model):
@@ -1912,7 +1913,7 @@ class SolutionWarmUpRequestBody(_serialization.Model):
         self.parameters = parameters
 
 
-class Step(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Step(_serialization.Model):
     """Troubleshooter step.
 
     :ivar id: Unique step id.
@@ -2219,7 +2220,7 @@ class TroubleshooterResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2272,8 +2273,8 @@ class TroubleshooterResource(ProxyResource):
         super().__init__(**kwargs)
         self.solution_id = solution_id
         self.parameters = parameters
-        self.provisioning_state = None
-        self.steps = None
+        self.provisioning_state: Optional[Union[str, "_models.TroubleshooterProvisioningState"]] = None
+        self.steps: Optional[List["_models.Step"]] = None
 
 
 class TroubleshooterResponse(_serialization.Model):

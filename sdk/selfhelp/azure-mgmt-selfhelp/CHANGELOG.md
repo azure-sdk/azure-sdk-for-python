@@ -1,5 +1,37 @@
 # Release History
 
+## 2.0.0b5 (2025-05-09)
+
+### Features Added
+
+  - Method `DiagnosticsOperations.begin_create` has a new overload `def begin_create(self: None, scope: str, diagnostics_resource_name: str, diagnostic_resource_request: DiagnosticResource, content_type: str)`
+  - Method `DiagnosticsOperations.begin_create` has a new overload `def begin_create(self: None, scope: str, diagnostics_resource_name: str, diagnostic_resource_request: IO[bytes], content_type: str)`
+  - Method `DiscoverySolutionNLPOperations.discover_solutions` has a new overload `def discover_solutions(self: None, discover_solution_request: DiscoveryNlpRequest, content_type: str)`
+  - Method `DiscoverySolutionNLPOperations.discover_solutions` has a new overload `def discover_solutions(self: None, discover_solution_request: IO[bytes], content_type: str)`
+  - Method `DiscoverySolutionNLPOperations.discover_solutions_by_subscription` has a new overload `def discover_solutions_by_subscription(self: None, discover_solution_request: DiscoveryNlpRequest, content_type: str)`
+  - Method `DiscoverySolutionNLPOperations.discover_solutions_by_subscription` has a new overload `def discover_solutions_by_subscription(self: None, discover_solution_request: IO[bytes], content_type: str)`
+  - Method `SimplifiedSolutionsOperations.begin_create` has a new overload `def begin_create(self: None, scope: str, simplified_solutions_resource_name: str, simplified_solutions_request_body: SimplifiedSolutionsResource, content_type: str)`
+  - Method `SimplifiedSolutionsOperations.begin_create` has a new overload `def begin_create(self: None, scope: str, simplified_solutions_resource_name: str, simplified_solutions_request_body: IO[bytes], content_type: str)`
+  - Method `SolutionOperations.begin_create` has a new overload `def begin_create(self: None, scope: str, solution_resource_name: str, solution_request_body: SolutionResource, content_type: str)`
+  - Method `SolutionOperations.begin_create` has a new overload `def begin_create(self: None, scope: str, solution_resource_name: str, solution_request_body: IO[bytes], content_type: str)`
+  - Method `SolutionOperations.begin_update` has a new overload `def begin_update(self: None, scope: str, solution_resource_name: str, solution_patch_request_body: SolutionPatchRequestBody, content_type: str)`
+  - Method `SolutionOperations.begin_update` has a new overload `def begin_update(self: None, scope: str, solution_resource_name: str, solution_patch_request_body: IO[bytes], content_type: str)`
+  - Method `TroubleshootersOperations.create` has a new overload `def create(self: None, scope: str, troubleshooter_name: str, create_troubleshooter_request_body: TroubleshooterResource, content_type: str)`
+  - Method `TroubleshootersOperations.create` has a new overload `def create(self: None, scope: str, troubleshooter_name: str, create_troubleshooter_request_body: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Method `SelfHelpMgmtClient.__init__` inserted a `positional_or_keyword` parameter `subscription_id`
+  - Method `DiscoveryResponse.__init__` removed default value `None` from its parameter `value`
+  - Method `DiagnosticsOperations.begin_create` removed default value `None` from its parameter `diagnostic_resource_request`
+  - Method `DiscoverySolutionNLPOperations.discover_solutions` removed default value `None` from its parameter `discover_solution_request`
+  - Method `DiscoverySolutionNLPOperations.discover_solutions_by_subscription` removed default value `None` from its parameter `discover_solution_request`
+  - Method `DiscoverySolutionNLPOperations.discover_solutions_by_subscription` deleted or renamed its parameter `subscription_id` of kind `positional_or_keyword`
+  - Method `SimplifiedSolutionsOperations.begin_create` removed default value `None` from its parameter `simplified_solutions_request_body`
+  - Method `SolutionOperations.begin_create` removed default value `None` from its parameter `solution_request_body`
+  - Method `SolutionOperations.begin_update` removed default value `None` from its parameter `solution_patch_request_body`
+  - Method `TroubleshootersOperations.create` removed default value `None` from its parameter `create_troubleshooter_request_body`
+
 ## 2.0.0b4 (2024-05-27)
 
 ### Features Added

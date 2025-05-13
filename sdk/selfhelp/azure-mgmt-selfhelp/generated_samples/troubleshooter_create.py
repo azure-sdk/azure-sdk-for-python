@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -27,11 +28,20 @@ from azure.mgmt.selfhelp import SelfHelpMgmtClient
 def main():
     client = SelfHelpMgmtClient(
         credential=DefaultAzureCredential(),
+        subscription_id="SUBSCRIPTION_ID",
     )
 
     response = client.troubleshooters.create(
         scope="subscriptions/mySubscription/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-rp",
         troubleshooter_name="abf168ed-1b54-454a-86f6-e4b62253d3b1",
+        create_troubleshooter_request_body={
+            "properties": {
+                "parameters": {
+                    "ResourceURI": "subscriptions/mySubscription/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-rp"
+                },
+                "solutionId": "SampleTroubleshooterSolutionId",
+            }
+        },
     )
     print(response)
 

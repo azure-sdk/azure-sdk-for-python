@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -27,10 +28,15 @@ from azure.mgmt.selfhelp import SelfHelpMgmtClient
 def main():
     client = SelfHelpMgmtClient(
         credential=DefaultAzureCredential(),
+        subscription_id="0d0fcd2e-c4fd-4349-8497-200edb3923c6",
     )
 
     response = client.discovery_solution_nlp.discover_solutions_by_subscription(
-        subscription_id="0d0fcd2e-c4fd-4349-8497-200edb3923c6",
+        discover_solution_request={
+            "issueSummary": "how to retrieve certs from deleted keyvault.",
+            "resourceId": "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourceGroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read",
+            "serviceId": "0d0fcd2e-c4fd-4349-8497-200edb39s3ca",
+        },
     )
     print(response)
 

@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -27,6 +28,7 @@ from azure.mgmt.selfhelp import SelfHelpMgmtClient
 def main():
     client = SelfHelpMgmtClient(
         credential=DefaultAzureCredential(),
+        subscription_id="SUBSCRIPTION_ID",
     )
 
     client.troubleshooters.continue_method(
