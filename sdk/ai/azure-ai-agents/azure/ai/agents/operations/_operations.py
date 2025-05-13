@@ -1,4 +1,4 @@
-# pylint: disable=line-too-long,useless-suppression,too-many-lines
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -29,9 +29,10 @@ from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 
-from .. import models as _models
+from .. import models as _models1
+from .....servicepatterns import models as _servicepatterns_models5
 from .._configuration import AgentsClientConfiguration
-from .._utils.model_base import Model as _Model, SdkJSONEncoder, _deserialize
+from .._utils.model_base import Model as _Model, SdkJSONEncoder, _deserialize, _failsafe_deserialize
 from .._utils.serialization import Deserializer, Serializer
 from .._utils.utils import ClientMixinABC, prepare_multipart_form_data
 
@@ -71,7 +72,7 @@ def build_threads_create_request(**kwargs: Any) -> HttpRequest:
 def build_threads_list_request(
     *,
     limit: Optional[int] = None,
-    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    order: Optional[Union[str, _models1.ListSortOrder]] = None,
     after: Optional[str] = None,
     before: Optional[str] = None,
     **kwargs: Any
@@ -209,7 +210,7 @@ def build_messages_list_request(
     *,
     run_id: Optional[str] = None,
     limit: Optional[int] = None,
-    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    order: Optional[Union[str, _models1.ListSortOrder]] = None,
     after: Optional[str] = None,
     before: Optional[str] = None,
     **kwargs: Any
@@ -301,7 +302,7 @@ def build_messages_update_request(thread_id: str, message_id: str, **kwargs: Any
 
 
 def build_runs_create_request(
-    thread_id: str, *, include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None, **kwargs: Any
+    thread_id: str, *, include: Optional[List[Union[str, _models1.RunAdditionalFieldList]]] = None, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -335,7 +336,7 @@ def build_runs_list_request(
     thread_id: str,
     *,
     limit: Optional[int] = None,
-    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    order: Optional[Union[str, _models1.ListSortOrder]] = None,
     after: Optional[str] = None,
     before: Optional[str] = None,
     **kwargs: Any
@@ -482,7 +483,7 @@ def build_run_steps_get_request(
     run_id: str,
     step_id: str,
     *,
-    include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
+    include: Optional[List[Union[str, _models1.RunAdditionalFieldList]]] = None,
     **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -516,9 +517,9 @@ def build_run_steps_list_request(
     thread_id: str,
     run_id: str,
     *,
-    include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
+    include: Optional[List[Union[str, _models1.RunAdditionalFieldList]]] = None,
     limit: Optional[int] = None,
-    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    order: Optional[Union[str, _models1.ListSortOrder]] = None,
     after: Optional[str] = None,
     before: Optional[str] = None,
     **kwargs: Any
@@ -558,7 +559,7 @@ def build_run_steps_list_request(
 
 
 def build_files_list_request(
-    *, purpose: Optional[Union[str, _models.FilePurpose]] = None, **kwargs: Any
+    *, purpose: Optional[Union[str, _models1.FilePurpose]] = None, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -674,7 +675,7 @@ def build_files_get_file_content_request(file_id: str, **kwargs: Any) -> HttpReq
 def build_vector_stores_list_request(
     *,
     limit: Optional[int] = None,
-    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    order: Optional[Union[str, _models1.ListSortOrder]] = None,
     after: Optional[str] = None,
     before: Optional[str] = None,
     **kwargs: Any
@@ -805,9 +806,9 @@ def build_vector_stores_delete_request(vector_store_id: str, **kwargs: Any) -> H
 def build_vector_store_files_list_request(
     vector_store_id: str,
     *,
-    filter: Optional[Union[str, _models.VectorStoreFileStatusFilter]] = None,
+    filter: Optional[Union[str, _models1.VectorStoreFileStatusFilter]] = None,
     limit: Optional[int] = None,
-    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    order: Optional[Union[str, _models1.ListSortOrder]] = None,
     after: Optional[str] = None,
     before: Optional[str] = None,
     **kwargs: Any
@@ -1009,9 +1010,9 @@ def build_vector_store_file_batches_list_files_request(  # pylint: disable=name-
     vector_store_id: str,
     batch_id: str,
     *,
-    filter: Optional[Union[str, _models.VectorStoreFileStatusFilter]] = None,
+    filter: Optional[Union[str, _models1.VectorStoreFileStatusFilter]] = None,
     limit: Optional[int] = None,
-    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    order: Optional[Union[str, _models1.ListSortOrder]] = None,
     after: Optional[str] = None,
     before: Optional[str] = None,
     **kwargs: Any
@@ -1019,6 +1020,7 @@ def build_vector_store_file_batches_list_files_request(  # pylint: disable=name-
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "v1"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1033,6 +1035,7 @@ def build_vector_store_file_batches_list_files_request(  # pylint: disable=name-
     # Construct parameters
     if filter is not None:
         _params["filter"] = _SERIALIZER.query("filter", filter, "str")
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
     if limit is not None:
         _params["limit"] = _SERIALIZER.query("limit", limit, "int")
     if order is not None:
@@ -1073,7 +1076,7 @@ def build_agents_create_agent_request(**kwargs: Any) -> HttpRequest:
 def build_agents_list_agents_request(
     *,
     limit: Optional[int] = None,
-    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    order: Optional[Union[str, _models1.ListSortOrder]] = None,
     after: Optional[str] = None,
     before: Optional[str] = None,
     **kwargs: Any
@@ -1211,7 +1214,7 @@ class ThreadsOperations:
         :attr:`threads` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -1223,11 +1226,11 @@ class ThreadsOperations:
         self,
         *,
         content_type: str = "application/json",
-        messages: Optional[List[_models.ThreadMessageOptions]] = None,
-        tool_resources: Optional[_models.ToolResources] = None,
+        messages: Optional[List[_models1.ThreadMessageOptions]] = None,
+        tool_resources: Optional[_models1.ToolResources] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.AgentThread:
+    ) -> _models1.AgentThread:
         """Creates a new thread. Threads contain messages and can be run by agents.
 
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
@@ -1253,7 +1256,7 @@ class ThreadsOperations:
         """
 
     @overload
-    def create(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> _models.AgentThread:
+    def create(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> _models1.AgentThread:
         """Creates a new thread. Threads contain messages and can be run by agents.
 
         :param body: Required.
@@ -1267,7 +1270,7 @@ class ThreadsOperations:
         """
 
     @overload
-    def create(self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any) -> _models.AgentThread:
+    def create(self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any) -> _models1.AgentThread:
         """Creates a new thread. Threads contain messages and can be run by agents.
 
         :param body: Required.
@@ -1285,11 +1288,11 @@ class ThreadsOperations:
         self,
         body: Union[JSON, IO[bytes]] = _Unset,
         *,
-        messages: Optional[List[_models.ThreadMessageOptions]] = None,
-        tool_resources: Optional[_models.ToolResources] = None,
+        messages: Optional[List[_models1.ThreadMessageOptions]] = None,
+        tool_resources: Optional[_models1.ToolResources] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.AgentThread:
+    ) -> _models1.AgentThread:
         """Creates a new thread. Threads contain messages and can be run by agents.
 
         :param body: Is either a JSON type or a IO[bytes] type. Required.
@@ -1324,7 +1327,7 @@ class ThreadsOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.AgentThread] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.AgentThread] = kwargs.pop("cls", None)
 
         if body is _Unset:
             body = {"messages": messages, "metadata": metadata, "tool_resources": tool_resources}
@@ -1362,12 +1365,13 @@ class ThreadsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.AgentThread, response.json())
+            deserialized = _deserialize(_models1.AgentThread, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1379,10 +1383,10 @@ class ThreadsOperations:
         self,
         *,
         limit: Optional[int] = None,
-        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        order: Optional[Union[str, _models1.ListSortOrder]] = None,
         before: Optional[str] = None,
         **kwargs: Any
-    ) -> Iterable["_models.AgentThread"]:
+    ) -> Iterable["_models1.AgentThread"]:
         """Gets a list of threads that were previously created.
 
         :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
@@ -1403,7 +1407,7 @@ class ThreadsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models.AgentThread]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models1.AgentThread]] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -1432,7 +1436,7 @@ class ThreadsOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.AgentThread], deserialized.get("data", []))
+            list_of_elem = _deserialize(List[_models1.AgentThread], deserialized.get("data", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("last_id") or None, iter(list_of_elem)
@@ -1448,14 +1452,15 @@ class ThreadsOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response)
+                error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+                raise HttpResponseError(response=response, model=error)
 
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def get(self, thread_id: str, **kwargs: Any) -> _models.AgentThread:
+    def get(self, thread_id: str, **kwargs: Any) -> _models1.AgentThread:
         """Gets information about an existing thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -1475,7 +1480,7 @@ class ThreadsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.AgentThread] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.AgentThread] = kwargs.pop("cls", None)
 
         _request = build_threads_get_request(
             thread_id=thread_id,
@@ -1502,12 +1507,13 @@ class ThreadsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.AgentThread, response.json())
+            deserialized = _deserialize(_models1.AgentThread, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1520,10 +1526,10 @@ class ThreadsOperations:
         thread_id: str,
         *,
         content_type: str = "application/json",
-        tool_resources: Optional[_models.ToolResources] = None,
+        tool_resources: Optional[_models1.ToolResources] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.AgentThread:
+    ) -> _models1.AgentThread:
         """Modifies an existing thread.
 
         :param thread_id: The ID of the thread to modify. Required.
@@ -1550,7 +1556,7 @@ class ThreadsOperations:
     @overload
     def update(
         self, thread_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.AgentThread:
+    ) -> _models1.AgentThread:
         """Modifies an existing thread.
 
         :param thread_id: The ID of the thread to modify. Required.
@@ -1568,7 +1574,7 @@ class ThreadsOperations:
     @overload
     def update(
         self, thread_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.AgentThread:
+    ) -> _models1.AgentThread:
         """Modifies an existing thread.
 
         :param thread_id: The ID of the thread to modify. Required.
@@ -1589,10 +1595,10 @@ class ThreadsOperations:
         thread_id: str,
         body: Union[JSON, IO[bytes]] = _Unset,
         *,
-        tool_resources: Optional[_models.ToolResources] = None,
+        tool_resources: Optional[_models1.ToolResources] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.AgentThread:
+    ) -> _models1.AgentThread:
         """Modifies an existing thread.
 
         :param thread_id: The ID of the thread to modify. Required.
@@ -1626,7 +1632,7 @@ class ThreadsOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.AgentThread] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.AgentThread] = kwargs.pop("cls", None)
 
         if body is _Unset:
             body = {"metadata": metadata, "tool_resources": tool_resources}
@@ -1665,12 +1671,13 @@ class ThreadsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.AgentThread, response.json())
+            deserialized = _deserialize(_models1.AgentThread, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1678,7 +1685,7 @@ class ThreadsOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def delete(self, thread_id: str, **kwargs: Any) -> _models.ThreadDeletionStatus:
+    def delete(self, thread_id: str, **kwargs: Any) -> _models1.ThreadDeletionStatus:
         """Deletes an existing thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -1698,7 +1705,7 @@ class ThreadsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.ThreadDeletionStatus] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.ThreadDeletionStatus] = kwargs.pop("cls", None)
 
         _request = build_threads_delete_request(
             thread_id=thread_id,
@@ -1725,12 +1732,13 @@ class ThreadsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.ThreadDeletionStatus, response.json())
+            deserialized = _deserialize(_models1.ThreadDeletionStatus, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1748,7 +1756,7 @@ class MessagesOperations:
         :attr:`messages` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -1760,13 +1768,13 @@ class MessagesOperations:
         self,
         thread_id: str,
         *,
-        role: Union[str, _models.MessageRole],
+        role: Union[str, _models1.MessageRole],
         content: "_types.MessageInputContent",
         content_type: str = "application/json",
-        attachments: Optional[List[_models.MessageAttachment]] = None,
+        attachments: Optional[List[_models1.MessageAttachment]] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.ThreadMessage:
+    ) -> _models1.ThreadMessage:
         """Creates a new message on a specified thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -1801,7 +1809,7 @@ class MessagesOperations:
     @overload
     def create(
         self, thread_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.ThreadMessage:
+    ) -> _models1.ThreadMessage:
         """Creates a new message on a specified thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -1819,7 +1827,7 @@ class MessagesOperations:
     @overload
     def create(
         self, thread_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.ThreadMessage:
+    ) -> _models1.ThreadMessage:
         """Creates a new message on a specified thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -1840,12 +1848,12 @@ class MessagesOperations:
         thread_id: str,
         body: Union[JSON, IO[bytes]] = _Unset,
         *,
-        role: Union[str, _models.MessageRole] = _Unset,
+        role: Union[str, _models1.MessageRole] = _Unset,
         content: "_types.MessageInputContent" = _Unset,
-        attachments: Optional[List[_models.MessageAttachment]] = None,
+        attachments: Optional[List[_models1.MessageAttachment]] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.ThreadMessage:
+    ) -> _models1.ThreadMessage:
         """Creates a new message on a specified thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -1887,7 +1895,7 @@ class MessagesOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ThreadMessage] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.ThreadMessage] = kwargs.pop("cls", None)
 
         if body is _Unset:
             if role is _Unset:
@@ -1930,12 +1938,13 @@ class MessagesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.ThreadMessage, response.json())
+            deserialized = _deserialize(_models1.ThreadMessage, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1949,10 +1958,10 @@ class MessagesOperations:
         *,
         run_id: Optional[str] = None,
         limit: Optional[int] = None,
-        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        order: Optional[Union[str, _models1.ListSortOrder]] = None,
         before: Optional[str] = None,
         **kwargs: Any
-    ) -> Iterable["_models.ThreadMessage"]:
+    ) -> Iterable["_models1.ThreadMessage"]:
         """Gets a list of messages that exist on a thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -1977,7 +1986,7 @@ class MessagesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models.ThreadMessage]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models1.ThreadMessage]] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -2008,7 +2017,7 @@ class MessagesOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.ThreadMessage], deserialized.get("data", []))
+            list_of_elem = _deserialize(List[_models1.ThreadMessage], deserialized.get("data", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("last_id") or None, iter(list_of_elem)
@@ -2031,7 +2040,7 @@ class MessagesOperations:
         return ItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def get(self, thread_id: str, message_id: str, **kwargs: Any) -> _models.ThreadMessage:
+    def get(self, thread_id: str, message_id: str, **kwargs: Any) -> _models1.ThreadMessage:
         """Retrieves an existing message.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2053,7 +2062,7 @@ class MessagesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.ThreadMessage] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.ThreadMessage] = kwargs.pop("cls", None)
 
         _request = build_messages_get_request(
             thread_id=thread_id,
@@ -2081,12 +2090,13 @@ class MessagesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.ThreadMessage, response.json())
+            deserialized = _deserialize(_models1.ThreadMessage, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -2102,7 +2112,7 @@ class MessagesOperations:
         content_type: str = "application/json",
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.ThreadMessage:
+    ) -> _models1.ThreadMessage:
         """Modifies an existing message on an existing thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2125,7 +2135,7 @@ class MessagesOperations:
     @overload
     def update(
         self, thread_id: str, message_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.ThreadMessage:
+    ) -> _models1.ThreadMessage:
         """Modifies an existing message on an existing thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2145,7 +2155,7 @@ class MessagesOperations:
     @overload
     def update(
         self, thread_id: str, message_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.ThreadMessage:
+    ) -> _models1.ThreadMessage:
         """Modifies an existing message on an existing thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2171,7 +2181,7 @@ class MessagesOperations:
         *,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.ThreadMessage:
+    ) -> _models1.ThreadMessage:
         """Modifies an existing message on an existing thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2201,7 +2211,7 @@ class MessagesOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ThreadMessage] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.ThreadMessage] = kwargs.pop("cls", None)
 
         if body is _Unset:
             body = {"metadata": metadata}
@@ -2241,12 +2251,13 @@ class MessagesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.ThreadMessage, response.json())
+            deserialized = _deserialize(_models1.ThreadMessage, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -2264,7 +2275,7 @@ class RunsOperations:
         :attr:`runs` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -2277,25 +2288,25 @@ class RunsOperations:
         thread_id: str,
         *,
         agent_id: str,
-        include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
+        include: Optional[List[Union[str, _models1.RunAdditionalFieldList]]] = None,
         content_type: str = "application/json",
         model: Optional[str] = None,
         instructions: Optional[str] = None,
         additional_instructions: Optional[str] = None,
-        additional_messages: Optional[List[_models.ThreadMessageOptions]] = None,
-        tools: Optional[List[_models.ToolDefinition]] = None,
+        additional_messages: Optional[List[_models1.ThreadMessageOptions]] = None,
+        tools: Optional[List[_models1.ToolDefinition]] = None,
         stream_parameter: Optional[bool] = None,
         temperature: Optional[float] = None,
         top_p: Optional[float] = None,
         max_prompt_tokens: Optional[int] = None,
         max_completion_tokens: Optional[int] = None,
-        truncation_strategy: Optional[_models.TruncationObject] = None,
+        truncation_strategy: Optional[_models1.TruncationObject] = None,
         tool_choice: Optional["_types.AgentsToolChoiceOption"] = None,
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         parallel_tool_calls: Optional[bool] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Creates a new run for an agent thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2390,10 +2401,10 @@ class RunsOperations:
         thread_id: str,
         body: JSON,
         *,
-        include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
+        include: Optional[List[Union[str, _models1.RunAdditionalFieldList]]] = None,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Creates a new run for an agent thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2419,10 +2430,10 @@ class RunsOperations:
         thread_id: str,
         body: IO[bytes],
         *,
-        include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
+        include: Optional[List[Union[str, _models1.RunAdditionalFieldList]]] = None,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Creates a new run for an agent thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2449,24 +2460,24 @@ class RunsOperations:
         body: Union[JSON, IO[bytes]] = _Unset,
         *,
         agent_id: str = _Unset,
-        include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
+        include: Optional[List[Union[str, _models1.RunAdditionalFieldList]]] = None,
         model: Optional[str] = None,
         instructions: Optional[str] = None,
         additional_instructions: Optional[str] = None,
-        additional_messages: Optional[List[_models.ThreadMessageOptions]] = None,
-        tools: Optional[List[_models.ToolDefinition]] = None,
+        additional_messages: Optional[List[_models1.ThreadMessageOptions]] = None,
+        tools: Optional[List[_models1.ToolDefinition]] = None,
         stream_parameter: Optional[bool] = None,
         temperature: Optional[float] = None,
         top_p: Optional[float] = None,
         max_prompt_tokens: Optional[int] = None,
         max_completion_tokens: Optional[int] = None,
-        truncation_strategy: Optional[_models.TruncationObject] = None,
+        truncation_strategy: Optional[_models1.TruncationObject] = None,
         tool_choice: Optional["_types.AgentsToolChoiceOption"] = None,
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         parallel_tool_calls: Optional[bool] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Creates a new run for an agent thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2565,7 +2576,7 @@ class RunsOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ThreadRun] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.ThreadRun] = kwargs.pop("cls", None)
 
         if body is _Unset:
             if agent_id is _Unset:
@@ -2624,12 +2635,13 @@ class RunsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.ThreadRun, response.json())
+            deserialized = _deserialize(_models1.ThreadRun, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -2642,10 +2654,10 @@ class RunsOperations:
         thread_id: str,
         *,
         limit: Optional[int] = None,
-        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        order: Optional[Union[str, _models1.ListSortOrder]] = None,
         before: Optional[str] = None,
         **kwargs: Any
-    ) -> Iterable["_models.ThreadRun"]:
+    ) -> Iterable["_models1.ThreadRun"]:
         """Gets a list of runs for a specified thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2668,7 +2680,7 @@ class RunsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models.ThreadRun]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models1.ThreadRun]] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -2698,7 +2710,7 @@ class RunsOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.ThreadRun], deserialized.get("data", []))
+            list_of_elem = _deserialize(List[_models1.ThreadRun], deserialized.get("data", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("last_id") or None, iter(list_of_elem)
@@ -2714,14 +2726,15 @@ class RunsOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response)
+                error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+                raise HttpResponseError(response=response, model=error)
 
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def get(self, thread_id: str, run_id: str, **kwargs: Any) -> _models.ThreadRun:
+    def get(self, thread_id: str, run_id: str, **kwargs: Any) -> _models1.ThreadRun:
         """Gets an existing run from an existing thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2743,7 +2756,7 @@ class RunsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.ThreadRun] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.ThreadRun] = kwargs.pop("cls", None)
 
         _request = build_runs_get_request(
             thread_id=thread_id,
@@ -2771,12 +2784,13 @@ class RunsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.ThreadRun, response.json())
+            deserialized = _deserialize(_models1.ThreadRun, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -2792,7 +2806,7 @@ class RunsOperations:
         content_type: str = "application/json",
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Modifies an existing thread run.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2815,7 +2829,7 @@ class RunsOperations:
     @overload
     def update(
         self, thread_id: str, run_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Modifies an existing thread run.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2835,7 +2849,7 @@ class RunsOperations:
     @overload
     def update(
         self, thread_id: str, run_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Modifies an existing thread run.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2861,7 +2875,7 @@ class RunsOperations:
         *,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Modifies an existing thread run.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2891,7 +2905,7 @@ class RunsOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ThreadRun] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.ThreadRun] = kwargs.pop("cls", None)
 
         if body is _Unset:
             body = {"metadata": metadata}
@@ -2931,12 +2945,13 @@ class RunsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.ThreadRun, response.json())
+            deserialized = _deserialize(_models1.ThreadRun, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -2949,11 +2964,11 @@ class RunsOperations:
         thread_id: str,
         run_id: str,
         *,
-        tool_outputs: List[_models.ToolOutput],
+        tool_outputs: List[_models1.ToolOutput],
         content_type: str = "application/json",
         stream_parameter: Optional[bool] = None,
         **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Submits outputs from tools as requested by tool calls in a run.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2976,7 +2991,7 @@ class RunsOperations:
     @overload
     def submit_tool_outputs(
         self, thread_id: str, run_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Submits outputs from tools as requested by tool calls in a run.
 
         :param thread_id: Identifier of the thread. Required.
@@ -2996,7 +3011,7 @@ class RunsOperations:
     @overload
     def submit_tool_outputs(
         self, thread_id: str, run_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Submits outputs from tools as requested by tool calls in a run.
 
         :param thread_id: Identifier of the thread. Required.
@@ -3020,10 +3035,10 @@ class RunsOperations:
         run_id: str,
         body: Union[JSON, IO[bytes]] = _Unset,
         *,
-        tool_outputs: List[_models.ToolOutput] = _Unset,
+        tool_outputs: List[_models1.ToolOutput] = _Unset,
         stream_parameter: Optional[bool] = None,
         **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Submits outputs from tools as requested by tool calls in a run.
 
         :param thread_id: Identifier of the thread. Required.
@@ -3053,7 +3068,7 @@ class RunsOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ThreadRun] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.ThreadRun] = kwargs.pop("cls", None)
 
         if body is _Unset:
             if tool_outputs is _Unset:
@@ -3095,12 +3110,13 @@ class RunsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.ThreadRun, response.json())
+            deserialized = _deserialize(_models1.ThreadRun, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -3108,7 +3124,7 @@ class RunsOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def cancel(self, thread_id: str, run_id: str, **kwargs: Any) -> _models.ThreadRun:
+    def cancel(self, thread_id: str, run_id: str, **kwargs: Any) -> _models1.ThreadRun:
         """Cancels a run of an in‐progress thread.
 
         :param thread_id: Identifier of the thread. Required.
@@ -3130,7 +3146,7 @@ class RunsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.ThreadRun] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.ThreadRun] = kwargs.pop("cls", None)
 
         _request = build_runs_cancel_request(
             thread_id=thread_id,
@@ -3158,12 +3174,13 @@ class RunsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.ThreadRun, response.json())
+            deserialized = _deserialize(_models1.ThreadRun, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -3181,7 +3198,7 @@ class RunStepsOperations:
         :attr:`run_steps` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -3195,9 +3212,9 @@ class RunStepsOperations:
         run_id: str,
         step_id: str,
         *,
-        include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
+        include: Optional[List[Union[str, _models1.RunAdditionalFieldList]]] = None,
         **kwargs: Any
-    ) -> _models.RunStep:
+    ) -> _models1.RunStep:
         """Retrieves a single run step from a thread run.
 
         :param thread_id: Identifier of the thread. Required.
@@ -3226,7 +3243,7 @@ class RunStepsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.RunStep] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.RunStep] = kwargs.pop("cls", None)
 
         _request = build_run_steps_get_request(
             thread_id=thread_id,
@@ -3256,12 +3273,13 @@ class RunStepsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.RunStep, response.json())
+            deserialized = _deserialize(_models1.RunStep, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -3274,12 +3292,12 @@ class RunStepsOperations:
         thread_id: str,
         run_id: str,
         *,
-        include: Optional[List[Union[str, _models.RunAdditionalFieldList]]] = None,
+        include: Optional[List[Union[str, _models1.RunAdditionalFieldList]]] = None,
         limit: Optional[int] = None,
-        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        order: Optional[Union[str, _models1.ListSortOrder]] = None,
         before: Optional[str] = None,
         **kwargs: Any
-    ) -> Iterable["_models.RunStep"]:
+    ) -> Iterable["_models1.RunStep"]:
         """Gets a list of run steps from a thread run.
 
         :param thread_id: Identifier of the thread. Required.
@@ -3309,7 +3327,7 @@ class RunStepsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models.RunStep]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models1.RunStep]] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -3341,7 +3359,7 @@ class RunStepsOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.RunStep], deserialized.get("data", []))
+            list_of_elem = _deserialize(List[_models1.RunStep], deserialized.get("data", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("last_id") or None, iter(list_of_elem)
@@ -3357,7 +3375,8 @@ class RunStepsOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response)
+                error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+                raise HttpResponseError(response=response, model=error)
 
             return pipeline_response
 
@@ -3374,7 +3393,7 @@ class FilesOperations:
         :attr:`files` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -3383,8 +3402,8 @@ class FilesOperations:
 
     @distributed_trace
     def list(
-        self, *, purpose: Optional[Union[str, _models.FilePurpose]] = None, **kwargs: Any
-    ) -> _models.FileListResponse:
+        self, *, purpose: Optional[Union[str, _models1.FilePurpose]] = None, **kwargs: Any
+    ) -> _models1.FileListResponse:
         """Gets a list of previously uploaded files.
 
         :keyword purpose: The purpose of the file. Known values are: "fine-tune", "fine-tune-results",
@@ -3406,7 +3425,7 @@ class FilesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.FileListResponse] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.FileListResponse] = kwargs.pop("cls", None)
 
         _request = build_files_list_request(
             purpose=purpose,
@@ -3433,12 +3452,13 @@ class FilesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.FileListResponse, response.json())
+            deserialized = _deserialize(_models1.FileListResponse, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -3446,12 +3466,12 @@ class FilesOperations:
         return deserialized  # type: ignore
 
     @overload
-    def _upload_file(self, body: _models._models.UploadFileRequest, **kwargs: Any) -> _models.FileInfo: ...
+    def _upload_file(self, body: _models1._models.UploadFileRequest, **kwargs: Any) -> _models1.FileInfo: ...
     @overload
-    def _upload_file(self, body: JSON, **kwargs: Any) -> _models.FileInfo: ...
+    def _upload_file(self, body: JSON, **kwargs: Any) -> _models1.FileInfo: ...
 
     @distributed_trace
-    def _upload_file(self, body: Union[_models._models.UploadFileRequest, JSON], **kwargs: Any) -> _models.FileInfo:
+    def _upload_file(self, body: Union[_models1._models.UploadFileRequest, JSON], **kwargs: Any) -> _models1.FileInfo:
         """Uploads a file for use by other operations.
 
         :param body: Multipart body. Is either a UploadFileRequest type or a JSON type. Required.
@@ -3471,7 +3491,7 @@ class FilesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.FileInfo] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.FileInfo] = kwargs.pop("cls", None)
 
         _body = body.as_dict() if isinstance(body, _Model) else body
         _file_fields: List[str] = ["file"]
@@ -3504,12 +3524,13 @@ class FilesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.FileInfo, response.json())
+            deserialized = _deserialize(_models1.FileInfo, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -3517,7 +3538,7 @@ class FilesOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def delete(self, file_id: str, **kwargs: Any) -> _models.FileDeletionStatus:
+    def delete(self, file_id: str, **kwargs: Any) -> _models1.FileDeletionStatus:
         """Delete a previously uploaded file.
 
         :param file_id: The ID of the file to delete. Required.
@@ -3537,7 +3558,7 @@ class FilesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.FileDeletionStatus] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.FileDeletionStatus] = kwargs.pop("cls", None)
 
         _request = build_files_delete_request(
             file_id=file_id,
@@ -3564,12 +3585,13 @@ class FilesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.FileDeletionStatus, response.json())
+            deserialized = _deserialize(_models1.FileDeletionStatus, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -3577,7 +3599,7 @@ class FilesOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def get(self, file_id: str, **kwargs: Any) -> _models.FileInfo:
+    def get(self, file_id: str, **kwargs: Any) -> _models1.FileInfo:
         """Returns information about a specific file. Does not retrieve file content.
 
         :param file_id: The ID of the file to retrieve. Required.
@@ -3597,7 +3619,7 @@ class FilesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.FileInfo] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.FileInfo] = kwargs.pop("cls", None)
 
         _request = build_files_get_request(
             file_id=file_id,
@@ -3624,12 +3646,13 @@ class FilesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.FileInfo, response.json())
+            deserialized = _deserialize(_models1.FileInfo, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -3684,7 +3707,8 @@ class FilesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         deserialized = response.iter_bytes()
 
@@ -3704,7 +3728,7 @@ class VectorStoresOperations:
         :attr:`vector_stores` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -3716,10 +3740,10 @@ class VectorStoresOperations:
         self,
         *,
         limit: Optional[int] = None,
-        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        order: Optional[Union[str, _models1.ListSortOrder]] = None,
         before: Optional[str] = None,
         **kwargs: Any
-    ) -> Iterable["_models.VectorStore"]:
+    ) -> Iterable["_models1.VectorStore"]:
         """Returns a list of vector stores.
 
         :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
@@ -3740,7 +3764,7 @@ class VectorStoresOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models.VectorStore]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models1.VectorStore]] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -3769,7 +3793,7 @@ class VectorStoresOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.VectorStore], deserialized.get("data", []))
+            list_of_elem = _deserialize(List[_models1.VectorStore], deserialized.get("data", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("last_id") or None, iter(list_of_elem)
@@ -3785,7 +3809,8 @@ class VectorStoresOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response)
+                error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+                raise HttpResponseError(response=response, model=error)
 
             return pipeline_response
 
@@ -3798,12 +3823,12 @@ class VectorStoresOperations:
         content_type: str = "application/json",
         file_ids: Optional[List[str]] = None,
         name: Optional[str] = None,
-        store_configuration: Optional[_models.VectorStoreConfiguration] = None,
-        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
-        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        store_configuration: Optional[_models1.VectorStoreConfiguration] = None,
+        expires_after: Optional[_models1.VectorStoreExpirationPolicy] = None,
+        chunking_strategy: Optional[_models1.VectorStoreChunkingStrategyRequest] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.VectorStore:
+    ) -> _models1.VectorStore:
         """Creates a vector store.
 
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
@@ -3833,7 +3858,7 @@ class VectorStoresOperations:
         """
 
     @overload
-    def create(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> _models.VectorStore:
+    def create(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> _models1.VectorStore:
         """Creates a vector store.
 
         :param body: Required.
@@ -3847,7 +3872,7 @@ class VectorStoresOperations:
         """
 
     @overload
-    def create(self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any) -> _models.VectorStore:
+    def create(self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any) -> _models1.VectorStore:
         """Creates a vector store.
 
         :param body: Required.
@@ -3867,12 +3892,12 @@ class VectorStoresOperations:
         *,
         file_ids: Optional[List[str]] = None,
         name: Optional[str] = None,
-        store_configuration: Optional[_models.VectorStoreConfiguration] = None,
-        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
-        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        store_configuration: Optional[_models1.VectorStoreConfiguration] = None,
+        expires_after: Optional[_models1.VectorStoreExpirationPolicy] = None,
+        chunking_strategy: Optional[_models1.VectorStoreChunkingStrategyRequest] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.VectorStore:
+    ) -> _models1.VectorStore:
         """Creates a vector store.
 
         :param body: Is either a JSON type or a IO[bytes] type. Required.
@@ -3911,7 +3936,7 @@ class VectorStoresOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.VectorStore] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.VectorStore] = kwargs.pop("cls", None)
 
         if body is _Unset:
             body = {
@@ -3956,12 +3981,13 @@ class VectorStoresOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.VectorStore, response.json())
+            deserialized = _deserialize(_models1.VectorStore, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -3969,7 +3995,7 @@ class VectorStoresOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def get(self, vector_store_id: str, **kwargs: Any) -> _models.VectorStore:
+    def get(self, vector_store_id: str, **kwargs: Any) -> _models1.VectorStore:
         """Returns the vector store object matching the specified ID.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -3989,7 +4015,7 @@ class VectorStoresOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.VectorStore] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.VectorStore] = kwargs.pop("cls", None)
 
         _request = build_vector_stores_get_request(
             vector_store_id=vector_store_id,
@@ -4016,12 +4042,13 @@ class VectorStoresOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.VectorStore, response.json())
+            deserialized = _deserialize(_models1.VectorStore, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -4035,10 +4062,10 @@ class VectorStoresOperations:
         *,
         content_type: str = "application/json",
         name: Optional[str] = None,
-        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
+        expires_after: Optional[_models1.VectorStoreExpirationPolicy] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.VectorStore:
+    ) -> _models1.VectorStore:
         """Modifies an existing vector store.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4063,7 +4090,7 @@ class VectorStoresOperations:
     @overload
     def modify(
         self, vector_store_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.VectorStore:
+    ) -> _models1.VectorStore:
         """Modifies an existing vector store.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4081,7 +4108,7 @@ class VectorStoresOperations:
     @overload
     def modify(
         self, vector_store_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.VectorStore:
+    ) -> _models1.VectorStore:
         """Modifies an existing vector store.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4103,10 +4130,10 @@ class VectorStoresOperations:
         body: Union[JSON, IO[bytes]] = _Unset,
         *,
         name: Optional[str] = None,
-        expires_after: Optional[_models.VectorStoreExpirationPolicy] = None,
+        expires_after: Optional[_models1.VectorStoreExpirationPolicy] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.VectorStore:
+    ) -> _models1.VectorStore:
         """Modifies an existing vector store.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4138,7 +4165,7 @@ class VectorStoresOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.VectorStore] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.VectorStore] = kwargs.pop("cls", None)
 
         if body is _Unset:
             body = {"expires_after": expires_after, "metadata": metadata, "name": name}
@@ -4177,12 +4204,13 @@ class VectorStoresOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.VectorStore, response.json())
+            deserialized = _deserialize(_models1.VectorStore, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -4190,7 +4218,7 @@ class VectorStoresOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def delete(self, vector_store_id: str, **kwargs: Any) -> _models.VectorStoreDeletionStatus:
+    def delete(self, vector_store_id: str, **kwargs: Any) -> _models1.VectorStoreDeletionStatus:
         """Deletes the vector store object matching the specified ID.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4211,7 +4239,7 @@ class VectorStoresOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.VectorStoreDeletionStatus] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.VectorStoreDeletionStatus] = kwargs.pop("cls", None)
 
         _request = build_vector_stores_delete_request(
             vector_store_id=vector_store_id,
@@ -4238,12 +4266,13 @@ class VectorStoresOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.VectorStoreDeletionStatus, response.json())
+            deserialized = _deserialize(_models1.VectorStoreDeletionStatus, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -4261,7 +4290,7 @@ class VectorStoreFilesOperations:
         :attr:`vector_store_files` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -4273,12 +4302,12 @@ class VectorStoreFilesOperations:
         self,
         vector_store_id: str,
         *,
-        filter: Optional[Union[str, _models.VectorStoreFileStatusFilter]] = None,
+        filter: Optional[Union[str, _models1.VectorStoreFileStatusFilter]] = None,
         limit: Optional[int] = None,
-        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        order: Optional[Union[str, _models1.ListSortOrder]] = None,
         before: Optional[str] = None,
         **kwargs: Any
-    ) -> Iterable["_models.VectorStoreFile"]:
+    ) -> Iterable["_models1.VectorStoreFile"]:
         """Returns a list of vector store files.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4304,7 +4333,7 @@ class VectorStoreFilesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models.VectorStoreFile]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models1.VectorStoreFile]] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -4335,7 +4364,7 @@ class VectorStoreFilesOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.VectorStoreFile], deserialized.get("data", []))
+            list_of_elem = _deserialize(List[_models1.VectorStoreFile], deserialized.get("data", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("last_id") or None, iter(list_of_elem)
@@ -4351,7 +4380,8 @@ class VectorStoreFilesOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response)
+                error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+                raise HttpResponseError(response=response, model=error)
 
             return pipeline_response
 
@@ -4364,10 +4394,10 @@ class VectorStoreFilesOperations:
         *,
         content_type: str = "application/json",
         file_id: Optional[str] = None,
-        data_source: Optional[_models.VectorStoreDataSource] = None,
-        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        data_source: Optional[_models1.VectorStoreDataSource] = None,
+        chunking_strategy: Optional[_models1.VectorStoreChunkingStrategyRequest] = None,
         **kwargs: Any
-    ) -> _models.VectorStoreFile:
+    ) -> _models1.VectorStoreFile:
         """Create a vector store file by attaching a file to a vector store.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4390,7 +4420,7 @@ class VectorStoreFilesOperations:
     @overload
     def create(
         self, vector_store_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.VectorStoreFile:
+    ) -> _models1.VectorStoreFile:
         """Create a vector store file by attaching a file to a vector store.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4408,7 +4438,7 @@ class VectorStoreFilesOperations:
     @overload
     def create(
         self, vector_store_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.VectorStoreFile:
+    ) -> _models1.VectorStoreFile:
         """Create a vector store file by attaching a file to a vector store.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4430,10 +4460,10 @@ class VectorStoreFilesOperations:
         body: Union[JSON, IO[bytes]] = _Unset,
         *,
         file_id: Optional[str] = None,
-        data_source: Optional[_models.VectorStoreDataSource] = None,
-        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        data_source: Optional[_models1.VectorStoreDataSource] = None,
+        chunking_strategy: Optional[_models1.VectorStoreChunkingStrategyRequest] = None,
         **kwargs: Any
-    ) -> _models.VectorStoreFile:
+    ) -> _models1.VectorStoreFile:
         """Create a vector store file by attaching a file to a vector store.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4463,7 +4493,7 @@ class VectorStoreFilesOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.VectorStoreFile] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.VectorStoreFile] = kwargs.pop("cls", None)
 
         if body is _Unset:
             body = {"chunking_strategy": chunking_strategy, "data_source": data_source, "file_id": file_id}
@@ -4502,12 +4532,13 @@ class VectorStoreFilesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.VectorStoreFile, response.json())
+            deserialized = _deserialize(_models1.VectorStoreFile, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -4515,7 +4546,7 @@ class VectorStoreFilesOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def get(self, vector_store_id: str, file_id: str, **kwargs: Any) -> _models.VectorStoreFile:
+    def get(self, vector_store_id: str, file_id: str, **kwargs: Any) -> _models1.VectorStoreFile:
         """Retrieves a vector store file.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4537,7 +4568,7 @@ class VectorStoreFilesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.VectorStoreFile] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.VectorStoreFile] = kwargs.pop("cls", None)
 
         _request = build_vector_store_files_get_request(
             vector_store_id=vector_store_id,
@@ -4565,12 +4596,13 @@ class VectorStoreFilesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.VectorStoreFile, response.json())
+            deserialized = _deserialize(_models1.VectorStoreFile, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -4578,7 +4610,7 @@ class VectorStoreFilesOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def delete(self, vector_store_id: str, file_id: str, **kwargs: Any) -> _models.VectorStoreFileDeletionStatus:
+    def delete(self, vector_store_id: str, file_id: str, **kwargs: Any) -> _models1.VectorStoreFileDeletionStatus:
         """Deletes a vector store file. This removes the file‐to‐store link (does not delete the file
         itself).
 
@@ -4602,7 +4634,7 @@ class VectorStoreFilesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.VectorStoreFileDeletionStatus] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.VectorStoreFileDeletionStatus] = kwargs.pop("cls", None)
 
         _request = build_vector_store_files_delete_request(
             vector_store_id=vector_store_id,
@@ -4630,12 +4662,13 @@ class VectorStoreFilesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.VectorStoreFileDeletionStatus, response.json())
+            deserialized = _deserialize(_models1.VectorStoreFileDeletionStatus, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -4653,7 +4686,7 @@ class VectorStoreFileBatchesOperations:
         :attr:`vector_store_file_batches` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: AgentsClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
@@ -4667,10 +4700,10 @@ class VectorStoreFileBatchesOperations:
         *,
         content_type: str = "application/json",
         file_ids: Optional[List[str]] = None,
-        data_sources: Optional[List[_models.VectorStoreDataSource]] = None,
-        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        data_sources: Optional[List[_models1.VectorStoreDataSource]] = None,
+        chunking_strategy: Optional[_models1.VectorStoreChunkingStrategyRequest] = None,
         **kwargs: Any
-    ) -> _models.VectorStoreFileBatch:
+    ) -> _models1.VectorStoreFileBatch:
         """Create a vector store file batch.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4693,7 +4726,7 @@ class VectorStoreFileBatchesOperations:
     @overload
     def create(
         self, vector_store_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.VectorStoreFileBatch:
+    ) -> _models1.VectorStoreFileBatch:
         """Create a vector store file batch.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4711,7 +4744,7 @@ class VectorStoreFileBatchesOperations:
     @overload
     def create(
         self, vector_store_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.VectorStoreFileBatch:
+    ) -> _models1.VectorStoreFileBatch:
         """Create a vector store file batch.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4733,10 +4766,10 @@ class VectorStoreFileBatchesOperations:
         body: Union[JSON, IO[bytes]] = _Unset,
         *,
         file_ids: Optional[List[str]] = None,
-        data_sources: Optional[List[_models.VectorStoreDataSource]] = None,
-        chunking_strategy: Optional[_models.VectorStoreChunkingStrategyRequest] = None,
+        data_sources: Optional[List[_models1.VectorStoreDataSource]] = None,
+        chunking_strategy: Optional[_models1.VectorStoreChunkingStrategyRequest] = None,
         **kwargs: Any
-    ) -> _models.VectorStoreFileBatch:
+    ) -> _models1.VectorStoreFileBatch:
         """Create a vector store file batch.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4766,7 +4799,7 @@ class VectorStoreFileBatchesOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.VectorStoreFileBatch] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.VectorStoreFileBatch] = kwargs.pop("cls", None)
 
         if body is _Unset:
             body = {"chunking_strategy": chunking_strategy, "data_sources": data_sources, "file_ids": file_ids}
@@ -4805,12 +4838,13 @@ class VectorStoreFileBatchesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.VectorStoreFileBatch, response.json())
+            deserialized = _deserialize(_models1.VectorStoreFileBatch, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -4818,7 +4852,7 @@ class VectorStoreFileBatchesOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def get(self, vector_store_id: str, batch_id: str, **kwargs: Any) -> _models.VectorStoreFileBatch:
+    def get(self, vector_store_id: str, batch_id: str, **kwargs: Any) -> _models1.VectorStoreFileBatch:
         """Retrieve a vector store file batch.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4840,7 +4874,7 @@ class VectorStoreFileBatchesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.VectorStoreFileBatch] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.VectorStoreFileBatch] = kwargs.pop("cls", None)
 
         _request = build_vector_store_file_batches_get_request(
             vector_store_id=vector_store_id,
@@ -4868,12 +4902,13 @@ class VectorStoreFileBatchesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.VectorStoreFileBatch, response.json())
+            deserialized = _deserialize(_models1.VectorStoreFileBatch, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -4881,7 +4916,7 @@ class VectorStoreFileBatchesOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def cancel(self, vector_store_id: str, batch_id: str, **kwargs: Any) -> _models.VectorStoreFileBatch:
+    def cancel(self, vector_store_id: str, batch_id: str, **kwargs: Any) -> _models1.VectorStoreFileBatch:
         """Cancel a vector store file batch. This attempts to cancel the processing of files in this batch
         as soon as possible.
 
@@ -4904,7 +4939,7 @@ class VectorStoreFileBatchesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.VectorStoreFileBatch] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.VectorStoreFileBatch] = kwargs.pop("cls", None)
 
         _request = build_vector_store_file_batches_cancel_request(
             vector_store_id=vector_store_id,
@@ -4932,12 +4967,13 @@ class VectorStoreFileBatchesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.VectorStoreFileBatch, response.json())
+            deserialized = _deserialize(_models1.VectorStoreFileBatch, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -4950,12 +4986,12 @@ class VectorStoreFileBatchesOperations:
         vector_store_id: str,
         batch_id: str,
         *,
-        filter: Optional[Union[str, _models.VectorStoreFileStatusFilter]] = None,
+        filter: Optional[Union[str, _models1.VectorStoreFileStatusFilter]] = None,
         limit: Optional[int] = None,
-        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        order: Optional[Union[str, _models1.ListSortOrder]] = None,
         before: Optional[str] = None,
         **kwargs: Any
-    ) -> Iterable["_models.VectorStoreFile"]:
+    ) -> Iterable["_models1.VectorStoreFile"]:
         """Returns a list of vector store files in a batch.
 
         :param vector_store_id: Identifier of the vector store. Required.
@@ -4983,7 +5019,7 @@ class VectorStoreFileBatchesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models.VectorStoreFile]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models1.VectorStoreFile]] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -5003,6 +5039,7 @@ class VectorStoreFileBatchesOperations:
                 order=order,
                 after=_continuation_token,
                 before=before,
+                api_version=self._config.api_version,
                 headers=_headers,
                 params=_params,
             )
@@ -5014,7 +5051,7 @@ class VectorStoreFileBatchesOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.VectorStoreFile], deserialized.get("data", []))
+            list_of_elem = _deserialize(List[_models1.VectorStoreFile], deserialized.get("data", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("last_id") or None, iter(list_of_elem)
@@ -5030,14 +5067,15 @@ class VectorStoreFileBatchesOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response)
+                error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+                raise HttpResponseError(response=response, model=error)
 
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
 
 
-class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientConfiguration]):
+class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient[HttpRequest, HttpResponse], AgentsClientConfiguration]):
 
     @overload
     def create_agent(
@@ -5048,14 +5086,14 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         name: Optional[str] = None,
         description: Optional[str] = None,
         instructions: Optional[str] = None,
-        tools: Optional[List[_models.ToolDefinition]] = None,
-        tool_resources: Optional[_models.ToolResources] = None,
+        tools: Optional[List[_models1.ToolDefinition]] = None,
+        tool_resources: Optional[_models1.ToolResources] = None,
         temperature: Optional[float] = None,
         top_p: Optional[float] = None,
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.Agent:
+    ) -> _models1.Agent:
         """Creates a new agent.
 
         :keyword model: The ID of the model to use. Required.
@@ -5104,7 +5142,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         """
 
     @overload
-    def create_agent(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> _models.Agent:
+    def create_agent(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> _models1.Agent:
         """Creates a new agent.
 
         :param body: Required.
@@ -5118,7 +5156,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         """
 
     @overload
-    def create_agent(self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any) -> _models.Agent:
+    def create_agent(self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any) -> _models1.Agent:
         """Creates a new agent.
 
         :param body: Required.
@@ -5140,14 +5178,14 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         name: Optional[str] = None,
         description: Optional[str] = None,
         instructions: Optional[str] = None,
-        tools: Optional[List[_models.ToolDefinition]] = None,
-        tool_resources: Optional[_models.ToolResources] = None,
+        tools: Optional[List[_models1.ToolDefinition]] = None,
+        tool_resources: Optional[_models1.ToolResources] = None,
         temperature: Optional[float] = None,
         top_p: Optional[float] = None,
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.Agent:
+    ) -> _models1.Agent:
         """Creates a new agent.
 
         :param body: Is either a JSON type or a IO[bytes] type. Required.
@@ -5205,7 +5243,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Agent] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.Agent] = kwargs.pop("cls", None)
 
         if body is _Unset:
             if model is _Unset:
@@ -5256,12 +5294,13 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.Agent, response.json())
+            deserialized = _deserialize(_models1.Agent, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -5273,10 +5312,10 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         self,
         *,
         limit: Optional[int] = None,
-        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        order: Optional[Union[str, _models1.ListSortOrder]] = None,
         before: Optional[str] = None,
         **kwargs: Any
-    ) -> Iterable["_models.Agent"]:
+    ) -> Iterable["_models1.Agent"]:
         """Gets a list of agents that were previously created.
 
         :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
@@ -5297,7 +5336,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models.Agent]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models1.Agent]] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -5326,7 +5365,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Agent], deserialized.get("data", []))
+            list_of_elem = _deserialize(List[_models1.Agent], deserialized.get("data", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("last_id") or None, iter(list_of_elem)
@@ -5342,14 +5381,15 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response)
+                error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+                raise HttpResponseError(response=response, model=error)
 
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def get_agent(self, agent_id: str, **kwargs: Any) -> _models.Agent:
+    def get_agent(self, agent_id: str, **kwargs: Any) -> _models1.Agent:
         """Retrieves an existing agent.
 
         :param agent_id: Identifier of the agent. Required.
@@ -5369,7 +5409,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.Agent] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.Agent] = kwargs.pop("cls", None)
 
         _request = build_agents_get_agent_request(
             agent_id=agent_id,
@@ -5396,12 +5436,13 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.Agent, response.json())
+            deserialized = _deserialize(_models1.Agent, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -5418,14 +5459,14 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         name: Optional[str] = None,
         description: Optional[str] = None,
         instructions: Optional[str] = None,
-        tools: Optional[List[_models.ToolDefinition]] = None,
-        tool_resources: Optional[_models.ToolResources] = None,
+        tools: Optional[List[_models1.ToolDefinition]] = None,
+        tool_resources: Optional[_models1.ToolResources] = None,
         temperature: Optional[float] = None,
         top_p: Optional[float] = None,
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.Agent:
+    ) -> _models1.Agent:
         """Modifies an existing agent.
 
         :param agent_id: The ID of the agent to modify. Required.
@@ -5480,7 +5521,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
     @overload
     def update_agent(
         self, agent_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.Agent:
+    ) -> _models1.Agent:
         """Modifies an existing agent.
 
         :param agent_id: The ID of the agent to modify. Required.
@@ -5498,7 +5539,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
     @overload
     def update_agent(
         self, agent_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.Agent:
+    ) -> _models1.Agent:
         """Modifies an existing agent.
 
         :param agent_id: The ID of the agent to modify. Required.
@@ -5523,14 +5564,14 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         name: Optional[str] = None,
         description: Optional[str] = None,
         instructions: Optional[str] = None,
-        tools: Optional[List[_models.ToolDefinition]] = None,
-        tool_resources: Optional[_models.ToolResources] = None,
+        tools: Optional[List[_models1.ToolDefinition]] = None,
+        tool_resources: Optional[_models1.ToolResources] = None,
         temperature: Optional[float] = None,
         top_p: Optional[float] = None,
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.Agent:
+    ) -> _models1.Agent:
         """Modifies an existing agent.
 
         :param agent_id: The ID of the agent to modify. Required.
@@ -5592,7 +5633,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Agent] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.Agent] = kwargs.pop("cls", None)
 
         if body is _Unset:
             body = {
@@ -5642,12 +5683,13 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.Agent, response.json())
+            deserialized = _deserialize(_models1.Agent, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -5655,7 +5697,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         return deserialized  # type: ignore
 
     @distributed_trace
-    def delete_agent(self, agent_id: str, **kwargs: Any) -> _models.AgentDeletionStatus:
+    def delete_agent(self, agent_id: str, **kwargs: Any) -> _models1.AgentDeletionStatus:
         """Deletes an agent.
 
         :param agent_id: Identifier of the agent. Required.
@@ -5675,7 +5717,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.AgentDeletionStatus] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.AgentDeletionStatus] = kwargs.pop("cls", None)
 
         _request = build_agents_delete_agent_request(
             agent_id=agent_id,
@@ -5702,12 +5744,13 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.AgentDeletionStatus, response.json())
+            deserialized = _deserialize(_models1.AgentDeletionStatus, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -5720,23 +5763,23 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         *,
         agent_id: str,
         content_type: str = "application/json",
-        thread: Optional[_models.AgentThreadCreationOptions] = None,
+        thread: Optional[_models1.AgentThreadCreationOptions] = None,
         model: Optional[str] = None,
         instructions: Optional[str] = None,
-        tools: Optional[List[_models.ToolDefinition]] = None,
-        tool_resources: Optional[_models.UpdateToolResourcesOptions] = None,
+        tools: Optional[List[_models1.ToolDefinition]] = None,
+        tool_resources: Optional[_models1.UpdateToolResourcesOptions] = None,
         stream_parameter: Optional[bool] = None,
         temperature: Optional[float] = None,
         top_p: Optional[float] = None,
         max_prompt_tokens: Optional[int] = None,
         max_completion_tokens: Optional[int] = None,
-        truncation_strategy: Optional[_models.TruncationObject] = None,
+        truncation_strategy: Optional[_models1.TruncationObject] = None,
         tool_choice: Optional["_types.AgentsToolChoiceOption"] = None,
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         parallel_tool_calls: Optional[bool] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Creates a new agent thread and immediately starts a run using that new thread.
 
         :keyword agent_id: The ID of the agent for which the thread should be created. Required.
@@ -5820,7 +5863,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
     @overload
     def create_thread_and_run(
         self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Creates a new agent thread and immediately starts a run using that new thread.
 
         :param body: Required.
@@ -5836,7 +5879,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
     @overload
     def create_thread_and_run(
         self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Creates a new agent thread and immediately starts a run using that new thread.
 
         :param body: Required.
@@ -5855,23 +5898,23 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         body: Union[JSON, IO[bytes]] = _Unset,
         *,
         agent_id: str = _Unset,
-        thread: Optional[_models.AgentThreadCreationOptions] = None,
+        thread: Optional[_models1.AgentThreadCreationOptions] = None,
         model: Optional[str] = None,
         instructions: Optional[str] = None,
-        tools: Optional[List[_models.ToolDefinition]] = None,
-        tool_resources: Optional[_models.UpdateToolResourcesOptions] = None,
+        tools: Optional[List[_models1.ToolDefinition]] = None,
+        tool_resources: Optional[_models1.UpdateToolResourcesOptions] = None,
         stream_parameter: Optional[bool] = None,
         temperature: Optional[float] = None,
         top_p: Optional[float] = None,
         max_prompt_tokens: Optional[int] = None,
         max_completion_tokens: Optional[int] = None,
-        truncation_strategy: Optional[_models.TruncationObject] = None,
+        truncation_strategy: Optional[_models1.TruncationObject] = None,
         tool_choice: Optional["_types.AgentsToolChoiceOption"] = None,
         response_format: Optional["_types.AgentsResponseFormatOption"] = None,
         parallel_tool_calls: Optional[bool] = None,
         metadata: Optional[Dict[str, str]] = None,
         **kwargs: Any
-    ) -> _models.ThreadRun:
+    ) -> _models1.ThreadRun:
         """Creates a new agent thread and immediately starts a run using that new thread.
 
         :param body: Is either a JSON type or a IO[bytes] type. Required.
@@ -5962,7 +6005,7 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ThreadRun] = kwargs.pop("cls", None)
+        cls: ClsType[_models1.ThreadRun] = kwargs.pop("cls", None)
 
         if body is _Unset:
             if agent_id is _Unset:
@@ -6019,12 +6062,13 @@ class AgentsClientOperationsMixin(ClientMixinABC[PipelineClient, AgentsClientCon
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
+            error = _failsafe_deserialize(_servicepatterns_models4.AgentV1Error, response.json())
+            raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.ThreadRun, response.json())
+            deserialized = _deserialize(_models1.ThreadRun, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
