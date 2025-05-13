@@ -1,0 +1,19 @@
+{
+    "CrossLanguagePackageId": "Azure.Developer.TrustedSigning",
+    "CrossLanguageDefinitionId": {
+        "azure.developer.trustedsigning.models.ExtendedKeyUsage": "Azure.Developer.TrustedSigning.ExtendedKeyUsage",
+        "azure.developer.trustedsigning.models.OperationStatusSignResultError": "Azure.Core.Foundations.OperationStatus",
+        "azure.developer.trustedsigning.models.SigningPayloadOptions": "Azure.Developer.TrustedSigning.SigningPayloadOptions",
+        "azure.developer.trustedsigning.models.SignResult": "Azure.Developer.TrustedSigning.SignResult",
+        "azure.developer.trustedsigning.models.OperationState": "Azure.Core.Foundations.OperationState",
+        "azure.developer.trustedsigning.models.SignatureAlgorithm": "Azure.Developer.TrustedSigning.SignatureAlgorithm",
+        "azure.developer.trustedsigning.operations.CertificateProfileOperationsOperations.get_signing_status": "Azure.Developer.TrustedSigning.CertificateProfileOperations.getSigningStatus",
+        "azure.developer.trustedsigning.aio.operations.CertificateProfileOperationsOperations.get_signing_status": "Azure.Developer.TrustedSigning.CertificateProfileOperations.getSigningStatus",
+        "azure.developer.trustedsigning.operations.CertificateProfileOperationsOperations.get_sign_root_certificate": "Azure.Developer.TrustedSigning.CertificateProfileOperations.getSignRootCertificate",
+        "azure.developer.trustedsigning.aio.operations.CertificateProfileOperationsOperations.get_sign_root_certificate": "Azure.Developer.TrustedSigning.CertificateProfileOperations.getSignRootCertificate",
+        "azure.developer.trustedsigning.operations.CertificateProfileOperationsOperations.list_extended_key_usages": "Azure.Developer.TrustedSigning.CertificateProfileOperations.listExtendedKeyUsages",
+        "azure.developer.trustedsigning.aio.operations.CertificateProfileOperationsOperations.list_extended_key_usages": "Azure.Developer.TrustedSigning.CertificateProfileOperations.listExtendedKeyUsages",
+        "azure.developer.trustedsigning.operations.CertificateProfileOperationsOperations.begin_sign": "Azure.Developer.TrustedSigning.CertificateProfileOperations.sign",
+        "azure.developer.trustedsigning.aio.operations.CertificateProfileOperationsOperations.begin_sign": "Azure.Developer.TrustedSigning.CertificateProfileOperations.sign"
+    }
+}
