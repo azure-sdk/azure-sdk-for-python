@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.guestconfig import GuestConfigurationClient
 
 """
@@ -14,7 +16,7 @@ from azure.mgmt.guestconfig import GuestConfigurationClient
     pip install azure-identity
     pip install azure-mgmt-guestconfig
 # USAGE
-    python list_all_reports_for_the_vmss_guest_configuration_assignment_with_latest_report_first.py
+    python get_vmss_guest_configuration_assignment.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,18 +28,17 @@ from azure.mgmt.guestconfig import GuestConfigurationClient
 def main():
     client = GuestConfigurationClient(
         credential=DefaultAzureCredential(),
-        subscription_id="mySubscriptionid",
+        subscription_id="mySubscriptionId",
     )
 
-    response = client.guest_configuration_assignment_reports_vmss.list(
+    response = client.guest_configuration_assignments_vmss.get(
         resource_group_name="myResourceGroupName",
         vmss_name="myVMSSName",
-        name="AuditSecureProtocol",
+        name="SecureProtocol",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listAllVMSSGuestConfigurationAssignmentReports.json
+# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2024-04-05/examples/getVMSSGuestConfigurationAssignment.json
 if __name__ == "__main__":
     main()

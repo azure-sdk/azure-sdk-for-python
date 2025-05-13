@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.guestconfig import GuestConfigurationClient
 
 """
@@ -14,7 +16,7 @@ from azure.mgmt.guestconfig import GuestConfigurationClient
     pip install azure-identity
     pip install azure-mgmt-guestconfig
 # USAGE
-    python get_a_guest_configuration_assignment_report_by_id_for_a_virtual_machine.py
+    python list_all_guest_configuration_assignment_reports.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,15 +31,14 @@ def main():
         subscription_id="mySubscriptionid",
     )
 
-    response = client.guest_configuration_assignment_reports.get(
+    response = client.guest_configuration_assignment_reports.list(
         resource_group_name="myResourceGroupName",
+        vm_name="myVMName",
         guest_configuration_assignment_name="AuditSecureProtocol",
-        report_id="7367cbb8-ae99-47d0-a33b-a283564d2cb1",
-        vm_name="myvm",
     )
     print(response)
 
 
-# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/getGuestConfigurationAssignmentReportById.json
+# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2024-04-05/examples/listAllGuestConfigurationAssignmentReports.json
 if __name__ == "__main__":
     main()

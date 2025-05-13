@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.guestconfig import GuestConfigurationClient
 
 """
@@ -30,9 +32,9 @@ def main():
     )
 
     response = client.guest_configuration_assignments.create_or_update(
-        guest_configuration_assignment_name="NotInstalledApplicationForWindows",
         resource_group_name="myResourceGroupName",
         vm_name="myVMName",
+        guest_configuration_assignment_name="NotInstalledApplicationForWindows",
         parameters={
             "location": "westcentralus",
             "name": "NotInstalledApplicationForWindows",
@@ -44,9 +46,10 @@ def main():
                         {"name": "[InstalledApplication]NotInstalledApplicationResource1;Name", "value": "NotePad,sql"}
                     ],
                     "contentHash": "123contenthash",
+                    "contentManagedIdentity": "test_identity",
                     "contentUri": "https://thisisfake/pacakge",
                     "name": "NotInstalledApplicationForWindows",
-                    "version": "1.*",
+                    "version": "1.0.0.3",
                 },
             },
         },
@@ -54,6 +57,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/createOrUpdateGuestConfigurationAssignment.json
+# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2024-04-05/examples/createOrUpdateGuestConfigurationAssignment.json
 if __name__ == "__main__":
     main()
