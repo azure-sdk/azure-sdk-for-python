@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -43,36 +42,6 @@ class AsyncOperationResult(_serialization.Model):
         super().__init__(**kwargs)
         self.status = status
         self.error = error
-
-
-class CertificateBodyDescription(_serialization.Model):
-    """The JSON-serialized X509 Certificate.
-
-    :ivar certificate: Base-64 representation of the X509 leaf certificate .cer file or just .pem
-     file content.
-    :vartype certificate: str
-    :ivar is_verified: True indicates that the certificate will be created in verified state and
-     proof of possession will not be required.
-    :vartype is_verified: bool
-    """
-
-    _attribute_map = {
-        "certificate": {"key": "certificate", "type": "str"},
-        "is_verified": {"key": "isVerified", "type": "bool"},
-    }
-
-    def __init__(self, *, certificate: Optional[str] = None, is_verified: Optional[bool] = None, **kwargs: Any) -> None:
-        """
-        :keyword certificate: Base-64 representation of the X509 leaf certificate .cer file or just
-         .pem file content.
-        :paramtype certificate: str
-        :keyword is_verified: True indicates that the certificate will be created in verified state and
-         proof of possession will not be required.
-        :paramtype is_verified: bool
-        """
-        super().__init__(**kwargs)
-        self.certificate = certificate
-        self.is_verified = is_verified
 
 
 class CertificateListDescription(_serialization.Model):
@@ -146,49 +115,113 @@ class CertificateProperties(_serialization.Model):
         :paramtype certificate: bytes
         """
         super().__init__(**kwargs)
-        self.subject = None
-        self.expiry = None
-        self.thumbprint = None
+        self.subject: Optional[str] = None
+        self.expiry: Optional[datetime.datetime] = None
+        self.thumbprint: Optional[str] = None
         self.is_verified = is_verified
         self.certificate = certificate
-        self.created = None
-        self.updated = None
+        self.created: Optional[datetime.datetime] = None
+        self.updated: Optional[datetime.datetime] = None
 
 
-class CertificateResponse(_serialization.Model):
-    """The X509 Certificate.
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar properties: properties of a certificate.
-    :vartype properties: ~azure.mgmt.iothubprovisioningservices.models.CertificateProperties
-    :ivar id: The resource identifier.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: The name of the certificate.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar etag: The entity tag.
-    :vartype etag: str
-    :ivar type: The resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.iothubprovisioningservices.models.SystemData
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
-        "etag": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
     }
 
     _attribute_map = {
-        "properties": {"key": "properties", "type": "CertificateProperties"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
-        "etag": {"key": "etag", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
+
+
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.iothubprovisioningservices.models.SystemData
+    """
+
+
+class CertificateResponse(ProxyResource):
+    """The X509 Certificate.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.iothubprovisioningservices.models.SystemData
+    :ivar properties: properties of a certificate.
+    :vartype properties: ~azure.mgmt.iothubprovisioningservices.models.CertificateProperties
+    :ivar etag: The entity tag.
+    :vartype etag: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "etag": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "CertificateProperties"},
+        "etag": {"key": "etag", "type": "str"},
     }
 
     def __init__(self, *, properties: Optional["_models.CertificateProperties"] = None, **kwargs: Any) -> None:
@@ -198,11 +231,79 @@ class CertificateResponse(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.id = None
-        self.name = None
-        self.etag = None
-        self.type = None
-        self.system_data = None
+        self.etag: Optional[str] = None
+
+
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
+
+
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.iothubprovisioningservices.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info:
+     list[~azure.mgmt.iothubprovisioningservices.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorDetails(_serialization.Model):
@@ -237,10 +338,10 @@ class ErrorDetails(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.http_status_code = None
-        self.message = None
-        self.details = None
+        self.code: Optional[int] = None
+        self.http_status_code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.details: Optional[str] = None
 
 
 class ErrorMessage(_serialization.Model):
@@ -277,27 +378,54 @@ class ErrorMessage(_serialization.Model):
         self.details = details
 
 
-class GroupIdInformation(_serialization.Model):
+class ErrorResponse(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.iothubprovisioningservices.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.iothubprovisioningservices.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
+class GroupIdInformation(ProxyResource):
     """The group information for creating a private endpoint on a provisioning service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: The resource identifier.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: The resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.iothubprovisioningservices.models.SystemData
     :ivar properties: The properties for a group information object. Required.
     :vartype properties: ~azure.mgmt.iothubprovisioningservices.models.GroupIdInformationProperties
     """
 
     _validation = {
         "id": {"readonly": True},
-        "name": {"readonly": True, "pattern": r"^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$"},
+        "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "properties": {"required": True},
     }
 
@@ -305,6 +433,7 @@ class GroupIdInformation(_serialization.Model):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "properties": {"key": "properties", "type": "GroupIdInformationProperties"},
     }
 
@@ -315,9 +444,6 @@ class GroupIdInformation(_serialization.Model):
          ~azure.mgmt.iothubprovisioningservices.models.GroupIdInformationProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
         self.properties = properties
 
 
@@ -360,7 +486,7 @@ class GroupIdInformationProperties(_serialization.Model):
         self.required_zone_names = required_zone_names
 
 
-class IotDpsPropertiesDescription(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class IotDpsPropertiesDescription(_serialization.Model):
     """the service specific properties of a provisioning service, including keys, linked iot hubs,
     current state, and system generated properties such as hostname and idScope.
 
@@ -490,9 +616,9 @@ class IotDpsPropertiesDescription(_serialization.Model):  # pylint: disable=too-
         self.provisioning_state = provisioning_state
         self.iot_hubs = iot_hubs
         self.allocation_policy = allocation_policy
-        self.service_operations_host_name = None
-        self.device_provisioning_host_name = None
-        self.id_scope = None
+        self.service_operations_host_name: Optional[str] = None
+        self.device_provisioning_host_name: Optional[str] = None
+        self.id_scope: Optional[str] = None
         self.authorization_policies = authorization_policies
         self.enable_data_residency = enable_data_residency
         self.portal_operations_host_name = portal_operations_host_name
@@ -521,16 +647,16 @@ class IotDpsSkuDefinition(_serialization.Model):
 class IotDpsSkuDefinitionListResult(_serialization.Model):
     """List of available SKUs.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
+    All required parameters must be populated in order to send to server.
 
-    :ivar value: The list of SKUs.
+    :ivar value: The IotDpsSkuDefinition items on this page. Required.
     :vartype value: list[~azure.mgmt.iothubprovisioningservices.models.IotDpsSkuDefinition]
-    :ivar next_link: The next link.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
 
     _validation = {
-        "next_link": {"readonly": True},
+        "value": {"required": True},
     }
 
     _attribute_map = {
@@ -538,14 +664,18 @@ class IotDpsSkuDefinitionListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.IotDpsSkuDefinition"]] = None, **kwargs: Any) -> None:
+    def __init__(
+        self, *, value: List["_models.IotDpsSkuDefinition"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: The list of SKUs.
+        :keyword value: The IotDpsSkuDefinition items on this page. Required.
         :paramtype value: list[~azure.mgmt.iothubprovisioningservices.models.IotDpsSkuDefinition]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link = next_link
 
 
 class IotDpsSkuInfo(_serialization.Model):
@@ -582,7 +712,7 @@ class IotDpsSkuInfo(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.name = name
-        self.tier = None
+        self.tier: Optional[str] = None
         self.capacity = capacity
 
 
@@ -591,7 +721,7 @@ class IotHubDefinitionDescription(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar apply_allocation_policy: flag for applying allocationPolicy or not for a given iot hub.
     :vartype apply_allocation_policy: bool
@@ -599,15 +729,21 @@ class IotHubDefinitionDescription(_serialization.Model):
     :vartype allocation_weight: int
     :ivar name: Host name of the IoT hub.
     :vartype name: str
-    :ivar connection_string: Connection string of the IoT hub. Required.
+    :ivar connection_string: Connection string of the IoT hub.
     :vartype connection_string: str
     :ivar location: ARM region of the IoT hub. Required.
     :vartype location: str
+    :ivar authentication_type: IotHub MI authentication type: KeyBased, UserAssigned,
+     SystemAssigned. Known values are: "KeyBased", "UserAssigned", and "SystemAssigned".
+    :vartype authentication_type: str or
+     ~azure.mgmt.iothubprovisioningservices.models.IotHubAuthenticationType
+    :ivar selected_user_assigned_identity_resource_id: The selected user-assigned identity resource
+     Id associated with IoT Hub. This is required when authenticationType is UserAssigned.
+    :vartype selected_user_assigned_identity_resource_id: str
     """
 
     _validation = {
         "name": {"readonly": True},
-        "connection_string": {"required": True},
         "location": {"required": True},
     }
 
@@ -617,15 +753,19 @@ class IotHubDefinitionDescription(_serialization.Model):
         "name": {"key": "name", "type": "str"},
         "connection_string": {"key": "connectionString", "type": "str"},
         "location": {"key": "location", "type": "str"},
+        "authentication_type": {"key": "authenticationType", "type": "str"},
+        "selected_user_assigned_identity_resource_id": {"key": "selectedUserAssignedIdentityResourceId", "type": "str"},
     }
 
     def __init__(
         self,
         *,
-        connection_string: str,
         location: str,
         apply_allocation_policy: Optional[bool] = None,
         allocation_weight: Optional[int] = None,
+        connection_string: Optional[str] = None,
+        authentication_type: Optional[Union[str, "_models.IotHubAuthenticationType"]] = None,
+        selected_user_assigned_identity_resource_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -634,23 +774,32 @@ class IotHubDefinitionDescription(_serialization.Model):
         :paramtype apply_allocation_policy: bool
         :keyword allocation_weight: weight to apply for a given iot h.
         :paramtype allocation_weight: int
-        :keyword connection_string: Connection string of the IoT hub. Required.
+        :keyword connection_string: Connection string of the IoT hub.
         :paramtype connection_string: str
         :keyword location: ARM region of the IoT hub. Required.
         :paramtype location: str
+        :keyword authentication_type: IotHub MI authentication type: KeyBased, UserAssigned,
+         SystemAssigned. Known values are: "KeyBased", "UserAssigned", and "SystemAssigned".
+        :paramtype authentication_type: str or
+         ~azure.mgmt.iothubprovisioningservices.models.IotHubAuthenticationType
+        :keyword selected_user_assigned_identity_resource_id: The selected user-assigned identity
+         resource Id associated with IoT Hub. This is required when authenticationType is UserAssigned.
+        :paramtype selected_user_assigned_identity_resource_id: str
         """
         super().__init__(**kwargs)
         self.apply_allocation_policy = apply_allocation_policy
         self.allocation_weight = allocation_weight
-        self.name = None
+        self.name: Optional[str] = None
         self.connection_string = connection_string
         self.location = location
+        self.authentication_type = authentication_type
+        self.selected_user_assigned_identity_resource_id = selected_user_assigned_identity_resource_id
 
 
 class IpFilterRule(_serialization.Model):
     """The IP filter rules for a provisioning Service.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar filter_name: The name of the IP filter rule. Required.
     :vartype filter_name: str
@@ -712,7 +861,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -766,8 +915,8 @@ class ManagedServiceIdentity(_serialization.Model):
          ~azure.mgmt.iothubprovisioningservices.models.UserAssignedIdentity]
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
 
@@ -815,13 +964,13 @@ class NameAvailabilityInfo(_serialization.Model):
 
 
 class Operation(_serialization.Model):
-    """Provisioning Service REST API operation.
+    """Represents an operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar name: Operation name: {provider}/{resource}/{read | write | action | delete}.
+    :ivar name: The name of the operation.
     :vartype name: str
-    :ivar display: The object that represents the operation.
+    :ivar display: The display information for the operation.
     :vartype display: ~azure.mgmt.iothubprovisioningservices.models.OperationDisplay
     """
 
@@ -836,16 +985,16 @@ class Operation(_serialization.Model):
 
     def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
-        :keyword display: The object that represents the operation.
+        :keyword display: The display information for the operation.
         :paramtype display: ~azure.mgmt.iothubprovisioningservices.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
+        self.name: Optional[str] = None
         self.display = display
 
 
 class OperationDisplay(_serialization.Model):
-    """The object that represents the operation.
+    """The display information for the operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -872,15 +1021,15 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
 
 
 class OperationInputs(_serialization.Model):
     """Input values for operation results call.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the Provisioning Service to check. Required.
     :vartype name: str
@@ -904,21 +1053,20 @@ class OperationInputs(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """Result of the request to list provisioning service operations. It contains a list of operations
-    and a URL link to get the next set of results.
+    """OperationListResult.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar value: Provisioning service operations supported by the Microsoft.Devices resource
-     provider.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: [Placeholder] Description for value property. Required.
     :vartype value: list[~azure.mgmt.iothubprovisioningservices.models.Operation]
-    :ivar next_link: URL to get the next set of operation list results if there are any.
+    :ivar next_link: [Placeholder] Description for nextLink property.
     :vartype next_link: str
     """
 
     _validation = {
-        "value": {"readonly": True},
-        "next_link": {"readonly": True},
+        "value": {"required": True, "readonly": True},
     }
 
     _attribute_map = {
@@ -926,11 +1074,14 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword next_link: [Placeholder] Description for nextLink property.
+        :paramtype next_link: str
+        """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link = next_link
 
 
 class PrivateEndpoint(_serialization.Model):
@@ -953,43 +1104,46 @@ class PrivateEndpoint(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
-class PrivateEndpointConnection(_serialization.Model):
+class PrivateEndpointConnection(ProxyResource):
     """The private endpoint connection of a provisioning service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: The resource identifier.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: The resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.iothubprovisioningservices.models.SystemData
     :ivar properties: The properties of a private endpoint connection. Required.
     :vartype properties:
      ~azure.mgmt.iothubprovisioningservices.models.PrivateEndpointConnectionProperties
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
-    :vartype system_data: ~azure.mgmt.iothubprovisioningservices.models.SystemData
     """
 
     _validation = {
         "id": {"readonly": True},
-        "name": {"readonly": True, "pattern": r"^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$"},
+        "name": {"readonly": True},
         "type": {"readonly": True},
-        "properties": {"required": True},
         "system_data": {"readonly": True},
+        "properties": {"required": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "properties": {"key": "properties", "type": "PrivateEndpointConnectionProperties"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "PrivateEndpointConnectionProperties"},
     }
 
     def __init__(self, *, properties: "_models.PrivateEndpointConnectionProperties", **kwargs: Any) -> None:
@@ -999,17 +1153,13 @@ class PrivateEndpointConnection(_serialization.Model):
          ~azure.mgmt.iothubprovisioningservices.models.PrivateEndpointConnectionProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
         self.properties = properties
-        self.system_data = None
 
 
 class PrivateEndpointConnectionProperties(_serialization.Model):
     """The properties of a private endpoint connection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar private_endpoint: The private endpoint property of a private endpoint connection.
     :vartype private_endpoint: ~azure.mgmt.iothubprovisioningservices.models.PrivateEndpoint
@@ -1074,7 +1224,7 @@ class PrivateLinkResources(_serialization.Model):
 class PrivateLinkServiceConnectionState(_serialization.Model):
     """The current state of a private endpoint connection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar status: The status of a private endpoint connection. Required. Known values are:
      "Pending", "Approved", "Rejected", and "Disconnected".
@@ -1123,33 +1273,36 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         self.actions_required = actions_required
 
 
-class Resource(_serialization.Model):
-    """The common properties of an Azure resource.
+class TrackedResource(Resource):
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: The resource identifier.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: The resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The resource location. Required.
-    :vartype location: str
-    :ivar resourcegroup: The resource group of the resource.
-    :vartype resourcegroup: str
-    :ivar subscriptionid: The subscription id of the resource.
-    :vartype subscriptionid: str
-    :ivar tags: The resource tags.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.iothubprovisioningservices.models.SystemData
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
     """
 
     _validation = {
         "id": {"readonly": True},
-        "name": {"readonly": True, "pattern": r"^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$"},
+        "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
     }
 
@@ -1157,62 +1310,45 @@ class Resource(_serialization.Model):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "resourcegroup": {"key": "resourcegroup", "type": "str"},
-        "subscriptionid": {"key": "subscriptionid", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(
-        self,
-        *,
-        location: str,
-        resourcegroup: Optional[str] = None,
-        subscriptionid: Optional[str] = None,
-        tags: Optional[Dict[str, str]] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
-        :keyword location: The resource location. Required.
-        :paramtype location: str
-        :keyword resourcegroup: The resource group of the resource.
-        :paramtype resourcegroup: str
-        :keyword subscriptionid: The subscription id of the resource.
-        :paramtype subscriptionid: str
-        :keyword tags: The resource tags.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.location = location
-        self.resourcegroup = resourcegroup
-        self.subscriptionid = subscriptionid
         self.tags = tags
+        self.location = location
 
 
-class ProvisioningServiceDescription(Resource):  # pylint: disable=too-many-instance-attributes
+class ProvisioningServiceDescription(TrackedResource):
     """The description of the provisioning service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: The resource identifier.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: The resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The resource location. Required.
-    :vartype location: str
-    :ivar resourcegroup: The resource group of the resource.
-    :vartype resourcegroup: str
-    :ivar subscriptionid: The subscription id of the resource.
-    :vartype subscriptionid: str
-    :ivar tags: The resource tags.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.iothubprovisioningservices.models.SystemData
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
     :ivar etag: The Etag field is *not* required. If it is provided in the response body, it must
      also be provided as a header per the normal ETag convention.
     :vartype etag: str
@@ -1220,34 +1356,30 @@ class ProvisioningServiceDescription(Resource):  # pylint: disable=too-many-inst
     :vartype properties: ~azure.mgmt.iothubprovisioningservices.models.IotDpsPropertiesDescription
     :ivar sku: Sku info for a provisioning Service. Required.
     :vartype sku: ~azure.mgmt.iothubprovisioningservices.models.IotDpsSkuInfo
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
-    :vartype system_data: ~azure.mgmt.iothubprovisioningservices.models.SystemData
-    :ivar identity: The managed identities for a provisioning service.
+    :ivar identity: The managed service identities assigned to this resource.
     :vartype identity: ~azure.mgmt.iothubprovisioningservices.models.ManagedServiceIdentity
     """
 
     _validation = {
         "id": {"readonly": True},
-        "name": {"readonly": True, "pattern": r"^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$"},
+        "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
         "properties": {"required": True},
         "sku": {"required": True},
-        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "resourcegroup": {"key": "resourcegroup", "type": "str"},
-        "subscriptionid": {"key": "subscriptionid", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
         "etag": {"key": "etag", "type": "str"},
         "properties": {"key": "properties", "type": "IotDpsPropertiesDescription"},
         "sku": {"key": "sku", "type": "IotDpsSkuInfo"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
     }
 
@@ -1257,22 +1389,16 @@ class ProvisioningServiceDescription(Resource):  # pylint: disable=too-many-inst
         location: str,
         properties: "_models.IotDpsPropertiesDescription",
         sku: "_models.IotDpsSkuInfo",
-        resourcegroup: Optional[str] = None,
-        subscriptionid: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         etag: Optional[str] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword location: The resource location. Required.
-        :paramtype location: str
-        :keyword resourcegroup: The resource group of the resource.
-        :paramtype resourcegroup: str
-        :keyword subscriptionid: The subscription id of the resource.
-        :paramtype subscriptionid: str
-        :keyword tags: The resource tags.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword etag: The Etag field is *not* required. If it is provided in the response body, it
          must also be provided as a header per the normal ETag convention.
         :paramtype etag: str
@@ -1281,33 +1407,30 @@ class ProvisioningServiceDescription(Resource):  # pylint: disable=too-many-inst
          ~azure.mgmt.iothubprovisioningservices.models.IotDpsPropertiesDescription
         :keyword sku: Sku info for a provisioning Service. Required.
         :paramtype sku: ~azure.mgmt.iothubprovisioningservices.models.IotDpsSkuInfo
-        :keyword identity: The managed identities for a provisioning service.
+        :keyword identity: The managed service identities assigned to this resource.
         :paramtype identity: ~azure.mgmt.iothubprovisioningservices.models.ManagedServiceIdentity
         """
-        super().__init__(
-            location=location, resourcegroup=resourcegroup, subscriptionid=subscriptionid, tags=tags, **kwargs
-        )
+        super().__init__(tags=tags, location=location, **kwargs)
         self.etag = etag
         self.properties = properties
         self.sku = sku
-        self.system_data = None
         self.identity = identity
 
 
 class ProvisioningServiceDescriptionListResult(_serialization.Model):
-    """List of provisioning service descriptions.
+    """The response of a ProvisioningServiceDescription list operation.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
+    All required parameters must be populated in order to send to server.
 
-    :ivar value: List of provisioning service descriptions.
+    :ivar value: The ProvisioningServiceDescription items on this page. Required.
     :vartype value:
      list[~azure.mgmt.iothubprovisioningservices.models.ProvisioningServiceDescription]
-    :ivar next_link: the next link.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
 
     _validation = {
-        "next_link": {"readonly": True},
+        "value": {"required": True},
     }
 
     _attribute_map = {
@@ -1316,22 +1439,26 @@ class ProvisioningServiceDescriptionListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ProvisioningServiceDescription"]] = None, **kwargs: Any
+        self, *, value: List["_models.ProvisioningServiceDescription"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: List of provisioning service descriptions.
+        :keyword value: The ProvisioningServiceDescription items on this page. Required.
         :paramtype value:
          list[~azure.mgmt.iothubprovisioningservices.models.ProvisioningServiceDescription]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link = next_link
 
 
-class SharedAccessSignatureAuthorizationRuleAccessRightsDescription(_serialization.Model):
+class SharedAccessSignatureAuthorizationRuleAccessRightsDescription(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Description of the shared access key.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_name: Name of the key. Required.
     :vartype key_name: str
@@ -1385,20 +1512,21 @@ class SharedAccessSignatureAuthorizationRuleAccessRightsDescription(_serializati
         self.rights = rights
 
 
-class SharedAccessSignatureAuthorizationRuleListResult(_serialization.Model):
+class SharedAccessSignatureAuthorizationRuleListResult(_serialization.Model):  # pylint: disable=name-too-long
     """List of shared access keys.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
+    All required parameters must be populated in order to send to server.
 
-    :ivar value: The list of shared access policies.
+    :ivar value: The SharedAccessSignatureAuthorizationRuleAccessRightsDescription items on this
+     page. Required.
     :vartype value:
      list[~azure.mgmt.iothubprovisioningservices.models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription]
-    :ivar next_link: The next link.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
 
     _validation = {
-        "next_link": {"readonly": True},
+        "value": {"required": True},
     }
 
     _attribute_map = {
@@ -1409,17 +1537,21 @@ class SharedAccessSignatureAuthorizationRuleListResult(_serialization.Model):
     def __init__(
         self,
         *,
-        value: Optional[List["_models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription"]] = None,
+        value: List["_models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription"],
+        next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword value: The list of shared access policies.
+        :keyword value: The SharedAccessSignatureAuthorizationRuleAccessRightsDescription items on this
+         page. Required.
         :paramtype value:
          list[~azure.mgmt.iothubprovisioningservices.models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link = next_link
 
 
 class SystemData(_serialization.Model):
@@ -1533,8 +1665,8 @@ class UserAssignedIdentity(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.client_id = None
+        self.principal_id: Optional[str] = None
+        self.client_id: Optional[str] = None
 
 
 class VerificationCodeRequest(_serialization.Model):
@@ -1601,10 +1733,10 @@ class VerificationCodeResponse(_serialization.Model):
          ~azure.mgmt.iothubprovisioningservices.models.VerificationCodeResponseProperties
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.etag = None
-        self.id = None
-        self.type = None
+        self.name: Optional[str] = None
+        self.etag: Optional[str] = None
+        self.id: Optional[str] = None
+        self.type: Optional[str] = None
         self.properties = properties
 
 

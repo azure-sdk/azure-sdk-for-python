@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.iothubprovisioningservices import IotDpsClient
 
 """
@@ -31,12 +33,12 @@ def main():
 
     client.dps_certificate.delete(
         resource_group_name="myResourceGroup",
-        if_match="AAAAAAAADGk=",
         provisioning_service_name="myFirstProvisioningService",
         certificate_name="cert",
+        if_match="AAAAAAAADGk=",
     )
 
 
-# x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSDeleteCertificate.json
+# x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2025-02-01-preview/examples/DPSDeleteCertificate.json
 if __name__ == "__main__":
     main()
