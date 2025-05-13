@@ -1,0 +1,221 @@
+# Release History
+
+## 4.0.0 (2025-04-28)
+
+### Features Added
+
+  - Model `APIServerAccessProfile` added property `enable_vnet_integration`
+  - Model `APIServerAccessProfile` added property `subnet_id`
+  - Model `Fleet` added property `properties`
+  - Model `FleetMember` added property `properties`
+  - Model `FleetUpdateStrategy` added property `properties`
+  - Enum `ManagedServiceIdentityType` added member `SYSTEM_AND_USER_ASSIGNED`
+  - Model `NodeImageSelection` added property `custom_node_image_versions`
+  - Enum `NodeImageSelectionType` added member `CUSTOM`
+  - Model `UpdateRun` added property `properties`
+  - Added enum `AutoUpgradeLastTriggerStatus`
+  - Added model `AutoUpgradeNodeImageSelection`
+  - Added enum `AutoUpgradeNodeImageSelectionType`
+  - Added model `AutoUpgradeProfile`
+  - Added model `AutoUpgradeProfileProperties`
+  - Added enum `AutoUpgradeProfileProvisioningState`
+  - Added model `AutoUpgradeProfileStatus`
+  - Added model `FleetMemberProperties`
+  - Added model `FleetMemberStatus`
+  - Added model `FleetMemberUpdateProperties`
+  - Added model `FleetProperties`
+  - Added model `FleetStatus`
+  - Added model `FleetUpdateStrategyProperties`
+  - Added model `GenerateResponse`
+  - Added model `UpdateRunProperties`
+  - Added enum `UpgradeChannel`
+  - Model `FleetMembersOperations` added parameter `etag` in method `begin_create`
+  - Model `FleetMembersOperations` added parameter `match_condition` in method `begin_create`
+  - Model `FleetMembersOperations` added parameter `etag` in method `begin_delete`
+  - Model `FleetMembersOperations` added parameter `match_condition` in method `begin_delete`
+  - Model `FleetMembersOperations` added method `begin_update_async`
+  - Model `FleetUpdateStrategiesOperations` added parameter `etag` in method `begin_create_or_update`
+  - Model `FleetUpdateStrategiesOperations` added parameter `match_condition` in method `begin_create_or_update`
+  - Model `FleetUpdateStrategiesOperations` added parameter `etag` in method `begin_delete`
+  - Model `FleetUpdateStrategiesOperations` added parameter `match_condition` in method `begin_delete`
+  - Model `FleetsOperations` added parameter `etag` in method `begin_delete`
+  - Model `FleetsOperations` added parameter `match_condition` in method `begin_delete`
+  - Model `FleetsOperations` added method `begin_create`
+  - Model `FleetsOperations` added method `begin_update_async`
+  - Model `UpdateRunsOperations` added parameter `etag` in method `begin_create_or_update`
+  - Model `UpdateRunsOperations` added parameter `match_condition` in method `begin_create_or_update`
+  - Model `UpdateRunsOperations` added parameter `etag` in method `begin_delete`
+  - Model `UpdateRunsOperations` added parameter `match_condition` in method `begin_delete`
+  - Model `UpdateRunsOperations` added parameter `etag` in method `begin_skip`
+  - Model `UpdateRunsOperations` added parameter `match_condition` in method `begin_skip`
+  - Model `UpdateRunsOperations` added parameter `etag` in method `begin_start`
+  - Model `UpdateRunsOperations` added parameter `match_condition` in method `begin_start`
+  - Model `UpdateRunsOperations` added parameter `etag` in method `begin_stop`
+  - Model `UpdateRunsOperations` added parameter `match_condition` in method `begin_stop`
+  - Added model `AutoUpgradeProfileOperationsOperations`
+  - Added model `AutoUpgradeProfilesOperations`
+  - Method `APIServerAccessProfile.__init__` has a new overload `def __init__(self: None, enable_private_cluster: Optional[bool], enable_vnet_integration: Optional[bool], subnet_id: Optional[str])`
+  - Method `APIServerAccessProfile.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AgentProfile.__init__` has a new overload `def __init__(self: None, subnet_id: Optional[str], vm_size: Optional[str])`
+  - Method `AgentProfile.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, error: Optional[_models.ErrorDetail])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Fleet.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]], properties: Optional[_models.FleetProperties], identity: Optional[_models.ManagedServiceIdentity])`
+  - Method `Fleet.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Fleet.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `Fleet.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `FleetHubProfile.__init__` has a new overload `def __init__(self: None, dns_prefix: Optional[str], api_server_access_profile: Optional[_models.APIServerAccessProfile], agent_profile: Optional[_models.AgentProfile])`
+  - Method `FleetHubProfile.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `FleetMember.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.FleetMemberProperties])`
+  - Method `FleetMember.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `FleetMemberUpdate.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.FleetMemberUpdateProperties])`
+  - Method `FleetMemberUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `FleetPatch.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]], identity: Optional[_models.ManagedServiceIdentity])`
+  - Method `FleetPatch.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `FleetUpdateStrategy.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.FleetUpdateStrategyProperties])`
+  - Method `FleetUpdateStrategy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ManagedClusterUpdate.__init__` has a new overload `def __init__(self: None, upgrade: _models.ManagedClusterUpgradeSpec, node_image_selection: Optional[_models.NodeImageSelection])`
+  - Method `ManagedClusterUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ManagedClusterUpgradeSpec.__init__` has a new overload `def __init__(self: None, type: Union[str, _models.ManagedClusterUpgradeType], kubernetes_version: Optional[str])`
+  - Method `ManagedClusterUpgradeSpec.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ManagedServiceIdentity.__init__` has a new overload `def __init__(self: None, type: Union[str, _models.ManagedServiceIdentityType], user_assigned_identities: Optional[Dict[str, _models.UserAssignedIdentity]])`
+  - Method `ManagedServiceIdentity.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `NodeImageSelection.__init__` has a new overload `def __init__(self: None, type: Union[str, _models.NodeImageSelectionType], custom_node_image_versions: Optional[List[_models.NodeImageVersion]])`
+  - Method `NodeImageSelection.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, display: Optional[_models.OperationDisplay])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SkipProperties.__init__` has a new overload `def __init__(self: None, targets: List[_models.SkipTarget])`
+  - Method `SkipProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SkipTarget.__init__` has a new overload `def __init__(self: None, type: Union[str, _models.TargetType], name: str)`
+  - Method `SkipTarget.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, created_by: Optional[str], created_by_type: Optional[Union[str, _models.CreatedByType]], created_at: Optional[datetime], last_modified_by: Optional[str], last_modified_by_type: Optional[Union[str, _models.CreatedByType]], last_modified_at: Optional[datetime])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `UpdateGroup.__init__` has a new overload `def __init__(self: None, name: str)`
+  - Method `UpdateGroup.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `UpdateRun.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.UpdateRunProperties])`
+  - Method `UpdateRun.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `UpdateRunStrategy.__init__` has a new overload `def __init__(self: None, stages: List[_models.UpdateStage])`
+  - Method `UpdateRunStrategy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `UpdateStage.__init__` has a new overload `def __init__(self: None, name: str, groups: Optional[List[_models.UpdateGroup]], after_stage_wait_in_seconds: Optional[int])`
+  - Method `UpdateStage.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutoUpgradeNodeImageSelection.__init__` has a new overload `def __init__(self: None, type: Union[str, _models.AutoUpgradeNodeImageSelectionType])`
+  - Method `AutoUpgradeNodeImageSelection.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutoUpgradeProfile.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.AutoUpgradeProfileProperties])`
+  - Method `AutoUpgradeProfile.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutoUpgradeProfileProperties.__init__` has a new overload `def __init__(self: None, channel: Union[str, _models.UpgradeChannel], update_strategy_id: Optional[str], node_image_selection: Optional[_models.AutoUpgradeNodeImageSelection], disabled: Optional[bool], auto_upgrade_profile_status: Optional[_models.AutoUpgradeProfileStatus])`
+  - Method `AutoUpgradeProfileProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `FleetMemberProperties.__init__` has a new overload `def __init__(self: None, cluster_resource_id: str, group: Optional[str])`
+  - Method `FleetMemberProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `FleetMemberUpdateProperties.__init__` has a new overload `def __init__(self: None, group: Optional[str])`
+  - Method `FleetMemberUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `FleetProperties.__init__` has a new overload `def __init__(self: None, hub_profile: Optional[_models.FleetHubProfile])`
+  - Method `FleetProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `FleetUpdateStrategyProperties.__init__` has a new overload `def __init__(self: None, strategy: _models.UpdateRunStrategy)`
+  - Method `FleetUpdateStrategyProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `UpdateRunProperties.__init__` has a new overload `def __init__(self: None, managed_cluster_update: _models.ManagedClusterUpdate, update_strategy_id: Optional[str], strategy: Optional[_models.UpdateRunStrategy])`
+  - Method `UpdateRunProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `FleetMembersOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, fleet_name: str, fleet_member_name: str, resource: FleetMember, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetMembersOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, fleet_name: str, fleet_member_name: str, resource: IO[bytes], content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetMembersOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, fleet_name: str, fleet_member_name: str, resource: JSON, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetMembersOperations.begin_update_async` has a new overload `def begin_update_async(self: None, resource_group_name: str, fleet_name: str, fleet_member_name: str, properties: FleetMemberUpdate, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetMembersOperations.begin_update_async` has a new overload `def begin_update_async(self: None, resource_group_name: str, fleet_name: str, fleet_member_name: str, properties: JSON, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetMembersOperations.begin_update_async` has a new overload `def begin_update_async(self: None, resource_group_name: str, fleet_name: str, fleet_member_name: str, properties: IO[bytes], content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetUpdateStrategiesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, fleet_name: str, update_strategy_name: str, resource: FleetUpdateStrategy, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetUpdateStrategiesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, fleet_name: str, update_strategy_name: str, resource: IO[bytes], content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetUpdateStrategiesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, fleet_name: str, update_strategy_name: str, resource: JSON, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, fleet_name: str, resource: Fleet, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, fleet_name: str, resource: JSON, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, fleet_name: str, resource: IO[bytes], content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetsOperations.begin_update_async` has a new overload `def begin_update_async(self: None, resource_group_name: str, fleet_name: str, properties: FleetPatch, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetsOperations.begin_update_async` has a new overload `def begin_update_async(self: None, resource_group_name: str, fleet_name: str, properties: JSON, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `FleetsOperations.begin_update_async` has a new overload `def begin_update_async(self: None, resource_group_name: str, fleet_name: str, properties: IO[bytes], content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `UpdateRunsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, fleet_name: str, update_run_name: str, resource: UpdateRun, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `UpdateRunsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, fleet_name: str, update_run_name: str, resource: IO[bytes], content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `UpdateRunsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, fleet_name: str, update_run_name: str, resource: JSON, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `UpdateRunsOperations.begin_skip` has a new overload `def begin_skip(self: None, resource_group_name: str, fleet_name: str, update_run_name: str, body: SkipProperties, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `UpdateRunsOperations.begin_skip` has a new overload `def begin_skip(self: None, resource_group_name: str, fleet_name: str, update_run_name: str, body: IO[bytes], content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `UpdateRunsOperations.begin_skip` has a new overload `def begin_skip(self: None, resource_group_name: str, fleet_name: str, update_run_name: str, body: JSON, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `AutoUpgradeProfilesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, fleet_name: str, auto_upgrade_profile_name: str, resource: AutoUpgradeProfile, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `AutoUpgradeProfilesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, fleet_name: str, auto_upgrade_profile_name: str, resource: JSON, content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+  - Method `AutoUpgradeProfilesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, fleet_name: str, auto_upgrade_profile_name: str, resource: IO[bytes], content_type: str, etag: Optional[str], match_condition: Optional[MatchConditions])`
+
+### Breaking Changes
+
+  - Deleted or renamed client `ContainerServiceFleetMgmtClient`
+  - Model `APIServerAccessProfile` deleted or renamed its instance variable `additional_properties`
+  - Model `AgentProfile` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorAdditionalInfo` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorDetail` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `Fleet` deleted or renamed its instance variable `provisioning_state`
+  - Model `Fleet` deleted or renamed its instance variable `hub_profile`
+  - Model `Fleet` deleted or renamed its instance variable `additional_properties`
+  - Model `FleetCredentialResult` deleted or renamed its instance variable `additional_properties`
+  - Model `FleetCredentialResults` deleted or renamed its instance variable `additional_properties`
+  - Model `FleetHubProfile` deleted or renamed its instance variable `additional_properties`
+  - Model `FleetMember` deleted or renamed its instance variable `cluster_resource_id`
+  - Model `FleetMember` deleted or renamed its instance variable `group`
+  - Model `FleetMember` deleted or renamed its instance variable `provisioning_state`
+  - Model `FleetMember` deleted or renamed its instance variable `additional_properties`
+  - Model `FleetMemberUpdate` deleted or renamed its instance variable `group`
+  - Model `FleetMemberUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `FleetPatch` deleted or renamed its instance variable `additional_properties`
+  - Model `FleetUpdateStrategy` deleted or renamed its instance variable `provisioning_state`
+  - Model `FleetUpdateStrategy` deleted or renamed its instance variable `strategy`
+  - Model `FleetUpdateStrategy` deleted or renamed its instance variable `additional_properties`
+  - Model `ManagedClusterUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `ManagedClusterUpgradeSpec` deleted or renamed its instance variable `additional_properties`
+  - Model `ManagedServiceIdentity` deleted or renamed its instance variable `additional_properties`
+  - Deleted or renamed enum value `ManagedServiceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED`
+  - Model `MemberUpdateStatus` deleted or renamed its instance variable `additional_properties`
+  - Model `NodeImageSelection` deleted or renamed its instance variable `additional_properties`
+  - Model `NodeImageSelectionStatus` deleted or renamed its instance variable `additional_properties`
+  - Model `NodeImageVersion` deleted or renamed its instance variable `additional_properties`
+  - Model `Operation` deleted or renamed its instance variable `additional_properties`
+  - Model `OperationDisplay` deleted or renamed its instance variable `additional_properties`
+  - Model `ProxyResource` deleted or renamed its instance variable `additional_properties`
+  - Model `Resource` deleted or renamed its instance variable `additional_properties`
+  - Model `SkipProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `SkipTarget` deleted or renamed its instance variable `additional_properties`
+  - Model `SystemData` deleted or renamed its instance variable `additional_properties`
+  - Model `TrackedResource` deleted or renamed its instance variable `additional_properties`
+  - Model `UpdateGroup` deleted or renamed its instance variable `additional_properties`
+  - Model `UpdateGroupStatus` deleted or renamed its instance variable `additional_properties`
+  - Model `UpdateRun` deleted or renamed its instance variable `provisioning_state`
+  - Model `UpdateRun` deleted or renamed its instance variable `update_strategy_id`
+  - Model `UpdateRun` deleted or renamed its instance variable `strategy`
+  - Model `UpdateRun` deleted or renamed its instance variable `managed_cluster_update`
+  - Model `UpdateRun` deleted or renamed its instance variable `status`
+  - Model `UpdateRun` deleted or renamed its instance variable `additional_properties`
+  - Model `UpdateRunStatus` deleted or renamed its instance variable `additional_properties`
+  - Model `UpdateRunStrategy` deleted or renamed its instance variable `additional_properties`
+  - Model `UpdateStage` deleted or renamed its instance variable `additional_properties`
+  - Model `UpdateStageStatus` deleted or renamed its instance variable `additional_properties`
+  - Model `UpdateStatus` deleted or renamed its instance variable `additional_properties`
+  - Model `UserAssignedIdentity` deleted or renamed its instance variable `additional_properties`
+  - Model `WaitStatus` deleted or renamed its instance variable `additional_properties`
+  - Method `FleetMembersOperations.begin_create` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
+  - Method `FleetMembersOperations.begin_create` deleted or renamed its parameter `if_none_match` of kind `positional_or_keyword`
+  - Method `FleetMembersOperations.begin_delete` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
+  - Deleted or renamed method `FleetMembersOperations.begin_update`
+  - Method `FleetUpdateStrategiesOperations.begin_create_or_update` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
+  - Method `FleetUpdateStrategiesOperations.begin_create_or_update` deleted or renamed its parameter `if_none_match` of kind `positional_or_keyword`
+  - Method `FleetUpdateStrategiesOperations.begin_delete` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
+  - Method `FleetsOperations.begin_delete` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
+  - Deleted or renamed method `FleetsOperations.begin_create_or_update`
+  - Deleted or renamed method `FleetsOperations.begin_update`
+  - Method `UpdateRunsOperations.begin_create_or_update` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
+  - Method `UpdateRunsOperations.begin_create_or_update` deleted or renamed its parameter `if_none_match` of kind `positional_or_keyword`
+  - Method `UpdateRunsOperations.begin_delete` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
+  - Method `UpdateRunsOperations.begin_skip` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
+  - Method `UpdateRunsOperations.begin_start` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
+  - Method `UpdateRunsOperations.begin_stop` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
+  - Method `FleetUpdateStrategiesOperations.begin_create_or_update` re-ordered its parameters from `['self', 'resource_group_name', 'fleet_name', 'update_strategy_name', 'resource', 'if_match', 'if_none_match', 'kwargs']` to `['self', 'resource_group_name', 'fleet_name', 'update_strategy_name', 'resource', 'etag', 'match_condition', 'kwargs']`
+  - Method `FleetMembersOperations.begin_create` re-ordered its parameters from `['self', 'resource_group_name', 'fleet_name', 'fleet_member_name', 'resource', 'if_match', 'if_none_match', 'kwargs']` to `['self', 'resource_group_name', 'fleet_name', 'fleet_member_name', 'resource', 'etag', 'match_condition', 'kwargs']`
+  - Method `UpdateRunsOperations.begin_create_or_update` re-ordered its parameters from `['self', 'resource_group_name', 'fleet_name', 'update_run_name', 'resource', 'if_match', 'if_none_match', 'kwargs']` to `['self', 'resource_group_name', 'fleet_name', 'update_run_name', 'resource', 'etag', 'match_condition', 'kwargs']`
+
+## 1.0.0b1 (1970-01-01)
+
+- Initial version
