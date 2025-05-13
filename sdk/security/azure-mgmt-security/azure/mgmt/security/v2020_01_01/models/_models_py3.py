@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -63,7 +62,7 @@ class Location(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.location = None
+        self.location: Optional[str] = None
 
 
 class ExternalSecuritySolutionKind(_serialization.Model):
@@ -117,9 +116,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class ExternalSecuritySolution(Resource, ExternalSecuritySolutionKind, Location):
@@ -164,11 +163,11 @@ class ExternalSecuritySolution(Resource, ExternalSecuritySolutionKind, Location)
          ~azure.mgmt.security.v2020_01_01.models.ExternalSecuritySolutionKindEnum
         """
         super().__init__(kind=kind, **kwargs)
-        self.location = None
+        self.location: Optional[str] = None
         self.kind = kind
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class AadExternalSecuritySolution(ExternalSecuritySolution):
@@ -338,301 +337,6 @@ class AadSolutionProperties(ExternalSecuritySolutionProperties, AadConnectivityS
         self.workspace = workspace
 
 
-class AdaptiveApplicationControlGroup(Resource, Location):  # pylint: disable=too-many-instance-attributes
-    """AdaptiveApplicationControlGroup.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar location: Location where the resource is stored.
-    :vartype location: str
-    :ivar id: Resource Id.
-    :vartype id: str
-    :ivar name: Resource name.
-    :vartype name: str
-    :ivar type: Resource type.
-    :vartype type: str
-    :ivar enforcement_mode: The application control policy enforcement/protection mode of the
-     machine group. Known values are: "Audit", "Enforce", and "None".
-    :vartype enforcement_mode: str or ~azure.mgmt.security.v2020_01_01.models.EnforcementMode
-    :ivar protection_mode: The protection mode of the collection/file types. Exe/Msi/Script are
-     used for Windows, Executable is used for Linux.
-    :vartype protection_mode: ~azure.mgmt.security.v2020_01_01.models.ProtectionMode
-    :ivar configuration_status: The configuration status of the machines group or machine or rule.
-     Known values are: "Configured", "NotConfigured", "InProgress", "Failed", and "NoStatus".
-    :vartype configuration_status: str or
-     ~azure.mgmt.security.v2020_01_01.models.ConfigurationStatus
-    :ivar recommendation_status: The initial recommendation status of the machine group or machine.
-     Known values are: "Recommended", "NotRecommended", "NotAvailable", and "NoStatus".
-    :vartype recommendation_status: str or
-     ~azure.mgmt.security.v2020_01_01.models.RecommendationStatus
-    :ivar issues:
-    :vartype issues:
-     list[~azure.mgmt.security.v2020_01_01.models.AdaptiveApplicationControlIssueSummary]
-    :ivar source_system: The source type of the machine group. Known values are: "Azure_AppLocker",
-     "Azure_AuditD", "NonAzure_AppLocker", "NonAzure_AuditD", and "None".
-    :vartype source_system: str or ~azure.mgmt.security.v2020_01_01.models.SourceSystem
-    :ivar vm_recommendations:
-    :vartype vm_recommendations: list[~azure.mgmt.security.v2020_01_01.models.VmRecommendation]
-    :ivar path_recommendations:
-    :vartype path_recommendations: list[~azure.mgmt.security.v2020_01_01.models.PathRecommendation]
-    """
-
-    _validation = {
-        "location": {"readonly": True},
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "configuration_status": {"readonly": True},
-        "recommendation_status": {"readonly": True},
-        "issues": {"readonly": True},
-        "source_system": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "location": {"key": "location", "type": "str"},
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "enforcement_mode": {"key": "properties.enforcementMode", "type": "str"},
-        "protection_mode": {"key": "properties.protectionMode", "type": "ProtectionMode"},
-        "configuration_status": {"key": "properties.configurationStatus", "type": "str"},
-        "recommendation_status": {"key": "properties.recommendationStatus", "type": "str"},
-        "issues": {"key": "properties.issues", "type": "[AdaptiveApplicationControlIssueSummary]"},
-        "source_system": {"key": "properties.sourceSystem", "type": "str"},
-        "vm_recommendations": {"key": "properties.vmRecommendations", "type": "[VmRecommendation]"},
-        "path_recommendations": {"key": "properties.pathRecommendations", "type": "[PathRecommendation]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        enforcement_mode: Optional[Union[str, "_models.EnforcementMode"]] = None,
-        protection_mode: Optional["_models.ProtectionMode"] = None,
-        vm_recommendations: Optional[List["_models.VmRecommendation"]] = None,
-        path_recommendations: Optional[List["_models.PathRecommendation"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword enforcement_mode: The application control policy enforcement/protection mode of the
-         machine group. Known values are: "Audit", "Enforce", and "None".
-        :paramtype enforcement_mode: str or ~azure.mgmt.security.v2020_01_01.models.EnforcementMode
-        :keyword protection_mode: The protection mode of the collection/file types. Exe/Msi/Script are
-         used for Windows, Executable is used for Linux.
-        :paramtype protection_mode: ~azure.mgmt.security.v2020_01_01.models.ProtectionMode
-        :keyword vm_recommendations:
-        :paramtype vm_recommendations: list[~azure.mgmt.security.v2020_01_01.models.VmRecommendation]
-        :keyword path_recommendations:
-        :paramtype path_recommendations:
-         list[~azure.mgmt.security.v2020_01_01.models.PathRecommendation]
-        """
-        super().__init__(**kwargs)
-        self.location = None
-        self.enforcement_mode = enforcement_mode
-        self.protection_mode = protection_mode
-        self.configuration_status = None
-        self.recommendation_status = None
-        self.issues = None
-        self.source_system = None
-        self.vm_recommendations = vm_recommendations
-        self.path_recommendations = path_recommendations
-        self.id = None
-        self.name = None
-        self.type = None
-
-
-class AdaptiveApplicationControlGroups(_serialization.Model):
-    """Represents a list of VM/server groups and set of rules that are Recommended by Microsoft
-    Defender for Cloud to be allowed.
-
-    :ivar value:
-    :vartype value: list[~azure.mgmt.security.v2020_01_01.models.AdaptiveApplicationControlGroup]
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[AdaptiveApplicationControlGroup]"},
-    }
-
-    def __init__(
-        self, *, value: Optional[List["_models.AdaptiveApplicationControlGroup"]] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword value:
-        :paramtype value: list[~azure.mgmt.security.v2020_01_01.models.AdaptiveApplicationControlGroup]
-        """
-        super().__init__(**kwargs)
-        self.value = value
-
-
-class AdaptiveApplicationControlIssueSummary(_serialization.Model):
-    """Represents a summary of the alerts of the machine group.
-
-    :ivar issue: An alert that machines within a group can have. Known values are:
-     "ViolationsAudited", "ViolationsBlocked", "MsiAndScriptViolationsAudited",
-     "MsiAndScriptViolationsBlocked", "ExecutableViolationsAudited", and "RulesViolatedManually".
-    :vartype issue: str or ~azure.mgmt.security.v2020_01_01.models.AdaptiveApplicationControlIssue
-    :ivar number_of_vms: The number of machines in the group that have this alert.
-    :vartype number_of_vms: float
-    """
-
-    _attribute_map = {
-        "issue": {"key": "issue", "type": "str"},
-        "number_of_vms": {"key": "numberOfVms", "type": "float"},
-    }
-
-    def __init__(
-        self,
-        *,
-        issue: Optional[Union[str, "_models.AdaptiveApplicationControlIssue"]] = None,
-        number_of_vms: Optional[float] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword issue: An alert that machines within a group can have. Known values are:
-         "ViolationsAudited", "ViolationsBlocked", "MsiAndScriptViolationsAudited",
-         "MsiAndScriptViolationsBlocked", "ExecutableViolationsAudited", and "RulesViolatedManually".
-        :paramtype issue: str or
-         ~azure.mgmt.security.v2020_01_01.models.AdaptiveApplicationControlIssue
-        :keyword number_of_vms: The number of machines in the group that have this alert.
-        :paramtype number_of_vms: float
-        """
-        super().__init__(**kwargs)
-        self.issue = issue
-        self.number_of_vms = number_of_vms
-
-
-class AdaptiveNetworkHardening(Resource):
-    """The resource whose properties describes the Adaptive Network Hardening settings for some Azure
-    resource.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Resource Id.
-    :vartype id: str
-    :ivar name: Resource name.
-    :vartype name: str
-    :ivar type: Resource type.
-    :vartype type: str
-    :ivar rules: The security rules which are recommended to be effective on the VM.
-    :vartype rules: list[~azure.mgmt.security.v2020_01_01.models.Rule]
-    :ivar rules_calculation_time: The UTC time on which the rules were calculated.
-    :vartype rules_calculation_time: ~datetime.datetime
-    :ivar effective_network_security_groups: The Network Security Groups effective on the network
-     interfaces of the protected resource.
-    :vartype effective_network_security_groups:
-     list[~azure.mgmt.security.v2020_01_01.models.EffectiveNetworkSecurityGroups]
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "rules": {"key": "properties.rules", "type": "[Rule]"},
-        "rules_calculation_time": {"key": "properties.rulesCalculationTime", "type": "iso-8601"},
-        "effective_network_security_groups": {
-            "key": "properties.effectiveNetworkSecurityGroups",
-            "type": "[EffectiveNetworkSecurityGroups]",
-        },
-    }
-
-    def __init__(
-        self,
-        *,
-        rules: Optional[List["_models.Rule"]] = None,
-        rules_calculation_time: Optional[datetime.datetime] = None,
-        effective_network_security_groups: Optional[List["_models.EffectiveNetworkSecurityGroups"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword rules: The security rules which are recommended to be effective on the VM.
-        :paramtype rules: list[~azure.mgmt.security.v2020_01_01.models.Rule]
-        :keyword rules_calculation_time: The UTC time on which the rules were calculated.
-        :paramtype rules_calculation_time: ~datetime.datetime
-        :keyword effective_network_security_groups: The Network Security Groups effective on the
-         network interfaces of the protected resource.
-        :paramtype effective_network_security_groups:
-         list[~azure.mgmt.security.v2020_01_01.models.EffectiveNetworkSecurityGroups]
-        """
-        super().__init__(**kwargs)
-        self.rules = rules
-        self.rules_calculation_time = rules_calculation_time
-        self.effective_network_security_groups = effective_network_security_groups
-
-
-class AdaptiveNetworkHardeningEnforceRequest(_serialization.Model):
-    """AdaptiveNetworkHardeningEnforceRequest.
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar rules: The rules to enforce. Required.
-    :vartype rules: list[~azure.mgmt.security.v2020_01_01.models.Rule]
-    :ivar network_security_groups: The Azure resource IDs of the effective network security groups
-     that will be updated with the created security rules from the Adaptive Network Hardening rules.
-     Required.
-    :vartype network_security_groups: list[str]
-    """
-
-    _validation = {
-        "rules": {"required": True},
-        "network_security_groups": {"required": True},
-    }
-
-    _attribute_map = {
-        "rules": {"key": "rules", "type": "[Rule]"},
-        "network_security_groups": {"key": "networkSecurityGroups", "type": "[str]"},
-    }
-
-    def __init__(self, *, rules: List["_models.Rule"], network_security_groups: List[str], **kwargs: Any) -> None:
-        """
-        :keyword rules: The rules to enforce. Required.
-        :paramtype rules: list[~azure.mgmt.security.v2020_01_01.models.Rule]
-        :keyword network_security_groups: The Azure resource IDs of the effective network security
-         groups that will be updated with the created security rules from the Adaptive Network Hardening
-         rules. Required.
-        :paramtype network_security_groups: list[str]
-        """
-        super().__init__(**kwargs)
-        self.rules = rules
-        self.network_security_groups = network_security_groups
-
-
-class AdaptiveNetworkHardeningsList(_serialization.Model):
-    """Response for ListAdaptiveNetworkHardenings API service call.
-
-    :ivar value: A list of Adaptive Network Hardenings resources.
-    :vartype value: list[~azure.mgmt.security.v2020_01_01.models.AdaptiveNetworkHardening]
-    :ivar next_link: The URL to get the next set of results.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[AdaptiveNetworkHardening]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.AdaptiveNetworkHardening"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: A list of Adaptive Network Hardenings resources.
-        :paramtype value: list[~azure.mgmt.security.v2020_01_01.models.AdaptiveNetworkHardening]
-        :keyword next_link: The URL to get the next set of results.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
 class AllowedConnectionsList(_serialization.Model):
     """List of all possible traffic between Azure resources.
 
@@ -657,8 +361,8 @@ class AllowedConnectionsList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.AllowedConnectionsResource"]] = None
+        self.next_link: Optional[str] = None
 
 
 class AllowedConnectionsResource(Resource, Location):
@@ -703,12 +407,12 @@ class AllowedConnectionsResource(Resource, Location):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.location = None
-        self.calculated_date_time = None
-        self.connectable_resources = None
-        self.id = None
-        self.name = None
-        self.type = None
+        self.location: Optional[str] = None
+        self.calculated_date_time: Optional[datetime.datetime] = None
+        self.connectable_resources: Optional[List["_models.ConnectableResource"]] = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class AssessmentLinks(_serialization.Model):
@@ -731,7 +435,7 @@ class AssessmentLinks(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.azure_portal_uri = None
+        self.azure_portal_uri: Optional[str] = None
 
 
 class AssessmentStatus(_serialization.Model):
@@ -948,7 +652,7 @@ class AzureResourceDetails(ResourceDetails):
         """ """
         super().__init__(**kwargs)
         self.source: str = "Azure"
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class AzureResourceLink(_serialization.Model):
@@ -971,7 +675,7 @@ class AzureResourceLink(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class CefExternalSecuritySolution(ExternalSecuritySolution):
@@ -1134,11 +838,11 @@ class CloudErrorBody(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.CloudErrorBody"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ConnectableResource(_serialization.Model):
@@ -1173,9 +877,9 @@ class ConnectableResource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.inbound_connected_resources = None
-        self.outbound_connected_resources = None
+        self.id: Optional[str] = None
+        self.inbound_connected_resources: Optional[List["_models.ConnectedResource"]] = None
+        self.outbound_connected_resources: Optional[List["_models.ConnectedResource"]] = None
 
 
 class ConnectedResource(_serialization.Model):
@@ -1206,9 +910,9 @@ class ConnectedResource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.connected_resource_id = None
-        self.tcp_ports = None
-        self.udp_ports = None
+        self.connected_resource_id: Optional[str] = None
+        self.tcp_ports: Optional[str] = None
+        self.udp_ports: Optional[str] = None
 
 
 class ConnectedWorkspace(_serialization.Model):
@@ -1300,14 +1004,14 @@ class DiscoveredSecuritySolution(Resource, Location):
         :paramtype sku: str
         """
         super().__init__(**kwargs)
-        self.location = None
+        self.location: Optional[str] = None
         self.security_family = security_family
         self.offer = offer
         self.publisher = publisher
         self.sku = sku
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class DiscoveredSecuritySolutionList(_serialization.Model):
@@ -1337,40 +1041,7 @@ class DiscoveredSecuritySolutionList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
-
-
-class EffectiveNetworkSecurityGroups(_serialization.Model):
-    """Describes the Network Security Groups effective on a network interface.
-
-    :ivar network_interface: The Azure resource ID of the network interface.
-    :vartype network_interface: str
-    :ivar network_security_groups: The Network Security Groups effective on the network interface.
-    :vartype network_security_groups: list[str]
-    """
-
-    _attribute_map = {
-        "network_interface": {"key": "networkInterface", "type": "str"},
-        "network_security_groups": {"key": "networkSecurityGroups", "type": "[str]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        network_interface: Optional[str] = None,
-        network_security_groups: Optional[List[str]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword network_interface: The Azure resource ID of the network interface.
-        :paramtype network_interface: str
-        :keyword network_security_groups: The Network Security Groups effective on the network
-         interface.
-        :paramtype network_security_groups: list[str]
-        """
-        super().__init__(**kwargs)
-        self.network_interface = network_interface
-        self.network_security_groups = network_security_groups
+        self.next_link: Optional[str] = None
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -1397,8 +1068,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ExternalSecuritySolutionList(_serialization.Model):
@@ -1428,7 +1099,7 @@ class ExternalSecuritySolutionList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class JitNetworkAccessPoliciesList(_serialization.Model):
@@ -1458,7 +1129,7 @@ class JitNetworkAccessPoliciesList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class Kind(_serialization.Model):
@@ -1547,14 +1218,14 @@ class JitNetworkAccessPolicy(Resource, Kind, Location):
         :paramtype requests: list[~azure.mgmt.security.v2020_01_01.models.JitNetworkAccessRequest]
         """
         super().__init__(kind=kind, **kwargs)
-        self.location = None
+        self.location: Optional[str] = None
         self.kind = kind
         self.virtual_machines = virtual_machines
         self.requests = requests
-        self.provisioning_state = None
-        self.id = None
-        self.name = None
-        self.type = None
+        self.provisioning_state: Optional[str] = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class JitNetworkAccessPolicyInitiatePort(_serialization.Model):
@@ -2121,261 +1792,6 @@ class OnPremiseSqlResourceDetails(OnPremiseResourceDetails):
         self.database_name = database_name
 
 
-class PathRecommendation(_serialization.Model):
-    """Represents a path that is recommended to be allowed and its properties.
-
-    :ivar path: The full path of the file, or an identifier of the application.
-    :vartype path: str
-    :ivar action: The recommendation action of the machine or rule. Known values are:
-     "Recommended", "Add", and "Remove".
-    :vartype action: str or ~azure.mgmt.security.v2020_01_01.models.RecommendationAction
-    :ivar type: The type of the rule to be allowed. Known values are: "File", "FileHash",
-     "PublisherSignature", "ProductSignature", "BinarySignature", and "VersionAndAboveSignature".
-    :vartype type: str or ~azure.mgmt.security.v2020_01_01.models.RecommendationType
-    :ivar publisher_info: Represents the publisher information of a process/rule.
-    :vartype publisher_info: ~azure.mgmt.security.v2020_01_01.models.PublisherInfo
-    :ivar common: Whether the application is commonly run on the machine.
-    :vartype common: bool
-    :ivar user_sids:
-    :vartype user_sids: list[str]
-    :ivar usernames:
-    :vartype usernames: list[~azure.mgmt.security.v2020_01_01.models.UserRecommendation]
-    :ivar file_type: The type of the file (for Linux files - Executable is used). Known values are:
-     "Exe", "Dll", "Msi", "Script", "Executable", and "Unknown".
-    :vartype file_type: str or ~azure.mgmt.security.v2020_01_01.models.FileType
-    :ivar configuration_status: The configuration status of the machines group or machine or rule.
-     Known values are: "Configured", "NotConfigured", "InProgress", "Failed", and "NoStatus".
-    :vartype configuration_status: str or
-     ~azure.mgmt.security.v2020_01_01.models.ConfigurationStatus
-    """
-
-    _attribute_map = {
-        "path": {"key": "path", "type": "str"},
-        "action": {"key": "action", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "publisher_info": {"key": "publisherInfo", "type": "PublisherInfo"},
-        "common": {"key": "common", "type": "bool"},
-        "user_sids": {"key": "userSids", "type": "[str]"},
-        "usernames": {"key": "usernames", "type": "[UserRecommendation]"},
-        "file_type": {"key": "fileType", "type": "str"},
-        "configuration_status": {"key": "configurationStatus", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        path: Optional[str] = None,
-        action: Optional[Union[str, "_models.RecommendationAction"]] = None,
-        type: Optional[Union[str, "_models.RecommendationType"]] = None,
-        publisher_info: Optional["_models.PublisherInfo"] = None,
-        common: Optional[bool] = None,
-        user_sids: Optional[List[str]] = None,
-        usernames: Optional[List["_models.UserRecommendation"]] = None,
-        file_type: Optional[Union[str, "_models.FileType"]] = None,
-        configuration_status: Optional[Union[str, "_models.ConfigurationStatus"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword path: The full path of the file, or an identifier of the application.
-        :paramtype path: str
-        :keyword action: The recommendation action of the machine or rule. Known values are:
-         "Recommended", "Add", and "Remove".
-        :paramtype action: str or ~azure.mgmt.security.v2020_01_01.models.RecommendationAction
-        :keyword type: The type of the rule to be allowed. Known values are: "File", "FileHash",
-         "PublisherSignature", "ProductSignature", "BinarySignature", and "VersionAndAboveSignature".
-        :paramtype type: str or ~azure.mgmt.security.v2020_01_01.models.RecommendationType
-        :keyword publisher_info: Represents the publisher information of a process/rule.
-        :paramtype publisher_info: ~azure.mgmt.security.v2020_01_01.models.PublisherInfo
-        :keyword common: Whether the application is commonly run on the machine.
-        :paramtype common: bool
-        :keyword user_sids:
-        :paramtype user_sids: list[str]
-        :keyword usernames:
-        :paramtype usernames: list[~azure.mgmt.security.v2020_01_01.models.UserRecommendation]
-        :keyword file_type: The type of the file (for Linux files - Executable is used). Known values
-         are: "Exe", "Dll", "Msi", "Script", "Executable", and "Unknown".
-        :paramtype file_type: str or ~azure.mgmt.security.v2020_01_01.models.FileType
-        :keyword configuration_status: The configuration status of the machines group or machine or
-         rule. Known values are: "Configured", "NotConfigured", "InProgress", "Failed", and "NoStatus".
-        :paramtype configuration_status: str or
-         ~azure.mgmt.security.v2020_01_01.models.ConfigurationStatus
-        """
-        super().__init__(**kwargs)
-        self.path = path
-        self.action = action
-        self.type = type
-        self.publisher_info = publisher_info
-        self.common = common
-        self.user_sids = user_sids
-        self.usernames = usernames
-        self.file_type = file_type
-        self.configuration_status = configuration_status
-
-
-class ProtectionMode(_serialization.Model):
-    """The protection mode of the collection/file types. Exe/Msi/Script are used for Windows,
-    Executable is used for Linux.
-
-    :ivar exe: The application control policy enforcement/protection mode of the machine group.
-     Known values are: "Audit", "Enforce", and "None".
-    :vartype exe: str or ~azure.mgmt.security.v2020_01_01.models.EnforcementMode
-    :ivar msi: The application control policy enforcement/protection mode of the machine group.
-     Known values are: "Audit", "Enforce", and "None".
-    :vartype msi: str or ~azure.mgmt.security.v2020_01_01.models.EnforcementMode
-    :ivar script: The application control policy enforcement/protection mode of the machine group.
-     Known values are: "Audit", "Enforce", and "None".
-    :vartype script: str or ~azure.mgmt.security.v2020_01_01.models.EnforcementMode
-    :ivar executable: The application control policy enforcement/protection mode of the machine
-     group. Known values are: "Audit", "Enforce", and "None".
-    :vartype executable: str or ~azure.mgmt.security.v2020_01_01.models.EnforcementMode
-    """
-
-    _attribute_map = {
-        "exe": {"key": "exe", "type": "str"},
-        "msi": {"key": "msi", "type": "str"},
-        "script": {"key": "script", "type": "str"},
-        "executable": {"key": "executable", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        exe: Optional[Union[str, "_models.EnforcementMode"]] = None,
-        msi: Optional[Union[str, "_models.EnforcementMode"]] = None,
-        script: Optional[Union[str, "_models.EnforcementMode"]] = None,
-        executable: Optional[Union[str, "_models.EnforcementMode"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword exe: The application control policy enforcement/protection mode of the machine group.
-         Known values are: "Audit", "Enforce", and "None".
-        :paramtype exe: str or ~azure.mgmt.security.v2020_01_01.models.EnforcementMode
-        :keyword msi: The application control policy enforcement/protection mode of the machine group.
-         Known values are: "Audit", "Enforce", and "None".
-        :paramtype msi: str or ~azure.mgmt.security.v2020_01_01.models.EnforcementMode
-        :keyword script: The application control policy enforcement/protection mode of the machine
-         group. Known values are: "Audit", "Enforce", and "None".
-        :paramtype script: str or ~azure.mgmt.security.v2020_01_01.models.EnforcementMode
-        :keyword executable: The application control policy enforcement/protection mode of the machine
-         group. Known values are: "Audit", "Enforce", and "None".
-        :paramtype executable: str or ~azure.mgmt.security.v2020_01_01.models.EnforcementMode
-        """
-        super().__init__(**kwargs)
-        self.exe = exe
-        self.msi = msi
-        self.script = script
-        self.executable = executable
-
-
-class PublisherInfo(_serialization.Model):
-    """Represents the publisher information of a process/rule.
-
-    :ivar publisher_name: The Subject field of the x.509 certificate used to sign the code, using
-     the following fields -  O = Organization, L = Locality, S = State or Province, and C = Country.
-    :vartype publisher_name: str
-    :ivar product_name: The product name taken from the file's version resource.
-    :vartype product_name: str
-    :ivar binary_name: The "OriginalName" field taken from the file's version resource.
-    :vartype binary_name: str
-    :ivar version: The binary file version taken from the file's version resource.
-    :vartype version: str
-    """
-
-    _attribute_map = {
-        "publisher_name": {"key": "publisherName", "type": "str"},
-        "product_name": {"key": "productName", "type": "str"},
-        "binary_name": {"key": "binaryName", "type": "str"},
-        "version": {"key": "version", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        publisher_name: Optional[str] = None,
-        product_name: Optional[str] = None,
-        binary_name: Optional[str] = None,
-        version: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword publisher_name: The Subject field of the x.509 certificate used to sign the code,
-         using the following fields -  O = Organization, L = Locality, S = State or Province, and C =
-         Country.
-        :paramtype publisher_name: str
-        :keyword product_name: The product name taken from the file's version resource.
-        :paramtype product_name: str
-        :keyword binary_name: The "OriginalName" field taken from the file's version resource.
-        :paramtype binary_name: str
-        :keyword version: The binary file version taken from the file's version resource.
-        :paramtype version: str
-        """
-        super().__init__(**kwargs)
-        self.publisher_name = publisher_name
-        self.product_name = product_name
-        self.binary_name = binary_name
-        self.version = version
-
-
-class Rule(_serialization.Model):
-    """Describes remote addresses that is recommended to communicate with the Azure resource on some
-    (Protocol, Port, Direction). All other remote addresses are recommended to be blocked.
-
-    :ivar name: The name of the rule.
-    :vartype name: str
-    :ivar direction: The rule's direction. Known values are: "Inbound" and "Outbound".
-    :vartype direction: str or ~azure.mgmt.security.v2020_01_01.models.Direction
-    :ivar destination_port: The rule's destination port.
-    :vartype destination_port: int
-    :ivar protocols: The rule's transport protocols.
-    :vartype protocols: list[str or ~azure.mgmt.security.v2020_01_01.models.TransportProtocol]
-    :ivar ip_addresses: The remote IP addresses that should be able to communicate with the Azure
-     resource on the rule's destination port and protocol.
-    :vartype ip_addresses: list[str]
-    """
-
-    _validation = {
-        "destination_port": {"maximum": 65535, "minimum": 0},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "direction": {"key": "direction", "type": "str"},
-        "destination_port": {"key": "destinationPort", "type": "int"},
-        "protocols": {"key": "protocols", "type": "[str]"},
-        "ip_addresses": {"key": "ipAddresses", "type": "[str]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        direction: Optional[Union[str, "_models.Direction"]] = None,
-        destination_port: Optional[int] = None,
-        protocols: Optional[List[Union[str, "_models.TransportProtocol"]]] = None,
-        ip_addresses: Optional[List[str]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword name: The name of the rule.
-        :paramtype name: str
-        :keyword direction: The rule's direction. Known values are: "Inbound" and "Outbound".
-        :paramtype direction: str or ~azure.mgmt.security.v2020_01_01.models.Direction
-        :keyword destination_port: The rule's destination port.
-        :paramtype destination_port: int
-        :keyword protocols: The rule's transport protocols.
-        :paramtype protocols: list[str or ~azure.mgmt.security.v2020_01_01.models.TransportProtocol]
-        :keyword ip_addresses: The remote IP addresses that should be able to communicate with the
-         Azure resource on the rule's destination port and protocol.
-        :paramtype ip_addresses: list[str]
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.direction = direction
-        self.destination_port = destination_port
-        self.protocols = protocols
-        self.ip_addresses = ip_addresses
-
-
 class SecureScoreControlDefinitionItem(Resource):
     """Information about the security control.
 
@@ -2426,11 +1842,11 @@ class SecureScoreControlDefinitionItem(Resource):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.display_name = None
-        self.description = None
-        self.max_score = None
-        self.source = None
-        self.assessment_definitions = None
+        self.display_name: Optional[str] = None
+        self.description: Optional[str] = None
+        self.max_score: Optional[int] = None
+        self.source: Optional["_models.SecureScoreControlDefinitionSource"] = None
+        self.assessment_definitions: Optional[List["_models.AzureResourceLink"]] = None
 
 
 class SecureScoreControlDefinitionList(_serialization.Model):
@@ -2457,8 +1873,8 @@ class SecureScoreControlDefinitionList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.SecureScoreControlDefinitionItem"]] = None
+        self.next_link: Optional[str] = None
 
 
 class SecureScoreControlDefinitionSource(_serialization.Model):
@@ -2483,7 +1899,7 @@ class SecureScoreControlDefinitionSource(_serialization.Model):
         self.source_type = source_type
 
 
-class SecureScoreControlDetails(Resource):  # pylint: disable=too-many-instance-attributes
+class SecureScoreControlDetails(Resource):
     """Details of the security control, its score, and the health status of the relevant resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2553,15 +1969,15 @@ class SecureScoreControlDetails(Resource):  # pylint: disable=too-many-instance-
         :paramtype definition: ~azure.mgmt.security.v2020_01_01.models.SecureScoreControlDefinitionItem
         """
         super().__init__(**kwargs)
-        self.display_name = None
-        self.healthy_resource_count = None
-        self.unhealthy_resource_count = None
-        self.not_applicable_resource_count = None
-        self.weight = None
+        self.display_name: Optional[str] = None
+        self.healthy_resource_count: Optional[int] = None
+        self.unhealthy_resource_count: Optional[int] = None
+        self.not_applicable_resource_count: Optional[int] = None
+        self.weight: Optional[int] = None
         self.definition = definition
-        self.max = None
-        self.current = None
-        self.percentage = None
+        self.max: Optional[int] = None
+        self.current: Optional[float] = None
+        self.percentage: Optional[float] = None
 
 
 class SecureScoreControlList(_serialization.Model):
@@ -2588,8 +2004,8 @@ class SecureScoreControlList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.SecureScoreControlDetails"]] = None
+        self.next_link: Optional[str] = None
 
 
 class SecureScoreControlScore(_serialization.Model):
@@ -2622,9 +2038,9 @@ class SecureScoreControlScore(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.max = None
-        self.current = None
-        self.percentage = None
+        self.max: Optional[int] = None
+        self.current: Optional[float] = None
+        self.percentage: Optional[float] = None
 
 
 class SecureScoreItem(Resource):
@@ -2677,11 +2093,11 @@ class SecureScoreItem(Resource):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.display_name = None
-        self.weight = None
-        self.max = None
-        self.current = None
-        self.percentage = None
+        self.display_name: Optional[str] = None
+        self.weight: Optional[int] = None
+        self.max: Optional[int] = None
+        self.current: Optional[float] = None
+        self.percentage: Optional[float] = None
 
 
 class SecureScoresList(_serialization.Model):
@@ -2708,8 +2124,8 @@ class SecureScoresList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.SecureScoreItem"]] = None
+        self.next_link: Optional[str] = None
 
 
 class SecurityAssessment(Resource):
@@ -2785,10 +2201,10 @@ class SecurityAssessment(Resource):
         """
         super().__init__(**kwargs)
         self.resource_details = resource_details
-        self.display_name = None
+        self.display_name: Optional[str] = None
         self.status = status
         self.additional_data = additional_data
-        self.links = None
+        self.links: Optional["_models.AssessmentLinks"] = None
         self.metadata = metadata
         self.partners_data = partners_data
 
@@ -2817,11 +2233,11 @@ class SecurityAssessmentList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.SecurityAssessment"]] = None
+        self.next_link: Optional[str] = None
 
 
-class SecurityAssessmentMetadata(Resource):  # pylint: disable=too-many-instance-attributes
+class SecurityAssessmentMetadata(Resource):
     """Security assessment metadata.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2942,7 +2358,7 @@ class SecurityAssessmentMetadata(Resource):  # pylint: disable=too-many-instance
         """
         super().__init__(**kwargs)
         self.display_name = display_name
-        self.policy_definition_id = None
+        self.policy_definition_id: Optional[str] = None
         self.description = description
         self.remediation_description = remediation_description
         self.categories = categories
@@ -2979,8 +2395,8 @@ class SecurityAssessmentMetadataList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.SecurityAssessmentMetadata"]] = None
+        self.next_link: Optional[str] = None
 
 
 class SecurityAssessmentMetadataPartnerData(_serialization.Model):
@@ -3024,7 +2440,7 @@ class SecurityAssessmentMetadataPartnerData(_serialization.Model):
         self.secret = secret
 
 
-class SecurityAssessmentMetadataProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class SecurityAssessmentMetadataProperties(_serialization.Model):
     """Describes properties of an assessment metadata.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3138,7 +2554,7 @@ class SecurityAssessmentMetadataProperties(_serialization.Model):  # pylint: dis
         """
         super().__init__(**kwargs)
         self.display_name = display_name
-        self.policy_definition_id = None
+        self.policy_definition_id: Optional[str] = None
         self.description = description
         self.remediation_description = remediation_description
         self.categories = categories
@@ -3249,14 +2665,14 @@ class SecuritySolution(Resource, Location):
         :paramtype protection_status: str
         """
         super().__init__(**kwargs)
-        self.location = None
+        self.location: Optional[str] = None
         self.security_family = security_family
         self.provisioning_state = provisioning_state
         self.template = template
         self.protection_status = protection_status
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class SecuritySolutionList(_serialization.Model):
@@ -3286,10 +2702,10 @@ class SecuritySolutionList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
-class SecuritySolutionsReferenceData(Resource, Location):  # pylint: disable=too-many-instance-attributes
+class SecuritySolutionsReferenceData(Resource, Location):
     """SecuritySolutionsReferenceData.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3379,7 +2795,7 @@ class SecuritySolutionsReferenceData(Resource, Location):  # pylint: disable=too
         :paramtype template: str
         """
         super().__init__(**kwargs)
-        self.location = None
+        self.location: Optional[str] = None
         self.security_family = security_family
         self.alert_vendor_name = alert_vendor_name
         self.package_info_url = package_info_url
@@ -3387,9 +2803,9 @@ class SecuritySolutionsReferenceData(Resource, Location):  # pylint: disable=too
         self.publisher = publisher
         self.publisher_display_name = publisher_display_name
         self.template = template
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class SecuritySolutionsReferenceDataList(_serialization.Model):
@@ -3449,7 +2865,9 @@ class ServerVulnerabilityAssessment(Resource):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[
+            Union[str, "_models.ServerVulnerabilityAssessmentPropertiesProvisioningState"]
+        ] = None
 
 
 class ServerVulnerabilityAssessmentsList(_serialization.Model):
@@ -3496,8 +2914,8 @@ class TopologyList(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.TopologyResource"]] = None
+        self.next_link: Optional[str] = None
 
 
 class TopologyResource(Resource, Location):
@@ -3541,12 +2959,12 @@ class TopologyResource(Resource, Location):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.location = None
-        self.calculated_date_time = None
-        self.topology_resources = None
-        self.id = None
-        self.name = None
-        self.type = None
+        self.location: Optional[str] = None
+        self.calculated_date_time: Optional[datetime.datetime] = None
+        self.topology_resources: Optional[List["_models.TopologySingleResource"]] = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class TopologySingleResource(_serialization.Model):
@@ -3600,14 +3018,14 @@ class TopologySingleResource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.resource_id = None
-        self.severity = None
-        self.recommendations_exist = None
-        self.network_zones = None
-        self.topology_score = None
-        self.location = None
-        self.parents = None
-        self.children = None
+        self.resource_id: Optional[str] = None
+        self.severity: Optional[str] = None
+        self.recommendations_exist: Optional[bool] = None
+        self.network_zones: Optional[str] = None
+        self.topology_score: Optional[int] = None
+        self.location: Optional[str] = None
+        self.parents: Optional[List["_models.TopologySingleResourceParent"]] = None
+        self.children: Optional[List["_models.TopologySingleResourceChild"]] = None
 
 
 class TopologySingleResourceChild(_serialization.Model):
@@ -3630,7 +3048,7 @@ class TopologySingleResourceChild(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.resource_id = None
+        self.resource_id: Optional[str] = None
 
 
 class TopologySingleResourceParent(_serialization.Model):
@@ -3653,97 +3071,4 @@ class TopologySingleResourceParent(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.resource_id = None
-
-
-class UserRecommendation(_serialization.Model):
-    """Represents a user that is recommended to be allowed for a certain rule.
-
-    :ivar username: Represents a user that is recommended to be allowed for a certain rule.
-    :vartype username: str
-    :ivar recommendation_action: The recommendation action of the machine or rule. Known values
-     are: "Recommended", "Add", and "Remove".
-    :vartype recommendation_action: str or
-     ~azure.mgmt.security.v2020_01_01.models.RecommendationAction
-    """
-
-    _attribute_map = {
-        "username": {"key": "username", "type": "str"},
-        "recommendation_action": {"key": "recommendationAction", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        username: Optional[str] = None,
-        recommendation_action: Optional[Union[str, "_models.RecommendationAction"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword username: Represents a user that is recommended to be allowed for a certain rule.
-        :paramtype username: str
-        :keyword recommendation_action: The recommendation action of the machine or rule. Known values
-         are: "Recommended", "Add", and "Remove".
-        :paramtype recommendation_action: str or
-         ~azure.mgmt.security.v2020_01_01.models.RecommendationAction
-        """
-        super().__init__(**kwargs)
-        self.username = username
-        self.recommendation_action = recommendation_action
-
-
-class VmRecommendation(_serialization.Model):
-    """Represents a machine that is part of a machine group.
-
-    :ivar configuration_status: The configuration status of the machines group or machine or rule.
-     Known values are: "Configured", "NotConfigured", "InProgress", "Failed", and "NoStatus".
-    :vartype configuration_status: str or
-     ~azure.mgmt.security.v2020_01_01.models.ConfigurationStatus
-    :ivar recommendation_action: The recommendation action of the machine or rule. Known values
-     are: "Recommended", "Add", and "Remove".
-    :vartype recommendation_action: str or
-     ~azure.mgmt.security.v2020_01_01.models.RecommendationAction
-    :ivar resource_id: The full resource id of the machine.
-    :vartype resource_id: str
-    :ivar enforcement_support: The machine supportability of Enforce feature. Known values are:
-     "Supported", "NotSupported", and "Unknown".
-    :vartype enforcement_support: str or ~azure.mgmt.security.v2020_01_01.models.EnforcementSupport
-    """
-
-    _attribute_map = {
-        "configuration_status": {"key": "configurationStatus", "type": "str"},
-        "recommendation_action": {"key": "recommendationAction", "type": "str"},
-        "resource_id": {"key": "resourceId", "type": "str"},
-        "enforcement_support": {"key": "enforcementSupport", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        configuration_status: Optional[Union[str, "_models.ConfigurationStatus"]] = None,
-        recommendation_action: Optional[Union[str, "_models.RecommendationAction"]] = None,
-        resource_id: Optional[str] = None,
-        enforcement_support: Optional[Union[str, "_models.EnforcementSupport"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword configuration_status: The configuration status of the machines group or machine or
-         rule. Known values are: "Configured", "NotConfigured", "InProgress", "Failed", and "NoStatus".
-        :paramtype configuration_status: str or
-         ~azure.mgmt.security.v2020_01_01.models.ConfigurationStatus
-        :keyword recommendation_action: The recommendation action of the machine or rule. Known values
-         are: "Recommended", "Add", and "Remove".
-        :paramtype recommendation_action: str or
-         ~azure.mgmt.security.v2020_01_01.models.RecommendationAction
-        :keyword resource_id: The full resource id of the machine.
-        :paramtype resource_id: str
-        :keyword enforcement_support: The machine supportability of Enforce feature. Known values are:
-         "Supported", "NotSupported", and "Unknown".
-        :paramtype enforcement_support: str or
-         ~azure.mgmt.security.v2020_01_01.models.EnforcementSupport
-        """
-        super().__init__(**kwargs)
-        self.configuration_status = configuration_status
-        self.recommendation_action = recommendation_action
-        self.resource_id = resource_id
-        self.enforcement_support = enforcement_support
+        self.resource_id: Optional[str] = None
