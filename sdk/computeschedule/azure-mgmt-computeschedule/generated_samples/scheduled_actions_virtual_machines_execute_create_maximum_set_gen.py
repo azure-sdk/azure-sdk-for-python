@@ -15,7 +15,7 @@ from azure.mgmt.computeschedule import ComputeScheduleMgmtClient
     pip install azure-identity
     pip install azure-mgmt-computeschedule
 # USAGE
-    python scheduled_actions_virtual_machines_submit_start.py
+    python scheduled_actions_virtual_machines_execute_create_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,22 +30,28 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.scheduled_actions.virtual_machines_submit_start(
-        locationparameter="eastus2euap",
+    response = client.scheduled_actions.virtual_machines_execute_create(
+        locationparameter="nxbiupqfkijjq",
         request_body={
-            "correlationid": "23480d2f-1dca-4610-afb4-dd25eec1f34r",
-            "executionParameters": {"retryPolicy": {"retryCount": 5, "retryWindowInMinutes": 27}},
-            "resources": {
-                "ids": [
-                    "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3"
-                ]
+            "correlationid": "erpswvxajdpqgxfpgmzy",
+            "executionParameters": {
+                "optimizationPreference": "Cost",
+                "retryPolicy": {"retryCount": 25, "retryWindowInMinutes": 4},
             },
-            "schedule": {"deadline": "2024-11-01T17:52:54.215Z", "deadlineType": "InitiateAt", "timezone": "UTC"},
+            "resourceConfigParameters": {
+                "baseProfile": "TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQ=",
+                "resourceCount": 28,
+                "resourceOverrides": [
+                    "Y29uc2VjdGV0dXIgYWRpcGlzY2luZyBlbGl0",
+                    "c2VkIGRvIGVpdXNtb2QgdGVtcG9yIGluY2lkaWR1bnQ=",
+                ],
+                "resourcePrefix": "rqlxavviucrxfjj",
+            },
         },
     )
     print(response)
 
 
-# x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesSubmitStart.json
+# x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesExecuteCreate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
