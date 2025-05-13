@@ -1,5 +1,37 @@
 # Release History
 
+## 3.2.0b1 (2025-05-13)
+
+### Features Added
+
+  - Client `ContainerServiceFleetMgmtClient` added operation group `gates`
+  - Model `FleetMember` added property `labels`
+  - Model `FleetMemberUpdate` added property `labels`
+  - Model `UpdateGroup` added property `before_gates`
+  - Model `UpdateGroup` added property `after_gates`
+  - Model `UpdateGroupStatus` added property `before_gates`
+  - Model `UpdateGroupStatus` added property `after_gates`
+  - Model `UpdateStage` added property `before_gates`
+  - Model `UpdateStage` added property `after_gates`
+  - Model `UpdateStageStatus` added property `before_gates`
+  - Model `UpdateStageStatus` added property `after_gates`
+  - Enum `UpdateState` added member `PENDING`
+  - Added model `Gate`
+  - Added model `GateConfiguration`
+  - Added model `GateListResult`
+  - Added model `GatePatch`
+  - Added model `GatePatchProperties`
+  - Added enum `GateProvisioningState`
+  - Added enum `GateState`
+  - Added model `GateTarget`
+  - Added enum `GateType`
+  - Added enum `Timing`
+  - Added model `UpdateRunGateStatus`
+  - Added model `UpdateRunGateTargetProperties`
+  - Added model `GatesOperations`
+  - Method `GatesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, fleet_name: str, gate_name: str, properties: GatePatch, if_match: Optional[str], if_none_match: Optional[str], content_type: str)`
+  - Method `GatesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, fleet_name: str, gate_name: str, properties: IO[bytes], if_match: Optional[str], if_none_match: Optional[str], content_type: str)`
+
 ## 3.1.0 (2025-05-08)
 
 ### Features Added

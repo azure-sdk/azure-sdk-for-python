@@ -25,7 +25,7 @@ class TestContainerServiceFleetMgmtFleetMembersOperationsAsync(AzureMgmtRecorded
         response = self.client.fleet_members.list_by_fleet(
             resource_group_name=resource_group.name,
             fleet_name="str",
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestContainerServiceFleetMgmtFleetMembersOperationsAsync(AzureMgmtRecorded
             resource_group_name=resource_group.name,
             fleet_name="str",
             fleet_member_name="str",
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -57,6 +57,7 @@ class TestContainerServiceFleetMgmtFleetMembersOperationsAsync(AzureMgmtRecorded
                     "eTag": "str",
                     "group": "str",
                     "id": "str",
+                    "labels": {"str": "str"},
                     "name": "str",
                     "provisioningState": "str",
                     "status": {
@@ -79,7 +80,7 @@ class TestContainerServiceFleetMgmtFleetMembersOperationsAsync(AzureMgmtRecorded
                     },
                     "type": "str",
                 },
-                api_version="2025-03-01",
+                api_version="2025-04-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -94,8 +95,8 @@ class TestContainerServiceFleetMgmtFleetMembersOperationsAsync(AzureMgmtRecorded
                 resource_group_name=resource_group.name,
                 fleet_name="str",
                 fleet_member_name="str",
-                properties={"group": "str"},
-                api_version="2025-03-01",
+                properties={"group": "str", "labels": {"str": "str"}},
+                api_version="2025-04-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -110,7 +111,7 @@ class TestContainerServiceFleetMgmtFleetMembersOperationsAsync(AzureMgmtRecorded
                 resource_group_name=resource_group.name,
                 fleet_name="str",
                 fleet_member_name="str",
-                api_version="2025-03-01",
+                api_version="2025-04-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 

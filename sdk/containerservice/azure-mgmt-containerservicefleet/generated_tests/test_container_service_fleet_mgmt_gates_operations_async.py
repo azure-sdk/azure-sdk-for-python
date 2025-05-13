@@ -15,18 +15,44 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestContainerServiceFleetMgmtAutoUpgradeProfileOperationsOperationsAsync(AzureMgmtRecordedTestCase):
+class TestContainerServiceFleetMgmtGatesOperationsAsync(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(ContainerServiceFleetMgmtClient, is_async=True)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_auto_upgrade_profile_operations_begin_generate_update_run(self, resource_group):
+    async def test_gates_list_by_fleet(self, resource_group):
+        response = self.client.gates.list_by_fleet(
+            resource_group_name=resource_group.name,
+            fleet_name="str",
+            api_version="2025-04-01-preview",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_gates_get(self, resource_group):
+        response = await self.client.gates.get(
+            resource_group_name=resource_group.name,
+            fleet_name="str",
+            gate_name="str",
+            api_version="2025-04-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_gates_begin_update(self, resource_group):
         response = await (
-            await self.client.auto_upgrade_profile_operations.begin_generate_update_run(
+            await self.client.gates.begin_update(
                 resource_group_name=resource_group.name,
                 fleet_name="str",
-                auto_upgrade_profile_name="str",
+                gate_name="str",
+                properties={"properties": {"state": "str"}, "tags": {"str": "str"}},
                 api_version="2025-04-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result

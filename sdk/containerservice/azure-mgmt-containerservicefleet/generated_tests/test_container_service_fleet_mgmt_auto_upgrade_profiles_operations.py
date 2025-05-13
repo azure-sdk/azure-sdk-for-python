@@ -24,7 +24,7 @@ class TestContainerServiceFleetMgmtAutoUpgradeProfilesOperations(AzureMgmtRecord
         response = self.client.auto_upgrade_profiles.list_by_fleet(
             resource_group_name=resource_group.name,
             fleet_name="str",
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestContainerServiceFleetMgmtAutoUpgradeProfilesOperations(AzureMgmtRecord
             resource_group_name=resource_group.name,
             fleet_name="str",
             auto_upgrade_profile_name="str",
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -81,7 +81,7 @@ class TestContainerServiceFleetMgmtAutoUpgradeProfilesOperations(AzureMgmtRecord
                 "type": "str",
                 "updateStrategyId": "str",
             },
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -94,7 +94,7 @@ class TestContainerServiceFleetMgmtAutoUpgradeProfilesOperations(AzureMgmtRecord
             resource_group_name=resource_group.name,
             fleet_name="str",
             auto_upgrade_profile_name="str",
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself

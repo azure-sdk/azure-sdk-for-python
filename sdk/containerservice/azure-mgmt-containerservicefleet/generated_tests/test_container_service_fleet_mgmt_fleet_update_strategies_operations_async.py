@@ -25,7 +25,7 @@ class TestContainerServiceFleetMgmtFleetUpdateStrategiesOperationsAsync(AzureMgm
         response = self.client.fleet_update_strategies.list_by_fleet(
             resource_group_name=resource_group.name,
             fleet_name="str",
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestContainerServiceFleetMgmtFleetUpdateStrategiesOperationsAsync(AzureMgm
             resource_group_name=resource_group.name,
             fleet_name="str",
             update_strategy_name="str",
-            api_version="2025-03-01",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -58,7 +58,21 @@ class TestContainerServiceFleetMgmtFleetUpdateStrategiesOperationsAsync(AzureMgm
                     "name": "str",
                     "provisioningState": "str",
                     "strategy": {
-                        "stages": [{"name": "str", "afterStageWaitInSeconds": 0, "groups": [{"name": "str"}]}]
+                        "stages": [
+                            {
+                                "name": "str",
+                                "afterGates": [{"type": "str", "displayName": "str"}],
+                                "afterStageWaitInSeconds": 0,
+                                "beforeGates": [{"type": "str", "displayName": "str"}],
+                                "groups": [
+                                    {
+                                        "name": "str",
+                                        "afterGates": [{"type": "str", "displayName": "str"}],
+                                        "beforeGates": [{"type": "str", "displayName": "str"}],
+                                    }
+                                ],
+                            }
+                        ]
                     },
                     "systemData": {
                         "createdAt": "2020-02-20 00:00:00",
@@ -70,7 +84,7 @@ class TestContainerServiceFleetMgmtFleetUpdateStrategiesOperationsAsync(AzureMgm
                     },
                     "type": "str",
                 },
-                api_version="2025-03-01",
+                api_version="2025-04-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -85,7 +99,7 @@ class TestContainerServiceFleetMgmtFleetUpdateStrategiesOperationsAsync(AzureMgm
                 resource_group_name=resource_group.name,
                 fleet_name="str",
                 update_strategy_name="str",
-                api_version="2025-03-01",
+                api_version="2025-04-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
