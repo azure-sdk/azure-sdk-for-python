@@ -5,13 +5,13 @@
         "name": "WebSiteManagementClient",
         "filename": "_web_site_management_client",
         "description": "WebSite Management Client.",
-        "host_value": "\"https://management.azure.com\"",
+        "host_value": null,
         "parameterized_host_template": null,
         "azure_arm": true,
         "has_public_lro_operations": true,
         "client_side_validation": false,
-        "sync_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"Optional\"]}}, \"regular\": {\"sdkcore\": {\"azure.mgmt.core\": [\"ARMPipelineClient\"], \"azure.core.pipeline\": [\"policies\"], \"azure.mgmt.core.policies\": [\"ARMAutoResourceProviderRegistrationPolicy\"], \"azure.profiles\": [\"KnownProfiles\", \"ProfileDefinition\"], \"azure.profiles.multiapiclient\": [\"MultiApiClientMixin\"]}, \"local\": {\"._configuration\": [\"WebSiteManagementClientConfiguration\"], \".._serialization\": [\"Deserializer\", \"Serializer\"], \"._operations_mixin\": [\"WebSiteManagementClientOperationsMixin\"]}, \"stdlib\": {\"typing_extensions\": [\"Self\"]}}, \"typing\": {\"sdkcore\": {\"azure.core.credentials\": [\"TokenCredential\"]}}}",
-        "async_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"Optional\"]}}, \"regular\": {\"sdkcore\": {\"azure.mgmt.core\": [\"AsyncARMPipelineClient\"], \"azure.core.pipeline\": [\"policies\"], \"azure.mgmt.core.policies\": [\"AsyncARMAutoResourceProviderRegistrationPolicy\"], \"azure.profiles\": [\"KnownProfiles\", \"ProfileDefinition\"], \"azure.profiles.multiapiclient\": [\"MultiApiClientMixin\"]}, \"local\": {\"._configuration\": [\"WebSiteManagementClientConfiguration\"], \"..._serialization\": [\"Deserializer\", \"Serializer\"], \"._operations_mixin\": [\"WebSiteManagementClientOperationsMixin\"]}, \"stdlib\": {\"typing_extensions\": [\"Self\"]}}, \"typing\": {\"sdkcore\": {\"azure.core.credentials_async\": [\"AsyncTokenCredential\"]}}}"
+        "sync_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"Optional\"]}}, \"regular\": {\"sdkcore\": {\"azure.mgmt.core\": [\"ARMPipelineClient\"], \"azure.core.pipeline\": [\"policies\"], \"azure.mgmt.core.policies\": [\"ARMAutoResourceProviderRegistrationPolicy\"], \"azure.core.settings\": [\"settings\"], \"azure.mgmt.core.tools\": [\"get_arm_endpoints\"], \"azure.profiles\": [\"KnownProfiles\", \"ProfileDefinition\"], \"azure.profiles.multiapiclient\": [\"MultiApiClientMixin\"]}, \"stdlib\": {\"typing\": [\"Optional\", \"cast\"], \"typing_extensions\": [\"Self\"]}, \"local\": {\"._configuration\": [\"WebSiteManagementClientConfiguration\"], \"._utils.serialization\": [\"Deserializer\", \"Serializer\"], \"._operations_mixin\": [\"WebSiteManagementClientOperationsMixin\"]}}, \"typing\": {\"sdkcore\": {\"azure.core.credentials\": [\"TokenCredential\"]}}}",
+        "async_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"Optional\"]}}, \"regular\": {\"sdkcore\": {\"azure.mgmt.core\": [\"AsyncARMPipelineClient\"], \"azure.core.pipeline\": [\"policies\"], \"azure.mgmt.core.policies\": [\"AsyncARMAutoResourceProviderRegistrationPolicy\"], \"azure.core.settings\": [\"settings\"], \"azure.mgmt.core.tools\": [\"get_arm_endpoints\"], \"azure.profiles\": [\"KnownProfiles\", \"ProfileDefinition\"], \"azure.profiles.multiapiclient\": [\"MultiApiClientMixin\"]}, \"stdlib\": {\"typing\": [\"Optional\", \"cast\"], \"typing_extensions\": [\"Self\"]}, \"local\": {\"._configuration\": [\"WebSiteManagementClientConfiguration\"], \".._utils.serialization\": [\"Deserializer\", \"Serializer\"], \"._operations_mixin\": [\"WebSiteManagementClientOperationsMixin\"]}}, \"typing\": {\"sdkcore\": {\"azure.core.credentials_async\": [\"AsyncTokenCredential\"]}}}"
     },
     "global_parameters": {
         "sync": {
@@ -57,7 +57,7 @@
                     "method_location": "positional"
                 },
                 "base_url": {
-                    "signature": "base_url: str = \"https://management.azure.com\",",
+                    "signature": "base_url: Optional[str] = None,",
                     "description": "Service URL",
                     "docstring_type": "str",
                     "required": false,
@@ -80,7 +80,7 @@
                     "method_location": "positional"
                 },
                 "base_url": {
-                    "signature": "base_url: str = \"https://management.azure.com\",",
+                    "signature": "base_url: Optional[str] = None,",
                     "description": "Service URL",
                     "docstring_type": "str",
                     "required": false,
@@ -137,8 +137,8 @@
         "workflow_versions": "WorkflowVersionsOperations"
     },
     "operation_mixins": {
-        "sync_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"Iterable\", \"Union\"]}}, \"regular\": {\"local\": {\".\": [[\"models\", \"_models\"]]}, \"stdlib\": {\"typing\": [\"IO\", \"Optional\", \"Union\"], \"io\": [\"IOBase\"]}, \"sdkcore\": {\"azure.core.paging\": [\"ItemPaged\"]}}}",
-        "async_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"AsyncIterable\", \"Union\"]}}, \"regular\": {\"local\": {\"..\": [[\"models\", \"_models\"]]}, \"stdlib\": {\"typing\": [\"IO\", \"Optional\", \"Union\"], \"io\": [\"IOBase\"]}, \"sdkcore\": {\"azure.core.async_paging\": [\"AsyncItemPaged\"]}}}",
+        "sync_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"Iterable\", \"Union\"]}}, \"regular\": {\"stdlib\": {\"typing\": [\"IO\", \"Optional\", \"Union\"], \"io\": [\"IOBase\"]}, \"sdkcore\": {\"azure.core.paging\": [\"ItemPaged\"]}, \"local\": {\".\": [[\"models\", \"_models\"]]}}}",
+        "async_imports": "{\"conditional\": {\"stdlib\": {\"typing\": [\"Any\", \"AsyncIterable\", \"Union\"]}}, \"regular\": {\"stdlib\": {\"typing\": [\"IO\", \"Optional\", \"Union\"], \"io\": [\"IOBase\"]}, \"sdkcore\": {\"azure.core.async_paging\": [\"AsyncItemPaged\"]}, \"local\": {\"..\": [[\"models\", \"_models\"]]}}}",
         "sync_mixin_typing_definitions": "",
         "async_mixin_typing_definitions": "",
         "operations": {
@@ -223,13 +223,13 @@
             "check_name_availability" : {
                 "sync": {
                     "signature": "def check_name_availability(\n    self,\n    name: str,\n    type: Union[str, _models.CheckNameResourceTypes],\n    is_fqdn: Optional[bool] = None,\n    environment_id: Optional[str] = None,\n    **kwargs: Any\n) -\u003e _models.ResourceNameAvailability:\n",
-                    "doc": "# pylint: disable=line-too-long\n\"\"\"Check if a resource name is available.\n\nDescription for Check if a resource name is available.\n\n:param name: Resource name to verify. Required.\n:type name: str\n:param type: Resource type used for verification. Known values are: \"Site\", \"Slot\",\n \"HostingEnvironment\", \"PublishingUser\", \"Microsoft.Web/sites\", \"Microsoft.Web/sites/slots\",\n \"Microsoft.Web/hostingEnvironments\", and \"Microsoft.Web/publishingUsers\". Required.\n:type type: str or ~azure.mgmt.web.v2023_01_01.models.CheckNameResourceTypes\n:param is_fqdn: Is fully qualified domain name. Default value is None.\n:type is_fqdn: bool\n:param environment_id: Azure Resource Manager ID of the customer\u0027s selected Container Apps\n Environment on which to host the Function app. This must be of the form\n /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.\n Default value is None.\n:type environment_id: str\n:return: ResourceNameAvailability or the result of cls(response)\n:rtype: ~azure.mgmt.web.v2023_01_01.models.ResourceNameAvailability\n:raises ~azure.core.exceptions.HttpResponseError:\n\"\"\"",
+                    "doc": "\"\"\"Check if a resource name is available.\n\nDescription for Check if a resource name is available.\n\n:param name: Resource name to verify. Required.\n:type name: str\n:param type: Resource type used for verification. Known values are: \"Site\", \"Slot\",\n \"HostingEnvironment\", \"PublishingUser\", \"Microsoft.Web/sites\", \"Microsoft.Web/sites/slots\",\n \"Microsoft.Web/hostingEnvironments\", and \"Microsoft.Web/publishingUsers\". Required.\n:type type: str or ~azure.mgmt.web.v2023_01_01.models.CheckNameResourceTypes\n:param is_fqdn: Is fully qualified domain name. Default value is None.\n:type is_fqdn: bool\n:param environment_id: Azure Resource Manager ID of the customer\u0027s selected Container Apps\n Environment on which to host the Function app. This must be of the form\n /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.\n Default value is None.\n:type environment_id: str\n:return: ResourceNameAvailability or the result of cls(response)\n:rtype: ~azure.mgmt.web.v2023_01_01.models.ResourceNameAvailability\n:raises ~azure.core.exceptions.HttpResponseError:\n\"\"\"",
                     "call": "name, type, is_fqdn, environment_id, **kwargs"
                 },
                 "async": {
                     "coroutine": true,
                     "signature": "async def check_name_availability(\n    self,\n    name: str,\n    type: Union[str, _models.CheckNameResourceTypes],\n    is_fqdn: Optional[bool] = None,\n    environment_id: Optional[str] = None,\n    **kwargs: Any\n) -\u003e _models.ResourceNameAvailability:\n",
-                    "doc": "# pylint: disable=line-too-long\n\"\"\"Check if a resource name is available.\n\nDescription for Check if a resource name is available.\n\n:param name: Resource name to verify. Required.\n:type name: str\n:param type: Resource type used for verification. Known values are: \"Site\", \"Slot\",\n \"HostingEnvironment\", \"PublishingUser\", \"Microsoft.Web/sites\", \"Microsoft.Web/sites/slots\",\n \"Microsoft.Web/hostingEnvironments\", and \"Microsoft.Web/publishingUsers\". Required.\n:type type: str or ~azure.mgmt.web.v2023_01_01.models.CheckNameResourceTypes\n:param is_fqdn: Is fully qualified domain name. Default value is None.\n:type is_fqdn: bool\n:param environment_id: Azure Resource Manager ID of the customer\u0027s selected Container Apps\n Environment on which to host the Function app. This must be of the form\n /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.\n Default value is None.\n:type environment_id: str\n:return: ResourceNameAvailability or the result of cls(response)\n:rtype: ~azure.mgmt.web.v2023_01_01.models.ResourceNameAvailability\n:raises ~azure.core.exceptions.HttpResponseError:\n\"\"\"",
+                    "doc": "\"\"\"Check if a resource name is available.\n\nDescription for Check if a resource name is available.\n\n:param name: Resource name to verify. Required.\n:type name: str\n:param type: Resource type used for verification. Known values are: \"Site\", \"Slot\",\n \"HostingEnvironment\", \"PublishingUser\", \"Microsoft.Web/sites\", \"Microsoft.Web/sites/slots\",\n \"Microsoft.Web/hostingEnvironments\", and \"Microsoft.Web/publishingUsers\". Required.\n:type type: str or ~azure.mgmt.web.v2023_01_01.models.CheckNameResourceTypes\n:param is_fqdn: Is fully qualified domain name. Default value is None.\n:type is_fqdn: bool\n:param environment_id: Azure Resource Manager ID of the customer\u0027s selected Container Apps\n Environment on which to host the Function app. This must be of the form\n /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.\n Default value is None.\n:type environment_id: str\n:return: ResourceNameAvailability or the result of cls(response)\n:rtype: ~azure.mgmt.web.v2023_01_01.models.ResourceNameAvailability\n:raises ~azure.core.exceptions.HttpResponseError:\n\"\"\"",
                     "call": "name, type, is_fqdn, environment_id, **kwargs"
                 }
             },
