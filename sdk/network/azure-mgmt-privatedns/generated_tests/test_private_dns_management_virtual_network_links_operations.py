@@ -20,72 +20,19 @@ class TestPrivateDnsManagementVirtualNetworkLinksOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
-        response = self.client.virtual_network_links.begin_create_or_update(
+    def test_virtual_network_links_list(self, resource_group):
+        response = self.client.virtual_network_links.list(
             resource_group_name=resource_group.name,
             private_zone_name="str",
-            virtual_network_link_name="str",
-            parameters={
-                "etag": "str",
-                "id": "str",
-                "location": "str",
-                "name": "str",
-                "provisioningState": "str",
-                "registrationEnabled": bool,
-                "resolutionPolicy": "str",
-                "tags": {"str": "str"},
-                "type": "str",
-                "virtualNetwork": {"id": "str"},
-                "virtualNetworkLinkState": "str",
-            },
             api_version="2024-06-01",
-        ).result()  # call '.result()' to poll until service return final result
-
+        )
+        result = [r for r in response]
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
-        response = self.client.virtual_network_links.begin_update(
-            resource_group_name=resource_group.name,
-            private_zone_name="str",
-            virtual_network_link_name="str",
-            parameters={
-                "etag": "str",
-                "id": "str",
-                "location": "str",
-                "name": "str",
-                "provisioningState": "str",
-                "registrationEnabled": bool,
-                "resolutionPolicy": "str",
-                "tags": {"str": "str"},
-                "type": "str",
-                "virtualNetwork": {"id": "str"},
-                "virtualNetworkLinkState": "str",
-            },
-            api_version="2024-06-01",
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
-        response = self.client.virtual_network_links.begin_delete(
-            resource_group_name=resource_group.name,
-            private_zone_name="str",
-            virtual_network_link_name="str",
-            api_version="2024-06-01",
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_virtual_network_links_get(self, resource_group):
         response = self.client.virtual_network_links.get(
             resource_group_name=resource_group.name,
             private_zone_name="str",
@@ -98,12 +45,81 @@ class TestPrivateDnsManagementVirtualNetworkLinksOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
-        response = self.client.virtual_network_links.list(
+    def test_virtual_network_links_begin_create_or_update(self, resource_group):
+        response = self.client.virtual_network_links.begin_create_or_update(
             resource_group_name=resource_group.name,
             private_zone_name="str",
+            virtual_network_link_name="str",
+            parameters={
+                "location": "str",
+                "etag": "str",
+                "id": "str",
+                "name": "str",
+                "provisioningState": "str",
+                "registrationEnabled": bool,
+                "resolutionPolicy": "str",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "tags": {"str": "str"},
+                "type": "str",
+                "virtualNetwork": {"id": "str"},
+                "virtualNetworkLinkState": "str",
+            },
             api_version="2024-06-01",
-        )
-        result = [r for r in response]
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_virtual_network_links_begin_update(self, resource_group):
+        response = self.client.virtual_network_links.begin_update(
+            resource_group_name=resource_group.name,
+            private_zone_name="str",
+            virtual_network_link_name="str",
+            parameters={
+                "location": "str",
+                "etag": "str",
+                "id": "str",
+                "name": "str",
+                "provisioningState": "str",
+                "registrationEnabled": bool,
+                "resolutionPolicy": "str",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "tags": {"str": "str"},
+                "type": "str",
+                "virtualNetwork": {"id": "str"},
+                "virtualNetworkLinkState": "str",
+            },
+            api_version="2024-06-01",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_virtual_network_links_begin_delete(self, resource_group):
+        response = self.client.virtual_network_links.begin_delete(
+            resource_group_name=resource_group.name,
+            private_zone_name="str",
+            virtual_network_link_name="str",
+            api_version="2024-06-01",
+        ).result()  # call '.result()' to poll until service return final result
+
         # please add some check logic here by yourself
         # ...

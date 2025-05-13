@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -33,8 +34,8 @@ def main():
     client.record_sets.delete(
         resource_group_name="resourceGroup1",
         private_zone_name="privatezone1.com",
-        record_type="A",
         relative_record_set_name="recordA",
+        record_type="A",
     )
 
 
