@@ -1,5 +1,29 @@
 # Release History
 
+## 1.0.0 (2025-05-13)
+
+### Features Added
+
+  - Model `Event` added property `is_event_sensitive`
+  - Model `Event` added property `event_tags`
+  - Model `Impact` added property `impacted_service_guid`
+  - Model `MetadataSupportedValueDetail` added property `previous_id`
+  - Model `MetadataSupportedValueDetail` added property `service_guid`
+  - Model `Update` added property `event_tags`
+
+### Breaking Changes
+
+  - Model `Event` deleted or renamed its instance variable `event_sub_type`
+  - Model `Event` deleted or renamed its instance variable `maintenance_id`
+  - Model `Event` deleted or renamed its instance variable `maintenance_type`
+  - Model `Event` deleted or renamed its instance variable `arg_query`
+  - Model `EventImpactedResource` deleted or renamed its instance variable `resource_name`
+  - Model `EventImpactedResource` deleted or renamed its instance variable `resource_group`
+  - Model `EventImpactedResource` deleted or renamed its instance variable `status`
+  - Model `EventImpactedResource` deleted or renamed its instance variable `maintenance_start_time`
+  - Model `EventImpactedResource` deleted or renamed its instance variable `maintenance_end_time`
+  - Deleted or renamed model `EventSubTypeValues`
+
 ## 1.0.0b6 (2024-10-30)
 
 ### Breaking Changes
