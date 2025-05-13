@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,7 +16,7 @@ from azure.mgmt.sql import SqlManagementClient
     pip install azure-identity
     pip install azure-mgmt-sql
 # USAGE
-    python resource_group_based_managed_instance_long_term_retention_backup_list_by_location_max.py
+    python service_objective_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +31,14 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.long_term_retention_managed_instance_backups.list_by_resource_group_location(
-        resource_group_name="testResourceGroup",
-        location_name="japaneast",
+    response = client.service_objectives.get(
+        resource_group_name="group1",
+        server_name="sqlcrudtest",
+        service_objective_name="29dd7459-4a7c-4e56-be22-f0adda49440d",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-05-01-preview/examples/ResourceGroupBasedManagedInstanceLongTermRetentionBackupListByLocationMax.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/ServiceObjectiveGet.json
 if __name__ == "__main__":
     main()
