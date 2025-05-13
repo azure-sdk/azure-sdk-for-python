@@ -54,6 +54,15 @@ class CreateMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Create a replica cluster in the same geographic region as the source cluster."""
 
 
+class DataApiMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The mode to apply to the Mongo Data API."""
+
+    ENABLED = "Enabled"
+    """Mongo Data API is enabled for the cluster."""
+    DISABLED = "Disabled"
+    """Mongo Data API is disabled for the cluster."""
+
+
 class HighAvailabilityMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The high availability modes for a cluster."""
 
@@ -125,7 +134,7 @@ class PrivateEndpointServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiv
     """The private endpoint connection status."""
 
     PENDING = "Pending"
-    """Connectionaiting for approval or rejection"""
+    """Connection waiting for approval or rejection"""
     APPROVED = "Approved"
     """Connection approved"""
     REJECTED = "Rejected"

@@ -1,5 +1,19 @@
 # Release History
 
+## 1.1.0b1 (2025-05-13)
+
+### Features Added
+
+  - Model `MongoClusterProperties` added property `data_api`
+  - Model `MongoClusterUpdateProperties` added property `data_api`
+  - Added enum `DataApiMode`
+  - Added model `DataApiProperties`
+  - Method `MongoClusterProperties.__init__` has a new overload `def __init__(self: None, create_mode: Optional[Union[str, _models.CreateMode]], restore_parameters: Optional[_models.MongoClusterRestoreParameters], replica_parameters: Optional[_models.MongoClusterReplicaParameters], administrator: Optional[_models.AdministratorProperties], server_version: Optional[str], public_network_access: Optional[Union[str, _models.PublicNetworkAccess]], high_availability: Optional[_models.HighAvailabilityProperties], storage: Optional[_models.StorageProperties], sharding: Optional[_models.ShardingProperties], compute: Optional[_models.ComputeProperties], backup: Optional[_models.BackupProperties], data_api: Optional[_models.DataApiProperties], preview_features: Optional[List[Union[str, _models.PreviewFeature]]])`
+  - Method `MongoClusterUpdateProperties.__init__` has a new overload `def __init__(self: None, administrator: Optional[_models.AdministratorProperties], server_version: Optional[str], public_network_access: Optional[Union[str, _models.PublicNetworkAccess]], high_availability: Optional[_models.HighAvailabilityProperties], storage: Optional[_models.StorageProperties], sharding: Optional[_models.ShardingProperties], compute: Optional[_models.ComputeProperties], backup: Optional[_models.BackupProperties], data_api: Optional[_models.DataApiProperties], preview_features: Optional[List[Union[str, _models.PreviewFeature]]])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, display: Optional[_models.OperationDisplay])`
+  - Method `DataApiProperties.__init__` has a new overload `def __init__(self: None, mode: Optional[Union[str, _models.DataApiMode]])`
+  - Method `DataApiProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+
 ## 1.0.0 (2024-09-26)
 
 ### Features Added
