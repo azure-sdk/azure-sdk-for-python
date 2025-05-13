@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.guestconfig import GuestConfigurationClient
 
 """
@@ -14,7 +16,7 @@ from azure.mgmt.guestconfig import GuestConfigurationClient
     pip install azure-identity
     pip install azure-mgmt-guestconfig
 # USAGE
-    python list_all_guest_configuration_assignments_for_vmss.py
+    python create_or_update_guest_configuration_hcrp_assignment.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +31,31 @@ def main():
         subscription_id="mySubscriptionId",
     )
 
-    response = client.guest_configuration_assignments_vmss.list(
+    response = client.guest_configuration_hcrp_assignments.create_or_update(
         resource_group_name="myResourceGroupName",
-        vmss_name="myVMSSName",
+        machine_name="myMachineName",
+        guest_configuration_assignment_name="NotInstalledApplicationForWindows",
+        parameters={
+            "location": "westcentralus",
+            "name": "NotInstalledApplicationForWindows",
+            "properties": {
+                "context": "Azure policy",
+                "guestConfiguration": {
+                    "assignmentType": "ApplyAndAutoCorrect",
+                    "configurationParameter": [
+                        {"name": "[InstalledApplication]NotInstalledApplicationResource1;Name", "value": "NotePad,sql"}
+                    ],
+                    "contentHash": "123contenthash",
+                    "contentUri": "https://thisisfake/pacakge",
+                    "name": "NotInstalledApplicationForWindows",
+                    "version": "1.0.0.3",
+                },
+            },
+        },
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listVMSSGuestConfigurationAssignments.json
+# x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2024-04-05/examples/createOrUpdateGuestConfigurationHCRPAssignment.json
 if __name__ == "__main__":
     main()
