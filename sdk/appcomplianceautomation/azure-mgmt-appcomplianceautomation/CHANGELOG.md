@@ -1,5 +1,200 @@
 # Release History
 
+## 2.0.0 (2025-05-13)
+
+### Features Added
+
+  - Client `AppComplianceAutomationMgmtClient` added method `send_request`
+  - Model `ReportOperations` added method `check_name_availability`
+  - Method `CertSyncRecord.__init__` has a new overload `def __init__(self: None, offer_guid: Optional[str], certification_status: Optional[str], ingestion_status: Optional[str], controls: Optional[List[_models.ControlSyncRecord]])`
+  - Method `CertSyncRecord.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CheckNameAvailabilityRequest.__init__` has a new overload `def __init__(self: None, name: Optional[str], type: Optional[str])`
+  - Method `CheckNameAvailabilityRequest.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CheckNameAvailabilityResponse.__init__` has a new overload `def __init__(self: None, name_available: Optional[bool], reason: Optional[Union[str, _models.CheckNameAvailabilityReason]], message: Optional[str])`
+  - Method `CheckNameAvailabilityResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ControlSyncRecord.__init__` has a new overload `def __init__(self: None, control_id: Optional[str], control_status: Optional[str])`
+  - Method `ControlSyncRecord.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, error: Optional[_models.ErrorDetail])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `EvidenceFileDownloadRequest.__init__` has a new overload `def __init__(self: None, report_creator_tenant_id: Optional[str], offer_guid: Optional[str])`
+  - Method `EvidenceFileDownloadRequest.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `EvidenceProperties.__init__` has a new overload `def __init__(self: None, file_path: str, evidence_type: Optional[Union[str, _models.EvidenceType]], extra_data: Optional[str], control_id: Optional[str], responsibility_id: Optional[str])`
+  - Method `EvidenceProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `EvidenceResource.__init__` has a new overload `def __init__(self: None, properties: _models.EvidenceProperties)`
+  - Method `EvidenceResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GetCollectionCountRequest.__init__` has a new overload `def __init__(self: None, type: Optional[str])`
+  - Method `GetCollectionCountRequest.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GetCollectionCountResponse.__init__` has a new overload `def __init__(self: None, count: Optional[int])`
+  - Method `GetCollectionCountResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GetOverviewStatusRequest.__init__` has a new overload `def __init__(self: None, type: Optional[str])`
+  - Method `GetOverviewStatusRequest.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GetOverviewStatusResponse.__init__` has a new overload `def __init__(self: None, status_list: Optional[List[_models.StatusItem]])`
+  - Method `GetOverviewStatusResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ListInUseStorageAccountsRequest.__init__` has a new overload `def __init__(self: None, subscription_ids: Optional[List[str]])`
+  - Method `ListInUseStorageAccountsRequest.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ListInUseStorageAccountsResponse.__init__` has a new overload `def __init__(self: None, storage_account_list: Optional[List[_models.StorageInfo]])`
+  - Method `ListInUseStorageAccountsResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `OnboardRequest.__init__` has a new overload `def __init__(self: None, subscription_ids: List[str])`
+  - Method `OnboardRequest.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, display: Optional[_models.OperationDisplay])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ReportPatchProperties.__init__` has a new overload `def __init__(self: None, trigger_time: Optional[datetime], time_zone: Optional[str], resources: Optional[List[_models.ResourceMetadata]], offer_guid: Optional[str], storage_info: Optional[_models.StorageInfo])`
+  - Method `ReportPatchProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ReportProperties.__init__` has a new overload `def __init__(self: None, trigger_time: datetime, time_zone: str, resources: List[_models.ResourceMetadata], offer_guid: Optional[str], storage_info: Optional[_models.StorageInfo])`
+  - Method `ReportProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ReportResource.__init__` has a new overload `def __init__(self: None, properties: _models.ReportProperties)`
+  - Method `ReportResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ReportResourcePatch.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.ReportPatchProperties])`
+  - Method `ReportResourcePatch.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ResourceMetadata.__init__` has a new overload `def __init__(self: None, resource_id: str, resource_type: Optional[str], resource_kind: Optional[str], resource_origin: Optional[Union[str, _models.ResourceOrigin]], account_id: Optional[str])`
+  - Method `ResourceMetadata.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Responsibility.__init__` has a new overload `def __init__(self: None, failed_resource_count: Optional[int], total_resource_count: Optional[int], evidence_files: Optional[List[str]])`
+  - Method `Responsibility.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ResponsibilityResource.__init__` has a new overload `def __init__(self: None, recommendation_ids: Optional[List[str]])`
+  - Method `ResponsibilityResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScopingAnswer.__init__` has a new overload `def __init__(self: None, question_id: str, answers: List[str])`
+  - Method `ScopingAnswer.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScopingConfigurationProperties.__init__` has a new overload `def __init__(self: None, answers: Optional[List[_models.ScopingAnswer]])`
+  - Method `ScopingConfigurationProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScopingConfigurationResource.__init__` has a new overload `def __init__(self: None, properties: _models.ScopingConfigurationProperties)`
+  - Method `ScopingConfigurationResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScopingQuestions.__init__` has a new overload `def __init__(self: None, questions: Optional[List[_models.ScopingQuestion]])`
+  - Method `ScopingQuestions.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SnapshotDownloadRequest.__init__` has a new overload `def __init__(self: None, download_type: Union[str, _models.DownloadType], report_creator_tenant_id: Optional[str], offer_guid: Optional[str])`
+  - Method `SnapshotDownloadRequest.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SnapshotResource.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.SnapshotProperties])`
+  - Method `SnapshotResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `StatusItem.__init__` has a new overload `def __init__(self: None, status_name: Optional[str], status_value: Optional[str])`
+  - Method `StatusItem.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `StorageInfo.__init__` has a new overload `def __init__(self: None, subscription_id: Optional[str], resource_group: Optional[str], account_name: Optional[str], location: Optional[str])`
+  - Method `StorageInfo.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SyncCertRecordRequest.__init__` has a new overload `def __init__(self: None, cert_record: _models.CertSyncRecord)`
+  - Method `SyncCertRecordRequest.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SyncCertRecordResponse.__init__` has a new overload `def __init__(self: None, cert_record: Optional[_models.CertSyncRecord])`
+  - Method `SyncCertRecordResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, created_by: Optional[str], created_by_type: Optional[Union[str, _models.CreatedByType]], created_at: Optional[datetime], last_modified_by: Optional[str], last_modified_by_type: Optional[Union[str, _models.CreatedByType]], last_modified_at: Optional[datetime])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `TriggerEvaluationRequest.__init__` has a new overload `def __init__(self: None, resource_ids: List[str])`
+  - Method `TriggerEvaluationRequest.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WebhookProperties.__init__` has a new overload `def __init__(self: None, status: Optional[Union[str, _models.WebhookStatus]], send_all_events: Optional[Union[str, _models.SendAllEvents]], events: Optional[List[Union[str, _models.NotificationEvent]]], payload_url: Optional[str], content_type: Optional[Union[str, _models.ContentType]], webhook_key: Optional[str], update_webhook_key: Optional[Union[str, _models.UpdateWebhookKey]], enable_ssl_verification: Optional[Union[str, _models.EnableSslVerification]])`
+  - Method `WebhookProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WebhookResource.__init__` has a new overload `def __init__(self: None, properties: _models.WebhookProperties)`
+  - Method `WebhookResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WebhookResourcePatch.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.WebhookProperties])`
+  - Method `WebhookResourcePatch.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `EvidenceOperations.create_or_update` has a new overload `def create_or_update(self: None, report_name: str, evidence_name: str, properties: EvidenceResource, offer_guid: Optional[str], report_creator_tenant_id: Optional[str], content_type: str)`
+  - Method `EvidenceOperations.create_or_update` has a new overload `def create_or_update(self: None, report_name: str, evidence_name: str, properties: IO[bytes], offer_guid: Optional[str], report_creator_tenant_id: Optional[str], content_type: str)`
+  - Method `EvidenceOperations.create_or_update` has a new overload `def create_or_update(self: None, report_name: str, evidence_name: str, properties: JSON, offer_guid: Optional[str], report_creator_tenant_id: Optional[str], content_type: str)`
+  - Method `EvidenceOperations.download` has a new overload `def download(self: None, report_name: str, evidence_name: str, body: JSON, content_type: str)`
+  - Method `ProviderActionsOperations.begin_onboard` has a new overload `def begin_onboard(self: None, body: JSON, content_type: str)`
+  - Method `ProviderActionsOperations.begin_trigger_evaluation` has a new overload `def begin_trigger_evaluation(self: None, body: JSON, content_type: str)`
+  - Method `ProviderActionsOperations.check_name_availability` has a new overload `def check_name_availability(self: None, body: JSON, content_type: str)`
+  - Method `ProviderActionsOperations.get_collection_count` has a new overload `def get_collection_count(self: None, body: JSON, content_type: str)`
+  - Method `ProviderActionsOperations.get_overview_status` has a new overload `def get_overview_status(self: None, body: JSON, content_type: str)`
+  - Method `ProviderActionsOperations.list_in_use_storage_accounts` has a new overload `def list_in_use_storage_accounts(self: None, body: JSON, content_type: str)`
+  - Method `ReportOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, report_name: str, properties: JSON, content_type: str)`
+  - Method `ReportOperations.begin_sync_cert_record` has a new overload `def begin_sync_cert_record(self: None, report_name: str, body: JSON, content_type: str)`
+  - Method `ReportOperations.begin_update` has a new overload `def begin_update(self: None, report_name: str, properties: JSON, content_type: str)`
+  - Method `ReportOperations.check_name_availability` has a new overload `def check_name_availability(self: None, report_name: str, body: CheckNameAvailabilityRequest, content_type: str)`
+  - Method `ReportOperations.check_name_availability` has a new overload `def check_name_availability(self: None, report_name: str, body: JSON, content_type: str)`
+  - Method `ReportOperations.check_name_availability` has a new overload `def check_name_availability(self: None, report_name: str, body: IO[bytes], content_type: str)`
+  - Method `ScopingConfigurationOperations.create_or_update` has a new overload `def create_or_update(self: None, report_name: str, scoping_configuration_name: str, properties: JSON, content_type: str)`
+  - Method `SnapshotOperations.begin_download` has a new overload `def begin_download(self: None, report_name: str, snapshot_name: str, body: JSON, content_type: str)`
+  - Method `WebhookOperations.create_or_update` has a new overload `def create_or_update(self: None, report_name: str, webhook_name: str, properties: JSON, content_type: str)`
+  - Method `WebhookOperations.update` has a new overload `def update(self: None, report_name: str, webhook_name: str, properties: JSON, content_type: str)`
+
+### Breaking Changes
+
+  - Model `Category` deleted or renamed its instance variable `additional_properties`
+  - Model `CertSyncRecord` deleted or renamed its instance variable `additional_properties`
+  - Model `CheckNameAvailabilityRequest` deleted or renamed its instance variable `additional_properties`
+  - Model `CheckNameAvailabilityResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `ComplianceReportItem` deleted or renamed its instance variable `additional_properties`
+  - Model `ComplianceResult` deleted or renamed its instance variable `additional_properties`
+  - Model `Control` deleted or renamed its instance variable `additional_properties`
+  - Model `ControlFamily` deleted or renamed its instance variable `additional_properties`
+  - Model `ControlSyncRecord` deleted or renamed its instance variable `additional_properties`
+  - Model `DownloadResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `DownloadResponseComplianceDetailedPdfReport` deleted or renamed its instance variable `additional_properties`
+  - Model `DownloadResponseCompliancePdfReport` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorAdditionalInfo` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorDetail` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `EvidenceFileDownloadRequest` deleted or renamed its instance variable `additional_properties`
+  - Model `EvidenceFileDownloadResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `EvidenceFileDownloadResponseEvidenceFile` deleted or renamed its instance variable `additional_properties`
+  - Model `EvidenceProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `EvidenceResource` deleted or renamed its instance variable `additional_properties`
+  - Model `GetCollectionCountRequest` deleted or renamed its instance variable `additional_properties`
+  - Model `GetCollectionCountResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `GetOverviewStatusRequest` deleted or renamed its instance variable `additional_properties`
+  - Model `GetOverviewStatusResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `ListInUseStorageAccountsRequest` deleted or renamed its instance variable `additional_properties`
+  - Model `ListInUseStorageAccountsResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `OnboardRequest` deleted or renamed its instance variable `additional_properties`
+  - Model `Operation` deleted or renamed its instance variable `additional_properties`
+  - Model `OperationDisplay` deleted or renamed its instance variable `additional_properties`
+  - Model `OverviewStatus` deleted or renamed its instance variable `additional_properties`
+  - Model `ProxyResource` deleted or renamed its instance variable `additional_properties`
+  - Model `Recommendation` deleted or renamed its instance variable `additional_properties`
+  - Model `RecommendationSolution` deleted or renamed its instance variable `additional_properties`
+  - Model `ReportComplianceStatus` deleted or renamed its instance variable `additional_properties`
+  - Model `ReportFixResult` deleted or renamed its instance variable `additional_properties`
+  - Model `ReportPatchProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `ReportProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `ReportResource` deleted or renamed its instance variable `additional_properties`
+  - Model `ReportResourcePatch` deleted or renamed its instance variable `additional_properties`
+  - Model `ReportVerificationResult` deleted or renamed its instance variable `additional_properties`
+  - Model `Resource` deleted or renamed its instance variable `additional_properties`
+  - Model `ResourceItem` deleted or renamed its instance variable `additional_properties`
+  - Model `ResourceMetadata` deleted or renamed its instance variable `additional_properties`
+  - Model `Responsibility` deleted or renamed its instance variable `additional_properties`
+  - Model `ResponsibilityResource` deleted or renamed its instance variable `additional_properties`
+  - Model `ScopingAnswer` deleted or renamed its instance variable `additional_properties`
+  - Model `ScopingConfigurationProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `ScopingConfigurationResource` deleted or renamed its instance variable `additional_properties`
+  - Model `ScopingQuestion` deleted or renamed its instance variable `additional_properties`
+  - Model `ScopingQuestions` deleted or renamed its instance variable `additional_properties`
+  - Model `SnapshotDownloadRequest` deleted or renamed its instance variable `additional_properties`
+  - Model `SnapshotProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `SnapshotResource` deleted or renamed its instance variable `additional_properties`
+  - Model `StatusItem` deleted or renamed its instance variable `additional_properties`
+  - Model `StorageInfo` deleted or renamed its instance variable `additional_properties`
+  - Model `SyncCertRecordRequest` deleted or renamed its instance variable `additional_properties`
+  - Model `SyncCertRecordResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `SystemData` deleted or renamed its instance variable `additional_properties`
+  - Model `TriggerEvaluationRequest` deleted or renamed its instance variable `additional_properties`
+  - Model `WebhookProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `WebhookResource` deleted or renamed its instance variable `additional_properties`
+  - Model `WebhookResourcePatch` deleted or renamed its instance variable `additional_properties`
+  - Deleted or renamed model `OnboardResponse`
+  - Deleted or renamed model `QuickAssessment`
+  - Deleted or renamed model `TriggerEvaluationProperty`
+  - Deleted or renamed model `TriggerEvaluationResponse`
+  - Method `EvidenceOperations.create_or_update` changed its parameter `offer_guid` from `positional_or_keyword` to `keyword_only`
+  - Method `EvidenceOperations.create_or_update` changed its parameter `report_creator_tenant_id` from `positional_or_keyword` to `keyword_only`
+  - Method `EvidenceOperations.list_by_report` changed its parameter `skip_token` from `positional_or_keyword` to `keyword_only`
+  - Method `EvidenceOperations.list_by_report` changed its parameter `select` from `positional_or_keyword` to `keyword_only`
+  - Method `EvidenceOperations.list_by_report` changed its parameter `orderby` from `positional_or_keyword` to `keyword_only`
+  - Method `EvidenceOperations.list_by_report` changed its parameter `offer_guid` from `positional_or_keyword` to `keyword_only`
+  - Method `EvidenceOperations.list_by_report` changed its parameter `report_creator_tenant_id` from `positional_or_keyword` to `keyword_only`
+  - Method `ReportOperations.list` changed its parameter `skip_token` from `positional_or_keyword` to `keyword_only`
+  - Method `ReportOperations.list` changed its parameter `select` from `positional_or_keyword` to `keyword_only`
+  - Method `ReportOperations.list` changed its parameter `orderby` from `positional_or_keyword` to `keyword_only`
+  - Method `ReportOperations.list` changed its parameter `offer_guid` from `positional_or_keyword` to `keyword_only`
+  - Method `ReportOperations.list` changed its parameter `report_creator_tenant_id` from `positional_or_keyword` to `keyword_only`
+  - Deleted or renamed method `ReportOperations.nested_resource_check_name_availability`
+  - Method `SnapshotOperations.list` changed its parameter `skip_token` from `positional_or_keyword` to `keyword_only`
+  - Method `SnapshotOperations.list` changed its parameter `select` from `positional_or_keyword` to `keyword_only`
+  - Method `SnapshotOperations.list` changed its parameter `orderby` from `positional_or_keyword` to `keyword_only`
+  - Method `SnapshotOperations.list` changed its parameter `offer_guid` from `positional_or_keyword` to `keyword_only`
+  - Method `SnapshotOperations.list` changed its parameter `report_creator_tenant_id` from `positional_or_keyword` to `keyword_only`
+  - Method `WebhookOperations.list` changed its parameter `skip_token` from `positional_or_keyword` to `keyword_only`
+  - Method `WebhookOperations.list` changed its parameter `select` from `positional_or_keyword` to `keyword_only`
+  - Method `WebhookOperations.list` changed its parameter `orderby` from `positional_or_keyword` to `keyword_only`
+  - Method `WebhookOperations.list` changed its parameter `offer_guid` from `positional_or_keyword` to `keyword_only`
+  - Method `WebhookOperations.list` changed its parameter `report_creator_tenant_id` from `positional_or_keyword` to `keyword_only`
+
 ## 1.0.0 (2024-06-23)
 
 ### Features Added
