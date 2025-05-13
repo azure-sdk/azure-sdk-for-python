@@ -1,5 +1,442 @@
 # Release History
 
+## 2.0.0 (2025-05-13)
+
+### Features Added
+
+  - Client `OracleDatabaseMgmtClient` added method `send_request`
+  - Client `OracleDatabaseMgmtClient` added operation group `list_actions`
+  - Client `OracleDatabaseMgmtClient` added operation group `gi_minor_versions`
+  - Client `OracleDatabaseMgmtClient` added operation group `flex_components`
+  - Client `OracleDatabaseMgmtClient` added operation group `exadb_vm_clusters`
+  - Client `OracleDatabaseMgmtClient` added operation group `exascale_db_nodes`
+  - Client `OracleDatabaseMgmtClient` added operation group `exascale_db_storage_vaults`
+  - Model `AutonomousDatabaseBaseProperties` added property `time_disaster_recovery_role_changed`
+  - Model `AutonomousDatabaseBaseProperties` added property `remote_disaster_recovery_configuration`
+  - Model `AutonomousDatabaseCloneProperties` added property `time_disaster_recovery_role_changed`
+  - Model `AutonomousDatabaseCloneProperties` added property `remote_disaster_recovery_configuration`
+  - Model `AutonomousDatabaseProperties` added property `time_disaster_recovery_role_changed`
+  - Model `AutonomousDatabaseProperties` added property `remote_disaster_recovery_configuration`
+  - Model `CloudExadataInfrastructureProperties` added property `defined_file_system_configuration`
+  - Model `CloudExadataInfrastructureProperties` added property `database_server_type`
+  - Model `CloudExadataInfrastructureProperties` added property `storage_server_type`
+  - Model `CloudExadataInfrastructureProperties` added property `compute_model`
+  - Model `CloudVmClusterProperties` added property `file_system_configuration_details`
+  - Model `CloudVmClusterProperties` added property `compute_model`
+  - Model `CloudVmClusterUpdateProperties` added property `file_system_configuration_details`
+  - Enum `DataBaseType` added member `CLONE_FROM_BACKUP_TIMESTAMP`
+  - Enum `DataBaseType` added member `CROSS_REGION_DISASTER_RECOVERY`
+  - Model `DbServerProperties` added property `compute_model`
+  - Model `DbSystemShapeProperties` added property `shape_name`
+  - Model `DbSystemShapeProperties` added property `compute_model`
+  - Model `DbSystemShapeProperties` added property `are_server_types_supported`
+  - Model `DbSystemShapeProperties` added property `display_name`
+  - Model `OracleSubscriptionProperties` added property `azure_subscription_ids`
+  - Model `OracleSubscriptionProperties` added property `add_subscription_operation_state`
+  - Model `OracleSubscriptionProperties` added property `last_operation_status_detail`
+  - Model `PeerDbDetails` added property `peer_db_ocid`
+  - Model `PeerDbDetails` added property `peer_db_location`
+  - Added enum `AddSubscriptionOperationState`
+  - Added model `AutonomousDatabaseCrossRegionDisasterRecoveryProperties`
+  - Added model `AutonomousDatabaseFromBackupTimestampProperties`
+  - Added model `AzureSubscriptions`
+  - Added model `DbActionResponse`
+  - Added model `DbNodeDetails`
+  - Added model `DefinedFileSystemConfiguration`
+  - Added model `DisasterRecoveryConfigurationDetails`
+  - Added model `ExadbVmCluster`
+  - Added enum `ExadbVmClusterLifecycleState`
+  - Added model `ExadbVmClusterProperties`
+  - Added model `ExadbVmClusterStorageDetails`
+  - Added model `ExadbVmClusterUpdate`
+  - Added model `ExadbVmClusterUpdateProperties`
+  - Added model `ExascaleDbNode`
+  - Added model `ExascaleDbNodeProperties`
+  - Added model `ExascaleDbStorageDetails`
+  - Added model `ExascaleDbStorageInputDetails`
+  - Added model `ExascaleDbStorageVault`
+  - Added enum `ExascaleDbStorageVaultLifecycleState`
+  - Added model `ExascaleDbStorageVaultProperties`
+  - Added model `ExascaleDbStorageVaultTagsUpdate`
+  - Added model `FileSystemConfigurationDetails`
+  - Added model `FlexComponent`
+  - Added model `FlexComponentProperties`
+  - Added model `GiMinorVersion`
+  - Added model `GiMinorVersionProperties`
+  - Added enum `GridImageType`
+  - Added enum `HardwareType`
+  - Added model `RemoveVirtualMachineFromExadbVmClusterDetails`
+  - Added enum `ShapeFamily`
+  - Added enum `SystemShapes`
+  - Model `AutonomousDatabaseBackupsOperations` added method `list_by_parent`
+  - Model `AutonomousDatabasesOperations` added method `begin_change_disaster_recovery_configuration`
+  - Model `DbNodesOperations` added method `list_by_parent`
+  - Model `DbServersOperations` added method `list_by_parent`
+  - Model `DbSystemShapesOperations` added parameter `zone` in method `list_by_location`
+  - Model `GiVersionsOperations` added parameter `shape` in method `list_by_location`
+  - Model `GiVersionsOperations` added parameter `zone` in method `list_by_location`
+  - Model `OracleSubscriptionsOperations` added method `begin_add_azure_subscriptions`
+  - Model `VirtualNetworkAddressesOperations` added method `list_by_parent`
+  - Added model `ExadbVmClustersOperations`
+  - Added model `ExascaleDbNodesOperations`
+  - Added model `ExascaleDbStorageVaultsOperations`
+  - Added model `FlexComponentsOperations`
+  - Added model `GiMinorVersionsOperations`
+  - Added model `ListActionsOperations`
+  - Method `AddRemoveDbNode.__init__` has a new overload `def __init__(self: None, db_servers: List[str])`
+  - Method `AddRemoveDbNode.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AllConnectionStringType.__init__` has a new overload `def __init__(self: None, high: Optional[str], low: Optional[str], medium: Optional[str])`
+  - Method `AllConnectionStringType.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ApexDetailsType.__init__` has a new overload `def __init__(self: None, apex_version: Optional[str], ords_version: Optional[str])`
+  - Method `ApexDetailsType.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabase.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]], properties: Optional[_models.AutonomousDatabaseBaseProperties])`
+  - Method `AutonomousDatabase.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabase.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `AutonomousDatabase.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseBackup.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.AutonomousDatabaseBackupProperties])`
+  - Method `AutonomousDatabaseBackup.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseBackupProperties.__init__` has a new overload `def __init__(self: None, display_name: Optional[str], retention_period_in_days: Optional[int])`
+  - Method `AutonomousDatabaseBackupProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseBaseProperties.__init__` has a new overload `def __init__(self: None, data_base_type: str, admin_password: Optional[str], autonomous_maintenance_schedule_type: Optional[Union[str, _models.AutonomousMaintenanceScheduleType]], character_set: Optional[str], compute_count: Optional[float], compute_model: Optional[Union[str, _models.ComputeModel]], cpu_core_count: Optional[int], customer_contacts: Optional[List[_models.CustomerContact]], data_storage_size_in_tbs: Optional[int], data_storage_size_in_gbs: Optional[int], db_version: Optional[str], db_workload: Optional[Union[str, _models.WorkloadType]], display_name: Optional[str], is_auto_scaling_enabled: Optional[bool], is_auto_scaling_for_storage_enabled: Optional[bool], peer_db_id: Optional[str], is_local_data_guard_enabled: Optional[bool], is_mtls_connection_required: Optional[bool], is_preview_version_with_service_terms_accepted: Optional[bool], license_model: Optional[Union[str, _models.LicenseModel]], ncharacter_set: Optional[str], scheduled_operations: Optional[_models.ScheduledOperationsType], private_endpoint_ip: Optional[str], private_endpoint_label: Optional[str], subnet_id: Optional[str], vnet_id: Optional[str], database_edition: Optional[Union[str, _models.DatabaseEditionType]], autonomous_database_id: Optional[str], long_term_backup_schedule: Optional[_models.LongTermBackUpScheduleDetails], local_adg_auto_failover_max_data_loss_limit: Optional[int], open_mode: Optional[Union[str, _models.OpenModeType]], permission_level: Optional[Union[str, _models.PermissionLevelType]], role: Optional[Union[str, _models.RoleType]], backup_retention_period_in_days: Optional[int], whitelisted_ips: Optional[List[str]])`
+  - Method `AutonomousDatabaseBaseProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseCharacterSet.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.AutonomousDatabaseCharacterSetProperties])`
+  - Method `AutonomousDatabaseCharacterSet.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseCharacterSetProperties.__init__` has a new overload `def __init__(self: None, character_set: str)`
+  - Method `AutonomousDatabaseCharacterSetProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseCloneProperties.__init__` has a new overload `def __init__(self: None, source_id: str, clone_type: Union[str, _models.CloneType], admin_password: Optional[str], autonomous_maintenance_schedule_type: Optional[Union[str, _models.AutonomousMaintenanceScheduleType]], character_set: Optional[str], compute_count: Optional[float], compute_model: Optional[Union[str, _models.ComputeModel]], cpu_core_count: Optional[int], customer_contacts: Optional[List[_models.CustomerContact]], data_storage_size_in_tbs: Optional[int], data_storage_size_in_gbs: Optional[int], db_version: Optional[str], db_workload: Optional[Union[str, _models.WorkloadType]], display_name: Optional[str], is_auto_scaling_enabled: Optional[bool], is_auto_scaling_for_storage_enabled: Optional[bool], peer_db_id: Optional[str], is_local_data_guard_enabled: Optional[bool], is_mtls_connection_required: Optional[bool], is_preview_version_with_service_terms_accepted: Optional[bool], license_model: Optional[Union[str, _models.LicenseModel]], ncharacter_set: Optional[str], scheduled_operations: Optional[_models.ScheduledOperationsType], private_endpoint_ip: Optional[str], private_endpoint_label: Optional[str], subnet_id: Optional[str], vnet_id: Optional[str], database_edition: Optional[Union[str, _models.DatabaseEditionType]], autonomous_database_id: Optional[str], long_term_backup_schedule: Optional[_models.LongTermBackUpScheduleDetails], local_adg_auto_failover_max_data_loss_limit: Optional[int], open_mode: Optional[Union[str, _models.OpenModeType]], permission_level: Optional[Union[str, _models.PermissionLevelType]], role: Optional[Union[str, _models.RoleType]], backup_retention_period_in_days: Optional[int], whitelisted_ips: Optional[List[str]], source: Optional[Union[str, _models.SourceType]], refreshable_model: Optional[Union[str, _models.RefreshableModelType]], time_until_reconnect_clone_enabled: Optional[str])`
+  - Method `AutonomousDatabaseCloneProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseCloneProperties.__init__` has a new overload `def __init__(self: None, data_base_type: str, admin_password: Optional[str], autonomous_maintenance_schedule_type: Optional[Union[str, _models.AutonomousMaintenanceScheduleType]], character_set: Optional[str], compute_count: Optional[float], compute_model: Optional[Union[str, _models.ComputeModel]], cpu_core_count: Optional[int], customer_contacts: Optional[List[_models.CustomerContact]], data_storage_size_in_tbs: Optional[int], data_storage_size_in_gbs: Optional[int], db_version: Optional[str], db_workload: Optional[Union[str, _models.WorkloadType]], display_name: Optional[str], is_auto_scaling_enabled: Optional[bool], is_auto_scaling_for_storage_enabled: Optional[bool], peer_db_id: Optional[str], is_local_data_guard_enabled: Optional[bool], is_mtls_connection_required: Optional[bool], is_preview_version_with_service_terms_accepted: Optional[bool], license_model: Optional[Union[str, _models.LicenseModel]], ncharacter_set: Optional[str], scheduled_operations: Optional[_models.ScheduledOperationsType], private_endpoint_ip: Optional[str], private_endpoint_label: Optional[str], subnet_id: Optional[str], vnet_id: Optional[str], database_edition: Optional[Union[str, _models.DatabaseEditionType]], autonomous_database_id: Optional[str], long_term_backup_schedule: Optional[_models.LongTermBackUpScheduleDetails], local_adg_auto_failover_max_data_loss_limit: Optional[int], open_mode: Optional[Union[str, _models.OpenModeType]], permission_level: Optional[Union[str, _models.PermissionLevelType]], role: Optional[Union[str, _models.RoleType]], backup_retention_period_in_days: Optional[int], whitelisted_ips: Optional[List[str]])`
+  - Method `AutonomousDatabaseCloneProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseNationalCharacterSet.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.AutonomousDatabaseNationalCharacterSetProperties])`
+  - Method `AutonomousDatabaseNationalCharacterSet.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseNationalCharacterSetProperties.__init__` has a new overload `def __init__(self: None, character_set: str)`
+  - Method `AutonomousDatabaseNationalCharacterSetProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseProperties.__init__` has a new overload `def __init__(self: None, admin_password: Optional[str], autonomous_maintenance_schedule_type: Optional[Union[str, _models.AutonomousMaintenanceScheduleType]], character_set: Optional[str], compute_count: Optional[float], compute_model: Optional[Union[str, _models.ComputeModel]], cpu_core_count: Optional[int], customer_contacts: Optional[List[_models.CustomerContact]], data_storage_size_in_tbs: Optional[int], data_storage_size_in_gbs: Optional[int], db_version: Optional[str], db_workload: Optional[Union[str, _models.WorkloadType]], display_name: Optional[str], is_auto_scaling_enabled: Optional[bool], is_auto_scaling_for_storage_enabled: Optional[bool], peer_db_id: Optional[str], is_local_data_guard_enabled: Optional[bool], is_mtls_connection_required: Optional[bool], is_preview_version_with_service_terms_accepted: Optional[bool], license_model: Optional[Union[str, _models.LicenseModel]], ncharacter_set: Optional[str], scheduled_operations: Optional[_models.ScheduledOperationsType], private_endpoint_ip: Optional[str], private_endpoint_label: Optional[str], subnet_id: Optional[str], vnet_id: Optional[str], database_edition: Optional[Union[str, _models.DatabaseEditionType]], autonomous_database_id: Optional[str], long_term_backup_schedule: Optional[_models.LongTermBackUpScheduleDetails], local_adg_auto_failover_max_data_loss_limit: Optional[int], open_mode: Optional[Union[str, _models.OpenModeType]], permission_level: Optional[Union[str, _models.PermissionLevelType]], role: Optional[Union[str, _models.RoleType]], backup_retention_period_in_days: Optional[int], whitelisted_ips: Optional[List[str]])`
+  - Method `AutonomousDatabaseProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseProperties.__init__` has a new overload `def __init__(self: None, data_base_type: str, admin_password: Optional[str], autonomous_maintenance_schedule_type: Optional[Union[str, _models.AutonomousMaintenanceScheduleType]], character_set: Optional[str], compute_count: Optional[float], compute_model: Optional[Union[str, _models.ComputeModel]], cpu_core_count: Optional[int], customer_contacts: Optional[List[_models.CustomerContact]], data_storage_size_in_tbs: Optional[int], data_storage_size_in_gbs: Optional[int], db_version: Optional[str], db_workload: Optional[Union[str, _models.WorkloadType]], display_name: Optional[str], is_auto_scaling_enabled: Optional[bool], is_auto_scaling_for_storage_enabled: Optional[bool], peer_db_id: Optional[str], is_local_data_guard_enabled: Optional[bool], is_mtls_connection_required: Optional[bool], is_preview_version_with_service_terms_accepted: Optional[bool], license_model: Optional[Union[str, _models.LicenseModel]], ncharacter_set: Optional[str], scheduled_operations: Optional[_models.ScheduledOperationsType], private_endpoint_ip: Optional[str], private_endpoint_label: Optional[str], subnet_id: Optional[str], vnet_id: Optional[str], database_edition: Optional[Union[str, _models.DatabaseEditionType]], autonomous_database_id: Optional[str], long_term_backup_schedule: Optional[_models.LongTermBackUpScheduleDetails], local_adg_auto_failover_max_data_loss_limit: Optional[int], open_mode: Optional[Union[str, _models.OpenModeType]], permission_level: Optional[Union[str, _models.PermissionLevelType]], role: Optional[Union[str, _models.RoleType]], backup_retention_period_in_days: Optional[int], whitelisted_ips: Optional[List[str]])`
+  - Method `AutonomousDatabaseProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseStandbySummary.__init__` has a new overload `def __init__(self: None, lag_time_in_seconds: Optional[int], lifecycle_state: Optional[Union[str, _models.AutonomousDatabaseLifecycleState]], lifecycle_details: Optional[str], time_data_guard_role_changed: Optional[str], time_disaster_recovery_role_changed: Optional[str])`
+  - Method `AutonomousDatabaseStandbySummary.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]], properties: Optional[_models.AutonomousDatabaseUpdateProperties])`
+  - Method `AutonomousDatabaseUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseUpdateProperties.__init__` has a new overload `def __init__(self: None, admin_password: Optional[str], autonomous_maintenance_schedule_type: Optional[Union[str, _models.AutonomousMaintenanceScheduleType]], compute_count: Optional[float], cpu_core_count: Optional[int], customer_contacts: Optional[List[_models.CustomerContact]], data_storage_size_in_tbs: Optional[int], data_storage_size_in_gbs: Optional[int], display_name: Optional[str], is_auto_scaling_enabled: Optional[bool], is_auto_scaling_for_storage_enabled: Optional[bool], peer_db_id: Optional[str], is_local_data_guard_enabled: Optional[bool], is_mtls_connection_required: Optional[bool], license_model: Optional[Union[str, _models.LicenseModel]], scheduled_operations: Optional[_models.ScheduledOperationsType], database_edition: Optional[Union[str, _models.DatabaseEditionType]], long_term_backup_schedule: Optional[_models.LongTermBackUpScheduleDetails], local_adg_auto_failover_max_data_loss_limit: Optional[int], open_mode: Optional[Union[str, _models.OpenModeType]], permission_level: Optional[Union[str, _models.PermissionLevelType]], role: Optional[Union[str, _models.RoleType]], backup_retention_period_in_days: Optional[int], whitelisted_ips: Optional[List[str]])`
+  - Method `AutonomousDatabaseUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseWalletFile.__init__` has a new overload `def __init__(self: None, wallet_files: str)`
+  - Method `AutonomousDatabaseWalletFile.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDbVersion.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.AutonomousDbVersionProperties])`
+  - Method `AutonomousDbVersion.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDbVersionProperties.__init__` has a new overload `def __init__(self: None, version: str, db_workload: Optional[Union[str, _models.WorkloadType]], is_default_for_free: Optional[bool], is_default_for_paid: Optional[bool], is_free_tier_enabled: Optional[bool], is_paid_enabled: Optional[bool])`
+  - Method `AutonomousDbVersionProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudExadataInfrastructure.__init__` has a new overload `def __init__(self: None, location: str, zones: List[str], tags: Optional[Dict[str, str]], properties: Optional[_models.CloudExadataInfrastructureProperties])`
+  - Method `CloudExadataInfrastructure.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudExadataInfrastructure.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `CloudExadataInfrastructure.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudExadataInfrastructureProperties.__init__` has a new overload `def __init__(self: None, shape: str, display_name: str, compute_count: Optional[int], storage_count: Optional[int], maintenance_window: Optional[_models.MaintenanceWindow], customer_contacts: Optional[List[_models.CustomerContact]], database_server_type: Optional[str], storage_server_type: Optional[str])`
+  - Method `CloudExadataInfrastructureProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudExadataInfrastructureUpdate.__init__` has a new overload `def __init__(self: None, zones: Optional[List[str]], tags: Optional[Dict[str, str]], properties: Optional[_models.CloudExadataInfrastructureUpdateProperties])`
+  - Method `CloudExadataInfrastructureUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudExadataInfrastructureUpdateProperties.__init__` has a new overload `def __init__(self: None, compute_count: Optional[int], storage_count: Optional[int], maintenance_window: Optional[_models.MaintenanceWindow], customer_contacts: Optional[List[_models.CustomerContact]], display_name: Optional[str])`
+  - Method `CloudExadataInfrastructureUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudVmCluster.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]], properties: Optional[_models.CloudVmClusterProperties])`
+  - Method `CloudVmCluster.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudVmCluster.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `CloudVmCluster.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudVmClusterProperties.__init__` has a new overload `def __init__(self: None, hostname: str, cpu_core_count: int, cloud_exadata_infrastructure_id: str, ssh_public_keys: List[str], vnet_id: str, gi_version: str, subnet_id: str, display_name: str, storage_size_in_gbs: Optional[int], file_system_configuration_details: Optional[List[_models.FileSystemConfigurationDetails]], data_storage_size_in_tbs: Optional[float], db_node_storage_size_in_gbs: Optional[int], memory_size_in_gbs: Optional[int], time_zone: Optional[str], zone_id: Optional[str], domain: Optional[str], ocpu_count: Optional[float], cluster_name: Optional[str], data_storage_percentage: Optional[int], is_local_backup_enabled: Optional[bool], is_sparse_diskgroup_enabled: Optional[bool], system_version: Optional[str], license_model: Optional[Union[str, _models.LicenseModel]], scan_listener_port_tcp: Optional[int], scan_listener_port_tcp_ssl: Optional[int], backup_subnet_cidr: Optional[str], nsg_cidrs: Optional[List[_models.NsgCidr]], data_collection_options: Optional[_models.DataCollectionOptions], compute_nodes: Optional[List[str]], db_servers: Optional[List[str]])`
+  - Method `CloudVmClusterProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudVmClusterUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]], properties: Optional[_models.CloudVmClusterUpdateProperties])`
+  - Method `CloudVmClusterUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudVmClusterUpdateProperties.__init__` has a new overload `def __init__(self: None, storage_size_in_gbs: Optional[int], file_system_configuration_details: Optional[List[_models.FileSystemConfigurationDetails]], data_storage_size_in_tbs: Optional[float], db_node_storage_size_in_gbs: Optional[int], memory_size_in_gbs: Optional[int], cpu_core_count: Optional[int], ocpu_count: Optional[float], ssh_public_keys: Optional[List[str]], license_model: Optional[Union[str, _models.LicenseModel]], data_collection_options: Optional[_models.DataCollectionOptions], display_name: Optional[str], compute_nodes: Optional[List[str]])`
+  - Method `CloudVmClusterUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ConnectionStringType.__init__` has a new overload `def __init__(self: None, all_connection_strings: Optional[_models.AllConnectionStringType], dedicated: Optional[str], high: Optional[str], low: Optional[str], medium: Optional[str], profiles: Optional[List[_models.ProfileType]])`
+  - Method `ConnectionStringType.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ConnectionUrlType.__init__` has a new overload `def __init__(self: None, apex_url: Optional[str], database_transforms_url: Optional[str], graph_studio_url: Optional[str], machine_learning_notebook_url: Optional[str], mongo_db_url: Optional[str], ords_url: Optional[str], sql_dev_web_url: Optional[str])`
+  - Method `ConnectionUrlType.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CustomerContact.__init__` has a new overload `def __init__(self: None, email: str)`
+  - Method `CustomerContact.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DataCollectionOptions.__init__` has a new overload `def __init__(self: None, is_diagnostics_events_enabled: Optional[bool], is_health_monitoring_enabled: Optional[bool], is_incident_logs_enabled: Optional[bool])`
+  - Method `DataCollectionOptions.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DayOfWeek.__init__` has a new overload `def __init__(self: None, name: Union[str, _models.DayOfWeekName])`
+  - Method `DayOfWeek.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DbIormConfig.__init__` has a new overload `def __init__(self: None, db_name: Optional[str], flash_cache_limit: Optional[str], share: Optional[int])`
+  - Method `DbIormConfig.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DbNode.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.DbNodeProperties])`
+  - Method `DbNode.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DbNodeAction.__init__` has a new overload `def __init__(self: None, action: Union[str, _models.DbNodeActionEnum])`
+  - Method `DbNodeAction.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DbNodeProperties.__init__` has a new overload `def __init__(self: None, ocid: str, db_system_id: str, lifecycle_state: Union[str, _models.DbNodeProvisioningState], time_created: datetime, vnic_id: str, additional_details: Optional[str], backup_ip_id: Optional[str], backup_vnic2_id: Optional[str], backup_vnic_id: Optional[str], cpu_core_count: Optional[int], db_node_storage_size_in_gbs: Optional[int], db_server_id: Optional[str], fault_domain: Optional[str], host_ip_id: Optional[str], hostname: Optional[str], lifecycle_details: Optional[str], maintenance_type: Optional[Union[str, _models.DbNodeMaintenanceType]], memory_size_in_gbs: Optional[int], software_storage_size_in_gb: Optional[int], time_maintenance_window_end: Optional[datetime], time_maintenance_window_start: Optional[datetime], vnic2_id: Optional[str])`
+  - Method `DbNodeProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DbServer.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.DbServerProperties])`
+  - Method `DbServer.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DbSystemShape.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.DbSystemShapeProperties])`
+  - Method `DbSystemShape.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DbSystemShapeProperties.__init__` has a new overload `def __init__(self: None, shape_name: str, available_core_count: int, shape_family: Optional[str], minimum_core_count: Optional[int], runtime_minimum_core_count: Optional[int], core_count_increment: Optional[int], min_storage_count: Optional[int], max_storage_count: Optional[int], available_data_storage_per_server_in_tbs: Optional[float], available_memory_per_node_in_gbs: Optional[int], available_db_node_per_node_in_gbs: Optional[int], min_core_count_per_node: Optional[int], available_memory_in_gbs: Optional[int], min_memory_per_node_in_gbs: Optional[int], available_db_node_storage_in_gbs: Optional[int], min_db_node_storage_per_node_in_gbs: Optional[int], available_data_storage_in_tbs: Optional[int], min_data_storage_in_tbs: Optional[int], minimum_node_count: Optional[int], maximum_node_count: Optional[int], available_core_count_per_node: Optional[int], compute_model: Optional[Union[str, _models.ComputeModel]], are_server_types_supported: Optional[bool], display_name: Optional[str])`
+  - Method `DbSystemShapeProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DnsPrivateView.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.DnsPrivateViewProperties])`
+  - Method `DnsPrivateView.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DnsPrivateViewProperties.__init__` has a new overload `def __init__(self: None, ocid: str, display_name: str, is_protected: bool, lifecycle_state: Union[str, _models.DnsPrivateViewsLifecycleState], self_property: str, time_created: datetime, time_updated: datetime)`
+  - Method `DnsPrivateViewProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DnsPrivateZone.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.DnsPrivateZoneProperties])`
+  - Method `DnsPrivateZone.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DnsPrivateZoneProperties.__init__` has a new overload `def __init__(self: None, ocid: str, is_protected: bool, lifecycle_state: Union[str, _models.DnsPrivateZonesLifecycleState], self_property: str, serial: int, version: str, zone_type: Union[str, _models.ZoneType], time_created: datetime, view_id: Optional[str])`
+  - Method `DnsPrivateZoneProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, error: Optional[_models.ErrorDetail])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExadataIormConfig.__init__` has a new overload `def __init__(self: None, db_plans: Optional[List[_models.DbIormConfig]], lifecycle_details: Optional[str], lifecycle_state: Optional[Union[str, _models.IormLifecycleState]], objective: Optional[Union[str, _models.Objective]])`
+  - Method `ExadataIormConfig.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GenerateAutonomousDatabaseWalletDetails.__init__` has a new overload `def __init__(self: None, password: str, generate_type: Optional[Union[str, _models.GenerateType]], is_regional: Optional[bool])`
+  - Method `GenerateAutonomousDatabaseWalletDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GiVersion.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.GiVersionProperties])`
+  - Method `GiVersion.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GiVersionProperties.__init__` has a new overload `def __init__(self: None, version: str)`
+  - Method `GiVersionProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `LongTermBackUpScheduleDetails.__init__` has a new overload `def __init__(self: None, repeat_cadence: Optional[Union[str, _models.RepeatCadenceType]], time_of_backup: Optional[datetime], retention_period_in_days: Optional[int], is_disabled: Optional[bool])`
+  - Method `LongTermBackUpScheduleDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `MaintenanceWindow.__init__` has a new overload `def __init__(self: None, preference: Optional[Union[str, _models.Preference]], months: Optional[List[_models.Month]], weeks_of_month: Optional[List[int]], days_of_week: Optional[List[_models.DayOfWeek]], hours_of_day: Optional[List[int]], lead_time_in_weeks: Optional[int], patching_mode: Optional[Union[str, _models.PatchingMode]], custom_action_timeout_in_mins: Optional[int], is_custom_action_timeout_enabled: Optional[bool], is_monthly_patching_enabled: Optional[bool])`
+  - Method `MaintenanceWindow.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Month.__init__` has a new overload `def __init__(self: None, name: Union[str, _models.MonthName])`
+  - Method `Month.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `NsgCidr.__init__` has a new overload `def __init__(self: None, source: str, destination_port_range: Optional[_models.PortRange])`
+  - Method `NsgCidr.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, display: Optional[_models.OperationDisplay])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `OracleSubscription.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.OracleSubscriptionProperties], plan: Optional[_models.Plan])`
+  - Method `OracleSubscription.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `OracleSubscriptionProperties.__init__` has a new overload `def __init__(self: None, term_unit: Optional[str], product_code: Optional[str], intent: Optional[Union[str, _models.Intent]])`
+  - Method `OracleSubscriptionProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `OracleSubscriptionUpdate.__init__` has a new overload `def __init__(self: None, plan: Optional[_models.PlanUpdate], properties: Optional[_models.OracleSubscriptionUpdateProperties])`
+  - Method `OracleSubscriptionUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `OracleSubscriptionUpdateProperties.__init__` has a new overload `def __init__(self: None, product_code: Optional[str], intent: Optional[Union[str, _models.Intent]])`
+  - Method `OracleSubscriptionUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PeerDbDetails.__init__` has a new overload `def __init__(self: None, peer_db_id: Optional[str], peer_db_ocid: Optional[str], peer_db_location: Optional[str])`
+  - Method `PeerDbDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Plan.__init__` has a new overload `def __init__(self: None, name: str, publisher: str, product: str, promotion_code: Optional[str], version: Optional[str])`
+  - Method `Plan.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PlanUpdate.__init__` has a new overload `def __init__(self: None, name: Optional[str], publisher: Optional[str], product: Optional[str], promotion_code: Optional[str], version: Optional[str])`
+  - Method `PlanUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PortRange.__init__` has a new overload `def __init__(self: None, min: int, max: int)`
+  - Method `PortRange.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateIpAddressProperties.__init__` has a new overload `def __init__(self: None, display_name: str, hostname_label: str, ocid: str, ip_address: str, subnet_id: str)`
+  - Method `PrivateIpAddressProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateIpAddressesFilter.__init__` has a new overload `def __init__(self: None, subnet_id: str, vnic_id: str)`
+  - Method `PrivateIpAddressesFilter.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ProfileType.__init__` has a new overload `def __init__(self: None, display_name: str, host_format: Union[str, _models.HostFormatType], protocol: Union[str, _models.ProtocolType], session_mode: Union[str, _models.SessionModeType], syntax_format: Union[str, _models.SyntaxFormatType], value: str, consumer_group: Optional[Union[str, _models.ConsumerGroup]], is_regional: Optional[bool], tls_authentication: Optional[Union[str, _models.TlsAuthenticationType]])`
+  - Method `ProfileType.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RestoreAutonomousDatabaseDetails.__init__` has a new overload `def __init__(self: None, timestamp: datetime)`
+  - Method `RestoreAutonomousDatabaseDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScheduledOperationsType.__init__` has a new overload `def __init__(self: None, day_of_week: _models.DayOfWeek, scheduled_start_time: Optional[str], scheduled_stop_time: Optional[str])`
+  - Method `ScheduledOperationsType.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, created_by: Optional[str], created_by_type: Optional[Union[str, _models.CreatedByType]], created_at: Optional[datetime], last_modified_by: Optional[str], last_modified_by_type: Optional[Union[str, _models.CreatedByType]], last_modified_at: Optional[datetime])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SystemVersion.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.SystemVersionProperties])`
+  - Method `SystemVersion.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SystemVersionProperties.__init__` has a new overload `def __init__(self: None, system_version: str)`
+  - Method `SystemVersionProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualNetworkAddress.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.VirtualNetworkAddressProperties])`
+  - Method `VirtualNetworkAddress.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualNetworkAddressProperties.__init__` has a new overload `def __init__(self: None, ip_address: Optional[str], vm_ocid: Optional[str])`
+  - Method `VirtualNetworkAddressProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseCrossRegionDisasterRecoveryProperties.__init__` has a new overload `def __init__(self: None, source: Literal[CROSS_REGION_DISASTER_RECOVERY], source_id: str, remote_disaster_recovery_type: Union[str, _models.DisasterRecoveryType], admin_password: Optional[str], autonomous_maintenance_schedule_type: Optional[Union[str, _models.AutonomousMaintenanceScheduleType]], character_set: Optional[str], compute_count: Optional[float], compute_model: Optional[Union[str, _models.ComputeModel]], cpu_core_count: Optional[int], customer_contacts: Optional[List[_models.CustomerContact]], data_storage_size_in_tbs: Optional[int], data_storage_size_in_gbs: Optional[int], db_version: Optional[str], db_workload: Optional[Union[str, _models.WorkloadType]], display_name: Optional[str], is_auto_scaling_enabled: Optional[bool], is_auto_scaling_for_storage_enabled: Optional[bool], peer_db_id: Optional[str], is_local_data_guard_enabled: Optional[bool], is_mtls_connection_required: Optional[bool], is_preview_version_with_service_terms_accepted: Optional[bool], license_model: Optional[Union[str, _models.LicenseModel]], ncharacter_set: Optional[str], scheduled_operations: Optional[_models.ScheduledOperationsType], private_endpoint_ip: Optional[str], private_endpoint_label: Optional[str], subnet_id: Optional[str], vnet_id: Optional[str], database_edition: Optional[Union[str, _models.DatabaseEditionType]], autonomous_database_id: Optional[str], long_term_backup_schedule: Optional[_models.LongTermBackUpScheduleDetails], local_adg_auto_failover_max_data_loss_limit: Optional[int], open_mode: Optional[Union[str, _models.OpenModeType]], permission_level: Optional[Union[str, _models.PermissionLevelType]], role: Optional[Union[str, _models.RoleType]], backup_retention_period_in_days: Optional[int], whitelisted_ips: Optional[List[str]], source_location: Optional[str], source_ocid: Optional[str], is_replicate_automatic_backups: Optional[bool])`
+  - Method `AutonomousDatabaseCrossRegionDisasterRecoveryProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseCrossRegionDisasterRecoveryProperties.__init__` has a new overload `def __init__(self: None, data_base_type: str, admin_password: Optional[str], autonomous_maintenance_schedule_type: Optional[Union[str, _models.AutonomousMaintenanceScheduleType]], character_set: Optional[str], compute_count: Optional[float], compute_model: Optional[Union[str, _models.ComputeModel]], cpu_core_count: Optional[int], customer_contacts: Optional[List[_models.CustomerContact]], data_storage_size_in_tbs: Optional[int], data_storage_size_in_gbs: Optional[int], db_version: Optional[str], db_workload: Optional[Union[str, _models.WorkloadType]], display_name: Optional[str], is_auto_scaling_enabled: Optional[bool], is_auto_scaling_for_storage_enabled: Optional[bool], peer_db_id: Optional[str], is_local_data_guard_enabled: Optional[bool], is_mtls_connection_required: Optional[bool], is_preview_version_with_service_terms_accepted: Optional[bool], license_model: Optional[Union[str, _models.LicenseModel]], ncharacter_set: Optional[str], scheduled_operations: Optional[_models.ScheduledOperationsType], private_endpoint_ip: Optional[str], private_endpoint_label: Optional[str], subnet_id: Optional[str], vnet_id: Optional[str], database_edition: Optional[Union[str, _models.DatabaseEditionType]], autonomous_database_id: Optional[str], long_term_backup_schedule: Optional[_models.LongTermBackUpScheduleDetails], local_adg_auto_failover_max_data_loss_limit: Optional[int], open_mode: Optional[Union[str, _models.OpenModeType]], permission_level: Optional[Union[str, _models.PermissionLevelType]], role: Optional[Union[str, _models.RoleType]], backup_retention_period_in_days: Optional[int], whitelisted_ips: Optional[List[str]])`
+  - Method `AutonomousDatabaseCrossRegionDisasterRecoveryProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseFromBackupTimestampProperties.__init__` has a new overload `def __init__(self: None, source: Literal[BACKUP_FROM_TIMESTAMP], source_id: str, clone_type: Union[str, _models.CloneType], admin_password: Optional[str], autonomous_maintenance_schedule_type: Optional[Union[str, _models.AutonomousMaintenanceScheduleType]], character_set: Optional[str], compute_count: Optional[float], compute_model: Optional[Union[str, _models.ComputeModel]], cpu_core_count: Optional[int], customer_contacts: Optional[List[_models.CustomerContact]], data_storage_size_in_tbs: Optional[int], data_storage_size_in_gbs: Optional[int], db_version: Optional[str], db_workload: Optional[Union[str, _models.WorkloadType]], display_name: Optional[str], is_auto_scaling_enabled: Optional[bool], is_auto_scaling_for_storage_enabled: Optional[bool], peer_db_id: Optional[str], is_local_data_guard_enabled: Optional[bool], is_mtls_connection_required: Optional[bool], is_preview_version_with_service_terms_accepted: Optional[bool], license_model: Optional[Union[str, _models.LicenseModel]], ncharacter_set: Optional[str], scheduled_operations: Optional[_models.ScheduledOperationsType], private_endpoint_ip: Optional[str], private_endpoint_label: Optional[str], subnet_id: Optional[str], vnet_id: Optional[str], database_edition: Optional[Union[str, _models.DatabaseEditionType]], autonomous_database_id: Optional[str], long_term_backup_schedule: Optional[_models.LongTermBackUpScheduleDetails], local_adg_auto_failover_max_data_loss_limit: Optional[int], open_mode: Optional[Union[str, _models.OpenModeType]], permission_level: Optional[Union[str, _models.PermissionLevelType]], role: Optional[Union[str, _models.RoleType]], backup_retention_period_in_days: Optional[int], whitelisted_ips: Optional[List[str]], timestamp: Optional[datetime], use_latest_available_backup_time_stamp: Optional[bool])`
+  - Method `AutonomousDatabaseFromBackupTimestampProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseFromBackupTimestampProperties.__init__` has a new overload `def __init__(self: None, data_base_type: str, admin_password: Optional[str], autonomous_maintenance_schedule_type: Optional[Union[str, _models.AutonomousMaintenanceScheduleType]], character_set: Optional[str], compute_count: Optional[float], compute_model: Optional[Union[str, _models.ComputeModel]], cpu_core_count: Optional[int], customer_contacts: Optional[List[_models.CustomerContact]], data_storage_size_in_tbs: Optional[int], data_storage_size_in_gbs: Optional[int], db_version: Optional[str], db_workload: Optional[Union[str, _models.WorkloadType]], display_name: Optional[str], is_auto_scaling_enabled: Optional[bool], is_auto_scaling_for_storage_enabled: Optional[bool], peer_db_id: Optional[str], is_local_data_guard_enabled: Optional[bool], is_mtls_connection_required: Optional[bool], is_preview_version_with_service_terms_accepted: Optional[bool], license_model: Optional[Union[str, _models.LicenseModel]], ncharacter_set: Optional[str], scheduled_operations: Optional[_models.ScheduledOperationsType], private_endpoint_ip: Optional[str], private_endpoint_label: Optional[str], subnet_id: Optional[str], vnet_id: Optional[str], database_edition: Optional[Union[str, _models.DatabaseEditionType]], autonomous_database_id: Optional[str], long_term_backup_schedule: Optional[_models.LongTermBackUpScheduleDetails], local_adg_auto_failover_max_data_loss_limit: Optional[int], open_mode: Optional[Union[str, _models.OpenModeType]], permission_level: Optional[Union[str, _models.PermissionLevelType]], role: Optional[Union[str, _models.RoleType]], backup_retention_period_in_days: Optional[int], whitelisted_ips: Optional[List[str]])`
+  - Method `AutonomousDatabaseFromBackupTimestampProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AzureSubscriptions.__init__` has a new overload `def __init__(self: None, azure_subscription_ids: List[str])`
+  - Method `AzureSubscriptions.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DbActionResponse.__init__` has a new overload `def __init__(self: None, provisioning_state: Optional[Union[str, _models.AzureResourceProvisioningState]])`
+  - Method `DbActionResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DbNodeDetails.__init__` has a new overload `def __init__(self: None, db_node_id: str)`
+  - Method `DbNodeDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DefinedFileSystemConfiguration.__init__` has a new overload `def __init__(self: None, is_backup_partition: Optional[bool], is_resizable: Optional[bool], min_size_gb: Optional[int], mount_point: Optional[str])`
+  - Method `DefinedFileSystemConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DisasterRecoveryConfigurationDetails.__init__` has a new overload `def __init__(self: None, disaster_recovery_type: Optional[Union[str, _models.DisasterRecoveryType]], time_snapshot_standby_enabled_till: Optional[datetime], is_snapshot_standby: Optional[bool], is_replicate_automatic_backups: Optional[bool])`
+  - Method `DisasterRecoveryConfigurationDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExadbVmCluster.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]], properties: Optional[_models.ExadbVmClusterProperties], zones: Optional[List[str]])`
+  - Method `ExadbVmCluster.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExadbVmCluster.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `ExadbVmCluster.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExadbVmClusterProperties.__init__` has a new overload `def __init__(self: None, vnet_id: str, subnet_id: str, display_name: str, enabled_ecpu_count: int, exascale_db_storage_vault_id: str, hostname: str, node_count: int, shape: str, ssh_public_keys: List[str], total_ecpu_count: int, vm_file_system_storage: _models.ExadbVmClusterStorageDetails, cluster_name: Optional[str], backup_subnet_cidr: Optional[str], data_collection_options: Optional[_models.DataCollectionOptions], domain: Optional[str], grid_image_ocid: Optional[str], license_model: Optional[Union[str, _models.LicenseModel]], nsg_cidrs: Optional[List[_models.NsgCidr]], private_zone_ocid: Optional[str], scan_listener_port_tcp: Optional[int], scan_listener_port_tcp_ssl: Optional[int], system_version: Optional[str], time_zone: Optional[str])`
+  - Method `ExadbVmClusterProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExadbVmClusterStorageDetails.__init__` has a new overload `def __init__(self: None, total_size_in_gbs: int)`
+  - Method `ExadbVmClusterStorageDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExadbVmClusterUpdate.__init__` has a new overload `def __init__(self: None, zones: Optional[List[str]], tags: Optional[Dict[str, str]], properties: Optional[_models.ExadbVmClusterUpdateProperties])`
+  - Method `ExadbVmClusterUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExadbVmClusterUpdateProperties.__init__` has a new overload `def __init__(self: None, node_count: Optional[int])`
+  - Method `ExadbVmClusterUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExascaleDbNode.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.ExascaleDbNodeProperties])`
+  - Method `ExascaleDbNode.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExascaleDbNodeProperties.__init__` has a new overload `def __init__(self: None, ocid: str, additional_details: Optional[str], cpu_core_count: Optional[int], db_node_storage_size_in_gbs: Optional[int], fault_domain: Optional[str], hostname: Optional[str], lifecycle_state: Optional[Union[str, _models.DbNodeProvisioningState]], maintenance_type: Optional[str], memory_size_in_gbs: Optional[int], software_storage_size_in_gb: Optional[int], time_maintenance_window_end: Optional[datetime], time_maintenance_window_start: Optional[datetime], total_cpu_core_count: Optional[int])`
+  - Method `ExascaleDbNodeProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExascaleDbStorageDetails.__init__` has a new overload `def __init__(self: None, available_size_in_gbs: Optional[int], total_size_in_gbs: Optional[int])`
+  - Method `ExascaleDbStorageDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExascaleDbStorageInputDetails.__init__` has a new overload `def __init__(self: None, total_size_in_gbs: int)`
+  - Method `ExascaleDbStorageInputDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExascaleDbStorageVault.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]], properties: Optional[_models.ExascaleDbStorageVaultProperties], zones: Optional[List[str]])`
+  - Method `ExascaleDbStorageVault.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExascaleDbStorageVault.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `ExascaleDbStorageVault.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExascaleDbStorageVaultProperties.__init__` has a new overload `def __init__(self: None, display_name: str, high_capacity_database_storage_input: _models.ExascaleDbStorageInputDetails, additional_flash_cache_in_percent: Optional[int], description: Optional[str], time_zone: Optional[str])`
+  - Method `ExascaleDbStorageVaultProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExascaleDbStorageVaultTagsUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]])`
+  - Method `ExascaleDbStorageVaultTagsUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `FileSystemConfigurationDetails.__init__` has a new overload `def __init__(self: None, mount_point: Optional[str], file_system_size_gb: Optional[int])`
+  - Method `FileSystemConfigurationDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `FlexComponent.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.FlexComponentProperties])`
+  - Method `FlexComponent.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GiMinorVersion.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.GiMinorVersionProperties])`
+  - Method `GiMinorVersion.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GiMinorVersionProperties.__init__` has a new overload `def __init__(self: None, version: str, grid_image_ocid: Optional[str])`
+  - Method `GiMinorVersionProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RemoveVirtualMachineFromExadbVmClusterDetails.__init__` has a new overload `def __init__(self: None, db_nodes: List[_models.DbNodeDetails])`
+  - Method `RemoveVirtualMachineFromExadbVmClusterDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AutonomousDatabaseBackupsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, autonomousdatabasename: str, adbbackupid: str, resource: JSON, content_type: str)`
+  - Method `AutonomousDatabaseBackupsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, autonomousdatabasename: str, adbbackupid: str, properties: JSON, content_type: str)`
+  - Method `AutonomousDatabaseBackupsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, autonomousdatabasename: str, adbbackupid: str, properties: AutonomousDatabaseBackup, content_type: str)`
+  - Method `AutonomousDatabasesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, autonomousdatabasename: str, resource: JSON, content_type: str)`
+  - Method `AutonomousDatabasesOperations.begin_failover` has a new overload `def begin_failover(self: None, resource_group_name: str, autonomousdatabasename: str, body: JSON, content_type: str)`
+  - Method `AutonomousDatabasesOperations.begin_restore` has a new overload `def begin_restore(self: None, resource_group_name: str, autonomousdatabasename: str, body: JSON, content_type: str)`
+  - Method `AutonomousDatabasesOperations.begin_switchover` has a new overload `def begin_switchover(self: None, resource_group_name: str, autonomousdatabasename: str, body: JSON, content_type: str)`
+  - Method `AutonomousDatabasesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, autonomousdatabasename: str, properties: JSON, content_type: str)`
+  - Method `AutonomousDatabasesOperations.generate_wallet` has a new overload `def generate_wallet(self: None, resource_group_name: str, autonomousdatabasename: str, body: JSON, content_type: str)`
+  - Method `AutonomousDatabasesOperations.begin_change_disaster_recovery_configuration` has a new overload `def begin_change_disaster_recovery_configuration(self: None, resource_group_name: str, autonomousdatabasename: str, body: DisasterRecoveryConfigurationDetails, content_type: str)`
+  - Method `AutonomousDatabasesOperations.begin_change_disaster_recovery_configuration` has a new overload `def begin_change_disaster_recovery_configuration(self: None, resource_group_name: str, autonomousdatabasename: str, body: JSON, content_type: str)`
+  - Method `AutonomousDatabasesOperations.begin_change_disaster_recovery_configuration` has a new overload `def begin_change_disaster_recovery_configuration(self: None, resource_group_name: str, autonomousdatabasename: str, body: IO[bytes], content_type: str)`
+  - Method `CloudExadataInfrastructuresOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, cloudexadatainfrastructurename: str, resource: JSON, content_type: str)`
+  - Method `CloudExadataInfrastructuresOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, cloudexadatainfrastructurename: str, properties: JSON, content_type: str)`
+  - Method `CloudVmClustersOperations.begin_add_vms` has a new overload `def begin_add_vms(self: None, resource_group_name: str, cloudvmclustername: str, body: JSON, content_type: str)`
+  - Method `CloudVmClustersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, cloudvmclustername: str, resource: JSON, content_type: str)`
+  - Method `CloudVmClustersOperations.begin_remove_vms` has a new overload `def begin_remove_vms(self: None, resource_group_name: str, cloudvmclustername: str, body: JSON, content_type: str)`
+  - Method `CloudVmClustersOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, cloudvmclustername: str, properties: JSON, content_type: str)`
+  - Method `CloudVmClustersOperations.list_private_ip_addresses` has a new overload `def list_private_ip_addresses(self: None, resource_group_name: str, cloudvmclustername: str, body: JSON, content_type: str)`
+  - Method `DbNodesOperations.begin_action` has a new overload `def begin_action(self: None, resource_group_name: str, cloudvmclustername: str, dbnodeocid: str, body: JSON, content_type: str)`
+  - Method `OracleSubscriptionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource: JSON, content_type: str)`
+  - Method `OracleSubscriptionsOperations.begin_update` has a new overload `def begin_update(self: None, properties: JSON, content_type: str)`
+  - Method `OracleSubscriptionsOperations.begin_add_azure_subscriptions` has a new overload `def begin_add_azure_subscriptions(self: None, body: AzureSubscriptions, content_type: str)`
+  - Method `OracleSubscriptionsOperations.begin_add_azure_subscriptions` has a new overload `def begin_add_azure_subscriptions(self: None, body: JSON, content_type: str)`
+  - Method `OracleSubscriptionsOperations.begin_add_azure_subscriptions` has a new overload `def begin_add_azure_subscriptions(self: None, body: IO[bytes], content_type: str)`
+  - Method `VirtualNetworkAddressesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, cloudvmclustername: str, virtualnetworkaddressname: str, resource: JSON, content_type: str)`
+  - Method `ExadbVmClustersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, exadb_vm_cluster_name: str, resource: ExadbVmCluster, content_type: str)`
+  - Method `ExadbVmClustersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, exadb_vm_cluster_name: str, resource: JSON, content_type: str)`
+  - Method `ExadbVmClustersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, exadb_vm_cluster_name: str, resource: IO[bytes], content_type: str)`
+  - Method `ExadbVmClustersOperations.begin_remove_vms` has a new overload `def begin_remove_vms(self: None, resource_group_name: str, exadb_vm_cluster_name: str, body: RemoveVirtualMachineFromExadbVmClusterDetails, content_type: str)`
+  - Method `ExadbVmClustersOperations.begin_remove_vms` has a new overload `def begin_remove_vms(self: None, resource_group_name: str, exadb_vm_cluster_name: str, body: JSON, content_type: str)`
+  - Method `ExadbVmClustersOperations.begin_remove_vms` has a new overload `def begin_remove_vms(self: None, resource_group_name: str, exadb_vm_cluster_name: str, body: IO[bytes], content_type: str)`
+  - Method `ExadbVmClustersOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, exadb_vm_cluster_name: str, properties: ExadbVmClusterUpdate, content_type: str)`
+  - Method `ExadbVmClustersOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, exadb_vm_cluster_name: str, properties: JSON, content_type: str)`
+  - Method `ExadbVmClustersOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, exadb_vm_cluster_name: str, properties: IO[bytes], content_type: str)`
+  - Method `ExascaleDbNodesOperations.begin_action` has a new overload `def begin_action(self: None, resource_group_name: str, exadb_vm_cluster_name: str, exascale_db_node_name: str, body: DbNodeAction, content_type: str)`
+  - Method `ExascaleDbNodesOperations.begin_action` has a new overload `def begin_action(self: None, resource_group_name: str, exadb_vm_cluster_name: str, exascale_db_node_name: str, body: JSON, content_type: str)`
+  - Method `ExascaleDbNodesOperations.begin_action` has a new overload `def begin_action(self: None, resource_group_name: str, exadb_vm_cluster_name: str, exascale_db_node_name: str, body: IO[bytes], content_type: str)`
+  - Method `ExascaleDbStorageVaultsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, exascale_db_storage_vault_name: str, resource: ExascaleDbStorageVault, content_type: str)`
+  - Method `ExascaleDbStorageVaultsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, exascale_db_storage_vault_name: str, resource: JSON, content_type: str)`
+  - Method `ExascaleDbStorageVaultsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, exascale_db_storage_vault_name: str, resource: IO[bytes], content_type: str)`
+  - Method `ExascaleDbStorageVaultsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, exascale_db_storage_vault_name: str, properties: ExascaleDbStorageVaultTagsUpdate, content_type: str)`
+  - Method `ExascaleDbStorageVaultsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, exascale_db_storage_vault_name: str, properties: JSON, content_type: str)`
+  - Method `ExascaleDbStorageVaultsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, exascale_db_storage_vault_name: str, properties: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Model `AddRemoveDbNode` deleted or renamed its instance variable `additional_properties`
+  - Model `AllConnectionStringType` deleted or renamed its instance variable `additional_properties`
+  - Model `ApexDetailsType` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabase` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseBackup` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseBackupProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseBaseProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseCharacterSet` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseCharacterSetProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseCloneProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseNationalCharacterSet` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseNationalCharacterSetProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseStandbySummary` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseUpdateProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDatabaseWalletFile` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDbVersion` deleted or renamed its instance variable `additional_properties`
+  - Model `AutonomousDbVersionProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudExadataInfrastructure` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudExadataInfrastructureProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudExadataInfrastructureUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudExadataInfrastructureUpdateProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudVmCluster` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudVmClusterProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudVmClusterUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudVmClusterUpdateProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `ConnectionStringType` deleted or renamed its instance variable `additional_properties`
+  - Model `ConnectionUrlType` deleted or renamed its instance variable `additional_properties`
+  - Model `CustomerContact` deleted or renamed its instance variable `additional_properties`
+  - Model `DataCollectionOptions` deleted or renamed its instance variable `additional_properties`
+  - Model `DayOfWeek` deleted or renamed its instance variable `additional_properties`
+  - Model `DbIormConfig` deleted or renamed its instance variable `additional_properties`
+  - Model `DbNode` deleted or renamed its instance variable `additional_properties`
+  - Model `DbNodeAction` deleted or renamed its instance variable `additional_properties`
+  - Model `DbNodeProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `DbServer` deleted or renamed its instance variable `additional_properties`
+  - Model `DbServerPatchingDetails` deleted or renamed its instance variable `additional_properties`
+  - Model `DbServerProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `DbSystemShape` deleted or renamed its instance variable `additional_properties`
+  - Model `DbSystemShapeProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `DnsPrivateView` deleted or renamed its instance variable `additional_properties`
+  - Model `DnsPrivateViewProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `DnsPrivateZone` deleted or renamed its instance variable `additional_properties`
+  - Model `DnsPrivateZoneProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorAdditionalInfo` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorDetail` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `EstimatedPatchingTime` deleted or renamed its instance variable `additional_properties`
+  - Model `ExadataIormConfig` deleted or renamed its instance variable `additional_properties`
+  - Model `GenerateAutonomousDatabaseWalletDetails` deleted or renamed its instance variable `additional_properties`
+  - Model `GiVersion` deleted or renamed its instance variable `additional_properties`
+  - Model `GiVersionProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `LongTermBackUpScheduleDetails` deleted or renamed its instance variable `additional_properties`
+  - Model `MaintenanceWindow` deleted or renamed its instance variable `additional_properties`
+  - Model `Month` deleted or renamed its instance variable `additional_properties`
+  - Model `NsgCidr` deleted or renamed its instance variable `additional_properties`
+  - Model `Operation` deleted or renamed its instance variable `additional_properties`
+  - Model `OperationDisplay` deleted or renamed its instance variable `additional_properties`
+  - Model `OracleSubscription` deleted or renamed its instance variable `additional_properties`
+  - Model `OracleSubscriptionProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `OracleSubscriptionUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `OracleSubscriptionUpdateProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `PeerDbDetails` deleted or renamed its instance variable `additional_properties`
+  - Model `Plan` deleted or renamed its instance variable `additional_properties`
+  - Model `PlanUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `PortRange` deleted or renamed its instance variable `additional_properties`
+  - Model `PrivateIpAddressProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `PrivateIpAddressesFilter` deleted or renamed its instance variable `additional_properties`
+  - Model `ProfileType` deleted or renamed its instance variable `additional_properties`
+  - Model `ProxyResource` deleted or renamed its instance variable `additional_properties`
+  - Model `Resource` deleted or renamed its instance variable `additional_properties`
+  - Model `RestoreAutonomousDatabaseDetails` deleted or renamed its instance variable `additional_properties`
+  - Model `ScheduledOperationsType` deleted or renamed its instance variable `additional_properties`
+  - Model `SystemData` deleted or renamed its instance variable `additional_properties`
+  - Model `SystemVersion` deleted or renamed its instance variable `additional_properties`
+  - Model `SystemVersionProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `TrackedResource` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualNetworkAddress` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualNetworkAddressProperties` deleted or renamed its instance variable `additional_properties`
+  - Deleted or renamed model `ActivationLinks`
+  - Deleted or renamed model `AutonomousDatabaseBackupUpdate`
+  - Deleted or renamed model `AutonomousDatabaseBackupUpdateProperties`
+  - Deleted or renamed model `CloudAccountDetails`
+  - Deleted or renamed model `DayOfWeekUpdate`
+  - Deleted or renamed model `SaasSubscriptionDetails`
+  - Deleted or renamed model `ScheduledOperationsTypeUpdate`
+  - Deleted or renamed model `SystemVersionsFilter`
+  - Deleted or renamed model `UpdateAction`
+  - Deleted or renamed model `ValidationError`
+  - Deleted or renamed model `ValidationResult`
+  - Deleted or renamed model `ValidationStatus`
+  - Deleted or renamed method `AutonomousDatabaseBackupsOperations.list_by_autonomous_database`
+  - Deleted or renamed method `DbNodesOperations.list_by_cloud_vm_cluster`
+  - Deleted or renamed method `DbServersOperations.list_by_cloud_exadata_infrastructure`
+  - Deleted or renamed method `VirtualNetworkAddressesOperations.list_by_cloud_vm_cluster`
+
 ## 1.0.0 (2024-07-04)
 
 ### Other Changes
