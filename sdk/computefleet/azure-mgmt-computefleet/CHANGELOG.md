@@ -1,5 +1,16 @@
 # Release History
 
+## 2.0.0 (2025-05-13)
+
+### Features Added
+
+  - Enum `ManagedServiceIdentityType` added member `SYSTEM_ASSIGNED_USER_ASSIGNED`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, display: Optional[_models.OperationDisplay])`
+
+### Breaking Changes
+
+  - Deleted or renamed enum value `ManagedServiceIdentityType.SYSTEM_AND_USER_ASSIGNED`
+
 ## 1.0.0 (2024-10-22)
 
 ### Features Added
