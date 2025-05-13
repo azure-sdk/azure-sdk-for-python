@@ -10,11 +10,50 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AbnormalEventType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of the abnormal event."""
+
+    DEPENDENCY = "Dependency"
+    """The abnormal event type is a dependency"""
+    REQUEST = "Request"
+    """The abnormal event type is a request"""
+    EXCEPTION = "Exception"
+    """The abnormal event type is an exception"""
+
+
 class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Action that should be applied."""
 
     ADD_ACTION_GROUPS = "AddActionGroups"
     REMOVE_ALL_ACTION_GROUPS = "RemoveAllActionGroups"
+
+
+class AddedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of entity that added data to the issue."""
+
+    MANUAL = "Manual"
+    """The data was added manually by a user"""
+    AUTOMATIC = "Automatic"
+    """The data was added automatically"""
+
+
+class AggregationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The aggregation type of the metric."""
+
+    AVERAGE = "Average"
+    """The metric aggregation type is average"""
+    MINIMUM = "Minimum"
+    """The metric aggregation type is minimum"""
+    MAXIMUM = "Maximum"
+    """The metric aggregation type is maximum"""
+    TOTAL = "Total"
+    """The metric aggregation type is total"""
+    COUNT = "Count"
+    """The metric aggregation type is count"""
+    UNIQUE = "Unique"
+    """The metric aggregation type is unique, used for logs"""
+    NONE = "None"
+    """There is no aggregation type"""
 
 
 class AlertModificationEvent(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -29,6 +68,18 @@ class AlertModificationEvent(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ACTIONS_TRIGGERED = "ActionsTriggered"
     ACTIONS_SUPPRESSED = "ActionsSuppressed"
     ACTIONS_FAILED = "ActionsFailed"
+
+
+class AlertSeverity(int, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and
+    required only for rules of the kind LogAlert.
+    """
+
+    ZERO = 0
+    ONE = 1
+    TWO = 2
+    THREE = 3
+    FOUR = 4
 
 
 class AlertsSortByFields(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -63,6 +114,65 @@ class AlertState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NEW = "New"
     ACKNOWLEDGED = "Acknowledged"
     CLOSED = "Closed"
+    NO_ALERT = "NoAlert"
+    FIRED = "Fired"
+    FIRING = "Firing"
+    RESOLVING = "Resolving"
+    RESOLVED = "Resolved"
+
+
+class AnomalyDirection(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The direction of the anomaly."""
+
+    INCREASE = "Increase"
+    """The anomaly direction is increasing"""
+    DECREASE = "Decrease"
+    """The anomaly direction is decreasing"""
+    INCREASE_AND_DECREASE = "IncreaseAndDecrease"
+    """The anomaly direction is both increasing and decreasing"""
+
+
+class AvailabilityState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Represents the health state of a resource."""
+
+    AVAILABLE = "Available"
+    """The resource is available"""
+    DEGRADED = "Degraded"
+    """The resource is degraded"""
+    UNAVAILABLE = "Unavailable"
+    """The resource is unavailable"""
+    UNKNOWN = "Unknown"
+    """The availability state of the resource is unknown"""
+    USER_INITIATED = "UserInitiated"
+    """The user initiated this state change"""
+
+
+class CategoryType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The category type."""
+
+    INVESTIGATION = "Investigation"
+    """The category is for an investigation"""
+    METRIC = "Metric"
+    """The category is for a metric"""
+    LOG = "Log"
+    """The category is for a log"""
+    ALERT = "Alert"
+    """The category is for an alert"""
+    RESOURCE_HEALTH = "ResourceHealth"
+    """The category is for resource health"""
+    DIAGNOSTICS = "Diagnostics"
+    """The category is for diagnostics"""
+
+
+class ConditionOperator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The criteria operator. Relevant and required only for rules of the kind LogAlert."""
+
+    EQUALS = "Equals"
+    GREATER_THAN = "GreaterThan"
+    GREATER_THAN_OR_EQUAL = "GreaterThanOrEqual"
+    LESS_THAN = "LessThan"
+    LESS_THAN_OR_EQUAL = "LessThanOrEqual"
+    GREATER_OR_LESS_THAN = "GreaterOrLessThan"
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -72,6 +182,13 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     APPLICATION = "Application"
     MANAGED_IDENTITY = "ManagedIdentity"
     KEY = "Key"
+
+
+class CriterionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the type of threshold criteria."""
+
+    STATIC_THRESHOLD_CRITERION = "StaticThresholdCriterion"
+    DYNAMIC_THRESHOLD_CRITERION = "DynamicThresholdCriterion"
 
 
 class DaysOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -84,6 +201,32 @@ class DaysOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     THURSDAY = "Thursday"
     FRIDAY = "Friday"
     SATURDAY = "Saturday"
+
+
+class DetailsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The details type."""
+
+    INVESTIGATION = "Investigation"
+    """The details is for an investigation"""
+    FINDING = "Finding"
+    """The details is for a finding"""
+    AZURE_METRIC = "AzureMetric"
+    """The details is for an azure metric"""
+    ABNORMAL_EVENT = "AbnormalEvent"
+    """The details is for a abnormal event"""
+    RELATED_ALERT = "RelatedAlert"
+    """The details is for a related alert"""
+    RESOURCE_HEALTH = "ResourceHealth"
+    """The details is for resource health"""
+    DIAGNOSTICS = "Diagnostics"
+    """The details for diagnostics"""
+
+
+class DimensionOperator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Operator for dimension values."""
+
+    INCLUDE = "Include"
+    EXCLUDE = "Exclude"
 
 
 class Field(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -102,16 +245,102 @@ class Field(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ALERT_CONTEXT = "AlertContext"
 
 
+class HealthState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The health state of the investigation result."""
+
+    UNKNOWN = "Unknown"
+    """The health state of the result is unknown"""
+    HEALTHY = "Healthy"
+    """The result is healthy"""
+    UNHEALTHY = "Unhealthy"
+    """The result is unhealthy"""
+
+
 class Identifier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Identifier."""
 
     MONITOR_SERVICE_LIST = "MonitorServiceList"
 
 
+class InvestigationEntityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of the investigation entity."""
+
+    INVESTIGATION = "Investigation"
+    """Investigation entity"""
+    FINDING = "Finding"
+    """Finding entity"""
+    EVIDENCE = "Evidence"
+    """Evidence entity"""
+
+
+class InvestigationExecutionRunState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The execution state of the investigation."""
+
+    NONE = "None"
+    """The investigation execution didn't start"""
+    IN_PROGRESS = "InProgress"
+    """The investigation execution is in progress"""
+    SUCCEEDED = "Succeeded"
+    """The investigation execution completed successfully"""
+    FAILED = "Failed"
+    """The investigation execution failed"""
+    CANCELED = "Canceled"
+    """The investigation execution was canceled"""
+
+
+class Kind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates the type of scheduled query rule. The default is LogAlert."""
+
+    LOG_ALERT = "LogAlert"
+    EVENT_LOG_ALERT = "EventLogAlert"
+    LOG_TO_METRIC = "LogToMetric"
+
+
 class MetadataIdentifier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Identification of the information to be retrieved by API call."""
 
     MONITOR_SERVICE_LIST = "MonitorServiceList"
+
+
+class MetricAlertsDisplayUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The unit to display for a metric alert rule."""
+
+    NONE = "None"
+    PERCENTAGE = "Percentage"
+    BYTES = "Bytes"
+    KILOBYTES = "Kilobytes"
+    MEGABYTES = "Megabytes"
+    GIGABYTES = "Gigabytes"
+    TERABYTES = "Terabytes"
+    PETABYTES = "Petabytes"
+    BYTES_PER_DAY = "BytesPerDay"
+    BYTES_PER_HOUR = "BytesPerHour"
+    BYTES_PER_MINUTE = "BytesPerMinute"
+    BYTES_PER_SECOND = "BytesPerSecond"
+    KILOBYTES_PER_SECOND = "KilobytesPerSecond"
+    MEGABYTES_PER_SECOND = "MegabytesPerSecond"
+    GIGABYTES_PER_SECOND = "GigabytesPerSecond"
+    TERABYTES_PER_SECOND = "TerabytesPerSecond"
+    PETABYTES_PER_SECOND = "PetabytesPerSecond"
+    COUNT = "Count"
+    THOUSAND = "Thousand"
+    MILLION = "Million"
+    BILLION = "Billion"
+    TRILLION = "Trillion"
+    MICRO_SECONDS = "MicroSeconds"
+    MILLI_SECONDS = "MilliSeconds"
+    SECONDS = "Seconds"
+    MINUTES = "Minutes"
+    HOURS = "Hours"
+    DAYS = "Days"
+    COUNT_PER_DAY = "CountPerDay"
+    COUNT_PER_HOUR = "CountPerHour"
+    COUNT_PER_MINUTE = "CountPerMinute"
+    COUNT_PER_SECOND = "CountPerSecond"
+    THOUSAND_PER_SECOND = "ThousandPerSecond"
+    MILLION_PER_SECOND = "MillionPerSecond"
+    BILLION_PER_SECOND = "BillionPerSecond"
+    TRILLION_PER_SECOND = "TrillionPerSecond"
 
 
 class MonitorCondition(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -138,6 +367,7 @@ class MonitorService(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SMART_DETECTOR = "SmartDetector"
     VM_INSIGHTS = "VM Insights"
     ZABBIX = "Zabbix"
+    RESOURCE_HEALTH = "Resource Health"
 
 
 class Operator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -155,6 +385,28 @@ class RecurrenceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DAILY = "Daily"
     WEEKLY = "Weekly"
     MONTHLY = "Monthly"
+
+
+class Relevance(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The relevance status of the resource."""
+
+    NONE = "None"
+    """No relevance status for the resource"""
+    RELEVANT = "Relevant"
+    """The resource is relevant to the issue"""
+    IRRELEVANT = "Irrelevant"
+    """The resource is irrelevant to the issue"""
+
+
+class ResourceProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state of a resource type."""
+
+    SUCCEEDED = "Succeeded"
+    """Resource has been created."""
+    FAILED = "Failed"
+    """Resource creation failed."""
+    CANCELED = "Canceled"
+    """Resource creation was canceled."""
 
 
 class Severity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -209,6 +461,28 @@ class State(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CLOSED = "Closed"
 
 
+class Status(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the evaluation of the enrichment."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    NEW = "New"
+    IN_PROGRESS = "InProgress"
+    MITIGATED = "Mitigated"
+    CLOSED = "Closed"
+    CANCELED = "Canceled"
+
+
+class TimeAggregation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Aggregation type. Relevant and required only for rules of the kind LogAlert."""
+
+    COUNT = "Count"
+    AVERAGE = "Average"
+    MINIMUM = "Minimum"
+    MAXIMUM = "Maximum"
+    TOTAL = "Total"
+
+
 class TimeRange(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """TimeRange."""
 
@@ -216,3 +490,10 @@ class TimeRange(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ONE_D = "1d"
     SEVEN_D = "7d"
     THIRTY_D = "30d"
+
+
+class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The enrichment type."""
+
+    PROMETHEUS_INSTANT_QUERY = "PrometheusInstantQuery"
+    PROMETHEUS_RANGE_QUERY = "PrometheusRangeQuery"
