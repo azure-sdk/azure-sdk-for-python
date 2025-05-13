@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0b2 (2025-05-13)
+
+### Features Added
+
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, display: Optional[_models.OperationDisplay])`
+
 ## 1.0.0b1 (2024-11-21)
 
 ### Other Changes
