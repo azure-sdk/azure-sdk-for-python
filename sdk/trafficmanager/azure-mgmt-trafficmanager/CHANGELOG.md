@@ -1,5 +1,16 @@
 # Release History
 
+## 1.2.0 (2025-04-29)
+
+### Features Added
+
+  - Method `EndpointsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, profile_name: str, endpoint_type: Union[str, EndpointType], endpoint_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `EndpointsOperations.update` has a new overload `def update(self: None, resource_group_name: str, profile_name: str, endpoint_type: Union[str, EndpointType], endpoint_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ProfilesOperations.check_traffic_manager_name_availability_v2` has a new overload `def check_traffic_manager_name_availability_v2(self: None, parameters: IO[bytes], content_type: str)`
+  - Method `ProfilesOperations.check_traffic_manager_relative_dns_name_availability` has a new overload `def check_traffic_manager_relative_dns_name_availability(self: None, parameters: IO[bytes], content_type: str)`
+  - Method `ProfilesOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, profile_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ProfilesOperations.update` has a new overload `def update(self: None, resource_group_name: str, profile_name: str, parameters: IO[bytes], content_type: str)`
+
 ## 1.1.0 (2023-06-16)
 
 ### Features Added
