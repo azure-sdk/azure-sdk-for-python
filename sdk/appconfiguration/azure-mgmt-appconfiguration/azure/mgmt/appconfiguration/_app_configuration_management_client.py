@@ -7,19 +7,22 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING, cast
 from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
+from azure.core.settings import settings
 from azure.mgmt.core import ARMPipelineClient
 from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from . import models as _models
 from ._configuration import AppConfigurationManagementClientConfiguration
-from ._serialization import Deserializer, Serializer
+from ._utils.serialization import Deserializer, Serializer
 from .operations import (
     ConfigurationStoresOperations,
+    ExperimentationOperations,
     KeyValuesOperations,
     Operations,
     PrivateEndpointConnectionsOperations,
@@ -29,11 +32,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class AppConfigurationManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class AppConfigurationManagementClient:  # pylint: disable=too-many-instance-attributes
     """AppConfigurationManagementClient.
 
     :ivar configuration_stores: ConfigurationStoresOperations operations
@@ -53,29 +55,33 @@ class AppConfigurationManagementClient:  # pylint: disable=client-accepts-api-ve
     :vartype replicas: azure.mgmt.appconfiguration.operations.ReplicasOperations
     :ivar snapshots: SnapshotsOperations operations
     :vartype snapshots: azure.mgmt.appconfiguration.operations.SnapshotsOperations
+    :ivar experimentation: ExperimentationOperations operations
+    :vartype experimentation: azure.mgmt.appconfiguration.operations.ExperimentationOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The Microsoft Azure subscription ID. Required.
     :type subscription_id: str
-    :param base_url: Service URL. Default value is "https://management.azure.com".
+    :param base_url: Service URL. Default value is None.
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-05-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2025-02-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
     """
 
     def __init__(
-        self,
-        credential: "TokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "TokenCredential", subscription_id: str, base_url: Optional[str] = None, **kwargs: Any
     ) -> None:
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
         self._config = AppConfigurationManagementClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, subscription_id=subscription_id, credential_scopes=credential_scopes, **kwargs
         )
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -94,7 +100,7 @@ class AppConfigurationManagementClient:  # pylint: disable=client-accepts-api-ve
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=cast(str, base_url), policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -113,6 +119,7 @@ class AppConfigurationManagementClient:  # pylint: disable=client-accepts-api-ve
         self.key_values = KeyValuesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.replicas = ReplicasOperations(self._client, self._config, self._serialize, self._deserialize)
         self.snapshots = SnapshotsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.experimentation = ExperimentationOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
