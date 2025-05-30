@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.0 (2025-04-09)
+
+### Features Added
+
+  - Method `AppliancesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, resource_name: str, parameters: IO[bytes], content_type: str)`
+
 ## 1.0.0 (2023-08-18)
 
 ### Features Added
