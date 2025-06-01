@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -7,21 +7,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from collections.abc import MutableMapping
 import datetime
-import sys
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
-
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+JSON = MutableMapping[str, Any]
 
 
 class EnvironmentData(_serialization.Model):
@@ -291,11 +285,11 @@ class CloudErrorBody(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.CloudErrorBody"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class CloudOffering(_serialization.Model):
@@ -358,7 +352,7 @@ class CloudOffering(_serialization.Model):
         """ """
         super().__init__(**kwargs)
         self.offering_type: Optional[str] = None
-        self.description = None
+        self.description: Optional[str] = None
 
 
 class CspmMonitorAwsOffering(CloudOffering):
@@ -848,7 +842,7 @@ class DefenderFoDatabasesAwsOfferingRds(_serialization.Model):
         self.cloud_role_arn = cloud_role_arn
 
 
-class DefenderForContainersAwsOffering(CloudOffering):  # pylint: disable=too-many-instance-attributes
+class DefenderForContainersAwsOffering(CloudOffering):
     """The Defender for Containers AWS offering.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -882,7 +876,7 @@ class DefenderForContainersAwsOffering(CloudOffering):  # pylint: disable=too-ma
     :ivar container_vulnerability_assessment_task: The container vulnerability assessment task
      configuration.
     :vartype container_vulnerability_assessment_task:
-     ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask  # pylint: disable=line-too-long
+     ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask
     :ivar enable_container_vulnerability_assessment: Enable container vulnerability assessment
      feature.
     :vartype enable_container_vulnerability_assessment: bool
@@ -963,11 +957,11 @@ class DefenderForContainersAwsOffering(CloudOffering):  # pylint: disable=too-ma
         :keyword container_vulnerability_assessment: The container vulnerability assessment
          configuration.
         :paramtype container_vulnerability_assessment:
-         ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForContainersAwsOfferingContainerVulnerabilityAssessment  # pylint: disable=line-too-long
+         ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForContainersAwsOfferingContainerVulnerabilityAssessment
         :keyword container_vulnerability_assessment_task: The container vulnerability assessment task
          configuration.
         :paramtype container_vulnerability_assessment_task:
-         ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask  # pylint: disable=line-too-long
+         ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask
         :keyword enable_container_vulnerability_assessment: Enable container vulnerability assessment
          feature.
         :paramtype enable_container_vulnerability_assessment: bool
@@ -1193,7 +1187,7 @@ class DefenderForContainersGcpOffering(CloudOffering):
          ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForContainersGcpOfferingNativeCloudConnection
         :keyword data_pipeline_native_cloud_connection: The native cloud connection configuration.
         :paramtype data_pipeline_native_cloud_connection:
-         ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection  # pylint: disable=line-too-long
+         ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection
         :keyword audit_logs_auto_provisioning_flag: Is audit logs data collection enabled.
         :paramtype audit_logs_auto_provisioning_flag: bool
         :keyword defender_agent_auto_provisioning_flag: Is Microsoft Defender for Cloud Kubernetes
@@ -1306,7 +1300,7 @@ class DefenderForDatabasesGcpOffering(CloudOffering):
      ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForDatabasesGcpOfferingArcAutoProvisioning
     :ivar defender_for_databases_arc_auto_provisioning: The native cloud connection configuration.
     :vartype defender_for_databases_arc_auto_provisioning:
-     ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning  # pylint: disable=line-too-long
+     ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning
     """
 
     _validation = {
@@ -1343,7 +1337,7 @@ class DefenderForDatabasesGcpOffering(CloudOffering):
         :keyword defender_for_databases_arc_auto_provisioning: The native cloud connection
          configuration.
         :paramtype defender_for_databases_arc_auto_provisioning:
-         ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning  # pylint: disable=line-too-long
+         ~azure.mgmt.security.v2022_08_01_preview.models.DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning
         """
         super().__init__(**kwargs)
         self.offering_type: str = "DefenderForDatabasesGcp"
@@ -2092,8 +2086,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ETag(_serialization.Model):
@@ -2293,7 +2287,7 @@ class GcpProjectDetails(_serialization.Model):
         super().__init__(**kwargs)
         self.project_number = project_number
         self.project_id = project_id
-        self.workload_identity_pool_id = None
+        self.workload_identity_pool_id: Optional[str] = None
 
 
 class GcpProjectEnvironmentData(EnvironmentData):
@@ -2486,9 +2480,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class Tags(_serialization.Model):
@@ -2574,12 +2568,12 @@ class TrackedResource(Resource, AzureTrackedResourceLocation, Kind, ETag, Tags):
         self.etag = etag
         self.kind = kind
         self.location = location
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
-class SecurityConnector(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class SecurityConnector(TrackedResource):
     """The security connector resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2679,9 +2673,9 @@ class SecurityConnector(TrackedResource):  # pylint: disable=too-many-instance-a
         :paramtype environment_data: ~azure.mgmt.security.v2022_08_01_preview.models.EnvironmentData
         """
         super().__init__(tags=tags, etag=etag, kind=kind, location=location, **kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.hierarchy_identifier = hierarchy_identifier
-        self.hierarchy_identifier_trial_end_date = None
+        self.hierarchy_identifier_trial_end_date: Optional[datetime.datetime] = None
         self.environment_name = environment_name
         self.offerings = offerings
         self.environment_data = environment_data
@@ -2717,7 +2711,7 @@ class SecurityConnectorsList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class SystemData(_serialization.Model):
