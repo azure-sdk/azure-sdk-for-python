@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.baremetalinfrastructure import BareMetalInfrastructureClient
 
 """
@@ -32,11 +34,14 @@ def main():
     response = client.azure_bare_metal_storage_instances.update(
         resource_group_name="myResourceGroup",
         azure_bare_metal_storage_instance_name="myABMSInstance",
-        tags_parameter={"tags": {}},
+        azure_bare_metal_storage_instance_body_parameter={
+            "identity": {"type": "SystemAssigned"},
+            "tags": {"testkey": "testvalue"},
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalStorageInstances_PatchTags_Delete.json
+# x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2024-08-01-preview/examples/AzureBareMetalStorageInstances_PatchTags_Delete.json
 if __name__ == "__main__":
     main()
