@@ -1,5 +1,49 @@
 # Release History
 
+## 3.0.0 (2025-04-23)
+
+### Features Added
+
+  - Client `StorageCacheManagementClient` added operation group `auto_export_jobs`
+  - Client `StorageCacheManagementClient` added operation group `auto_import_jobs`
+  - Model `ImportJob` added property `admin_status`
+  - Model `ImportJob` added property `imported_files`
+  - Model `ImportJob` added property `imported_directories`
+  - Model `ImportJob` added property `imported_symlinks`
+  - Model `ImportJob` added property `preexisting_files`
+  - Model `ImportJob` added property `preexisting_directories`
+  - Model `ImportJob` added property `preexisting_symlinks`
+  - Model `ImportJobUpdate` added property `admin_status`
+  - Added model `AutoExportJob`
+  - Added enum `AutoExportJobAdminStatus`
+  - Added enum `AutoExportJobProvisioningStateType`
+  - Added model `AutoExportJobUpdate`
+  - Added model `AutoExportJobsListResult`
+  - Added enum `AutoExportStatusType`
+  - Added model `AutoImportJob`
+  - Added enum `AutoImportJobPropertiesAdminStatus`
+  - Added enum `AutoImportJobPropertiesProvisioningState`
+  - Added model `AutoImportJobPropertiesStatusBlobSyncEvents`
+  - Added enum `AutoImportJobState`
+  - Added model `AutoImportJobUpdate`
+  - Added enum `AutoImportJobUpdatePropertiesAdminStatus`
+  - Added model `AutoImportJobsListResult`
+  - Added enum `ImportJobAdminStatus`
+  - Added model `AutoExportJobsOperations`
+  - Added model `AutoImportJobsOperations`
+  - Method `AutoExportJobsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, aml_filesystem_name: str, auto_export_job_name: str, auto_export_job: AutoExportJob, content_type: str)`
+  - Method `AutoExportJobsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, aml_filesystem_name: str, auto_export_job_name: str, auto_export_job: IO[bytes], content_type: str)`
+  - Method `AutoExportJobsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, aml_filesystem_name: str, auto_export_job_name: str, auto_export_job: AutoExportJobUpdate, content_type: str)`
+  - Method `AutoExportJobsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, aml_filesystem_name: str, auto_export_job_name: str, auto_export_job: IO[bytes], content_type: str)`
+  - Method `AutoImportJobsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, aml_filesystem_name: str, auto_import_job_name: str, auto_import_job: AutoImportJob, content_type: str)`
+  - Method `AutoImportJobsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, aml_filesystem_name: str, auto_import_job_name: str, auto_import_job: IO[bytes], content_type: str)`
+  - Method `AutoImportJobsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, aml_filesystem_name: str, auto_import_job_name: str, auto_import_job: AutoImportJobUpdate, content_type: str)`
+  - Method `AutoImportJobsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, aml_filesystem_name: str, auto_import_job_name: str, auto_import_job: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Method `ImportJob.__init__` parameter `conflict_resolution_mode` changed default value from `str` to `none`
+
 ## 2.0.0 (2024-05-20)
 
 ### Features Added
