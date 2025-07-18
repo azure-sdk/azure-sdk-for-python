@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10,18 +11,45 @@
 import datetime
 from typing import Any, List, Mapping, Optional, TYPE_CHECKING, Union, overload
 
-from .. import _model_base
-from .._model_base import rest_field
-from .._vendor import FileType
+from .._utils.model_base import Model as _Model, rest_field
+from .._utils.utils import FileType
 
 if TYPE_CHECKING:
     from .. import models as _models
 
 
-class DocumentBatch(_model_base.Model):
-    """Definition for the input batch translation request.
+class BatchOptions(_Model):
+    """Translation batch request options.
 
-    All required parameters must be populated in order to send to server.
+    :ivar translate_text_within_image: Translation text within an image option.
+    :vartype translate_text_within_image: bool
+    """
+
+    translate_text_within_image: Optional[bool] = rest_field(
+        name="translateTextWithinImage", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Translation text within an image option."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        translate_text_within_image: Optional[bool] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class DocumentBatch(_Model):
+    """Definition for the input batch translation request.
 
     :ivar source: Source of the input documents. Required.
     :vartype source: ~azure.ai.translation.document.models.SourceInput
@@ -32,11 +60,13 @@ class DocumentBatch(_model_base.Model):
     :vartype storage_type: str or ~azure.ai.translation.document.models.StorageInputType
     """
 
-    source: "_models.SourceInput" = rest_field()
+    source: "_models.SourceInput" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Source of the input documents. Required."""
-    targets: List["_models.TranslationTarget"] = rest_field()
+    targets: List["_models.TranslationTarget"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Location of the destination for the output. Required."""
-    storage_type: Optional[Union[str, "_models.StorageInputType"]] = rest_field(name="storageType")
+    storage_type: Optional[Union[str, "_models.StorageInputType"]] = rest_field(
+        name="storageType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Storage type of the input documents source string. Known values are: \"Folder\" and \"File\"."""
 
     @overload
@@ -59,7 +89,7 @@ class DocumentBatch(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class DocumentFilter(_model_base.Model):
+class DocumentFilter(_Model):
     """Document filter.
 
     :ivar prefix: A case-sensitive prefix string to filter documents in the source path for
@@ -73,12 +103,12 @@ class DocumentFilter(_model_base.Model):
     :vartype suffix: str
     """
 
-    prefix: Optional[str] = rest_field()
+    prefix: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """A case-sensitive prefix string to filter documents in the source path for
      translation.
      For example, when using a Azure storage blob Uri, use the prefix
      to restrict sub folders for translation."""
-    suffix: Optional[str] = rest_field()
+    suffix: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """A case-sensitive suffix string to filter documents in the source path for
      translation.
      This is most often use for file extensions."""
@@ -102,9 +132,8 @@ class DocumentFilter(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class DocumentStatus(_model_base.Model):
+class DocumentStatus(_Model):
     """Document Status Response.
-
 
     :ivar translated_document_url: Location of the document or folder.
     :vartype translated_document_url: str
@@ -129,31 +158,55 @@ class DocumentStatus(_model_base.Model):
     :vartype id: str
     :ivar characters_charged: Character charged by the API.
     :vartype characters_charged: int
+    :ivar total_image_scans_succeeded: Total image scans charged by the API.
+    :vartype total_image_scans_succeeded: int
+    :ivar total_image_scans_failed: Total image scans failed.
+    :vartype total_image_scans_failed: int
     """
 
-    translated_document_url: Optional[str] = rest_field(name="path")
+    translated_document_url: Optional[str] = rest_field(
+        name="path", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Location of the document or folder."""
-    source_document_url: str = rest_field(name="sourcePath")
+    source_document_url: str = rest_field(name="sourcePath", visibility=["read", "create", "update", "delete", "query"])
     """Location of the source document. Required."""
-    created_on: datetime.datetime = rest_field(name="createdDateTimeUtc", format="rfc3339")
+    created_on: datetime.datetime = rest_field(
+        name="createdDateTimeUtc", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """Operation created date time. Required."""
-    last_updated_on: datetime.datetime = rest_field(name="lastActionDateTimeUtc", format="rfc3339")
+    last_updated_on: datetime.datetime = rest_field(
+        name="lastActionDateTimeUtc", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """Date time in which the operation's status has been updated. Required."""
-    status: Union[str, "_models.Status"] = rest_field()
+    status: Union[str, "_models.Status"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """List of possible statuses for job or document. Required. Known values are: \"NotStarted\",
      \"Running\", \"Succeeded\", \"Failed\", \"Cancelled\", \"Cancelling\", and
      \"ValidationFailed\"."""
-    translated_to: str = rest_field(name="to")
+    translated_to: str = rest_field(name="to", visibility=["read", "create", "update", "delete", "query"])
     """To language. Required."""
-    error: Optional["_models.DocumentTranslationError"] = rest_field()
+    error: Optional["_models.DocumentTranslationError"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """This contains an outer error with error code, message, details, target and an
      inner error with more descriptive details."""
-    translation_progress: float = rest_field(name="progress")
+    translation_progress: float = rest_field(
+        name="progress", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Progress of the translation if available. Required."""
-    id: str = rest_field()
+    id: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Document Id. Required."""
-    characters_charged: Optional[int] = rest_field(name="characterCharged")
+    characters_charged: Optional[int] = rest_field(
+        name="characterCharged", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Character charged by the API."""
+    total_image_scans_succeeded: Optional[int] = rest_field(
+        name="totalImageScansSucceeded", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Total image scans charged by the API."""
+    total_image_scans_failed: Optional[int] = rest_field(
+        name="totalImageScansFailed", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Total image scans failed."""
 
     @overload
     def __init__(
@@ -169,6 +222,8 @@ class DocumentStatus(_model_base.Model):
         translated_document_url: Optional[str] = None,
         error: Optional["_models.DocumentTranslationError"] = None,
         characters_charged: Optional[int] = None,
+        total_image_scans_succeeded: Optional[int] = None,
+        total_image_scans_failed: Optional[int] = None,
     ) -> None: ...
 
     @overload
@@ -182,20 +237,22 @@ class DocumentStatus(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class DocumentTranslateContent(_model_base.Model):
+class DocumentTranslateContent(_Model):
     """Document Translate Request Content.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar document: Document to be translated in the form. Required.
-    :vartype document: ~azure.ai.translation.document._vendor.FileType
+    :vartype document: ~azure.ai.translation.document._utils.utils.FileType
     :ivar glossary: Glossary-translation memory will be used during translation in the form.
-    :vartype glossary: list[~azure.ai.translation.document._vendor.FileType]
+    :vartype glossary: list[~azure.ai.translation.document._utils.utils.FileType]
     """
 
-    document: FileType = rest_field(is_multipart_file_input=True)
+    document: FileType = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], is_multipart_file_input=True
+    )
     """Document to be translated in the form. Required."""
-    glossary: Optional[List[FileType]] = rest_field(is_multipart_file_input=True)
+    glossary: Optional[List[FileType]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], is_multipart_file_input=True
+    )
     """Glossary-translation memory will be used during translation in the form."""
 
     @overload
@@ -217,12 +274,9 @@ class DocumentTranslateContent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class DocumentTranslationError(_model_base.Model):
+class DocumentTranslationError(_Model):
     """This contains an outer error with error code, message, details, target and an
     inner error with more descriptive details.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar code: Enums containing high level error codes. Required. Known values are:
      "InvalidRequest", "InvalidArgument", "InternalServerError", "ServiceUnavailable",
@@ -236,27 +290,33 @@ class DocumentTranslationError(_model_base.Model):
     :vartype target: str
     :ivar inner_error: New Inner Error format which conforms to Cognitive Services API Guidelines
      which is available at
-     https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.
+     `https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow
+     <https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow>`_.
      This
      contains required properties ErrorCode, message and optional properties target,
      details(key value pair), inner error(this can be nested).
     :vartype inner_error: ~azure.ai.translation.document.models.InnerTranslationError
     """
 
-    code: Union[str, "_models.TranslationErrorCode"] = rest_field()
+    code: Union[str, "_models.TranslationErrorCode"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Enums containing high level error codes. Required. Known values are: \"InvalidRequest\",
      \"InvalidArgument\", \"InternalServerError\", \"ServiceUnavailable\", \"ResourceNotFound\",
      \"Unauthorized\", and \"RequestRateTooHigh\"."""
-    message: str = rest_field()
+    message: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Gets high level error message. Required."""
     target: Optional[str] = rest_field(visibility=["read"])
     """Gets the source of the error.
      For example it would be \"documents\" or
      \"document id\" in case of invalid document."""
-    inner_error: Optional["_models.InnerTranslationError"] = rest_field(name="innerError")
+    inner_error: Optional["_models.InnerTranslationError"] = rest_field(
+        name="innerError", visibility=["read", "create", "update", "delete", "query"]
+    )
     """New Inner Error format which conforms to Cognitive Services API Guidelines
      which is available at
-     https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.  # pylint: disable=line-too-long
+     `https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow
+     <https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow>`_.
      This
      contains required properties ErrorCode, message and optional properties target,
      details(key value pair), inner error(this can be nested)."""
@@ -281,9 +341,8 @@ class DocumentTranslationError(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class DocumentTranslationFileFormat(_model_base.Model):
+class DocumentTranslationFileFormat(_Model):
     """File Format.
-
 
     :ivar file_format: Name of the format. Required.
     :vartype file_format: str
@@ -299,17 +358,27 @@ class DocumentTranslationFileFormat(_model_base.Model):
     :vartype type: str or ~azure.ai.translation.document.models.FileFormatType
     """
 
-    file_format: str = rest_field(name="format")
+    file_format: str = rest_field(name="format", visibility=["read", "create", "update", "delete", "query"])
     """Name of the format. Required."""
-    file_extensions: List[str] = rest_field(name="fileExtensions")
+    file_extensions: List[str] = rest_field(
+        name="fileExtensions", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Supported file extension for this format. Required."""
-    content_types: List[str] = rest_field(name="contentTypes")
+    content_types: List[str] = rest_field(
+        name="contentTypes", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Supported Content-Types for this format. Required."""
-    default_format_version: Optional[str] = rest_field(name="defaultVersion")
+    default_format_version: Optional[str] = rest_field(
+        name="defaultVersion", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Default version if none is specified."""
-    format_versions: Optional[List[str]] = rest_field(name="versions")
+    format_versions: Optional[List[str]] = rest_field(
+        name="versions", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Supported Version."""
-    type: Optional[Union[str, "_models.FileFormatType"]] = rest_field()
+    type: Optional[Union[str, "_models.FileFormatType"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Supported Type for this format. Known values are: \"document\" and \"glossary\"."""
 
     @overload
@@ -335,16 +404,14 @@ class DocumentTranslationFileFormat(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class InnerTranslationError(_model_base.Model):
+class InnerTranslationError(_Model):
     """New Inner Error format which conforms to Cognitive Services API Guidelines
     which is available at
-    https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.
+    `https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow
+    <https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow>`_.
     This
     contains required properties ErrorCode, message and optional properties target,
     details(key value pair), inner error(this can be nested).
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar code: Gets code error string. Required.
     :vartype code: str
@@ -356,25 +423,29 @@ class InnerTranslationError(_model_base.Model):
     :vartype target: str
     :ivar inner_error: New Inner Error format which conforms to Cognitive Services API Guidelines
      which is available at
-     https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.
+     `https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow
+     <https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow>`_.
      This
      contains required properties ErrorCode, message and optional properties target,
      details(key value pair), inner error(this can be nested).
     :vartype inner_error: ~azure.ai.translation.document.models.InnerTranslationError
     """
 
-    code: str = rest_field()
+    code: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Gets code error string. Required."""
-    message: str = rest_field()
+    message: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Gets high level error message. Required."""
     target: Optional[str] = rest_field(visibility=["read"])
     """Gets the source of the error.
      For example it would be \"documents\" or
      \"document id\" in case of invalid document."""
-    inner_error: Optional["_models.InnerTranslationError"] = rest_field(name="innerError")
+    inner_error: Optional["_models.InnerTranslationError"] = rest_field(
+        name="innerError", visibility=["read", "create", "update", "delete", "query"]
+    )
     """New Inner Error format which conforms to Cognitive Services API Guidelines
      which is available at
-     https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.  # pylint: disable=line-too-long
+     `https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow
+     <https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow>`_.
      This
      contains required properties ErrorCode, message and optional properties target,
      details(key value pair), inner error(this can be nested)."""
@@ -399,10 +470,8 @@ class InnerTranslationError(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SourceInput(_model_base.Model):
+class SourceInput(_Model):
     """Source of the input documents.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar source_url: Location of the folder / container or single file with your documents.
      Required.
@@ -416,14 +485,16 @@ class SourceInput(_model_base.Model):
     :vartype storage_source: str or ~azure.ai.translation.document.models.TranslationStorageSource
     """
 
-    source_url: str = rest_field(name="sourceUrl")
+    source_url: str = rest_field(name="sourceUrl", visibility=["read", "create", "update", "delete", "query"])
     """Location of the folder / container or single file with your documents. Required."""
-    filter: Optional["_models.DocumentFilter"] = rest_field()
+    filter: Optional["_models.DocumentFilter"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Document filter."""
-    language: Optional[str] = rest_field()
+    language: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Language code
      If none is specified, we will perform auto detect on the document."""
-    storage_source: Optional[Union[str, "_models.TranslationStorageSource"]] = rest_field(name="storageSource")
+    storage_source: Optional[Union[str, "_models.TranslationStorageSource"]] = rest_field(
+        name="storageSource", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Storage Source. \"AzureBlob\""""
 
     @overload
@@ -447,23 +518,26 @@ class SourceInput(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class StartTranslationDetails(_model_base.Model):
+class StartTranslationDetails(_Model):
     """Translation job submission batch request.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar inputs: The input list of documents or folders containing documents. Required.
     :vartype inputs: list[~azure.ai.translation.document.models.DocumentBatch]
+    :ivar options: The batch operation options.
+    :vartype options: ~azure.ai.translation.document.models.BatchOptions
     """
 
-    inputs: List["_models.DocumentBatch"] = rest_field()
+    inputs: List["_models.DocumentBatch"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The input list of documents or folders containing documents. Required."""
+    options: Optional["_models.BatchOptions"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The batch operation options."""
 
     @overload
     def __init__(
         self,
         *,
         inputs: List["_models.DocumentBatch"],
+        options: Optional["_models.BatchOptions"] = None,
     ) -> None: ...
 
     @overload
@@ -477,40 +551,23 @@ class StartTranslationDetails(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SupportedFileFormats(_model_base.Model):
+class SupportedFileFormats(_Model):
     """List of supported file formats.
-
 
     :ivar value: list of objects. Required.
     :vartype value: list[~azure.ai.translation.document.models.DocumentTranslationFileFormat]
     """
 
-    value: List["_models.DocumentTranslationFileFormat"] = rest_field()
+    value: List["_models.DocumentTranslationFileFormat"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """list of objects. Required."""
-
-
-class TranslationErrorResponse(_model_base.Model):
-    """Contains unified error information used for HTTP responses across any Cognitive
-    Service. Instances
-    can be created either through
-    Microsoft.CloudAI.Containers.HttpStatusExceptionV2 or by returning it directly
-    from
-    a controller.
-
-    :ivar error: This contains an outer error with error code, message, details, target and an
-     inner error with more descriptive details.
-    :vartype error: ~azure.ai.translation.document.models.DocumentTranslationError
-    """
-
-    error: Optional["_models.DocumentTranslationError"] = rest_field()
-    """This contains an outer error with error code, message, details, target and an
-     inner error with more descriptive details."""
 
     @overload
     def __init__(
         self,
         *,
-        error: Optional["_models.DocumentTranslationError"] = None,
+        value: List["_models.DocumentTranslationFileFormat"],
     ) -> None: ...
 
     @overload
@@ -524,10 +581,8 @@ class TranslationErrorResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TranslationGlossary(_model_base.Model):
+class TranslationGlossary(_Model):
     """Glossary / translation memory for the request.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar glossary_url: Location of the glossary.
      We will use the file extension to extract the
@@ -544,18 +599,22 @@ class TranslationGlossary(_model_base.Model):
     :vartype storage_source: str or ~azure.ai.translation.document.models.TranslationStorageSource
     """
 
-    glossary_url: str = rest_field(name="glossaryUrl")
+    glossary_url: str = rest_field(name="glossaryUrl", visibility=["read", "create", "update", "delete", "query"])
     """Location of the glossary.
      We will use the file extension to extract the
      formatting if the format parameter is not supplied.
      
      If the translation
      language pair is not present in the glossary, it will not be applied. Required."""
-    file_format: str = rest_field(name="format")
+    file_format: str = rest_field(name="format", visibility=["read", "create", "update", "delete", "query"])
     """Format. Required."""
-    format_version: Optional[str] = rest_field(name="version")
+    format_version: Optional[str] = rest_field(
+        name="version", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Optional Version.  If not specified, default is used."""
-    storage_source: Optional[Union[str, "_models.TranslationStorageSource"]] = rest_field(name="storageSource")
+    storage_source: Optional[Union[str, "_models.TranslationStorageSource"]] = rest_field(
+        name="storageSource", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Storage Source. \"AzureBlob\""""
 
     @overload
@@ -579,9 +638,8 @@ class TranslationGlossary(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TranslationStatus(_model_base.Model):
+class TranslationStatus(_Model):
     """Translation job status response.
-
 
     :ivar id: Id of the translation operation. Required.
     :vartype id: str
@@ -600,20 +658,26 @@ class TranslationStatus(_model_base.Model):
     :vartype summary: ~azure.ai.translation.document.models.TranslationStatusSummary
     """
 
-    id: str = rest_field()
+    id: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Id of the translation operation. Required."""
-    created_on: datetime.datetime = rest_field(name="createdDateTimeUtc", format="rfc3339")
+    created_on: datetime.datetime = rest_field(
+        name="createdDateTimeUtc", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """Operation created date time. Required."""
-    last_updated_on: datetime.datetime = rest_field(name="lastActionDateTimeUtc", format="rfc3339")
+    last_updated_on: datetime.datetime = rest_field(
+        name="lastActionDateTimeUtc", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """Date time in which the operation's status has been updated. Required."""
-    status: Union[str, "_models.Status"] = rest_field()
+    status: Union[str, "_models.Status"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """List of possible statuses for job or document. Required. Known values are: \"NotStarted\",
      \"Running\", \"Succeeded\", \"Failed\", \"Cancelled\", \"Cancelling\", and
      \"ValidationFailed\"."""
-    error: Optional["_models.DocumentTranslationError"] = rest_field()
+    error: Optional["_models.DocumentTranslationError"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """This contains an outer error with error code, message, details, target and an
      inner error with more descriptive details."""
-    summary: "_models.TranslationStatusSummary" = rest_field()
+    summary: "_models.TranslationStatusSummary" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Status Summary. Required."""
 
     @overload
@@ -639,9 +703,8 @@ class TranslationStatus(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TranslationStatusSummary(_model_base.Model):
+class TranslationStatusSummary(_Model):
     """Status Summary.
-
 
     :ivar total: Total count. Required.
     :vartype total: int
@@ -657,22 +720,36 @@ class TranslationStatusSummary(_model_base.Model):
     :vartype canceled: int
     :ivar total_characters_charged: Total characters charged by the API. Required.
     :vartype total_characters_charged: int
+    :ivar total_image_scans_succeeded: Total image scans charged by the API.
+    :vartype total_image_scans_succeeded: int
+    :ivar total_image_scans_failed: Total image scans failed.
+    :vartype total_image_scans_failed: int
     """
 
-    total: int = rest_field()
+    total: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Total count. Required."""
-    failed: int = rest_field()
+    failed: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Failed count. Required."""
-    success: int = rest_field()
+    success: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Number of Success. Required."""
-    in_progress: int = rest_field(name="inProgress")
+    in_progress: int = rest_field(name="inProgress", visibility=["read", "create", "update", "delete", "query"])
     """Number of in progress. Required."""
-    not_yet_started: int = rest_field(name="notYetStarted")
+    not_yet_started: int = rest_field(name="notYetStarted", visibility=["read", "create", "update", "delete", "query"])
     """Count of not yet started. Required."""
-    canceled: int = rest_field(name="cancelled")
+    canceled: int = rest_field(name="cancelled", visibility=["read", "create", "update", "delete", "query"])
     """Number of cancelled. Required."""
-    total_characters_charged: int = rest_field(name="totalCharacterCharged")
+    total_characters_charged: int = rest_field(
+        name="totalCharacterCharged", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Total characters charged by the API. Required."""
+    total_image_scans_succeeded: Optional[int] = rest_field(
+        name="totalImageScansSucceeded", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Total image scans charged by the API."""
+    total_image_scans_failed: Optional[int] = rest_field(
+        name="totalImageScansFailed", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Total image scans failed."""
 
     @overload
     def __init__(
@@ -685,6 +762,8 @@ class TranslationStatusSummary(_model_base.Model):
         not_yet_started: int,
         canceled: int,
         total_characters_charged: int,
+        total_image_scans_succeeded: Optional[int] = None,
+        total_image_scans_failed: Optional[int] = None,
     ) -> None: ...
 
     @overload
@@ -698,10 +777,8 @@ class TranslationStatusSummary(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class TranslationTarget(_model_base.Model):
+class TranslationTarget(_Model):
     """Destination for the finished translated documents.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar target_url: Location of the folder / container with your documents. Required.
     :vartype target_url: str
@@ -715,15 +792,19 @@ class TranslationTarget(_model_base.Model):
     :vartype storage_source: str or ~azure.ai.translation.document.models.TranslationStorageSource
     """
 
-    target_url: str = rest_field(name="targetUrl")
+    target_url: str = rest_field(name="targetUrl", visibility=["read", "create", "update", "delete", "query"])
     """Location of the folder / container with your documents. Required."""
-    category_id: Optional[str] = rest_field(name="category")
+    category_id: Optional[str] = rest_field(name="category", visibility=["read", "create", "update", "delete", "query"])
     """Category / custom system for translation request."""
-    language: str = rest_field()
+    language: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Target Language. Required."""
-    glossaries: Optional[List["_models.TranslationGlossary"]] = rest_field()
+    glossaries: Optional[List["_models.TranslationGlossary"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """List of Glossary."""
-    storage_source: Optional[Union[str, "_models.TranslationStorageSource"]] = rest_field(name="storageSource")
+    storage_source: Optional[Union[str, "_models.TranslationStorageSource"]] = rest_field(
+        name="storageSource", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Storage Source. \"AzureBlob\""""
 
     @overload
