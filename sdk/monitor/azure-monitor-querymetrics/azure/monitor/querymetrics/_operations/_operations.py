@@ -1,4 +1,3 @@
-# pylint: disable=too-many-locals,protected-access
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9,19 +8,10 @@
 from collections.abc import MutableMapping
 from io import IOBase
 import json
-from typing import Any, Callable, Dict, IO, List, Optional, TypeVar, Union, overload
+from typing import Any, Callable, IO, Optional, TypeVar, Union, overload
 
 from azure.core import PipelineClient
-from azure.core.exceptions import (
-    ClientAuthenticationError,
-    HttpResponseError,
-    ResourceExistsError,
-    ResourceNotFoundError,
-    ResourceNotModifiedError,
-    StreamClosedError,
-    StreamConsumedError,
-    map_error,
-)
+from azure.core.exceptions import ClientAuthenticationError, HttpResponseError, ResourceExistsError, ResourceNotFoundError, ResourceNotModifiedError, StreamClosedError, StreamConsumedError, map_error
 from azure.core.pipeline import PipelineResponse
 from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
@@ -32,10 +22,9 @@ from .._configuration import MetricsClientConfiguration
 from .._utils.model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
 from .._utils.serialization import Serializer
 from .._utils.utils import ClientMixinABC
-
 JSON = MutableMapping[str, Any]
-T = TypeVar("T")
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
+T = TypeVar('T')
+ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, dict[str, Any]], Any]]
 
 _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
@@ -45,7 +34,7 @@ def build_metrics_query_resources_request(
     subscription_id: str,
     *,
     metric_namespace: str,
-    metric_names: List[str],
+    metric_names: list[str],
     start_time: Optional[str] = None,
     end_time: Optional[str] = None,
     interval: Optional[str] = None,
@@ -59,48 +48,53 @@ def build_metrics_query_resources_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("content-type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-01"))
-    accept = _headers.pop("Accept", "application/json")
+    content_type: Optional[str] = kwargs.pop('content_type', _headers.pop('content-type', None))
+    api_version: str = kwargs.pop('api_version', _params.pop('api-version', "2024-02-01"))
+    accept = _headers.pop('Accept', "application/json")
 
     # Construct URL
     _url = "/subscriptions/{subscriptionId}/metrics:getBatch"
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, 'str'),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    _params['api-version'] = _SERIALIZER.query("api_version", api_version, 'str')
     if start_time is not None:
-        _params["starttime"] = _SERIALIZER.query("start_time", start_time, "str")
+        _params['starttime'] = _SERIALIZER.query("start_time", start_time, 'str')
     if end_time is not None:
-        _params["endtime"] = _SERIALIZER.query("end_time", end_time, "str")
+        _params['endtime'] = _SERIALIZER.query("end_time", end_time, 'str')
     if interval is not None:
-        _params["interval"] = _SERIALIZER.query("interval", interval, "str")
-    _params["metricnamespace"] = _SERIALIZER.query("metric_namespace", metric_namespace, "str")
-    _params["metricnames"] = _SERIALIZER.query("metric_names", metric_names, "[str]", div=",")
+        _params['interval'] = _SERIALIZER.query("interval", interval, 'str')
+    _params['metricnamespace'] = _SERIALIZER.query("metric_namespace", metric_namespace, 'str')
+    _params['metricnames'] = _SERIALIZER.query("metric_names", metric_names, '[str]', div=',')
     if aggregation is not None:
-        _params["aggregation"] = _SERIALIZER.query("aggregation", aggregation, "str")
+        _params['aggregation'] = _SERIALIZER.query("aggregation", aggregation, 'str')
     if top is not None:
-        _params["top"] = _SERIALIZER.query("top", top, "int")
+        _params['top'] = _SERIALIZER.query("top", top, 'int')
     if order_by is not None:
-        _params["orderby"] = _SERIALIZER.query("order_by", order_by, "str")
+        _params['orderby'] = _SERIALIZER.query("order_by", order_by, 'str')
     if filter is not None:
-        _params["filter"] = _SERIALIZER.query("filter", filter, "str")
+        _params['filter'] = _SERIALIZER.query("filter", filter, 'str')
     if roll_up_by is not None:
-        _params["rollupby"] = _SERIALIZER.query("roll_up_by", roll_up_by, "str")
+        _params['rollupby'] = _SERIALIZER.query("roll_up_by", roll_up_by, 'str')
 
     # Construct headers
     if content_type is not None:
-        _headers["content-type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+        _headers['content-type'] = _SERIALIZER.header("content_type", content_type, 'str')
+    _headers['Accept'] = _SERIALIZER.header("accept", accept, 'str')
 
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+    return HttpRequest(
+        method="POST",
+        url=_url,
+        params=_params,
+        headers=_headers,
+        **kwargs
+    )
 
-
-class _MetricsClientOperationsMixin(
+class _MetricsClientOperationsMixin( 
     ClientMixinABC[PipelineClient[HttpRequest, HttpResponse], MetricsClientConfiguration]
 ):
 
@@ -111,7 +105,7 @@ class _MetricsClientOperationsMixin(
         batch_request: _models._models.ResourceIdList,
         *,
         metric_namespace: str,
-        metric_names: List[str],
+        metric_names: list[str],
         start_time: Optional[str] = None,
         end_time: Optional[str] = None,
         interval: Optional[str] = None,
@@ -122,7 +116,8 @@ class _MetricsClientOperationsMixin(
         roll_up_by: Optional[str] = None,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.MetricResultsResponse: ...
+    ) -> _models._models.MetricResultsResponse:
+        ...
     @overload
     def _query_resources(
         self,
@@ -130,7 +125,7 @@ class _MetricsClientOperationsMixin(
         batch_request: JSON,
         *,
         metric_namespace: str,
-        metric_names: List[str],
+        metric_names: list[str],
         start_time: Optional[str] = None,
         end_time: Optional[str] = None,
         interval: Optional[str] = None,
@@ -141,7 +136,8 @@ class _MetricsClientOperationsMixin(
         roll_up_by: Optional[str] = None,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.MetricResultsResponse: ...
+    ) -> _models._models.MetricResultsResponse:
+        ...
     @overload
     def _query_resources(
         self,
@@ -149,7 +145,7 @@ class _MetricsClientOperationsMixin(
         batch_request: IO[bytes],
         *,
         metric_namespace: str,
-        metric_names: List[str],
+        metric_names: list[str],
         start_time: Optional[str] = None,
         end_time: Optional[str] = None,
         interval: Optional[str] = None,
@@ -160,7 +156,8 @@ class _MetricsClientOperationsMixin(
         roll_up_by: Optional[str] = None,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.MetricResultsResponse: ...
+    ) -> _models._models.MetricResultsResponse:
+        ...
 
     @distributed_trace
     def _query_resources(
@@ -169,7 +166,7 @@ class _MetricsClientOperationsMixin(
         batch_request: Union[_models._models.ResourceIdList, JSON, IO[bytes]],
         *,
         metric_namespace: str,
-        metric_names: List[str],
+        metric_names: list[str],
         start_time: Optional[str] = None,
         end_time: Optional[str] = None,
         interval: Optional[str] = None,
@@ -238,18 +235,17 @@ class _MetricsClientOperationsMixin(
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
+            401: ClientAuthenticationError, 404: ResourceNotFoundError, 409: ResourceExistsError, 304: ResourceNotModifiedError
         }
-        error_map.update(kwargs.pop("error_map", {}) or {})
+        error_map.update(kwargs.pop('error_map', {}) or {})
 
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = kwargs.pop("params", {}) or {}
 
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("content-type", None))
-        cls: ClsType[_models._models.MetricResultsResponse] = kwargs.pop("cls", None)
+        content_type: Optional[str] = kwargs.pop('content_type', _headers.pop('content-type', None))
+        cls: ClsType[_models._models.MetricResultsResponse] = kwargs.pop(
+            'cls', None
+        )
 
         content_type = content_type or "application/json"
         _content = None
@@ -277,13 +273,15 @@ class _MetricsClientOperationsMixin(
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, 'str', skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
+        pipeline_response: PipelineResponse = self._client._pipeline.run(   # pylint: disable=protected-access
+            _request,
+            stream=_stream,
+            **kwargs
         )
 
         response = pipeline_response.http_response
@@ -295,17 +293,20 @@ class _MetricsClientOperationsMixin(
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _failsafe_deserialize(_models._models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models._models.ErrorResponse  # pylint: disable=protected-access, response)
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
             deserialized = _deserialize(
-                _models._models.MetricResultsResponse, response.json()  # pylint: disable=protected-access
+                _models._models.MetricResultsResponse,  # pylint: disable=protected-access
+                response.json()
             )
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, {}) # type: ignore
 
         return deserialized  # type: ignore
+
+

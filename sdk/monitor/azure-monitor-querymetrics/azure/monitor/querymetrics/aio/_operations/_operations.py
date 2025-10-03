@@ -1,4 +1,3 @@
-# pylint: disable=line-too-long,useless-suppression,too-many-locals,protected-access
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9,19 +8,10 @@
 from collections.abc import MutableMapping
 from io import IOBase
 import json
-from typing import Any, Callable, Dict, IO, List, Optional, TypeVar, Union, overload
+from typing import Any, Callable, IO, Optional, TypeVar, Union, overload
 
 from azure.core import AsyncPipelineClient
-from azure.core.exceptions import (
-    ClientAuthenticationError,
-    HttpResponseError,
-    ResourceExistsError,
-    ResourceNotFoundError,
-    ResourceNotModifiedError,
-    StreamClosedError,
-    StreamConsumedError,
-    map_error,
-)
+from azure.core.exceptions import ClientAuthenticationError, HttpResponseError, ResourceExistsError, ResourceNotFoundError, ResourceNotModifiedError, StreamClosedError, StreamConsumedError, map_error
 from azure.core.pipeline import PipelineResponse
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
@@ -32,13 +22,11 @@ from ..._operations._operations import build_metrics_query_resources_request
 from ..._utils.model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
 from ..._utils.utils import ClientMixinABC
 from .._configuration import MetricsClientConfiguration
-
 JSON = MutableMapping[str, Any]
-T = TypeVar("T")
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
+T = TypeVar('T')
+ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, dict[str, Any]], Any]]
 
-
-class _MetricsClientOperationsMixin(
+class _MetricsClientOperationsMixin( 
     ClientMixinABC[AsyncPipelineClient[HttpRequest, AsyncHttpResponse], MetricsClientConfiguration]
 ):
 
@@ -49,7 +37,7 @@ class _MetricsClientOperationsMixin(
         batch_request: _models._models.ResourceIdList,
         *,
         metric_namespace: str,
-        metric_names: List[str],
+        metric_names: list[str],
         start_time: Optional[str] = None,
         end_time: Optional[str] = None,
         interval: Optional[str] = None,
@@ -60,7 +48,8 @@ class _MetricsClientOperationsMixin(
         roll_up_by: Optional[str] = None,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.MetricResultsResponse: ...
+    ) -> _models._models.MetricResultsResponse:
+        ...
     @overload
     async def _query_resources(
         self,
@@ -68,7 +57,7 @@ class _MetricsClientOperationsMixin(
         batch_request: JSON,
         *,
         metric_namespace: str,
-        metric_names: List[str],
+        metric_names: list[str],
         start_time: Optional[str] = None,
         end_time: Optional[str] = None,
         interval: Optional[str] = None,
@@ -79,7 +68,8 @@ class _MetricsClientOperationsMixin(
         roll_up_by: Optional[str] = None,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.MetricResultsResponse: ...
+    ) -> _models._models.MetricResultsResponse:
+        ...
     @overload
     async def _query_resources(
         self,
@@ -87,7 +77,7 @@ class _MetricsClientOperationsMixin(
         batch_request: IO[bytes],
         *,
         metric_namespace: str,
-        metric_names: List[str],
+        metric_names: list[str],
         start_time: Optional[str] = None,
         end_time: Optional[str] = None,
         interval: Optional[str] = None,
@@ -98,7 +88,8 @@ class _MetricsClientOperationsMixin(
         roll_up_by: Optional[str] = None,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models._models.MetricResultsResponse: ...
+    ) -> _models._models.MetricResultsResponse:
+        ...
 
     @distributed_trace_async
     async def _query_resources(
@@ -107,7 +98,7 @@ class _MetricsClientOperationsMixin(
         batch_request: Union[_models._models.ResourceIdList, JSON, IO[bytes]],
         *,
         metric_namespace: str,
-        metric_names: List[str],
+        metric_names: list[str],
         start_time: Optional[str] = None,
         end_time: Optional[str] = None,
         interval: Optional[str] = None,
@@ -176,18 +167,17 @@ class _MetricsClientOperationsMixin(
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
+            401: ClientAuthenticationError, 404: ResourceNotFoundError, 409: ResourceExistsError, 304: ResourceNotModifiedError
         }
-        error_map.update(kwargs.pop("error_map", {}) or {})
+        error_map.update(kwargs.pop('error_map', {}) or {})
 
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = kwargs.pop("params", {}) or {}
 
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("content-type", None))
-        cls: ClsType[_models._models.MetricResultsResponse] = kwargs.pop("cls", None)
+        content_type: Optional[str] = kwargs.pop('content_type', _headers.pop('content-type', None))
+        cls: ClsType[_models._models.MetricResultsResponse] = kwargs.pop(
+            'cls', None
+        )
 
         content_type = content_type or "application/json"
         _content = None
@@ -215,13 +205,15 @@ class _MetricsClientOperationsMixin(
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, 'str', skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
+            _request,
+            stream=_stream,
+            **kwargs
         )
 
         response = pipeline_response.http_response
@@ -233,17 +225,20 @@ class _MetricsClientOperationsMixin(
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _failsafe_deserialize(_models._models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models._models.ErrorResponse  # pylint: disable=protected-access, response)
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
             deserialized = _deserialize(
-                _models._models.MetricResultsResponse, response.json()  # pylint: disable=protected-access
+                _models._models.MetricResultsResponse,  # pylint: disable=protected-access
+                response.json()
             )
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, {}) # type: ignore
 
         return deserialized  # type: ignore
+
+
