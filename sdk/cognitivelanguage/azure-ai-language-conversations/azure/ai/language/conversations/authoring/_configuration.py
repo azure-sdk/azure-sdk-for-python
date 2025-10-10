@@ -10,14 +10,14 @@ from typing import Any, TYPE_CHECKING
 
 from azure.core.pipeline import policies
 
-from .._version import VERSION
+from ._version import VERSION
 
 if TYPE_CHECKING:
-    from azure.core.credentials_async import AsyncTokenCredential
+    from azure.core.credentials import TokenCredential
 
 
-class ConversationAnalysisClientConfiguration:  # pylint: disable=too-many-instance-attributes
-    """Configuration for ConversationAnalysisClient.
+class ConversationAuthoringClientConfiguration:  # pylint: disable=too-many-instance-attributes
+    """Configuration for ConversationAuthoringClient.
 
     Note that all parameters used to create this instance are saved as instance
     attributes.
@@ -26,13 +26,13 @@ class ConversationAnalysisClientConfiguration:  # pylint: disable=too-many-insta
      :code:`<resource-name>`.cognitiveservices.azure.com). Required.
     :type endpoint: str
     :param credential: Credential needed for the client to connect to Azure. Required.
-    :type credential: ~azure.core.credentials_async.AsyncTokenCredential
+    :type credential: ~azure.core.credentials.TokenCredential
     :keyword api_version: Api Version. Default value is "2023-04-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, endpoint: str, credential: "AsyncTokenCredential", **kwargs: Any) -> None:
+    def __init__(self, endpoint: str, credential: "TokenCredential", **kwargs: Any) -> None:
         api_version: str = kwargs.pop("api_version", "2023-04-01")
 
         if endpoint is None:
@@ -55,10 +55,10 @@ class ConversationAnalysisClientConfiguration:  # pylint: disable=too-many-insta
         self.logging_policy = kwargs.get("logging_policy") or policies.NetworkTraceLoggingPolicy(**kwargs)
         self.http_logging_policy = kwargs.get("http_logging_policy") or policies.HttpLoggingPolicy(**kwargs)
         self.custom_hook_policy = kwargs.get("custom_hook_policy") or policies.CustomHookPolicy(**kwargs)
-        self.redirect_policy = kwargs.get("redirect_policy") or policies.AsyncRedirectPolicy(**kwargs)
-        self.retry_policy = kwargs.get("retry_policy") or policies.AsyncRetryPolicy(**kwargs)
+        self.redirect_policy = kwargs.get("redirect_policy") or policies.RedirectPolicy(**kwargs)
+        self.retry_policy = kwargs.get("retry_policy") or policies.RetryPolicy(**kwargs)
         self.authentication_policy = kwargs.get("authentication_policy")
         if self.credential and not self.authentication_policy:
-            self.authentication_policy = policies.AsyncBearerTokenCredentialPolicy(
+            self.authentication_policy = policies.BearerTokenCredentialPolicy(
                 self.credential, *self.credential_scopes, **kwargs
             )
