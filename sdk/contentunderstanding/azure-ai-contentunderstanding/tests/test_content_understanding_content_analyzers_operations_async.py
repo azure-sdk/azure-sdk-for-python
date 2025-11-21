@@ -46,7 +46,7 @@ async def create_analyzer_and_assert_async(
     print(f"\nCreating analyzer {analyzer_id}")
 
     # Start the analyzer creation operation
-    poller = await client.begin_create_or_replace(
+    poller = await client.begin_create_analyzer(
         analyzer_id=analyzer_id,
         resource=resource,
     )
@@ -83,7 +83,7 @@ async def delete_analyzer_and_assert(
     if created_analyzer:
         print(f"Cleaning up analyzer {analyzer_id}")
         try:
-            await client.delete(analyzer_id=analyzer_id)
+            await client.delete_analyzer(analyzer_id=analyzer_id)
         except Exception as e:
             # If deletion fails, the test should fail
             raise AssertionError(f"Failed to delete analyzer {analyzer_id}: {e}") from e
@@ -224,6 +224,11 @@ class TestContentUnderstandingContentAnalyzersOperationsAsync(ContentUnderstandi
         - Verify analyzer creation and poller properties
         - Clean up created analyzer
         """
+        # Skip this test if defaults cannot be set (no OpenAI deployments configured)
+        if not is_live_and_not_recording():
+            pytest.skip("This test creates custom analyzers which require ContentUnderstandingDefaults to be set. "
+                       "Defaults are only available in live mode with configured OpenAI deployments.")
+        
         client: ContentUnderstandingClient = self.create_async_client(endpoint=contentunderstanding_endpoint)
         analyzer_id = generate_analyzer_id(client, "create_content_analyzer", is_async=True)
         created_analyzer = False
@@ -325,7 +330,7 @@ class TestContentUnderstandingContentAnalyzersOperationsAsync(ContentUnderstandi
 
             # Get the analyzer before update to verify initial state
             print(f"Getting analyzer {analyzer_id} before update")
-            analyzer_before_update = await client.get(analyzer_id=analyzer_id)
+            analyzer_before_update = await client.get_analyzer(analyzer_id=analyzer_id)
             assert analyzer_before_update is not None
             assert analyzer_before_update.analyzer_id == analyzer_id
             assert analyzer_before_update.description == f"Initial analyzer for update test: {analyzer_id}"
@@ -347,7 +352,7 @@ class TestContentUnderstandingContentAnalyzersOperationsAsync(ContentUnderstandi
             print(f"Updating analyzer {analyzer_id} with new tag and description")
 
             # Update the analyzer
-            response = await client.update(
+            response = await client.update_analyzer(
                 analyzer_id=analyzer_id,
                 resource=updated_analyzer,
             )
@@ -365,9 +370,9 @@ class TestContentUnderstandingContentAnalyzersOperationsAsync(ContentUnderstandi
 
             print(f"Successfully updated analyzer {analyzer_id} with new tag and description")
 
-            # Get the analyzer after update to verify the changes persisted
+            # Get the analyzer after update to verify changes persisted
             print(f"Getting analyzer {analyzer_id} after update")
-            analyzer_after_update = await client.get(analyzer_id=analyzer_id)
+            analyzer_after_update = await client.get_analyzer(analyzer_id=analyzer_id)
             assert analyzer_after_update is not None
             assert analyzer_after_update.analyzer_id == analyzer_id
             assert analyzer_after_update.description == f"Updated analyzer for update test: {analyzer_id}"
@@ -389,7 +394,7 @@ class TestContentUnderstandingContentAnalyzersOperationsAsync(ContentUnderstandi
         - Verify analyzer properties and status
         """
         client: ContentUnderstandingClient = self.create_async_client(endpoint=contentunderstanding_endpoint)
-        response = await client.get(
+        response = await client.get_analyzer(
             analyzer_id="prebuilt-documentSearch",
         )
         assert response is not None
@@ -428,7 +433,7 @@ class TestContentUnderstandingContentAnalyzersOperationsAsync(ContentUnderstandi
 
             # Delete the analyzer
             print(f"Deleting analyzer {analyzer_id}")
-            response = await client.delete(analyzer_id=analyzer_id)
+            response = await client.delete_analyzer(analyzer_id=analyzer_id)
 
             # Verify the delete response
             assert response is None
@@ -439,7 +444,7 @@ class TestContentUnderstandingContentAnalyzersOperationsAsync(ContentUnderstandi
             if created_analyzer:
                 print(f"Cleaning up analyzer {analyzer_id} that was not properly deleted")
                 try:
-                    await client.delete(analyzer_id=analyzer_id)
+                    await client.delete_analyzer(analyzer_id=analyzer_id)
                     # Verify deletion (NOTE: check disabled - list too long to execute)
                     #     client, analyzer_id
                     # ), f"Failed to delete analyzer {analyzer_id} during cleanup"
@@ -461,7 +466,7 @@ class TestContentUnderstandingContentAnalyzersOperationsAsync(ContentUnderstandi
         - Verify each analyzer has required properties
         """
         client: ContentUnderstandingClient = self.create_async_client(endpoint=contentunderstanding_endpoint)
-        response = client.list()
+        response = client.list_analyzers()
         result = [r async for r in response]
         assert len(result) > 0, "Should have at least one analyzer in the list"
         print(f"Found {len(result)} analyzers")

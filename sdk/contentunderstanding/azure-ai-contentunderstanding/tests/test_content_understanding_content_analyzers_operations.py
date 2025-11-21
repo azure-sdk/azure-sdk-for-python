@@ -48,7 +48,7 @@ def create_analyzer_and_assert_sync(
     print(f"\nCreating analyzer {analyzer_id}")
 
     # Start the analyzer creation operation
-    poller = client.begin_create_or_replace(
+    poller = client.begin_create_analyzer(
         analyzer_id=analyzer_id,
         resource=resource,
     )
@@ -86,7 +86,7 @@ def delete_analyzer_and_assert_sync(
     if created_analyzer:
         print(f"Cleaning up analyzer {analyzer_id}")
         try:
-            client.delete(analyzer_id=analyzer_id)
+            client.delete_analyzer(analyzer_id=analyzer_id)
             # Verify deletion
             print(f"Analyzer {analyzer_id} is deleted successfully")
         except Exception as e:
@@ -321,7 +321,7 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 
             # Get the analyzer before update to verify initial state
             print(f"Getting analyzer {analyzer_id} before update")
-            analyzer_before_update = client.get(analyzer_id=analyzer_id)
+            analyzer_before_update = client.get_analyzer(analyzer_id=analyzer_id)
             assert analyzer_before_update is not None
             assert analyzer_before_update.analyzer_id == analyzer_id
             assert analyzer_before_update.description == f"Initial analyzer for update test: {analyzer_id}"
@@ -341,13 +341,13 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 
             # Update the analyzer
             print(f"Updating analyzer {analyzer_id}")
-            response = client.update(analyzer_id=analyzer_id, resource=updated_analyzer)
+            response = client.update_analyzer(analyzer_id=analyzer_id, resource=updated_analyzer)
             assert response is not None
             assert response.analyzer_id == analyzer_id
 
             # Get the analyzer after update to verify changes persisted
             print(f"Getting analyzer {analyzer_id} after update")
-            analyzer_after_update = client.get(analyzer_id=analyzer_id)
+            analyzer_after_update = client.get_analyzer(analyzer_id=analyzer_id)
             assert analyzer_after_update is not None
             assert analyzer_after_update.analyzer_id == analyzer_id
             assert analyzer_after_update.description == f"Updated analyzer description: {analyzer_id}"
@@ -387,7 +387,7 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 
             # Delete the analyzer
             print(f"Deleting analyzer {analyzer_id}")
-            response = client.delete(analyzer_id=analyzer_id)
+            response = client.delete_analyzer(analyzer_id=analyzer_id)
 
             # Verify the delete response
             assert response is None
