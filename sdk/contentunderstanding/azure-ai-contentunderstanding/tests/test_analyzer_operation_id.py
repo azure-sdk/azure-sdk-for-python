@@ -12,7 +12,7 @@ Tests for Content Understanding analyzer operation ID functionality.
 import pytest
 from unittest.mock import Mock, patch
 from azure.core.polling import LROPoller, PollingMethod
-from azure.ai.contentunderstanding.operations._patch import (
+from azure.ai.contentunderstanding.models._patch import (
     AnalyzeLROPoller,
     _parse_operation_id,
 )
@@ -54,8 +54,8 @@ class TestParseOperationId:
 class TestAnalyzeLROPoller:
     """Test the AnalyzeLROPoller class."""
 
-    def test_details_property_success(self):
-        """Test the details property when operation ID can be extracted."""
+    def test_operation_id_property_success(self):
+        """Test the operation_id property when operation ID can be extracted."""
         # Mock the polling method and initial response
         mock_polling_method = Mock()
         mock_initial_response = Mock()
@@ -72,13 +72,11 @@ class TestAnalyzeLROPoller:
             client=Mock(), initial_response=Mock(), deserialization_callback=Mock(), polling_method=mock_polling_method
         )
 
-        # Test details property
-        details = poller.details
-        assert details["operation_id"] == "test-op-id"
-        assert details["operation_type"] == "analyze"
+        # Test operation_id property
+        assert poller.operation_id == "test-op-id"
 
-    def test_details_property_missing_header(self):
-        """Test the details property when Operation-Location header is missing."""
+    def test_operation_id_property_missing_header(self):
+        """Test the operation_id property when Operation-Location header is missing."""
         # Mock the polling method and initial response
         mock_polling_method = Mock()
         mock_initial_response = Mock()
@@ -93,14 +91,12 @@ class TestAnalyzeLROPoller:
             client=Mock(), initial_response=Mock(), deserialization_callback=Mock(), polling_method=mock_polling_method
         )
 
-        # Test details property
-        details = poller.details
-        assert details["operation_id"] is None
-        assert details["operation_type"] == "analyze"
-        assert "error" in details
+        # Test operation_id property raises ValueError
+        with pytest.raises(ValueError, match="Could not extract operation ID"):
+            _ = poller.operation_id
 
-    def test_details_property_invalid_url(self):
-        """Test the details property when URL format is invalid."""
+    def test_operation_id_property_invalid_url(self):
+        """Test the operation_id property when URL format is invalid."""
         # Mock the polling method and initial response
         mock_polling_method = Mock()
         mock_initial_response = Mock()
@@ -117,11 +113,9 @@ class TestAnalyzeLROPoller:
             client=Mock(), initial_response=Mock(), deserialization_callback=Mock(), polling_method=mock_polling_method
         )
 
-        # Test details property
-        details = poller.details
-        assert details["operation_id"] is None
-        assert details["operation_type"] == "analyze"
-        assert "error" in details
+        # Test operation_id property raises ValueError
+        with pytest.raises(ValueError, match="Could not extract operation ID"):
+            _ = poller.operation_id
 
     def test_from_continuation_token(self):
         """Test the from_continuation_token class method."""
@@ -146,7 +140,7 @@ class TestPollerIntegration:
     """Test integration with the operations classes."""
 
     def test_analyze_operation_returns_custom_poller(self):
-        """Test that begin_analyze returns AnalyzeLROPoller with details property."""
+        """Test that begin_analyze returns AnalyzeLROPoller with operation_id property."""
         # Create a mock client
         mock_client = Mock(spec=ContentUnderstandingClient)
 
@@ -164,9 +158,7 @@ class TestPollerIntegration:
             mock_client, mock_poller._polling_method._initial_response, Mock(), mock_poller._polling_method
         )
 
-        # Verify it has the details property
+        # Verify it has the operation_id property
         assert isinstance(result, AnalyzeLROPoller)
-        assert hasattr(result, "details")
-        details = result.details
-        assert "operation_id" in details
-        assert details["operation_id"] == "test-op-id-123"
+        assert hasattr(result, "operation_id")
+        assert result.operation_id == "test-op-id-123"
