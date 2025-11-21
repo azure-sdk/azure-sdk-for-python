@@ -152,7 +152,7 @@ MaxRetryError: HTTPConnectionPool(host='localhost', port=5000)
 **Symptoms:** Tests fail with connection errors, proxy doesn't start.
 
 **Solution:**
-1. Check `.env` file at repository root (`sdk\contentunderstanding\azure-ai-contentunderstanding\.env`)
+1. Check `.env` file at repository root (`sdk/contentunderstanding/azure-ai-contentunderstanding/.env`)
 2. Remove any `PROXY_MANUAL_START=false` line
 3. The framework will use the default `False` (boolean) for automatic startup
 
