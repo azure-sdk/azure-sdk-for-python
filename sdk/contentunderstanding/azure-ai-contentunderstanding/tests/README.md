@@ -44,7 +44,7 @@ The test framework uses the **test-proxy** for recording and playing back HTTP r
 
 By default, the test-proxy starts automatically when you run `pytest`. **No configuration is needed.**
 
-**⚠️ IMPORTANT:** Do NOT set `PROXY_MANUAL_START=false` in your `.env` file. 
+**⚠️ IMPORTANT:** Do NOT set `PROXY_MANUAL_START=false` in your `.env` file.
 
 **Why?** Environment variables are read as strings. Setting `PROXY_MANUAL_START=false` makes it the string `"false"`, which is truthy in Python. This causes the framework to think the proxy is manually started, preventing automatic startup.
 
@@ -77,7 +77,7 @@ If you need to run tests in parallel (`pytest -n auto`), you must manually start
    ```bash
    export PROXY_MANUAL_START=true
    ```
-   
+
    Or add to `.env` file:
    ```bash
    PROXY_MANUAL_START=true
@@ -117,6 +117,16 @@ export AZURE_TEST_RUN_LIVE=true
 export AZURE_TEST_RECORD_MODE=true
 ```
 
+## Environment Variables
+
+The tests require several environment variables for authentication and configuration. Set these in your [`.env`](../.env) file at the repository root:
+
+- `AZURE_CONTENT_UNDERSTANDING_ENDPOINT` – The endpoint URL for your Azure Content Understanding resource. Example: `https://<your-resource-name>.cognitiveservices.azure.com/`
+- `AZURE_CONTENT_UNDERSTANDING_KEY` – The API key for key-based authentication. Use this as an alternative to service principal authentication.
+- `AZURE_TEST_RUN_LIVE` – Set to `true` to enable live testing mode (tests will make real API calls to Azure). Omit or set to `false` for playback mode.
+- `AZURE_SKIP_LIVE_RECORDING` – Set to `true` to skip recording new HTTP interactions during live test runs. Useful for debugging or when you do not want to update recordings.
+
+
 ## Troubleshooting
 
 ### Connection Refused Errors
@@ -142,7 +152,7 @@ MaxRetryError: HTTPConnectionPool(host='localhost', port=5000)
 **Symptoms:** Tests fail with connection errors, proxy doesn't start.
 
 **Solution:**
-1. Check `.env` file at repository root (`/home/yslin/repos/azure-sdk-for-python-pr/.env`)
+1. Check `.env` file at repository root (`sdk\contentunderstanding\azure-ai-contentunderstanding\.env`)
 2. Remove any `PROXY_MANUAL_START=false` line
 3. The framework will use the default `False` (boolean) for automatic startup
 
