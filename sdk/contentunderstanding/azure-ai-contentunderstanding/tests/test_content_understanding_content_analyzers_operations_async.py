@@ -9,7 +9,7 @@
 import pytest
 import os
 import re
-from typing import Tuple, Union, Dict, Any, Optional, List, Set
+from typing import Union, Dict, Any, Optional, List, Set
 from devtools_testutils.aio import recorded_by_proxy_async
 from testpreparer_async import ContentUnderstandingClientTestBaseAsync, ContentUnderstandingPreparer
 from azure.ai.contentunderstanding.models import ContentAnalyzer
@@ -24,7 +24,7 @@ from test_helpers import (
     save_analysis_result_to_file,
     save_keyframe_image_to_file,
 )
-from devtools_testutils import is_live, is_live_and_not_recording
+from devtools_testutils import is_live_and_not_recording
 
 
 async def create_analyzer_and_assert_async(

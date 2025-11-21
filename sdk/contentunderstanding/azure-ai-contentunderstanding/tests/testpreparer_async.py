@@ -9,7 +9,6 @@ import os
 from typing import cast
 from azure.ai.contentunderstanding.aio import ContentUnderstandingClient
 from azure.core.credentials import AzureKeyCredential
-from azure.identity import DefaultAzureCredential
 from azure.identity.aio import DefaultAzureCredential as AsyncDefaultAzureCredential
 from devtools_testutils import AzureRecordedTestCase, PowerShellPreparer
 import functools
@@ -18,7 +17,7 @@ import functools
 def get_content_understanding_credential_async():
     """Get the appropriate async credential for Content Understanding.
 
-    Checks for AZURE_CONTENT_UNDERSTANDING_KEY first, then falls back to DefaultAzureCredential.
+    Checks for AZURE_CONTENT_UNDERSTANDING_KEY first, then falls back to AsyncDefaultAzureCredential.
     """
     key = os.getenv("AZURE_CONTENT_UNDERSTANDING_KEY")
 

@@ -9,7 +9,7 @@
 import pytest
 import os
 import re
-from typing import Tuple, Union, Dict, Any, Optional, List, Set
+from typing import Union, Dict, Any, Optional, List, Set
 from devtools_testutils import recorded_by_proxy
 from testpreparer import ContentUnderstandingPreparer
 from testpreparer import ContentUnderstandingClientTestBase
@@ -26,7 +26,7 @@ from test_helpers import (
     save_keyframe_image_to_file,
 )
 
-from devtools_testutils import is_live, is_live_and_not_recording
+from devtools_testutils import is_live_and_not_recording
 
 
 def create_analyzer_and_assert_sync(
