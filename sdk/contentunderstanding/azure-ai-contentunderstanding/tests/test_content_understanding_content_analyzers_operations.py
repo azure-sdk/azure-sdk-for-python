@@ -217,14 +217,14 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 
     @ContentUnderstandingPreparer()
     @recorded_by_proxy
-    def test_content_analyzers_begin_create_with_content_analyzer(self, contentunderstanding_endpoint: str) -> None:
+    def test_content_analyzers_begin_create_with_content_analyzer(self, azure_content_understanding_endpoint: str) -> None:
         """
         Test Summary:
         - Create analyzer using ContentAnalyzer object
         - Verify analyzer creation and poller properties
         - Clean up created analyzer
         """
-        client: ContentUnderstandingClient = self.create_client(endpoint=contentunderstanding_endpoint)
+        client: ContentUnderstandingClient = self.create_client(endpoint=azure_content_understanding_endpoint)
         analyzer_id = generate_analyzer_id(client, "create_sync", is_async=False)
         created_analyzer = False
 
@@ -251,14 +251,14 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 
     @ContentUnderstandingPreparer()
     @recorded_by_proxy
-    def test_content_analyzers_begin_create_with_json(self, contentunderstanding_endpoint: str) -> None:
+    def test_content_analyzers_begin_create_with_json(self, azure_content_understanding_endpoint: str) -> None:
         """
         Test Summary:
         - Create analyzer using JSON dictionary
         - Verify analyzer creation and poller properties
         - Clean up created analyzer
         """
-        client: ContentUnderstandingClient = self.create_client(endpoint=contentunderstanding_endpoint)
+        client: ContentUnderstandingClient = self.create_client(endpoint=azure_content_understanding_endpoint)
         analyzer_id = generate_analyzer_id(client, "create_json_sync", is_async=False)
         created_analyzer = False
 
@@ -294,7 +294,7 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 
     @ContentUnderstandingPreparer()
     @recorded_by_proxy
-    def test_content_analyzers_update(self, contentunderstanding_endpoint: str) -> None:
+    def test_content_analyzers_update(self, azure_content_understanding_endpoint: str) -> None:
         """
         Test Summary:
         - Create initial analyzer
@@ -303,7 +303,7 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
         - Get analyzer after update to verify changes persisted
         - Clean up created analyzer
         """
-        client: ContentUnderstandingClient = self.create_client(endpoint=contentunderstanding_endpoint)
+        client: ContentUnderstandingClient = self.create_client(endpoint=azure_content_understanding_endpoint)
         analyzer_id = generate_analyzer_id(client, "update_sync", is_async=False)
         created_analyzer = False
 
@@ -362,14 +362,14 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 
     @ContentUnderstandingPreparer()
     @recorded_by_proxy
-    def test_content_analyzers_delete(self, contentunderstanding_endpoint: str) -> None:
+    def test_content_analyzers_delete(self, azure_content_understanding_endpoint: str) -> None:
         """
         Test Summary:
         - Create analyzer for deletion test
         - Delete analyzer
         - Clean up if deletion failed
         """
-        client: ContentUnderstandingClient = self.create_client(endpoint=contentunderstanding_endpoint)
+        client: ContentUnderstandingClient = self.create_client(endpoint=azure_content_understanding_endpoint)
         analyzer_id = generate_analyzer_id(client, "delete_sync", is_async=False)
         created_analyzer = False
 
@@ -398,7 +398,7 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 
     @ContentUnderstandingPreparer()
     @recorded_by_proxy
-    def test_content_analyzers_begin_analyze_url(self, contentunderstanding_endpoint: str) -> None:
+    def test_content_analyzers_begin_analyze_url(self, azure_content_understanding_endpoint: str) -> None:
         """
         Test Summary:
         - Create simple analyzer for URL analysis
@@ -409,7 +409,7 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
         - Verify total_amount field exists and equals 110
         - Clean up created analyzer
         """
-        client: ContentUnderstandingClient = self.create_client(endpoint=contentunderstanding_endpoint)
+        client: ContentUnderstandingClient = self.create_client(endpoint=azure_content_understanding_endpoint)
         analyzer_id = generate_analyzer_id(client, "analyze_url_sync", is_async=False)
         created_analyzer = False
 
@@ -451,7 +451,7 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 
     @ContentUnderstandingPreparer()
     @recorded_by_proxy
-    def test_content_analyzers_begin_analyze_binary(self, contentunderstanding_endpoint: str) -> None:
+    def test_content_analyzers_begin_analyze_binary(self, azure_content_understanding_endpoint: str) -> None:
         """
         Test Summary:
         - Create simple analyzer for binary analysis
@@ -463,7 +463,7 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
         - Verify total_amount field exists and equals 110
         - Clean up created analyzer
         """
-        client: ContentUnderstandingClient = self.create_client(endpoint=contentunderstanding_endpoint)
+        client: ContentUnderstandingClient = self.create_client(endpoint=azure_content_understanding_endpoint)
         analyzer_id = generate_analyzer_id(client, "analyze_binary_sync", is_async=False)
         created_analyzer = False
 
@@ -507,7 +507,7 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 
     @ContentUnderstandingPreparer()
     @recorded_by_proxy
-    def test_content_analyzers_get_result_file(self, contentunderstanding_endpoint: str) -> None:
+    def test_content_analyzers_get_result_file(self, azure_content_understanding_endpoint: str) -> None:
         """
         Test Summary:
         - Create marketing video analyzer based on the marketing video template
@@ -523,7 +523,7 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
                 "This test requires live mode to run, as it involves large video files that are too big for test proxy to record"
             )
             return
-        client: ContentUnderstandingClient = self.create_client(endpoint=contentunderstanding_endpoint)
+        client: ContentUnderstandingClient = self.create_client(endpoint=azure_content_understanding_endpoint)
         analyzer_id = generate_analyzer_id(client, "get_result_file_sync", is_async=False)
         created_analyzer = False
 
@@ -575,8 +575,8 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
             delete_analyzer_and_assert_sync(client, analyzer_id, created_analyzer)
 
 
-#     def test_content_analyzers_begin_analyze(self, contentunderstanding_endpoint):
-#         client = self.create_client(endpoint=contentunderstanding_endpoint)
+#     def test_content_analyzers_begin_analyze(self, azure_content_understanding_endpoint):
+#         client = self.create_client(endpoint=azure_content_understanding_endpoint)
 #         response = client.begin_analyze(
 #             analyzer_id="str",
 #             body={
@@ -605,8 +605,8 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 #     @ContentUnderstandingPreparer()
 #     @recorded_by_proxy
 #     @pytest.mark.skip(reason="GA API addition - to be implemented")
-#     def test_content_analyzers_begin_copy(self, contentunderstanding_endpoint):
-#         client = self.create_client(endpoint=contentunderstanding_endpoint)
+#     def test_content_analyzers_begin_copy(self, azure_content_understanding_endpoint):
+#         client = self.create_client(endpoint=azure_content_understanding_endpoint)
 #         response = client.begin_copy(
 #             analyzer_id="str",
 #             body={"sourceAnalyzerId": "str", "sourceAzureResourceId": "str", "sourceRegion": "str"},
@@ -625,8 +625,8 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 #     @ContentUnderstandingPreparer()
 #     @recorded_by_proxy
 #     @pytest.mark.skip(reason="GA API addition - to be implemented")
-#     def test_content_analyzers_begin_create_or_replace(self, contentunderstanding_endpoint):
-#         client = self.create_client(endpoint=contentunderstanding_endpoint)
+#     def test_content_analyzers_begin_create_or_replace(self, azure_content_understanding_endpoint):
+#         client = self.create_client(endpoint=azure_content_understanding_endpoint)
 #         response = client.begin_create_or_replace(
 #             analyzer_id="str",
 #             resource={
@@ -709,8 +709,8 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 #     @ContentUnderstandingPreparer()
 #     @recorded_by_proxy
 #     @pytest.mark.skip(reason="GA API addition - to be implemented")
-#     def test_content_analyzers_delete_result(self, contentunderstanding_endpoint):
-#         client = self.create_client(endpoint=contentunderstanding_endpoint)
+#     def test_content_analyzers_delete_result(self, azure_content_understanding_endpoint):
+#         client = self.create_client(endpoint=azure_content_understanding_endpoint)
 #         response = client.delete_result(
 #             operation_id="str",
 #         )
@@ -727,8 +727,8 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 #     @ContentUnderstandingPreparer()
 #     @recorded_by_proxy
 #     @pytest.mark.skip(reason="GA API addition - to be implemented")
-#     def test_content_analyzers_get_defaults(self, contentunderstanding_endpoint):
-#         client = self.create_client(endpoint=contentunderstanding_endpoint)
+#     def test_content_analyzers_get_defaults(self, azure_content_understanding_endpoint):
+#         client = self.create_client(endpoint=azure_content_understanding_endpoint)
 #         response = client.get_defaults()
 
 # please add some check logic here by yourself
@@ -743,8 +743,8 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 #     @ContentUnderstandingPreparer()
 #     @recorded_by_proxy
 #     @pytest.mark.skip(reason="GA API addition - to be implemented")
-#     def test_content_analyzers_get_operation_status(self, contentunderstanding_endpoint):
-#         client = self.create_client(endpoint=contentunderstanding_endpoint)
+#     def test_content_analyzers_get_operation_status(self, azure_content_understanding_endpoint):
+#         client = self.create_client(endpoint=azure_content_understanding_endpoint)
 #         response = client.get_operation_status(
 #             analyzer_id="str",
 #             operation_id="str",
@@ -762,8 +762,8 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 #     @ContentUnderstandingPreparer()
 #     @recorded_by_proxy
 #     @pytest.mark.skip(reason="GA API addition - to be implemented")
-#     def test_content_analyzers_grant_copy_authorization(self, contentunderstanding_endpoint):
-#         client = self.create_client(endpoint=contentunderstanding_endpoint)
+#     def test_content_analyzers_grant_copy_authorization(self, azure_content_understanding_endpoint):
+#         client = self.create_client(endpoint=azure_content_understanding_endpoint)
 #         response = client.grant_copy_authorization(
 #             analyzer_id="str",
 #             body={"targetAzureResourceId": "str", "targetRegion": "str"},
@@ -782,11 +782,12 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 #     @ContentUnderstandingPreparer()
 #     @recorded_by_proxy
 #     @pytest.mark.skip(reason="GA API addition - to be implemented")
-#     def test_content_analyzers_update_defaults(self, contentunderstanding_endpoint):
-#         client = self.create_client(endpoint=contentunderstanding_endpoint)
+#     def test_content_analyzers_update_defaults(self, azure_content_understanding_endpoint):
+#         client = self.create_client(endpoint=azure_content_understanding_endpoint)
 #         response = client.update_defaults(
 #             body={"modelDeployments": {}},
 #         )
 
 # please add some check logic here by yourself
 # ...
+
