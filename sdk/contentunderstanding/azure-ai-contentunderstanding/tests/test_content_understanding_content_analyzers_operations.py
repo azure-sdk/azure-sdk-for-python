@@ -556,10 +556,8 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
             print(f"Waiting for video analysis to complete")
             analysis_result = analysis_poller.result()
 
-            # Get the operation ID from the poller details
-            details = analysis_poller.details
-            assert "operation_id" in details, "Details should contain operation_id"
-            analysis_operation_id = details["operation_id"]
+            # Get the operation ID from the poller operation_id property
+            analysis_operation_id = analysis_poller.operation_id
             assert analysis_operation_id is not None, "Operation ID should not be None"
             assert len(analysis_operation_id) > 0, "Operation ID should not be empty"
             print(f"Analysis operation ID: {analysis_operation_id}")

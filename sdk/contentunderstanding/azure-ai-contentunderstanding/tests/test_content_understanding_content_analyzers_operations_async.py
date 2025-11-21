@@ -455,7 +455,7 @@ class TestContentUnderstandingContentAnalyzersOperationsAsync(ContentUnderstandi
             elif not created_analyzer:
                 print(f"Analyzer {analyzer_id} was not created, no cleanup needed")
 
-    @pytest.mark.skip(reason="TEMPORARILY SKIPPED: List operation is too long - too many analyzers")
+    # @pytest.mark.skip(reason="TEMPORARILY SKIPPED: List operation is too long - too many analyzers")
     @ContentUnderstandingPreparer()
     @recorded_by_proxy_async
     async def test_content_analyzers_list(self, contentunderstanding_endpoint: str) -> None:
@@ -659,14 +659,12 @@ class TestContentUnderstandingContentAnalyzersOperationsAsync(ContentUnderstandi
                 analysis_result, "test_content_analyzers_get_result_file", test_file_dir, analyzer_id
             )
 
-            # Extract operation ID for get_result_file test using custom poller's details property
-            from azure.ai.contentunderstanding.aio.operations._patch import AnalyzeAsyncLROPoller
+            # Extract operation ID for get_result_file test using custom poller's operation_id property
+            from azure.ai.contentunderstanding.aio.models._patch import AnalyzeAsyncLROPoller
 
             assert isinstance(analysis_poller, AnalyzeAsyncLROPoller), "Should return custom AnalyzeAsyncLROPoller"
 
-            details = analysis_poller.details
-            assert "operation_id" in details, "Details should contain operation_id"
-            analysis_operation_id = details["operation_id"]
+            analysis_operation_id = analysis_poller.operation_id
             assert analysis_operation_id is not None, "Operation ID should not be None"
             assert len(analysis_operation_id) > 0, "Operation ID should not be empty"
             print(f"Analysis operation ID: {analysis_operation_id}")
