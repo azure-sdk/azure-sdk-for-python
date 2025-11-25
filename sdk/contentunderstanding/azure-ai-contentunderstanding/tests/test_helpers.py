@@ -7,12 +7,9 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import os
-import uuid
-import re
 import json
 from datetime import datetime
-from typing import Optional, Dict, Any, List
-import sys
+from typing import Optional, Dict, Any
 from azure.ai.contentunderstanding.models import (
     ContentAnalyzer,
     ContentAnalyzerConfig,
@@ -20,8 +17,6 @@ from azure.ai.contentunderstanding.models import (
     ContentFieldDefinition,
 )
 from azure.ai.contentunderstanding.models import GenerationMethod, ContentFieldType, ProcessingLocation
-
-from devtools_testutils import is_live, is_live_and_not_recording
 
 
 def generate_analyzer_id(client, test_name: str, is_async: bool = False) -> str:

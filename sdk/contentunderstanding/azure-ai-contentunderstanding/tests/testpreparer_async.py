@@ -9,7 +9,6 @@ import os
 from typing import cast
 from azure.ai.contentunderstanding.aio import ContentUnderstandingClient
 from azure.core.credentials import AzureKeyCredential
-from azure.identity import DefaultAzureCredential
 from azure.identity.aio import DefaultAzureCredential as AsyncDefaultAzureCredential
 from devtools_testutils import AzureRecordedTestCase, PowerShellPreparer
 import functools
@@ -18,7 +17,7 @@ import functools
 def get_content_understanding_credential_async():
     """Get the appropriate async credential for Content Understanding.
 
-    Checks for AZURE_CONTENT_UNDERSTANDING_KEY first, then falls back to DefaultAzureCredential.
+    Checks for AZURE_CONTENT_UNDERSTANDING_KEY first, then falls back to AsyncDefaultAzureCredential.
     """
     key = os.getenv("AZURE_CONTENT_UNDERSTANDING_KEY")
 
@@ -31,7 +30,7 @@ def get_content_understanding_credential_async():
 class ContentUnderstandingClientTestBaseAsync(AzureRecordedTestCase):
 
     def create_async_client(self, endpoint: str) -> ContentUnderstandingClient:
-        credential = self.get_credential(ContentUnderstandingClient, is_async=True)
+        credential = get_content_understanding_credential_async()
         return cast(
             ContentUnderstandingClient,
             self.create_client_from_credential(
@@ -45,6 +44,6 @@ class ContentUnderstandingClientTestBaseAsync(AzureRecordedTestCase):
 
 ContentUnderstandingPreparer = functools.partial(
     PowerShellPreparer,
-    "contentunderstanding",
-    contentunderstanding_endpoint="https://fake_contentunderstanding_endpoint.services.ai.azure.com/",
+    "azure_content_understanding",
+    azure_content_understanding_endpoint="https://fake_contentunderstanding_endpoint.services.ai.azure.com/",
 )
