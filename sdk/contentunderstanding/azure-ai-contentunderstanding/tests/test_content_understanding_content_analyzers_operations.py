@@ -25,6 +25,8 @@ from test_helpers import (
     save_analysis_result_to_file,
     save_keyframe_image_to_file,
 )
+from azure.ai.contentunderstanding.models import ContentAnalyzerConfig, ContentCategoryDefinition
+from azure.core.exceptions import ResourceNotFoundError
 
 from devtools_testutils import is_live_and_not_recording
 
@@ -334,7 +336,6 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
             updated_analyzer = ContentAnalyzer(
                 base_analyzer_id=analyzer_before_update.base_analyzer_id,
                 models=analyzer_before_update.models,
-                analyzer_id=analyzer_id,
                 description=f"Updated analyzer description: {analyzer_id}",
                 tags={"updated_tag": "updated_value"},
             )
@@ -575,6 +576,207 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
             delete_analyzer_and_assert_sync(client, analyzer_id, created_analyzer)
 
 
+    @ContentUnderstandingPreparer()
+    @recorded_by_proxy
+    def test_content_analyzers_create_classifier(self, azure_content_understanding_endpoint: str) -> None:
+        """
+        Test Summary:
+        - Create a classifier with content categories for document categorization
+        - Verify creation and properties
+        - Clean up
+        """
+        client: ContentUnderstandingClient = self.create_client(endpoint=azure_content_understanding_endpoint)
+        analyzer_id = generate_analyzer_id(client, "create_classifier_sync", is_async=False)
+        created_analyzer = False
+
+        # Define content categories for classification
+        categories = {
+            "Loan_Application": ContentCategoryDefinition(
+                description=(
+                    "Documents submitted by individuals or businesses to request funding, "
+                    "typically including personal or business details, financial history, "
+                    "loan amount, purpose, and supporting documentation."
+                )
+            ),
+            "Invoice": ContentCategoryDefinition(
+                description=(
+                    "Billing documents issued by sellers or service providers to request "
+                    "payment for goods or services, detailing items, prices, taxes, totals, "
+                    "and payment terms."
+                )
+            ),
+            "Bank_Statement": ContentCategoryDefinition(
+                description=(
+                    "Official statements issued by banks that summarize account activity "
+                    "over a period, including deposits, withdrawals, fees, and balances."
+                )
+            ),
+        }
+
+        # Create classifier configuration
+        classifier_config = ContentAnalyzerConfig(
+            return_details=True,
+            enable_segment=True,  # Automatically split and classify multi-document files
+            content_categories=categories,
+        )
+
+        # Create analyzer object
+        classifier = ContentAnalyzer(
+            base_analyzer_id="prebuilt-document",
+            description="Custom classifier for financial document categorization",
+            config=classifier_config,
+            models={"completion": "gpt-4.1"},  # Model used for classification
+            tags={"sample_type": "classifier_demo", "document_type": "financial"},
+        )
+
+        try:
+            # Create analyzer using the refactored function
+            poller = create_analyzer_and_assert_sync(client, analyzer_id, classifier)
+            created_analyzer = True
+            
+            # Retrieve the analyzer to verify properties
+            retrieved_analyzer = client.get_analyzer(analyzer_id)
+            assert retrieved_analyzer is not None
+            assert retrieved_analyzer.analyzer_id == analyzer_id
+            assert retrieved_analyzer.description == "Custom classifier for financial document categorization"
+            assert retrieved_analyzer.base_analyzer_id == "prebuilt-document"
+            assert retrieved_analyzer.status is not None
+            assert retrieved_analyzer.config is not None
+            assert retrieved_analyzer.config.return_details is True
+            assert retrieved_analyzer.config.enable_segment is True
+            assert retrieved_analyzer.config.content_categories is not None
+            assert "Loan_Application" in retrieved_analyzer.config.content_categories
+            assert "Invoice" in retrieved_analyzer.config.content_categories
+            assert "Bank_Statement" in retrieved_analyzer.config.content_categories
+            assert retrieved_analyzer.models is not None
+            assert retrieved_analyzer.models["completion"] == "gpt-4.1"
+            assert retrieved_analyzer.tags == {"sample_type": "classifier_demo", "document_type": "financial"}
+            print(f"Classifier {analyzer_id} verified successfully")
+
+        finally:
+            # Always clean up the created analyzer, even if the test fails
+            delete_analyzer_and_assert_sync(client, analyzer_id, created_analyzer)
+
+
+    @ContentUnderstandingPreparer()
+    @recorded_by_proxy
+    def test_content_analyzers_delete_result(self, azure_content_understanding_endpoint: str) -> None:
+        """
+        Test Summary:
+        - Create simple analyzer for URL analysis
+        - Begin analysis operation with URL input
+        - Wait for analysis completion
+        - Verify result accessibility before deletion
+        - Delete the analysis result
+        - Verify deletion by confirming the result is no longer accessible (404 error)
+        - Clean up created analyzer
+        """
+        client: ContentUnderstandingClient = self.create_client(endpoint=azure_content_understanding_endpoint)
+        analyzer_id = generate_analyzer_id(client, "delete_result_sync", is_async=False)
+        created_analyzer = False
+
+        # Create a simple analyzer for URL analysis
+        content_analyzer = new_simple_content_analyzer_object(
+            analyzer_id=analyzer_id,
+            description=f"test analyzer for delete result: {analyzer_id}",
+            tags={"test_type": "delete_result"},
+        )
+
+        try:
+            # Create analyzer using the refactored function
+            poller = create_analyzer_and_assert_sync(client, analyzer_id, content_analyzer)
+            created_analyzer = True
+
+            # Use the provided URL for the invoice PDF
+            invoice_url = "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf"
+
+            print(f"Starting URL analysis with analyzer {analyzer_id}")
+
+            # Begin analysis operation with URL
+            analysis_poller = client.begin_analyze(analyzer_id=analyzer_id, inputs=[AnalyzeInput(url=invoice_url)])
+            assert_poller_properties(analysis_poller, "Analysis poller")
+
+            # Wait for analysis completion
+            print(f"Waiting for analysis completion")
+            analysis_result = analysis_poller.result()
+            print(f"  Analysis completed")
+
+            # Get operation ID
+            operation_id = analysis_poller.operation_id
+            assert operation_id is not None
+
+            # Verify result accessibility before deletion
+            print(f"Verifying result accessibility before deletion...")
+            result_before = client._get_result(operation_id=operation_id)  # type: ignore[attr-defined]
+            assert result_before is not None
+            print(f"Result accessible before deletion (status: {result_before.status})")
+
+            # Delete the result
+            print(f"Deleting result for operation {operation_id}")
+            client.delete_result(operation_id=operation_id)
+            print(f"Result deleted successfully")
+
+            # Verify deletion by attempting to access the result again
+            print(f"Verifying deletion...")
+            print(f"   Attempting to access the deleted result...")
+            with pytest.raises(ResourceNotFoundError):
+                client._get_result(operation_id=operation_id)  # type: ignore[attr-defined]
+            print(f"Verification successful: Result properly deleted")
+            print(f"   ✓ Confirmed: Result is no longer accessible as expected")
+
+        finally:
+            # Always clean up the created analyzer, even if the test fails
+            delete_analyzer_and_assert_sync(client, analyzer_id, created_analyzer)
+
+
+    @ContentUnderstandingPreparer()
+    @recorded_by_proxy
+    def test_content_analyzers_get_defaults(self, azure_content_understanding_endpoint: str) -> None:
+        """
+        Test Summary:
+        - Get default model deployments
+        - Verify response structure
+        """
+        client: ContentUnderstandingClient = self.create_client(endpoint=azure_content_understanding_endpoint)
+        defaults = client.get_defaults()
+        assert defaults is not None
+        # We can't assert specific values as they depend on the resource configuration,
+        # but we can check if the object has the expected attribute
+        assert hasattr(defaults, "model_deployments")
+        print(f"Defaults retrieved: {defaults}")
+
+
+    @ContentUnderstandingPreparer()
+    @recorded_by_proxy
+    def test_content_analyzers_update_defaults(self, azure_content_understanding_endpoint: str) -> None:
+        """
+        Test Summary:
+        - Get current defaults
+        - Update defaults with the same values (to test the API without changing config)
+        - Verify update success
+        """
+        client: ContentUnderstandingClient = self.create_client(endpoint=azure_content_understanding_endpoint)
+        
+        # Get current defaults
+        defaults = client.get_defaults()
+        assert defaults is not None
+        
+        if defaults.model_deployments:
+            print(f"Current defaults: {defaults.model_deployments}")
+            
+            # Update with same values
+            updated_defaults = client.update_defaults(model_deployments=defaults.model_deployments)
+            
+            assert updated_defaults is not None
+            assert updated_defaults.model_deployments == defaults.model_deployments
+            print("Defaults updated successfully")
+        else:
+            print("No defaults configured, skipping update test to avoid setting invalid values")
+
+
+#     @ContentUnderstandingPreparer()
+#     @recorded_by_proxy
+#     @pytest.mark.skip(reason="GA API addition - to be implemented")
 #     def test_content_analyzers_begin_analyze(self, azure_content_understanding_endpoint):
 #         client = self.create_client(endpoint=azure_content_understanding_endpoint)
 #         response = client.begin_analyze(
@@ -600,11 +802,6 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 #     @ContentUnderstandingPreparer()
 #     @recorded_by_proxy
 #     @pytest.mark.skip(reason="GA API addition - to be implemented")
-
-
-#     @ContentUnderstandingPreparer()
-#     @recorded_by_proxy
-#     @pytest.mark.skip(reason="GA API addition - to be implemented")
 #     def test_content_analyzers_begin_copy(self, azure_content_understanding_endpoint):
 #         client = self.create_client(endpoint=azure_content_understanding_endpoint)
 #         response = client.begin_copy(
@@ -615,11 +812,6 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 
 # please add some check logic here by yourself
 # ...
-
-
-#     @ContentUnderstandingPreparer()
-#     @recorded_by_proxy
-#     @pytest.mark.skip(reason="GA API addition - to be implemented")
 
 
 #     @ContentUnderstandingPreparer()
@@ -704,45 +896,6 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 #     @ContentUnderstandingPreparer()
 #     @recorded_by_proxy
 #     @pytest.mark.skip(reason="GA API addition - to be implemented")
-
-
-#     @ContentUnderstandingPreparer()
-#     @recorded_by_proxy
-#     @pytest.mark.skip(reason="GA API addition - to be implemented")
-#     def test_content_analyzers_delete_result(self, azure_content_understanding_endpoint):
-#         client = self.create_client(endpoint=azure_content_understanding_endpoint)
-#         response = client.delete_result(
-#             operation_id="str",
-#         )
-
-# please add some check logic here by yourself
-# ...
-
-
-#     @ContentUnderstandingPreparer()
-#     @recorded_by_proxy
-#     @pytest.mark.skip(reason="GA API addition - to be implemented")
-
-
-#     @ContentUnderstandingPreparer()
-#     @recorded_by_proxy
-#     @pytest.mark.skip(reason="GA API addition - to be implemented")
-#     def test_content_analyzers_get_defaults(self, azure_content_understanding_endpoint):
-#         client = self.create_client(endpoint=azure_content_understanding_endpoint)
-#         response = client.get_defaults()
-
-# please add some check logic here by yourself
-# ...
-
-
-#     @ContentUnderstandingPreparer()
-#     @recorded_by_proxy
-#     @pytest.mark.skip(reason="GA API addition - to be implemented")
-
-
-#     @ContentUnderstandingPreparer()
-#     @recorded_by_proxy
-#     @pytest.mark.skip(reason="GA API addition - to be implemented")
 #     def test_content_analyzers_get_operation_status(self, azure_content_understanding_endpoint):
 #         client = self.create_client(endpoint=azure_content_understanding_endpoint)
 #         response = client.get_operation_status(
@@ -757,35 +910,12 @@ class TestContentUnderstandingContentAnalyzersOperations(ContentUnderstandingCli
 #     @ContentUnderstandingPreparer()
 #     @recorded_by_proxy
 #     @pytest.mark.skip(reason="GA API addition - to be implemented")
-
-
-#     @ContentUnderstandingPreparer()
-#     @recorded_by_proxy
-#     @pytest.mark.skip(reason="GA API addition - to be implemented")
 #     def test_content_analyzers_grant_copy_authorization(self, azure_content_understanding_endpoint):
 #         client = self.create_client(endpoint=azure_content_understanding_endpoint)
 #         response = client.grant_copy_authorization(
 #             analyzer_id="str",
 #             body={"targetAzureResourceId": "str", "targetRegion": "str"},
 #             target_azure_resource_id="str",
-#         )
-
-# please add some check logic here by yourself
-# ...
-
-
-#     @ContentUnderstandingPreparer()
-#     @recorded_by_proxy
-#     @pytest.mark.skip(reason="GA API addition - to be implemented")
-
-
-#     @ContentUnderstandingPreparer()
-#     @recorded_by_proxy
-#     @pytest.mark.skip(reason="GA API addition - to be implemented")
-#     def test_content_analyzers_update_defaults(self, azure_content_understanding_endpoint):
-#         client = self.create_client(endpoint=azure_content_understanding_endpoint)
-#         response = client.update_defaults(
-#             body={"modelDeployments": {}},
 #         )
 
 # please add some check logic here by yourself
