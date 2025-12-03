@@ -66,7 +66,7 @@ Set this as `AZURE_CONTENT_UNDERSTANDING_ENDPOINT`.
 
 **Important: Grant Required Permissions**
 
-After creating your Microsoft Foundry resource, you must grant yourself the **Cognitive Services User** role to enable API calls for setting default GPT deployments:
+After creating your Microsoft Foundry resource, you must grant yourself the **Cognitive Services User** role to enable API calls for setting default model deployments:
 
 1. Go to [Azure Portal][azure_portal]
 2. Navigate to your Microsoft Foundry resource
@@ -80,7 +80,7 @@ After creating your Microsoft Foundry resource, you must grant yourself the **Co
 #### Step 2: Deploy required models
 
 **Important:** The prebuilt analyzers require model deployments. You must deploy these models before using prebuilt analyzers:
-- `prebuilt-documentSearch`, `prebuilt-audioSearch`, `prebuilt-videoSearch` require **GPT-4.1-mini** and **text-embedding-3-large**
+- `prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch`, `prebuilt-videoSearch` require **GPT-4.1-mini** and **text-embedding-3-large**
 - Other prebuilt analyzers like `prebuilt-invoice`, `prebuilt-receipt` require **GPT-4.1** and **text-embedding-3-large**
 
 1. **Deploy GPT-4.1:**
@@ -263,6 +263,7 @@ For more information on authentication, see [Azure Identity client library][azur
 Content Understanding provides prebuilt analyzers that are ready to use without any configuration. These analyzers use the `*Search` naming pattern:
 
 * **`prebuilt-documentSearch`** - Extracts content from documents (PDF, images, Office documents) with layout preservation, table detection, figure analysis, and structured markdown output. Optimized for RAG scenarios.
+* **`prebuilt-imageSearch`** - Analyzes standalone images to generate descriptions, extract visual features, and identify objects and scenes within images. Optimized for image understanding and search scenarios.
 * **`prebuilt-audioSearch`** - Transcribes audio content with speaker diarization, timing information, and conversation summaries. Supports multilingual transcription.
 * **`prebuilt-videoSearch`** - Analyzes video content with visual frame extraction, audio transcription, and structured summaries. Provides temporal alignment of visual and audio content.
 
