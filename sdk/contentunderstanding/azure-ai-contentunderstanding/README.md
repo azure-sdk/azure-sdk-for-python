@@ -39,7 +39,7 @@ This table shows the relationship between SDK versions and supported API service
 
 Before running most samples (especially those that use prebuilt analyzers) you need to:
 
-1. Create (or reuse) an Microsoft Foundry resource
+1. Create (or reuse) a Microsoft Foundry resource
 2. Assign the correct role so you can configure default model deployments
 3. Deploy the required foundation models (GPT and Embeddings) in that resource
 4. Map those deployments to standard model names using the SDK's `update_defaults` API (one-time per resource)
@@ -145,7 +145,7 @@ Notes:
 - Keep the `.env` file out of version control—do not commit secrets.
 - The model deployment variables are required for configuring defaults and for samples that use prebuilt analyzers.
 
-Content Understanding expects a mapping from standard model names to your deployment names. Run the sample `update_defaults.py` (located in the samples directory) after the environment variables are set and roles assigned.
+Content Understanding expects a mapping from standard model names to your deployment names. Run the sample `sample_configure_defaults.py` (located in the samples directory) after the environment variables are set and roles assigned.
 
 **Example using async client:**
 
@@ -353,7 +353,9 @@ async def analyze_document():
             analyzer_id="prebuilt-documentSearch",
             inputs=[AnalyzeInput(url=file_url)]
         )
-        result: AnalyzeResult = await poller.result()        # Extract markdown content
+        result: AnalyzeResult = await poller.result()
+        
+        # Extract markdown content
         content: MediaContent = result.contents[0]
         print("📄 Markdown Content:")
         print(content.markdown)
@@ -403,7 +405,9 @@ async def analyze_invoice():
             analyzer_id="prebuilt-invoice",
             inputs=[AnalyzeInput(url=file_url)]
         )
-        result: AnalyzeResult = await poller.result()        # Extract invoice fields
+        result: AnalyzeResult = await poller.result()
+        
+        # Extract invoice fields
         content: MediaContent = result.contents[0]
         
         # Extract basic invoice information
