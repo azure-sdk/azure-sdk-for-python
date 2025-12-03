@@ -145,7 +145,7 @@ Notes:
 - Keep the `.env` file out of version control—do not commit secrets.
 - The model deployment variables are required for configuring defaults and for samples that use prebuilt analyzers.
 
-Content Understanding expects a mapping from standard model names to your deployment names. Run the sample `sample_configure_defaults.py` (located in the samples directory) after the environment variables are set and roles assigned.
+Content Understanding expects a mapping from standard model names to your deployment names. Run the sample [`sample_configure_defaults.py`][sample_configure_defaults] (located in the samples directory) after the environment variables are set and roles assigned.
 
 **Example using async client:**
 
@@ -636,6 +636,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct][code_of_con
 [python_cu_pypi]: https://pypi.org/project/azure-ai-contentunderstanding/
 [python_cu_product_docs]: https://learn.microsoft.com/azure/ai-services/content-understanding/
 [python_cu_samples]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/contentunderstanding/azure-ai-contentunderstanding/samples
+[sample_configure_defaults]: https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/contentunderstanding/azure-ai-contentunderstanding/samples/sample_configure_defaults.py
 [azure_sub]: https://azure.microsoft.com/free/
 [cu_quickstart]: https://learn.microsoft.com/azure/ai-services/content-understanding/quickstart/use-rest-api?tabs=portal%2Cdocument
 [cu_region_support]: https://learn.microsoft.com/azure/ai-services/content-understanding/language-region-support
