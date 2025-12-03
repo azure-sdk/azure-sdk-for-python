@@ -39,7 +39,7 @@ This table shows the relationship between SDK versions and supported API service
 
 Before running most samples (especially those that use prebuilt analyzers) you need to:
 
-1. Create (or reuse) an Microsoft Foundry resource
+1. Create (or reuse) a Microsoft Foundry resource
 2. Assign the correct role so you can configure default model deployments
 3. Deploy the required foundation models (GPT and Embeddings) in that resource
 4. Map those deployments to standard model names using the SDK's `update_defaults` API (one-time per resource)
@@ -66,7 +66,7 @@ Set this as `AZURE_CONTENT_UNDERSTANDING_ENDPOINT`.
 
 **Important: Grant Required Permissions**
 
-After creating your Microsoft Foundry resource, you must grant yourself the **Cognitive Services User** role to enable API calls for setting default GPT deployments:
+After creating your Microsoft Foundry resource, you must grant yourself the **Cognitive Services User** role to enable API calls for setting default model deployments:
 
 1. Go to [Azure Portal][azure_portal]
 2. Navigate to your Microsoft Foundry resource
@@ -80,7 +80,7 @@ After creating your Microsoft Foundry resource, you must grant yourself the **Co
 #### Step 2: Deploy required models
 
 **Important:** The prebuilt analyzers require model deployments. You must deploy these models before using prebuilt analyzers:
-- `prebuilt-documentSearch`, `prebuilt-audioSearch`, `prebuilt-videoSearch` require **GPT-4.1-mini** and **text-embedding-3-large**
+- `prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch`, `prebuilt-videoSearch` require **GPT-4.1-mini** and **text-embedding-3-large**
 - Other prebuilt analyzers like `prebuilt-invoice`, `prebuilt-receipt` require **GPT-4.1** and **text-embedding-3-large**
 
 1. **Deploy GPT-4.1:**
@@ -145,7 +145,7 @@ Notes:
 - Keep the `.env` file out of version control—do not commit secrets.
 - The model deployment variables are required for configuring defaults and for samples that use prebuilt analyzers.
 
-Content Understanding expects a mapping from standard model names to your deployment names. Run the sample `update_defaults.py` (located in the samples directory) after the environment variables are set and roles assigned.
+Content Understanding expects a mapping from standard model names to your deployment names. Run the sample [`sample_configure_defaults.py`][sample_configure_defaults] (located in the samples directory) after the environment variables are set and roles assigned.
 
 **Example using async client:**
 
@@ -263,6 +263,7 @@ For more information on authentication, see [Azure Identity client library][azur
 Content Understanding provides prebuilt analyzers that are ready to use without any configuration. These analyzers use the `*Search` naming pattern:
 
 * **`prebuilt-documentSearch`** - Extracts content from documents (PDF, images, Office documents) with layout preservation, table detection, figure analysis, and structured markdown output. Optimized for RAG scenarios.
+* **`prebuilt-imageSearch`** - Analyzes standalone images to generate descriptions, extract visual features, and identify objects and scenes within images. Optimized for image understanding and search scenarios.
 * **`prebuilt-audioSearch`** - Transcribes audio content with speaker diarization, timing information, and conversation summaries. Supports multilingual transcription.
 * **`prebuilt-videoSearch`** - Analyzes video content with visual frame extraction, audio transcription, and structured summaries. Provides temporal alignment of visual and audio content.
 
@@ -334,7 +335,7 @@ import asyncio
 import os
 from dotenv import load_dotenv
 from azure.ai.contentunderstanding.aio import ContentUnderstandingClient
-from azure.ai.contentunderstanding.models import AnalyzeResult, MediaContent, DocumentContent, MediaContentKind
+from azure.ai.contentunderstanding.models import AnalyzeInput, AnalyzeResult, MediaContent, DocumentContent, MediaContentKind
 from azure.core.credentials import AzureKeyCredential
 from azure.identity.aio import DefaultAzureCredential
 
@@ -349,9 +350,9 @@ async def analyze_document():
         file_url = "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf"
         
         # Analyze document using prebuilt-documentSearch
-        poller = await client.content_analyzers.begin_analyze(
-            analyzer_id="prebuilt-documentSearch", 
-            url=file_url
+        poller = await client.begin_analyze(
+            analyzer_id="prebuilt-documentSearch",
+            inputs=[AnalyzeInput(url=file_url)]
         )
         result: AnalyzeResult = await poller.result()
         
@@ -381,7 +382,7 @@ import asyncio
 import os
 from dotenv import load_dotenv
 from azure.ai.contentunderstanding.aio import ContentUnderstandingClient
-from azure.ai.contentunderstanding.models import AnalyzeResult, MediaContent
+from azure.ai.contentunderstanding.models import AnalyzeInput, AnalyzeResult, MediaContent
 from azure.core.credentials import AzureKeyCredential
 from azure.identity.aio import DefaultAzureCredential
 
@@ -401,9 +402,9 @@ async def analyze_invoice():
         file_url = "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf"
         
         # Analyze invoice using prebuilt-invoice analyzer
-        poller = await client.content_analyzers.begin_analyze(
-            analyzer_id="prebuilt-invoice", 
-            url=file_url
+        poller = await client.begin_analyze(
+            analyzer_id="prebuilt-invoice",
+            inputs=[AnalyzeInput(url=file_url)]
         )
         result: AnalyzeResult = await poller.result()
         
@@ -635,6 +636,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct][code_of_con
 [python_cu_pypi]: https://pypi.org/project/azure-ai-contentunderstanding/
 [python_cu_product_docs]: https://learn.microsoft.com/azure/ai-services/content-understanding/
 [python_cu_samples]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/contentunderstanding/azure-ai-contentunderstanding/samples
+[sample_configure_defaults]: https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/contentunderstanding/azure-ai-contentunderstanding/samples/sample_configure_defaults.py
 [azure_sub]: https://azure.microsoft.com/free/
 [cu_quickstart]: https://learn.microsoft.com/azure/ai-services/content-understanding/quickstart/use-rest-api?tabs=portal%2Cdocument
 [cu_region_support]: https://learn.microsoft.com/azure/ai-services/content-understanding/language-region-support
