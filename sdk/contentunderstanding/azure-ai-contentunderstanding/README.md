@@ -334,7 +334,7 @@ import asyncio
 import os
 from dotenv import load_dotenv
 from azure.ai.contentunderstanding.aio import ContentUnderstandingClient
-from azure.ai.contentunderstanding.models import AnalyzeResult, MediaContent, DocumentContent, MediaContentKind
+from azure.ai.contentunderstanding.models import AnalyzeInput, AnalyzeResult, MediaContent, DocumentContent, MediaContentKind
 from azure.core.credentials import AzureKeyCredential
 from azure.identity.aio import DefaultAzureCredential
 
@@ -349,13 +349,11 @@ async def analyze_document():
         file_url = "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf"
         
         # Analyze document using prebuilt-documentSearch
-        poller = await client.content_analyzers.begin_analyze(
-            analyzer_id="prebuilt-documentSearch", 
-            url=file_url
+        poller = await client.begin_analyze(
+            analyzer_id="prebuilt-documentSearch",
+            inputs=[AnalyzeInput(url=file_url)]
         )
-        result: AnalyzeResult = await poller.result()
-        
-        # Extract markdown content
+        result: AnalyzeResult = await poller.result()        # Extract markdown content
         content: MediaContent = result.contents[0]
         print("📄 Markdown Content:")
         print(content.markdown)
@@ -381,7 +379,7 @@ import asyncio
 import os
 from dotenv import load_dotenv
 from azure.ai.contentunderstanding.aio import ContentUnderstandingClient
-from azure.ai.contentunderstanding.models import AnalyzeResult, MediaContent
+from azure.ai.contentunderstanding.models import AnalyzeInput, AnalyzeResult, MediaContent
 from azure.core.credentials import AzureKeyCredential
 from azure.identity.aio import DefaultAzureCredential
 
@@ -401,13 +399,11 @@ async def analyze_invoice():
         file_url = "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf"
         
         # Analyze invoice using prebuilt-invoice analyzer
-        poller = await client.content_analyzers.begin_analyze(
-            analyzer_id="prebuilt-invoice", 
-            url=file_url
+        poller = await client.begin_analyze(
+            analyzer_id="prebuilt-invoice",
+            inputs=[AnalyzeInput(url=file_url)]
         )
-        result: AnalyzeResult = await poller.result()
-        
-        # Extract invoice fields
+        result: AnalyzeResult = await poller.result()        # Extract invoice fields
         content: MediaContent = result.contents[0]
         
         # Extract basic invoice information
