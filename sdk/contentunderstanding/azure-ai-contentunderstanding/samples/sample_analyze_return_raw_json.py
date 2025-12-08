@@ -9,14 +9,18 @@ FILE: sample_analyze_return_raw_json.py
 
 DESCRIPTION:
     This sample demonstrates how to access the raw JSON response from analysis operations
-    using protocol methods. This is useful for advanced scenarios where you need direct access
-    to the JSON structure.
+    using the 'cls' callback parameter. This is useful for advanced scenarios where you need
+    direct access to the JSON structure.
 
     The Content Understanding SDK provides two approaches for accessing analysis results:
-    1. Object model approach (recommended): Returns strongly-typed AnalyzeResult objects
-    2. Protocol method approach: Returns raw BinaryData containing the JSON response
 
-    For production use, prefer the object model approach as it provides:
+    1. Object model approach (recommended): Returns strongly-typed AnalyzeResult objects
+       that are easier to navigate and use. This is shown in sample_analyze_binary.py.
+
+    2. Protocol method approach: Returns raw HTTP response containing the JSON. This sample
+       demonstrates this approach for advanced scenarios.
+
+    IMPORTANT: For production use, prefer the object model approach as it provides:
     - Type safety
     - IntelliSense support
     - Easier navigation of results
@@ -66,21 +70,31 @@ def main() -> None:
 
     print(f"Analyzing {file_path} with prebuilt-documentSearch...")
 
-    # Use the standard method which returns an AnalyzeResult
-    # Then serialize to JSON for raw access
+    # Use the 'cls' callback parameter to get the raw HTTP response
+    # The 'cls' parameter allows us to intercept the response and return custom data
+    # We return a tuple: (deserialized_object, raw_http_response)
+    # Note: For production use, prefer the object model approach (without cls parameter)
+    #       which returns AnalyzeResult objects that are easier to work with
     poller = client.begin_analyze_binary(
         analyzer_id="prebuilt-documentSearch",
         binary_input=file_bytes,
+        content_type="application/pdf",
+        cls=lambda pipeline_response, deserialized_obj, response_headers: (
+            deserialized_obj,
+            pipeline_response.http_response,
+        ),
     )
-    result = poller.result()
 
-    # Convert to dictionary and then to JSON
-    result_dict = result.as_dict()
+    # Wait for completion and get both the deserialized object and raw HTTP response
+    _, raw_http_response = poller.result()
     # [END analyze_return_raw_json]
 
     # [START parse_raw_json]
+    # Parse the raw JSON response
+    response_json = raw_http_response.json()
+
     # Pretty-print the JSON
-    pretty_json = json.dumps(result_dict, indent=2, ensure_ascii=False, default=str)
+    pretty_json = json.dumps(response_json, indent=2, ensure_ascii=False)
 
     # Create output directory if it doesn't exist
     output_dir = Path(__file__).parent / "sample_output"
@@ -94,16 +108,67 @@ def main() -> None:
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(pretty_json)
 
-    print(f"\nRaw JSON response saved to: {output_path}")
+    print(f"Raw JSON response saved to: {output_path}")
     print(f"File size: {len(pretty_json):,} characters")
-
-    # Show a preview of the JSON structure
-    print("\nJSON Structure Preview:")
-    print("=" * 50)
-    preview = pretty_json[:2000] + "..." if len(pretty_json) > 2000 else pretty_json
-    print(preview)
-    print("=" * 50)
     # [END parse_raw_json]
+
+    # [START extract_from_raw_json]
+    # Extract key information from raw JSON
+    # This demonstrates accessing the same data that would be available via the object model
+    if "result" in response_json:
+        result_data = response_json["result"]
+
+        if "analyzerId" in result_data:
+            print(f"\nAnalyzer ID: {result_data['analyzerId']}")
+
+        if "contents" in result_data and isinstance(result_data["contents"], list):
+            print(f"Contents count: {len(result_data['contents'])}")
+
+            if len(result_data["contents"]) > 0:
+                first_content = result_data["contents"][0]
+
+                if "kind" in first_content:
+                    print(f"Content kind: {first_content['kind']}")
+                if "mimeType" in first_content:
+                    print(f"MIME type: {first_content['mimeType']}")
+
+                # Extract markdown content from raw JSON
+                # Object model equivalent: content.markdown
+                print("\nMarkdown Content (from raw JSON):")
+                print("=" * 50)
+                if "markdown" in first_content and first_content["markdown"]:
+                    print(first_content["markdown"])
+                else:
+                    print("No markdown content available.")
+                print("=" * 50)
+
+                # Extract document properties from raw JSON
+                # Object model equivalent: document_content.start_page_number, etc.
+                if first_content.get("kind") == "document":
+                    print("\nDocument Information (from raw JSON):")
+                    if "startPageNumber" in first_content:
+                        print(f"  Start page: {first_content['startPageNumber']}")
+                    if "endPageNumber" in first_content:
+                        print(f"  End page: {first_content['endPageNumber']}")
+
+                    start_page = first_content.get("startPageNumber")
+                    end_page = first_content.get("endPageNumber")
+                    if start_page and end_page:
+                        total_pages = end_page - start_page + 1
+                        print(f"  Total pages: {total_pages}")
+
+                    # Extract pages information
+                    # Object model equivalent: document_content.pages
+                    if "pages" in first_content and first_content["pages"]:
+                        pages = first_content["pages"]
+                        unit = first_content.get("unit", "units")
+                        print(f"\nPages ({len(pages)}):")
+                        for page in pages:
+                            page_num = page.get("pageNumber")
+                            width = page.get("width")
+                            height = page.get("height")
+                            print(f"  Page {page_num}: {width} x {height} {unit}")
+    # [END extract_from_raw_json]
 
 
 if __name__ == "__main__":
