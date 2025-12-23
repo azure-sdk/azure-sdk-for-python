@@ -15,7 +15,7 @@ authors = [
   { name = "Microsoft Corporation", email = "azpysdkhelp@microsoft.com" },
 ]
 description = "Microsoft Corporation Azure AI Content Understanding Client Library for Python"
-license = {text = "MIT"}
+license = "MIT"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python",
@@ -59,3 +59,13 @@ exclude = [
 
 [tool.setuptools.package-data]
 pytyped = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = [
+    "TempTypeSpecFiles",
+    ".venv",
+    "node_modules",
+    ".git",
+    "__pycache__",
+]

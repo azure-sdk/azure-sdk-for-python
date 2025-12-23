@@ -8,11 +8,27 @@
 FILE: sample_analyze_url.py
 
 DESCRIPTION:
-    This sample demonstrates how to analyze a document from a URL using the prebuilt-documentSearch
-    analyzer. This shows how to analyze a document from a publicly accessible URL instead of a local file.
+    Another great value of Content Understanding is its rich set of prebuilt analyzers. Great examples
+    of these are the RAG analyzers that work for all modalities (prebuilt-documentSearch,
+    prebuilt-imageSearch, prebuilt-audioSearch, and prebuilt-videoSearch). This sample demonstrates
+    these RAG analyzers. Many more prebuilt analyzers are available (for example, prebuilt-invoice);
+    see the invoice sample or the prebuilt analyzer documentation to explore the full list.
 
-    For understanding basic analysis concepts, authentication, and result processing,
-    see sample_analyze_binary.py first.
+    ## About analyzing URLs across modalities
+
+    Content Understanding supports both local binary inputs (see sample_analyze_binary.py) and URL
+    inputs across all modalities. This sample focuses on prebuilt RAG analyzers (the prebuilt-*Search
+    analyzers, such as prebuilt-documentSearch) with URL inputs.
+
+    Important: For URL inputs, use begin_analyze() with AnalyzeInput objects that wrap the URL.
+    For binary data (local files), use begin_analyze_binary() instead. This sample demonstrates
+    begin_analyze() with URL inputs.
+
+    Documents, HTML, and images with text are returned as DocumentContent (derived from MediaContent),
+    while audio and video are returned as AudioVisualContent (also derived from MediaContent). These
+    prebuilt RAG analyzers return markdown and a one-paragraph Summary for each content item;
+    prebuilt-videoSearch can return multiple segments, so iterate over all contents rather than just
+    the first.
 
 USAGE:
     python sample_analyze_url.py
@@ -21,8 +37,7 @@ USAGE:
     1) AZURE_CONTENT_UNDERSTANDING_ENDPOINT - the endpoint to your Content Understanding resource.
     2) AZURE_CONTENT_UNDERSTANDING_KEY - your Content Understanding API key (optional if using DefaultAzureCredential).
 
-    Before using prebuilt analyzers, you MUST configure model deployments for your Microsoft Foundry
-    resource. See sample_configure_defaults.py for setup instructions.
+    See sample_update_defaults.py for model deployment setup guidance.
 """
 
 import os
@@ -32,8 +47,9 @@ from azure.ai.contentunderstanding import ContentUnderstandingClient
 from azure.ai.contentunderstanding.models import (
     AnalyzeInput,
     AnalyzeResult,
+    AudioVisualContent,
     DocumentContent,
-    MediaContentKind,
+    MediaContent,
 )
 from azure.core.credentials import AzureKeyCredential
 from azure.identity import DefaultAzureCredential
@@ -49,9 +65,11 @@ def main() -> None:
     client = ContentUnderstandingClient(endpoint=endpoint, credential=credential)
 
     # [START analyze_document_from_url]
-    document_url = (
-        "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf"
-    )
+    print("=" * 60)
+    print("DOCUMENT ANALYSIS FROM URL")
+    print("=" * 60)
+    # You can replace this URL with your own publicly accessible document URL.
+    document_url = "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/invoice.pdf"
 
     print(f"Analyzing document from URL with prebuilt-documentSearch...")
     print(f"  URL: {document_url}")
@@ -63,29 +81,117 @@ def main() -> None:
     result: AnalyzeResult = poller.result()
 
     # Extract markdown content
-    print("\nMarkdown Content:")
-    print("=" * 50)
+    print("\nMarkdown:")
+    content = result.contents[0]
+    print(content.markdown)
 
-    if result.contents and len(result.contents) > 0:
-        content = result.contents[0]
-        if content.markdown:
-            print(content.markdown)
-        else:
-            print("No markdown content available.")
-    else:
-        print("No content found in the analysis result.")
+    # Cast MediaContent to DocumentContent to access document-specific properties
+    # DocumentContent derives from MediaContent and provides additional properties
+    # to access full information about document, including Pages, Tables and many others
+    document_content: DocumentContent = content  # type: ignore
+    print(f"\nPages: {document_content.start_page_number} - {document_content.end_page_number}")
 
-    print("=" * 50)
-
-    # Display document properties
-    if result.contents and len(result.contents) > 0:
-        content = result.contents[0]
-        if content.kind == MediaContentKind.DOCUMENT:
-            document_content: DocumentContent = content  # type: ignore
-            print(f"\nDocument Information:")
-            print(f"  Start page: {document_content.start_page_number}")
-            print(f"  End page: {document_content.end_page_number}")
+    # Check for pages
+    if document_content.pages and len(document_content.pages) > 0:
+        print(f"Number of pages: {len(document_content.pages)}")
+        for page in document_content.pages:
+            unit = document_content.unit or "units"
+            print(f"  Page {page.page_number}: {page.width} x {page.height} {unit}")
     # [END analyze_document_from_url]
+
+    # [START analyze_video_from_url]
+    print("\n" + "=" * 60)
+    print("VIDEO ANALYSIS FROM URL")
+    print("=" * 60)
+    video_url = "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/videos/sdk_samples/FlightSimulator.mp4"
+
+    print(f"Analyzing video from URL with prebuilt-videoSearch...")
+    print(f"  URL: {video_url}")
+
+    poller = client.begin_analyze(
+        analyzer_id="prebuilt-videoSearch",
+        inputs=[AnalyzeInput(url=video_url)],
+    )
+    result = poller.result()
+
+    # prebuilt-videoSearch can detect video segments, so we should iterate through all segments
+    segment_index = 1
+    for media in result.contents:
+        # Cast MediaContent to AudioVisualContent to access audio/visual-specific properties
+        # AudioVisualContent derives from MediaContent and provides additional properties
+        # to access full information about audio/video, including timing, transcript phrases, and many others
+        video_content: AudioVisualContent = media  # type: ignore
+        print(f"\n--- Segment {segment_index} ---")
+        print("Markdown:")
+        print(video_content.markdown)
+
+        summary = video_content.fields.get("Summary")
+        if summary and hasattr(summary, "value"):
+            print(f"Summary: {summary.value}")
+
+        print(f"Start: {video_content.start_time_ms} ms, End: {video_content.end_time_ms} ms")
+        print(f"Frame size: {video_content.width} x {video_content.height}")
+
+        print("---------------------")
+        segment_index += 1
+    # [END analyze_video_from_url]
+
+    # [START analyze_audio_from_url]
+    print("\n" + "=" * 60)
+    print("AUDIO ANALYSIS FROM URL")
+    print("=" * 60)
+    audio_url = "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/audio/callCenterRecording.mp3"
+
+    print(f"Analyzing audio from URL with prebuilt-audioSearch...")
+    print(f"  URL: {audio_url}")
+
+    poller = client.begin_analyze(
+        analyzer_id="prebuilt-audioSearch",
+        inputs=[AnalyzeInput(url=audio_url)],
+    )
+    result = poller.result()
+
+    # Cast MediaContent to AudioVisualContent to access audio/visual-specific properties
+    # AudioVisualContent derives from MediaContent and provides additional properties
+    # to access full information about audio/video, including timing, transcript phrases, and many others
+    audio_content: AudioVisualContent = result.contents[0]  # type: ignore
+    print("Markdown:")
+    print(audio_content.markdown)
+
+    summary = audio_content.fields.get("Summary")
+    if summary and hasattr(summary, "value"):
+        print(f"Summary: {summary.value}")
+
+    # Example: Access an additional field in AudioVisualContent (transcript phrases)
+    if audio_content.transcript_phrases and len(audio_content.transcript_phrases) > 0:
+        print("Transcript (first two phrases):")
+        for phrase in audio_content.transcript_phrases[:2]:
+            print(f"  [{phrase.speaker}] {phrase.start_time_ms} ms: {phrase.text}")
+    # [END analyze_audio_from_url]
+
+    # [START analyze_image_from_url]
+    print("\n" + "=" * 60)
+    print("IMAGE ANALYSIS FROM URL")
+    print("=" * 60)
+    image_url = "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/image/pieChart.jpg"
+
+    print(f"Analyzing image from URL with prebuilt-imageSearch...")
+    print(f"  URL: {image_url}")
+
+    poller = client.begin_analyze(
+        analyzer_id="prebuilt-imageSearch",
+        inputs=[AnalyzeInput(url=image_url)],
+    )
+    result = poller.result()
+
+    content = result.contents[0]
+    print("Markdown:")
+    print(content.markdown)
+
+    summary = content.fields.get("Summary")
+    if summary and hasattr(summary, "value"):
+        print(f"Summary: {summary.value}")
+    # [END analyze_image_from_url]
 
 
 if __name__ == "__main__":

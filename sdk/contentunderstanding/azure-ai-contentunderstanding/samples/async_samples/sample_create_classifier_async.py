@@ -8,14 +8,31 @@
 FILE: sample_create_classifier_async.py
 
 DESCRIPTION:
-    This sample demonstrates how to create a classifier analyzer to categorize documents and
-    use it to analyze documents with and without automatic segmentation.
+    This sample demonstrates how to create a classifier analyzer to categorize documents and use it
+    to analyze documents with and without automatic segmentation.
 
-    Classifiers are a type of custom analyzer that categorize documents into predefined categories.
-    They're useful for:
-    - Document routing: Automatically route documents to the right processing pipeline
-    - Content organization: Organize large document collections by type
-    - Multi-document processing: Process files containing multiple document types by segmenting them
+    ## About classifiers
+
+    Classifiers are a type of custom analyzer that create classification workflows to categorize
+    documents into predefined custom categories using ContentCategories. They allow you to perform
+    classification and content extraction as part of a single API call. Classifiers are useful for:
+    - Content organization: Organize large document collections by type through categorization
+    - Data routing (optional): Optionally route your data to specific custom analyzers based on
+      category, ensuring your data is routed to the best analyzer for processing when needed
+    - Multi-document processing: Process files containing multiple document types by automatically
+      segmenting them
+
+    Classifiers use custom categories to define the types of documents they can identify. Each
+    category has a Description that helps the AI model understand what documents belong to that
+    category. You can define up to 200 category names and descriptions. You can include an "other"
+    category to handle unmatched content; otherwise, all files are forced to be classified into one
+    of your defined categories.
+
+    The enable_segment property in the analyzer configuration controls whether multi-document files
+    are split into segments:
+    - enable_segment = False: Classifies the entire file as a single category (classify only)
+    - enable_segment = True: Automatically splits the file into segments by category (classify and
+      segment)
 
 USAGE:
     python sample_create_classifier_async.py
@@ -25,7 +42,7 @@ USAGE:
     2) AZURE_CONTENT_UNDERSTANDING_KEY - your Content Understanding API key (optional if using DefaultAzureCredential).
 
     Before using classifiers, you MUST configure model deployments for your Microsoft Foundry
-    resource. See sample_configure_defaults.py for setup instructions.
+    resource. See sample_update_defaults.py for setup instructions.
 """
 
 import asyncio
@@ -37,10 +54,9 @@ from azure.ai.contentunderstanding.aio import ContentUnderstandingClient
 from azure.ai.contentunderstanding.models import (
     ContentAnalyzer,
     ContentAnalyzerConfig,
-    ContentCategory,
+    ContentCategoryDefinition,
     AnalyzeResult,
     DocumentContent,
-    MediaContentKind,
 )
 from azure.core.credentials import AzureKeyCredential
 from azure.identity.aio import DefaultAzureCredential
@@ -62,17 +78,17 @@ async def main() -> None:
 
         # Define content categories for classification
         categories = {
-            "Loan_Application": ContentCategory(
+            "Loan_Application": ContentCategoryDefinition(
                 description="Documents submitted by individuals or businesses to request funding, "
                 "typically including personal or business details, financial history, "
                 "loan amount, purpose, and supporting documentation."
             ),
-            "Invoice": ContentCategory(
+            "Invoice": ContentCategoryDefinition(
                 description="Billing documents issued by sellers or service providers to request "
                 "payment for goods or services, detailing items, prices, taxes, totals, "
                 "and payment terms."
             ),
-            "Bank_Statement": ContentCategory(
+            "Bank_Statement": ContentCategoryDefinition(
                 description="Official statements issued by banks that summarize account activity "
                 "over a period, including deposits, withdrawals, fees, and balances."
             ),
@@ -118,28 +134,25 @@ async def main() -> None:
 
         analyze_poller = await client.begin_analyze_binary(
             analyzer_id=analyzer_id,
-            content_type="application/pdf",
             binary_input=file_bytes,
         )
         analyze_result: AnalyzeResult = await analyze_poller.result()
 
         # Display classification results
         if analyze_result.contents and len(analyze_result.contents) > 0:
-            content = analyze_result.contents[0]
+            document_content: DocumentContent = analyze_result.contents[0]  # type: ignore
+            print(f"Pages: {document_content.start_page_number}-{document_content.end_page_number}")
 
-            if content.kind == MediaContentKind.DOCUMENT:
-                document_content: DocumentContent = content  # type: ignore
-                print(f"Pages: {document_content.start_page_number}-{document_content.end_page_number}")
-
-                # Display segments (classification results)
-                if document_content.segments and len(document_content.segments) > 0:
-                    print(f"\nFound {len(document_content.segments)} segment(s):")
-                    for segment in document_content.segments:
-                        print(f"  Category: {segment.category or '(unknown)'}")
-                        print(f"  Pages: {segment.start_page_number}-{segment.end_page_number}")
-                        print()
-                else:
-                    print("No segments found (document classified as a single unit).")
+            # Display segments (classification results)
+            if document_content.segments and len(document_content.segments) > 0:
+                print(f"\nFound {len(document_content.segments)} segment(s):")
+                for segment in document_content.segments:
+                    print(f"  Category: {segment.category or '(unknown)'}")
+                    print(f"  Pages: {segment.start_page_number}-{segment.end_page_number}")
+                    print(f"  Segment ID: {segment.segment_id or '(not available)'}")
+                    print()
+            else:
+                print("No segments found (document classified as a single unit).")
         else:
             print("No content found in the analysis result.")
         # [END analyze_with_classifier]

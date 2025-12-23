@@ -11,13 +11,10 @@ DESCRIPTION:
     This sample demonstrates how to update an existing custom analyzer, including updating
     its description and tags.
 
-    The update_analyzer method allows you to modify certain properties of an existing analyzer:
+    The update_analyzer method allows you to modify certain properties of an existing analyzer.
+    The following properties can be updated:
     - Description: Update the analyzer's description
-    - Tags: Add, update, or remove tags (set tag value to empty string to remove)
-
-    Note: Not all analyzer properties can be updated. Field schemas, models, and configuration
-    typically cannot be changed after creation. To change these, you may need to delete and
-    recreate the analyzer.
+    - Tags: Add or update tags
 
 USAGE:
     python sample_update_analyzer.py
@@ -101,7 +98,6 @@ def main() -> None:
         description="Updated description",
         tags={
             "tag1": "tag1_updated_value",  # Update existing tag
-            "tag2": "",  # Remove tag2 (empty string removes the tag)
             "tag3": "tag3_value",  # Add new tag
         },
     )

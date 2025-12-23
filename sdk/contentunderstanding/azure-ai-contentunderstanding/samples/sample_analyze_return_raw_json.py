@@ -9,23 +9,26 @@ FILE: sample_analyze_return_raw_json.py
 
 DESCRIPTION:
     This sample demonstrates how to access the raw JSON response from analysis operations
-    using protocol methods. This is useful for advanced scenarios where you need direct access
-    to the JSON structure.
+    using the convenience method and then accessing the raw response. This is useful for
+    scenarios where you need to inspect the full response structure exactly as returned by
+    the service.
 
-    The Content Understanding SDK provides two approaches for accessing analysis results:
-    1. Object model approach (recommended): Returns strongly-typed AnalyzeResult objects
-    2. Protocol method approach: Returns raw BinaryData containing the JSON response
+    The Content Understanding SDK provides a convenient object model approach (shown in
+    sample_analyze_binary.py) that returns AnalyzeResult objects with deeper navigation
+    through the object model. However, sometimes you may need access to the raw JSON
+    response for:
 
-    For production use, prefer the object model approach as it provides:
-    - Type safety
-    - IntelliSense support
-    - Easier navigation of results
-    - Better error handling
+    - Easy inspection: View the complete response structure in the exact format returned
+      by the service, making it easier to understand the full data model and discover
+      available fields
+    - Debugging: Inspect the raw response to troubleshoot issues, verify service behavior,
+      or understand unexpected results
+    - Advanced scenarios: Work with response structures that may change or include
+      additional metadata not captured in the typed model
 
-    Use raw JSON only when you need:
-    - Custom JSON processing
-    - Direct access to the raw response structure
-    - Integration with custom JSON parsers
+    NOTE: For most production scenarios, the object model approach is recommended as it
+    provides type safety, IntelliSense support, and easier navigation. Use raw JSON access
+    when you specifically need the benefits listed above.
 
 USAGE:
     python sample_analyze_return_raw_json.py
@@ -35,13 +38,11 @@ USAGE:
     2) AZURE_CONTENT_UNDERSTANDING_KEY - your Content Understanding API key (optional if using DefaultAzureCredential).
 
     Before using prebuilt analyzers, you MUST configure model deployments for your Microsoft Foundry
-    resource. See sample_configure_defaults.py for setup instructions.
+    resource. See sample_update_defaults.py for setup instructions.
 """
 
 import json
 import os
-from datetime import datetime
-from pathlib import Path
 
 from dotenv import load_dotenv
 from azure.ai.contentunderstanding import ContentUnderstandingClient
@@ -66,43 +67,28 @@ def main() -> None:
 
     print(f"Analyzing {file_path} with prebuilt-documentSearch...")
 
-    # Use the standard method which returns an AnalyzeResult
-    # Then serialize to JSON for raw access
+    # Use the convenience method to analyze the document
+    # The cls callback allows access to the complete response structure for easy inspection and debugging
     poller = client.begin_analyze_binary(
         analyzer_id="prebuilt-documentSearch",
         binary_input=file_bytes,
+        cls=lambda pipeline_response, deserialized_obj, response_headers: (
+            deserialized_obj,
+            pipeline_response.http_response,
+        ),
     )
-    result = poller.result()
 
-    # Convert to dictionary and then to JSON
-    result_dict = result.as_dict()
+    # Wait for completion and get both the deserialized object and raw HTTP response
+    _, raw_http_response = poller.result()
     # [END analyze_return_raw_json]
 
     # [START parse_raw_json]
-    # Pretty-print the JSON
-    pretty_json = json.dumps(result_dict, indent=2, ensure_ascii=False, default=str)
+    # Get the raw JSON response
+    response_json = raw_http_response.json()
 
-    # Create output directory if it doesn't exist
-    output_dir = Path(__file__).parent / "sample_output"
-    output_dir.mkdir(exist_ok=True)
-
-    # Save to file
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_filename = f"analyze_result_{timestamp}.json"
-    output_path = output_dir / output_filename
-
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write(pretty_json)
-
-    print(f"\nRaw JSON response saved to: {output_path}")
-    print(f"File size: {len(pretty_json):,} characters")
-
-    # Show a preview of the JSON structure
-    print("\nJSON Structure Preview:")
-    print("=" * 50)
-    preview = pretty_json[:2000] + "..." if len(pretty_json) > 2000 else pretty_json
-    print(preview)
-    print("=" * 50)
+    # Pretty-print the raw JSON response
+    pretty_json = json.dumps(response_json, indent=2, ensure_ascii=False)
+    print(pretty_json)
     # [END parse_raw_json]
 
 

@@ -12,10 +12,14 @@ DESCRIPTION:
     This is useful for removing temporary or sensitive analysis results immediately, rather
     than waiting for automatic deletion after 24 hours.
 
-    Analysis results are stored temporarily and can be deleted using the delete_result API:
-    - Immediate deletion: Results are marked for deletion and permanently removed
-    - Automatic deletion: Results are automatically deleted after 24 hours if not manually deleted
-    - Operation ID required: You need the operation ID from the analysis operation to delete
+    About deleting results:
+    Analysis results from analyze or begin_analyze are automatically deleted after 24 hours.
+    However, you may want to delete results earlier in certain cases:
+    - Remove sensitive data immediately: Ensure sensitive information is not retained longer than necessary
+    - Comply with data retention policies: Meet requirements for data deletion
+
+    To delete results earlier than the 24-hour automatic deletion, use delete_result.
+    This method requires the operation ID from the analysis operation.
 
     Important: Once deleted, results cannot be recovered. Make sure you have saved any data
     you need before deleting.
@@ -28,7 +32,7 @@ USAGE:
     2) AZURE_CONTENT_UNDERSTANDING_KEY - your Content Understanding API key (optional if using DefaultAzureCredential).
 
     Before using prebuilt analyzers, you MUST configure model deployments for your Microsoft Foundry
-    resource. See sample_configure_defaults.py for setup instructions.
+    resource. See sample_update_defaults.py for setup instructions.
 """
 
 import asyncio
@@ -40,7 +44,6 @@ from azure.ai.contentunderstanding.models import (
     AnalyzeInput,
     AnalyzeResult,
     DocumentContent,
-    MediaContentKind,
 )
 from azure.core.credentials import AzureKeyCredential
 from azure.core.exceptions import ResourceNotFoundError
@@ -56,48 +59,29 @@ async def main() -> None:
 
     async with ContentUnderstandingClient(endpoint=endpoint, credential=credential) as client:
         # [START analyze_and_delete_result]
-        document_url = "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf"
+        # You can replace this URL with your own invoice file URL
+        document_url = "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/invoice.pdf"
 
-        print("Document Analysis Workflow")
-        print("=" * 60)
-        print(f"  Document URL: {document_url}")
-        print(f"  Analyzer: prebuilt-invoice")
-        print("=" * 60)
-
-        # Step 1: Start the analysis operation
-        print("\nStep 1: Starting document analysis...")
-        poller = await client.begin_analyze(
+        # Step 1: Analyze and wait for completion
+        analyze_operation = await client.begin_analyze(
             analyzer_id="prebuilt-invoice",
             inputs=[AnalyzeInput(url=document_url)],
         )
 
-        # Get the operation ID from the poller
-        operation_id = poller.operation_id
-
-        if not operation_id:
-            print("Error: Could not extract operation ID from response")
-            return
-
-        print(f"  Operation ID: {operation_id}")
-
-        # Wait for completion
-        print("  Waiting for analysis to complete...")
-        result: AnalyzeResult = await poller.result()
+        # Get the operation ID - this is needed to delete the result later
+        operation_id = analyze_operation.operation_id
+        print(f"Operation ID: {operation_id}")
+        result: AnalyzeResult = await analyze_operation.result()
         print("Analysis completed successfully!")
 
         # Display some sample results
         if result.contents and len(result.contents) > 0:
-            content = result.contents[0]
-            if content.kind == MediaContentKind.DOCUMENT:
-                doc_content: DocumentContent = content  # type: ignore
-                if doc_content.fields:
-                    print(f"  Total fields extracted: {len(doc_content.fields)}")
-                    customer_name_field = doc_content.fields.get("CustomerName")
-                    if customer_name_field:
-                        print(f"  Customer Name: {customer_name_field.value or '(not found)'}")
+            document_content: DocumentContent = result.contents[0]  # type: ignore
+            if document_content.fields:
+                print(f"Total fields extracted: {len(document_content.fields)}")
 
         # Step 2: Delete the analysis result
-        print(f"\nStep 2: Deleting analysis result (Operation ID: {operation_id})...")
+        print(f"Deleting analysis result (Operation ID: {operation_id})...")
         await client.delete_result(operation_id=operation_id)
         print("Analysis result deleted successfully!")
 
