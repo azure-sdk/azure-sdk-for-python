@@ -212,7 +212,7 @@ class AgentServer:
         request_context.set(ctx)
 
     # ------------------------------------------------------------------
-    # Tracing  (preserves existing infra from FoundryCBAgent)
+    # Tracing
     # ------------------------------------------------------------------
     def init_tracing(self):
         """Set up OpenTelemetry tracing if exporters are configured."""
