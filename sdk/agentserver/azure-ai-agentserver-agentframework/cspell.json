@@ -10,7 +10,8 @@
       "ainvoke",
       "hitl",
       "HITL",
-      "inmemory"
+      "inmemory",
+      "Vnext"
     ],
     "ignorePaths": [
       "*.csv",
