@@ -114,10 +114,11 @@ class AgentServer:
 
         # Set request context for logging/tracing
         self._set_request_context(request, body)
+        caller_wants_stream = body.get("stream", False)
 
         try:
             result = await self._call_invoke(body)
-            return self._dispatch(result)
+            return self._dispatch(result, caller_wants_stream)
         except Exception as exc:
             err_msg = str(exc) if DEBUG_ERRORS else "Internal error"
             logger.error("Error in invoke: %s\n%s", exc, traceback.format_exc())
@@ -143,18 +144,47 @@ class AgentServer:
         # Plain sync function → run in thread
         return await asyncio.to_thread(self.invoke_fn, request)
 
-    def _dispatch(self, result: Any):
-        """Route the invoke result to the correct HTTP response type."""
+    def _dispatch(self, result: Any, caller_wants_stream: bool = False):
+        """Route the invoke result to the correct HTTP response type.
+
+        The invoke function returns ONE shape — either a dict or a generator.
+        The server adapts to what the caller wants:
+
+        - dict + non-streaming caller → JSONResponse
+        - dict + streaming caller → auto-wrap as single ``invocation.completed`` SSE event
+        - generator → SSE stream (regardless of caller preference)
+
+        This means the customer never needs to branch on ``stream``.
+        They implement one return type; the server handles both callers.
+        """
         if isinstance(result, dict):
+            if caller_wants_stream:
+                # Auto-wrap dict as a single-event SSE stream
+                return StreamingResponse(
+                    self._dict_to_stream(result),
+                    media_type="text/event-stream",
+                )
             return JSONResponse(result)
         if inspect.isasyncgen(result) or inspect.isgenerator(result):
             gen = result if inspect.isasyncgen(result) else self._wrap_sync_generator(result)
+            if not caller_wants_stream:
+                # Caller wants JSON but invoke returned a generator —
+                # we can't easily collapse a stream, so serve SSE anyway.
+                # The caller should handle this gracefully.
+                pass
             return StreamingResponse(
                 self._stream_with_prefetch(gen),
                 media_type="text/event-stream",
             )
         # Fallback — try to serialise whatever we got
         return JSONResponse(result)
+
+    @staticmethod
+    async def _dict_to_stream(result: dict):
+        """Wrap a dict response as a single SSE ``invocation.completed`` event."""
+        event = {**result, "type": result.get("type", "invocation.completed")}
+        yield _event_to_sse(event)
+        yield "data: [DONE]\n\n"
 
     async def _stream_with_prefetch(self, gen: AsyncGenerator[dict, None]):
         """
