@@ -62,7 +62,7 @@ class AgentFrameworkAIAgentAdapter(AgentFrameworkAgent):
             metadata = context.raw_payload.get("metadata", {})
             if isinstance(metadata, dict):
                 request_context.update(metadata)
-            self._agent._request_headers = request_context  # type: ignore[attr-defined]
+            self._agent._request_headers = request_context  # type: ignore[attr-defined] # pylint: disable=protected-access
 
             # Use split converters
             if context.stream:
