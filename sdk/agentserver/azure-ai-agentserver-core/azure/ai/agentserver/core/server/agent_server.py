@@ -223,13 +223,17 @@ class AgentServer:
     @staticmethod
     async def _wrap_sync_generator(gen: Generator) -> AsyncGenerator:
         """Wrap a synchronous generator as an async generator."""
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
         sentinel = object()
-        while True:
-            item = await loop.run_in_executor(None, next, gen, sentinel)
-            if item is sentinel:
-                break
-            yield item
+        try:
+            while True:
+                item = await loop.run_in_executor(None, next, gen, sentinel)
+                if item is sentinel:
+                    break
+                yield item
+        finally:
+            # Ensure the sync generator is closed even on error
+            gen.close()
 
     def _set_request_context(self, request: Request, body: dict):
         """Populate the context var used by the logger for structured fields."""

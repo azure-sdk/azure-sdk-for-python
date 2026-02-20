@@ -19,7 +19,7 @@ Usage::
 from __future__ import annotations
 
 import os
-from typing import Any, AsyncGenerator, Optional
+from typing import Any, Optional
 
 from azure.ai.agentserver.core.logger import get_logger
 
@@ -28,57 +28,28 @@ logger = get_logger()
 
 def create_invoke_handler(agent: Any):
     """
-    Return an ``invoke(dict) -> dict | AsyncGenerator`` function
-    that wraps a MAF ``AgentProtocol`` agent.
+    Return an ``invoke(dict) -> dict`` function that wraps a MAF
+    ``AgentProtocol`` agent.
 
-    :param agent: An ``AgentProtocol`` instance (any object with ``.run()`` / ``.run_stream()``).
+    Always returns a dict. The server auto-wraps as SSE when the caller
+    requests streaming. No branching on ``stream`` here.
+
+    :param agent: An ``AgentProtocol`` instance (any object with ``.run()``).
     """
 
-    async def invoke(request: dict):
+    async def invoke(request: dict) -> dict:
         input_items = request.get("input", [])
         message = _to_maf_input(input_items)
-        stream = request.get("stream", False)
 
-        # Handle resume (human-in-the-loop)
+        # Handle resume (human-in-the-loop) — append to context, don't replace
         resume = request.get("resume")
         if resume:
             message = _build_resume_input(resume, message)
 
-        if stream and hasattr(agent, "run_stream"):
-            return _stream(agent, message)
-
-        # Non-streaming
         result = await agent.run(message)
         return _response_from_result(result)
 
     return invoke
-
-
-async def _stream(agent: Any, message: Any) -> AsyncGenerator[dict, None]:
-    """Stream MAF output as Invoke API SSE dicts."""
-    try:
-        full_text_parts: list[str] = []
-        async for update in agent.run_stream(message):
-            text = _extract_text(update)
-            if text:
-                full_text_parts.append(text)
-                yield {"type": "message.delta", "delta": text}
-
-            # Check for interrupt/human-in-the-loop
-            interrupt = _extract_interrupt(update)
-            if interrupt:
-                yield {"type": "interrupt", **interrupt}
-    except Exception as exc:
-        logger.error("MAF streaming error: %s", exc)
-        yield {"type": "error", "code": "agent_error", "message": str(exc)}
-        return
-
-    yield {
-        "type": "invocation.completed",
-        "status": "completed",
-        "message": "".join(full_text_parts),
-        "annotations": [],
-    }
 
 
 def _response_from_result(result: Any) -> dict:
@@ -172,18 +143,28 @@ def _extract_input_text(item: Any) -> str:
 
 
 def _build_resume_input(resume: dict, original_message: Any) -> Any:
-    """Build MAF input for a resume (human-in-the-loop continuation)."""
+    """Build MAF input for a resume (human-in-the-loop continuation).
+
+    Appends the function result to the original conversation context
+    rather than replacing it, so prior messages aren't lost.
+    """
     try:
         from agent_framework import ChatMessage, FunctionResultContent, Role as ChatRole
 
-        # The resume dict contains the function result that the human provided
-        func_name = resume.get("function_name", "unknown")
-        call_id = resume.get("call_id", "")
-        result_val = resume.get("result", "")
-        return ChatMessage(
+        resume_msg = ChatMessage(
             role=ChatRole.USER,
-            contents=[FunctionResultContent(name=func_name, call_id=call_id, result=result_val)],
+            contents=[FunctionResultContent(
+                name=resume.get("function_name", "unknown"),
+                call_id=resume.get("call_id", ""),
+                result=resume.get("result", ""),
+            )],
         )
+        # Preserve original context: return both original + resume as a list
+        if original_message is None:
+            return resume_msg
+        if isinstance(original_message, list):
+            return original_message + [resume_msg]
+        return [original_message, resume_msg]
     except ImportError:
         return original_message
 
@@ -192,39 +173,12 @@ def _build_resume_input(resume: dict, original_message: Any) -> Any:
 # Output extraction helpers
 # ------------------------------------------------------------------
 
-def _extract_text(update: Any) -> Optional[str]:
-    """Extract text from a MAF streaming update."""
-    # Try direct content attribute
-    if hasattr(update, "content") and isinstance(update.content, str):
-        return update.content
-
-    # Try contents list
-    contents = getattr(update, "contents", None)
-    if contents:
-        for content in contents:
-            text = _extract_text_from_content(content)
-            if text:
-                return text
-    return None
-
-
 def _extract_text_from_content(content: Any) -> Optional[str]:
     """Extract text from a MAF content item."""
     type_name = type(content).__name__
     if type_name == "TextContent" or hasattr(content, "text"):
         text = getattr(content, "text", None)
         return text if text else None
-    return None
-
-
-def _extract_interrupt(update: Any) -> Optional[dict]:
-    """Extract interrupt info from a MAF streaming update."""
-    contents = getattr(update, "contents", None)
-    if contents:
-        for content in contents:
-            intr = _extract_interrupt_from_content(content)
-            if intr:
-                return intr
     return None
 
 

@@ -19,7 +19,7 @@ Usage::
 from __future__ import annotations
 
 import os
-from typing import AsyncGenerator, Optional
+from typing import Optional
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
 from langgraph.graph.state import CompiledStateGraph
@@ -35,14 +35,16 @@ def create_invoke_handler(
     default_thread_id: str = "default",
 ):
     """
-    Return an ``invoke(dict) -> dict | AsyncGenerator`` function
-    that wraps a compiled LangGraph.
+    Return an ``invoke(dict) -> dict`` function that wraps a compiled LangGraph.
+
+    Always returns a dict. The server auto-wraps as SSE when the caller
+    requests streaming. No branching on ``stream`` here.
 
     :param graph: A compiled LangGraph state graph.
     :param default_thread_id: Thread ID to use when ``session_id`` is absent.
     """
 
-    async def invoke(request: dict):
+    async def invoke(request: dict) -> dict:
         messages = _to_langchain_messages(request.get("input", []))
         thread_id = request.get("session_id") or default_thread_id
         config = {"configurable": {"thread_id": thread_id}}
@@ -51,9 +53,6 @@ def create_invoke_handler(
         callbacks = _get_callbacks()
         if callbacks:
             config["callbacks"] = callbacks
-
-        if request.get("stream"):
-            return _stream(graph, messages, config)
 
         result = await graph.ainvoke({"messages": messages}, config=config)
         last_ai = _last_ai_message(result.get("messages", []))
@@ -64,32 +63,6 @@ def create_invoke_handler(
         }
 
     return invoke
-
-
-async def _stream(
-    graph: CompiledStateGraph,
-    messages: list[BaseMessage],
-    config: dict,
-) -> AsyncGenerator[dict, None]:
-    """Stream LangGraph output as Invoke API SSE dicts."""
-    try:
-        async for chunk, metadata in graph.astream(
-            {"messages": messages},
-            config=config,
-            stream_mode="messages",
-        ):
-            if isinstance(chunk, AIMessage) and chunk.content and not chunk.tool_calls:
-                yield {"type": "message.delta", "delta": chunk.content}
-    except Exception as exc:
-        logger.error("LangGraph streaming error: %s", exc)
-        yield {
-            "type": "error",
-            "code": "agent_error",
-            "message": str(exc),
-        }
-        return
-
-    yield {"type": "invocation.completed", "status": "completed"}
 
 
 # ------------------------------------------------------------------

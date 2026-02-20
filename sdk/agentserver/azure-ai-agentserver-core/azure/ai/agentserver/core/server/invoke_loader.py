@@ -37,6 +37,8 @@ def load_invoke_fn(module_path: str, attr: str = "invoke"):
 
     kind = "async" if inspect.iscoroutinefunction(fn) or inspect.isasyncgenfunction(fn) else "sync"
     gen = " generator" if inspect.isgeneratorfunction(fn) or inspect.isasyncgenfunction(fn) else ""
-    # Log is intentionally print — logger may not be configured yet
-    print(f"[invoke_loader] Loaded {kind}{gen} invoke function from {module_path}.{attr}")
+    from ..logger import get_logger
+
+    logger = get_logger()
+    logger.info(f"Loaded {kind}{gen} invoke function from {module_path}.{attr}")
     return fn
