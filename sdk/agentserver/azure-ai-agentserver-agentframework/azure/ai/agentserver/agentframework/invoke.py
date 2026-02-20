@@ -69,13 +69,16 @@ def _response_from_result(result: Any) -> dict:
                 text_parts.append(text)
 
             intr = _extract_interrupt_from_content(content)
-            if intr:
+            if intr and interrupt is None:
                 interrupt = intr
 
     status = "requires_input" if interrupt else "completed"
+    
+    message_text = " ".join(text_parts) if text_parts else None
+    
     response: dict = {
         "status": status,
-        "message": " ".join(text_parts),
+        "message": message_text,
         "annotations": annotations,
     }
     if interrupt:

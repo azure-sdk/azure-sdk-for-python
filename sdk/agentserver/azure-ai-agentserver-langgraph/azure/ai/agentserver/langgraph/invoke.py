@@ -55,12 +55,37 @@ def create_invoke_handler(
             config["callbacks"] = callbacks
 
         result = await graph.ainvoke({"messages": messages}, config=config)
+
+        # Check for interrupts/tool calls (human-in-the-loop)
+        # If the last message is an AIMessage with tool_calls, we are in a "requires_input" state
+        # provided the graph stopped there.
+        last_msg = result.get("messages", [])[-1] if result.get("messages") else None
+        interrupt = None
+        
+        if isinstance(last_msg, AIMessage) and last_msg.tool_calls:
+            # LangGraph usually halts on tool calls if they aren't handled.
+            # We map this to the Invoke API interrupt format.
+            call = last_msg.tool_calls[0]
+            interrupt = {
+                "id": call.get("id", ""),
+                "message": f"Tool call pending: {call.get('name')}",
+                "function_name": call.get("name"),
+                "arguments": call.get("args", {}),
+            }
+
+        status = "requires_input" if interrupt else "completed"
+        
         last_ai = _last_ai_message(result.get("messages", []))
-        return {
-            "status": "completed",
-            "message": last_ai.content if last_ai else "",
+        message_text = last_ai.content if last_ai else None
+        
+        response = {
+            "status": status,
+            "message": message_text,
             "annotations": [],
         }
+        if interrupt:
+            response["interrupt"] = interrupt
+        return response
 
     return invoke
 
