@@ -41,6 +41,23 @@ from ..logger import get_logger, request_context
 logger = get_logger()
 DEBUG_ERRORS = os.environ.get(Constants.AGENT_DEBUG_ERRORS, "false").lower() == "true"
 
+# Platform context — set per-request by AgentServer, readable by agent code
+# via get_platform_context(). Contains HTTP headers injected by AgentService.
+platform_context: contextvars.ContextVar[Optional[dict]] = contextvars.ContextVar(
+    "platform_context", default=None,
+)
+
+
+def get_platform_context() -> dict:
+    """Return the platform context for the current request.
+
+    Contains ``headers`` (dict of HTTP headers from AgentService) and
+    ``request_id`` (correlation ID).  Returns an empty dict if called
+    outside a request context.
+    """
+    return platform_context.get() or {}
+
+
 InvokeFn = Callable[[dict], Union[dict, AsyncGenerator[dict, None], Generator[dict, None, None]]]
 
 
@@ -246,7 +263,7 @@ class AgentServer:
             gen.close()
 
     def _set_request_context(self, request: Request, body: dict):
-        """Populate the context var used by the logger for structured fields."""
+        """Populate context vars for logging and platform context."""
         ctx = request_context.get() or {}
         request_id = request.headers.get("X-Request-Id")
         if request_id:
@@ -254,6 +271,13 @@ class AgentServer:
         ctx["azure.ai.agentserver.session_id"] = body.get("session_id", "")
         ctx["azure.ai.agentserver.streaming"] = str(body.get("stream", False))
         request_context.set(ctx)
+
+        # Expose platform headers to agent code via get_platform_context()
+        platform_headers = {
+            k: v for k, v in request.headers.items()
+            if k.lower().startswith("x-platform-") or k.lower() in ("traceparent", "tracestate", "x-request-id")
+        }
+        platform_context.set({"headers": platform_headers, "request_id": request_id or ""})
 
     # ------------------------------------------------------------------
     # Tracing
