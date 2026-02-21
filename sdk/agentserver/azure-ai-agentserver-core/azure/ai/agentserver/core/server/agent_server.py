@@ -20,10 +20,13 @@ Usage::
     server.run()
 """
 import asyncio
+import contextvars
+import dataclasses
 import inspect
 import json
 import os
 import traceback
+from pathlib import Path
 from typing import Any, AsyncGenerator, Callable, Generator, Optional, Union
 
 import uvicorn
@@ -54,9 +57,12 @@ class AgentServer:
     ``asyncio.to_thread`` so the event loop is never blocked.
     """
 
-    def __init__(self, invoke_fn: Optional[InvokeFn] = None):
+    def __init__(self, invoke_fn: Optional[InvokeFn] = None, *, lifespan=None):
         """
         :param invoke_fn: A callable ``(dict) -> dict | generator``.
+        :param lifespan: Optional async context manager for startup/shutdown hooks.
+            Accepts a Starlette-style lifespan (``async def lifespan(app): ...``).
+            Use this to load models, warm caches, or flush telemetry on shutdown.
         """
         self.invoke_fn = invoke_fn
         self._is_async = invoke_fn is not None and (
@@ -69,14 +75,14 @@ class AgentServer:
             Route("/liveness", self._health, methods=["GET"]),
             Route("/readiness", self._health, methods=["GET"]),
         ]
-        self.app = Starlette(routes=routes)
+        self.app = Starlette(routes=routes, lifespan=lifespan)
         self.tracer = None
 
     # ------------------------------------------------------------------
     # Factory
     # ------------------------------------------------------------------
     @classmethod
-    def from_module(cls, module_path: str, attr: str = "invoke") -> "AgentServer":
+    def from_module(cls, module_path: str, attr: str = "invoke", *, lifespan=None) -> "AgentServer":
         """
         Load an invoke function from a dotted module path.
 
@@ -86,11 +92,12 @@ class AgentServer:
 
         :param module_path: Dotted Python module path (e.g. ``my_agent.main``).
         :param attr: Name of the callable inside the module. Default ``"invoke"``.
+        :param lifespan: Optional async context manager for startup/shutdown hooks.
         """
         from .invoke_loader import load_invoke_fn
 
         fn = load_invoke_fn(module_path, attr)
-        return cls(invoke_fn=fn)
+        return cls(invoke_fn=fn, lifespan=lifespan)
 
     # ------------------------------------------------------------------
     # Endpoints
@@ -141,8 +148,11 @@ class AgentServer:
         if self._is_sync_gen:
             # Wrap sync generator → async generator
             return self._wrap_sync_generator(self.invoke_fn(request))
-        # Plain sync function → run in thread
-        return await asyncio.to_thread(self.invoke_fn, request)
+        # Plain sync function → run in executor with contextvars preserved
+        # (ensures identity, tracing, and request context propagate correctly)
+        loop = asyncio.get_running_loop()
+        ctx = contextvars.copy_context()
+        return await loop.run_in_executor(None, ctx.run, self.invoke_fn, request)
 
     def _dispatch(self, result: Any, caller_wants_stream: bool = False):
         """Route the invoke result to the correct HTTP response type.
@@ -176,8 +186,8 @@ class AgentServer:
                 self._stream_with_prefetch(gen),
                 media_type="text/event-stream",
             )
-        # Fallback — try to serialise whatever we got
-        return JSONResponse(result)
+        # Fallback — try serialisation fallback chain
+        return JSONResponse(_serialize_complex(result))
 
     @staticmethod
     async def _dict_to_stream(result: dict):
@@ -288,21 +298,26 @@ class AgentServer:
     # ------------------------------------------------------------------
     # Server lifecycle
     # ------------------------------------------------------------------
-    def run(self, host: str = "0.0.0.0", port: int = int(os.environ.get("DEFAULT_AD_PORT", "8080"))) -> None:
+    def run(self, host: Optional[str] = None, port: int = int(os.environ.get("DEFAULT_AD_PORT", "8080"))) -> None:
         """
         Start the HTTP server (blocking).
 
-        :param host: Bind address.  Default ``0.0.0.0``.
+        :param host: Bind address.  Default ``0.0.0.0`` inside Docker,
+            ``127.0.0.1`` on the developer's machine.
         :param port: Port.  Default ``8080`` (or ``$DEFAULT_AD_PORT``).
         """
+        if host is None:
+            host = _default_host()
         self.init_tracing()
         logger.info("Starting AgentServer on %s:%d", host, port)
         uvicorn.run(self.app, host=host, port=port)
 
-    async def run_async(self, host: str = "0.0.0.0", port: int = int(os.environ.get("DEFAULT_AD_PORT", "8080"))) -> None:
+    async def run_async(self, host: Optional[str] = None, port: int = int(os.environ.get("DEFAULT_AD_PORT", "8080"))) -> None:
         """
         Awaitable server start for use inside an existing event loop.
         """
+        if host is None:
+            host = _default_host()
         self.init_tracing()
         config = uvicorn.Config(self.app, host=host, port=port, loop="asyncio")
         server = uvicorn.Server(config)
@@ -313,10 +328,57 @@ class AgentServer:
 # ------------------------------------------------------------------
 # Module-level helpers
 # ------------------------------------------------------------------
-def _event_to_sse(event: dict) -> str:
-    """Format a dict as an SSE chunk.  Uses ``event:`` field if present."""
-    data = json.dumps(event)
-    event_type = event.get("type")
+def _event_to_sse(event: Any) -> str:
+    """Format a value as an SSE chunk.
+
+    If *event* is a dict it is JSON-serialised directly.  Otherwise the
+    serialisation fallback chain is applied (Pydantic ``model_dump()``,
+    dataclass ``asdict()``, ``str()``).
+    """
+    obj = event if isinstance(event, dict) else _serialize_complex(event)
+    data = json.dumps(obj)
+    event_type = obj.get("type") if isinstance(obj, dict) else None
     if event_type:
         return f"event: {event_type}\ndata: {data}\n\n"
     return f"data: {data}\n\n"
+
+
+def _serialize_complex(obj: Any) -> Any:
+    """Multi-level serialisation fallback (mirrors Bedrock ``convert_complex_objects``).
+
+    Tries, in order:
+    1. Return as-is if it's a JSON-native type (dict, list, str, int, float, bool, None).
+    2. Pydantic v2 ``model_dump()``.
+    3. ``dataclasses.asdict()``.
+    4. Recursively convert dicts / lists whose values are complex objects.
+    5. ``str()`` as a last resort.
+    """
+    if obj is None or isinstance(obj, (str, int, float, bool)):
+        return obj
+    if isinstance(obj, dict):
+        return {k: _serialize_complex(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_serialize_complex(v) for v in obj]
+
+    # Pydantic v2
+    if hasattr(obj, "model_dump"):
+        try:
+            return obj.model_dump()
+        except Exception:
+            pass
+
+    # dataclass
+    if dataclasses.is_dataclass(obj) and not isinstance(obj, type):
+        try:
+            return dataclasses.asdict(obj)
+        except Exception:
+            pass
+
+    return str(obj)
+
+
+def _default_host() -> str:
+    """Return ``0.0.0.0`` inside Docker, ``127.0.0.1`` for local dev."""
+    if os.environ.get("DOCKER_CONTAINER") or Path("/.dockerenv").exists():
+        return "0.0.0.0"
+    return "127.0.0.1"
