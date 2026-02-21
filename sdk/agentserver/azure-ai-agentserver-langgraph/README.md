@@ -10,40 +10,45 @@ pip install azure-ai-agentserver-langgraph
 
 ## Key concepts
 
-Azure AI Agent Server wraps your LangGraph agent, and host it on the cloud.
+This package wraps your LangGraph agent and hosts it on the cloud via
+`POST /invoke`.  You write your LangGraph `StateGraph` as usual — the adapter
+handles message conversion, interrupt detection, and Invoke API response
+formatting automatically.
 
 
 ## Examples
 
 ```python
-# your existing agent
-from my_langgraph_agent import my_awesome_agent
+from my_langgraph_agent import my_awesome_graph
 
-# langgraph utils
 from azure.ai.agentserver.langgraph import from_langgraph
 
 if __name__ == "__main__":
-    # with this simple line, your agent will be hosted on http://localhost:8088
-    from_langgraph(my_awesome_agent).run()
-
+    # One line — your graph is now hosted on http://localhost:8080/invoke
+    from_langgraph(my_awesome_graph).run()
 ```
 
-**Note**
-If your langgraph agent was not using langgraph's builtin [MessageState](https://langchain-ai.github.io/langgraph/concepts/low_level/?h=messagesstate#messagesstate), you should implement your own `LanggraphStateConverter` and provide to `from_langgraph`.
+### Testing locally
 
-Reference this [example](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/agentserver/azure-ai-agentserver-langgraph/samples/custom_state/main.py) for more details.
+```bash
+curl -X POST http://localhost:8080/invoke \
+  -H 'Content-Type: application/json' \
+  -d '{"input": [{"role": "user", "content": "What is 2+2?"}]}'
+```
 
 
 ## Troubleshooting
 
 First run your agent with azure-ai-agentserver-langgraph locally.
 
-If it works on local but failed on cloud. Check your logs in the application insight connected to your Azure AI Foundry Project.
+If it works locally but fails on cloud, check your logs in the Application
+Insights instance connected to your Azure AI Foundry Project.
 
 
 ## Next steps
 
-Please visit [Samples](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/agentserver/azure-ai-agentserver-langgraph/samples) folder. There are several samples for you to build your agent with azure-ai-agentserver-* packages
+Please visit the [Samples](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/agentserver/azure-ai-agentserver-langgraph/samples)
+folder for examples of building agents with azure-ai-agentserver-* packages.
 
 
 ## Contributing

@@ -18,7 +18,6 @@ Usage::
 """
 from __future__ import annotations
 
-import os
 from typing import Any, Optional
 
 from azure.ai.agentserver.core.logger import get_logger

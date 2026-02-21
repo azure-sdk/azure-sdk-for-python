@@ -48,11 +48,11 @@ The sample consists of several key components:
    ```bash
    python main.py
    ```
-   The server will start on `http://localhost:8088`
+   The server will start on `http://localhost:8080`
 
 2. Test the agent:
    ```bash
-   curl -X POST http://localhost:8088/responses \
+   curl -X POST http://localhost:8080/invoke \
      -H "Content-Type: application/json" \
      -d '{
        "agent": {
@@ -67,7 +67,7 @@ The sample consists of several key components:
    or 
 
    ```bash
-   curl -X POST http://localhost:8088/responses \
+   curl -X POST http://localhost:8080/invoke \
      -H "Content-Type: application/json" \
      -d '{
        "agent": {

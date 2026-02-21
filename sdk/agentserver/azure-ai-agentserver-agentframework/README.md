@@ -1,5 +1,4 @@
-# Azure AI Agent Server Adapter for Agent-framework Python
-
+# Azure AI Agent Server Adapter for Agent Framework Python
 
 
 ## Getting started
@@ -11,34 +10,45 @@ pip install azure-ai-agentserver-agentframework
 
 ## Key concepts
 
-Azure AI Agent Server wraps your Agent-framework agent, and host it on the cloud.
+This package wraps your Microsoft Agent Framework (MAF) agent and hosts it on
+the cloud via `POST /invoke`.  You write your `AgentProtocol` agent as usual —
+the adapter handles message conversion, interrupt detection, and Invoke API
+response formatting automatically.
 
 
 ## Examples
 
 ```python
-# your existing agent
 from my_framework_agent import my_awesome_agent
 
-# agent framework utils
 from azure.ai.agentserver.agentframework import from_agent_framework
 
 if __name__ == "__main__":
-    # with this simple line, your agent will be hosted on http://localhost:8088
+    # One line — your agent is now hosted on http://localhost:8080/invoke
     from_agent_framework(my_awesome_agent).run()
-
 ```
+
+### Testing locally
+
+```bash
+curl -X POST http://localhost:8080/invoke \
+  -H 'Content-Type: application/json' \
+  -d '{"input": ["Hello, agent!"]}'
+```
+
 
 ## Troubleshooting
 
 First run your agent with azure-ai-agentserver-agentframework locally.
 
-If it works on local but failed on cloud. Check your logs in the application insight connected to your Azure AI Foundry Project.
+If it works locally but fails on cloud, check your logs in the Application
+Insights instance connected to your Azure AI Foundry Project.
 
 
 ## Next steps
 
-Please visit [Samples](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/agentserver/azure-ai-agentserver-agentframework/samples) folder. There are several samples for you to build your agent with azure-ai-agentserver
+Please visit the [Samples](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/agentserver/azure-ai-agentserver-agentframework/samples)
+folder for examples of building agents with azure-ai-agentserver-* packages.
 
 
 ## Contributing
