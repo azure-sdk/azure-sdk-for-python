@@ -1,5 +1,11 @@
 # Release History
 
+## 1.15.2 (2026-02-23)
+
+### Bugs Fixed
+
+- Fixed batch evaluation to report per-line errors only on the rows that failed.
+
 ## 1.15.1 (2026-02-19)
 
 ### Bugs Fixed
