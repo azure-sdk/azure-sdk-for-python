@@ -13,7 +13,8 @@ build:
   # TEMP WORKAROUND --no-build-isolation: The published 1.31.0 sdist has a dead `import pkg_resources`
   # in setup.py. Without this flag, pip's PEP 517 build isolation installs setuptools
   # 82.0.0 (which removed pkg_resources), causing an ImportError during metadata
-  # preparation. This flag makes pip use the host env's setuptools (<82) instead.
+  # preparation. This flag makes pip use the host env's setuptools (<82) instead as a temporary workaround
+  # until a fixed sdist is published.
   script: "{{ PYTHON }} -m pip install . -vv --no-build-isolation"
 
 requirements:
