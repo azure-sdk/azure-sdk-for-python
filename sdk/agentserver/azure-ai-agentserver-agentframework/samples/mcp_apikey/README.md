@@ -47,7 +47,7 @@ python mcp_apikey.py
 ### Test (non‑streaming example)
 
 ```bash
-curl -X POST http://localhost:8088/responses \
+curl -X POST http://localhost:8080/invoke \
   -H "Content-Type: application/json" \
   -d '{"input":"summarize the last change in <repo url>","stream":false}'
 ```
@@ -55,7 +55,7 @@ curl -X POST http://localhost:8088/responses \
 ### Test (streaming example)
 
 ```bash
-curl -X POST http://localhost:8088/responses \
+curl -X POST http://localhost:8080/invoke \
   -H "Content-Type: application/json" \
   -d '{"input":"summarize the last change in <repo url>","stream":true}'
 ```

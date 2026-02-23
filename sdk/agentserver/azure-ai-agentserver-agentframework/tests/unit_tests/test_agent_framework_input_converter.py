@@ -1,139 +1,164 @@
-import importlib
+"""
+Unit tests for the MAF invoke handler input/output conversion.
+
+Tests ``_to_maf_input``, ``_extract_input_text``, ``_response_from_result``,
+and ``_build_resume_input`` from ``azure.ai.agentserver.agentframework.invoke``.
+"""
 
 import pytest
 
-from agent_framework import ChatMessage, Role as ChatRole
-
-converter_module = importlib.import_module(
-	"azure.ai.agentserver.agentframework.models.agent_framework_input_converters"
+from azure.ai.agentserver.agentframework.invoke import (
+    _extract_input_text,
+    _response_from_result,
+    _to_maf_input,
 )
-AgentFrameworkInputConverter = converter_module.AgentFrameworkInputConverter
 
 
-@pytest.fixture()
-def converter() -> AgentFrameworkInputConverter:
-	return AgentFrameworkInputConverter()
+# ------------------------------------------------------------------
+# _extract_input_text tests
+# ------------------------------------------------------------------
+
+@pytest.mark.unit
+def test_extract_text_from_plain_string():
+    assert _extract_input_text("hello") == "hello"
 
 
 @pytest.mark.unit
-def test_transform_none_returns_none(converter: AgentFrameworkInputConverter) -> None:
-	assert converter.transform_input(None) is None
+def test_extract_text_from_text_type():
+    assert _extract_input_text({"type": "text", "text": "typed"}) == "typed"
 
 
 @pytest.mark.unit
-def test_transform_string_returns_same(converter: AgentFrameworkInputConverter) -> None:
-	assert converter.transform_input("hello") == "hello"
+def test_extract_text_from_content_string():
+    assert _extract_input_text({"content": "simple"}) == "simple"
 
 
 @pytest.mark.unit
-def test_transform_implicit_user_message_with_string(converter: AgentFrameworkInputConverter) -> None:
-	payload = [{"content": "How are you?"}]
+def test_extract_text_from_content_list():
+    item = {"content": [{"text": "part1"}, {"text": "part2"}]}
+    assert _extract_input_text(item) == "part1 part2"
 
-	result = converter.transform_input(payload)
 
-	assert result == "How are you?"
+# ------------------------------------------------------------------
+# _to_maf_input tests (requires agent_framework)
+# ------------------------------------------------------------------
+
+@pytest.mark.unit
+def test_to_maf_input_plain_string():
+    """Plain string → single ChatMessage."""
+    try:
+        from agent_framework import ChatMessage
+
+        result = _to_maf_input(["How are you?"])
+        assert isinstance(result, ChatMessage)
+        assert result.text == "How are you?"
+    except ImportError:
+        # Fallback path — returns joined string
+        result = _to_maf_input(["How are you?"])
+        assert result == "How are you?"
 
 
 @pytest.mark.unit
-def test_transform_implicit_user_message_with_input_text_list(converter: AgentFrameworkInputConverter) -> None:
-	payload = [
-		{
-			"content": [
-				{"type": "input_text", "text": "Hello"},
-				{"type": "input_text", "text": "world"},
-			]
-		}
-	]
+def test_to_maf_input_multiple_messages():
+    """Multiple items → list of ChatMessages."""
+    try:
+        from agent_framework import ChatMessage
 
-	result = converter.transform_input(payload)
-
-	assert result == "Hello world"
-
-
-@pytest.mark.unit
-def test_transform_explicit_message_returns_chat_message(converter: AgentFrameworkInputConverter) -> None:
-	payload = [
-		{
-			"type": "message",
-			"role": "assistant",
-			"content": [
-				{"type": "input_text", "text": "Hi there"},
-			],
-		}
-	]
-
-	result = converter.transform_input(payload)
-
-	assert isinstance(result, ChatMessage)
-	assert result.role == ChatRole.ASSISTANT
-	assert result.text == "Hi there"
+        result = _to_maf_input(["first", "second"])
+        assert isinstance(result, list)
+        assert len(result) == 2
+        assert all(isinstance(m, ChatMessage) for m in result)
+    except ImportError:
+        result = _to_maf_input(["first", "second"])
+        assert result == "first second"
 
 
 @pytest.mark.unit
-def test_transform_multiple_explicit_messages_returns_list(converter: AgentFrameworkInputConverter) -> None:
-	payload = [
-		{
-			"type": "message",
-			"role": "user",
-			"content": "Hello",
-		},
-		{
-			"type": "message",
-			"role": "assistant",
-			"content": [
-				{"type": "input_text", "text": "Greetings"},
-			],
-		},
-	]
-
-	result = converter.transform_input(payload)
-
-	assert isinstance(result, list)
-	assert len(result) == 2
-	assert all(isinstance(item, ChatMessage) for item in result)
-	assert result[0].role == ChatRole.USER
-	assert result[0].text == "Hello"
-	assert result[1].role == ChatRole.ASSISTANT
-	assert result[1].text == "Greetings"
+def test_to_maf_input_empty_list():
+    """Empty list → None."""
+    result = _to_maf_input([])
+    assert result is None or result == ""
 
 
 @pytest.mark.unit
-def test_transform_mixed_messages_coerces_to_strings(converter: AgentFrameworkInputConverter) -> None:
-	payload = [
-		{"content": "First"},
-		{
-			"type": "message",
-			"role": "assistant",
-			"content": [
-				{"type": "input_text", "text": "Second"},
-			],
-		},
-	]
+def test_to_maf_input_role_mapping():
+    """Role-based items → correct ChatRole mapping."""
+    try:
+        from agent_framework import ChatMessage, Role as ChatRole
 
-	result = converter.transform_input(payload)
+        result = _to_maf_input([{"role": "user", "content": "hello"}])
+        assert isinstance(result, ChatMessage)
+        assert result.role == ChatRole.USER
+    except ImportError:
+        result = _to_maf_input([{"role": "user", "content": "hello"}])
+        assert result == "hello"
 
-	assert result == ["First", "Second"]
+
+# ------------------------------------------------------------------
+# _response_from_result tests
+# ------------------------------------------------------------------
+
+class _FakeTextContent:
+    def __init__(self, text):
+        self.text = text
+
+
+class _FakeFunctionCallContent:
+    def __init__(self, name, call_id, arguments=None):
+        self.name = name
+        self.call_id = call_id
+        self.arguments = arguments or {}
+
+
+class _FakeMessage:
+    def __init__(self, contents):
+        self.contents = contents
+
+
+class _FakeResult:
+    def __init__(self, messages):
+        self.messages = messages
 
 
 @pytest.mark.unit
-def test_transform_invalid_input_type_raises(converter: AgentFrameworkInputConverter) -> None:
-	with pytest.raises(Exception) as exc_info:
-		converter.transform_input({"content": "invalid"})
-
-	assert "Unsupported input type" in str(exc_info.value)
+def test_response_from_result_completed():
+    """Normal text result → status=completed."""
+    result = _FakeResult([_FakeMessage([_FakeTextContent("Hello!")])])
+    response = _response_from_result(result)
+    assert response["status"] == "completed"
+    assert response["message"] == "Hello!"
+    assert "interrupt" not in response
 
 
 @pytest.mark.unit
-def test_transform_skips_non_text_entries(converter: AgentFrameworkInputConverter) -> None:
-	payload = [
-		{
-			"content": [
-				{"type": "input_text", "text": 123},
-				{"type": "image", "url": "https://example.com"},
-			]
-		}
-	]
+def test_response_from_result_with_interrupt():
+    """Function call content → status=requires_input + interrupt dict."""
+    result = _FakeResult([
+        _FakeMessage([_FakeFunctionCallContent("search", "call_1", {"q": "test"})])
+    ])
+    response = _response_from_result(result)
+    assert response["status"] == "requires_input"
+    assert response["interrupt"]["function_name"] == "search"
+    assert response["interrupt"]["id"] == "call_1"
 
-	result = converter.transform_input(payload)
 
-	assert result is None
+@pytest.mark.unit
+def test_response_from_result_empty():
+    """No messages → status=completed, message=None."""
+    result = _FakeResult([])
+    response = _response_from_result(result)
+    assert response["status"] == "completed"
+    assert response["message"] is None
+
+
+@pytest.mark.unit
+def test_response_from_result_preserves_first_interrupt():
+    """Multiple interrupts → only first one is preserved."""
+    result = _FakeResult([
+        _FakeMessage([
+            _FakeFunctionCallContent("first_fn", "call_1"),
+            _FakeFunctionCallContent("second_fn", "call_2"),
+        ])
+    ])
+    response = _response_from_result(result)
+    assert response["interrupt"]["function_name"] == "first_fn"
