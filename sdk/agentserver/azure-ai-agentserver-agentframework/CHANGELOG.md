@@ -6,6 +6,7 @@
 ### Other Changes
 
 - Pin opentelemetry-semantic-conventions-ai==0.4.13.
+- Pin azure-ai-projects==2.0.0b3.
 
 
 ## 1.0.0b13 (2026-02-20)
