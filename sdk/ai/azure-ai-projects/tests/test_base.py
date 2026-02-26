@@ -24,8 +24,6 @@ from azure.ai.projects.models import (
     DeploymentType,
     Index,
     IndexType,
-    InputContentType,
-    InputItemType,
     ModelDeployment,
 )
 from openai.types.responses import Response
@@ -74,6 +72,16 @@ servicePreparer = functools.partial(
     bing_custom_user_input="Tell me more about foundry agent service",
     memory_store_chat_model_deployment_name="sanitized-gpt-memory",
     memory_store_embedding_model_deployment_name="text-embedding-ada-002",
+)
+
+fineTuningServicePreparer = functools.partial(
+    EnvironmentVariableLoader,
+    "",
+    azure_ai_project_endpoint="https://sanitized-account-name.services.ai.azure.com/api/projects/sanitized-project-name",
+    azure_ai_model_deployment_name="sanitized-model-deployment-name",
+    azure_ai_projects_azure_subscription_id="00000000-0000-0000-0000-000000000000",
+    azure_ai_projects_azure_resource_group="sanitized-resource-group",
+    azure_ai_projects_azure_aoai_account="sanitized-aoai-account",
 )
 
 # Fine-tuning job type constants
@@ -561,7 +569,7 @@ class TestBase(AzureRecordedTestCase):
         expected_type: Optional[str] = None,
         expected_id: Optional[str] = None,
         expected_role: Optional[str] = None,
-        expected_content_type: Optional[InputContentType] = None,
+        expected_content_type: Optional[str] = None,
         expected_content_text: Optional[str] = None,
     ) -> None:
         assert item
