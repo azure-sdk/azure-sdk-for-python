@@ -1,6 +1,6 @@
 # Release History
 
-## 15.0.0 (2026-02-12)
+## 15.0.0 (2026-02-26)
 
 ### Features Added
 
@@ -10,6 +10,7 @@
   - Added enum `ActualRansomwareProtectionState`
   - Added enum `DesiredRansomwareProtectionState`
   - Added model `ListQuotaReportResponse`
+  - Added model `ListQuotaReportResult`
   - Added model `QuotaReport`
   - Added model `QuotaReportFilterRequest`
   - Added enum `QuotaType`

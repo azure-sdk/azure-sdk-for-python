@@ -47,6 +47,7 @@
         "azure.mgmt.netapp.models.KeyVaultProperties": "Microsoft.NetApp.KeyVaultProperties",
         "azure.mgmt.netapp.models.LdapSearchScopeOpt": "Microsoft.NetApp.LdapSearchScopeOpt",
         "azure.mgmt.netapp.models.ListQuotaReportResponse": "Microsoft.NetApp.ListQuotaReportResponse",
+        "azure.mgmt.netapp.models.ListQuotaReportResult": "Microsoft.NetApp.ListQuotaReportResult",
         "azure.mgmt.netapp.models.ListReplicationsRequest": "Microsoft.NetApp.ListReplicationsRequest",
         "azure.mgmt.netapp.models.LogSpecification": "Microsoft.NetApp.LogSpecification",
         "azure.mgmt.netapp.models.ManagedServiceIdentity": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",

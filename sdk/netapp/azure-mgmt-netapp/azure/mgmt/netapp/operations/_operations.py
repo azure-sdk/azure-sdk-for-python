@@ -10317,7 +10317,7 @@ class VolumesOperations:  # pylint: disable=too-many-public-methods
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.ListQuotaReportResponse]:
+    ) -> LROPoller[_models.ListQuotaReportResult]:
         """Get quota report for volume (with filter support).
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -10334,9 +10334,9 @@ class VolumesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns ListQuotaReportResponse. The
-         ListQuotaReportResponse is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.netapp.models.ListQuotaReportResponse]
+        :return: An instance of LROPoller that returns ListQuotaReportResult. The ListQuotaReportResult
+         is compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.netapp.models.ListQuotaReportResult]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -10351,7 +10351,7 @@ class VolumesOperations:  # pylint: disable=too-many-public-methods
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.ListQuotaReportResponse]:
+    ) -> LROPoller[_models.ListQuotaReportResult]:
         """Get quota report for volume (with filter support).
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -10368,9 +10368,9 @@ class VolumesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns ListQuotaReportResponse. The
-         ListQuotaReportResponse is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.netapp.models.ListQuotaReportResponse]
+        :return: An instance of LROPoller that returns ListQuotaReportResult. The ListQuotaReportResult
+         is compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.netapp.models.ListQuotaReportResult]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -10385,7 +10385,7 @@ class VolumesOperations:  # pylint: disable=too-many-public-methods
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.ListQuotaReportResponse]:
+    ) -> LROPoller[_models.ListQuotaReportResult]:
         """Get quota report for volume (with filter support).
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -10402,9 +10402,9 @@ class VolumesOperations:  # pylint: disable=too-many-public-methods
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns ListQuotaReportResponse. The
-         ListQuotaReportResponse is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.netapp.models.ListQuotaReportResponse]
+        :return: An instance of LROPoller that returns ListQuotaReportResult. The ListQuotaReportResult
+         is compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.netapp.models.ListQuotaReportResult]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -10433,7 +10433,7 @@ class VolumesOperations:  # pylint: disable=too-many-public-methods
         volume_name: str,
         body: Optional[Union[_models.QuotaReportFilterRequest, JSON, IO[bytes]]] = None,
         **kwargs: Any
-    ) -> LROPoller[_models.ListQuotaReportResponse]:
+    ) -> LROPoller[_models.ListQuotaReportResult]:
         """Get quota report for volume (with filter support).
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -10448,9 +10448,9 @@ class VolumesOperations:  # pylint: disable=too-many-public-methods
         :param body: The content of the action request. Is one of the following types:
          QuotaReportFilterRequest, JSON, IO[bytes] Default value is None.
         :type body: ~azure.mgmt.netapp.models.QuotaReportFilterRequest or JSON or IO[bytes]
-        :return: An instance of LROPoller that returns ListQuotaReportResponse. The
-         ListQuotaReportResponse is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.netapp.models.ListQuotaReportResponse]
+        :return: An instance of LROPoller that returns ListQuotaReportResult. The ListQuotaReportResult
+         is compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.netapp.models.ListQuotaReportResult]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -10458,7 +10458,7 @@ class VolumesOperations:  # pylint: disable=too-many-public-methods
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         content_type = content_type if body else None
-        cls: ClsType[_models.ListQuotaReportResponse] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ListQuotaReportResult] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -10487,7 +10487,7 @@ class VolumesOperations:  # pylint: disable=too-many-public-methods
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = _deserialize(_models.ListQuotaReportResponse, response.json())
+            deserialized = _deserialize(_models.ListQuotaReportResult, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, response_headers)  # type: ignore
             return deserialized
@@ -10505,13 +10505,13 @@ class VolumesOperations:  # pylint: disable=too-many-public-methods
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.ListQuotaReportResponse].from_continuation_token(
+            return LROPoller[_models.ListQuotaReportResult].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.ListQuotaReportResponse](
+        return LROPoller[_models.ListQuotaReportResult](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 

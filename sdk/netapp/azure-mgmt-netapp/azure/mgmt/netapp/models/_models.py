@@ -2303,12 +2303,12 @@ class LdapSearchScopeOpt(_Model):
 class ListQuotaReportResponse(_Model):
     """Quota Report for volume.
 
-    :ivar value: List of quota reports.
-    :vartype value: list[~azure.mgmt.netapp.models.QuotaReport]
+    :ivar quota_report_records: List of quota reports.
+    :vartype quota_report_records: list[~azure.mgmt.netapp.models.QuotaReport]
     """
 
-    value: Optional[list["_models.QuotaReport"]] = rest_field(
-        visibility=["read", "create", "update", "delete", "query"]
+    quota_report_records: Optional[list["_models.QuotaReport"]] = rest_field(
+        name="quotaReportRecords", visibility=["read", "create", "update", "delete", "query"]
     )
     """List of quota reports."""
 
@@ -2316,7 +2316,39 @@ class ListQuotaReportResponse(_Model):
     def __init__(
         self,
         *,
-        value: Optional[list["_models.QuotaReport"]] = None,
+        quota_report_records: Optional[list["_models.QuotaReport"]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class ListQuotaReportResult(_Model):
+    """
+
+    * Result of ListQuotaReportResponse.
+
+    :ivar properties: Represents the properties of the ListQuotaReport.
+    :vartype properties: ~azure.mgmt.netapp.models.ListQuotaReportResponse
+    """
+
+    properties: Optional["_models.ListQuotaReportResponse"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Represents the properties of the ListQuotaReport."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        properties: Optional["_models.ListQuotaReportResponse"] = None,
     ) -> None: ...
 
     @overload
