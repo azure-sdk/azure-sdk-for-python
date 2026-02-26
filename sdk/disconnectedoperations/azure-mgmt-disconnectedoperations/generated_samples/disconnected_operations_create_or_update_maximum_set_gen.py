@@ -37,7 +37,11 @@ def main():
             "location": "eastus",
             "properties": {
                 "benefitPlans": {"azureHybridWindowsServerBenefit": "Enabled", "windowsServerVmCount": 5},
-                "billingConfiguration": {"autoRenew": "Enabled", "current": {"cores": 12, "pricingModel": "Trial"}},
+                "billingConfiguration": {
+                    "autoRenew": "Enabled",
+                    "billingStatus": "Enabled",
+                    "current": {"cores": 12, "pricingModel": "Trial"},
+                },
                 "billingModel": "Capacity",
                 "connectionIntent": "Disconnected",
             },
