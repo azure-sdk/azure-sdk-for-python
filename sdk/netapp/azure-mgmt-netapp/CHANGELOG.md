@@ -1,6 +1,6 @@
 # Release History
 
-## 15.0.0 (2026-02-26)
+## 15.0.0 (2026-02-27)
 
 ### Features Added
 
@@ -25,7 +25,7 @@
   - Added model `RansomwareSuspectsClearRequest`
   - Added model `SuspectFile`
   - Model `VolumesOperations` added method `begin_list_quota_report`
-  - Added model `RansomwareReportsOperations`
+  - Added operation group `RansomwareReportsOperations`
 
 ### Breaking Changes
 
