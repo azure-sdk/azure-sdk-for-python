@@ -24,7 +24,7 @@
   - Added model `ImageUpdateProperties`
   - Added enum `PricingModel`
   - Added enum `SystemReboot`
-  - Added model `HardwareSettingsOperations`
+  - Added operation group `HardwareSettingsOperations`
 
 ## 1.0.0b2 (2025-10-09)
 
