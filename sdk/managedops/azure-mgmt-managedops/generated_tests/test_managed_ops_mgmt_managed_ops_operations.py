@@ -41,18 +41,18 @@ class TestManagedOpsMgmtManagedOpsOperations(AzureMgmtRecordedTestCase):
                         "azureMonitorInsights": {"azureMonitorWorkspaceId": "str"},
                         "changeTrackingAndInventory": {"logAnalyticsWorkspaceId": "str"},
                         "userAssignedManagedIdentityId": "str",
-                        "defenderCspm": "Enable",
-                        "defenderForServers": "Enable",
+                        "defenderCspm": "str",
+                        "defenderForServers": "str",
                     },
                     "policyAssignmentProperties": {"policyInitiativeAssignmentId": "str"},
                     "provisioningState": "str",
                     "services": {
-                        "azureMonitorInsights": {"dcrId": "str", "enablementStatus": "Enabled"},
-                        "azurePolicyAndMachineConfiguration": {"enablementStatus": "Enabled"},
-                        "azureUpdateManager": {"enablementStatus": "Enabled"},
-                        "changeTrackingAndInventory": {"dcrId": "str", "enablementStatus": "Enabled"},
-                        "defenderCspm": {"enablementStatus": "Enabled"},
-                        "defenderForServers": {"enablementStatus": "Enabled"},
+                        "azureMonitorInsights": {"dcrId": "str", "enablementStatus": "str"},
+                        "azurePolicyAndMachineConfiguration": {"enablementStatus": "str"},
+                        "azureUpdateManager": {"enablementStatus": "str"},
+                        "changeTrackingAndInventory": {"dcrId": "str", "enablementStatus": "str"},
+                        "defenderCspm": {"enablementStatus": "str"},
+                        "defenderForServers": {"enablementStatus": "str"},
                     },
                     "sku": {"name": "str", "tier": "str"},
                 },
@@ -84,9 +84,7 @@ class TestManagedOpsMgmtManagedOpsOperations(AzureMgmtRecordedTestCase):
     def test_managed_ops_begin_update(self, resource_group):
         response = self.client.managed_ops.begin_update(
             managed_ops_name="str",
-            properties={
-                "properties": {"desiredConfiguration": {"defenderCspm": "Enable", "defenderForServers": "Enable"}}
-            },
+            properties={"properties": {"desiredConfiguration": {"defenderCspm": "str", "defenderForServers": "str"}}},
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself

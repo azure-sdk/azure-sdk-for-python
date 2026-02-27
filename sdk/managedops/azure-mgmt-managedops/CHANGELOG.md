@@ -1,8 +1,11 @@
 # Release History
 
-## 1.0.0b2 (2026-02-24)
+## 1.0.0b2 (2026-02-27)
 
-tool can't generate changelog for this release, please update manually.
+### Features Added
+
+  - Added enum `DesiredEnablementState`
+  - Added enum `EnablementState`
 
 ## 1.0.0b1 (2026-02-13)
 
