@@ -38,7 +38,7 @@
         "azure.mgmt.servicefabricmanagedclusters.models.ErrorResponse": "Azure.ResourceManager.CommonTypes.ErrorResponse",
         "azure.mgmt.servicefabricmanagedclusters.models.FrontendConfiguration": "Microsoft.ServiceFabric.FrontendConfiguration",
         "azure.mgmt.servicefabricmanagedclusters.models.IpConfiguration": "Microsoft.ServiceFabric.IpConfiguration",
-        "azure.mgmt.servicefabricmanagedclusters.models.IPConfigurationPublicIPAddressConfiguration": "Microsoft.ServiceFabric.PublicIPAddressConfiguration",
+        "azure.mgmt.servicefabricmanagedclusters.models.IpConfigurationPublicIpAddressConfiguration": "Microsoft.ServiceFabric.PublicIPAddressConfiguration",
         "azure.mgmt.servicefabricmanagedclusters.models.IpTag": "Microsoft.ServiceFabric.IpTag",
         "azure.mgmt.servicefabricmanagedclusters.models.LoadBalancingRule": "Microsoft.ServiceFabric.LoadBalancingRule",
         "azure.mgmt.servicefabricmanagedclusters.models.LongRunningOperationResult": "Microsoft.ServiceFabric.LongRunningOperationResult",
