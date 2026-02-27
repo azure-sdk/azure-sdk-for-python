@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.recoveryservicesbackup import RecoveryServicesClient
+from azure.mgmt.recoveryservicesbackup import RecoveryServicesBackupClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
@@ -16,15 +16,15 @@ AZURE_LOCATION = "eastus"
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
 class TestRecoveryServicesBackupJobsOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(RecoveryServicesClient)
+        self.client = self.create_mgmt_client(RecoveryServicesBackupClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_backup_jobs_list(self, resource_group):
-        response = self.client.backup_jobs.list(
+    def test_jobs_export(self, resource_group):
+        response = self.client.jobs.export(
             vault_name="str",
             resource_group_name=resource_group.name,
         )
-        result = [r for r in response]
+
         # please add some check logic here by yourself
         # ...

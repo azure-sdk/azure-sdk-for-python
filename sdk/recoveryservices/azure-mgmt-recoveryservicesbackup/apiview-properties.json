@@ -527,13 +527,13 @@
         "azure.mgmt.recoveryservicesbackup.aio.operations.PrivateEndpointOperations.get_operation_status": "Microsoft.RecoveryServices.PrivateEndpointOperationStatuses.getOperationStatus",
         "azure.mgmt.recoveryservicesbackup.operations.OperationOperations.validate": "Microsoft.RecoveryServices.OperationOperationGroup.validate",
         "azure.mgmt.recoveryservicesbackup.aio.operations.OperationOperations.validate": "Microsoft.RecoveryServices.OperationOperationGroup.validate",
-        "azure.mgmt.recoveryservicesbackup.RecoveryServicesClient.begin_bms_prepare_data_move": "Microsoft.RecoveryServices.BackupResourceStorageConfigsNonCRR.bmsPrepareDataMove",
-        "azure.mgmt.recoveryservicesbackup.aio.RecoveryServicesClient.begin_bms_prepare_data_move": "Microsoft.RecoveryServices.BackupResourceStorageConfigsNonCRR.bmsPrepareDataMove",
-        "azure.mgmt.recoveryservicesbackup.RecoveryServicesClient.begin_bms_trigger_data_move": "Microsoft.RecoveryServices.BackupResourceStorageConfigsNonCRR.bmsTriggerDataMove",
-        "azure.mgmt.recoveryservicesbackup.aio.RecoveryServicesClient.begin_bms_trigger_data_move": "Microsoft.RecoveryServices.BackupResourceStorageConfigsNonCRR.bmsTriggerDataMove",
-        "azure.mgmt.recoveryservicesbackup.RecoveryServicesClient.get_operation_status": "Microsoft.RecoveryServices.BackupResourceConfigOperationStatuses.getOperationStatus",
-        "azure.mgmt.recoveryservicesbackup.aio.RecoveryServicesClient.get_operation_status": "Microsoft.RecoveryServices.BackupResourceConfigOperationStatuses.getOperationStatus",
-        "azure.mgmt.recoveryservicesbackup.RecoveryServicesClient.begin_move_recovery_point": "Microsoft.RecoveryServices.RecoveryPoints.moveRecoveryPoint",
-        "azure.mgmt.recoveryservicesbackup.aio.RecoveryServicesClient.begin_move_recovery_point": "Microsoft.RecoveryServices.RecoveryPoints.moveRecoveryPoint"
+        "azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient.begin_bms_prepare_data_move": "Microsoft.RecoveryServices.BackupResourceStorageConfigsNonCRR.bmsPrepareDataMove",
+        "azure.mgmt.recoveryservicesbackup.aio.RecoveryServicesBackupClient.begin_bms_prepare_data_move": "Microsoft.RecoveryServices.BackupResourceStorageConfigsNonCRR.bmsPrepareDataMove",
+        "azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient.begin_bms_trigger_data_move": "Microsoft.RecoveryServices.BackupResourceStorageConfigsNonCRR.bmsTriggerDataMove",
+        "azure.mgmt.recoveryservicesbackup.aio.RecoveryServicesBackupClient.begin_bms_trigger_data_move": "Microsoft.RecoveryServices.BackupResourceStorageConfigsNonCRR.bmsTriggerDataMove",
+        "azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient.get_operation_status": "Microsoft.RecoveryServices.BackupResourceConfigOperationStatuses.getOperationStatus",
+        "azure.mgmt.recoveryservicesbackup.aio.RecoveryServicesBackupClient.get_operation_status": "Microsoft.RecoveryServices.BackupResourceConfigOperationStatuses.getOperationStatus",
+        "azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient.begin_move_recovery_point": "Microsoft.RecoveryServices.RecoveryPoints.moveRecoveryPoint",
+        "azure.mgmt.recoveryservicesbackup.aio.RecoveryServicesBackupClient.begin_move_recovery_point": "Microsoft.RecoveryServices.RecoveryPoints.moveRecoveryPoint"
     }
 }

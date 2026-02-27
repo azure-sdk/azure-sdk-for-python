@@ -1,9 +1,10 @@
 # Release History
 
-## 11.0.0b1 (2026-02-09)
+## 11.0.0b1 (2026-02-27)
 
 ### Features Added
 
+  - Client `RecoveryServicesBackupClient` added method `send_request`
   - Model `AzureFileShareRecoveryPoint` added property `threat_status`
   - Model `AzureFileShareRecoveryPoint` added property `threat_info`
   - Model `AzureFileshareProtectedItem` added property `source_side_scan_info`
@@ -92,7 +93,6 @@
 
 ### Breaking Changes
 
-  - Deleted or renamed client `RecoveryServicesBackupClient`
   - Deleted or renamed enum value `HttpStatusCode.CONTINUE_ENUM`
   - Model `Resource` deleted or renamed its instance variable `location`
   - Model `Resource` deleted or renamed its instance variable `tags`

@@ -17,7 +17,7 @@ from azure.mgmt.core import ARMPipelineClient
 from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
 from azure.mgmt.core.tools import get_arm_endpoints
 
-from ._configuration import RecoveryServicesClientConfiguration
+from ._configuration import RecoveryServicesBackupClientConfiguration
 from ._utils.serialization import Deserializer, Serializer
 from .operations import (
     BMSPrepareDataMoveOperationResultOperations,
@@ -72,7 +72,7 @@ from .operations import (
     ValidateOperationOperations,
     ValidateOperationResultsOperations,
     ValidateOperationStatusesOperations,
-    _RecoveryServicesClientOperationsMixin,
+    _RecoveryServicesBackupClientOperationsMixin,
 )
 
 if TYPE_CHECKING:
@@ -80,7 +80,9 @@ if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class RecoveryServicesClient(_RecoveryServicesClientOperationsMixin):  # pylint: disable=too-many-instance-attributes
+class RecoveryServicesBackupClient(
+    _RecoveryServicesBackupClientOperationsMixin
+):  # pylint: disable=too-many-instance-attributes
     """Open API 2.0 Specs for Azure RecoveryServices Backup service.
 
     :ivar operations: Operations operations
@@ -241,9 +243,9 @@ class RecoveryServicesClient(_RecoveryServicesClientOperationsMixin):  # pylint:
     :keyword cloud_setting: The cloud setting for which to get the ARM endpoint. Default value is
      None.
     :paramtype cloud_setting: ~azure.core.AzureClouds
-    :keyword api_version: The API version to use for this operation. Default value is
-     "2026-01-01-preview". Note that overriding this default value may result in unsupported
-     behavior.
+    :keyword api_version: The API version to use for this operation. Known values are
+     "2026-01-01-preview" and None. Default value is "2026-01-01-preview". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -264,7 +266,7 @@ class RecoveryServicesClient(_RecoveryServicesClientOperationsMixin):  # pylint:
         if not base_url:
             base_url = _endpoints["resource_manager"]
         credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
-        self._config = RecoveryServicesClientConfiguration(
+        self._config = RecoveryServicesBackupClientConfiguration(
             credential=credential,
             subscription_id=subscription_id,
             base_url=cast(str, base_url),

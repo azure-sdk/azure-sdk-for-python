@@ -8,7 +8,7 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.recoveryservicesbackup import RecoveryServicesClient
+from azure.mgmt.recoveryservicesbackup import RecoveryServicesBackupClient
 
 """
 # PREREQUISITES
@@ -25,7 +25,7 @@ from azure.mgmt.recoveryservicesbackup import RecoveryServicesClient
 
 
 def main():
-    client = RecoveryServicesClient(
+    client = RecoveryServicesBackupClient(
         credential=DefaultAzureCredential(),
         subscription_id="SUBSCRIPTION_ID",
     )

@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.recoveryservicesbackup import RecoveryServicesClient
+from azure.mgmt.recoveryservicesbackup import RecoveryServicesBackupClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
@@ -16,15 +16,85 @@ AZURE_LOCATION = "eastus"
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
 class TestRecoveryServicesBackupProtectionContainersOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(RecoveryServicesClient)
+        self.client = self.create_mgmt_client(RecoveryServicesBackupClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_backup_protection_containers_list(self, resource_group):
-        response = self.client.backup_protection_containers.list(
+    def test_protection_containers_get(self, resource_group):
+        response = self.client.protection_containers.get(
             vault_name="str",
             resource_group_name=resource_group.name,
+            fabric_name="str",
+            container_name="str",
         )
-        result = [r for r in response]
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_protection_containers_begin_register(self, resource_group):
+        response = self.client.protection_containers.begin_register(
+            vault_name="str",
+            resource_group_name=resource_group.name,
+            fabric_name="str",
+            container_name="str",
+            parameters={
+                "eTag": "str",
+                "id": "str",
+                "location": "str",
+                "name": "str",
+                "properties": "protection_container",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "tags": {"str": "str"},
+                "type": "str",
+            },
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_protection_containers_unregister(self, resource_group):
+        response = self.client.protection_containers.unregister(
+            vault_name="str",
+            resource_group_name=resource_group.name,
+            fabric_name="str",
+            container_name="str",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_protection_containers_inquire(self, resource_group):
+        response = self.client.protection_containers.inquire(
+            vault_name="str",
+            resource_group_name=resource_group.name,
+            fabric_name="str",
+            container_name="str",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_protection_containers_refresh(self, resource_group):
+        response = self.client.protection_containers.refresh(
+            vault_name="str",
+            resource_group_name=resource_group.name,
+            fabric_name="str",
+        )
+
         # please add some check logic here by yourself
         # ...

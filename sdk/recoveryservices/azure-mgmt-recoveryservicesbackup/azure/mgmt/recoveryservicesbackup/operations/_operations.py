@@ -33,7 +33,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
-from .._configuration import RecoveryServicesClientConfiguration
+from .._configuration import RecoveryServicesBackupClientConfiguration
 from .._utils.model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
 from .._utils.serialization import Deserializer, Serializer
 from .._utils.utils import ClientMixinABC
@@ -2573,7 +2573,7 @@ def build_operation_validate_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_recovery_services_bms_prepare_data_move_request(  # pylint: disable=name-too-long
+def build_recovery_services_backup_bms_prepare_data_move_request(  # pylint: disable=name-too-long
     vault_name: str, resource_group_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -2601,7 +2601,7 @@ def build_recovery_services_bms_prepare_data_move_request(  # pylint: disable=na
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_recovery_services_bms_trigger_data_move_request(  # pylint: disable=name-too-long
+def build_recovery_services_backup_bms_trigger_data_move_request(  # pylint: disable=name-too-long
     vault_name: str, resource_group_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -2629,7 +2629,7 @@ def build_recovery_services_bms_trigger_data_move_request(  # pylint: disable=na
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_recovery_services_get_operation_status_request(  # pylint: disable=name-too-long
+def build_recovery_services_backup_get_operation_status_request(  # pylint: disable=name-too-long
     vault_name: str, resource_group_name: str, operation_id: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -2658,7 +2658,7 @@ def build_recovery_services_get_operation_status_request(  # pylint: disable=nam
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_recovery_services_move_recovery_point_request(  # pylint: disable=name-too-long
+def build_recovery_services_backup_move_recovery_point_request(  # pylint: disable=name-too-long
     vault_name: str,
     resource_group_name: str,
     fabric_name: str,
@@ -2703,14 +2703,16 @@ class Operations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`operations` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -2808,14 +2810,16 @@ class BackupResourceStorageConfigsNonCRROperations:  # pylint: disable=name-too-
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_resource_storage_configs_non_crr` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -3228,14 +3232,16 @@ class BMSPrepareDataMoveOperationResultOperations:  # pylint: disable=name-too-l
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`bms_prepare_data_move_operation_result` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -3324,14 +3330,16 @@ class BackupResourceVaultConfigsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_resource_vault_configs` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -3790,14 +3798,16 @@ class BackupResourceEncryptionConfigsOperations:  # pylint: disable=name-too-lon
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_resource_encryption_configs` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -4041,14 +4051,16 @@ class ProtectedItemsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`protected_items` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -4534,14 +4546,16 @@ class BackupsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backups` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -4753,14 +4767,16 @@ class RecoveryPointsRecommendedForMoveOperations:  # pylint: disable=name-too-lo
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`recovery_points_recommended_for_move` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -5010,14 +5026,16 @@ class ProtectedItemOperationStatusesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`protected_item_operation_statuses` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -5121,14 +5139,16 @@ class ProtectedItemOperationResultsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`protected_item_operation_results` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -5232,14 +5252,16 @@ class ProtectionContainersOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`protection_containers` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -5816,14 +5838,16 @@ class BackupWorkloadItemsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_workload_items` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -5952,14 +5976,16 @@ class ProtectionContainerOperationResultsOperations:  # pylint: disable=name-too
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`protection_container_operation_results` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -6059,14 +6085,16 @@ class RecoveryPointsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`recovery_points` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -6531,14 +6559,16 @@ class RestoresOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`restores` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -6858,14 +6888,16 @@ class ItemLevelRecoveryConnectionsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`item_level_recovery_connections` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -7179,14 +7211,16 @@ class ProtectionPoliciesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`protection_policies` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -7605,14 +7639,16 @@ class BackupPoliciesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_policies` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -7724,14 +7760,16 @@ class ProtectionPolicyOperationResultsOperations:  # pylint: disable=name-too-lo
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`protection_policy_operation_results` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -7820,14 +7858,16 @@ class ProtectionPolicyOperationStatusesOperations:  # pylint: disable=name-too-l
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`protection_policy_operation_statuses` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -7918,14 +7958,16 @@ class JobDetailsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`job_details` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -8008,14 +8050,16 @@ class BackupJobsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_jobs` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -8134,14 +8178,16 @@ class JobCancellationsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`job_cancellations` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -8215,14 +8261,16 @@ class JobOperationResultsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`job_operation_results` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -8298,14 +8346,16 @@ class ExportJobsOperationResultsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`export_jobs_operation_results` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -8393,14 +8443,16 @@ class BackupEnginesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_engines` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -8609,14 +8661,16 @@ class ResourceGuardProxyOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`resource_guard_proxy` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -9134,14 +9188,16 @@ class ResourceGuardProxiesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`resource_guard_proxies` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -9249,14 +9305,16 @@ class BackupStatusOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_status` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -9415,14 +9473,16 @@ class FeatureSupportOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`feature_support` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -9585,14 +9645,16 @@ class BackupProtectionIntentOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_protection_intent` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -9712,14 +9774,16 @@ class BackupUsageSummariesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_usage_summaries` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -9839,14 +9903,16 @@ class JobsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`jobs` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -9919,14 +9985,16 @@ class BackupProtectedItemsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_protected_items` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -10046,14 +10114,16 @@ class ValidateOperationOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`validate_operation` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -10292,14 +10362,16 @@ class ValidateOperationResultsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`validate_operation_results` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -10388,14 +10460,16 @@ class ValidateOperationStatusesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`validate_operation_statuses` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -10484,14 +10558,16 @@ class ProtectionContainerRefreshOperationResultsOperations:  # pylint: disable=n
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`protection_container_refresh_operation_results` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -10568,14 +10644,16 @@ class ProtectableContainersOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`protectable_containers` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -10695,14 +10773,16 @@ class BackupOperationResultsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_operation_results` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -10779,14 +10859,16 @@ class BackupOperationStatusesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_operation_statuses` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -10874,14 +10956,16 @@ class BackupProtectableItemsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_protectable_items` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -11002,14 +11086,16 @@ class BackupProtectionContainersOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`backup_protection_containers` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -11120,14 +11206,16 @@ class DeletedProtectionContainersOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`deleted_protection_containers` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -11238,14 +11326,16 @@ class SecurityPINsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`security_pins` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -11444,14 +11534,16 @@ class FetchTieringCostOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`fetch_tiering_cost` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -11708,14 +11800,16 @@ class GetTieringCostOperationResultOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`get_tiering_cost_operation_result` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -11800,14 +11894,16 @@ class TieringCostOperationStatusOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`tiering_cost_operation_status` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -11892,14 +11988,16 @@ class ProtectionIntentOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`protection_intent` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -12441,14 +12539,16 @@ class PrivateEndpointConnectionOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`private_endpoint_connection` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -12910,14 +13010,16 @@ class PrivateEndpointOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`private_endpoint` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -13011,14 +13113,16 @@ class OperationOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesClient`'s
+        :class:`~azure.mgmt.recoveryservicesbackup.RecoveryServicesBackupClient`'s
         :attr:`operation` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: RecoveryServicesClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: RecoveryServicesBackupClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -13197,8 +13301,8 @@ class OperationOperations:
         return deserialized  # type: ignore
 
 
-class _RecoveryServicesClientOperationsMixin(
-    ClientMixinABC[PipelineClient[HttpRequest, HttpResponse], RecoveryServicesClientConfiguration]
+class _RecoveryServicesBackupClientOperationsMixin(
+    ClientMixinABC[PipelineClient[HttpRequest, HttpResponse], RecoveryServicesBackupClientConfiguration]
 ):
 
     def _bms_prepare_data_move_initial(
@@ -13229,7 +13333,7 @@ class _RecoveryServicesClientOperationsMixin(
         else:
             _content = json.dumps(parameters, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_recovery_services_bms_prepare_data_move_request(
+        _request = build_recovery_services_backup_bms_prepare_data_move_request(
             vault_name=vault_name,
             resource_group_name=resource_group_name,
             subscription_id=self._config.subscription_id,
@@ -13467,7 +13571,7 @@ class _RecoveryServicesClientOperationsMixin(
         else:
             _content = json.dumps(parameters, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_recovery_services_bms_trigger_data_move_request(
+        _request = build_recovery_services_backup_bms_trigger_data_move_request(
             vault_name=vault_name,
             resource_group_name=resource_group_name,
             subscription_id=self._config.subscription_id,
@@ -13707,7 +13811,7 @@ class _RecoveryServicesClientOperationsMixin(
 
         cls: ClsType[_models.OperationStatus] = kwargs.pop("cls", None)
 
-        _request = build_recovery_services_get_operation_status_request(
+        _request = build_recovery_services_backup_get_operation_status_request(
             vault_name=vault_name,
             resource_group_name=resource_group_name,
             operation_id=operation_id,
@@ -13783,7 +13887,7 @@ class _RecoveryServicesClientOperationsMixin(
         else:
             _content = json.dumps(parameters, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_recovery_services_move_recovery_point_request(
+        _request = build_recovery_services_backup_move_recovery_point_request(
             vault_name=vault_name,
             resource_group_name=resource_group_name,
             fabric_name=fabric_name,

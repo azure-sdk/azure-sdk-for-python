@@ -18,8 +18,8 @@ if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class RecoveryServicesClientConfiguration:  # pylint: disable=too-many-instance-attributes
-    """Configuration for RecoveryServicesClient.
+class RecoveryServicesBackupClientConfiguration:  # pylint: disable=too-many-instance-attributes,name-too-long
+    """Configuration for RecoveryServicesBackupClient.
 
     Note that all parameters used to create this instance are saved as instance
     attributes.
@@ -33,9 +33,9 @@ class RecoveryServicesClientConfiguration:  # pylint: disable=too-many-instance-
     :param cloud_setting: The cloud setting for which to get the ARM endpoint. Default value is
      None.
     :type cloud_setting: ~azure.core.AzureClouds
-    :keyword api_version: The API version to use for this operation. Default value is
-     "2026-01-01-preview". Note that overriding this default value may result in unsupported
-     behavior.
+    :keyword api_version: The API version to use for this operation. Known values are
+     "2026-01-01-preview" and None. Default value is "2026-01-01-preview". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
