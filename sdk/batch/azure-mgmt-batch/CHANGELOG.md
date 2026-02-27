@@ -1,6 +1,6 @@
 # Release History
 
-## 19.0.0 (2026-02-11)
+## 19.0.0 (2026-02-27)
 
 ### Features Added
 
@@ -42,30 +42,14 @@
   - Added enum `JobDefaultOrder`
   - Added model `ProxyAgentSettings`
   - Added enum `ResourceType`
-  - Model `PoolOperations` added parameter `etag` in method `create`
-  - Model `PoolOperations` added parameter `match_condition` in method `create`
-  - Model `PoolOperations` added parameter `etag` in method `update`
-  - Model `PoolOperations` added parameter `match_condition` in method `update`
-  - Model `PrivateEndpointConnectionOperations` added parameter `etag` in method `begin_update`
-  - Model `PrivateEndpointConnectionOperations` added parameter `match_condition` in method `begin_update`
 
 ### Breaking Changes
 
-  - Deleted or renamed client operation group `BatchManagementClient.certificate`
-  - Model `BatchAccountCreateParameters` deleted or renamed its instance variable `auto_storage`
-  - Model `BatchAccountCreateParameters` deleted or renamed its instance variable `pool_allocation_mode`
-  - Model `BatchAccountCreateParameters` deleted or renamed its instance variable `key_vault_reference`
-  - Model `BatchAccountCreateParameters` deleted or renamed its instance variable `public_network_access`
-  - Model `BatchAccountCreateParameters` deleted or renamed its instance variable `network_profile`
-  - Model `BatchAccountCreateParameters` deleted or renamed its instance variable `encryption`
-  - Model `BatchAccountCreateParameters` deleted or renamed its instance variable `allowed_authentication_modes`
-  - Model `BatchAccountUpdateParameters` deleted or renamed its instance variable `auto_storage`
-  - Model `BatchAccountUpdateParameters` deleted or renamed its instance variable `encryption`
-  - Model `BatchAccountUpdateParameters` deleted or renamed its instance variable `allowed_authentication_modes`
-  - Model `BatchAccountUpdateParameters` deleted or renamed its instance variable `public_network_access`
-  - Model `BatchAccountUpdateParameters` deleted or renamed its instance variable `network_profile`
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
+  - For the method breakings, please refer to https://aka.ms/azsdk/python/migrate/operations for migration.
+  - Model `BatchAccountCreateParameters` moved instance variable `auto_storage`, `pool_allocation_mode`, `key_vault_reference`, `public_network_access`, `network_profile`, `encryption` and `allowed_authentication_modes` under property `properties`
+  - Model `BatchAccountUpdateParameters` moved instance variable `auto_storage`, `encryption`, `allowed_authentication_modes`, `public_network_access` and `network_profile` under property `properties`
   - Model `DataDisk` deleted or renamed its instance variable `storage_account_type`
-  - Deleted or renamed model `AccessRulePropertiesSubscriptionsItem`
   - Deleted or renamed model `AzureProxyResource`
   - Deleted or renamed model `Certificate`
   - Deleted or renamed model `CertificateBaseProperties`
@@ -78,28 +62,21 @@
   - Deleted or renamed model `CertificateStoreLocation`
   - Deleted or renamed model `CertificateVisibility`
   - Deleted or renamed model `DeleteCertificateError`
-  - Deleted or renamed model `ListApplicationPackagesResult`
-  - Deleted or renamed model `ListApplicationsResult`
-  - Deleted or renamed model `ListCertificatesResult`
-  - Deleted or renamed model `ListPoolsResult`
-  - Deleted or renamed model `ListPrivateEndpointConnectionsResult`
-  - Deleted or renamed model `ListPrivateLinkResourcesResult`
   - Deleted or renamed model `NodeCommunicationMode`
-  - Deleted or renamed model `OutboundEnvironmentEndpointCollection`
-  - Deleted or renamed model `SupportedSkusResult`
   - Method `ApplicationOperations.list` changed its parameter `maxresults` from `positional_or_keyword` to `keyword_only`
   - Method `ApplicationPackageOperations.list` changed its parameter `maxresults` from `positional_or_keyword` to `keyword_only`
   - Method `LocationOperations.list_supported_virtual_machine_skus` changed its parameter `maxresults` from `positional_or_keyword` to `keyword_only`
-  - Method `PoolOperations.create` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
-  - Method `PoolOperations.create` deleted or renamed its parameter `if_none_match` of kind `positional_or_keyword`
-  - Method `PoolOperations.list_by_batch_account` changed its parameter `maxresults` from `positional_or_keyword` to `keyword_only`
-  - Method `PoolOperations.list_by_batch_account` changed its parameter `select` from `positional_or_keyword` to `keyword_only`
-  - Method `PoolOperations.update` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
-  - Method `PrivateEndpointConnectionOperations.begin_update` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
   - Method `PrivateEndpointConnectionOperations.list_by_batch_account` changed its parameter `maxresults` from `positional_or_keyword` to `keyword_only`
   - Method `PrivateLinkResourceOperations.list_by_batch_account` changed its parameter `maxresults` from `positional_or_keyword` to `keyword_only`
-  - Deleted or renamed model `CertificateOperations`
-  - Method `PoolOperations.create` re-ordered its parameters from `['self', 'resource_group_name', 'account_name', 'pool_name', 'parameters', 'if_match', 'if_none_match', 'kwargs']` to `['self', 'resource_group_name', 'account_name', 'pool_name', 'parameters', 'etag', 'match_condition', 'kwargs']`
+  - Method `PoolOperations.create` replaced positional_or_keyword parameters `if_match`/`if_none_match` to keyword_only parameters `etag`/`match_condition`
+  - Method `PoolOperations.list_by_batch_account` changed its parameter `maxresults`/`select` from `positional_or_keyword` to `keyword_only`
+  - Method `PoolOperations.update` replaced positional_or_keyword parameter `if_match` to keyword_only parameter `etag`/`match_condition`
+  - Method `PrivateEndpointConnectionOperations.begin_update` replaced positional_or_keyword parameter `if_match` to keyword_only parameter `etag`/`match_condition`
+  - Deleted or renamed operation group `CertificateOperations`
+
+### Other Changes
+
+  - Deleted model `AccessRulePropertiesSubscriptionsItem`/`ListApplicationPackagesResult`/`ListApplicationsResult`/`ListCertificatesResult`/`ListPoolsResult`/`ListPrivateEndpointConnectionsResult`/`ListPrivateLinkResourcesResult`/`SupportedSkusResult`/`OutboundEnvironmentEndpointCollection` which actually were not used by SDK users
 
 ## 18.0.0 (2024-09-25)
 
