@@ -24,7 +24,7 @@
   - Added model `RansomwareSuspects`
   - Added model `RansomwareSuspectsClearRequest`
   - Added model `SuspectFile`
-  - Model `VolumesOperations` added method `begin_list_quota_report`
+  - Operation group `VolumesOperations` added method `begin_list_quota_report`
   - Added operation group `RansomwareReportsOperations`
 
 ### Breaking Changes
