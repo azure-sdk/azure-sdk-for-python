@@ -13067,10 +13067,10 @@ class MSDeploy(ProxyOnlyResource):
     :ivar type: Resource type.
     :vartype type: str
     :ivar properties: Core resource properties.
-    :vartype properties: ~azure.mgmt.web.models.MSDeployCore
+    :vartype properties: ~azure.mgmt.web.models.MSDeployProperties
     """
 
-    properties: Optional["_models.MSDeployCore"] = rest_field(
+    properties: Optional["_models.MSDeployProperties"] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """Core resource properties."""
@@ -13083,6 +13083,7 @@ class MSDeploy(ProxyOnlyResource):
         "set_parameters",
         "skip_app_data",
         "app_offline",
+        "add_on_packages",
     ]
 
     @overload
@@ -13090,7 +13091,7 @@ class MSDeploy(ProxyOnlyResource):
         self,
         *,
         kind: Optional[str] = None,
-        properties: Optional["_models.MSDeployCore"] = None,
+        properties: Optional["_models.MSDeployProperties"] = None,
     ) -> None: ...
 
     @overload
@@ -13287,6 +13288,63 @@ class MSDeployLogProperties(_Model):
 
     entries: Optional[list["_models.MSDeployLogEntry"]] = rest_field(visibility=["read"])
     """List of log entry messages."""
+
+
+class MSDeployProperties(MSDeployCore):
+    """MSDeploy ARM PUT information properties.
+
+    :ivar package_uri: Package URI.
+    :vartype package_uri: str
+    :ivar connection_string: SQL Connection String.
+    :vartype connection_string: str
+    :ivar db_type: Database Type.
+    :vartype db_type: str
+    :ivar set_parameters_xml_file_uri: URI of MSDeploy Parameters file. Must not be set if
+     SetParameters is used.
+    :vartype set_parameters_xml_file_uri: str
+    :ivar set_parameters: MSDeploy Parameters. Must not be set if SetParametersXmlFileUri is used.
+    :vartype set_parameters: dict[str, str]
+    :ivar skip_app_data: Controls whether the MSDeploy operation skips the App_Data directory. If
+     set to <code>true</code>, the existing App_Data directory on the destination will not be
+     deleted, and any App_Data directory in the source will be ignored. Setting is
+     <code>false</code> by default.
+    :vartype skip_app_data: bool
+    :ivar app_offline: Sets the AppOffline rule while the MSDeploy operation executes. Setting is
+     <code>false</code> by default.
+    :vartype app_offline: bool
+    :ivar add_on_packages: List of Add-On packages. Add-On packages implicitly enable the Do Not
+     Delete MSDeploy rule.
+    :vartype add_on_packages: list[~azure.mgmt.web.models.MSDeployCore]
+    """
+
+    add_on_packages: Optional[list["_models.MSDeployCore"]] = rest_field(
+        name="addOnPackages", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """List of Add-On packages. Add-On packages implicitly enable the Do Not Delete MSDeploy rule."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        package_uri: Optional[str] = None,
+        connection_string: Optional[str] = None,
+        db_type: Optional[str] = None,
+        set_parameters_xml_file_uri: Optional[str] = None,
+        set_parameters: Optional[dict[str, str]] = None,
+        skip_app_data: Optional[bool] = None,
+        app_offline: Optional[bool] = None,
+        add_on_packages: Optional[list["_models.MSDeployCore"]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
 
 
 class MSDeployStatus(ProxyResource):

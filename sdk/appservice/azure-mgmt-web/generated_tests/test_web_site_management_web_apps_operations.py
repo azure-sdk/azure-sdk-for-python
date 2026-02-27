@@ -6455,6 +6455,17 @@ class TestWebSiteManagementWebAppsOperations(AzureMgmtRecordedTestCase):
                 "kind": "str",
                 "name": "str",
                 "properties": {
+                    "addOnPackages": [
+                        {
+                            "appOffline": bool,
+                            "connectionString": "str",
+                            "dbType": "str",
+                            "packageUri": "str",
+                            "setParameters": {"str": "str"},
+                            "setParametersXmlFileUri": "str",
+                            "skipAppData": bool,
+                        }
+                    ],
                     "appOffline": bool,
                     "connectionString": "str",
                     "dbType": "str",
@@ -6505,6 +6516,17 @@ class TestWebSiteManagementWebAppsOperations(AzureMgmtRecordedTestCase):
                 "kind": "str",
                 "name": "str",
                 "properties": {
+                    "addOnPackages": [
+                        {
+                            "appOffline": bool,
+                            "connectionString": "str",
+                            "dbType": "str",
+                            "packageUri": "str",
+                            "setParameters": {"str": "str"},
+                            "setParametersXmlFileUri": "str",
+                            "skipAppData": bool,
+                        }
+                    ],
                     "appOffline": bool,
                     "connectionString": "str",
                     "dbType": "str",
@@ -6556,6 +6578,17 @@ class TestWebSiteManagementWebAppsOperations(AzureMgmtRecordedTestCase):
                 "kind": "str",
                 "name": "str",
                 "properties": {
+                    "addOnPackages": [
+                        {
+                            "appOffline": bool,
+                            "connectionString": "str",
+                            "dbType": "str",
+                            "packageUri": "str",
+                            "setParameters": {"str": "str"},
+                            "setParametersXmlFileUri": "str",
+                            "skipAppData": bool,
+                        }
+                    ],
                     "appOffline": bool,
                     "connectionString": "str",
                     "dbType": "str",
@@ -6609,6 +6642,17 @@ class TestWebSiteManagementWebAppsOperations(AzureMgmtRecordedTestCase):
                 "kind": "str",
                 "name": "str",
                 "properties": {
+                    "addOnPackages": [
+                        {
+                            "appOffline": bool,
+                            "connectionString": "str",
+                            "dbType": "str",
+                            "packageUri": "str",
+                            "setParameters": {"str": "str"},
+                            "setParametersXmlFileUri": "str",
+                            "skipAppData": bool,
+                        }
+                    ],
                     "appOffline": bool,
                     "connectionString": "str",
                     "dbType": "str",

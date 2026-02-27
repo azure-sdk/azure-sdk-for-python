@@ -254,6 +254,7 @@
         "azure.mgmt.web.models.MSDeployLog": "Microsoft.Web.MSDeployLog",
         "azure.mgmt.web.models.MSDeployLogEntry": "Microsoft.Web.MSDeployLogEntry",
         "azure.mgmt.web.models.MSDeployLogProperties": "Microsoft.Web.MSDeployLogProperties",
+        "azure.mgmt.web.models.MSDeployProperties": "Microsoft.Web.MSDeployProperties",
         "azure.mgmt.web.models.MSDeployStatus": "Microsoft.Web.MSDeployStatus",
         "azure.mgmt.web.models.MSDeployStatusProperties": "Microsoft.Web.MSDeployStatusProperties",
         "azure.mgmt.web.models.NameIdentifier": "Microsoft.Web.NameIdentifier",
