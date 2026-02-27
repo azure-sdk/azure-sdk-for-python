@@ -113,7 +113,6 @@
   - Method `ProtectionPoliciesOperations.create_or_update` changed its parameter `x_ms_authorization_auxiliary` from `positional_or_keyword` to `keyword_only`
   - Method `RestoresOperations.begin_trigger` changed its parameter `x_ms_authorization_auxiliary` from `positional_or_keyword` to `keyword_only`
   - Method `SecurityPINsOperations.get` changed its parameter `x_ms_authorization_auxiliary` from `positional_or_keyword` to `keyword_only`
-  - Method `SecurityPINsOperations.get` re-ordered its parameters from `['self', 'vault_name', 'resource_group_name', 'x_ms_authorization_auxiliary', 'parameters', 'kwargs']` to `['self', 'vault_name', 'resource_group_name', 'parameters', 'x_ms_authorization_auxiliary', 'kwargs']`
 
 ### Other Changes
 
