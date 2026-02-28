@@ -1805,7 +1805,7 @@ class IpConfiguration(_Model):
     :ivar public_ip_address_configuration: The public IP address configuration of the network
      interface.
     :vartype public_ip_address_configuration:
-     ~azure.mgmt.servicefabricmanagedclusters.models.IpConfigurationPublicIpAddressConfiguration
+     ~azure.mgmt.servicefabricmanagedclusters.models.IpConfigurationPublicIPAddressConfiguration
     """
 
     name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -1835,7 +1835,7 @@ class IpConfiguration(_Model):
     )
     """Specifies whether the IP configuration's private IP is IPv4 or IPv6. Default is IPv4. Known
      values are: \"IPv4\" and \"IPv6\"."""
-    public_ip_address_configuration: Optional["_models.IpConfigurationPublicIpAddressConfiguration"] = rest_field(
+    public_ip_address_configuration: Optional["_models.IpConfigurationPublicIPAddressConfiguration"] = rest_field(
         name="publicIPAddressConfiguration", visibility=["read", "create", "update", "delete", "query"]
     )
     """The public IP address configuration of the network interface."""
@@ -1850,7 +1850,7 @@ class IpConfiguration(_Model):
         load_balancer_inbound_nat_pools: Optional[list["_models.SubResource"]] = None,
         subnet: Optional["_models.SubResource"] = None,
         private_ip_address_version: Optional[Union[str, "_models.PrivateIPAddressVersion"]] = None,
-        public_ip_address_configuration: Optional["_models.IpConfigurationPublicIpAddressConfiguration"] = None,
+        public_ip_address_configuration: Optional["_models.IpConfigurationPublicIPAddressConfiguration"] = None,
     ) -> None: ...
 
     @overload
@@ -1864,7 +1864,7 @@ class IpConfiguration(_Model):
         super().__init__(*args, **kwargs)
 
 
-class IpConfigurationPublicIpAddressConfiguration(_Model):  # pylint: disable=name-too-long
+class IpConfigurationPublicIPAddressConfiguration(_Model):  # pylint: disable=name-too-long
     """The public IP address configuration of the network interface.
 
     :ivar name: Name of the network interface. Required.

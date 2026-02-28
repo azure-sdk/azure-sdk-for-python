@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0 (2026-02-27)
+## 3.0.0 (2026-02-28)
 
 ### Features Added
 
@@ -19,7 +19,6 @@
   - Added model `ErrorDetail`
   - Added model `ErrorResponse`
   - Added enum `HealthFilter`
-  - Added model `IpConfigurationPublicIpAddressConfiguration`
   - Added model `ManagedClusterVersionDetails`
   - Added model `RestartDeployedCodePackageRequest`
   - Added enum `RestartKind`
@@ -59,7 +58,6 @@
   - Deleted or renamed model `ApplicationTypeResourceList`
   - Deleted or renamed model `ApplicationTypeVersionResourceList`
   - Deleted or renamed model `ErrorModel`
-  - Deleted or renamed model `IpConfigurationPublicIPAddressConfiguration`
   - Deleted or renamed model `ManagedProxyResource`
   - Deleted or renamed model `ManagedVMSizesResult`
   - Deleted or renamed model `NodeTypeListSkuResult`
