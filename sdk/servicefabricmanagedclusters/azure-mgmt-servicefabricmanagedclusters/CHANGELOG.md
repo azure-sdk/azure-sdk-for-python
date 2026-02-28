@@ -33,39 +33,34 @@
   - Added enum `SecurityEncryptionType`
   - Added model `TrackedResource`
   - Added model `VmApplication`
-  - Model `ApplicationsOperations` added method `begin_fetch_health`
-  - Model `ApplicationsOperations` added method `begin_restart_deployed_code_package`
-  - Model `ApplicationsOperations` added method `begin_update`
-  - Model `ApplicationsOperations` added method `begin_update_upgrade`
-  - Model `ManagedClustersOperations` added method `begin_update`
-  - Model `NodeTypesOperations` added method `begin_deallocate`
-  - Model `NodeTypesOperations` added method `begin_redeploy`
-  - Model `NodeTypesOperations` added method `begin_start`
-  - Model `NodeTypesOperations` added method `begin_update`
-  - Model `ServicesOperations` added method `begin_restart_replica`
+  - Operation group `ApplicationsOperations` added method `begin_fetch_health`
+  - Operation group `ApplicationsOperations` added method `begin_restart_deployed_code_package`
+  - Operation group `ApplicationsOperations` added method `begin_update`
+  - Operation group `ApplicationsOperations` added method `begin_update_upgrade`
+  - Operation group `ManagedClustersOperations` added method `begin_update`
+  - Operation group `NodeTypesOperations` added method `begin_deallocate`
+  - Operation group `NodeTypesOperations` added method `begin_redeploy`
+  - Operation group `NodeTypesOperations` added method `begin_start`
+  - Operation group `NodeTypesOperations` added method `begin_update`
+  - Operation group `ServicesOperations` added method `begin_restart_replica`
 
 ### Breaking Changes
 
-  - Model `ManagedClusterCodeVersionResult` deleted or renamed its instance variable `cluster_code_version`
-  - Model `ManagedClusterCodeVersionResult` deleted or renamed its instance variable `support_expiry_utc`
-  - Model `ManagedClusterCodeVersionResult` deleted or renamed its instance variable `os_type`
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
+  - For the method breakings, please refer to https://aka.ms/azsdk/python/migrate/operations for migration.
+  - Model `ManagedClusterCodeVersionResult` moved instance variable `cluster_code_version`, `support_expiry_utc` and `os_type` under property `properties`
   - Model `ProxyResource` deleted or renamed its instance variable `location`
   - Model `ProxyResource` deleted or renamed its instance variable `tags`
   - Model `Resource` deleted or renamed its instance variable `location`
   - Model `Resource` deleted or renamed its instance variable `tags`
   - Model `Resource` deleted or renamed its instance variable `etag`
-  - Deleted or renamed model `ApplicationResourceList`
-  - Deleted or renamed model `ApplicationTypeResourceList`
-  - Deleted or renamed model `ApplicationTypeVersionResourceList`
-  - Deleted or renamed model `ErrorModel`
-  - Deleted or renamed model `ManagedProxyResource`
-  - Deleted or renamed model `ManagedVMSizesResult`
-  - Deleted or renamed model `NodeTypeListSkuResult`
-  - Deleted or renamed model `ServiceResourceList`
-  - Deleted or renamed model `UpgradeMode`
-  - Deleted or renamed method `ApplicationsOperations.update`
-  - Deleted or renamed method `ManagedClustersOperations.update`
-  - Deleted or renamed method `NodeTypesOperations.update`
+  - Renamed method `ApplicationsOperations.update` to `ApplicationsOperations.begin_update`
+  - Renamed method `ManagedClustersOperations.update` to `ManagedClustersOperations.begin_update`
+  - Renamed method `NodeTypesOperations.update` to `NodeTypesOperations.begin_update`
+
+### Other Changes
+
+  - Deleted model `ErrorModel`/`ManagedProxyResource`/`UpgradeMode`/`ApplicationResourceList`/`ApplicationTypeResourceList`/`ApplicationTypeVersionResourceList`/`ManagedVMSizesResult`/`NodeTypeListSkuResult`/`ServiceResourceList` which actually were not used by SDK users
 
 ## 2.1.0b5 (2025-11-10)
 
@@ -144,24 +139,22 @@
 
 ### Breaking Changes
 
-  - Model `ManagedClusterCodeVersionResult` deleted or renamed its instance variable `cluster_code_version`
-  - Model `ManagedClusterCodeVersionResult` deleted or renamed its instance variable `support_expiry_utc`
-  - Model `ManagedClusterCodeVersionResult` deleted or renamed its instance variable `os_type`
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
+  - For the method breakings, please refer to https://aka.ms/azsdk/python/migrate/operations for migration.
+  - Model `ManagedClusterCodeVersionResult` moved instance variable `cluster_code_version`, `support_expiry_utc` and `os_type` under property `properties`
   - Model `ProxyResource` deleted or renamed its instance variable `location`
   - Model `ProxyResource` deleted or renamed its instance variable `tags`
   - Model `Resource` deleted or renamed its instance variable `location`
   - Model `Resource` deleted or renamed its instance variable `tags`
   - Model `Resource` deleted or renamed its instance variable `etag`
-  - Deleted or renamed model `ApplicationResourceList`
-  - Deleted or renamed model `ApplicationTypeResourceList`
-  - Deleted or renamed model `ApplicationTypeVersionResourceList`
   - Deleted or renamed model `ErrorModel`
   - Deleted or renamed model `IpConfigurationPublicIPAddressConfiguration`
   - Deleted or renamed model `ManagedProxyResource`
-  - Deleted or renamed model `ManagedVMSizesResult`
-  - Deleted or renamed model `NodeTypeListSkuResult`
-  - Deleted or renamed model `ServiceResourceList`
   - Deleted or renamed model `UpgradeMode`
+
+### Other Changes
+
+  - Deleted model `ApplicationResourceList`/`ApplicationTypeResourceList`/`ApplicationTypeVersionResourceList`/`ManagedVMSizesResult`/`NodeTypeListSkuResult`/`ServiceResourceList` which actually were not used by SDK users
 
 ## 2.1.0b2 (2024-12-16)
 
@@ -172,6 +165,8 @@
 
 ### Breaking Changes
 
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
+  - For the method breakings, please refer to https://aka.ms/azsdk/python/migrate/operations for migration.
   - Model `ManagedCluster` deleted or renamed its instance variable `custom_fqdn`
   - Deleted or renamed method `NodeTypesOperations.update`
 
