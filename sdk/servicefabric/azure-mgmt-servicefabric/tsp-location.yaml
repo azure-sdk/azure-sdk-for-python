@@ -1,0 +1,4 @@
+directory: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/ServiceFabric
+commit: 112bfe8d3cbb1299fe14d608e32f8fc7ade99240
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
