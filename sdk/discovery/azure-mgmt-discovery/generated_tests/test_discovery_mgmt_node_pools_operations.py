@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
@@ -14,17 +14,17 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestDiscoveryProjectsOperations(AzureMgmtRecordedTestCase):
+class TestDiscoveryMgmtNodePoolsOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(DiscoveryClient)
+        self.client = self.create_mgmt_client(DiscoveryMgmtClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_projects_get(self, resource_group):
-        response = self.client.projects.get(
+    def test_node_pools_get(self, resource_group):
+        response = self.client.node_pools.get(
             resource_group_name=resource_group.name,
-            workspace_name="str",
-            project_name="str",
+            supercomputer_name="str",
+            node_pool_name="str",
         )
 
         # please add some check logic here by yourself
@@ -32,20 +32,22 @@ class TestDiscoveryProjectsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_projects_begin_create_or_update(self, resource_group):
-        response = self.client.projects.begin_create_or_update(
+    def test_node_pools_begin_create_or_update(self, resource_group):
+        response = self.client.node_pools.begin_create_or_update(
             resource_group_name=resource_group.name,
-            workspace_name="str",
-            project_name="str",
+            supercomputer_name="str",
+            node_pool_name="str",
             resource={
                 "location": "str",
                 "id": "str",
                 "name": "str",
                 "properties": {
-                    "foundryProjectEndpoint": "str",
+                    "maxNodeCount": 0,
+                    "subnetId": "str",
+                    "vmSize": "str",
+                    "minNodeCount": 0,
                     "provisioningState": "str",
-                    "settings": {"behaviorPreferences": "str"},
-                    "storageContainerIds": ["str"],
+                    "scaleSetPriority": "str",
                 },
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
@@ -65,20 +67,22 @@ class TestDiscoveryProjectsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_projects_begin_update(self, resource_group):
-        response = self.client.projects.begin_update(
+    def test_node_pools_begin_update(self, resource_group):
+        response = self.client.node_pools.begin_update(
             resource_group_name=resource_group.name,
-            workspace_name="str",
-            project_name="str",
+            supercomputer_name="str",
+            node_pool_name="str",
             properties={
                 "location": "str",
                 "id": "str",
                 "name": "str",
                 "properties": {
-                    "foundryProjectEndpoint": "str",
+                    "maxNodeCount": 0,
+                    "subnetId": "str",
+                    "vmSize": "str",
+                    "minNodeCount": 0,
                     "provisioningState": "str",
-                    "settings": {"behaviorPreferences": "str"},
-                    "storageContainerIds": ["str"],
+                    "scaleSetPriority": "str",
                 },
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
@@ -98,11 +102,11 @@ class TestDiscoveryProjectsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_projects_begin_delete(self, resource_group):
-        response = self.client.projects.begin_delete(
+    def test_node_pools_begin_delete(self, resource_group):
+        response = self.client.node_pools.begin_delete(
             resource_group_name=resource_group.name,
-            workspace_name="str",
-            project_name="str",
+            supercomputer_name="str",
+            node_pool_name="str",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -110,10 +114,10 @@ class TestDiscoveryProjectsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_projects_list_by_workspace(self, resource_group):
-        response = self.client.projects.list_by_workspace(
+    def test_node_pools_list_by_supercomputer(self, resource_group):
+        response = self.client.node_pools.list_by_supercomputer(
             resource_group_name=resource_group.name,
-            workspace_name="str",
+            supercomputer_name="str",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

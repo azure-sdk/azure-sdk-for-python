@@ -101,7 +101,7 @@ from ...operations._operations import (
     build_workspaces_list_by_subscription_request,
     build_workspaces_update_request,
 )
-from .._configuration import DiscoveryClientConfiguration
+from .._configuration import DiscoveryMgmtClientConfiguration
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, dict[str, Any]], Any]]
@@ -115,14 +115,14 @@ class Operations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`operations` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -222,14 +222,14 @@ class BookshelvesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`bookshelves` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -1082,14 +1082,14 @@ class BookshelfPrivateEndpointConnectionsOperations:  # pylint: disable=name-too
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`bookshelf_private_endpoint_connections` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -1662,14 +1662,14 @@ class BookshelfPrivateLinkResourcesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`bookshelf_private_link_resources` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -1857,14 +1857,14 @@ class ToolsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`tools` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -2699,14 +2699,14 @@ class ProjectsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`projects` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -3515,14 +3515,14 @@ class WorkspacesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`workspaces` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -4375,14 +4375,14 @@ class WorkspacePrivateEndpointConnectionsOperations:  # pylint: disable=name-too
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`workspace_private_endpoint_connections` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -4955,14 +4955,14 @@ class ChatModelDeploymentsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`chat_model_deployments` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -5772,14 +5772,14 @@ class WorkspacePrivateLinkResourcesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`workspace_private_link_resources` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -5967,14 +5967,14 @@ class NodePoolsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`node_pools` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -6783,14 +6783,14 @@ class SupercomputersOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`supercomputers` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -7647,14 +7647,14 @@ class StorageAssetsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`storage_assets` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -8463,14 +8463,14 @@ class StorageContainersOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.discovery.aio.DiscoveryClient`'s
+        :class:`~azure.mgmt.discovery.aio.DiscoveryMgmtClient`'s
         :attr:`storage_containers` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: DiscoveryClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: DiscoveryMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 

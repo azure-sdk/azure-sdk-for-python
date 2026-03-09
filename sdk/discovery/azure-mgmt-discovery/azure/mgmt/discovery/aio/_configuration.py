@@ -18,8 +18,8 @@ if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class DiscoveryClientConfiguration:  # pylint: disable=too-many-instance-attributes
-    """Configuration for DiscoveryClient.
+class DiscoveryMgmtClientConfiguration:  # pylint: disable=too-many-instance-attributes
+    """Configuration for DiscoveryMgmtClient.
 
     Note that all parameters used to create this instance are saved as instance
     attributes.

@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
@@ -14,16 +14,17 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestDiscoveryStorageContainersOperations(AzureMgmtRecordedTestCase):
+class TestDiscoveryMgmtChatModelDeploymentsOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(DiscoveryClient)
+        self.client = self.create_mgmt_client(DiscoveryMgmtClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_storage_containers_get(self, resource_group):
-        response = self.client.storage_containers.get(
+    def test_chat_model_deployments_get(self, resource_group):
+        response = self.client.chat_model_deployments.get(
             resource_group_name=resource_group.name,
-            storage_container_name="str",
+            workspace_name="str",
+            chat_model_deployment_name="str",
         )
 
         # please add some check logic here by yourself
@@ -31,15 +32,16 @@ class TestDiscoveryStorageContainersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_storage_containers_begin_create_or_update(self, resource_group):
-        response = self.client.storage_containers.begin_create_or_update(
+    def test_chat_model_deployments_begin_create_or_update(self, resource_group):
+        response = self.client.chat_model_deployments.begin_create_or_update(
             resource_group_name=resource_group.name,
-            storage_container_name="str",
+            workspace_name="str",
+            chat_model_deployment_name="str",
             resource={
                 "location": "str",
                 "id": "str",
                 "name": "str",
-                "properties": {"storageStore": "storage_store", "provisioningState": "str"},
+                "properties": {"modelFormat": "str", "modelName": "str", "provisioningState": "str"},
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -58,15 +60,16 @@ class TestDiscoveryStorageContainersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_storage_containers_begin_update(self, resource_group):
-        response = self.client.storage_containers.begin_update(
+    def test_chat_model_deployments_begin_update(self, resource_group):
+        response = self.client.chat_model_deployments.begin_update(
             resource_group_name=resource_group.name,
-            storage_container_name="str",
+            workspace_name="str",
+            chat_model_deployment_name="str",
             properties={
                 "location": "str",
                 "id": "str",
                 "name": "str",
-                "properties": {"storageStore": "storage_store", "provisioningState": "str"},
+                "properties": {"modelFormat": "str", "modelName": "str", "provisioningState": "str"},
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -85,10 +88,11 @@ class TestDiscoveryStorageContainersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_storage_containers_begin_delete(self, resource_group):
-        response = self.client.storage_containers.begin_delete(
+    def test_chat_model_deployments_begin_delete(self, resource_group):
+        response = self.client.chat_model_deployments.begin_delete(
             resource_group_name=resource_group.name,
-            storage_container_name="str",
+            workspace_name="str",
+            chat_model_deployment_name="str",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -96,18 +100,11 @@ class TestDiscoveryStorageContainersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_storage_containers_list_by_resource_group(self, resource_group):
-        response = self.client.storage_containers.list_by_resource_group(
+    def test_chat_model_deployments_list_by_workspace(self, resource_group):
+        response = self.client.chat_model_deployments.list_by_workspace(
             resource_group_name=resource_group.name,
+            workspace_name="str",
         )
-        result = [r for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_storage_containers_list_by_subscription(self, resource_group):
-        response = self.client.storage_containers.list_by_subscription()
         result = [r for r in response]
         # please add some check logic here by yourself
         # ...

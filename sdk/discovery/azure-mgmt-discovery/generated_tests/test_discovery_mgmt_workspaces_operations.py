@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
@@ -14,16 +14,16 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestDiscoveryBookshelvesOperations(AzureMgmtRecordedTestCase):
+class TestDiscoveryMgmtWorkspacesOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(DiscoveryClient)
+        self.client = self.create_mgmt_client(DiscoveryMgmtClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_bookshelves_get(self, resource_group):
-        response = self.client.bookshelves.get(
+    def test_workspaces_get(self, resource_group):
+        response = self.client.workspaces.get(
             resource_group_name=resource_group.name,
-            bookshelf_name="str",
+            workspace_name="str",
         )
 
         # please add some check logic here by yourself
@@ -31,23 +31,19 @@ class TestDiscoveryBookshelvesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_bookshelves_begin_create_or_update(self, resource_group):
-        response = self.client.bookshelves.begin_create_or_update(
+    def test_workspaces_begin_create_or_update(self, resource_group):
+        response = self.client.workspaces.begin_create_or_update(
             resource_group_name=resource_group.name,
-            bookshelf_name="str",
+            workspace_name="str",
             resource={
                 "location": "str",
                 "id": "str",
                 "name": "str",
                 "properties": {
-                    "bookshelfUri": "str",
+                    "workspaceIdentity": {"id": "str", "clientId": "str", "principalId": "str"},
+                    "agentSubnetId": "str",
                     "customerManagedKeys": "str",
-                    "keyVaultProperties": {
-                        "identityClientId": "str",
-                        "keyName": "str",
-                        "keyVaultUri": "str",
-                        "keyVersion": "str",
-                    },
+                    "keyVaultProperties": {"keyName": "str", "keyVaultUri": "str", "keyVersion": "str"},
                     "logAnalyticsClusterId": "str",
                     "managedOnBehalfOfConfiguration": {"moboBrokerResources": [{"id": "str"}]},
                     "managedResourceGroup": "str",
@@ -79,8 +75,10 @@ class TestDiscoveryBookshelvesOperations(AzureMgmtRecordedTestCase):
                     "privateEndpointSubnetId": "str",
                     "provisioningState": "str",
                     "publicNetworkAccess": "str",
-                    "searchSubnetId": "str",
-                    "workloadIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                    "supercomputerIds": ["str"],
+                    "workspaceApiUri": "str",
+                    "workspaceSubnetId": "str",
+                    "workspaceUiUri": "str",
                 },
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
@@ -100,23 +98,19 @@ class TestDiscoveryBookshelvesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_bookshelves_begin_update(self, resource_group):
-        response = self.client.bookshelves.begin_update(
+    def test_workspaces_begin_update(self, resource_group):
+        response = self.client.workspaces.begin_update(
             resource_group_name=resource_group.name,
-            bookshelf_name="str",
+            workspace_name="str",
             properties={
                 "location": "str",
                 "id": "str",
                 "name": "str",
                 "properties": {
-                    "bookshelfUri": "str",
+                    "workspaceIdentity": {"id": "str", "clientId": "str", "principalId": "str"},
+                    "agentSubnetId": "str",
                     "customerManagedKeys": "str",
-                    "keyVaultProperties": {
-                        "identityClientId": "str",
-                        "keyName": "str",
-                        "keyVaultUri": "str",
-                        "keyVersion": "str",
-                    },
+                    "keyVaultProperties": {"keyName": "str", "keyVaultUri": "str", "keyVersion": "str"},
                     "logAnalyticsClusterId": "str",
                     "managedOnBehalfOfConfiguration": {"moboBrokerResources": [{"id": "str"}]},
                     "managedResourceGroup": "str",
@@ -148,8 +142,10 @@ class TestDiscoveryBookshelvesOperations(AzureMgmtRecordedTestCase):
                     "privateEndpointSubnetId": "str",
                     "provisioningState": "str",
                     "publicNetworkAccess": "str",
-                    "searchSubnetId": "str",
-                    "workloadIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                    "supercomputerIds": ["str"],
+                    "workspaceApiUri": "str",
+                    "workspaceSubnetId": "str",
+                    "workspaceUiUri": "str",
                 },
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
@@ -169,10 +165,10 @@ class TestDiscoveryBookshelvesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_bookshelves_begin_delete(self, resource_group):
-        response = self.client.bookshelves.begin_delete(
+    def test_workspaces_begin_delete(self, resource_group):
+        response = self.client.workspaces.begin_delete(
             resource_group_name=resource_group.name,
-            bookshelf_name="str",
+            workspace_name="str",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -180,8 +176,8 @@ class TestDiscoveryBookshelvesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_bookshelves_list_by_resource_group(self, resource_group):
-        response = self.client.bookshelves.list_by_resource_group(
+    def test_workspaces_list_by_resource_group(self, resource_group):
+        response = self.client.workspaces.list_by_resource_group(
             resource_group_name=resource_group.name,
         )
         result = [r for r in response]
@@ -190,8 +186,8 @@ class TestDiscoveryBookshelvesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_bookshelves_list_by_subscription(self, resource_group):
-        response = self.client.bookshelves.list_by_subscription()
+    def test_workspaces_list_by_subscription(self, resource_group):
+        response = self.client.workspaces.list_by_subscription()
         result = [r for r in response]
         # please add some check logic here by yourself
         # ...

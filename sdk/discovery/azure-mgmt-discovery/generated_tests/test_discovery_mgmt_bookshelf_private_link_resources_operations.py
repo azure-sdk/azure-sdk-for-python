@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
@@ -14,14 +14,29 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestDiscoveryOperations(AzureMgmtRecordedTestCase):
+class TestDiscoveryMgmtBookshelfPrivateLinkResourcesOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(DiscoveryClient)
+        self.client = self.create_mgmt_client(DiscoveryMgmtClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_operations_list(self, resource_group):
-        response = self.client.operations.list()
+    def test_bookshelf_private_link_resources_get(self, resource_group):
+        response = self.client.bookshelf_private_link_resources.get(
+            resource_group_name=resource_group.name,
+            bookshelf_name="str",
+            private_link_resource_name="str",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_bookshelf_private_link_resources_list_by_bookshelf(self, resource_group):
+        response = self.client.bookshelf_private_link_resources.list_by_bookshelf(
+            resource_group_name=resource_group.name,
+            bookshelf_name="str",
+        )
         result = [r for r in response]
         # please add some check logic here by yourself
         # ...

@@ -45,6 +45,7 @@ class TestWorkspaces(DiscoveryMgmtTestCase):
         # Don't assert on name since it may be sanitized in playback
         assert hasattr(workspace, "name")
         assert hasattr(workspace, "location")
+
     @recorded_by_proxy
     def test_create_workspace(self):
         """Test creating a workspace."""
@@ -67,7 +68,7 @@ class TestWorkspaces(DiscoveryMgmtTestCase):
                 },
                 "logAnalyticsClusterId": "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.OperationalInsights/clusters/mycluse",
                 "publicNetworkAccess": "Disabled",
-            }
+            },
         }
         operation = self.client.workspaces.begin_create_or_update(
             resource_group_name="olawal",
@@ -76,6 +77,7 @@ class TestWorkspaces(DiscoveryMgmtTestCase):
         )
         workspace = operation.result()
         assert workspace is not None
+
     @recorded_by_proxy
     def test_update_workspace(self):
         """Test updating a workspace by changing the key vault key version."""
@@ -95,6 +97,7 @@ class TestWorkspaces(DiscoveryMgmtTestCase):
         )
         updated_workspace = operation.result()
         assert updated_workspace is not None
+
     @recorded_by_proxy
     def test_delete_workspace(self):
         """Test deleting a workspace."""

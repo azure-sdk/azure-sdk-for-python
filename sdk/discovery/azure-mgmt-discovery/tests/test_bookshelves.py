@@ -28,6 +28,7 @@ class TestBookshelves(DiscoveryMgmtTestCase):
         """Test listing bookshelves in a resource group."""
         bookshelves = list(self.client.bookshelves.list_by_resource_group(self.resource_group))
         assert isinstance(bookshelves, list)
+
     @recorded_by_proxy
     def test_get_bookshelf(self):
         """Test getting a specific bookshelf by name."""
@@ -35,6 +36,7 @@ class TestBookshelves(DiscoveryMgmtTestCase):
         assert bookshelf is not None
         assert hasattr(bookshelf, "name")
         assert hasattr(bookshelf, "location")
+
     @recorded_by_proxy
     def test_create_bookshelf(self):
         """Test creating a bookshelf."""
@@ -46,6 +48,7 @@ class TestBookshelves(DiscoveryMgmtTestCase):
         )
         bookshelf = operation.result()
         assert bookshelf is not None
+
     @recorded_by_proxy
     def test_update_bookshelf(self):
         """Test updating a bookshelf."""
@@ -59,6 +62,7 @@ class TestBookshelves(DiscoveryMgmtTestCase):
         )
         updated_bookshelf = operation.result()
         assert updated_bookshelf is not None
+
     @recorded_by_proxy
     def test_delete_bookshelf(self):
         """Test deleting a bookshelf."""

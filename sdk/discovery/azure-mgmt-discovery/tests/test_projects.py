@@ -28,6 +28,7 @@ class TestProjects(DiscoveryMgmtTestCase):
         """Test listing projects in a workspace."""
         projects = list(self.client.projects.list_by_workspace("newapiversiontest", self.workspace_name))
         assert isinstance(projects, list)
+
     @pytest.mark.skip(reason="no recording")
     @recorded_by_proxy
     def test_get_project(self):
@@ -37,6 +38,7 @@ class TestProjects(DiscoveryMgmtTestCase):
         assert project is not None
         assert hasattr(project, "name")
         assert hasattr(project, "location")
+
     @pytest.mark.skip(reason="no recording")
     @recorded_by_proxy
     def test_create_project(self):
@@ -51,6 +53,7 @@ class TestProjects(DiscoveryMgmtTestCase):
         )
         project = operation.result()
         assert project is not None
+
     @pytest.mark.skip(reason="no recording")
     @recorded_by_proxy
     def test_update_project(self):
@@ -66,6 +69,7 @@ class TestProjects(DiscoveryMgmtTestCase):
         )
         updated_project = operation.result()
         assert updated_project is not None
+
     @pytest.mark.skip(reason="no recording")
     @recorded_by_proxy
     def test_delete_project(self):

@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
@@ -14,16 +14,16 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestDiscoverySupercomputersOperations(AzureMgmtRecordedTestCase):
+class TestDiscoveryMgmtToolsOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(DiscoveryClient)
+        self.client = self.create_mgmt_client(DiscoveryMgmtClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_supercomputers_get(self, resource_group):
-        response = self.client.supercomputers.get(
+    def test_tools_get(self, resource_group):
+        response = self.client.tools.get(
             resource_group_name=resource_group.name,
-            supercomputer_name="str",
+            tool_name="str",
         )
 
         # please add some check logic here by yourself
@@ -31,30 +31,19 @@ class TestDiscoverySupercomputersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_supercomputers_begin_create_or_update(self, resource_group):
-        response = self.client.supercomputers.begin_create_or_update(
+    def test_tools_begin_create_or_update(self, resource_group):
+        response = self.client.tools.begin_create_or_update(
             resource_group_name=resource_group.name,
-            supercomputer_name="str",
+            tool_name="str",
             resource={
                 "location": "str",
                 "id": "str",
                 "name": "str",
                 "properties": {
-                    "identities": {
-                        "clusterIdentity": {"id": "str", "clientId": "str", "principalId": "str"},
-                        "kubeletIdentity": {"id": "str", "clientId": "str", "principalId": "str"},
-                        "workloadIdentities": {"str": {"clientId": "str", "principalId": "str"}},
-                    },
-                    "subnetId": "str",
-                    "customerManagedKeys": "str",
-                    "diskEncryptionSetId": "str",
-                    "logAnalyticsClusterId": "str",
-                    "managedOnBehalfOfConfiguration": {"moboBrokerResources": [{"id": "str"}]},
-                    "managedResourceGroup": "str",
-                    "managementSubnetId": "str",
-                    "outboundType": "str",
+                    "definitionContent": {"str": {}},
+                    "version": "str",
+                    "environmentVariables": {"str": "str"},
                     "provisioningState": "str",
-                    "systemSku": "str",
                 },
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
@@ -74,30 +63,19 @@ class TestDiscoverySupercomputersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_supercomputers_begin_update(self, resource_group):
-        response = self.client.supercomputers.begin_update(
+    def test_tools_begin_update(self, resource_group):
+        response = self.client.tools.begin_update(
             resource_group_name=resource_group.name,
-            supercomputer_name="str",
+            tool_name="str",
             properties={
                 "location": "str",
                 "id": "str",
                 "name": "str",
                 "properties": {
-                    "identities": {
-                        "clusterIdentity": {"id": "str", "clientId": "str", "principalId": "str"},
-                        "kubeletIdentity": {"id": "str", "clientId": "str", "principalId": "str"},
-                        "workloadIdentities": {"str": {"clientId": "str", "principalId": "str"}},
-                    },
-                    "subnetId": "str",
-                    "customerManagedKeys": "str",
-                    "diskEncryptionSetId": "str",
-                    "logAnalyticsClusterId": "str",
-                    "managedOnBehalfOfConfiguration": {"moboBrokerResources": [{"id": "str"}]},
-                    "managedResourceGroup": "str",
-                    "managementSubnetId": "str",
-                    "outboundType": "str",
+                    "definitionContent": {"str": {}},
+                    "version": "str",
+                    "environmentVariables": {"str": "str"},
                     "provisioningState": "str",
-                    "systemSku": "str",
                 },
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
@@ -117,10 +95,10 @@ class TestDiscoverySupercomputersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_supercomputers_begin_delete(self, resource_group):
-        response = self.client.supercomputers.begin_delete(
+    def test_tools_begin_delete(self, resource_group):
+        response = self.client.tools.begin_delete(
             resource_group_name=resource_group.name,
-            supercomputer_name="str",
+            tool_name="str",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -128,8 +106,8 @@ class TestDiscoverySupercomputersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_supercomputers_list_by_resource_group(self, resource_group):
-        response = self.client.supercomputers.list_by_resource_group(
+    def test_tools_list_by_resource_group(self, resource_group):
+        response = self.client.tools.list_by_resource_group(
             resource_group_name=resource_group.name,
         )
         result = [r for r in response]
@@ -138,8 +116,8 @@ class TestDiscoverySupercomputersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_supercomputers_list_by_subscription(self, resource_group):
-        response = self.client.supercomputers.list_by_subscription()
+    def test_tools_list_by_subscription(self, resource_group):
+        response = self.client.tools.list_by_subscription()
         result = [r for r in response]
         # please add some check logic here by yourself
         # ...
