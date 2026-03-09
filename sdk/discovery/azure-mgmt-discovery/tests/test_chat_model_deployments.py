@@ -3,7 +3,7 @@
 # Licensed under the MIT License.
 # ------------------------------------
 """Tests for ChatModelDeployments operations."""
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -18,7 +18,7 @@ class TestChatModelDeployments(DiscoveryMgmtTestCase):
     """Tests for ChatModelDeployments operations."""
 
     def setup_method(self, method):
-        self.client = self.create_discovery_client(DiscoveryClient)
+        self.client = self.create_discovery_client(DiscoveryMgmtClient)
         self.resource_group = WORKSPACE_RESOURCE_GROUP
         self.workspace_name = WORKSPACE_NAME
 

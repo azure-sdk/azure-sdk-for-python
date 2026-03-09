@@ -5,7 +5,7 @@
 # ------------------------------------
 """Tests for Workspaces operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -20,7 +20,7 @@ class TestWorkspaces(DiscoveryMgmtTestCase):
     """Tests for Workspaces operations."""
 
     def setup_method(self, method):
-        self.client = self.create_discovery_client(DiscoveryClient)
+        self.client = self.create_discovery_client(DiscoveryMgmtClient)
         self.resource_group = WORKSPACE_RESOURCE_GROUP
 
     @recorded_by_proxy

@@ -5,7 +5,7 @@
 # ------------------------------------
 """Tests for Tools operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase, AZURE_RESOURCE_GROUP
@@ -19,7 +19,7 @@ class TestTools(DiscoveryMgmtTestCase):
     """Tests for Tools operations."""
 
     def setup_method(self, method):
-        self.client = self.create_discovery_client(DiscoveryClient)
+        self.client = self.create_discovery_client(DiscoveryMgmtClient)
         self.resource_group = AZURE_RESOURCE_GROUP
 
     @recorded_by_proxy
