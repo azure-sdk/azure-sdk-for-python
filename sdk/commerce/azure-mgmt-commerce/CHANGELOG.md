@@ -1,5 +1,40 @@
 # Release History
 
+## 6.1.0b2 (2026-03-09)
+
+### Features Added
+
+  - Model `UsageManagementClient` added parameter `cloud_setting` in method `__init__`
+  - Client `UsageManagementClient` added method `send_request`
+  - Model `UsageAggregation` added property `properties`
+  - Added model `ErrorObjectResponse`
+  - Added enum `OfferTermInfoName`
+  - Added model `UsageSample`
+
+### Breaking Changes
+
+  - Model `UsageAggregation` deleted or renamed its instance variable `subscription_id`
+  - Model `UsageAggregation` deleted or renamed its instance variable `meter_id`
+  - Model `UsageAggregation` deleted or renamed its instance variable `usage_start_time`
+  - Model `UsageAggregation` deleted or renamed its instance variable `usage_end_time`
+  - Model `UsageAggregation` deleted or renamed its instance variable `quantity`
+  - Model `UsageAggregation` deleted or renamed its instance variable `unit`
+  - Model `UsageAggregation` deleted or renamed its instance variable `meter_name`
+  - Model `UsageAggregation` deleted or renamed its instance variable `meter_category`
+  - Model `UsageAggregation` deleted or renamed its instance variable `meter_sub_category`
+  - Model `UsageAggregation` deleted or renamed its instance variable `meter_region`
+  - Model `UsageAggregation` deleted or renamed its instance variable `info_fields`
+  - Model `UsageAggregation` deleted or renamed its instance variable `instance_data`
+  - Deleted or renamed model `InfoField`
+  - Deleted or renamed model `OfferTermInfoEnum`
+  - Deleted or renamed model `RateCardQueryParameters`
+  - Method `UsageAggregatesOperations.list` changed its parameter `reported_start_time` from `positional_or_keyword` to `keyword_only`
+  - Method `UsageAggregatesOperations.list` changed its parameter `reported_end_time` from `positional_or_keyword` to `keyword_only`
+  - Method `UsageAggregatesOperations.list` changed its parameter `show_details` from `positional_or_keyword` to `keyword_only`
+  - Method `UsageAggregatesOperations.list` parameter `aggregation_granularity` changed default value from `str` to `none`
+  - Method `UsageAggregatesOperations.list` changed its parameter `aggregation_granularity` from `positional_or_keyword` to `keyword_only`
+  - Method `UsageAggregatesOperations.list` changed its parameter `continuation_token_parameter` from `positional_or_keyword` to `keyword_only`
+
 ## 6.1.0b1 (2023-02-10)
 
 ### Other Changes

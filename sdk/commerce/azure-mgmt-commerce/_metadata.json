@@ -1,0 +1,10 @@
+{
+  "apiVersion": "2015-06-01-preview",
+  "apiVersions": {
+    "Microsoft.Commerce": "2015-06-01-preview"
+  },
+  "commit": "de8053fa6afbc8e563095a6a40ad662bf4e90a4d",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/commerce/resource-manager/Microsoft.Commerce/Commerce",
+  "emitterVersion": "0.60.2"
+}

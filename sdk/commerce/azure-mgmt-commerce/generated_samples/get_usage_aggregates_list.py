@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+import isodate
+
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.commerce import UsageManagementClient
@@ -15,7 +17,7 @@ from azure.mgmt.commerce import UsageManagementClient
     pip install azure-identity
     pip install azure-mgmt-commerce
 # USAGE
-    python get_rate_card.py
+    python get_usage_aggregates_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,12 +32,14 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.rate_card.get(
-        filter="OfferDurableId eq 'MS-AZR-0003P' and Currency eq 'USD' and Locale eq 'en-US' and RegionInfo eq 'US'",
+    response = client.usage_aggregates.list(
+        reported_start_time=isodate.parse_datetime("2014-05-01T00:00:00+00:00"),
+        reported_end_time=isodate.parse_datetime("2015-06-01T00:00:00+00:00"),
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: 2015-06-01-preview/GetRateCard.json
+# x-ms-original-file: 2015-06-01-preview/GetUsageAggregatesList.json
 if __name__ == "__main__":
     main()
