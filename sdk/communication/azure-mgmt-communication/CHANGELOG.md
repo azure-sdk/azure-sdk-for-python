@@ -26,6 +26,8 @@
 
 ### Breaking Changes
 
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
+  - For the method breakings, please refer to https://aka.ms/azsdk/python/migrate/operations for migration.
   - Model `CommunicationServiceResource` moved instance variable `provisioning_state`, `host_name`, `data_location`, `notification_hub_id`, `version`, `immutable_resource_id`, `linked_domains`, `public_network_access` and `disable_local_auth` under property `properties`
   - Model `CommunicationServiceResourceUpdate` moved instance variable `linked_domains`, `public_network_access` and `disable_local_auth` under property `properties`
   - Model `DomainResource` moved instance variable `provisioning_state`, `data_location`, `from_sender_domain`, `mail_from_sender_domain`, `domain_management`, `verification_states`, `verification_records` and `user_engagement_tracking` under property `properties`
