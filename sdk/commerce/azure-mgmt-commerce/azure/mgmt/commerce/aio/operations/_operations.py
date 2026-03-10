@@ -64,7 +64,7 @@ class UsageAggregatesOperations:
         reported_start_time: datetime.datetime,
         reported_end_time: datetime.datetime,
         show_details: Optional[bool] = None,
-        aggregation_granularity: Optional[Union[str, _models.AggregationGranularity]] = None,
+        aggregation_granularity: Union[str, _models.AggregationGranularity] = "Daily",
         continuation_token_parameter: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncItemPaged["_models.UsageAggregation"]:
@@ -83,7 +83,7 @@ class UsageAggregatesOperations:
         :paramtype show_details: bool
         :keyword aggregation_granularity: ``Daily`` (default) returns the data in daily granularity,
          ``Hourly`` returns the data in hourly granularity. Known values are: "Daily" and "Hourly".
-         Default value is None.
+         Default value is "Daily".
         :paramtype aggregation_granularity: str or ~azure.mgmt.commerce.models.AggregationGranularity
         :keyword continuation_token_parameter: Used when a continuation token string is provided in the
          response body of the previous call, enabling paging through a large result set. If not present,

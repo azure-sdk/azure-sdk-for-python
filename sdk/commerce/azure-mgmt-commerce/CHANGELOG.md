@@ -1,6 +1,6 @@
 # Release History
 
-## 6.1.0b2 (2026-03-09)
+## 6.1.0b2 (2026-03-10)
 
 ### Features Added
 
@@ -31,7 +31,6 @@
   - Method `UsageAggregatesOperations.list` changed its parameter `reported_start_time` from `positional_or_keyword` to `keyword_only`
   - Method `UsageAggregatesOperations.list` changed its parameter `reported_end_time` from `positional_or_keyword` to `keyword_only`
   - Method `UsageAggregatesOperations.list` changed its parameter `show_details` from `positional_or_keyword` to `keyword_only`
-  - Method `UsageAggregatesOperations.list` parameter `aggregation_granularity` changed default value from `str` to `none`
   - Method `UsageAggregatesOperations.list` changed its parameter `aggregation_granularity` from `positional_or_keyword` to `keyword_only`
   - Method `UsageAggregatesOperations.list` changed its parameter `continuation_token_parameter` from `positional_or_keyword` to `keyword_only`
 
