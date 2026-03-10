@@ -36,11 +36,11 @@ With above configuration, client can be authenticated by following code:
 
 ```python
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 import os
 
 sub_id = os.getenv("AZURE_SUBSCRIPTION_ID")
-client = DiscoveryClient(credential=DefaultAzureCredential(), subscription_id=sub_id)
+client = DiscoveryMgmtClient(credential=DefaultAzureCredential(), subscription_id=sub_id)
 ```
 
 ## Examples

@@ -7,17 +7,17 @@ Unit tests for azure-mgmt-discovery client.
 
 These tests verify client configuration without making HTTP calls.
 """
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 
 
-class TestDiscoveryClientUnit:
+class TestDiscoveryMgmtClientUnit:
     """Unit tests for Discovery management client initialization."""
 
     def test_client_has_expected_operations(self):
         """Test that client exposes expected operation groups."""
         from azure.identity import DefaultAzureCredential
 
-        client = DiscoveryClient(
+        client = DiscoveryMgmtClient(
             credential=DefaultAzureCredential(),
             subscription_id="00000000-0000-0000-0000-000000000000",
         )
@@ -42,7 +42,7 @@ class TestDiscoveryClientUnit:
         """Test that client uses correct API version."""
         from azure.identity import DefaultAzureCredential
 
-        client = DiscoveryClient(
+        client = DiscoveryMgmtClient(
             credential=DefaultAzureCredential(),
             subscription_id="00000000-0000-0000-0000-000000000000",
         )

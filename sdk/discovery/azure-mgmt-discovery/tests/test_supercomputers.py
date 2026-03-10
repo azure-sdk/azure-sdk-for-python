@@ -1,10 +1,11 @@
+# pylint: disable=line-too-long,useless-suppression
 # ------------------------------------
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 # ------------------------------------
 """Tests for Supercomputers operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -17,7 +18,7 @@ class TestSupercomputers(DiscoveryMgmtTestCase):
     """Tests for Supercomputers operations."""
 
     def setup_method(self, method):
-        self.client = self.create_discovery_client(DiscoveryClient)
+        self.client = self.create_discovery_client(DiscoveryMgmtClient)
         self.resource_group = SUPERCOMPUTER_RESOURCE_GROUP
 
     @recorded_by_proxy
@@ -31,6 +32,7 @@ class TestSupercomputers(DiscoveryMgmtTestCase):
         """Test listing supercomputers in the subscription."""
         supercomputers = list(self.client.supercomputers.list_by_subscription())
         assert isinstance(supercomputers, list)
+
     @recorded_by_proxy
     def test_get_supercomputer(self):
         """Test getting a specific supercomputer by name."""
@@ -38,6 +40,7 @@ class TestSupercomputers(DiscoveryMgmtTestCase):
         assert supercomputer is not None
         assert hasattr(supercomputer, "name")
         assert hasattr(supercomputer, "location")
+
     @recorded_by_proxy
     def test_create_supercomputer(self):
         """Test creating a supercomputer."""
@@ -49,9 +52,9 @@ class TestSupercomputers(DiscoveryMgmtTestCase):
                 "identities": {
                     "clusterIdentity": {"id": mi_id},
                     "kubeletIdentity": {"id": mi_id},
-                    "workloadIdentities": {mi_id: {}}
-                }
-            }
+                    "workloadIdentities": {mi_id: {}},
+                },
+            },
         }
         operation = self.client.supercomputers.begin_create_or_update(
             resource_group_name="olawal",
@@ -60,6 +63,7 @@ class TestSupercomputers(DiscoveryMgmtTestCase):
         )
         supercomputer = operation.result()
         assert supercomputer is not None
+
     @pytest.mark.skip(reason="server returns 400 on supercomputer PATCH - service-side bug")
     @recorded_by_proxy
     def test_update_supercomputer(self):
@@ -74,6 +78,7 @@ class TestSupercomputers(DiscoveryMgmtTestCase):
         )
         updated_supercomputer = operation.result()
         assert updated_supercomputer is not None
+
     @recorded_by_proxy
     def test_delete_supercomputer(self):
         """Test deleting a supercomputer."""

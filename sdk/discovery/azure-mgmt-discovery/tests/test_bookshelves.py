@@ -4,7 +4,7 @@
 # ------------------------------------
 """Tests for Bookshelves operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase, AZURE_RESOURCE_GROUP
@@ -14,7 +14,7 @@ class TestBookshelves(DiscoveryMgmtTestCase):
     """Tests for Bookshelves operations."""
 
     def setup_method(self, method):
-        self.client = self.create_discovery_client(DiscoveryClient)
+        self.client = self.create_discovery_client(DiscoveryMgmtClient)
         self.resource_group = AZURE_RESOURCE_GROUP
 
     @recorded_by_proxy
@@ -28,6 +28,7 @@ class TestBookshelves(DiscoveryMgmtTestCase):
         """Test listing bookshelves in a resource group."""
         bookshelves = list(self.client.bookshelves.list_by_resource_group(self.resource_group))
         assert isinstance(bookshelves, list)
+
     @recorded_by_proxy
     def test_get_bookshelf(self):
         """Test getting a specific bookshelf by name."""
@@ -35,6 +36,7 @@ class TestBookshelves(DiscoveryMgmtTestCase):
         assert bookshelf is not None
         assert hasattr(bookshelf, "name")
         assert hasattr(bookshelf, "location")
+
     @recorded_by_proxy
     def test_create_bookshelf(self):
         """Test creating a bookshelf."""
@@ -46,6 +48,7 @@ class TestBookshelves(DiscoveryMgmtTestCase):
         )
         bookshelf = operation.result()
         assert bookshelf is not None
+
     @recorded_by_proxy
     def test_update_bookshelf(self):
         """Test updating a bookshelf."""
@@ -59,6 +62,7 @@ class TestBookshelves(DiscoveryMgmtTestCase):
         )
         updated_bookshelf = operation.result()
         assert updated_bookshelf is not None
+
     @recorded_by_proxy
     def test_delete_bookshelf(self):
         """Test deleting a bookshelf."""

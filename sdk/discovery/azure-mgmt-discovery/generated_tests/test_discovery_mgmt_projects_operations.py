@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
@@ -14,17 +14,17 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestDiscoveryChatModelDeploymentsOperations(AzureMgmtRecordedTestCase):
+class TestDiscoveryMgmtProjectsOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(DiscoveryClient)
+        self.client = self.create_mgmt_client(DiscoveryMgmtClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_chat_model_deployments_get(self, resource_group):
-        response = self.client.chat_model_deployments.get(
+    def test_projects_get(self, resource_group):
+        response = self.client.projects.get(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            chat_model_deployment_name="str",
+            project_name="str",
         )
 
         # please add some check logic here by yourself
@@ -32,16 +32,21 @@ class TestDiscoveryChatModelDeploymentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_chat_model_deployments_begin_create_or_update(self, resource_group):
-        response = self.client.chat_model_deployments.begin_create_or_update(
+    def test_projects_begin_create_or_update(self, resource_group):
+        response = self.client.projects.begin_create_or_update(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            chat_model_deployment_name="str",
+            project_name="str",
             resource={
                 "location": "str",
                 "id": "str",
                 "name": "str",
-                "properties": {"modelFormat": "str", "modelName": "str", "provisioningState": "str"},
+                "properties": {
+                    "foundryProjectEndpoint": "str",
+                    "provisioningState": "str",
+                    "settings": {"behaviorPreferences": "str"},
+                    "storageContainerIds": ["str"],
+                },
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -60,16 +65,21 @@ class TestDiscoveryChatModelDeploymentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_chat_model_deployments_begin_update(self, resource_group):
-        response = self.client.chat_model_deployments.begin_update(
+    def test_projects_begin_update(self, resource_group):
+        response = self.client.projects.begin_update(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            chat_model_deployment_name="str",
+            project_name="str",
             properties={
                 "location": "str",
                 "id": "str",
                 "name": "str",
-                "properties": {"modelFormat": "str", "modelName": "str", "provisioningState": "str"},
+                "properties": {
+                    "foundryProjectEndpoint": "str",
+                    "provisioningState": "str",
+                    "settings": {"behaviorPreferences": "str"},
+                    "storageContainerIds": ["str"],
+                },
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -88,11 +98,11 @@ class TestDiscoveryChatModelDeploymentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_chat_model_deployments_begin_delete(self, resource_group):
-        response = self.client.chat_model_deployments.begin_delete(
+    def test_projects_begin_delete(self, resource_group):
+        response = self.client.projects.begin_delete(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            chat_model_deployment_name="str",
+            project_name="str",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -100,8 +110,8 @@ class TestDiscoveryChatModelDeploymentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_chat_model_deployments_list_by_workspace(self, resource_group):
-        response = self.client.chat_model_deployments.list_by_workspace(
+    def test_projects_list_by_workspace(self, resource_group):
+        response = self.client.projects.list_by_workspace(
             resource_group_name=resource_group.name,
             workspace_name="str",
         )

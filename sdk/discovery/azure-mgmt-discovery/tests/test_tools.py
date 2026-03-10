@@ -5,7 +5,7 @@
 # ------------------------------------
 """Tests for Tools operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase, AZURE_RESOURCE_GROUP
@@ -19,7 +19,7 @@ class TestTools(DiscoveryMgmtTestCase):
     """Tests for Tools operations."""
 
     def setup_method(self, method):
-        self.client = self.create_discovery_client(DiscoveryClient)
+        self.client = self.create_discovery_client(DiscoveryMgmtClient)
         self.resource_group = AZURE_RESOURCE_GROUP
 
     @recorded_by_proxy
@@ -42,6 +42,7 @@ class TestTools(DiscoveryMgmtTestCase):
         # Don't assert on name since it may be sanitized in playback
         assert hasattr(tool, "name")
         assert hasattr(tool, "location")
+
     @recorded_by_proxy
     def test_create_tool(self):
         """Test creating a tool."""
@@ -59,26 +60,14 @@ class TestTools(DiscoveryMgmtTestCase):
                         {
                             "name": "worker",
                             "infra_type": "container",
-                            "image": {
-                                "acr": "demodiscoveryacr.azurecr.io/molpredictor:latest"
-                            },
+                            "image": {"acr": "demodiscoveryacr.azurecr.io/molpredictor:latest"},
                             "compute": {
-                                "min_resources": {
-                                    "cpu": "1",
-                                    "ram": "1Gi",
-                                    "storage": "32",
-                                    "gpu": "0"
-                                },
-                                "max_resources": {
-                                    "cpu": "2",
-                                    "ram": "1Gi",
-                                    "storage": "64",
-                                    "gpu": "0"
-                                },
+                                "min_resources": {"cpu": "1", "ram": "1Gi", "storage": "32", "gpu": "0"},
+                                "max_resources": {"cpu": "2", "ram": "1Gi", "storage": "64", "gpu": "0"},
                                 "recommended_sku": ["Standard_D4s_v6"],
                                 "pool_type": "static",
-                                "pool_size": 1
-                            }
+                                "pool_size": 1,
+                            },
                         }
                     ],
                     "actions": [
@@ -90,17 +79,17 @@ class TestTools(DiscoveryMgmtTestCase):
                                 "properties": {
                                     "action": {
                                         "type": "string",
-                                        "description": "The property to predict. Must be one of [log_p, boiling_point, solubility, density, critical_point]"
+                                        "description": "The property to predict. Must be one of [log_p, boiling_point, solubility, density, critical_point]",
                                     }
                                 },
-                                "required": ["action"]
+                                "required": ["action"],
                             },
                             "command": "python molpredictor.py --action {{ action }}",
-                            "infra_node": "worker"
+                            "infra_node": "worker",
                         }
-                    ]
-                }
-            }
+                    ],
+                },
+            },
         }
         operation = self.client.tools.begin_create_or_update(
             resource_group_name="olawal",
@@ -109,6 +98,7 @@ class TestTools(DiscoveryMgmtTestCase):
         )
         tool = operation.result()
         assert tool is not None
+
     @recorded_by_proxy
     def test_update_tool(self):
         """Test updating a tool."""
@@ -122,6 +112,7 @@ class TestTools(DiscoveryMgmtTestCase):
         )
         updated_tool = operation.result()
         assert updated_tool is not None
+
     @recorded_by_proxy
     def test_delete_tool(self):
         """Test deleting a tool."""

@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.discovery.aio import DiscoveryClient
+from azure.mgmt.discovery.aio import DiscoveryMgmtClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
 from devtools_testutils.aio import recorded_by_proxy_async
@@ -15,17 +15,17 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestDiscoveryStorageAssetsOperationsAsync(AzureMgmtRecordedTestCase):
+class TestDiscoveryMgmtWorkspacePrivateEndpointConnectionsOperationsAsync(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(DiscoveryClient, is_async=True)
+        self.client = self.create_mgmt_client(DiscoveryMgmtClient, is_async=True)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_storage_assets_get(self, resource_group):
-        response = await self.client.storage_assets.get(
+    async def test_workspace_private_endpoint_connections_get(self, resource_group):
+        response = await self.client.workspace_private_endpoint_connections.get(
             resource_group_name=resource_group.name,
-            storage_container_name="str",
-            storage_asset_name="str",
+            workspace_name="str",
+            private_endpoint_connection_name="str",
         )
 
         # please add some check logic here by yourself
@@ -33,17 +33,25 @@ class TestDiscoveryStorageAssetsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_storage_assets_begin_create_or_update(self, resource_group):
+    async def test_workspace_private_endpoint_connections_begin_create_or_update(self, resource_group):
         response = await (
-            await self.client.storage_assets.begin_create_or_update(
+            await self.client.workspace_private_endpoint_connections.begin_create_or_update(
                 resource_group_name=resource_group.name,
-                storage_container_name="str",
-                storage_asset_name="str",
+                workspace_name="str",
+                private_endpoint_connection_name="str",
                 resource={
-                    "location": "str",
                     "id": "str",
                     "name": "str",
-                    "properties": {"description": "str", "path": "str", "provisioningState": "str"},
+                    "properties": {
+                        "privateLinkServiceConnectionState": {
+                            "actionsRequired": "str",
+                            "description": "str",
+                            "status": "str",
+                        },
+                        "groupIds": ["str"],
+                        "privateEndpoint": {"id": "str"},
+                        "provisioningState": "str",
+                    },
                     "systemData": {
                         "createdAt": "2020-02-20 00:00:00",
                         "createdBy": "str",
@@ -52,7 +60,6 @@ class TestDiscoveryStorageAssetsOperationsAsync(AzureMgmtRecordedTestCase):
                         "lastModifiedBy": "str",
                         "lastModifiedByType": "str",
                     },
-                    "tags": {"str": "str"},
                     "type": "str",
                 },
             )
@@ -63,28 +70,12 @@ class TestDiscoveryStorageAssetsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_storage_assets_begin_update(self, resource_group):
+    async def test_workspace_private_endpoint_connections_begin_delete(self, resource_group):
         response = await (
-            await self.client.storage_assets.begin_update(
+            await self.client.workspace_private_endpoint_connections.begin_delete(
                 resource_group_name=resource_group.name,
-                storage_container_name="str",
-                storage_asset_name="str",
-                properties={
-                    "location": "str",
-                    "id": "str",
-                    "name": "str",
-                    "properties": {"description": "str", "path": "str", "provisioningState": "str"},
-                    "systemData": {
-                        "createdAt": "2020-02-20 00:00:00",
-                        "createdBy": "str",
-                        "createdByType": "str",
-                        "lastModifiedAt": "2020-02-20 00:00:00",
-                        "lastModifiedBy": "str",
-                        "lastModifiedByType": "str",
-                    },
-                    "tags": {"str": "str"},
-                    "type": "str",
-                },
+                workspace_name="str",
+                private_endpoint_connection_name="str",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -93,24 +84,10 @@ class TestDiscoveryStorageAssetsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_storage_assets_begin_delete(self, resource_group):
-        response = await (
-            await self.client.storage_assets.begin_delete(
-                resource_group_name=resource_group.name,
-                storage_container_name="str",
-                storage_asset_name="str",
-            )
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_storage_assets_list_by_storage_container(self, resource_group):
-        response = self.client.storage_assets.list_by_storage_container(
+    async def test_workspace_private_endpoint_connections_list_by_workspace(self, resource_group):
+        response = self.client.workspace_private_endpoint_connections.list_by_workspace(
             resource_group_name=resource_group.name,
-            storage_container_name="str",
+            workspace_name="str",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself

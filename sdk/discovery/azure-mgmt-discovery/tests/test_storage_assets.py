@@ -5,7 +5,7 @@
 # ------------------------------------
 """Tests for Storage Assets operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -19,14 +19,17 @@ class TestStorageAssets(DiscoveryMgmtTestCase):
     """Tests for Storage Assets operations."""
 
     def setup_method(self, method):
-        self.client = self.create_discovery_client(DiscoveryClient)
+        self.client = self.create_discovery_client(DiscoveryMgmtClient)
         self.resource_group = STORAGE_ASSET_RESOURCE_GROUP
 
     @recorded_by_proxy
     def test_list_storage_assets_by_storage_container(self):
         """Test listing storage assets in a storage container."""
-        assets = list(self.client.storage_assets.list_by_storage_container(self.resource_group, STORAGE_ASSET_CONTAINER_NAME))
+        assets = list(
+            self.client.storage_assets.list_by_storage_container(self.resource_group, STORAGE_ASSET_CONTAINER_NAME)
+        )
         assert isinstance(assets, list)
+
     @recorded_by_proxy
     def test_get_storage_asset(self):
         """Test getting a specific storage asset by name."""
@@ -34,16 +37,14 @@ class TestStorageAssets(DiscoveryMgmtTestCase):
         asset = self.client.storage_assets.get(self.resource_group, storage_container_name, "test-sa-482ad005")
         assert asset is not None
         assert hasattr(asset, "name")
+
     @recorded_by_proxy
     def test_create_storage_asset(self):
         """Test creating a storage asset."""
         storage_container_name = "test-sc-8bef0d1a"
         asset_data = {
             "location": "uksouth",
-            "properties": {
-                "description": "Test storage asset for SDK validation",
-                "path": "data/test-assets"
-            }
+            "properties": {"description": "Test storage asset for SDK validation", "path": "data/test-assets"},
         }
         operation = self.client.storage_assets.begin_create_or_update(
             resource_group_name="olawal",
@@ -53,6 +54,7 @@ class TestStorageAssets(DiscoveryMgmtTestCase):
         )
         asset = operation.result()
         assert asset is not None
+
     @recorded_by_proxy
     def test_update_storage_asset(self):
         """Test updating a storage asset."""
@@ -67,6 +69,7 @@ class TestStorageAssets(DiscoveryMgmtTestCase):
         )
         updated_asset = operation.result()
         assert updated_asset is not None
+
     @recorded_by_proxy
     def test_delete_storage_asset(self):
         """Test deleting a storage asset."""

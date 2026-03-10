@@ -1,10 +1,11 @@
+# pylint: disable=line-too-long,useless-suppression
 # ------------------------------------
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 # ------------------------------------
 """Tests for NodePools operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -18,7 +19,7 @@ class TestNodePools(DiscoveryMgmtTestCase):
     """Tests for NodePools operations."""
 
     def setup_method(self, method):
-        self.client = self.create_discovery_client(DiscoveryClient)
+        self.client = self.create_discovery_client(DiscoveryMgmtClient)
         self.resource_group = NODE_POOL_RESOURCE_GROUP
 
     @recorded_by_proxy
@@ -26,6 +27,7 @@ class TestNodePools(DiscoveryMgmtTestCase):
         """Test listing node pools in a supercomputer."""
         node_pools = list(self.client.node_pools.list_by_supercomputer("rp114-rg", NODE_POOL_SUPERCOMPUTER_NAME))
         assert isinstance(node_pools, list)
+
     @pytest.mark.skip(reason="no recording")
     @recorded_by_proxy
     def test_get_node_pool(self):
@@ -34,6 +36,7 @@ class TestNodePools(DiscoveryMgmtTestCase):
         node_pool = self.client.node_pools.get(self.resource_group, supercomputer_name, "test-nodepool")
         assert node_pool is not None
         assert hasattr(node_pool, "name")
+
     @pytest.mark.skip(reason="no recording")
     @recorded_by_proxy
     def test_create_node_pool(self):
@@ -46,8 +49,8 @@ class TestNodePools(DiscoveryMgmtTestCase):
                 "vmSize": "Standard_D4s_v6",
                 "maxNodeCount": 3,
                 "minNodeCount": 1,
-                "scaleSetPriority": "Regular"
-            }
+                "scaleSetPriority": "Regular",
+            },
         }
         operation = self.client.node_pools.begin_create_or_update(
             resource_group_name="olawal",
@@ -57,6 +60,7 @@ class TestNodePools(DiscoveryMgmtTestCase):
         )
         node_pool = operation.result()
         assert node_pool is not None
+
     @pytest.mark.skip(reason="no recording")
     @recorded_by_proxy
     def test_update_node_pool(self):
@@ -73,6 +77,7 @@ class TestNodePools(DiscoveryMgmtTestCase):
         )
         updated_node_pool = operation.result()
         assert updated_node_pool is not None
+
     @pytest.mark.skip(reason="no recording")
     @recorded_by_proxy
     def test_delete_node_pool(self):

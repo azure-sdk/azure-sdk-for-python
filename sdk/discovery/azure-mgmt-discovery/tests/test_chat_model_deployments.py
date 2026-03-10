@@ -3,7 +3,7 @@
 # Licensed under the MIT License.
 # ------------------------------------
 """Tests for ChatModelDeployments operations."""
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -18,7 +18,7 @@ class TestChatModelDeployments(DiscoveryMgmtTestCase):
     """Tests for ChatModelDeployments operations."""
 
     def setup_method(self, method):
-        self.client = self.create_discovery_client(DiscoveryClient)
+        self.client = self.create_discovery_client(DiscoveryMgmtClient)
         self.resource_group = WORKSPACE_RESOURCE_GROUP
         self.workspace_name = WORKSPACE_NAME
 
@@ -29,22 +29,20 @@ class TestChatModelDeployments(DiscoveryMgmtTestCase):
             self.client.chat_model_deployments.list_by_workspace(self.resource_group, self.workspace_name)
         )
         assert isinstance(deployments, list)
+
     @recorded_by_proxy
     def test_get_chat_model_deployment(self):
         """Test getting a specific chat model deployment by name."""
-        deployment = self.client.chat_model_deployments.get(self.resource_group, self.workspace_name, "test-deploy-chatmodel01")
+        deployment = self.client.chat_model_deployments.get(
+            self.resource_group, self.workspace_name, "test-deploy-chatmodel01"
+        )
         assert deployment is not None
         assert hasattr(deployment, "name")
+
     @recorded_by_proxy
     def test_create_chat_model_deployment(self):
         """Test creating a chat model deployment."""
-        deployment_data = {
-            "location": "uksouth",
-            "properties": {
-                "modelFormat": "OpenAI",
-                "modelName": "gpt-4o"
-            }
-        }
+        deployment_data = {"location": "uksouth", "properties": {"modelFormat": "OpenAI", "modelName": "gpt-4o"}}
         operation = self.client.chat_model_deployments.begin_create_or_update(
             resource_group_name=self.resource_group,
             workspace_name=self.workspace_name,
@@ -53,6 +51,7 @@ class TestChatModelDeployments(DiscoveryMgmtTestCase):
         )
         deployment = operation.result()
         assert deployment is not None
+
     @recorded_by_proxy
     def test_delete_chat_model_deployment(self):
         """Test deleting a chat model deployment."""

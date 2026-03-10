@@ -6,24 +6,25 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery.aio import DiscoveryMgmtClient
 
-from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
+from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
+from devtools_testutils.aio import recorded_by_proxy_async
 
 AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestDiscoveryWorkspacePrivateLinkResourcesOperations(AzureMgmtRecordedTestCase):
+class TestDiscoveryMgmtBookshelfPrivateLinkResourcesOperationsAsync(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(DiscoveryClient)
+        self.client = self.create_mgmt_client(DiscoveryMgmtClient, is_async=True)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_workspace_private_link_resources_get(self, resource_group):
-        response = self.client.workspace_private_link_resources.get(
+    @recorded_by_proxy_async
+    async def test_bookshelf_private_link_resources_get(self, resource_group):
+        response = await self.client.bookshelf_private_link_resources.get(
             resource_group_name=resource_group.name,
-            workspace_name="str",
+            bookshelf_name="str",
             private_link_resource_name="str",
         )
 
@@ -31,12 +32,12 @@ class TestDiscoveryWorkspacePrivateLinkResourcesOperations(AzureMgmtRecordedTest
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_workspace_private_link_resources_list_by_workspace(self, resource_group):
-        response = self.client.workspace_private_link_resources.list_by_workspace(
+    @recorded_by_proxy_async
+    async def test_bookshelf_private_link_resources_list_by_bookshelf(self, resource_group):
+        response = self.client.bookshelf_private_link_resources.list_by_bookshelf(
             resource_group_name=resource_group.name,
-            workspace_name="str",
+            bookshelf_name="str",
         )
-        result = [r for r in response]
+        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...

@@ -1,10 +1,11 @@
+# pylint: disable=line-too-long,useless-suppression
 # ------------------------------------
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 # ------------------------------------
 """Tests for StorageContainers operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryClient
+from azure.mgmt.discovery import DiscoveryMgmtClient
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -17,7 +18,7 @@ class TestStorageContainers(DiscoveryMgmtTestCase):
     """Tests for StorageContainers operations."""
 
     def setup_method(self, method):
-        self.client = self.create_discovery_client(DiscoveryClient)
+        self.client = self.create_discovery_client(DiscoveryMgmtClient)
         self.resource_group = STORAGE_CONTAINER_RESOURCE_GROUP
 
     @recorded_by_proxy
@@ -31,12 +32,14 @@ class TestStorageContainers(DiscoveryMgmtTestCase):
         """Test listing storage containers in the subscription."""
         containers = list(self.client.storage_containers.list_by_subscription())
         assert isinstance(containers, list)
+
     @recorded_by_proxy
     def test_get_storage_container(self):
         """Test getting a specific storage container by name."""
         container = self.client.storage_containers.get(self.resource_group, "test-sc-8bef0d1a")
         assert container is not None
         assert hasattr(container, "name")
+
     @recorded_by_proxy
     def test_create_storage_container(self):
         """Test creating a storage container."""
@@ -45,9 +48,9 @@ class TestStorageContainers(DiscoveryMgmtTestCase):
             "properties": {
                 "storageStore": {
                     "kind": "AzureStorageBlob",
-                    "storageAccountId": "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Storage/storageAccounts/mytststr"
+                    "storageAccountId": "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Storage/storageAccounts/mytststr",
                 }
-            }
+            },
         }
         operation = self.client.storage_containers.begin_create_or_update(
             resource_group_name="olawal",
@@ -56,6 +59,7 @@ class TestStorageContainers(DiscoveryMgmtTestCase):
         )
         container = operation.result()
         assert container is not None
+
     @recorded_by_proxy
     def test_update_storage_container(self):
         """Test updating a storage container."""
@@ -69,6 +73,7 @@ class TestStorageContainers(DiscoveryMgmtTestCase):
         )
         updated_container = operation.result()
         assert updated_container is not None
+
     @recorded_by_proxy
     def test_delete_storage_container(self):
         """Test deleting a storage container."""
