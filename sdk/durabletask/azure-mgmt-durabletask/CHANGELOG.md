@@ -18,13 +18,13 @@
   - Added model `PrivateLinkServiceConnectionState`
   - Added enum `PublicNetworkAccess`
   - Added model `SchedulerPrivateLinkResource`
-  - Model `SchedulersOperations` added method `begin_create_or_update_private_endpoint_connection`
-  - Model `SchedulersOperations` added method `begin_delete_private_endpoint_connection`
-  - Model `SchedulersOperations` added method `begin_update_private_endpoint_connection`
-  - Model `SchedulersOperations` added method `get_private_endpoint_connection`
-  - Model `SchedulersOperations` added method `get_private_link`
-  - Model `SchedulersOperations` added method `list_private_endpoint_connections`
-  - Model `SchedulersOperations` added method `list_private_links`
+  - Operation group `SchedulersOperations` added method `begin_create_or_update_private_endpoint_connection`
+  - Operation group `SchedulersOperations` added method `begin_delete_private_endpoint_connection`
+  - Operation group `SchedulersOperations` added method `begin_update_private_endpoint_connection`
+  - Operation group `SchedulersOperations` added method `get_private_endpoint_connection`
+  - Operation group `SchedulersOperations` added method `get_private_link`
+  - Operation group `SchedulersOperations` added method `list_private_endpoint_connections`
+  - Operation group `SchedulersOperations` added method `list_private_links`
 
 ## 1.0.0 (2025-09-25)
 
