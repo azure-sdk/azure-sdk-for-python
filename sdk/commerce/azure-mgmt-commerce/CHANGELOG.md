@@ -13,26 +13,14 @@
 
 ### Breaking Changes
 
-  - Model `UsageAggregation` deleted or renamed its instance variable `subscription_id`
-  - Model `UsageAggregation` deleted or renamed its instance variable `meter_id`
-  - Model `UsageAggregation` deleted or renamed its instance variable `usage_start_time`
-  - Model `UsageAggregation` deleted or renamed its instance variable `usage_end_time`
-  - Model `UsageAggregation` deleted or renamed its instance variable `quantity`
-  - Model `UsageAggregation` deleted or renamed its instance variable `unit`
-  - Model `UsageAggregation` deleted or renamed its instance variable `meter_name`
-  - Model `UsageAggregation` deleted or renamed its instance variable `meter_category`
-  - Model `UsageAggregation` deleted or renamed its instance variable `meter_sub_category`
-  - Model `UsageAggregation` deleted or renamed its instance variable `meter_region`
-  - Model `UsageAggregation` deleted or renamed its instance variable `info_fields`
-  - Model `UsageAggregation` deleted or renamed its instance variable `instance_data`
   - Deleted or renamed model `InfoField`
   - Deleted or renamed model `OfferTermInfoEnum`
-  - Deleted or renamed model `RateCardQueryParameters`
-  - Method `UsageAggregatesOperations.list` changed its parameter `reported_start_time` from `positional_or_keyword` to `keyword_only`
-  - Method `UsageAggregatesOperations.list` changed its parameter `reported_end_time` from `positional_or_keyword` to `keyword_only`
-  - Method `UsageAggregatesOperations.list` changed its parameter `show_details` from `positional_or_keyword` to `keyword_only`
-  - Method `UsageAggregatesOperations.list` changed its parameter `aggregation_granularity` from `positional_or_keyword` to `keyword_only`
-  - Method `UsageAggregatesOperations.list` changed its parameter `continuation_token_parameter` from `positional_or_keyword` to `keyword_only`
+  - Model `UsageAggregation` moved instance variable `subscription_id`, `meter_id`, `usage_start_time`, `usage_end_time`, `quantity`, `unit`, `meter_name`, `meter_category`, `meter_sub_category`, `meter_region`, `info_fields` and `instance_data` under property `properties`
+  - Method `UsageAggregatesOperations.list` changed its parameter `reported_start_time`/`reported_end_time`/`show_details`/`aggregation_granularity`/`continuation_token_parameter` from `positional_or_keyword` to `keyword_only`
+
+### Other Changes
+
+  - Deleted model `RateCardQueryParameters` which actually were not used by SDK users
 
 ## 6.1.0b1 (2023-02-10)
 
