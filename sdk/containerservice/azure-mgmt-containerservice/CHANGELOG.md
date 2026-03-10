@@ -20,120 +20,46 @@
   - Added model `AccessProfile`
   - Added model `CommandResultProperties`
   - Added model `OperationValueDisplay`
-  - Model `AgentPoolsOperations` added parameter `etag` in method `begin_create_or_update`
-  - Model `AgentPoolsOperations` added parameter `match_condition` in method `begin_create_or_update`
-  - Model `AgentPoolsOperations` added parameter `etag` in method `begin_delete`
-  - Model `AgentPoolsOperations` added parameter `match_condition` in method `begin_delete`
-  - Model `MachinesOperations` added parameter `etag` in method `begin_create_or_update`
-  - Model `MachinesOperations` added parameter `match_condition` in method `begin_create_or_update`
-  - Model `ManagedClustersOperations` added parameter `etag` in method `begin_create_or_update`
-  - Model `ManagedClustersOperations` added parameter `match_condition` in method `begin_create_or_update`
-  - Model `ManagedClustersOperations` added parameter `etag` in method `begin_delete`
-  - Model `ManagedClustersOperations` added parameter `match_condition` in method `begin_delete`
-  - Model `ManagedClustersOperations` added parameter `etag` in method `begin_update_tags`
-  - Model `ManagedClustersOperations` added parameter `match_condition` in method `begin_update_tags`
+  - Operation group `AgentPoolsOperations` added parameter `etag` in method `begin_create_or_update`
+  - Operation group `AgentPoolsOperations` added parameter `match_condition` in method `begin_create_or_update`
+  - Operation group `AgentPoolsOperations` added parameter `etag` in method `begin_delete`
+  - Operation group `AgentPoolsOperations` added parameter `match_condition` in method `begin_delete`
+  - Operation group `MachinesOperations` added parameter `etag` in method `begin_create_or_update`
+  - Operation group `MachinesOperations` added parameter `match_condition` in method `begin_create_or_update`
+  - Operation group `ManagedClustersOperations` added parameter `etag` in method `begin_create_or_update`
+  - Operation group `ManagedClustersOperations` added parameter `match_condition` in method `begin_create_or_update`
+  - Operation group `ManagedClustersOperations` added parameter `etag` in method `begin_delete`
+  - Operation group `ManagedClustersOperations` added parameter `match_condition` in method `begin_delete`
+  - Operation group `ManagedClustersOperations` added parameter `etag` in method `begin_update_tags`
+  - Operation group `ManagedClustersOperations` added parameter `match_condition` in method `begin_update_tags`
 
 ### Breaking Changes
 
-  - Model `AgentPool` deleted or renamed its instance variable `e_tag`
-  - Model `AgentPool` deleted or renamed its instance variable `count`
-  - Model `AgentPool` deleted or renamed its instance variable `vm_size`
-  - Model `AgentPool` deleted or renamed its instance variable `os_disk_size_gb`
-  - Model `AgentPool` deleted or renamed its instance variable `os_disk_type`
-  - Model `AgentPool` deleted or renamed its instance variable `kubelet_disk_type`
-  - Model `AgentPool` deleted or renamed its instance variable `workload_runtime`
-  - Model `AgentPool` deleted or renamed its instance variable `message_of_the_day`
-  - Model `AgentPool` deleted or renamed its instance variable `vnet_subnet_id`
-  - Model `AgentPool` deleted or renamed its instance variable `pod_subnet_id`
-  - Model `AgentPool` deleted or renamed its instance variable `pod_ip_allocation_mode`
-  - Model `AgentPool` deleted or renamed its instance variable `max_pods`
-  - Model `AgentPool` deleted or renamed its instance variable `os_type`
-  - Model `AgentPool` deleted or renamed its instance variable `os_sku`
-  - Model `AgentPool` deleted or renamed its instance variable `max_count`
-  - Model `AgentPool` deleted or renamed its instance variable `min_count`
-  - Model `AgentPool` deleted or renamed its instance variable `enable_auto_scaling`
-  - Model `AgentPool` deleted or renamed its instance variable `scale_down_mode`
-  - Model `AgentPool` deleted or renamed its instance variable `type_properties_type`
-  - Model `AgentPool` deleted or renamed its instance variable `mode`
-  - Model `AgentPool` deleted or renamed its instance variable `orchestrator_version`
-  - Model `AgentPool` deleted or renamed its instance variable `current_orchestrator_version`
-  - Model `AgentPool` deleted or renamed its instance variable `node_image_version`
-  - Model `AgentPool` deleted or renamed its instance variable `upgrade_strategy`
-  - Model `AgentPool` deleted or renamed its instance variable `upgrade_settings`
-  - Model `AgentPool` deleted or renamed its instance variable `upgrade_settings_blue_green`
-  - Model `AgentPool` deleted or renamed its instance variable `provisioning_state`
-  - Model `AgentPool` deleted or renamed its instance variable `power_state`
-  - Model `AgentPool` deleted or renamed its instance variable `availability_zones`
-  - Model `AgentPool` deleted or renamed its instance variable `enable_node_public_ip`
-  - Model `AgentPool` deleted or renamed its instance variable `node_public_ip_prefix_id`
-  - Model `AgentPool` deleted or renamed its instance variable `scale_set_priority`
-  - Model `AgentPool` deleted or renamed its instance variable `scale_set_eviction_policy`
-  - Model `AgentPool` deleted or renamed its instance variable `spot_max_price`
-  - Model `AgentPool` deleted or renamed its instance variable `tags`
-  - Model `AgentPool` deleted or renamed its instance variable `node_labels`
-  - Model `AgentPool` deleted or renamed its instance variable `node_taints`
-  - Model `AgentPool` deleted or renamed its instance variable `node_initialization_taints`
-  - Model `AgentPool` deleted or renamed its instance variable `proximity_placement_group_id`
-  - Model `AgentPool` deleted or renamed its instance variable `kubelet_config`
-  - Model `AgentPool` deleted or renamed its instance variable `linux_os_config`
-  - Model `AgentPool` deleted or renamed its instance variable `enable_encryption_at_host`
-  - Model `AgentPool` deleted or renamed its instance variable `enable_ultra_ssd`
-  - Model `AgentPool` deleted or renamed its instance variable `enable_fips`
-  - Model `AgentPool` deleted or renamed its instance variable `gpu_instance_profile`
-  - Model `AgentPool` deleted or renamed its instance variable `creation_data`
-  - Model `AgentPool` deleted or renamed its instance variable `capacity_reservation_group_id`
-  - Model `AgentPool` deleted or renamed its instance variable `host_group_id`
-  - Model `AgentPool` deleted or renamed its instance variable `windows_profile`
-  - Model `AgentPool` deleted or renamed its instance variable `network_profile`
-  - Model `AgentPool` deleted or renamed its instance variable `security_profile`
-  - Model `AgentPool` deleted or renamed its instance variable `gpu_profile`
-  - Model `AgentPool` deleted or renamed its instance variable `artifact_streaming_profile`
-  - Model `AgentPool` deleted or renamed its instance variable `virtual_machines_profile`
-  - Model `AgentPool` deleted or renamed its instance variable `virtual_machine_nodes_status`
-  - Model `AgentPool` deleted or renamed its instance variable `gateway_profile`
-  - Model `AgentPool` deleted or renamed its instance variable `status`
-  - Model `AgentPool` deleted or renamed its instance variable `local_dns_profile`
-  - Model `AgentPool` deleted or renamed its instance variable `node_customization_profile`
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
+  - For the method breakings, please refer to https://aka.ms/azsdk/python/migrate/operations for migration.
   - Deleted or renamed enum value `Format.EXEC`
-  - Model `KubernetesVersionListResult` deleted or renamed its instance variable `values`
-  - Model `LabelSelectorRequirement` deleted or renamed its instance variable `values`
-  - Model `ManagedClusterAccessProfile` deleted or renamed its instance variable `kube_config`
-  - Model `OperationValue` deleted or renamed its instance variable `operation`
-  - Model `OperationValue` deleted or renamed its instance variable `resource`
-  - Model `OperationValue` deleted or renamed its instance variable `description`
-  - Model `OperationValue` deleted or renamed its instance variable `provider`
   - Deleted or renamed enum value `Operator.IN`
-  - Model `RunCommandResult` deleted or renamed its instance variable `provisioning_state`
-  - Model `RunCommandResult` deleted or renamed its instance variable `exit_code`
-  - Model `RunCommandResult` deleted or renamed its instance variable `started_at`
-  - Model `RunCommandResult` deleted or renamed its instance variable `finished_at`
-  - Model `RunCommandResult` deleted or renamed its instance variable `logs`
-  - Model `RunCommandResult` deleted or renamed its instance variable `reason`
-  - Deleted or renamed model `GuardrailsAvailableVersionsList`
-  - Deleted or renamed model `MeshRevisionProfileList`
-  - Deleted or renamed model `MeshUpgradeProfileList`
-  - Deleted or renamed model `OperationStatusResultList`
-  - Deleted or renamed model `OutboundEnvironmentEndpointCollection`
-  - Deleted or renamed model `SafeguardsAvailableVersionsList`
-  - Deleted or renamed model `SubResource`
-  - Method `AgentPoolsOperations.begin_create_or_update` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
-  - Method `AgentPoolsOperations.begin_create_or_update` deleted or renamed its parameter `if_none_match` of kind `positional_or_keyword`
+  - Model `AgentPool` moved instance variables `e_tag`, `count`, `vm_size`, `os_disk_size_gb`, `os_disk_type`, `kubelet_disk_type`, `workload_runtime`, `message_of_the_day`, `vnet_subnet_id`, `pod_subnet_id`, `pod_ip_allocation_mode`, `max_pods`, `os_type`, `os_sku`, `max_count`, `min_count`, `enable_auto_scaling`, `scale_down_mode`, `type_properties_type`, `mode`, `orchestrator_version`, `current_orchestrator_version`, `node_image_version`, `upgrade_strategy`, `upgrade_settings`, `upgrade_settings_blue_green`, `provisioning_state`, `power_state`, `availability_zones`, `enable_node_public_ip`, `node_public_ip_prefix_id`, `scale_set_priority`, `scale_set_eviction_policy`, `spot_max_price`, `tags`, `node_labels`, `node_taints`, `node_initialization_taints`, `proximity_placement_group_id`, `kubelet_config`, `linux_os_config`, `enable_encryption_at_host`, `enable_ultra_ssd`, `enable_fips`, `gpu_instance_profile`, `creation_data`, `capacity_reservation_group_id`, `host_group_id`, `windows_profile`, `network_profile`, `security_profile`, `gpu_profile`, `artifact_streaming_profile`, `virtual_machines_profile`, `virtual_machine_nodes_status`, `gateway_profile`, `status`, `local_dns_profile` and `node_customization_profile` under property `properties`
+  - Model `KubernetesVersionListResult` renamed its instance variable `values` to `values_property`
+  - Model `LabelSelectorRequirement` renamed its instance variable `values` to `values_property`
+  - Model `ManagedClusterAccessProfile` moved its instance variable `kube_config` under property `properties`
+  - Model `OperationValue` moved instance variables `operation`, `resource`, `description` and `provider` under property `display`
+  - Model `RunCommandResult` moved instance variables `provisioning_state`, `exit_code`, `started_at`, `finished_at`, `logs` and `reason` under property `properties`
   - Method `AgentPoolsOperations.begin_delete` changed its parameter `ignore_pod_disruption_budget` from `positional_or_keyword` to `keyword_only`
-  - Method `AgentPoolsOperations.begin_delete` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
-  - Method `MachinesOperations.begin_create_or_update` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
-  - Method `MachinesOperations.begin_create_or_update` deleted or renamed its parameter `if_none_match` of kind `positional_or_keyword`
-  - Method `ManagedClustersOperations.begin_create_or_update` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
-  - Method `ManagedClustersOperations.begin_create_or_update` deleted or renamed its parameter `if_none_match` of kind `positional_or_keyword`
+  - Method `MachinesOperations.begin_create_or_update` replaced positional_or_keyword parameters `if_match`/`if_none_match` with keyword_only parameters `etag`/`match_condition`
+  - Method `ManagedClustersOperations.begin_create_or_update` replaced positional_or_keyword parameters `if_match`/`if_none_match` with keyword_only parameters `etag`/`match_condition`
+  - Method `AgentPoolsOperations.begin_create_or_update` replaced positional_or_keyword parameters `if_match`/`if_none_match` with keyword_only parameters `etag`/`match_condition`
   - Method `ManagedClustersOperations.begin_delete` changed its parameter `ignore_pod_disruption_budget` from `positional_or_keyword` to `keyword_only`
-  - Method `ManagedClustersOperations.begin_delete` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
-  - Method `ManagedClustersOperations.begin_update_tags` deleted or renamed its parameter `if_match` of kind `positional_or_keyword`
+  - Method `AgentPoolsOperations.begin_delete` replaced positional_or_keyword parameter `if_match` with keyword_only parameters `etag`/`match_condition`
+  - Method `ManagedClustersOperations.begin_delete` replaced positional_or_keyword parameter `if_match` with keyword_only parameters `etag`/`match_condition`
+  - Method `ManagedClustersOperations.begin_update_tags` replaced positional_or_keyword parameter `if_match` with keyword_only parameters `etag`/`match_condition`
   - Method `ManagedClustersOperations.list_cluster_admin_credentials` changed its parameter `server_fqdn` from `positional_or_keyword` to `keyword_only`
   - Method `ManagedClustersOperations.list_cluster_monitoring_user_credentials` changed its parameter `server_fqdn` from `positional_or_keyword` to `keyword_only`
-  - Method `ManagedClustersOperations.list_cluster_user_credentials` changed its parameter `server_fqdn` from `positional_or_keyword` to `keyword_only`
-  - Method `ManagedClustersOperations.list_cluster_user_credentials` changed its parameter `format` from `positional_or_keyword` to `keyword_only`
-  - Method `ManagedClustersOperations.begin_create_or_update` re-ordered its parameters from `['self', 'resource_group_name', 'resource_name', 'parameters', 'if_match', 'if_none_match', 'kwargs']` to `['self', 'resource_group_name', 'resource_name', 'parameters', 'etag', 'match_condition', 'kwargs']`
-  - Method `AgentPoolsOperations.begin_create_or_update` re-ordered its parameters from `['self', 'resource_group_name', 'resource_name', 'agent_pool_name', 'parameters', 'if_match', 'if_none_match', 'kwargs']` to `['self', 'resource_group_name', 'resource_name', 'agent_pool_name', 'parameters', 'etag', 'match_condition', 'kwargs']`
-  - Method `MachinesOperations.begin_create_or_update` re-ordered its parameters from `['self', 'resource_group_name', 'resource_name', 'agent_pool_name', 'machine_name', 'parameters', 'if_match', 'if_none_match', 'kwargs']` to `['self', 'resource_group_name', 'resource_name', 'agent_pool_name', 'machine_name', 'parameters', 'etag', 'match_condition', 'kwargs']`
+  - Method `ManagedClustersOperations.list_cluster_user_credentials` changed its parameters `server_fqdn`/`format` from `positional_or_keyword` to `keyword_only`
+
+### Other Changes
+
+  - Deleted models `GuardrailsAvailableVersionsList`/`MeshRevisionProfileList`/`MeshUpgradeProfileList`/`OperationStatusResultList`/`OutboundEnvironmentEndpointCollection`/`SafeguardsAvailableVersionsList`/`SubResource` which actually were not used by SDK users
 
 ## 41.0.0b3 (2025-12-22)
 
