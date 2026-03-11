@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -15,7 +16,7 @@ from azure.mgmt.networkfunction import TrafficCollectorMgmtClient
     pip install azure-identity
     pip install azure-mgmt-networkfunction
 # USAGE
-    python azure_traffic_collector_delete.py
+    python collector_policy_create.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,12 +31,31 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    client.azure_traffic_collectors.begin_delete(
+    response = client.collector_policies.begin_create_or_update(
         resource_group_name="rg1",
         azure_traffic_collector_name="atc",
+        collector_policy_name="cp1",
+        parameters={
+            "location": "West US",
+            "properties": {
+                "emissionPolicies": [
+                    {"emissionDestinations": [{"destinationType": "AzureMonitor"}], "emissionType": "IPFIX"}
+                ],
+                "ingestionPolicy": {
+                    "ingestionSources": [
+                        {
+                            "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteCircuits/circuitName",
+                            "sourceType": "Resource",
+                        }
+                    ],
+                    "ingestionType": "IPFIX",
+                },
+            },
+        },
     ).result()
+    print(response)
 
 
-# x-ms-original-file: 2022-11-01/AzureTrafficCollectorDelete.json
+# x-ms-original-file: 2022-11-01/CollectorPolicyCreate.json
 if __name__ == "__main__":
     main()

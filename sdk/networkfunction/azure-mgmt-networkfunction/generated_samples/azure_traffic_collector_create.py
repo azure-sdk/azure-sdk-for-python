@@ -15,7 +15,7 @@ from azure.mgmt.networkfunction import TrafficCollectorMgmtClient
     pip install azure-identity
     pip install azure-mgmt-networkfunction
 # USAGE
-    python azure_traffic_collector_delete.py
+    python azure_traffic_collector_create.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,12 +30,14 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    client.azure_traffic_collectors.begin_delete(
+    response = client.azure_traffic_collectors.begin_create_or_update(
         resource_group_name="rg1",
         azure_traffic_collector_name="atc",
+        parameters={"location": "West US", "properties": {}, "tags": {"key1": "value1"}},
     ).result()
+    print(response)
 
 
-# x-ms-original-file: 2022-11-01/AzureTrafficCollectorDelete.json
+# x-ms-original-file: 2022-11-01/AzureTrafficCollectorCreate.json
 if __name__ == "__main__":
     main()
