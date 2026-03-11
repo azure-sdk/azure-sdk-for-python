@@ -27,4 +27,4 @@ class TestUsageManagementUsageAggregatesOperations(AzureMgmtRecordedTestCase):
             reported_end_time=datetime(2020, 2, 20, 0, 0, 0),
         )
         result = [r for r in response]
-        assert response
+        assert len(result)
