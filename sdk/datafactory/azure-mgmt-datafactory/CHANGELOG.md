@@ -68,7 +68,6 @@
   - Added enum `LakehouseAuthenticationType`
   - Added enum `NetezzaSecurityLevelType`
   - Added enum `WarehouseAuthenticationType`
-  - Added model `IntegrationRuntimeOperations`
 
 ## 9.2.0 (2025-04-20)
 
