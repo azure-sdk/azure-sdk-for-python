@@ -17,24 +17,14 @@
 
 ### Breaking Changes
 
-  - Model `AzureTrafficCollector` deleted or renamed its instance variable `collector_policies`
-  - Model `AzureTrafficCollector` deleted or renamed its instance variable `virtual_hub`
-  - Model `AzureTrafficCollector` deleted or renamed its instance variable `provisioning_state`
-  - Model `CollectorPolicy` deleted or renamed its instance variable `ingestion_policy`
-  - Model `CollectorPolicy` deleted or renamed its instance variable `emission_policies`
-  - Model `CollectorPolicy` deleted or renamed its instance variable `provisioning_state`
-  - Deleted or renamed model `ApiVersionParameter`
-  - Deleted or renamed model `TrackedResource`
-  - Deleted or renamed model `TrackedResourceSystemData`
-  - Method `AzureTrafficCollectorsOperations.begin_create_or_update` inserted a `positional_or_keyword` parameter `parameters`
-  - Method `AzureTrafficCollectorsOperations.begin_create_or_update` deleted or renamed its parameter `location` of kind `positional_or_keyword`
-  - Method `AzureTrafficCollectorsOperations.begin_create_or_update` deleted or renamed its parameter `tags` of kind `positional_or_keyword`
-  - Method `AzureTrafficCollectorsOperations.begin_create_or_update` deleted or renamed its parameter `virtual_hub` of kind `positional_or_keyword`
-  - Method `CollectorPoliciesOperations.begin_create_or_update` inserted a `positional_or_keyword` parameter `parameters`
-  - Method `CollectorPoliciesOperations.begin_create_or_update` deleted or renamed its parameter `location` of kind `positional_or_keyword`
-  - Method `CollectorPoliciesOperations.begin_create_or_update` deleted or renamed its parameter `tags` of kind `positional_or_keyword`
-  - Method `CollectorPoliciesOperations.begin_create_or_update` deleted or renamed its parameter `ingestion_policy` of kind `positional_or_keyword`
-  - Method `CollectorPoliciesOperations.begin_create_or_update` deleted or renamed its parameter `emission_policies` of kind `positional_or_keyword`
+  - Model `AzureTrafficCollector` moved instance variable `collector_policies`, `virtual_hub` and `provisioning_state` under property `properties`
+  - Model `CollectorPolicy` moved instance variable `ingestion_policy`, `emission_policies` and `provisioning_state` under property `properties`
+  - Method `AzureTrafficCollectorsOperations.begin_create_or_update` moved its parameters `location`/`tags`/`virtual_hub` under property `parameters`
+  - Method `CollectorPoliciesOperations.begin_create_or_update` moved its parameters `location`/`tags`/`ingestion_policy`/`emission_policies` under property `parameters`
+
+### Other Changes
+
+  - Deleted model `ApiVersionParameter`/`TrackedResource`/`TrackedResourceSystemData` which actually were not used by SDK users
 
 ## 1.0.0b1 (2022-11-18)
 
