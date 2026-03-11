@@ -13,6 +13,8 @@
 
 ### Breaking Changes
 
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
+  - For the method breakings, please refer to https://aka.ms/azsdk/python/migrate/operations for migration.
   - Deleted or renamed model `InfoField`
   - Deleted or renamed model `OfferTermInfoEnum`
   - Model `UsageAggregation` moved instance variable `subscription_id`, `meter_id`, `usage_start_time`, `usage_end_time`, `quantity`, `unit`, `meter_name`, `meter_category`, `meter_sub_category`, `meter_region`, `info_fields` and `instance_data` under property `properties`
