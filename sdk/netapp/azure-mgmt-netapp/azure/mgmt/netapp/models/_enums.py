@@ -62,8 +62,6 @@ class ApplicationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """SAP_HANA."""
     ORACLE = "ORACLE"
     """ORACLE."""
-    CUSTOM = "CUSTOM"
-    """Custom application type allows min 2 and max 12 data volumes in a volume group."""
 
 
 class AvsDataStore(str, Enum, metaclass=CaseInsensitiveEnumMeta):

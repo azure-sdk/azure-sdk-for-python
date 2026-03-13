@@ -1,6 +1,6 @@
 # Release History
 
-## 15.1.0b1 (2026-03-10)
+## 15.1.0b1 (2026-03-13)
 
 ### Features Added
 
@@ -17,7 +17,6 @@
   - Client `NetAppManagementClient` added operation group `active_directory_configs`
   - Model `AccountProperties` added property `entra_id_config`
   - Model `AccountProperties` added property `ldap_configuration`
-  - Enum `ApplicationType` added member `CUSTOM`
   - Model `ReplicationObject` added property `external_replication_setup_status`
   - Model `ReplicationObject` added property `external_replication_setup_info`
   - Model `ReplicationObject` added property `mirror_state`

@@ -3,7 +3,7 @@
   "apiVersions": {
     "Microsoft.NetApp": "2025-12-15-preview"
   },
-  "commit": "ffdc765830f1ece01d260e4b026f7e4f9389a038",
+  "commit": "117cc9c72862af27d56430fac305b61e00341b3d",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "typespec_src": "specification/netapp/resource-manager/Microsoft.NetApp/NetApp",
   "emitterVersion": "0.60.2"

@@ -2234,8 +2234,8 @@ class CacheMountTargetProperties(_Model):
 class CacheProperties(_Model):
     """Cache resource properties.
 
-    :ivar filepath: The file path of the Cache. Required.
-    :vartype filepath: str
+    :ivar file_path: The file path of the Cache. Required.
+    :vartype file_path: str
     :ivar size: Maximum storage quota allowed for a file system in bytes. Valid values are in the
      range 50GiB to 1PiB. Values expressed in bytes as multiples of 1GiB. Required.
     :vartype size: int
@@ -2312,7 +2312,7 @@ class CacheProperties(_Model):
     :vartype write_back: str or ~azure.mgmt.netapp.models.EnableWriteBackState
     """
 
-    filepath: str = rest_field(visibility=["read", "create"])
+    file_path: str = rest_field(name="filePath", visibility=["read", "create"])
     """The file path of the Cache. Required."""
     size: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Maximum storage quota allowed for a file system in bytes. Valid values are in the range 50GiB
@@ -2418,7 +2418,7 @@ class CacheProperties(_Model):
     def __init__(
         self,
         *,
-        filepath: str,
+        file_path: str,
         size: int,
         cache_subnet_resource_id: str,
         peering_subnet_resource_id: str,
@@ -10397,7 +10397,7 @@ class VolumeGroupMetaData(_Model):
 
     :ivar group_description: Group Description.
     :vartype group_description: str
-    :ivar application_type: Application Type. Known values are: "SAP-HANA", "ORACLE", and "CUSTOM".
+    :ivar application_type: Application Type. Known values are: "SAP-HANA" and "ORACLE".
     :vartype application_type: str or ~azure.mgmt.netapp.models.ApplicationType
     :ivar application_identifier: Application specific identifier.
     :vartype application_identifier: str
@@ -10414,7 +10414,7 @@ class VolumeGroupMetaData(_Model):
     application_type: Optional[Union[str, "_models.ApplicationType"]] = rest_field(
         name="applicationType", visibility=["read", "create", "update", "delete", "query"]
     )
-    """Application Type. Known values are: \"SAP-HANA\", \"ORACLE\", and \"CUSTOM\"."""
+    """Application Type. Known values are: \"SAP-HANA\" and \"ORACLE\"."""
     application_identifier: Optional[str] = rest_field(
         name="applicationIdentifier", visibility=["read", "create", "update", "delete", "query"]
     )

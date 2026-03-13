@@ -46,7 +46,7 @@ class TestNetAppManagementCachesOperationsAsync(AzureMgmtRecordedTestCase):
                     "properties": {
                         "cacheSubnetResourceId": "str",
                         "encryptionKeySource": "str",
-                        "filepath": "str",
+                        "filePath": "str",
                         "originClusterInformation": {
                             "peerAddresses": ["str"],
                             "peerClusterName": "str",
