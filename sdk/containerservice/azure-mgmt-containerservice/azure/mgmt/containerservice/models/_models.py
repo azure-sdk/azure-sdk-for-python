@@ -348,7 +348,8 @@ class ProxyResource(Resource):
 
 
 class AgentPool(ProxyResource):
-    """Agent Pool.
+    """Concrete proxy resource types can be created by aliasing this type using a specific property
+    type.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -361,15 +362,15 @@ class AgentPool(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.containerservice.models.SystemData
-    :ivar properties: Properties of an agent pool.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties:
-     ~azure.mgmt.containerservice.models.ManagedClusterAgentPoolProfileProperties
+     ~azure.mgmt.containerservice.models.AgentPoolManagedClusterAgentPoolProfileProperties
     """
 
-    properties: Optional["_models.ManagedClusterAgentPoolProfileProperties"] = rest_field(
+    properties: Optional["_models.AgentPoolManagedClusterAgentPoolProfileProperties"] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
-    """Properties of an agent pool."""
+    """The resource-specific properties for this resource."""
 
     __flattened_items = [
         "e_tag",
@@ -390,7 +391,7 @@ class AgentPool(ProxyResource):
         "min_count",
         "enable_auto_scaling",
         "scale_down_mode",
-        "type",
+        "type_properties_type",
         "mode",
         "orchestrator_version",
         "current_orchestrator_version",
@@ -432,7 +433,7 @@ class AgentPool(ProxyResource):
     def __init__(
         self,
         *,
-        properties: Optional["_models.ManagedClusterAgentPoolProfileProperties"] = None,
+        properties: Optional["_models.AgentPoolManagedClusterAgentPoolProfileProperties"] = None,
     ) -> None: ...
 
     @overload
@@ -656,6 +657,561 @@ class AgentPoolGatewayProfile(_Model):
         self,
         *,
         public_ip_prefix_size: Optional[int] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class AgentPoolManagedClusterAgentPoolProfileProperties(_Model):  # pylint: disable=name-too-long
+    """Properties for the container service agent pool profile.
+
+    :ivar e_tag: Unique read-only string used to implement optimistic concurrency. The eTag value
+     will change when the resource is updated. Specify an if-match or if-none-match header with the
+     eTag value for a subsequent request to enable optimistic concurrency per the normal eTag
+     convention.
+    :vartype e_tag: str
+    :ivar count: Number of agents (VMs) to host docker containers. Allowed values must be in the
+     range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for
+     system pools. The default value is 1.
+    :vartype count: int
+    :ivar vm_size: The size of the agent pool VMs. VM size availability varies by region. If a node
+     contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly.
+     For more details on restricted VM sizes, see:
+     `https://docs.microsoft.com/azure/aks/quotas-skus-regions
+     <https://docs.microsoft.com/azure/aks/quotas-skus-regions>`_.
+    :vartype vm_size: str
+    :ivar os_disk_size_gb: OS Disk Size in GB to be used to specify the disk size for every machine
+     in the master/agent pool. If you specify 0, it will apply the default osDisk size according to
+     the vmSize specified.
+    :vartype os_disk_size_gb: int
+    :ivar os_disk_type: The OS disk type to be used for machines in the agent pool. The default is
+     'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB.
+     Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see
+     `Ephemeral OS <https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os>`_.
+     Known values are: "Managed" and "Ephemeral".
+    :vartype os_disk_type: str or ~azure.mgmt.containerservice.models.OSDiskType
+    :ivar kubelet_disk_type: Determines the placement of emptyDir volumes, container runtime data
+     root, and Kubelet ephemeral storage. Known values are: "OS" and "Temporary".
+    :vartype kubelet_disk_type: str or ~azure.mgmt.containerservice.models.KubeletDiskType
+    :ivar workload_runtime: Determines the type of workload a node can run. Known values are:
+     "OCIContainer", "WasmWasi", and "KataVmIsolation".
+    :vartype workload_runtime: str or ~azure.mgmt.containerservice.models.WorkloadRuntime
+    :ivar message_of_the_day: Message of the day for Linux nodes, base64-encoded. A base64-encoded
+     string which will be written to /etc/motd after decoding. This allows customization of the
+     message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a
+     static string (i.e., will be printed raw and not be executed as a script).
+    :vartype message_of_the_day: str
+    :ivar vnet_subnet_id: The ID of the subnet which agent pool nodes and optionally pods will join
+     on startup. If this is not specified, a VNET and subnet will be generated and used. If no
+     podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes.
+     This is of the form:
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
+    :vartype vnet_subnet_id: str
+    :ivar pod_subnet_id: The ID of the subnet which pods will join when launched. If omitted, pod
+     IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of
+     the form:
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
+    :vartype pod_subnet_id: str
+    :ivar pod_ip_allocation_mode: Pod IP Allocation Mode. The IP allocation mode for pods in the
+     agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. Known values
+     are: "DynamicIndividual" and "StaticBlock".
+    :vartype pod_ip_allocation_mode: str or ~azure.mgmt.containerservice.models.PodIPAllocationMode
+    :ivar max_pods: The maximum number of pods that can run on a node.
+    :vartype max_pods: int
+    :ivar os_type: The operating system type. The default is Linux. Known values are: "Linux" and
+     "Windows".
+    :vartype os_type: str or ~azure.mgmt.containerservice.models.OSType
+    :ivar os_sku: Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is
+     Linux. The default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >=
+     1.25 if OSType is Windows. Known values are: "Ubuntu", "AzureLinux", "AzureLinux3",
+     "CBLMariner", "Windows2019", "Windows2022", "Ubuntu2204", and "Ubuntu2404".
+    :vartype os_sku: str or ~azure.mgmt.containerservice.models.OSSKU
+    :ivar max_count: The maximum number of nodes for auto-scaling.
+    :vartype max_count: int
+    :ivar min_count: The minimum number of nodes for auto-scaling.
+    :vartype min_count: int
+    :ivar enable_auto_scaling: Whether to enable auto-scaler.
+    :vartype enable_auto_scaling: bool
+    :ivar scale_down_mode: The scale down mode to use when scaling the Agent Pool. This also
+     effects the cluster autoscaler behavior. If not specified, it defaults to Delete. Known values
+     are: "Delete" and "Deallocate".
+    :vartype scale_down_mode: str or ~azure.mgmt.containerservice.models.ScaleDownMode
+    :ivar type_properties_type: The type of Agent Pool. Known values are:
+     "VirtualMachineScaleSets", "AvailabilitySet", and "VirtualMachines".
+    :vartype type_properties_type: str or ~azure.mgmt.containerservice.models.AgentPoolType
+    :ivar mode: The mode of an agent pool. A cluster must have at least one 'System' Agent Pool at
+     all times. For additional information on agent pool restrictions and best practices, see:
+     `https://docs.microsoft.com/azure/aks/use-system-pools
+     <https://docs.microsoft.com/azure/aks/use-system-pools>`_. Known values are: "System", "User",
+     and "Gateway".
+    :vartype mode: str or ~azure.mgmt.containerservice.models.AgentPoolMode
+    :ivar orchestrator_version: The version of Kubernetes specified by the user. Both patch version
+     <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When
+     <major.minor> is specified, the latest supported GA patch version is chosen automatically.
+     Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14)
+     will not trigger an upgrade, even if a newer patch version is available. As a best practice,
+     you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node
+     pool version must have the same major version as the control plane. The node pool minor version
+     must be within two minor versions of the control plane version. The node pool version cannot be
+     greater than the control plane version. For more information see `upgrading a node pool
+     <https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool>`_.
+    :vartype orchestrator_version: str
+    :ivar current_orchestrator_version: The version of Kubernetes the Agent Pool is running. If
+     orchestratorVersion is a fully specified version <major.minor.patch>, this field will be
+     exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full
+     <major.minor.patch> version being used.
+    :vartype current_orchestrator_version: str
+    :ivar node_image_version: The version of node image.
+    :vartype node_image_version: str
+    :ivar upgrade_settings: Settings for upgrading the agentpool.
+    :vartype upgrade_settings: ~azure.mgmt.containerservice.models.AgentPoolUpgradeSettings
+    :ivar provisioning_state: The current deployment or provisioning state.
+    :vartype provisioning_state: str
+    :ivar power_state: Whether the Agent Pool is running or stopped. When an Agent Pool is first
+     created it is initially Running. The Agent Pool can be stopped by setting this field to
+     Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An
+     Agent Pool can only be stopped if it is Running and provisioning state is Succeeded.
+    :vartype power_state: ~azure.mgmt.containerservice.models.PowerState
+    :ivar availability_zones: The list of Availability zones to use for nodes. This can only be
+     specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
+    :vartype availability_zones: list[str]
+    :ivar enable_node_public_ip: Whether each node is allocated its own public IP. Some scenarios
+     may require nodes in a node pool to receive their own dedicated public IP addresses. A common
+     scenario is for gaming workloads, where a console needs to make a direct connection to a cloud
+     virtual machine to minimize hops. For more information see `assigning a public IP per node
+     <https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools>`_.
+     The default is false.
+    :vartype enable_node_public_ip: bool
+    :ivar node_public_ip_prefix_id: The public IP prefix ID which VM nodes should use IPs from.
+     This is of the form:
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}.
+    :vartype node_public_ip_prefix_id: str
+    :ivar scale_set_priority: The Virtual Machine Scale Set priority. Known values are: "Spot" and
+     "Regular".
+    :vartype scale_set_priority: str or ~azure.mgmt.containerservice.models.ScaleSetPriority
+    :ivar scale_set_eviction_policy: The Virtual Machine Scale Set eviction policy. The eviction
+     policy specifies what to do with the VM when it is evicted. The default is Delete. For more
+     information about eviction see `spot VMs
+     <https://docs.microsoft.com/azure/virtual-machines/spot-vms>`_. Known values are: "Delete" and
+     "Deallocate".
+    :vartype scale_set_eviction_policy: str or
+     ~azure.mgmt.containerservice.models.ScaleSetEvictionPolicy
+    :ivar spot_max_price: The max price (in US Dollars) you are willing to pay for spot instances.
+     Possible values are any decimal value greater than zero or -1 which indicates default price to
+     be up-to on-demand. Possible values are any decimal value greater than zero or -1 which
+     indicates the willingness to pay any on-demand price. For more details on spot pricing, see
+     `spot VMs pricing <https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing>`_.
+    :vartype spot_max_price: float
+    :ivar tags: The tags to be persisted on the agent pool virtual machine scale set.
+    :vartype tags: dict[str, str]
+    :ivar node_labels: The node labels to be persisted across all nodes in agent pool.
+    :vartype node_labels: dict[str, str]
+    :ivar node_taints: The taints added to new nodes during node pool create and scale. For
+     example, key=value:NoSchedule.
+    :vartype node_taints: list[str]
+    :ivar proximity_placement_group_id: The ID for Proximity Placement Group.
+    :vartype proximity_placement_group_id: str
+    :ivar kubelet_config: The Kubelet configuration on the agent pool nodes.
+    :vartype kubelet_config: ~azure.mgmt.containerservice.models.KubeletConfig
+    :ivar linux_os_config: The OS configuration of Linux agent nodes.
+    :vartype linux_os_config: ~azure.mgmt.containerservice.models.LinuxOSConfig
+    :ivar enable_encryption_at_host: Whether to enable host based OS and data drive encryption.
+     This is only supported on certain VM sizes and in certain Azure regions. For more information,
+     see: `https://docs.microsoft.com/azure/aks/enable-host-encryption
+     <https://docs.microsoft.com/azure/aks/enable-host-encryption>`_.
+    :vartype enable_encryption_at_host: bool
+    :ivar enable_ultra_ssd: Whether to enable UltraSSD.
+    :vartype enable_ultra_ssd: bool
+    :ivar enable_fips: Whether to use a FIPS-enabled OS. See `Add a FIPS-enabled node pool
+     <https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview>`_
+     for more details.
+    :vartype enable_fips: bool
+    :ivar gpu_instance_profile: GPUInstanceProfile to be used to specify GPU MIG instance profile
+     for supported GPU VM SKU. Known values are: "MIG1g", "MIG2g", "MIG3g", "MIG4g", and "MIG7g".
+    :vartype gpu_instance_profile: str or ~azure.mgmt.containerservice.models.GPUInstanceProfile
+    :ivar creation_data: CreationData to be used to specify the source Snapshot ID if the node pool
+     will be created/upgraded using a snapshot.
+    :vartype creation_data: ~azure.mgmt.containerservice.models.CreationData
+    :ivar capacity_reservation_group_id: The fully qualified resource ID of the Capacity
+     Reservation Group to provide virtual machines from a reserved group of Virtual Machines. This
+     is of the form:
+     '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/capacityreservationgroups/{capacityReservationGroupName}'
+     Customers use it to create an agentpool with a specified CRG. For more information see
+     `Capacity Reservation
+     <https://learn.microsoft.com/en-us/azure/virtual-machines/capacity-reservation-overview>`_.
+    :vartype capacity_reservation_group_id: str
+    :ivar host_group_id: The fully qualified resource ID of the Dedicated Host Group to provision
+     virtual machines from, used only in creation scenario and not allowed to changed once set. This
+     is of the form:
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}.
+     For more information see `Azure dedicated hosts
+     <https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts>`_.
+    :vartype host_group_id: str
+    :ivar network_profile: Network-related settings of an agent pool.
+    :vartype network_profile: ~azure.mgmt.containerservice.models.AgentPoolNetworkProfile
+    :ivar windows_profile: The Windows agent pool's specific profile.
+    :vartype windows_profile: ~azure.mgmt.containerservice.models.AgentPoolWindowsProfile
+    :ivar security_profile: The security settings of an agent pool.
+    :vartype security_profile: ~azure.mgmt.containerservice.models.AgentPoolSecurityProfile
+    :ivar gpu_profile: GPU settings for the Agent Pool.
+    :vartype gpu_profile: ~azure.mgmt.containerservice.models.GPUProfile
+    :ivar gateway_profile: Profile specific to a managed agent pool in Gateway mode. This field
+     cannot be set if agent pool mode is not Gateway.
+    :vartype gateway_profile: ~azure.mgmt.containerservice.models.AgentPoolGatewayProfile
+    :ivar virtual_machines_profile: Specifications on VirtualMachines agent pool.
+    :vartype virtual_machines_profile: ~azure.mgmt.containerservice.models.VirtualMachinesProfile
+    :ivar virtual_machine_nodes_status: The status of nodes in a VirtualMachines agent pool.
+    :vartype virtual_machine_nodes_status:
+     list[~azure.mgmt.containerservice.models.VirtualMachineNodes]
+    :ivar status: Contains read-only information about the Agent Pool.
+    :vartype status: ~azure.mgmt.containerservice.models.AgentPoolStatus
+    :ivar local_dns_profile: Configures the per-node local DNS, with VnetDNS and KubeDNS overrides.
+     LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For
+     more details see aka.ms/aks/localdns.
+    :vartype local_dns_profile: ~azure.mgmt.containerservice.models.LocalDNSProfile
+    """
+
+    e_tag: Optional[str] = rest_field(name="eTag", visibility=["read"])
+    """Unique read-only string used to implement optimistic concurrency. The eTag value will change
+     when the resource is updated. Specify an if-match or if-none-match header with the eTag value
+     for a subsequent request to enable optimistic concurrency per the normal eTag convention."""
+    count: Optional[int] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to
+     1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The
+     default value is 1."""
+    vm_size: Optional[str] = rest_field(name="vmSize", visibility=["read", "create", "update", "delete", "query"])
+    """The size of the agent pool VMs. VM size availability varies by region. If a node contains
+     insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more
+     details on restricted VM sizes, see: `https://docs.microsoft.com/azure/aks/quotas-skus-regions
+     <https://docs.microsoft.com/azure/aks/quotas-skus-regions>`_."""
+    os_disk_size_gb: Optional[int] = rest_field(
+        name="osDiskSizeGB", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent
+     pool. If you specify 0, it will apply the default osDisk size according to the vmSize
+     specified."""
+    os_disk_type: Optional[Union[str, "_models.OSDiskType"]] = rest_field(
+        name="osDiskType", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the
+     VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults
+     to 'Managed'. May not be changed after creation. For more information see `Ephemeral OS
+     <https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os>`_. Known values are:
+     \"Managed\" and \"Ephemeral\"."""
+    kubelet_disk_type: Optional[Union[str, "_models.KubeletDiskType"]] = rest_field(
+        name="kubeletDiskType", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Determines the placement of emptyDir volumes, container runtime data root, and Kubelet
+     ephemeral storage. Known values are: \"OS\" and \"Temporary\"."""
+    workload_runtime: Optional[Union[str, "_models.WorkloadRuntime"]] = rest_field(
+        name="workloadRuntime", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Determines the type of workload a node can run. Known values are: \"OCIContainer\",
+     \"WasmWasi\", and \"KataVmIsolation\"."""
+    message_of_the_day: Optional[str] = rest_field(
+        name="messageOfTheDay", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Message of the day for Linux nodes, base64-encoded. A base64-encoded string which will be
+     written to /etc/motd after decoding. This allows customization of the message of the day for
+     Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will
+     be printed raw and not be executed as a script)."""
+    vnet_subnet_id: Optional[str] = rest_field(
+        name="vnetSubnetID", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The ID of the subnet which agent pool nodes and optionally pods will join on startup. If this
+     is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified,
+     this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}."""
+    pod_subnet_id: Optional[str] = rest_field(
+        name="podSubnetID", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The ID of the subnet which pods will join when launched. If omitted, pod IPs are statically
+     assigned on the node subnet (see vnetSubnetID for more details). This is of the form:
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}."""
+    pod_ip_allocation_mode: Optional[Union[str, "_models.PodIPAllocationMode"]] = rest_field(
+        name="podIPAllocationMode", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Pod IP Allocation Mode. The IP allocation mode for pods in the agent pool. Must be used with
+     podSubnetId. The default is 'DynamicIndividual'. Known values are: \"DynamicIndividual\" and
+     \"StaticBlock\"."""
+    max_pods: Optional[int] = rest_field(name="maxPods", visibility=["read", "create", "update", "delete", "query"])
+    """The maximum number of pods that can run on a node."""
+    os_type: Optional[Union[str, "_models.OSType"]] = rest_field(
+        name="osType", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The operating system type. The default is Linux. Known values are: \"Linux\" and \"Windows\"."""
+    os_sku: Optional[Union[str, "_models.OSSKU"]] = rest_field(
+        name="osSKU", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The
+     default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType
+     is Windows. Known values are: \"Ubuntu\", \"AzureLinux\", \"AzureLinux3\", \"CBLMariner\",
+     \"Windows2019\", \"Windows2022\", \"Ubuntu2204\", and \"Ubuntu2404\"."""
+    max_count: Optional[int] = rest_field(name="maxCount", visibility=["read", "create", "update", "delete", "query"])
+    """The maximum number of nodes for auto-scaling."""
+    min_count: Optional[int] = rest_field(name="minCount", visibility=["read", "create", "update", "delete", "query"])
+    """The minimum number of nodes for auto-scaling."""
+    enable_auto_scaling: Optional[bool] = rest_field(
+        name="enableAutoScaling", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Whether to enable auto-scaler."""
+    scale_down_mode: Optional[Union[str, "_models.ScaleDownMode"]] = rest_field(
+        name="scaleDownMode", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The scale down mode to use when scaling the Agent Pool. This also effects the cluster
+     autoscaler behavior. If not specified, it defaults to Delete. Known values are: \"Delete\" and
+     \"Deallocate\"."""
+    type_properties_type: Optional[Union[str, "_models.AgentPoolType"]] = rest_field(
+        name="type", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The type of Agent Pool. Known values are: \"VirtualMachineScaleSets\", \"AvailabilitySet\", and
+     \"VirtualMachines\"."""
+    mode: Optional[Union[str, "_models.AgentPoolMode"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The mode of an agent pool. A cluster must have at least one 'System' Agent Pool at all times.
+     For additional information on agent pool restrictions and best practices, see:
+     `https://docs.microsoft.com/azure/aks/use-system-pools
+     <https://docs.microsoft.com/azure/aks/use-system-pools>`_. Known values are: \"System\",
+     \"User\", and \"Gateway\"."""
+    orchestrator_version: Optional[str] = rest_field(
+        name="orchestratorVersion", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g.
+     1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the
+     latest supported GA patch version is chosen automatically. Updating the cluster with the same
+     <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even
+     if a newer patch version is available. As a best practice, you should upgrade all node pools in
+     an AKS cluster to the same Kubernetes version. The node pool version must have the same major
+     version as the control plane. The node pool minor version must be within two minor versions of
+     the control plane version. The node pool version cannot be greater than the control plane
+     version. For more information see `upgrading a node pool
+     <https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool>`_."""
+    current_orchestrator_version: Optional[str] = rest_field(name="currentOrchestratorVersion", visibility=["read"])
+    """The version of Kubernetes the Agent Pool is running. If orchestratorVersion is a fully
+     specified version <major.minor.patch>, this field will be exactly equal to it. If
+     orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch>
+     version being used."""
+    node_image_version: Optional[str] = rest_field(name="nodeImageVersion", visibility=["read"])
+    """The version of node image."""
+    upgrade_settings: Optional["_models.AgentPoolUpgradeSettings"] = rest_field(
+        name="upgradeSettings", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Settings for upgrading the agentpool."""
+    provisioning_state: Optional[str] = rest_field(name="provisioningState", visibility=["read"])
+    """The current deployment or provisioning state."""
+    power_state: Optional["_models.PowerState"] = rest_field(
+        name="powerState", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is
+     initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped
+     Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be
+     stopped if it is Running and provisioning state is Succeeded."""
+    availability_zones: Optional[list[str]] = rest_field(
+        name="availabilityZones", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The list of Availability zones to use for nodes. This can only be specified if the
+     AgentPoolType property is 'VirtualMachineScaleSets'."""
+    enable_node_public_ip: Optional[bool] = rest_field(
+        name="enableNodePublicIP", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Whether each node is allocated its own public IP. Some scenarios may require nodes in a node
+     pool to receive their own dedicated public IP addresses. A common scenario is for gaming
+     workloads, where a console needs to make a direct connection to a cloud virtual machine to
+     minimize hops. For more information see `assigning a public IP per node
+     <https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools>`_.
+     The default is false."""
+    node_public_ip_prefix_id: Optional[str] = rest_field(
+        name="nodePublicIPPrefixID", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The public IP prefix ID which VM nodes should use IPs from. This is of the form:
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}."""
+    scale_set_priority: Optional[Union[str, "_models.ScaleSetPriority"]] = rest_field(
+        name="scaleSetPriority", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The Virtual Machine Scale Set priority. Known values are: \"Spot\" and \"Regular\"."""
+    scale_set_eviction_policy: Optional[Union[str, "_models.ScaleSetEvictionPolicy"]] = rest_field(
+        name="scaleSetEvictionPolicy", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The Virtual Machine Scale Set eviction policy. The eviction policy specifies what to do with
+     the VM when it is evicted. The default is Delete. For more information about eviction see `spot
+     VMs <https://docs.microsoft.com/azure/virtual-machines/spot-vms>`_. Known values are:
+     \"Delete\" and \"Deallocate\"."""
+    spot_max_price: Optional[float] = rest_field(
+        name="spotMaxPrice", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The max price (in US Dollars) you are willing to pay for spot instances. Possible values are
+     any decimal value greater than zero or -1 which indicates default price to be up-to on-demand.
+     Possible values are any decimal value greater than zero or -1 which indicates the willingness
+     to pay any on-demand price. For more details on spot pricing, see `spot VMs pricing
+     <https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing>`_."""
+    tags: Optional[dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The tags to be persisted on the agent pool virtual machine scale set."""
+    node_labels: Optional[dict[str, str]] = rest_field(
+        name="nodeLabels", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The node labels to be persisted across all nodes in agent pool."""
+    node_taints: Optional[list[str]] = rest_field(
+        name="nodeTaints", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The taints added to new nodes during node pool create and scale. For example,
+     key=value:NoSchedule."""
+    proximity_placement_group_id: Optional[str] = rest_field(
+        name="proximityPlacementGroupID", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The ID for Proximity Placement Group."""
+    kubelet_config: Optional["_models.KubeletConfig"] = rest_field(
+        name="kubeletConfig", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The Kubelet configuration on the agent pool nodes."""
+    linux_os_config: Optional["_models.LinuxOSConfig"] = rest_field(
+        name="linuxOSConfig", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The OS configuration of Linux agent nodes."""
+    enable_encryption_at_host: Optional[bool] = rest_field(
+        name="enableEncryptionAtHost", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Whether to enable host based OS and data drive encryption. This is only supported on certain VM
+     sizes and in certain Azure regions. For more information, see:
+     `https://docs.microsoft.com/azure/aks/enable-host-encryption
+     <https://docs.microsoft.com/azure/aks/enable-host-encryption>`_."""
+    enable_ultra_ssd: Optional[bool] = rest_field(
+        name="enableUltraSSD", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Whether to enable UltraSSD."""
+    enable_fips: Optional[bool] = rest_field(
+        name="enableFIPS", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Whether to use a FIPS-enabled OS. See `Add a FIPS-enabled node pool
+     <https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview>`_
+     for more details."""
+    gpu_instance_profile: Optional[Union[str, "_models.GPUInstanceProfile"]] = rest_field(
+        name="gpuInstanceProfile", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
+     Known values are: \"MIG1g\", \"MIG2g\", \"MIG3g\", \"MIG4g\", and \"MIG7g\"."""
+    creation_data: Optional["_models.CreationData"] = rest_field(
+        name="creationData", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """CreationData to be used to specify the source Snapshot ID if the node pool will be
+     created/upgraded using a snapshot."""
+    capacity_reservation_group_id: Optional[str] = rest_field(
+        name="capacityReservationGroupID", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The fully qualified resource ID of the Capacity Reservation Group to provide virtual machines
+     from a reserved group of Virtual Machines. This is of the form:
+     '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/capacityreservationgroups/{capacityReservationGroupName}'
+     Customers use it to create an agentpool with a specified CRG. For more information see
+     `Capacity Reservation
+     <https://learn.microsoft.com/en-us/azure/virtual-machines/capacity-reservation-overview>`_."""
+    host_group_id: Optional[str] = rest_field(
+        name="hostGroupID", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The fully qualified resource ID of the Dedicated Host Group to provision virtual machines from,
+     used only in creation scenario and not allowed to changed once set. This is of the form:
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}.
+     For more information see `Azure dedicated hosts
+     <https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts>`_."""
+    network_profile: Optional["_models.AgentPoolNetworkProfile"] = rest_field(
+        name="networkProfile", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Network-related settings of an agent pool."""
+    windows_profile: Optional["_models.AgentPoolWindowsProfile"] = rest_field(
+        name="windowsProfile", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The Windows agent pool's specific profile."""
+    security_profile: Optional["_models.AgentPoolSecurityProfile"] = rest_field(
+        name="securityProfile", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The security settings of an agent pool."""
+    gpu_profile: Optional["_models.GPUProfile"] = rest_field(
+        name="gpuProfile", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """GPU settings for the Agent Pool."""
+    gateway_profile: Optional["_models.AgentPoolGatewayProfile"] = rest_field(
+        name="gatewayProfile", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent
+     pool mode is not Gateway."""
+    virtual_machines_profile: Optional["_models.VirtualMachinesProfile"] = rest_field(
+        name="virtualMachinesProfile", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Specifications on VirtualMachines agent pool."""
+    virtual_machine_nodes_status: Optional[list["_models.VirtualMachineNodes"]] = rest_field(
+        name="virtualMachineNodesStatus", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The status of nodes in a VirtualMachines agent pool."""
+    status: Optional["_models.AgentPoolStatus"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Contains read-only information about the Agent Pool."""
+    local_dns_profile: Optional["_models.LocalDNSProfile"] = rest_field(
+        name="localDNSProfile", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve
+     performance and reliability of DNS resolution in an AKS cluster. For more details see
+     aka.ms/aks/localdns."""
+
+    @overload
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        count: Optional[int] = None,
+        vm_size: Optional[str] = None,
+        os_disk_size_gb: Optional[int] = None,
+        os_disk_type: Optional[Union[str, "_models.OSDiskType"]] = None,
+        kubelet_disk_type: Optional[Union[str, "_models.KubeletDiskType"]] = None,
+        workload_runtime: Optional[Union[str, "_models.WorkloadRuntime"]] = None,
+        message_of_the_day: Optional[str] = None,
+        vnet_subnet_id: Optional[str] = None,
+        pod_subnet_id: Optional[str] = None,
+        pod_ip_allocation_mode: Optional[Union[str, "_models.PodIPAllocationMode"]] = None,
+        max_pods: Optional[int] = None,
+        os_type: Optional[Union[str, "_models.OSType"]] = None,
+        os_sku: Optional[Union[str, "_models.OSSKU"]] = None,
+        max_count: Optional[int] = None,
+        min_count: Optional[int] = None,
+        enable_auto_scaling: Optional[bool] = None,
+        scale_down_mode: Optional[Union[str, "_models.ScaleDownMode"]] = None,
+        type_properties_type: Optional[Union[str, "_models.AgentPoolType"]] = None,
+        mode: Optional[Union[str, "_models.AgentPoolMode"]] = None,
+        orchestrator_version: Optional[str] = None,
+        upgrade_settings: Optional["_models.AgentPoolUpgradeSettings"] = None,
+        power_state: Optional["_models.PowerState"] = None,
+        availability_zones: Optional[list[str]] = None,
+        enable_node_public_ip: Optional[bool] = None,
+        node_public_ip_prefix_id: Optional[str] = None,
+        scale_set_priority: Optional[Union[str, "_models.ScaleSetPriority"]] = None,
+        scale_set_eviction_policy: Optional[Union[str, "_models.ScaleSetEvictionPolicy"]] = None,
+        spot_max_price: Optional[float] = None,
+        tags: Optional[dict[str, str]] = None,
+        node_labels: Optional[dict[str, str]] = None,
+        node_taints: Optional[list[str]] = None,
+        proximity_placement_group_id: Optional[str] = None,
+        kubelet_config: Optional["_models.KubeletConfig"] = None,
+        linux_os_config: Optional["_models.LinuxOSConfig"] = None,
+        enable_encryption_at_host: Optional[bool] = None,
+        enable_ultra_ssd: Optional[bool] = None,
+        enable_fips: Optional[bool] = None,
+        gpu_instance_profile: Optional[Union[str, "_models.GPUInstanceProfile"]] = None,
+        creation_data: Optional["_models.CreationData"] = None,
+        capacity_reservation_group_id: Optional[str] = None,
+        host_group_id: Optional[str] = None,
+        network_profile: Optional["_models.AgentPoolNetworkProfile"] = None,
+        windows_profile: Optional["_models.AgentPoolWindowsProfile"] = None,
+        security_profile: Optional["_models.AgentPoolSecurityProfile"] = None,
+        gpu_profile: Optional["_models.GPUProfile"] = None,
+        gateway_profile: Optional["_models.AgentPoolGatewayProfile"] = None,
+        virtual_machines_profile: Optional["_models.VirtualMachinesProfile"] = None,
+        virtual_machine_nodes_status: Optional[list["_models.VirtualMachineNodes"]] = None,
+        status: Optional["_models.AgentPoolStatus"] = None,
+        local_dns_profile: Optional["_models.LocalDNSProfile"] = None,
     ) -> None: ...
 
     @overload

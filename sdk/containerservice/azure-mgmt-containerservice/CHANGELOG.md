@@ -1,6 +1,6 @@
 # Release History
 
-## 41.0.0 (2026-03-10)
+## 41.0.0 (2026-03-13)
 
 ### Features Added
 
@@ -10,7 +10,6 @@
   - Model `AgentPool` added property `properties`
   - Model `AgentPool` added property `system_data`
   - Model `AgentPoolUpgradeProfile` added property `system_data`
-  - Enum `Format` added member `EXECEnum`
   - Model `IstioComponents` added property `proxy_redirection_mechanism`
   - Model `Machine` added property `system_data`
   - Model `ManagedClusterAccessProfile` added property `properties`
@@ -23,6 +22,7 @@
   - Added model `AccessProfile`
   - Added model `AdvancedNetworkingPerformance`
   - Added model `AdvancedNetworkingSecurityTransitEncryption`
+  - Added model `AgentPoolManagedClusterAgentPoolProfileProperties`
   - Added model `CommandResultProperties`
   - Added enum `IPFamily`
   - Added model `OperationValueDisplay`
@@ -95,7 +95,6 @@
   - Model `AgentPool` deleted or renamed its instance variable `virtual_machine_nodes_status`
   - Model `AgentPool` deleted or renamed its instance variable `status`
   - Model `AgentPool` deleted or renamed its instance variable `local_dns_profile`
-  - Deleted or renamed enum value `Format.EXEC`
   - Model `KubernetesVersionListResult` deleted or renamed its instance variable `values`
   - Model `ManagedClusterAccessProfile` deleted or renamed its instance variable `kube_config`
   - Model `OperationValue` deleted or renamed its instance variable `operation`

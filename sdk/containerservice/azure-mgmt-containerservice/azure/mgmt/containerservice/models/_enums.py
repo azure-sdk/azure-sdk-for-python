@@ -197,7 +197,7 @@ class Format(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AZURE = "azure"
     """Return azure auth-provider kubeconfig. This format is deprecated in v1.22 and will be fully
     removed in v1.26. See: `https://aka.ms/k8s/changes-1-26 <https://aka.ms/k8s/changes-1-26>`_."""
-    EXECEnum = "exec"
+    EXEC = "exec"
     """Return exec format kubeconfig. This format requires kubelogin binary in the path."""
 
 
