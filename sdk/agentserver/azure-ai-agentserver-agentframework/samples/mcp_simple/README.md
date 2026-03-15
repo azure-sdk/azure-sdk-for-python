@@ -79,7 +79,7 @@ Non‑streaming:
 ```bash
 curl -sS \
     -H "Content-Type: application/json" \
-    -X POST http://localhost:8088/responses \
+    -X POST http://localhost:8080/invoke \
     -d "{\"input\":\"How do I create an Azure Storage Account using the Azure CLI?\",\"stream\":false}"
 ```
 
@@ -88,7 +88,7 @@ Streaming (Server‑Sent Events, keep `-N` to avoid curl buffering):
 ```bash
 curl -sS \
     -H "Content-Type: application/json" \
-    -X POST http://localhost:8088/responses  \
+    -X POST http://localhost:8080/invoke  \
     -d "{\"input\":\"What is Microsoft Semantic Kernel in brief?\",\"stream\":true}"
 ```
 

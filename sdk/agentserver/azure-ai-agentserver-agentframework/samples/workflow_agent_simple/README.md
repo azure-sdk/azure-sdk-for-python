@@ -63,7 +63,7 @@ From this folder:
 ```bash
 python workflow_agent_simple.py
 ```
-The server (via the adapter) will start on `0.0.0.0:8088` by default.
+The server (via the adapter) will start on `0.0.0.0:8080` by default.
 
 ---
 
@@ -72,7 +72,7 @@ The server (via the adapter) will start on `0.0.0.0:8088` by default.
 ```bash
 curl -sS \
   -H "Content-Type: application/json" \
-  -X POST http://localhost:8088/runs \
+  -X POST http://localhost:8080/invoke \
   -d '{"input":"Explain the concept of reflection in this workflow sample.","stream":false}'
 ```
 
@@ -173,7 +173,7 @@ Usage (if provided): None
 ```bash
 curl -N \
   -H "Content-Type: application/json" \
-  -X POST http://localhost:8088/runs \
+  -X POST http://localhost:8080/invoke \
   -d '{"input":"How does the reviewer decide to approve?","stream":true}'
 ```
 

@@ -20,7 +20,7 @@ AZURE_OPENAI_CHAT_DEPLOYMENT_NAME=<deployment-name>
 
 Follow these steps from this folder:
 
-1) Start the agent server (defaults to 0.0.0.0:8088):
+1) Start the agent server (defaults to 0.0.0.0:8080):
 
 ```bash
 python minimal_async_example.py
@@ -31,7 +31,7 @@ python minimal_async_example.py
 ```bash
 curl -sS \
   -H "Content-Type: application/json" \
-  -X POST http://localhost:8088/responses \
+  -X POST http://localhost:8080/invoke \
   -d "{\"input\":\"What's the weather like in Seattle?\",\"stream\":false}"
 ```
 
@@ -40,6 +40,6 @@ curl -sS \
 ```bash
 curl -N \
   -H "Content-Type: application/json" \
-  -X POST http://localhost:8088/responses \
+  -X POST http://localhost:8080/invoke \
   -d "{\"input\":\"What's the weather like in New York?\",\"stream\":true}"
 ```

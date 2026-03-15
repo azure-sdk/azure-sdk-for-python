@@ -3,18 +3,28 @@
 # ---------------------------------------------------------
 __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
-from typing import TYPE_CHECKING, Optional
-
 from ._version import VERSION
 
-if TYPE_CHECKING:  # pragma: no cover
-    from . import models
 
+def from_langgraph(graph, **kwargs):
+    """
+    Create an :class:`AgentServer` from a compiled LangGraph state graph.
 
-def from_langgraph(agent, state_converter: Optional["models.LanggraphStateConverter"] = None):
-    from .langgraph import LangGraphAdapter
+    Usage::
 
-    return LangGraphAdapter(agent, state_converter=state_converter)
+        from azure.ai.agentserver.langgraph import from_langgraph
+        server = from_langgraph(graph)
+        server.run()
+
+    :param graph: A ``CompiledStateGraph`` instance.
+    :returns: An :class:`AgentServer` ready to ``.run()``.
+    """
+    from azure.ai.agentserver.core import AgentServer
+
+    from .invoke import create_invoke_handler
+
+    invoke_fn = create_invoke_handler(graph, **kwargs)
+    return AgentServer(invoke_fn=invoke_fn)
 
 
 __all__ = ["from_langgraph"]
