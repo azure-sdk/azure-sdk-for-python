@@ -5,7 +5,7 @@
 # ------------------------------------
 """Tests for Supercomputers operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryMgmtClient
+from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -45,17 +45,17 @@ class TestSupercomputers(DiscoveryMgmtTestCase):
     def test_create_supercomputer(self):
         """Test creating a supercomputer."""
         mi_id = "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourcegroups/olawal/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity"
-        supercomputer_data = {
-            "location": "uksouth",
-            "properties": {
-                "subnetId": "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default",
-                "identities": {
-                    "clusterIdentity": {"id": mi_id},
-                    "kubeletIdentity": {"id": mi_id},
-                    "workloadIdentities": {mi_id: {}},
-                },
-            },
-        }
+        supercomputer_data = models.Supercomputer(
+            location="uksouth",
+            properties=models.SupercomputerProperties(
+                subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default",
+                identities=models.SupercomputerIdentities(
+                    cluster_identity=models.Identity(id=mi_id),
+                    kubelet_identity=models.Identity(id=mi_id),
+                    workload_identities={mi_id: models.UserAssignedIdentity()},
+                ),
+            ),
+        )
         operation = self.client.supercomputers.begin_create_or_update(
             resource_group_name="olawal",
             supercomputer_name="test-sc-2bbb25b8",
@@ -68,9 +68,9 @@ class TestSupercomputers(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_update_supercomputer(self):
         """Test updating a supercomputer."""
-        supercomputer_data = {
-            "tags": {"SkipAutoDeleteTill": "2026-12-31"},
-        }
+        supercomputer_data = models.Supercomputer(
+            tags={"SkipAutoDeleteTill": "2026-12-31"},
+        ) # type: ignore
         operation = self.client.supercomputers.begin_update(
             resource_group_name="olawal",
             supercomputer_name="test-sc-2bbb25b8",

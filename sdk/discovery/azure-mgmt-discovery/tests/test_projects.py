@@ -4,15 +4,16 @@
 # ------------------------------------
 """Tests for Projects operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryMgmtClient
+from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
 
 
 # Resource group that has a workspace
-WORKSPACE_RESOURCE_GROUP = "olawal"
-WORKSPACE_NAME = "wrksptest44"
+WORKSPACE_RESOURCE_GROUP = "aatte"
+WORKSPACE_NAME = "itworkaawre"
+PROJECT_NAME = "testproject1"
 
 
 class TestProjects(DiscoveryMgmtTestCase):
@@ -26,28 +27,25 @@ class TestProjects(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_list_projects_by_workspace(self):
         """Test listing projects in a workspace."""
-        projects = list(self.client.projects.list_by_workspace("newapiversiontest", self.workspace_name))
+        projects = list(self.client.projects.list_by_workspace(WORKSPACE_RESOURCE_GROUP, WORKSPACE_NAME))
         assert isinstance(projects, list)
 
-    @pytest.mark.skip(reason="no recording")
     @recorded_by_proxy
     def test_get_project(self):
         """Test getting a specific project by name."""
-        # TODO: Replace with actual project name from test environment
-        project = self.client.projects.get(self.resource_group, self.workspace_name, "test-project")
+        project = self.client.projects.get(self.resource_group, self.workspace_name, PROJECT_NAME)
         assert project is not None
         assert hasattr(project, "name")
         assert hasattr(project, "location")
 
-    @pytest.mark.skip(reason="no recording")
     @recorded_by_proxy
     def test_create_project(self):
         """Test creating a project."""
-        unique_name = "test-proj-placeholder"
-        project_data = {"location": "uksouth"}
+        unique_name = PROJECT_NAME
+        project_data = models.Project(location="uksouth", properties = models.ProjectProperties(storage_container_ids=["/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/aatte/providers/Microsoft.Discovery/storageContainers/itsconaawre"])) # type: ignore
         operation = self.client.projects.begin_create_or_update(
-            resource_group_name="olawal",
-            workspace_name=self.workspace_name,
+            resource_group_name=WORKSPACE_RESOURCE_GROUP,
+            workspace_name=WORKSPACE_NAME,
             project_name=unique_name,
             resource=project_data,
         )
@@ -58,13 +56,13 @@ class TestProjects(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_update_project(self):
         """Test updating a project."""
-        project_data = {
-            "tags": {"SkipAutoDeleteTill": "2026-12-31"},
-        }
+        project_data = models.Project(
+            tags={"SkipAutoDeleteTill": "2026-12-31"},
+        ) # type: ignore
         operation = self.client.projects.begin_create_or_update(
             resource_group_name=self.resource_group,
             workspace_name=self.workspace_name,
-            project_name="test-project",
+            project_name=PROJECT_NAME,
             resource=project_data,
         )
         updated_project = operation.result()
@@ -77,6 +75,6 @@ class TestProjects(DiscoveryMgmtTestCase):
         operation = self.client.projects.begin_delete(
             resource_group_name=self.resource_group,
             workspace_name=self.workspace_name,
-            project_name="project-to-delete",
+            project_name=PROJECT_NAME,
         )
         operation.result()

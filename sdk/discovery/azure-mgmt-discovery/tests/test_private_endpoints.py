@@ -4,7 +4,7 @@
 # ------------------------------------
 """Tests for Private Endpoint related operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryMgmtClient
+from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -53,7 +53,13 @@ class TestPrivateEndpoints(DiscoveryMgmtTestCase):
     def test_create_workspace_private_endpoint_connection(self):
         """Test creating a workspace private endpoint connection."""
         connection_name = "test-pe-connection"
-        connection_data = {"properties": {"privateLinkServiceConnectionState": {"status": "Approved"}}}
+        connection_data = models.WorkspacePrivateEndpointConnection(
+            properties=models.PrivateEndpointConnectionProperties(
+                private_link_service_connection_state=models.PrivateLinkServiceConnectionState(
+                    status="Approved",
+                ),
+            ),
+        )
         operation = self.client.workspace_private_endpoint_connections.begin_create_or_update(
             resource_group_name=self.resource_group,
             workspace_name=self.workspace_name,
@@ -123,7 +129,13 @@ class TestPrivateEndpoints(DiscoveryMgmtTestCase):
     def test_create_bookshelf_private_endpoint_connection(self):
         """Test creating a bookshelf private endpoint connection."""
         connection_name = "test-pe-connection"
-        connection_data = {"properties": {"privateLinkServiceConnectionState": {"status": "Approved"}}}
+        connection_data = models.BookshelfPrivateEndpointConnection(
+            properties=models.PrivateEndpointConnectionProperties(
+                private_link_service_connection_state=models.PrivateLinkServiceConnectionState(
+                    status="Approved",
+                ),
+            ),
+        )
         operation = self.client.bookshelf_private_endpoint_connections.begin_create_or_update(
             resource_group_name=self.resource_group,
             bookshelf_name=self.bookshelf_name,

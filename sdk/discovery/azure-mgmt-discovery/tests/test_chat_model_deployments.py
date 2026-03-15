@@ -3,7 +3,7 @@
 # Licensed under the MIT License.
 # ------------------------------------
 """Tests for ChatModelDeployments operations."""
-from azure.mgmt.discovery import DiscoveryMgmtClient
+from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -42,7 +42,13 @@ class TestChatModelDeployments(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_create_chat_model_deployment(self):
         """Test creating a chat model deployment."""
-        deployment_data = {"location": "uksouth", "properties": {"modelFormat": "OpenAI", "modelName": "gpt-4o"}}
+        deployment_data = models.ChatModelDeployment(
+            location="uksouth",
+            properties=models.ChatModelDeploymentProperties(
+                model_format="OpenAI",
+                model_name="gpt-4o",
+            ),
+        )
         operation = self.client.chat_model_deployments.begin_create_or_update(
             resource_group_name=self.resource_group,
             workspace_name=self.workspace_name,
@@ -51,6 +57,21 @@ class TestChatModelDeployments(DiscoveryMgmtTestCase):
         )
         deployment = operation.result()
         assert deployment is not None
+
+    @recorded_by_proxy
+    def test_update_chat_model_deployment(self):
+        """Test updating a chat model deployment tags."""
+        deployment_data = models.ChatModelDeployment(
+            tags={"SkipAutoDeleteTill": "2026-12-31"},
+        )
+        operation = self.client.chat_model_deployments.begin_update(
+            resource_group_name=self.resource_group,
+            workspace_name=self.workspace_name,
+            chat_model_deployment_name="test-deploy-chatmodel01",
+            properties=deployment_data,
+        )
+        updated_deployment = operation.result()
+        assert updated_deployment is not None
 
     @recorded_by_proxy
     def test_delete_chat_model_deployment(self):

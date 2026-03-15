@@ -5,7 +5,7 @@
 # ------------------------------------
 """Tests for StorageContainers operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryMgmtClient
+from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -43,15 +43,14 @@ class TestStorageContainers(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_create_storage_container(self):
         """Test creating a storage container."""
-        container_data = {
-            "location": "uksouth",
-            "properties": {
-                "storageStore": {
-                    "kind": "AzureStorageBlob",
-                    "storageAccountId": "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Storage/storageAccounts/mytststr",
-                }
-            },
-        }
+        container_data = models.StorageContainer(
+            location="uksouth",
+            properties=models.StorageContainerProperties(
+                storage_store=models.AzureStorageBlobStore(
+                    storage_account_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Storage/storageAccounts/mytststr",
+                ),
+            ),
+        )
         operation = self.client.storage_containers.begin_create_or_update(
             resource_group_name="olawal",
             storage_container_name="test-sc-8bef0d1a",
@@ -63,9 +62,9 @@ class TestStorageContainers(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_update_storage_container(self):
         """Test updating a storage container."""
-        container_data = {
-            "tags": {"SkipAutoDeleteTill": "2026-12-31"},
-        }
+        container_data = models.StorageContainer(
+            tags={"SkipAutoDeleteTill": "2026-12-31"},
+        )
         operation = self.client.storage_containers.begin_update(
             resource_group_name="olawal",
             storage_container_name="test-sc-8bef0d1a",

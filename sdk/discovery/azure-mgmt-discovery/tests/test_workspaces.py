@@ -5,7 +5,7 @@
 # ------------------------------------
 """Tests for Workspaces operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryMgmtClient
+from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -50,26 +50,26 @@ class TestWorkspaces(DiscoveryMgmtTestCase):
     def test_create_workspace(self):
         """Test creating a workspace."""
         workspace_name = "test-wrksp-create01"
-        workspace_data = {
-            "location": "uksouth",
-            "properties": {
-                "supercomputerIds": [],
-                "workspaceIdentity": {
-                    "id": "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourcegroups/olawal/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity"
-                },
-                "agentSubnetId": "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default3",
-                "privateEndpointSubnetId": "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default",
-                "workspaceSubnetId": "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default2",
-                "customerManagedKeys": "Enabled",
-                "keyVaultProperties": {
-                    "keyName": "discoverykey",
-                    "keyVaultUri": "https://newapik.vault.azure.net/",
-                    "keyVersion": "2c9db3cf55d247b4a1c1831fbbdad906",
-                },
-                "logAnalyticsClusterId": "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.OperationalInsights/clusters/mycluse",
-                "publicNetworkAccess": "Disabled",
-            },
-        }
+        workspace_data = models.Workspace(
+            location="uksouth",
+            properties=models.WorkspaceProperties(
+                supercomputer_ids=[],
+                workspace_identity=models.Identity(
+                    id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourcegroups/olawal/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity"
+                ),
+                agent_subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default3",
+                private_endpoint_subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default",
+                workspace_subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default2",
+                customer_managed_keys="Enabled",
+                key_vault_properties=models.KeyVaultProperties(
+                    key_name="discoverykey",
+                    key_vault_uri="https://newapik.vault.azure.net/",
+                    key_version="2c9db3cf55d247b4a1c1831fbbdad906",
+                ),
+                log_analytics_cluster_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.OperationalInsights/clusters/mycluse",
+                public_network_access="Disabled",
+            ),
+        )
         operation = self.client.workspaces.begin_create_or_update(
             resource_group_name="olawal",
             workspace_name=workspace_name,
@@ -82,14 +82,14 @@ class TestWorkspaces(DiscoveryMgmtTestCase):
     def test_update_workspace(self):
         """Test updating a workspace by changing the key vault key version."""
         # PATCH the workspace with the new key version
-        update_data = {
-            "properties": {
-                "keyVaultProperties": {
-                    "keyName": "discoverykey",
-                    "keyVersion": "956de2fc802f49eba81ddcc348ebc27c",
-                },
-            },
-        }
+        update_data = models.Workspace(
+            properties=models.WorkspaceProperties(
+                key_vault_properties=models.KeyVaultProperties(
+                    key_name="discoverykey",
+                    key_version="956de2fc802f49eba81ddcc348ebc27c",
+                ),
+            ),
+        )
         operation = self.client.workspaces.begin_update(
             resource_group_name=self.resource_group,
             workspace_name=WORKSPACE_NAME,
@@ -103,6 +103,6 @@ class TestWorkspaces(DiscoveryMgmtTestCase):
         """Test deleting a workspace."""
         operation = self.client.workspaces.begin_delete(
             resource_group_name="olawal",
-            workspace_name="test-wrksp-397d51cf",
+            workspace_name="test-wrksp-create01",
         )
         operation.result()

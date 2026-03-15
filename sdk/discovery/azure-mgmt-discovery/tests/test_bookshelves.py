@@ -4,7 +4,7 @@
 # ------------------------------------
 """Tests for Bookshelves operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryMgmtClient
+from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase, AZURE_RESOURCE_GROUP
@@ -32,7 +32,7 @@ class TestBookshelves(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_get_bookshelf(self):
         """Test getting a specific bookshelf by name."""
-        bookshelf = self.client.bookshelves.get(self.resource_group, "test-bookshelf-05fbc43d")
+        bookshelf = self.client.bookshelves.get(self.resource_group, "test-bookshelf-python")
         assert bookshelf is not None
         assert hasattr(bookshelf, "name")
         assert hasattr(bookshelf, "location")
@@ -40,10 +40,18 @@ class TestBookshelves(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_create_bookshelf(self):
         """Test creating a bookshelf."""
-        bookshelf_data = {"location": "uksouth"}
+        mi_id = "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami"
+        bookshelf_data = models.Bookshelf(
+            location="uksouth",
+            properties=models.BookshelfProperties(
+                workload_identities={mi_id: models.UserAssignedIdentity()},
+                private_endpoint_subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/private-endpoint-subnet",
+                search_subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/search-subnet",
+            ),
+        )
         operation = self.client.bookshelves.begin_create_or_update(
             resource_group_name="olawal",
-            bookshelf_name="test-bookshelf-324938be",
+            bookshelf_name="test-bookshelf-python",
             resource=bookshelf_data,
         )
         bookshelf = operation.result()
@@ -52,12 +60,10 @@ class TestBookshelves(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_update_bookshelf(self):
         """Test updating a bookshelf."""
-        bookshelf_data = {
-            "tags": {"SkipAutoDeleteTill": "2026-12-31"},
-        }
+        bookshelf_data = models.Bookshelf(tags={"SkipAutoDeleteTill": "2026-12-31"}) # type: ignore
         operation = self.client.bookshelves.begin_update(
             resource_group_name="olawal",
-            bookshelf_name="test-bookshelf-05fbc43d",
+            bookshelf_name="test-bookshelf-python",
             properties=bookshelf_data,
         )
         updated_bookshelf = operation.result()
@@ -68,6 +74,6 @@ class TestBookshelves(DiscoveryMgmtTestCase):
         """Test deleting a bookshelf."""
         operation = self.client.bookshelves.begin_delete(
             resource_group_name="olawal",
-            bookshelf_name="test-bookshelf-9379e896",
+            bookshelf_name="test-bookshelf-python",
         )
         operation.result()

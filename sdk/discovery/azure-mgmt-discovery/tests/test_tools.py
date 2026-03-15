@@ -5,7 +5,7 @@
 # ------------------------------------
 """Tests for Tools operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryMgmtClient
+from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase, AZURE_RESOURCE_GROUP
@@ -46,11 +46,11 @@ class TestTools(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_create_tool(self):
         """Test creating a tool."""
-        tool_data = {
-            "location": "uksouth",
-            "properties": {
-                "version": "1.0.0",
-                "definitionContent": {
+        tool_data = models.Tool(
+            location="uksouth",
+            properties=models.ToolProperties(
+                version="1.0.0",
+                definition_content={
                     "name": "molpredictor",
                     "description": "Molecular property prediction for single SMILES strings.",
                     "version": "1.0.0",
@@ -89,8 +89,8 @@ class TestTools(DiscoveryMgmtTestCase):
                         }
                     ],
                 },
-            },
-        }
+            ),
+        )
         operation = self.client.tools.begin_create_or_update(
             resource_group_name="olawal",
             tool_name="test-tool-50d87c62",
@@ -102,9 +102,9 @@ class TestTools(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_update_tool(self):
         """Test updating a tool."""
-        tool_data = {
-            "tags": {"SkipAutoDeleteTill": "2026-12-31"},
-        }
+        tool_data = models.Tool(
+            tags={"SkipAutoDeleteTill": "2026-12-31"},
+        )
         operation = self.client.tools.begin_update(
             resource_group_name="olawal",
             tool_name=TOOL_NAME,

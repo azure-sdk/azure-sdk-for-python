@@ -5,7 +5,7 @@
 # ------------------------------------
 """Tests for Storage Assets operations."""
 import pytest
-from azure.mgmt.discovery import DiscoveryMgmtClient
+from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
 from .testcase import DiscoveryMgmtTestCase
@@ -42,10 +42,13 @@ class TestStorageAssets(DiscoveryMgmtTestCase):
     def test_create_storage_asset(self):
         """Test creating a storage asset."""
         storage_container_name = "test-sc-8bef0d1a"
-        asset_data = {
-            "location": "uksouth",
-            "properties": {"description": "Test storage asset for SDK validation", "path": "data/test-assets"},
-        }
+        asset_data = models.StorageAsset(
+            location="uksouth",
+            properties=models.StorageAssetProperties(
+                description="Test storage asset for SDK validation",
+                path="data/test-assets",
+            ),
+        )
         operation = self.client.storage_assets.begin_create_or_update(
             resource_group_name="olawal",
             storage_container_name=storage_container_name,
@@ -58,9 +61,9 @@ class TestStorageAssets(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_update_storage_asset(self):
         """Test updating a storage asset."""
-        asset_data = {
-            "tags": {"SkipAutoDeleteTill": "2026-12-31"},
-        }
+        asset_data = models.StorageAsset(
+            tags={"SkipAutoDeleteTill": "2026-12-31"},
+        )
         operation = self.client.storage_assets.begin_update(
             resource_group_name="olawal",
             storage_container_name="test-sc-8bef0d1a",
