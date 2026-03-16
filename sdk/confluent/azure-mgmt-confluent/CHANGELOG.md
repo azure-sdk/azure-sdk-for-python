@@ -1,5 +1,71 @@
 # Release History
 
+## 3.0.0b1 (2026-04-19)
+
+### Features Added
+
+  - Model `ConfluentManagementClient` added parameter `cloud_setting` in method `__init__`
+  - Client `ConfluentManagementClient` added operation group `environment`
+  - Client `ConfluentManagementClient` added operation group `cluster`
+  - Client `ConfluentManagementClient` added operation group `connector`
+  - Client `ConfluentManagementClient` added operation group `topics`
+  - Model `SCClusterRecord` added property `type`
+  - Model `SCClusterRecord` added property `system_data`
+  - Model `SCClusterSpecEntity` added property `package`
+  - Model `SCEnvironmentRecord` added property `stream_governance_config`
+  - Model `SCEnvironmentRecord` added property `type`
+  - Model `SCEnvironmentRecord` added property `system_data`
+  - Added enum `AuthType`
+  - Added model `AzureBlobStorageSinkConnectorServiceInfo`
+  - Added model `AzureBlobStorageSourceConnectorServiceInfo`
+  - Added model `AzureCosmosDBSinkConnectorServiceInfo`
+  - Added model `AzureCosmosDBSourceConnectorServiceInfo`
+  - Added model `AzureSynapseAnalyticsSinkConnectorServiceInfo`
+  - Added enum `ConnectorClass`
+  - Added model `ConnectorInfoBase`
+  - Added model `ConnectorResource`
+  - Added enum `ConnectorServiceType`
+  - Added model `ConnectorServiceTypeInfoBase`
+  - Added enum `ConnectorStatus`
+  - Added enum `ConnectorType`
+  - Added enum `DataFormatType`
+  - Added model `ErrorAdditionalInfo`
+  - Added model `ErrorDetail`
+  - Added model `ErrorResponse`
+  - Added model `KafkaAzureBlobStorageSinkConnectorInfo`
+  - Added model `KafkaAzureBlobStorageSourceConnectorInfo`
+  - Added model `KafkaAzureCosmosDBSinkConnectorInfo`
+  - Added model `KafkaAzureCosmosDBSourceConnectorInfo`
+  - Added model `KafkaAzureSynapseAnalyticsSinkConnectorInfo`
+  - Added model `ListConnectorsSuccessResponse`
+  - Added model `ListTopicsSuccessResponse`
+  - Added enum `Package`
+  - Added enum `PartnerConnectorType`
+  - Added model `PartnerInfoBase`
+  - Added model `ProxyResource`
+  - Added model `Resource`
+  - Added model `StreamGovernanceConfig`
+  - Added model `TopicMetadataEntity`
+  - Added model `TopicRecord`
+  - Added model `TopicsInputConfig`
+  - Added model `TopicsRelatedLink`
+  - Added model `TrackedResource`
+  - Added model `ClusterOperations`
+  - Added model `ConnectorOperations`
+  - Added model `EnvironmentOperations`
+  - Added model `TopicsOperations`
+
+### Breaking Changes
+
+  - Method `ConfluentAgreementResourceListResponse.__init__` removed default value `None` from its parameter `value`
+  - Method `GetEnvironmentsResponse.__init__` removed default value `None` from its parameter `value`
+  - Method `ListClustersSuccessResponse.__init__` removed default value `None` from its parameter `value`
+  - Method `ListSchemaRegistryClustersResponse.__init__` removed default value `None` from its parameter `value`
+  - Method `OperationListResult.__init__` removed default value `None` from its parameter `value`
+  - Method `OrganizationResource.__init__` removed default value `None` from its parameter `location`
+  - Method `OrganizationResourceListResult.__init__` removed default value `None` from its parameter `value`
+  - Deleted or renamed model `SCConfluentListMetadata`
+
 ## 2.1.0 (2024-03-18)
 
 ### Features Added

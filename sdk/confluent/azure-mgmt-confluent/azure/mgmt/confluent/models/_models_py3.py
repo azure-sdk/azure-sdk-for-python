@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -7,14 +7,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from collections.abc import MutableMapping
 import datetime
-from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
+JSON = MutableMapping[str, Any]
 
 
 class AccessCreateRoleBindingRequestModel(_serialization.Model):
@@ -152,7 +153,7 @@ class AccessListClusterSuccessResponse(_serialization.Model):
         *,
         kind: Optional[str] = None,
         metadata: Optional["_models.ConfluentListMetadata"] = None,
-        data: Optional[List["_models.ClusterRecord"]] = None,
+        data: Optional[list["_models.ClusterRecord"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -191,7 +192,7 @@ class AccessListEnvironmentsSuccessResponse(_serialization.Model):
         *,
         kind: Optional[str] = None,
         metadata: Optional["_models.ConfluentListMetadata"] = None,
-        data: Optional[List["_models.EnvironmentRecord"]] = None,
+        data: Optional[list["_models.EnvironmentRecord"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -230,7 +231,7 @@ class AccessListInvitationsSuccessResponse(_serialization.Model):
         *,
         kind: Optional[str] = None,
         metadata: Optional["_models.ConfluentListMetadata"] = None,
-        data: Optional[List["_models.InvitationRecord"]] = None,
+        data: Optional[list["_models.InvitationRecord"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -269,7 +270,7 @@ class AccessListRoleBindingsSuccessResponse(_serialization.Model):
         *,
         kind: Optional[str] = None,
         metadata: Optional["_models.ConfluentListMetadata"] = None,
-        data: Optional[List["_models.RoleBindingRecord"]] = None,
+        data: Optional[list["_models.RoleBindingRecord"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -308,7 +309,7 @@ class AccessListServiceAccountsSuccessResponse(_serialization.Model):
         *,
         kind: Optional[str] = None,
         metadata: Optional["_models.ConfluentListMetadata"] = None,
-        data: Optional[List["_models.ServiceAccountRecord"]] = None,
+        data: Optional[list["_models.ServiceAccountRecord"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -347,7 +348,7 @@ class AccessListUsersSuccessResponse(_serialization.Model):
         *,
         kind: Optional[str] = None,
         metadata: Optional["_models.ConfluentListMetadata"] = None,
-        data: Optional[List["_models.UserRecord"]] = None,
+        data: Optional[list["_models.UserRecord"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -386,7 +387,7 @@ class AccessRoleBindingNameListSuccessResponse(_serialization.Model):
         *,
         kind: Optional[str] = None,
         metadata: Optional["_models.ConfluentListMetadata"] = None,
-        data: Optional[List[str]] = None,
+        data: Optional[list[str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -601,6 +602,365 @@ class APIKeySpecEntity(_serialization.Model):
         self.owner = owner
 
 
+class ConnectorServiceTypeInfoBase(_serialization.Model):
+    """The connector service type info.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    AzureBlobStorageSinkConnectorServiceInfo, AzureBlobStorageSourceConnectorServiceInfo,
+    AzureCosmosDBSinkConnectorServiceInfo, AzureCosmosDBSourceConnectorServiceInfo,
+    AzureSynapseAnalyticsSinkConnectorServiceInfo
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar connector_service_type: The connector service type. Required. Known values are:
+     "AzureBlobStorageSinkConnector", "AzureBlobStorageSourceConnector",
+     "AzureCosmosDBSinkConnector", "AzureCosmosDBSourceConnector", and
+     "AzureSynapseAnalyticsSinkConnector".
+    :vartype connector_service_type: str or ~azure.mgmt.confluent.models.ConnectorServiceType
+    """
+
+    _validation = {
+        "connector_service_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "connector_service_type": {"key": "connectorServiceType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "connector_service_type": {
+            "AzureBlobStorageSinkConnector": "AzureBlobStorageSinkConnectorServiceInfo",
+            "AzureBlobStorageSourceConnector": "AzureBlobStorageSourceConnectorServiceInfo",
+            "AzureCosmosDBSinkConnector": "AzureCosmosDBSinkConnectorServiceInfo",
+            "AzureCosmosDBSourceConnector": "AzureCosmosDBSourceConnectorServiceInfo",
+            "AzureSynapseAnalyticsSinkConnector": "AzureSynapseAnalyticsSinkConnectorServiceInfo",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.connector_service_type: Optional[str] = None
+
+
+class AzureBlobStorageSinkConnectorServiceInfo(ConnectorServiceTypeInfoBase):
+    """The authentication info when auth_type is azureBlobStorageSinkConnector.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar connector_service_type: The connector service type. Required. Known values are:
+     "AzureBlobStorageSinkConnector", "AzureBlobStorageSourceConnector",
+     "AzureCosmosDBSinkConnector", "AzureCosmosDBSourceConnector", and
+     "AzureSynapseAnalyticsSinkConnector".
+    :vartype connector_service_type: str or ~azure.mgmt.confluent.models.ConnectorServiceType
+    :ivar storage_account_name: Azure Blob Storage Account Name.
+    :vartype storage_account_name: str
+    :ivar storage_account_key: Azure Blob Storage Account Key.
+    :vartype storage_account_key: str
+    :ivar storage_container_name: Azure Blob Storage Account Container Name.
+    :vartype storage_container_name: str
+    """
+
+    _validation = {
+        "connector_service_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "connector_service_type": {"key": "connectorServiceType", "type": "str"},
+        "storage_account_name": {"key": "storageAccountName", "type": "str"},
+        "storage_account_key": {"key": "storageAccountKey", "type": "str"},
+        "storage_container_name": {"key": "storageContainerName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        storage_account_name: Optional[str] = None,
+        storage_account_key: Optional[str] = None,
+        storage_container_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword storage_account_name: Azure Blob Storage Account Name.
+        :paramtype storage_account_name: str
+        :keyword storage_account_key: Azure Blob Storage Account Key.
+        :paramtype storage_account_key: str
+        :keyword storage_container_name: Azure Blob Storage Account Container Name.
+        :paramtype storage_container_name: str
+        """
+        super().__init__(**kwargs)
+        self.connector_service_type: str = "AzureBlobStorageSinkConnector"
+        self.storage_account_name = storage_account_name
+        self.storage_account_key = storage_account_key
+        self.storage_container_name = storage_container_name
+
+
+class AzureBlobStorageSourceConnectorServiceInfo(ConnectorServiceTypeInfoBase):  # pylint: disable=name-too-long
+    """The connector service type is AzureBlobStorageSourceConnector.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar connector_service_type: The connector service type. Required. Known values are:
+     "AzureBlobStorageSinkConnector", "AzureBlobStorageSourceConnector",
+     "AzureCosmosDBSinkConnector", "AzureCosmosDBSourceConnector", and
+     "AzureSynapseAnalyticsSinkConnector".
+    :vartype connector_service_type: str or ~azure.mgmt.confluent.models.ConnectorServiceType
+    :ivar storage_account_name: Azure Blob Storage Account Name.
+    :vartype storage_account_name: str
+    :ivar storage_account_key: Azure Blob Storage Account Key.
+    :vartype storage_account_key: str
+    :ivar storage_container_name: Azure Blob Storage Account Container Name.
+    :vartype storage_container_name: str
+    """
+
+    _validation = {
+        "connector_service_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "connector_service_type": {"key": "connectorServiceType", "type": "str"},
+        "storage_account_name": {"key": "storageAccountName", "type": "str"},
+        "storage_account_key": {"key": "storageAccountKey", "type": "str"},
+        "storage_container_name": {"key": "storageContainerName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        storage_account_name: Optional[str] = None,
+        storage_account_key: Optional[str] = None,
+        storage_container_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword storage_account_name: Azure Blob Storage Account Name.
+        :paramtype storage_account_name: str
+        :keyword storage_account_key: Azure Blob Storage Account Key.
+        :paramtype storage_account_key: str
+        :keyword storage_container_name: Azure Blob Storage Account Container Name.
+        :paramtype storage_container_name: str
+        """
+        super().__init__(**kwargs)
+        self.connector_service_type: str = "AzureBlobStorageSourceConnector"
+        self.storage_account_name = storage_account_name
+        self.storage_account_key = storage_account_key
+        self.storage_container_name = storage_container_name
+
+
+class AzureCosmosDBSinkConnectorServiceInfo(ConnectorServiceTypeInfoBase):
+    """The authentication info when auth_type is AzureCosmosDBSinkConnector.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar connector_service_type: The connector service type. Required. Known values are:
+     "AzureBlobStorageSinkConnector", "AzureBlobStorageSourceConnector",
+     "AzureCosmosDBSinkConnector", "AzureCosmosDBSourceConnector", and
+     "AzureSynapseAnalyticsSinkConnector".
+    :vartype connector_service_type: str or ~azure.mgmt.confluent.models.ConnectorServiceType
+    :ivar cosmos_database_name: Azure Cosmos Database Name.
+    :vartype cosmos_database_name: str
+    :ivar cosmos_master_key: Azure Cosmos Database Master Key.
+    :vartype cosmos_master_key: str
+    :ivar cosmos_connection_endpoint: Azure Cosmos Database Connection Endpoint.
+    :vartype cosmos_connection_endpoint: str
+    :ivar cosmos_containers_topic_mapping: Azure Cosmos Database Containers Topic Mapping.
+    :vartype cosmos_containers_topic_mapping: str
+    :ivar cosmos_id_strategy: Azure Cosmos Database Id Strategy.
+    :vartype cosmos_id_strategy: str
+    :ivar cosmos_write_details: Azure Cosmos write config details.
+    :vartype cosmos_write_details: str
+    """
+
+    _validation = {
+        "connector_service_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "connector_service_type": {"key": "connectorServiceType", "type": "str"},
+        "cosmos_database_name": {"key": "cosmosDatabaseName", "type": "str"},
+        "cosmos_master_key": {"key": "cosmosMasterKey", "type": "str"},
+        "cosmos_connection_endpoint": {"key": "cosmosConnectionEndpoint", "type": "str"},
+        "cosmos_containers_topic_mapping": {"key": "cosmosContainersTopicMapping", "type": "str"},
+        "cosmos_id_strategy": {"key": "cosmosIdStrategy", "type": "str"},
+        "cosmos_write_details": {"key": "cosmosWriteDetails", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        cosmos_database_name: Optional[str] = None,
+        cosmos_master_key: Optional[str] = None,
+        cosmos_connection_endpoint: Optional[str] = None,
+        cosmos_containers_topic_mapping: Optional[str] = None,
+        cosmos_id_strategy: Optional[str] = None,
+        cosmos_write_details: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword cosmos_database_name: Azure Cosmos Database Name.
+        :paramtype cosmos_database_name: str
+        :keyword cosmos_master_key: Azure Cosmos Database Master Key.
+        :paramtype cosmos_master_key: str
+        :keyword cosmos_connection_endpoint: Azure Cosmos Database Connection Endpoint.
+        :paramtype cosmos_connection_endpoint: str
+        :keyword cosmos_containers_topic_mapping: Azure Cosmos Database Containers Topic Mapping.
+        :paramtype cosmos_containers_topic_mapping: str
+        :keyword cosmos_id_strategy: Azure Cosmos Database Id Strategy.
+        :paramtype cosmos_id_strategy: str
+        :keyword cosmos_write_details: Azure Cosmos write config details.
+        :paramtype cosmos_write_details: str
+        """
+        super().__init__(**kwargs)
+        self.connector_service_type: str = "AzureCosmosDBSinkConnector"
+        self.cosmos_database_name = cosmos_database_name
+        self.cosmos_master_key = cosmos_master_key
+        self.cosmos_connection_endpoint = cosmos_connection_endpoint
+        self.cosmos_containers_topic_mapping = cosmos_containers_topic_mapping
+        self.cosmos_id_strategy = cosmos_id_strategy
+        self.cosmos_write_details = cosmos_write_details
+
+
+class AzureCosmosDBSourceConnectorServiceInfo(ConnectorServiceTypeInfoBase):
+    """The authentication info when auth_type is AzureCosmosDBSourceConnector.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar connector_service_type: The connector service type. Required. Known values are:
+     "AzureBlobStorageSinkConnector", "AzureBlobStorageSourceConnector",
+     "AzureCosmosDBSinkConnector", "AzureCosmosDBSourceConnector", and
+     "AzureSynapseAnalyticsSinkConnector".
+    :vartype connector_service_type: str or ~azure.mgmt.confluent.models.ConnectorServiceType
+    :ivar cosmos_database_name: Azure Cosmos Database Name.
+    :vartype cosmos_database_name: str
+    :ivar cosmos_master_key: Azure Cosmos Database Master Key.
+    :vartype cosmos_master_key: str
+    :ivar cosmos_connection_endpoint: Azure Cosmos Database Connection Endpoint.
+    :vartype cosmos_connection_endpoint: str
+    :ivar cosmos_containers_topic_mapping: Azure Cosmos Database Containers Topic Mapping.
+    :vartype cosmos_containers_topic_mapping: str
+    :ivar cosmos_message_key_enabled: Azure Cosmos Database Message Key Enabled.
+    :vartype cosmos_message_key_enabled: bool
+    :ivar cosmos_message_key_field: Azure Cosmos Database Message Key Field.
+    :vartype cosmos_message_key_field: str
+    :ivar cosmos_include_all_containers: Azure Cosmos Database Include all the containers in the
+     database.
+    :vartype cosmos_include_all_containers: str
+    """
+
+    _validation = {
+        "connector_service_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "connector_service_type": {"key": "connectorServiceType", "type": "str"},
+        "cosmos_database_name": {"key": "cosmosDatabaseName", "type": "str"},
+        "cosmos_master_key": {"key": "cosmosMasterKey", "type": "str"},
+        "cosmos_connection_endpoint": {"key": "cosmosConnectionEndpoint", "type": "str"},
+        "cosmos_containers_topic_mapping": {"key": "cosmosContainersTopicMapping", "type": "str"},
+        "cosmos_message_key_enabled": {"key": "cosmosMessageKeyEnabled", "type": "bool"},
+        "cosmos_message_key_field": {"key": "cosmosMessageKeyField", "type": "str"},
+        "cosmos_include_all_containers": {"key": "cosmosIncludeAllContainers", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        cosmos_database_name: Optional[str] = None,
+        cosmos_master_key: Optional[str] = None,
+        cosmos_connection_endpoint: Optional[str] = None,
+        cosmos_containers_topic_mapping: Optional[str] = None,
+        cosmos_message_key_enabled: Optional[bool] = None,
+        cosmos_message_key_field: Optional[str] = None,
+        cosmos_include_all_containers: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword cosmos_database_name: Azure Cosmos Database Name.
+        :paramtype cosmos_database_name: str
+        :keyword cosmos_master_key: Azure Cosmos Database Master Key.
+        :paramtype cosmos_master_key: str
+        :keyword cosmos_connection_endpoint: Azure Cosmos Database Connection Endpoint.
+        :paramtype cosmos_connection_endpoint: str
+        :keyword cosmos_containers_topic_mapping: Azure Cosmos Database Containers Topic Mapping.
+        :paramtype cosmos_containers_topic_mapping: str
+        :keyword cosmos_message_key_enabled: Azure Cosmos Database Message Key Enabled.
+        :paramtype cosmos_message_key_enabled: bool
+        :keyword cosmos_message_key_field: Azure Cosmos Database Message Key Field.
+        :paramtype cosmos_message_key_field: str
+        :keyword cosmos_include_all_containers: Azure Cosmos Database Include all the containers in the
+         database.
+        :paramtype cosmos_include_all_containers: str
+        """
+        super().__init__(**kwargs)
+        self.connector_service_type: str = "AzureCosmosDBSourceConnector"
+        self.cosmos_database_name = cosmos_database_name
+        self.cosmos_master_key = cosmos_master_key
+        self.cosmos_connection_endpoint = cosmos_connection_endpoint
+        self.cosmos_containers_topic_mapping = cosmos_containers_topic_mapping
+        self.cosmos_message_key_enabled = cosmos_message_key_enabled
+        self.cosmos_message_key_field = cosmos_message_key_field
+        self.cosmos_include_all_containers = cosmos_include_all_containers
+
+
+class AzureSynapseAnalyticsSinkConnectorServiceInfo(ConnectorServiceTypeInfoBase):  # pylint: disable=name-too-long
+    """The authentication info when auth_type is AzureSynapseAnalyticsSinkConnector.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar connector_service_type: The connector service type. Required. Known values are:
+     "AzureBlobStorageSinkConnector", "AzureBlobStorageSourceConnector",
+     "AzureCosmosDBSinkConnector", "AzureCosmosDBSourceConnector", and
+     "AzureSynapseAnalyticsSinkConnector".
+    :vartype connector_service_type: str or ~azure.mgmt.confluent.models.ConnectorServiceType
+    :ivar synapse_sql_server_name: Azure Synapse Analytics SQL Server Name.
+    :vartype synapse_sql_server_name: str
+    :ivar synapse_sql_user: Azure Synapse SQL login details.
+    :vartype synapse_sql_user: str
+    :ivar synapse_sql_password: Azure Synapse SQL login details.
+    :vartype synapse_sql_password: str
+    :ivar synapse_sql_database_name: Azure Synapse Dedicated SQL Pool Database Name.
+    :vartype synapse_sql_database_name: str
+    """
+
+    _validation = {
+        "connector_service_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "connector_service_type": {"key": "connectorServiceType", "type": "str"},
+        "synapse_sql_server_name": {"key": "synapseSqlServerName", "type": "str"},
+        "synapse_sql_user": {"key": "synapseSqlUser", "type": "str"},
+        "synapse_sql_password": {"key": "synapseSqlPassword", "type": "str"},
+        "synapse_sql_database_name": {"key": "synapseSqlDatabaseName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        synapse_sql_server_name: Optional[str] = None,
+        synapse_sql_user: Optional[str] = None,
+        synapse_sql_password: Optional[str] = None,
+        synapse_sql_database_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword synapse_sql_server_name: Azure Synapse Analytics SQL Server Name.
+        :paramtype synapse_sql_server_name: str
+        :keyword synapse_sql_user: Azure Synapse SQL login details.
+        :paramtype synapse_sql_user: str
+        :keyword synapse_sql_password: Azure Synapse SQL login details.
+        :paramtype synapse_sql_password: str
+        :keyword synapse_sql_database_name: Azure Synapse Dedicated SQL Pool Database Name.
+        :paramtype synapse_sql_database_name: str
+        """
+        super().__init__(**kwargs)
+        self.connector_service_type: str = "AzureSynapseAnalyticsSinkConnector"
+        self.synapse_sql_server_name = synapse_sql_server_name
+        self.synapse_sql_user = synapse_sql_user
+        self.synapse_sql_password = synapse_sql_password
+        self.synapse_sql_database_name = synapse_sql_database_name
+
+
 class ClusterByokEntity(_serialization.Model):
     """The network associated with this object.
 
@@ -812,7 +1172,7 @@ class ClusterRecord(_serialization.Model):
         self.status = status
 
 
-class ClusterSpecEntity(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ClusterSpecEntity(_serialization.Model):
     """Spec of the cluster record.
 
     :ivar display_name: The name of the cluster.
@@ -942,7 +1302,7 @@ class ClusterStatusEntity(_serialization.Model):
         self.cku = cku
 
 
-class ConfluentAgreementResource(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ConfluentAgreementResource(_serialization.Model):
     """Agreement Terms definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1029,10 +1389,10 @@ class ConfluentAgreementResource(_serialization.Model):  # pylint: disable=too-m
         :paramtype accepted: bool
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.publisher = publisher
         self.product = product
         self.plan = plan
@@ -1046,11 +1406,17 @@ class ConfluentAgreementResource(_serialization.Model):  # pylint: disable=too-m
 class ConfluentAgreementResourceListResponse(_serialization.Model):
     """Response of a list operation.
 
-    :ivar value: Results of a list operation.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The ConfluentAgreementResource items on this page. Required.
     :vartype value: list[~azure.mgmt.confluent.models.ConfluentAgreementResource]
-    :ivar next_link: Link to the next set of results, if any.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ConfluentAgreementResource]"},
@@ -1058,16 +1424,12 @@ class ConfluentAgreementResourceListResponse(_serialization.Model):
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.ConfluentAgreementResource"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: list["_models.ConfluentAgreementResource"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: Results of a list operation.
+        :keyword value: The ConfluentAgreementResource items on this page. Required.
         :paramtype value: list[~azure.mgmt.confluent.models.ConfluentAgreementResource]
-        :keyword next_link: Link to the next set of results, if any.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -1126,6 +1488,191 @@ class ConfluentListMetadata(_serialization.Model):
         self.prev = prev
         self.next = next
         self.total_size = total_size
+
+
+class ConnectorInfoBase(_serialization.Model):
+    """Connector Info Base properties.
+
+    :ivar connector_type: Connector Type. Known values are: "SINK" and "SOURCE".
+    :vartype connector_type: str or ~azure.mgmt.confluent.models.ConnectorType
+    :ivar connector_class: Connector Class. Known values are: "AZUREBLOBSOURCE", "AZUREBLOBSINK",
+     "AZURECOSMOSV2SINK", and "AZURECOSMOSV2SOURCE".
+    :vartype connector_class: str or ~azure.mgmt.confluent.models.ConnectorClass
+    :ivar connector_name: Connector Name.
+    :vartype connector_name: str
+    :ivar connector_id: Connector Id.
+    :vartype connector_id: str
+    :ivar connector_state: Connector Status. Known values are: "PROVISIONING", "RUNNING", "PAUSED",
+     and "FAILED".
+    :vartype connector_state: str or ~azure.mgmt.confluent.models.ConnectorStatus
+    """
+
+    _attribute_map = {
+        "connector_type": {"key": "connectorType", "type": "str"},
+        "connector_class": {"key": "connectorClass", "type": "str"},
+        "connector_name": {"key": "connectorName", "type": "str"},
+        "connector_id": {"key": "connectorId", "type": "str"},
+        "connector_state": {"key": "connectorState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        connector_type: Optional[Union[str, "_models.ConnectorType"]] = None,
+        connector_class: Optional[Union[str, "_models.ConnectorClass"]] = None,
+        connector_name: Optional[str] = None,
+        connector_id: Optional[str] = None,
+        connector_state: Optional[Union[str, "_models.ConnectorStatus"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword connector_type: Connector Type. Known values are: "SINK" and "SOURCE".
+        :paramtype connector_type: str or ~azure.mgmt.confluent.models.ConnectorType
+        :keyword connector_class: Connector Class. Known values are: "AZUREBLOBSOURCE",
+         "AZUREBLOBSINK", "AZURECOSMOSV2SINK", and "AZURECOSMOSV2SOURCE".
+        :paramtype connector_class: str or ~azure.mgmt.confluent.models.ConnectorClass
+        :keyword connector_name: Connector Name.
+        :paramtype connector_name: str
+        :keyword connector_id: Connector Id.
+        :paramtype connector_id: str
+        :keyword connector_state: Connector Status. Known values are: "PROVISIONING", "RUNNING",
+         "PAUSED", and "FAILED".
+        :paramtype connector_state: str or ~azure.mgmt.confluent.models.ConnectorStatus
+        """
+        super().__init__(**kwargs)
+        self.connector_type = connector_type
+        self.connector_class = connector_class
+        self.connector_name = connector_name
+        self.connector_id = connector_id
+        self.connector_state = connector_state
+
+
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.confluent.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
+
+
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.confluent.models.SystemData
+    """
+
+
+class ConnectorResource(ProxyResource):
+    """Details of connector record.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.confluent.models.SystemData
+    :ivar connector_basic_info: Connector Info Base.
+    :vartype connector_basic_info: ~azure.mgmt.confluent.models.ConnectorInfoBase
+    :ivar connector_service_type_info: Connector Service type info base properties.
+    :vartype connector_service_type_info: ~azure.mgmt.confluent.models.ConnectorServiceTypeInfoBase
+    :ivar partner_connector_info: The connection information consumed by applications.
+    :vartype partner_connector_info: ~azure.mgmt.confluent.models.PartnerInfoBase
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "connector_basic_info": {"key": "properties.connectorBasicInfo", "type": "ConnectorInfoBase"},
+        "connector_service_type_info": {
+            "key": "properties.connectorServiceTypeInfo",
+            "type": "ConnectorServiceTypeInfoBase",
+        },
+        "partner_connector_info": {"key": "properties.partnerConnectorInfo", "type": "PartnerInfoBase"},
+    }
+
+    def __init__(
+        self,
+        *,
+        connector_basic_info: Optional["_models.ConnectorInfoBase"] = None,
+        connector_service_type_info: Optional["_models.ConnectorServiceTypeInfoBase"] = None,
+        partner_connector_info: Optional["_models.PartnerInfoBase"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword connector_basic_info: Connector Info Base.
+        :paramtype connector_basic_info: ~azure.mgmt.confluent.models.ConnectorInfoBase
+        :keyword connector_service_type_info: Connector Service type info base properties.
+        :paramtype connector_service_type_info:
+         ~azure.mgmt.confluent.models.ConnectorServiceTypeInfoBase
+        :keyword partner_connector_info: The connection information consumed by applications.
+        :paramtype partner_connector_info: ~azure.mgmt.confluent.models.PartnerInfoBase
+        """
+        super().__init__(**kwargs)
+        self.connector_basic_info = connector_basic_info
+        self.connector_service_type_info = connector_service_type_info
+        self.partner_connector_info = partner_connector_info
 
 
 class CreateAPIKeyModel(_serialization.Model):
@@ -1200,6 +1747,98 @@ class EnvironmentRecord(_serialization.Model):
         self.display_name = display_name
 
 
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
+
+
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.confluent.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.confluent.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[list["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[list["_models.ErrorAdditionalInfo"]] = None
+
+
+class ErrorResponse(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.confluent.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.confluent.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
 class ErrorResponseBody(_serialization.Model):
     """Response body of Error.
 
@@ -1232,20 +1871,26 @@ class ErrorResponseBody(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[list["_models.ErrorResponseBody"]] = None
 
 
 class GetEnvironmentsResponse(_serialization.Model):
     """Result of GET request to list Confluent operations.
 
-    :ivar value: List of environments in a confluent organization.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The SCEnvironmentRecord items on this page. Required.
     :vartype value: list[~azure.mgmt.confluent.models.SCEnvironmentRecord]
-    :ivar next_link: URL to get the next set of environment records if there are any.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[SCEnvironmentRecord]"},
@@ -1253,16 +1898,12 @@ class GetEnvironmentsResponse(_serialization.Model):
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.SCEnvironmentRecord"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: list["_models.SCEnvironmentRecord"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: List of environments in a confluent organization.
+        :keyword value: The SCEnvironmentRecord items on this page. Required.
         :paramtype value: list[~azure.mgmt.confluent.models.SCEnvironmentRecord]
-        :keyword next_link: URL to get the next set of environment records if there are any.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -1344,10 +1985,612 @@ class InvitationRecord(_serialization.Model):
         self.expires_at = expires_at
 
 
+class PartnerInfoBase(_serialization.Model):
+    """The partner info base.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    KafkaAzureBlobStorageSinkConnectorInfo, KafkaAzureBlobStorageSourceConnectorInfo,
+    KafkaAzureCosmosDBSinkConnectorInfo, KafkaAzureCosmosDBSourceConnectorInfo,
+    KafkaAzureSynapseAnalyticsSinkConnectorInfo
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar partner_connector_type: The partner connector type. Required. Known values are:
+     "KafkaAzureBlobStorageSource", "KafkaAzureBlobStorageSink", "KafkaAzureCosmosDBSource",
+     "KafkaAzureCosmosDBSink", and "KafkaAzureSynapseAnalyticsSink".
+    :vartype partner_connector_type: str or ~azure.mgmt.confluent.models.PartnerConnectorType
+    """
+
+    _validation = {
+        "partner_connector_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "partner_connector_type": {"key": "partnerConnectorType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "partner_connector_type": {
+            "KafkaAzureBlobStorageSink": "KafkaAzureBlobStorageSinkConnectorInfo",
+            "KafkaAzureBlobStorageSource": "KafkaAzureBlobStorageSourceConnectorInfo",
+            "KafkaAzureCosmosDBSink": "KafkaAzureCosmosDBSinkConnectorInfo",
+            "KafkaAzureCosmosDBSource": "KafkaAzureCosmosDBSourceConnectorInfo",
+            "KafkaAzureSynapseAnalyticsSink": "KafkaAzureSynapseAnalyticsSinkConnectorInfo",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.partner_connector_type: Optional[str] = None
+
+
+class KafkaAzureBlobStorageSinkConnectorInfo(PartnerInfoBase):
+    """The partner connector type is KafkaAzureBlobStorageSink.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar partner_connector_type: The partner connector type. Required. Known values are:
+     "KafkaAzureBlobStorageSource", "KafkaAzureBlobStorageSink", "KafkaAzureCosmosDBSource",
+     "KafkaAzureCosmosDBSink", and "KafkaAzureSynapseAnalyticsSink".
+    :vartype partner_connector_type: str or ~azure.mgmt.confluent.models.PartnerConnectorType
+    :ivar auth_type: Kafka Auth Type. Known values are: "SERVICE_ACCOUNT" and "KAFKA_API_KEY".
+    :vartype auth_type: str or ~azure.mgmt.confluent.models.AuthType
+    :ivar input_format: Kafka Input Data Format Type. Known values are: "AVRO", "JSON", "STRING",
+     "BYTES", and "PROTOBUF".
+    :vartype input_format: str or ~azure.mgmt.confluent.models.DataFormatType
+    :ivar output_format: Kafka Output Data Format Type. Known values are: "AVRO", "JSON", "STRING",
+     "BYTES", and "PROTOBUF".
+    :vartype output_format: str or ~azure.mgmt.confluent.models.DataFormatType
+    :ivar api_key: Kafka API Key.
+    :vartype api_key: str
+    :ivar api_secret: Kafka API Key Secret.
+    :vartype api_secret: str
+    :ivar service_account_id: Kafka Service Account Id.
+    :vartype service_account_id: str
+    :ivar service_account_name: Kafka Service Account Name.
+    :vartype service_account_name: str
+    :ivar topics: Kafka topics list.
+    :vartype topics: list[str]
+    :ivar topics_dir: Kafka topics directory.
+    :vartype topics_dir: str
+    :ivar flush_size: Flush size.
+    :vartype flush_size: str
+    :ivar max_tasks: Maximum Tasks.
+    :vartype max_tasks: str
+    :ivar time_interval: Time Interval.
+    :vartype time_interval: str
+    """
+
+    _validation = {
+        "partner_connector_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "partner_connector_type": {"key": "partnerConnectorType", "type": "str"},
+        "auth_type": {"key": "authType", "type": "str"},
+        "input_format": {"key": "inputFormat", "type": "str"},
+        "output_format": {"key": "outputFormat", "type": "str"},
+        "api_key": {"key": "apiKey", "type": "str"},
+        "api_secret": {"key": "apiSecret", "type": "str"},
+        "service_account_id": {"key": "serviceAccountId", "type": "str"},
+        "service_account_name": {"key": "serviceAccountName", "type": "str"},
+        "topics": {"key": "topics", "type": "[str]"},
+        "topics_dir": {"key": "topicsDir", "type": "str"},
+        "flush_size": {"key": "flushSize", "type": "str"},
+        "max_tasks": {"key": "maxTasks", "type": "str"},
+        "time_interval": {"key": "timeInterval", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        auth_type: Optional[Union[str, "_models.AuthType"]] = None,
+        input_format: Optional[Union[str, "_models.DataFormatType"]] = None,
+        output_format: Optional[Union[str, "_models.DataFormatType"]] = None,
+        api_key: Optional[str] = None,
+        api_secret: Optional[str] = None,
+        service_account_id: Optional[str] = None,
+        service_account_name: Optional[str] = None,
+        topics: Optional[list[str]] = None,
+        topics_dir: Optional[str] = None,
+        flush_size: Optional[str] = None,
+        max_tasks: Optional[str] = None,
+        time_interval: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword auth_type: Kafka Auth Type. Known values are: "SERVICE_ACCOUNT" and "KAFKA_API_KEY".
+        :paramtype auth_type: str or ~azure.mgmt.confluent.models.AuthType
+        :keyword input_format: Kafka Input Data Format Type. Known values are: "AVRO", "JSON",
+         "STRING", "BYTES", and "PROTOBUF".
+        :paramtype input_format: str or ~azure.mgmt.confluent.models.DataFormatType
+        :keyword output_format: Kafka Output Data Format Type. Known values are: "AVRO", "JSON",
+         "STRING", "BYTES", and "PROTOBUF".
+        :paramtype output_format: str or ~azure.mgmt.confluent.models.DataFormatType
+        :keyword api_key: Kafka API Key.
+        :paramtype api_key: str
+        :keyword api_secret: Kafka API Key Secret.
+        :paramtype api_secret: str
+        :keyword service_account_id: Kafka Service Account Id.
+        :paramtype service_account_id: str
+        :keyword service_account_name: Kafka Service Account Name.
+        :paramtype service_account_name: str
+        :keyword topics: Kafka topics list.
+        :paramtype topics: list[str]
+        :keyword topics_dir: Kafka topics directory.
+        :paramtype topics_dir: str
+        :keyword flush_size: Flush size.
+        :paramtype flush_size: str
+        :keyword max_tasks: Maximum Tasks.
+        :paramtype max_tasks: str
+        :keyword time_interval: Time Interval.
+        :paramtype time_interval: str
+        """
+        super().__init__(**kwargs)
+        self.partner_connector_type: str = "KafkaAzureBlobStorageSink"
+        self.auth_type = auth_type
+        self.input_format = input_format
+        self.output_format = output_format
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.service_account_id = service_account_id
+        self.service_account_name = service_account_name
+        self.topics = topics
+        self.topics_dir = topics_dir
+        self.flush_size = flush_size
+        self.max_tasks = max_tasks
+        self.time_interval = time_interval
+
+
+class KafkaAzureBlobStorageSourceConnectorInfo(PartnerInfoBase):
+    """The partner connector type is KafkaAzureBlobStorageSource.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar partner_connector_type: The partner connector type. Required. Known values are:
+     "KafkaAzureBlobStorageSource", "KafkaAzureBlobStorageSink", "KafkaAzureCosmosDBSource",
+     "KafkaAzureCosmosDBSink", and "KafkaAzureSynapseAnalyticsSink".
+    :vartype partner_connector_type: str or ~azure.mgmt.confluent.models.PartnerConnectorType
+    :ivar auth_type: Kafka Auth Type. Known values are: "SERVICE_ACCOUNT" and "KAFKA_API_KEY".
+    :vartype auth_type: str or ~azure.mgmt.confluent.models.AuthType
+    :ivar input_format: Kafka Input Data Format Type. Known values are: "AVRO", "JSON", "STRING",
+     "BYTES", and "PROTOBUF".
+    :vartype input_format: str or ~azure.mgmt.confluent.models.DataFormatType
+    :ivar output_format: Kafka Output Data Format Type. Known values are: "AVRO", "JSON", "STRING",
+     "BYTES", and "PROTOBUF".
+    :vartype output_format: str or ~azure.mgmt.confluent.models.DataFormatType
+    :ivar api_key: Kafka API Key.
+    :vartype api_key: str
+    :ivar api_secret: Kafka API Secret.
+    :vartype api_secret: str
+    :ivar service_account_id: Kafka Service Account Id.
+    :vartype service_account_id: str
+    :ivar service_account_name: Kafka Service Account Name.
+    :vartype service_account_name: str
+    :ivar topic_regex: Kafka topics Regex pattern.
+    :vartype topic_regex: str
+    :ivar topics_dir: Kafka topics directory.
+    :vartype topics_dir: str
+    :ivar max_tasks: Maximum Tasks.
+    :vartype max_tasks: str
+    """
+
+    _validation = {
+        "partner_connector_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "partner_connector_type": {"key": "partnerConnectorType", "type": "str"},
+        "auth_type": {"key": "authType", "type": "str"},
+        "input_format": {"key": "inputFormat", "type": "str"},
+        "output_format": {"key": "outputFormat", "type": "str"},
+        "api_key": {"key": "apiKey", "type": "str"},
+        "api_secret": {"key": "apiSecret", "type": "str"},
+        "service_account_id": {"key": "serviceAccountId", "type": "str"},
+        "service_account_name": {"key": "serviceAccountName", "type": "str"},
+        "topic_regex": {"key": "topicRegex", "type": "str"},
+        "topics_dir": {"key": "topicsDir", "type": "str"},
+        "max_tasks": {"key": "maxTasks", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        auth_type: Optional[Union[str, "_models.AuthType"]] = None,
+        input_format: Optional[Union[str, "_models.DataFormatType"]] = None,
+        output_format: Optional[Union[str, "_models.DataFormatType"]] = None,
+        api_key: Optional[str] = None,
+        api_secret: Optional[str] = None,
+        service_account_id: Optional[str] = None,
+        service_account_name: Optional[str] = None,
+        topic_regex: Optional[str] = None,
+        topics_dir: Optional[str] = None,
+        max_tasks: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword auth_type: Kafka Auth Type. Known values are: "SERVICE_ACCOUNT" and "KAFKA_API_KEY".
+        :paramtype auth_type: str or ~azure.mgmt.confluent.models.AuthType
+        :keyword input_format: Kafka Input Data Format Type. Known values are: "AVRO", "JSON",
+         "STRING", "BYTES", and "PROTOBUF".
+        :paramtype input_format: str or ~azure.mgmt.confluent.models.DataFormatType
+        :keyword output_format: Kafka Output Data Format Type. Known values are: "AVRO", "JSON",
+         "STRING", "BYTES", and "PROTOBUF".
+        :paramtype output_format: str or ~azure.mgmt.confluent.models.DataFormatType
+        :keyword api_key: Kafka API Key.
+        :paramtype api_key: str
+        :keyword api_secret: Kafka API Secret.
+        :paramtype api_secret: str
+        :keyword service_account_id: Kafka Service Account Id.
+        :paramtype service_account_id: str
+        :keyword service_account_name: Kafka Service Account Name.
+        :paramtype service_account_name: str
+        :keyword topic_regex: Kafka topics Regex pattern.
+        :paramtype topic_regex: str
+        :keyword topics_dir: Kafka topics directory.
+        :paramtype topics_dir: str
+        :keyword max_tasks: Maximum Tasks.
+        :paramtype max_tasks: str
+        """
+        super().__init__(**kwargs)
+        self.partner_connector_type: str = "KafkaAzureBlobStorageSource"
+        self.auth_type = auth_type
+        self.input_format = input_format
+        self.output_format = output_format
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.service_account_id = service_account_id
+        self.service_account_name = service_account_name
+        self.topic_regex = topic_regex
+        self.topics_dir = topics_dir
+        self.max_tasks = max_tasks
+
+
+class KafkaAzureCosmosDBSinkConnectorInfo(PartnerInfoBase):
+    """The partner connector type is KafkaAzureCosmosDBSink.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar partner_connector_type: The partner connector type. Required. Known values are:
+     "KafkaAzureBlobStorageSource", "KafkaAzureBlobStorageSink", "KafkaAzureCosmosDBSource",
+     "KafkaAzureCosmosDBSink", and "KafkaAzureSynapseAnalyticsSink".
+    :vartype partner_connector_type: str or ~azure.mgmt.confluent.models.PartnerConnectorType
+    :ivar auth_type: Kafka Auth Type. Known values are: "SERVICE_ACCOUNT" and "KAFKA_API_KEY".
+    :vartype auth_type: str or ~azure.mgmt.confluent.models.AuthType
+    :ivar input_format: Kafka Input Data Format Type. Known values are: "AVRO", "JSON", "STRING",
+     "BYTES", and "PROTOBUF".
+    :vartype input_format: str or ~azure.mgmt.confluent.models.DataFormatType
+    :ivar output_format: Kafka Output Data Format Type. Known values are: "AVRO", "JSON", "STRING",
+     "BYTES", and "PROTOBUF".
+    :vartype output_format: str or ~azure.mgmt.confluent.models.DataFormatType
+    :ivar api_key: Kafka API Key.
+    :vartype api_key: str
+    :ivar api_secret: Kafka API Key Secret.
+    :vartype api_secret: str
+    :ivar service_account_id: Kafka Service Account Id.
+    :vartype service_account_id: str
+    :ivar service_account_name: Kafka Service Account Name.
+    :vartype service_account_name: str
+    :ivar topics: Kafka topics list.
+    :vartype topics: list[str]
+    :ivar topics_dir: Kafka topics directory.
+    :vartype topics_dir: str
+    :ivar flush_size: Flush size.
+    :vartype flush_size: str
+    :ivar max_tasks: Maximum Tasks.
+    :vartype max_tasks: str
+    :ivar time_interval: Time Interval.
+    :vartype time_interval: str
+    """
+
+    _validation = {
+        "partner_connector_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "partner_connector_type": {"key": "partnerConnectorType", "type": "str"},
+        "auth_type": {"key": "authType", "type": "str"},
+        "input_format": {"key": "inputFormat", "type": "str"},
+        "output_format": {"key": "outputFormat", "type": "str"},
+        "api_key": {"key": "apiKey", "type": "str"},
+        "api_secret": {"key": "apiSecret", "type": "str"},
+        "service_account_id": {"key": "serviceAccountId", "type": "str"},
+        "service_account_name": {"key": "serviceAccountName", "type": "str"},
+        "topics": {"key": "topics", "type": "[str]"},
+        "topics_dir": {"key": "topicsDir", "type": "str"},
+        "flush_size": {"key": "flushSize", "type": "str"},
+        "max_tasks": {"key": "maxTasks", "type": "str"},
+        "time_interval": {"key": "timeInterval", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        auth_type: Optional[Union[str, "_models.AuthType"]] = None,
+        input_format: Optional[Union[str, "_models.DataFormatType"]] = None,
+        output_format: Optional[Union[str, "_models.DataFormatType"]] = None,
+        api_key: Optional[str] = None,
+        api_secret: Optional[str] = None,
+        service_account_id: Optional[str] = None,
+        service_account_name: Optional[str] = None,
+        topics: Optional[list[str]] = None,
+        topics_dir: Optional[str] = None,
+        flush_size: Optional[str] = None,
+        max_tasks: Optional[str] = None,
+        time_interval: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword auth_type: Kafka Auth Type. Known values are: "SERVICE_ACCOUNT" and "KAFKA_API_KEY".
+        :paramtype auth_type: str or ~azure.mgmt.confluent.models.AuthType
+        :keyword input_format: Kafka Input Data Format Type. Known values are: "AVRO", "JSON",
+         "STRING", "BYTES", and "PROTOBUF".
+        :paramtype input_format: str or ~azure.mgmt.confluent.models.DataFormatType
+        :keyword output_format: Kafka Output Data Format Type. Known values are: "AVRO", "JSON",
+         "STRING", "BYTES", and "PROTOBUF".
+        :paramtype output_format: str or ~azure.mgmt.confluent.models.DataFormatType
+        :keyword api_key: Kafka API Key.
+        :paramtype api_key: str
+        :keyword api_secret: Kafka API Key Secret.
+        :paramtype api_secret: str
+        :keyword service_account_id: Kafka Service Account Id.
+        :paramtype service_account_id: str
+        :keyword service_account_name: Kafka Service Account Name.
+        :paramtype service_account_name: str
+        :keyword topics: Kafka topics list.
+        :paramtype topics: list[str]
+        :keyword topics_dir: Kafka topics directory.
+        :paramtype topics_dir: str
+        :keyword flush_size: Flush size.
+        :paramtype flush_size: str
+        :keyword max_tasks: Maximum Tasks.
+        :paramtype max_tasks: str
+        :keyword time_interval: Time Interval.
+        :paramtype time_interval: str
+        """
+        super().__init__(**kwargs)
+        self.partner_connector_type: str = "KafkaAzureCosmosDBSink"
+        self.auth_type = auth_type
+        self.input_format = input_format
+        self.output_format = output_format
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.service_account_id = service_account_id
+        self.service_account_name = service_account_name
+        self.topics = topics
+        self.topics_dir = topics_dir
+        self.flush_size = flush_size
+        self.max_tasks = max_tasks
+        self.time_interval = time_interval
+
+
+class KafkaAzureCosmosDBSourceConnectorInfo(PartnerInfoBase):
+    """The partner connector type is KafkaAzureCosmosDBSource.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar partner_connector_type: The partner connector type. Required. Known values are:
+     "KafkaAzureBlobStorageSource", "KafkaAzureBlobStorageSink", "KafkaAzureCosmosDBSource",
+     "KafkaAzureCosmosDBSink", and "KafkaAzureSynapseAnalyticsSink".
+    :vartype partner_connector_type: str or ~azure.mgmt.confluent.models.PartnerConnectorType
+    :ivar auth_type: Kafka Auth Type. Known values are: "SERVICE_ACCOUNT" and "KAFKA_API_KEY".
+    :vartype auth_type: str or ~azure.mgmt.confluent.models.AuthType
+    :ivar input_format: Kafka Input Data Format Type. Known values are: "AVRO", "JSON", "STRING",
+     "BYTES", and "PROTOBUF".
+    :vartype input_format: str or ~azure.mgmt.confluent.models.DataFormatType
+    :ivar output_format: Kafka Output Data Format Type. Known values are: "AVRO", "JSON", "STRING",
+     "BYTES", and "PROTOBUF".
+    :vartype output_format: str or ~azure.mgmt.confluent.models.DataFormatType
+    :ivar api_key: Kafka API Key.
+    :vartype api_key: str
+    :ivar api_secret: Kafka API Secret.
+    :vartype api_secret: str
+    :ivar service_account_id: Kafka Service Account Id.
+    :vartype service_account_id: str
+    :ivar service_account_name: Kafka Service Account Name.
+    :vartype service_account_name: str
+    :ivar topic_regex: Kafka topics Regex pattern.
+    :vartype topic_regex: str
+    :ivar topics_dir: Kafka topics directory.
+    :vartype topics_dir: str
+    :ivar max_tasks: Maximum Tasks.
+    :vartype max_tasks: str
+    """
+
+    _validation = {
+        "partner_connector_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "partner_connector_type": {"key": "partnerConnectorType", "type": "str"},
+        "auth_type": {"key": "authType", "type": "str"},
+        "input_format": {"key": "inputFormat", "type": "str"},
+        "output_format": {"key": "outputFormat", "type": "str"},
+        "api_key": {"key": "apiKey", "type": "str"},
+        "api_secret": {"key": "apiSecret", "type": "str"},
+        "service_account_id": {"key": "serviceAccountId", "type": "str"},
+        "service_account_name": {"key": "serviceAccountName", "type": "str"},
+        "topic_regex": {"key": "topicRegex", "type": "str"},
+        "topics_dir": {"key": "topicsDir", "type": "str"},
+        "max_tasks": {"key": "maxTasks", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        auth_type: Optional[Union[str, "_models.AuthType"]] = None,
+        input_format: Optional[Union[str, "_models.DataFormatType"]] = None,
+        output_format: Optional[Union[str, "_models.DataFormatType"]] = None,
+        api_key: Optional[str] = None,
+        api_secret: Optional[str] = None,
+        service_account_id: Optional[str] = None,
+        service_account_name: Optional[str] = None,
+        topic_regex: Optional[str] = None,
+        topics_dir: Optional[str] = None,
+        max_tasks: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword auth_type: Kafka Auth Type. Known values are: "SERVICE_ACCOUNT" and "KAFKA_API_KEY".
+        :paramtype auth_type: str or ~azure.mgmt.confluent.models.AuthType
+        :keyword input_format: Kafka Input Data Format Type. Known values are: "AVRO", "JSON",
+         "STRING", "BYTES", and "PROTOBUF".
+        :paramtype input_format: str or ~azure.mgmt.confluent.models.DataFormatType
+        :keyword output_format: Kafka Output Data Format Type. Known values are: "AVRO", "JSON",
+         "STRING", "BYTES", and "PROTOBUF".
+        :paramtype output_format: str or ~azure.mgmt.confluent.models.DataFormatType
+        :keyword api_key: Kafka API Key.
+        :paramtype api_key: str
+        :keyword api_secret: Kafka API Secret.
+        :paramtype api_secret: str
+        :keyword service_account_id: Kafka Service Account Id.
+        :paramtype service_account_id: str
+        :keyword service_account_name: Kafka Service Account Name.
+        :paramtype service_account_name: str
+        :keyword topic_regex: Kafka topics Regex pattern.
+        :paramtype topic_regex: str
+        :keyword topics_dir: Kafka topics directory.
+        :paramtype topics_dir: str
+        :keyword max_tasks: Maximum Tasks.
+        :paramtype max_tasks: str
+        """
+        super().__init__(**kwargs)
+        self.partner_connector_type: str = "KafkaAzureCosmosDBSource"
+        self.auth_type = auth_type
+        self.input_format = input_format
+        self.output_format = output_format
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.service_account_id = service_account_id
+        self.service_account_name = service_account_name
+        self.topic_regex = topic_regex
+        self.topics_dir = topics_dir
+        self.max_tasks = max_tasks
+
+
+class KafkaAzureSynapseAnalyticsSinkConnectorInfo(PartnerInfoBase):  # pylint: disable=name-too-long
+    """The partner connector type is KafkaAzureSynapseAnalyticsSink.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar partner_connector_type: The partner connector type. Required. Known values are:
+     "KafkaAzureBlobStorageSource", "KafkaAzureBlobStorageSink", "KafkaAzureCosmosDBSource",
+     "KafkaAzureCosmosDBSink", and "KafkaAzureSynapseAnalyticsSink".
+    :vartype partner_connector_type: str or ~azure.mgmt.confluent.models.PartnerConnectorType
+    :ivar auth_type: Kafka Auth Type. Known values are: "SERVICE_ACCOUNT" and "KAFKA_API_KEY".
+    :vartype auth_type: str or ~azure.mgmt.confluent.models.AuthType
+    :ivar input_format: Kafka Input Data Format Type. Known values are: "AVRO", "JSON", "STRING",
+     "BYTES", and "PROTOBUF".
+    :vartype input_format: str or ~azure.mgmt.confluent.models.DataFormatType
+    :ivar output_format: Kafka Output Data Format Type. Known values are: "AVRO", "JSON", "STRING",
+     "BYTES", and "PROTOBUF".
+    :vartype output_format: str or ~azure.mgmt.confluent.models.DataFormatType
+    :ivar api_key: Kafka API Key.
+    :vartype api_key: str
+    :ivar api_secret: Kafka API Key Secret.
+    :vartype api_secret: str
+    :ivar service_account_id: Kafka Service Account Id.
+    :vartype service_account_id: str
+    :ivar service_account_name: Kafka Service Account Name.
+    :vartype service_account_name: str
+    :ivar topics: Kafka topics list.
+    :vartype topics: list[str]
+    :ivar topics_dir: Kafka topics directory.
+    :vartype topics_dir: str
+    :ivar flush_size: Flush size.
+    :vartype flush_size: str
+    :ivar max_tasks: Maximum Tasks.
+    :vartype max_tasks: str
+    :ivar time_interval: Time Interval.
+    :vartype time_interval: str
+    """
+
+    _validation = {
+        "partner_connector_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "partner_connector_type": {"key": "partnerConnectorType", "type": "str"},
+        "auth_type": {"key": "authType", "type": "str"},
+        "input_format": {"key": "inputFormat", "type": "str"},
+        "output_format": {"key": "outputFormat", "type": "str"},
+        "api_key": {"key": "apiKey", "type": "str"},
+        "api_secret": {"key": "apiSecret", "type": "str"},
+        "service_account_id": {"key": "serviceAccountId", "type": "str"},
+        "service_account_name": {"key": "serviceAccountName", "type": "str"},
+        "topics": {"key": "topics", "type": "[str]"},
+        "topics_dir": {"key": "topicsDir", "type": "str"},
+        "flush_size": {"key": "flushSize", "type": "str"},
+        "max_tasks": {"key": "maxTasks", "type": "str"},
+        "time_interval": {"key": "timeInterval", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        auth_type: Optional[Union[str, "_models.AuthType"]] = None,
+        input_format: Optional[Union[str, "_models.DataFormatType"]] = None,
+        output_format: Optional[Union[str, "_models.DataFormatType"]] = None,
+        api_key: Optional[str] = None,
+        api_secret: Optional[str] = None,
+        service_account_id: Optional[str] = None,
+        service_account_name: Optional[str] = None,
+        topics: Optional[list[str]] = None,
+        topics_dir: Optional[str] = None,
+        flush_size: Optional[str] = None,
+        max_tasks: Optional[str] = None,
+        time_interval: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword auth_type: Kafka Auth Type. Known values are: "SERVICE_ACCOUNT" and "KAFKA_API_KEY".
+        :paramtype auth_type: str or ~azure.mgmt.confluent.models.AuthType
+        :keyword input_format: Kafka Input Data Format Type. Known values are: "AVRO", "JSON",
+         "STRING", "BYTES", and "PROTOBUF".
+        :paramtype input_format: str or ~azure.mgmt.confluent.models.DataFormatType
+        :keyword output_format: Kafka Output Data Format Type. Known values are: "AVRO", "JSON",
+         "STRING", "BYTES", and "PROTOBUF".
+        :paramtype output_format: str or ~azure.mgmt.confluent.models.DataFormatType
+        :keyword api_key: Kafka API Key.
+        :paramtype api_key: str
+        :keyword api_secret: Kafka API Key Secret.
+        :paramtype api_secret: str
+        :keyword service_account_id: Kafka Service Account Id.
+        :paramtype service_account_id: str
+        :keyword service_account_name: Kafka Service Account Name.
+        :paramtype service_account_name: str
+        :keyword topics: Kafka topics list.
+        :paramtype topics: list[str]
+        :keyword topics_dir: Kafka topics directory.
+        :paramtype topics_dir: str
+        :keyword flush_size: Flush size.
+        :paramtype flush_size: str
+        :keyword max_tasks: Maximum Tasks.
+        :paramtype max_tasks: str
+        :keyword time_interval: Time Interval.
+        :paramtype time_interval: str
+        """
+        super().__init__(**kwargs)
+        self.partner_connector_type: str = "KafkaAzureSynapseAnalyticsSink"
+        self.auth_type = auth_type
+        self.input_format = input_format
+        self.output_format = output_format
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.service_account_id = service_account_id
+        self.service_account_name = service_account_name
+        self.topics = topics
+        self.topics_dir = topics_dir
+        self.flush_size = flush_size
+        self.max_tasks = max_tasks
+        self.time_interval = time_interval
+
+
 class LinkOrganization(_serialization.Model):
     """Link an existing Confluent organization.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar token: User auth token. Required.
     :vartype token: str
@@ -1381,7 +2624,7 @@ class ListAccessRequestModel(_serialization.Model):
         "search_filters": {"key": "searchFilters", "type": "{str}"},
     }
 
-    def __init__(self, *, search_filters: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+    def __init__(self, *, search_filters: Optional[dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword search_filters: Search filters for the request.
         :paramtype search_filters: dict[str, str]
@@ -1393,11 +2636,17 @@ class ListAccessRequestModel(_serialization.Model):
 class ListClustersSuccessResponse(_serialization.Model):
     """Result of GET request to list clusters in the environment of a confluent organization.
 
-    :ivar value: List of clusters in an environment of a confluent organization.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The SCClusterRecord items on this page. Required.
     :vartype value: list[~azure.mgmt.confluent.models.SCClusterRecord]
-    :ivar next_link: URL to get the next set of cluster records if there are any.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[SCClusterRecord]"},
@@ -1405,12 +2654,46 @@ class ListClustersSuccessResponse(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.SCClusterRecord"]] = None, next_link: Optional[str] = None, **kwargs: Any
+        self, *, value: list["_models.SCClusterRecord"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: List of clusters in an environment of a confluent organization.
+        :keyword value: The SCClusterRecord items on this page. Required.
         :paramtype value: list[~azure.mgmt.confluent.models.SCClusterRecord]
-        :keyword next_link: URL to get the next set of cluster records if there are any.
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class ListConnectorsSuccessResponse(_serialization.Model):
+    """Result of GET request to list connectors in the cluster of a confluent organization.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The ConnectorResource items on this page. Required.
+    :vartype value: list[~azure.mgmt.confluent.models.ConnectorResource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ConnectorResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: list["_models.ConnectorResource"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The ConnectorResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.confluent.models.ConnectorResource]
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -1429,7 +2712,7 @@ class ListRegionsSuccessResponse(_serialization.Model):
         "data": {"key": "data", "type": "[RegionRecord]"},
     }
 
-    def __init__(self, *, data: Optional[List["_models.RegionRecord"]] = None, **kwargs: Any) -> None:
+    def __init__(self, *, data: Optional[list["_models.RegionRecord"]] = None, **kwargs: Any) -> None:
         """
         :keyword data: List of regions supported by confluent.
         :paramtype data: list[~azure.mgmt.confluent.models.RegionRecord]
@@ -1442,11 +2725,17 @@ class ListSchemaRegistryClustersResponse(_serialization.Model):
     """Result of GET request to list schema registry clusters in the environment of a confluent
     organization.
 
-    :ivar value: List of schema registry clusters in an environment of a confluent organization.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The SchemaRegistryClusterRecord items on this page. Required.
     :vartype value: list[~azure.mgmt.confluent.models.SchemaRegistryClusterRecord]
-    :ivar next_link: URL to get the next set of schema registry cluster records if there are any.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[SchemaRegistryClusterRecord]"},
@@ -1454,17 +2743,44 @@ class ListSchemaRegistryClustersResponse(_serialization.Model):
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.SchemaRegistryClusterRecord"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: list["_models.SchemaRegistryClusterRecord"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: List of schema registry clusters in an environment of a confluent organization.
+        :keyword value: The SchemaRegistryClusterRecord items on this page. Required.
         :paramtype value: list[~azure.mgmt.confluent.models.SchemaRegistryClusterRecord]
-        :keyword next_link: URL to get the next set of schema registry cluster records if there are
-         any.
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class ListTopicsSuccessResponse(_serialization.Model):
+    """Result of GET request to list topics in the cluster of a confluent organization.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The TopicRecord items on this page. Required.
+    :vartype value: list[~azure.mgmt.confluent.models.TopicRecord]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TopicRecord]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: list["_models.TopicRecord"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The TopicRecord items on this page. Required.
+        :paramtype value: list[~azure.mgmt.confluent.models.TopicRecord]
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -1528,7 +2844,7 @@ class MetadataEntity(_serialization.Model):
 class OfferDetail(_serialization.Model):
     """Confluent Offer detail.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar publisher_id: Publisher Id. Required.
     :vartype publisher_id: str
@@ -1584,7 +2900,7 @@ class OfferDetail(_serialization.Model):
         term_unit: str,
         term_id: Optional[str] = None,
         private_offer_id: Optional[str] = None,
-        private_offer_ids: Optional[List[str]] = None,
+        private_offer_ids: Optional[list[str]] = None,
         status: Optional[Union[str, "_models.SaaSOfferStatus"]] = None,
         **kwargs: Any
     ) -> None:
@@ -1671,11 +2987,18 @@ class OperationDisplay(_serialization.Model):
 class OperationListResult(_serialization.Model):
     """Result of GET request to list Confluent operations.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar value: List of Confluent operations supported by the Microsoft.Confluent provider.
+     Required.
     :vartype value: list[~azure.mgmt.confluent.models.OperationResult]
     :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[OperationResult]"},
@@ -1683,10 +3006,11 @@ class OperationListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.OperationResult"]] = None, next_link: Optional[str] = None, **kwargs: Any
+        self, *, value: list["_models.OperationResult"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
         :keyword value: List of Confluent operations supported by the Microsoft.Confluent provider.
+         Required.
         :paramtype value: list[~azure.mgmt.confluent.models.OperationResult]
         :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
@@ -1735,24 +3059,81 @@ class OperationResult(_serialization.Model):
         self.is_data_action = is_data_action
 
 
-class OrganizationResource(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class TrackedResource(Resource):
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.confluent.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+    }
+
+    def __init__(self, *, location: str, tags: Optional[dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.location = location
+
+
+class OrganizationResource(TrackedResource):
     """Organization resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: The ARM id of the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.confluent.models.SystemData
-    :ivar tags: Organization resource tags.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar location: Location of Organization resource.
+    :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar created_time: The creation time of the resource.
     :vartype created_time: ~datetime.datetime
@@ -1777,6 +3158,7 @@ class OrganizationResource(_serialization.Model):  # pylint: disable=too-many-in
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
+        "location": {"required": True},
         "created_time": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "organization_id": {"readonly": True},
@@ -1804,17 +3186,17 @@ class OrganizationResource(_serialization.Model):  # pylint: disable=too-many-in
     def __init__(
         self,
         *,
+        location: str,
         offer_detail: "_models.OfferDetail",
         user_detail: "_models.UserDetail",
-        tags: Optional[Dict[str, str]] = None,
-        location: Optional[str] = None,
+        tags: Optional[dict[str, str]] = None,
         link_organization: Optional["_models.LinkOrganization"] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword tags: Organization resource tags.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword location: Location of Organization resource.
+        :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
         :keyword offer_detail: Confluent offer detail. Required.
         :paramtype offer_detail: ~azure.mgmt.confluent.models.OfferDetail
@@ -1823,30 +3205,30 @@ class OrganizationResource(_serialization.Model):  # pylint: disable=too-many-in
         :keyword link_organization: Link an existing Confluent organization.
         :paramtype link_organization: ~azure.mgmt.confluent.models.LinkOrganization
         """
-        super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
-        self.tags = tags
-        self.location = location
-        self.created_time = None
-        self.provisioning_state = None
-        self.organization_id = None
-        self.sso_url = None
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.created_time: Optional[datetime.datetime] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisionState"]] = None
+        self.organization_id: Optional[str] = None
+        self.sso_url: Optional[str] = None
         self.offer_detail = offer_detail
         self.user_detail = user_detail
         self.link_organization = link_organization
 
 
 class OrganizationResourceListResult(_serialization.Model):
-    """The response of a list operation.
+    """The response of a OrganizationResource list operation.
 
-    :ivar value: Result of a list operation.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The OrganizationResource items on this page. Required.
     :vartype value: list[~azure.mgmt.confluent.models.OrganizationResource]
-    :ivar next_link: Link to the next set of results, if any.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[OrganizationResource]"},
@@ -1854,16 +3236,12 @@ class OrganizationResourceListResult(_serialization.Model):
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.OrganizationResource"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: list["_models.OrganizationResource"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: Result of a list operation.
+        :keyword value: The OrganizationResource items on this page. Required.
         :paramtype value: list[~azure.mgmt.confluent.models.OrganizationResource]
-        :keyword next_link: Link to the next set of results, if any.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -1882,7 +3260,7 @@ class OrganizationResourceUpdate(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+    def __init__(self, *, tags: Optional[dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: ARM resource tags.
         :paramtype tags: dict[str, str]
@@ -1963,7 +3341,7 @@ class RegionSpecEntity(_serialization.Model):
         name: Optional[str] = None,
         cloud: Optional[str] = None,
         region_name: Optional[str] = None,
-        packages: Optional[List[str]] = None,
+        packages: Optional[list[str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2003,7 +3381,7 @@ class ResourceProviderDefaultErrorResponse(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.error = None
+        self.error: Optional["_models.ErrorResponseBody"] = None
 
 
 class RoleBindingRecord(_serialization.Model):
@@ -2153,15 +3531,24 @@ class SCClusterNetworkEnvironmentEntity(_serialization.Model):
         self.resource_name = resource_name
 
 
-class SCClusterRecord(_serialization.Model):
+class SCClusterRecord(ProxyResource):
     """Details of cluster record.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.confluent.models.SystemData
     :ivar kind: Type of cluster.
     :vartype kind: str
-    :ivar id: Id of the cluster.
-    :vartype id: str
-    :ivar name: Display name of the cluster.
-    :vartype name: str
     :ivar metadata: Metadata of the record.
     :vartype metadata: ~azure.mgmt.confluent.models.SCMetadataEntity
     :ivar spec: Specification of the cluster.
@@ -2170,10 +3557,19 @@ class SCClusterRecord(_serialization.Model):
     :vartype status: ~azure.mgmt.confluent.models.ClusterStatusEntity
     """
 
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
     _attribute_map = {
-        "kind": {"key": "kind", "type": "str"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "kind": {"key": "kind", "type": "str"},
         "metadata": {"key": "properties.metadata", "type": "SCMetadataEntity"},
         "spec": {"key": "properties.spec", "type": "SCClusterSpecEntity"},
         "status": {"key": "properties.status", "type": "ClusterStatusEntity"},
@@ -2183,8 +3579,6 @@ class SCClusterRecord(_serialization.Model):
         self,
         *,
         kind: Optional[str] = None,
-        id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        name: Optional[str] = None,
         metadata: Optional["_models.SCMetadataEntity"] = None,
         spec: Optional["_models.SCClusterSpecEntity"] = None,
         status: Optional["_models.ClusterStatusEntity"] = None,
@@ -2193,10 +3587,6 @@ class SCClusterRecord(_serialization.Model):
         """
         :keyword kind: Type of cluster.
         :paramtype kind: str
-        :keyword id: Id of the cluster.
-        :paramtype id: str
-        :keyword name: Display name of the cluster.
-        :paramtype name: str
         :keyword metadata: Metadata of the record.
         :paramtype metadata: ~azure.mgmt.confluent.models.SCMetadataEntity
         :keyword spec: Specification of the cluster.
@@ -2206,14 +3596,12 @@ class SCClusterRecord(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.kind = kind
-        self.id = id
-        self.name = name
         self.metadata = metadata
         self.spec = spec
         self.status = status
 
 
-class SCClusterSpecEntity(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class SCClusterSpecEntity(_serialization.Model):
     """Spec of the cluster record.
 
     :ivar name: The name of the cluster.
@@ -2224,6 +3612,8 @@ class SCClusterSpecEntity(_serialization.Model):  # pylint: disable=too-many-ins
     :vartype cloud: str
     :ivar zone: type of zone availability.
     :vartype zone: str
+    :ivar package: Stream governance configuration. Known values are: "ESSENTIALS" and "ADVANCED".
+    :vartype package: str or ~azure.mgmt.confluent.models.Package
     :ivar region: The cloud service provider region.
     :vartype region: str
     :ivar kafka_bootstrap_endpoint: The bootstrap endpoint used by Kafka clients to connect to the
@@ -2248,6 +3638,7 @@ class SCClusterSpecEntity(_serialization.Model):  # pylint: disable=too-many-ins
         "availability": {"key": "availability", "type": "str"},
         "cloud": {"key": "cloud", "type": "str"},
         "zone": {"key": "zone", "type": "str"},
+        "package": {"key": "package", "type": "str"},
         "region": {"key": "region", "type": "str"},
         "kafka_bootstrap_endpoint": {"key": "kafkaBootstrapEndpoint", "type": "str"},
         "http_endpoint": {"key": "httpEndpoint", "type": "str"},
@@ -2265,6 +3656,7 @@ class SCClusterSpecEntity(_serialization.Model):  # pylint: disable=too-many-ins
         availability: Optional[str] = None,
         cloud: Optional[str] = None,
         zone: Optional[str] = None,
+        package: Optional[Union[str, "_models.Package"]] = None,
         region: Optional[str] = None,
         kafka_bootstrap_endpoint: Optional[str] = None,
         http_endpoint: Optional[str] = None,
@@ -2284,6 +3676,9 @@ class SCClusterSpecEntity(_serialization.Model):  # pylint: disable=too-many-ins
         :paramtype cloud: str
         :keyword zone: type of zone availability.
         :paramtype zone: str
+        :keyword package: Stream governance configuration. Known values are: "ESSENTIALS" and
+         "ADVANCED".
+        :paramtype package: str or ~azure.mgmt.confluent.models.Package
         :keyword region: The cloud service provider region.
         :paramtype region: str
         :keyword kafka_bootstrap_endpoint: The bootstrap endpoint used by Kafka clients to connect to
@@ -2307,6 +3702,7 @@ class SCClusterSpecEntity(_serialization.Model):  # pylint: disable=too-many-ins
         self.availability = availability
         self.cloud = cloud
         self.zone = zone
+        self.package = package
         self.region = region
         self.kafka_bootstrap_endpoint = kafka_bootstrap_endpoint
         self.http_endpoint = http_endpoint
@@ -2317,76 +3713,44 @@ class SCClusterSpecEntity(_serialization.Model):  # pylint: disable=too-many-ins
         self.byok = byok
 
 
-class SCConfluentListMetadata(_serialization.Model):
-    """Metadata of the list.
-
-    :ivar first: First page of the list.
-    :vartype first: str
-    :ivar last: Last page of the list.
-    :vartype last: str
-    :ivar prev: Previous page of the list.
-    :vartype prev: str
-    :ivar next: Next page of the list.
-    :vartype next: str
-    :ivar total_size: Total size of the list.
-    :vartype total_size: int
-    """
-
-    _attribute_map = {
-        "first": {"key": "first", "type": "str"},
-        "last": {"key": "last", "type": "str"},
-        "prev": {"key": "prev", "type": "str"},
-        "next": {"key": "next", "type": "str"},
-        "total_size": {"key": "totalSize", "type": "int"},
-    }
-
-    def __init__(
-        self,
-        *,
-        first: Optional[str] = None,
-        last: Optional[str] = None,
-        prev: Optional[str] = None,
-        next: Optional[str] = None,
-        total_size: Optional[int] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword first: First page of the list.
-        :paramtype first: str
-        :keyword last: Last page of the list.
-        :paramtype last: str
-        :keyword prev: Previous page of the list.
-        :paramtype prev: str
-        :keyword next: Next page of the list.
-        :paramtype next: str
-        :keyword total_size: Total size of the list.
-        :paramtype total_size: int
-        """
-        super().__init__(**kwargs)
-        self.first = first
-        self.last = last
-        self.prev = prev
-        self.next = next
-        self.total_size = total_size
-
-
-class SCEnvironmentRecord(_serialization.Model):
+class SCEnvironmentRecord(ProxyResource):
     """Details about environment name, metadata and environment id of an environment.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.confluent.models.SystemData
     :ivar kind: Type of environment.
     :vartype kind: str
-    :ivar id: Id of the environment.
-    :vartype id: str
-    :ivar name: Display name of the environment.
-    :vartype name: str
+    :ivar stream_governance_config: Stream governance configuration.
+    :vartype stream_governance_config: ~azure.mgmt.confluent.models.StreamGovernanceConfig
     :ivar metadata: Metadata of the record.
     :vartype metadata: ~azure.mgmt.confluent.models.SCMetadataEntity
     """
 
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
     _attribute_map = {
-        "kind": {"key": "kind", "type": "str"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "kind": {"key": "kind", "type": "str"},
+        "stream_governance_config": {"key": "properties.streamGovernanceConfig", "type": "StreamGovernanceConfig"},
         "metadata": {"key": "properties.metadata", "type": "SCMetadataEntity"},
     }
 
@@ -2394,29 +3758,25 @@ class SCEnvironmentRecord(_serialization.Model):
         self,
         *,
         kind: Optional[str] = None,
-        id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        name: Optional[str] = None,
+        stream_governance_config: Optional["_models.StreamGovernanceConfig"] = None,
         metadata: Optional["_models.SCMetadataEntity"] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword kind: Type of environment.
         :paramtype kind: str
-        :keyword id: Id of the environment.
-        :paramtype id: str
-        :keyword name: Display name of the environment.
-        :paramtype name: str
+        :keyword stream_governance_config: Stream governance configuration.
+        :paramtype stream_governance_config: ~azure.mgmt.confluent.models.StreamGovernanceConfig
         :keyword metadata: Metadata of the record.
         :paramtype metadata: ~azure.mgmt.confluent.models.SCMetadataEntity
         """
         super().__init__(**kwargs)
         self.kind = kind
-        self.id = id
-        self.name = name
+        self.stream_governance_config = stream_governance_config
         self.metadata = metadata
 
 
-class SchemaRegistryClusterEnvironmentRegionEntity(_serialization.Model):
+class SchemaRegistryClusterEnvironmentRegionEntity(_serialization.Model):  # pylint: disable=name-too-long
     """The environment associated with this object.
 
     :ivar id: ID of the referred resource.
@@ -2695,6 +4055,27 @@ class ServiceAccountRecord(_serialization.Model):
         self.description = description
 
 
+class StreamGovernanceConfig(_serialization.Model):
+    """Stream governance configuration.
+
+    :ivar package: Stream governance configuration. Known values are: "ESSENTIALS" and "ADVANCED".
+    :vartype package: str or ~azure.mgmt.confluent.models.Package
+    """
+
+    _attribute_map = {
+        "package": {"key": "package", "type": "str"},
+    }
+
+    def __init__(self, *, package: Optional[Union[str, "_models.Package"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword package: Stream governance configuration. Known values are: "ESSENTIALS" and
+         "ADVANCED".
+        :paramtype package: str or ~azure.mgmt.confluent.models.Package
+        """
+        super().__init__(**kwargs)
+        self.package = package
+
+
 class SystemData(_serialization.Model):
     """Metadata pertaining to creation and last modification of the resource.
 
@@ -2759,10 +4140,189 @@ class SystemData(_serialization.Model):
         self.last_modified_at = last_modified_at
 
 
+class TopicMetadataEntity(_serialization.Model):
+    """Metadata of the data record.
+
+    :ivar self_property: Self lookup url.
+    :vartype self_property: str
+    :ivar resource_name: Resource name of the record.
+    :vartype resource_name: str
+    """
+
+    _attribute_map = {
+        "self_property": {"key": "self", "type": "str"},
+        "resource_name": {"key": "resourceName", "type": "str"},
+    }
+
+    def __init__(
+        self, *, self_property: Optional[str] = None, resource_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword self_property: Self lookup url.
+        :paramtype self_property: str
+        :keyword resource_name: Resource name of the record.
+        :paramtype resource_name: str
+        """
+        super().__init__(**kwargs)
+        self.self_property = self_property
+        self.resource_name = resource_name
+
+
+class TopicRecord(ProxyResource):
+    """Details of topic record.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.confluent.models.SystemData
+    :ivar kind: Type of topic.
+    :vartype kind: str
+    :ivar topic_id: Topic Id returned by Confluent.
+    :vartype topic_id: str
+    :ivar metadata: Metadata of the record.
+    :vartype metadata: ~azure.mgmt.confluent.models.TopicMetadataEntity
+    :ivar partitions: Partition Specification of the topic.
+    :vartype partitions: ~azure.mgmt.confluent.models.TopicsRelatedLink
+    :ivar configs: Config Specification of the topic.
+    :vartype configs: ~azure.mgmt.confluent.models.TopicsRelatedLink
+    :ivar input_configs: Input Config Specification of the topic.
+    :vartype input_configs: list[~azure.mgmt.confluent.models.TopicsInputConfig]
+    :ivar partitions_reassignments: Partition Reassignment Specification of the topic.
+    :vartype partitions_reassignments: ~azure.mgmt.confluent.models.TopicsRelatedLink
+    :ivar partitions_count: Partition count of the topic.
+    :vartype partitions_count: str
+    :ivar replication_factor: Replication factor of the topic.
+    :vartype replication_factor: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "kind": {"key": "properties.kind", "type": "str"},
+        "topic_id": {"key": "properties.topicId", "type": "str"},
+        "metadata": {"key": "properties.metadata", "type": "TopicMetadataEntity"},
+        "partitions": {"key": "properties.partitions", "type": "TopicsRelatedLink"},
+        "configs": {"key": "properties.configs", "type": "TopicsRelatedLink"},
+        "input_configs": {"key": "properties.inputConfigs", "type": "[TopicsInputConfig]"},
+        "partitions_reassignments": {"key": "properties.partitionsReassignments", "type": "TopicsRelatedLink"},
+        "partitions_count": {"key": "properties.partitionsCount", "type": "str"},
+        "replication_factor": {"key": "properties.replicationFactor", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        kind: Optional[str] = None,
+        topic_id: Optional[str] = None,
+        metadata: Optional["_models.TopicMetadataEntity"] = None,
+        partitions: Optional["_models.TopicsRelatedLink"] = None,
+        configs: Optional["_models.TopicsRelatedLink"] = None,
+        input_configs: Optional[list["_models.TopicsInputConfig"]] = None,
+        partitions_reassignments: Optional["_models.TopicsRelatedLink"] = None,
+        partitions_count: Optional[str] = None,
+        replication_factor: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword kind: Type of topic.
+        :paramtype kind: str
+        :keyword topic_id: Topic Id returned by Confluent.
+        :paramtype topic_id: str
+        :keyword metadata: Metadata of the record.
+        :paramtype metadata: ~azure.mgmt.confluent.models.TopicMetadataEntity
+        :keyword partitions: Partition Specification of the topic.
+        :paramtype partitions: ~azure.mgmt.confluent.models.TopicsRelatedLink
+        :keyword configs: Config Specification of the topic.
+        :paramtype configs: ~azure.mgmt.confluent.models.TopicsRelatedLink
+        :keyword input_configs: Input Config Specification of the topic.
+        :paramtype input_configs: list[~azure.mgmt.confluent.models.TopicsInputConfig]
+        :keyword partitions_reassignments: Partition Reassignment Specification of the topic.
+        :paramtype partitions_reassignments: ~azure.mgmt.confluent.models.TopicsRelatedLink
+        :keyword partitions_count: Partition count of the topic.
+        :paramtype partitions_count: str
+        :keyword replication_factor: Replication factor of the topic.
+        :paramtype replication_factor: str
+        """
+        super().__init__(**kwargs)
+        self.kind = kind
+        self.topic_id = topic_id
+        self.metadata = metadata
+        self.partitions = partitions
+        self.configs = configs
+        self.input_configs = input_configs
+        self.partitions_reassignments = partitions_reassignments
+        self.partitions_count = partitions_count
+        self.replication_factor = replication_factor
+
+
+class TopicsInputConfig(_serialization.Model):
+    """Topics input config.
+
+    :ivar name: Name of the topic input config.
+    :vartype name: str
+    :ivar value: Value of the topic input config.
+    :vartype value: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "value": {"key": "value", "type": "str"},
+    }
+
+    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword name: Name of the topic input config.
+        :paramtype name: str
+        :keyword value: Value of the topic input config.
+        :paramtype value: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.value = value
+
+
+class TopicsRelatedLink(_serialization.Model):
+    """Partition Config spec of the topic record.
+
+    :ivar related: Relationship of the topic.
+    :vartype related: str
+    """
+
+    _attribute_map = {
+        "related": {"key": "related", "type": "str"},
+    }
+
+    def __init__(self, *, related: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword related: Relationship of the topic.
+        :paramtype related: str
+        """
+        super().__init__(**kwargs)
+        self.related = related
+
+
 class UserDetail(_serialization.Model):
     """Subscriber detail.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar first_name: First name.
     :vartype first_name: str
@@ -2891,7 +4451,7 @@ class ValidationResponse(_serialization.Model):
         "info": {"key": "info", "type": "{str}"},
     }
 
-    def __init__(self, *, info: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+    def __init__(self, *, info: Optional[dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword info: Info from the response.
         :paramtype info: dict[str, str]
