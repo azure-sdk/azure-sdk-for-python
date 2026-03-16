@@ -8,12 +8,8 @@
 Follow our quickstart for examples: https://aka.ms/azsdk/python/dpcodegen/python/customize
 """
 
-from ._client import ConfluentClient
 
-# Backward compatibility alias
-ConfluentManagementClient = ConfluentClient
-
-__all__: list[str] = ["ConfluentManagementClient"]  # Add all objects you want publicly available to users at this package level
+__all__: list[str] = []  # Add all objects you want publicly available to users at this package level
 
 
 def patch_sdk():
@@ -23,4 +19,3 @@ def patch_sdk():
     you can't accomplish using the techniques described in
     https://aka.ms/azsdk/python/dpcodegen/python/customize
     """
-
