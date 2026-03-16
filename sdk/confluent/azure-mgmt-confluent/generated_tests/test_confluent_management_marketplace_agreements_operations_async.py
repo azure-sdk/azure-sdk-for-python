@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.confluent.aio import ConfluentClient
+from azure.mgmt.confluent.aio import ConfluentManagementClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
 from devtools_testutils.aio import recorded_by_proxy_async
@@ -15,14 +15,22 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestConfluentOrganizationOperationsOperationsAsync(AzureMgmtRecordedTestCase):
+class TestConfluentManagementMarketplaceAgreementsOperationsAsync(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(ConfluentClient, is_async=True)
+        self.client = self.create_mgmt_client(ConfluentManagementClient, is_async=True)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_organization_operations_list(self, resource_group):
-        response = self.client.organization_operations.list()
+    async def test_marketplace_agreements_list(self, resource_group):
+        response = self.client.marketplace_agreements.list()
         result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_marketplace_agreements_create(self, resource_group):
+        response = await self.client.marketplace_agreements.create()
+
         # please add some check logic here by yourself
         # ...

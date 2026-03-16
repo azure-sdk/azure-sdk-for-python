@@ -6,23 +6,22 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.confluent.aio import ConfluentClient
+from azure.mgmt.confluent import ConfluentManagementClient
 
-from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
-from devtools_testutils.aio import recorded_by_proxy_async
+from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
 AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestConfluentValidationsOperationsAsync(AzureMgmtRecordedTestCase):
+class TestConfluentManagementValidationsOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(ConfluentClient, is_async=True)
+        self.client = self.create_mgmt_client(ConfluentManagementClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_validations_validate_organization(self, resource_group):
-        response = await self.client.validations.validate_organization(
+    @recorded_by_proxy
+    def test_validations_validate_organization(self, resource_group):
+        response = self.client.validations.validate_organization(
             resource_group_name=resource_group.name,
             organization_name="str",
             body={
@@ -71,9 +70,9 @@ class TestConfluentValidationsOperationsAsync(AzureMgmtRecordedTestCase):
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_validations_validate_organization_v2(self, resource_group):
-        response = await self.client.validations.validate_organization_v2(
+    @recorded_by_proxy
+    def test_validations_validate_organization_v2(self, resource_group):
+        response = self.client.validations.validate_organization_v2(
             resource_group_name=resource_group.name,
             organization_name="str",
             body={

@@ -33,7 +33,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
-from .._configuration import ConfluentClientConfiguration
+from .._configuration import ConfluentManagementClientConfiguration
 from .._utils.model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
 from .._utils.serialization import Deserializer, Serializer
 
@@ -1417,14 +1417,14 @@ class OrganizationOperationsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.confluent.ConfluentClient`'s
+        :class:`~azure.mgmt.confluent.ConfluentManagementClient`'s
         :attr:`organization_operations` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: ConfluentClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: ConfluentManagementClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -1521,14 +1521,14 @@ class OrganizationOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.confluent.ConfluentClient`'s
+        :class:`~azure.mgmt.confluent.ConfluentManagementClient`'s
         :attr:`organization` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: ConfluentClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: ConfluentManagementClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -3388,14 +3388,14 @@ class AccessOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.confluent.ConfluentClient`'s
+        :class:`~azure.mgmt.confluent.ConfluentManagementClient`'s
         :attr:`access` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: ConfluentClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: ConfluentManagementClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -5018,14 +5018,14 @@ class EnvironmentOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.confluent.ConfluentClient`'s
+        :class:`~azure.mgmt.confluent.ConfluentManagementClient`'s
         :attr:`environment` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: ConfluentClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: ConfluentManagementClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -5345,14 +5345,14 @@ class ClusterOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.confluent.ConfluentClient`'s
+        :class:`~azure.mgmt.confluent.ConfluentManagementClient`'s
         :attr:`cluster` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: ConfluentClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: ConfluentManagementClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -5689,14 +5689,14 @@ class ConnectorOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.confluent.ConfluentClient`'s
+        :class:`~azure.mgmt.confluent.ConfluentManagementClient`'s
         :attr:`connector` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: ConfluentClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: ConfluentManagementClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -6265,14 +6265,14 @@ class TopicsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.confluent.ConfluentClient`'s
+        :class:`~azure.mgmt.confluent.ConfluentManagementClient`'s
         :attr:`topics` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: ConfluentClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: ConfluentManagementClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -6841,14 +6841,14 @@ class MarketplaceAgreementsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.confluent.ConfluentClient`'s
+        :class:`~azure.mgmt.confluent.ConfluentManagementClient`'s
         :attr:`marketplace_agreements` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: ConfluentClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: ConfluentManagementClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
@@ -7093,14 +7093,14 @@ class ValidationsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.confluent.ConfluentClient`'s
+        :class:`~azure.mgmt.confluent.ConfluentManagementClient`'s
         :attr:`validations` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: ConfluentClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._config: ConfluentManagementClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 

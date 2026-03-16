@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.confluent.aio import ConfluentClient
+from azure.mgmt.confluent.aio import ConfluentManagementClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
 from devtools_testutils.aio import recorded_by_proxy_async
@@ -15,18 +15,17 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestConfluentClusterOperationsAsync(AzureMgmtRecordedTestCase):
+class TestConfluentManagementEnvironmentOperationsAsync(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(ConfluentClient, is_async=True)
+        self.client = self.create_mgmt_client(ConfluentManagementClient, is_async=True)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_cluster_create_or_update(self, resource_group):
-        response = await self.client.cluster.create_or_update(
+    async def test_environment_create_or_update(self, resource_group):
+        response = await self.client.environment.create_or_update(
             resource_group_name=resource_group.name,
             organization_name="str",
             environment_id="str",
-            cluster_id="str",
         )
 
         # please add some check logic here by yourself
@@ -34,13 +33,12 @@ class TestConfluentClusterOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_cluster_begin_delete(self, resource_group):
+    async def test_environment_begin_delete(self, resource_group):
         response = await (
-            await self.client.cluster.begin_delete(
+            await self.client.environment.begin_delete(
                 resource_group_name=resource_group.name,
                 organization_name="str",
                 environment_id="str",
-                cluster_id="str",
             )
         ).result()  # call '.result()' to poll until service return final result
 

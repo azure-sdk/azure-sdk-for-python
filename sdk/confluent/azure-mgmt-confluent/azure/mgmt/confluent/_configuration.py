@@ -18,8 +18,8 @@ if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class ConfluentClientConfiguration:  # pylint: disable=too-many-instance-attributes
-    """Configuration for ConfluentClient.
+class ConfluentManagementClientConfiguration:  # pylint: disable=too-many-instance-attributes
+    """Configuration for ConfluentManagementClient.
 
     Note that all parameters used to create this instance are saved as instance
     attributes.

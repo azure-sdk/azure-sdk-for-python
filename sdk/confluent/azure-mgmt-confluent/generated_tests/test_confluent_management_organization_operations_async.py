@@ -6,22 +6,23 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.confluent import ConfluentClient
+from azure.mgmt.confluent.aio import ConfluentManagementClient
 
-from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
+from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
+from devtools_testutils.aio import recorded_by_proxy_async
 
 AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestConfluentOrganizationOperations(AzureMgmtRecordedTestCase):
+class TestConfluentManagementOrganizationOperationsAsync(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(ConfluentClient)
+        self.client = self.create_mgmt_client(ConfluentManagementClient, is_async=True)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_get_cluster_api_key(self, resource_group):
-        response = self.client.organization.get_cluster_api_key(
+    @recorded_by_proxy_async
+    async def test_organization_get_cluster_api_key(self, resource_group):
+        response = await self.client.organization.get_cluster_api_key(
             resource_group_name=resource_group.name,
             organization_name="str",
             api_key_id="str",
@@ -31,9 +32,9 @@ class TestConfluentOrganizationOperations(AzureMgmtRecordedTestCase):
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_delete_cluster_api_key(self, resource_group):
-        response = self.client.organization.delete_cluster_api_key(
+    @recorded_by_proxy_async
+    async def test_organization_delete_cluster_api_key(self, resource_group):
+        response = await self.client.organization.delete_cluster_api_key(
             resource_group_name=resource_group.name,
             organization_name="str",
             api_key_id="str",
@@ -43,9 +44,9 @@ class TestConfluentOrganizationOperations(AzureMgmtRecordedTestCase):
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_get(self, resource_group):
-        response = self.client.organization.get(
+    @recorded_by_proxy_async
+    async def test_organization_get(self, resource_group):
+        response = await self.client.organization.get(
             resource_group_name=resource_group.name,
             organization_name="str",
         )
@@ -54,20 +55,22 @@ class TestConfluentOrganizationOperations(AzureMgmtRecordedTestCase):
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_begin_create(self, resource_group):
-        response = self.client.organization.begin_create(
-            resource_group_name=resource_group.name,
-            organization_name="str",
+    @recorded_by_proxy_async
+    async def test_organization_begin_create(self, resource_group):
+        response = await (
+            await self.client.organization.begin_create(
+                resource_group_name=resource_group.name,
+                organization_name="str",
+            )
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_update(self, resource_group):
-        response = self.client.organization.update(
+    @recorded_by_proxy_async
+    async def test_organization_update(self, resource_group):
+        response = await self.client.organization.update(
             resource_group_name=resource_group.name,
             organization_name="str",
         )
@@ -76,38 +79,40 @@ class TestConfluentOrganizationOperations(AzureMgmtRecordedTestCase):
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_begin_delete(self, resource_group):
-        response = self.client.organization.begin_delete(
-            resource_group_name=resource_group.name,
-            organization_name="str",
+    @recorded_by_proxy_async
+    async def test_organization_begin_delete(self, resource_group):
+        response = await (
+            await self.client.organization.begin_delete(
+                resource_group_name=resource_group.name,
+                organization_name="str",
+            )
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_list_by_resource_group(self, resource_group):
+    @recorded_by_proxy_async
+    async def test_organization_list_by_resource_group(self, resource_group):
         response = self.client.organization.list_by_resource_group(
             resource_group_name=resource_group.name,
         )
-        result = [r for r in response]
+        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_list_by_subscription(self, resource_group):
+    @recorded_by_proxy_async
+    async def test_organization_list_by_subscription(self, resource_group):
         response = self.client.organization.list_by_subscription()
-        result = [r for r in response]
+        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_list_regions(self, resource_group):
-        response = self.client.organization.list_regions(
+    @recorded_by_proxy_async
+    async def test_organization_list_regions(self, resource_group):
+        response = await self.client.organization.list_regions(
             resource_group_name=resource_group.name,
             organization_name="str",
             body={"searchFilters": {"str": "str"}},
@@ -117,9 +122,9 @@ class TestConfluentOrganizationOperations(AzureMgmtRecordedTestCase):
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_get_environment_by_id(self, resource_group):
-        response = self.client.organization.get_environment_by_id(
+    @recorded_by_proxy_async
+    async def test_organization_get_environment_by_id(self, resource_group):
+        response = await self.client.organization.get_environment_by_id(
             resource_group_name=resource_group.name,
             organization_name="str",
             environment_id="str",
@@ -129,32 +134,32 @@ class TestConfluentOrganizationOperations(AzureMgmtRecordedTestCase):
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_list_environments(self, resource_group):
+    @recorded_by_proxy_async
+    async def test_organization_list_environments(self, resource_group):
         response = self.client.organization.list_environments(
             resource_group_name=resource_group.name,
             organization_name="str",
         )
-        result = [r for r in response]
+        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_list_schema_registry_clusters(self, resource_group):
+    @recorded_by_proxy_async
+    async def test_organization_list_schema_registry_clusters(self, resource_group):
         response = self.client.organization.list_schema_registry_clusters(
             resource_group_name=resource_group.name,
             organization_name="str",
             environment_id="str",
         )
-        result = [r for r in response]
+        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_get_schema_registry_cluster_by_id(self, resource_group):
-        response = self.client.organization.get_schema_registry_cluster_by_id(
+    @recorded_by_proxy_async
+    async def test_organization_get_schema_registry_cluster_by_id(self, resource_group):
+        response = await self.client.organization.get_schema_registry_cluster_by_id(
             resource_group_name=resource_group.name,
             organization_name="str",
             environment_id="str",
@@ -165,9 +170,9 @@ class TestConfluentOrganizationOperations(AzureMgmtRecordedTestCase):
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_get_cluster_by_id(self, resource_group):
-        response = self.client.organization.get_cluster_by_id(
+    @recorded_by_proxy_async
+    async def test_organization_get_cluster_by_id(self, resource_group):
+        response = await self.client.organization.get_cluster_by_id(
             resource_group_name=resource_group.name,
             organization_name="str",
             environment_id="str",
@@ -178,21 +183,21 @@ class TestConfluentOrganizationOperations(AzureMgmtRecordedTestCase):
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_list_clusters(self, resource_group):
+    @recorded_by_proxy_async
+    async def test_organization_list_clusters(self, resource_group):
         response = self.client.organization.list_clusters(
             resource_group_name=resource_group.name,
             organization_name="str",
             environment_id="str",
         )
-        result = [r for r in response]
+        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_organization_create_api_key(self, resource_group):
-        response = self.client.organization.create_api_key(
+    @recorded_by_proxy_async
+    async def test_organization_create_api_key(self, resource_group):
+        response = await self.client.organization.create_api_key(
             resource_group_name=resource_group.name,
             organization_name="str",
             environment_id="str",

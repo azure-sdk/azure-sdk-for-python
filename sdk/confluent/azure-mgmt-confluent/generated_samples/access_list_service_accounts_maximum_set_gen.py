@@ -8,7 +8,7 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.confluent import ConfluentClient
+from azure.mgmt.confluent import ConfluentManagementClient
 
 """
 # PREREQUISITES
@@ -25,7 +25,7 @@ from azure.mgmt.confluent import ConfluentClient
 
 
 def main():
-    client = ConfluentClient(
+    client = ConfluentManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="SUBSCRIPTION_ID",
     )
