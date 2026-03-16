@@ -62,233 +62,28 @@
   - Added model `TopicsInputConfig`
   - Added model `TopicsRelatedLink`
   - Added model `TrackedResource`
-  - Added model `ClusterOperations`
-  - Added model `ConnectorOperations`
-  - Added model `EnvironmentOperations`
-  - Added model `TopicsOperations`
+  - Added operation group `ClusterOperations`
+  - Added operation group `ConnectorOperations`
+  - Added operation group `EnvironmentOperations`
+  - Added operation group `TopicsOperations`
 
 ### Breaking Changes
 
-  - Model `APIKeyRecord` deleted or renamed its instance variable `metadata`
-  - Model `APIKeyRecord` deleted or renamed its instance variable `spec`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `publisher`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `product`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `plan`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `license_text_link`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `privacy_policy_link`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `retrieve_datetime`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `signature`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `accepted`
-  - Model `RegionRecord` deleted or renamed its instance variable `metadata`
-  - Model `RegionRecord` deleted or renamed its instance variable `spec`
-  - Model `SCClusterRecord` deleted or renamed its instance variable `metadata`
-  - Model `SCClusterRecord` deleted or renamed its instance variable `spec`
-  - Model `SCClusterRecord` deleted or renamed its instance variable `status`
-  - Model `SCEnvironmentRecord` deleted or renamed its instance variable `metadata`
-  - Model `SchemaRegistryClusterRecord` deleted or renamed its instance variable `metadata`
-  - Model `SchemaRegistryClusterRecord` deleted or renamed its instance variable `spec`
-  - Model `SchemaRegistryClusterRecord` deleted or renamed its instance variable `status`
-  - Deleted or renamed model `ConfluentAgreementResourceListResponse`
-  - Deleted or renamed model `GetEnvironmentsResponse`
-  - Deleted or renamed model `ListClustersSuccessResponse`
-  - Deleted or renamed model `ListSchemaRegistryClustersResponse`
-  - Deleted or renamed model `SCConfluentListMetadata`
-  - Method `OrganizationOperations.list_clusters` changed its parameter `page_size` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_clusters` changed its parameter `page_token` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_environments` changed its parameter `page_size` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_environments` changed its parameter `page_token` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_schema_registry_clusters` changed its parameter `page_size` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_schema_registry_clusters` changed its parameter `page_token` from `positional_or_keyword` to `keyword_only`
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
+  - For the method breakings, please refer to https://aka.ms/azsdk/python/migrate/operations for migration.
+  - Model `APIKeyRecord` moved instance variable `metadata` and `spec` under property `properties`
+  - Model `ConfluentAgreementResource` moved instance variable `publisher`, `product`, `plan`, `license_text_link`, `privacy_policy_link`, `retrieve_datetime`, `signature` and `accepted` under property `properties`
+  - Model `RegionRecord` moved instance variable `metadata` and `spec` under property `properties`
+  - Model `SCClusterRecord` moved instance variable `metadata`, `spec` and `status` under property `properties`
+  - Model `SCEnvironmentRecord` moved instance variable `metadata` under property `properties`
+  - Model `SchemaRegistryClusterRecord` moved instance variable `metadata`, `spec` and `status` under property `properties`
+  - Method `OrganizationOperations.list_clusters` changed its parameter `page_size`/`page_token` from `positional_or_keyword` to `keyword_only`
+  - Method `OrganizationOperations.list_environments` changed its parameter `page_size`/`page_token` from `positional_or_keyword` to `keyword_only`
+  - Method `OrganizationOperations.list_schema_registry_clusters` changed its parameter `page_size`/`page_token` from `positional_or_keyword` to `keyword_only`
 
-## 3.0.0b1 (2026-03-16)
+### Other Changes
 
-### Features Added
-
-  - Model `APIKeyRecord` added property `properties`
-  - Model `ConfluentAgreementResource` added property `properties`
-  - Model `RegionRecord` added property `properties`
-  - Model `SCClusterRecord` added property `properties`
-  - Model `SCClusterRecord` added property `type`
-  - Model `SCClusterRecord` added property `system_data`
-  - Model `SCClusterSpecEntity` added property `package`
-  - Model `SCEnvironmentRecord` added property `properties`
-  - Model `SCEnvironmentRecord` added property `type`
-  - Model `SCEnvironmentRecord` added property `system_data`
-  - Model `SchemaRegistryClusterRecord` added property `properties`
-  - Added model `APIKeyProperties`
-  - Added enum `AuthType`
-  - Added model `AzureBlobStorageSinkConnectorServiceInfo`
-  - Added model `AzureBlobStorageSourceConnectorServiceInfo`
-  - Added model `AzureCosmosDBSinkConnectorServiceInfo`
-  - Added model `AzureCosmosDBSourceConnectorServiceInfo`
-  - Added model `AzureSynapseAnalyticsSinkConnectorServiceInfo`
-  - Added model `ClusterProperties`
-  - Added model `ConfluentAgreementProperties`
-  - Added enum `ConnectorClass`
-  - Added model `ConnectorInfoBase`
-  - Added model `ConnectorResource`
-  - Added model `ConnectorResourceProperties`
-  - Added enum `ConnectorServiceType`
-  - Added model `ConnectorServiceTypeInfoBase`
-  - Added enum `ConnectorStatus`
-  - Added enum `ConnectorType`
-  - Added enum `DataFormatType`
-  - Added model `EnvironmentProperties`
-  - Added model `ErrorAdditionalInfo`
-  - Added model `ErrorDetail`
-  - Added model `ErrorResponse`
-  - Added model `KafkaAzureBlobStorageSinkConnectorInfo`
-  - Added model `KafkaAzureBlobStorageSourceConnectorInfo`
-  - Added model `KafkaAzureCosmosDBSinkConnectorInfo`
-  - Added model `KafkaAzureCosmosDBSourceConnectorInfo`
-  - Added model `KafkaAzureSynapseAnalyticsSinkConnectorInfo`
-  - Added enum `Package`
-  - Added enum `PartnerConnectorType`
-  - Added model `PartnerInfoBase`
-  - Added model `ProxyResource`
-  - Added model `RegionProperties`
-  - Added model `Resource`
-  - Added model `SchemaRegistryClusterProperties`
-  - Added model `StreamGovernanceConfig`
-  - Added model `TopicMetadataEntity`
-  - Added model `TopicProperties`
-  - Added model `TopicRecord`
-  - Added model `TopicsInputConfig`
-  - Added model `TopicsRelatedLink`
-  - Added model `TrackedResource`
-  - Added model `ClusterOperations`
-  - Added model `ConnectorOperations`
-  - Added model `EnvironmentOperations`
-  - Added model `TopicsOperations`
-
-### Breaking Changes
-
-  - Deleted or renamed client `ConfluentManagementClient`
-  - Model `APIKeyRecord` deleted or renamed its instance variable `metadata`
-  - Model `APIKeyRecord` deleted or renamed its instance variable `spec`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `publisher`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `product`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `plan`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `license_text_link`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `privacy_policy_link`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `retrieve_datetime`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `signature`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `accepted`
-  - Model `RegionRecord` deleted or renamed its instance variable `metadata`
-  - Model `RegionRecord` deleted or renamed its instance variable `spec`
-  - Model `SCClusterRecord` deleted or renamed its instance variable `metadata`
-  - Model `SCClusterRecord` deleted or renamed its instance variable `spec`
-  - Model `SCClusterRecord` deleted or renamed its instance variable `status`
-  - Model `SCEnvironmentRecord` deleted or renamed its instance variable `metadata`
-  - Model `SchemaRegistryClusterRecord` deleted or renamed its instance variable `metadata`
-  - Model `SchemaRegistryClusterRecord` deleted or renamed its instance variable `spec`
-  - Model `SchemaRegistryClusterRecord` deleted or renamed its instance variable `status`
-  - Deleted or renamed model `ConfluentAgreementResourceListResponse`
-  - Deleted or renamed model `GetEnvironmentsResponse`
-  - Deleted or renamed model `ListClustersSuccessResponse`
-  - Deleted or renamed model `ListSchemaRegistryClustersResponse`
-  - Deleted or renamed model `SCConfluentListMetadata`
-  - Method `OrganizationOperations.list_clusters` changed its parameter `page_size` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_clusters` changed its parameter `page_token` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_environments` changed its parameter `page_size` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_environments` changed its parameter `page_token` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_schema_registry_clusters` changed its parameter `page_size` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_schema_registry_clusters` changed its parameter `page_token` from `positional_or_keyword` to `keyword_only`
-
-## 3.0.0b1 (2026-02-10)
-
-### Features Added
-
-  - Model `APIKeyRecord` added property `properties`
-  - Model `ConfluentAgreementResource` added property `properties`
-  - Model `RegionRecord` added property `properties`
-  - Model `SCClusterRecord` added property `properties`
-  - Model `SCClusterRecord` added property `type`
-  - Model `SCClusterRecord` added property `system_data`
-  - Model `SCClusterSpecEntity` added property `package`
-  - Model `SCEnvironmentRecord` added property `properties`
-  - Model `SCEnvironmentRecord` added property `type`
-  - Model `SCEnvironmentRecord` added property `system_data`
-  - Model `SchemaRegistryClusterRecord` added property `properties`
-  - Added model `APIKeyProperties`
-  - Added enum `AuthType`
-  - Added model `AzureBlobStorageSinkConnectorServiceInfo`
-  - Added model `AzureBlobStorageSourceConnectorServiceInfo`
-  - Added model `AzureCosmosDBSinkConnectorServiceInfo`
-  - Added model `AzureCosmosDBSourceConnectorServiceInfo`
-  - Added model `AzureSynapseAnalyticsSinkConnectorServiceInfo`
-  - Added model `ClusterProperties`
-  - Added model `ConfluentAgreementProperties`
-  - Added enum `ConnectorClass`
-  - Added model `ConnectorInfoBase`
-  - Added model `ConnectorResource`
-  - Added model `ConnectorResourceProperties`
-  - Added enum `ConnectorServiceType`
-  - Added model `ConnectorServiceTypeInfoBase`
-  - Added enum `ConnectorStatus`
-  - Added enum `ConnectorType`
-  - Added enum `DataFormatType`
-  - Added model `EnvironmentProperties`
-  - Added model `ErrorAdditionalInfo`
-  - Added model `ErrorDetail`
-  - Added model `ErrorResponse`
-  - Added model `KafkaAzureBlobStorageSinkConnectorInfo`
-  - Added model `KafkaAzureBlobStorageSourceConnectorInfo`
-  - Added model `KafkaAzureCosmosDBSinkConnectorInfo`
-  - Added model `KafkaAzureCosmosDBSourceConnectorInfo`
-  - Added model `KafkaAzureSynapseAnalyticsSinkConnectorInfo`
-  - Added enum `Package`
-  - Added enum `PartnerConnectorType`
-  - Added model `PartnerInfoBase`
-  - Added model `ProxyResource`
-  - Added model `RegionProperties`
-  - Added model `Resource`
-  - Added model `SchemaRegistryClusterProperties`
-  - Added model `StreamGovernanceConfig`
-  - Added model `TopicMetadataEntity`
-  - Added model `TopicProperties`
-  - Added model `TopicRecord`
-  - Added model `TopicsInputConfig`
-  - Added model `TopicsRelatedLink`
-  - Added model `TrackedResource`
-  - Added model `ClusterOperations`
-  - Added model `ConnectorOperations`
-  - Added model `EnvironmentOperations`
-  - Added model `TopicsOperations`
-
-### Breaking Changes
-
-  - Deleted or renamed client `ConfluentManagementClient`
-  - Model `APIKeyRecord` deleted or renamed its instance variable `metadata`
-  - Model `APIKeyRecord` deleted or renamed its instance variable `spec`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `publisher`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `product`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `plan`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `license_text_link`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `privacy_policy_link`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `retrieve_datetime`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `signature`
-  - Model `ConfluentAgreementResource` deleted or renamed its instance variable `accepted`
-  - Model `RegionRecord` deleted or renamed its instance variable `metadata`
-  - Model `RegionRecord` deleted or renamed its instance variable `spec`
-  - Model `SCClusterRecord` deleted or renamed its instance variable `metadata`
-  - Model `SCClusterRecord` deleted or renamed its instance variable `spec`
-  - Model `SCClusterRecord` deleted or renamed its instance variable `status`
-  - Model `SCEnvironmentRecord` deleted or renamed its instance variable `metadata`
-  - Model `SchemaRegistryClusterRecord` deleted or renamed its instance variable `metadata`
-  - Model `SchemaRegistryClusterRecord` deleted or renamed its instance variable `spec`
-  - Model `SchemaRegistryClusterRecord` deleted or renamed its instance variable `status`
-  - Deleted or renamed model `ConfluentAgreementResourceListResponse`
-  - Deleted or renamed model `GetEnvironmentsResponse`
-  - Deleted or renamed model `ListClustersSuccessResponse`
-  - Deleted or renamed model `ListSchemaRegistryClustersResponse`
-  - Deleted or renamed model `SCConfluentListMetadata`
-  - Method `OrganizationOperations.list_clusters` changed its parameter `page_size` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_clusters` changed its parameter `page_token` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_environments` changed its parameter `page_size` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_environments` changed its parameter `page_token` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_schema_registry_clusters` changed its parameter `page_size` from `positional_or_keyword` to `keyword_only`
-  - Method `OrganizationOperations.list_schema_registry_clusters` changed its parameter `page_token` from `positional_or_keyword` to `keyword_only`
+  - Deleted model `ConfluentAgreementResourceListResponse`/`GetEnvironmentsResponse`/`ListClustersSuccessResponse`/`ListSchemaRegistryClustersResponse`/`SCConfluentListMetadata` which actually were not used by SDK users
 
 ## 2.1.0 (2024-03-18)
 
