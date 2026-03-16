@@ -150,17 +150,17 @@
   - Added enum `SnapshotUsage`
   - Added enum `VolumeLanguage`
   - Added enum `VolumeSize`
-  - Added model `ActiveDirectoryConfigsOperations`
-  - Added model `BucketsOperations`
-  - Added model `CachesOperations`
-  - Added model `ElasticAccountsOperations`
-  - Added model `ElasticBackupPoliciesOperations`
-  - Added model `ElasticBackupVaultsOperations`
-  - Added model `ElasticBackupsOperations`
-  - Added model `ElasticCapacityPoolsOperations`
-  - Added model `ElasticSnapshotPoliciesOperations`
-  - Added model `ElasticSnapshotsOperations`
-  - Added model `ElasticVolumesOperations`
+  - Added operation group `ActiveDirectoryConfigsOperations`
+  - Added operation group `BucketsOperations`
+  - Added operation group `CachesOperations`
+  - Added operation group `ElasticAccountsOperations`
+  - Added operation group `ElasticBackupPoliciesOperations`
+  - Added operation group `ElasticBackupVaultsOperations`
+  - Added operation group `ElasticBackupsOperations`
+  - Added operation group `ElasticCapacityPoolsOperations`
+  - Added operation group `ElasticSnapshotPoliciesOperations`
+  - Added operation group `ElasticSnapshotsOperations`
+  - Added operation group `ElasticVolumesOperations`
 
 ## 15.0.0 (2026-02-27)
 
