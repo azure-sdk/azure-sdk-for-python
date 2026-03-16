@@ -8,7 +8,7 @@ import pytest
 from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
-from .testcase import DiscoveryMgmtTestCase
+from .testcase import DiscoveryMgmtTestCase, AZURE_SUBSCRIPTION_ID
 
 # Resource group that contains supercomputers
 SUPERCOMPUTER_RESOURCE_GROUP = "olawal"
@@ -44,11 +44,11 @@ class TestSupercomputers(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_create_supercomputer(self):
         """Test creating a supercomputer."""
-        mi_id = "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourcegroups/olawal/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity"
+        mi_id = f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourcegroups/olawal/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity"
         supercomputer_data = models.Supercomputer(
             location="uksouth",
             properties=models.SupercomputerProperties(
-                subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default",
+                subnet_id=f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default",
                 identities=models.SupercomputerIdentities(
                     cluster_identity=models.Identity(id=mi_id),
                     kubelet_identity=models.Identity(id=mi_id),

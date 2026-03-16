@@ -7,7 +7,7 @@ import pytest
 from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
-from .testcase import DiscoveryMgmtTestCase, AZURE_RESOURCE_GROUP
+from .testcase import DiscoveryMgmtTestCase, AZURE_RESOURCE_GROUP, AZURE_SUBSCRIPTION_ID
 
 
 class TestBookshelves(DiscoveryMgmtTestCase):
@@ -40,13 +40,13 @@ class TestBookshelves(DiscoveryMgmtTestCase):
     @recorded_by_proxy
     def test_create_bookshelf(self):
         """Test creating a bookshelf."""
-        mi_id = "/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami"
+        mi_id = f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourcegroups/fixedrg-dev-uksouth1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/dev-uksouth1-uami"
         bookshelf_data = models.Bookshelf(
             location="uksouth",
             properties=models.BookshelfProperties(
                 workload_identities={mi_id: models.UserAssignedIdentity()},
-                private_endpoint_subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/private-endpoint-subnet",
-                search_subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/search-subnet",
+                private_endpoint_subnet_id=f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/private-endpoint-subnet",
+                search_subnet_id=f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourceGroups/fixedrg-dev-uksouth1/providers/Microsoft.Network/virtualNetworks/vnet-dev-uksouth1/subnets/search-subnet",
             ),
         )
         operation = self.client.bookshelves.begin_create_or_update(

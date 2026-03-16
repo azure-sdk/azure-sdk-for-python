@@ -8,7 +8,7 @@ import pytest
 from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
-from .testcase import DiscoveryMgmtTestCase
+from .testcase import DiscoveryMgmtTestCase, AZURE_SUBSCRIPTION_ID
 
 
 # Resource group and workspace that exist in the test environment
@@ -55,18 +55,18 @@ class TestWorkspaces(DiscoveryMgmtTestCase):
             properties=models.WorkspaceProperties(
                 supercomputer_ids=[],
                 workspace_identity=models.Identity(
-                    id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourcegroups/olawal/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity"
+                    id=f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourcegroups/olawal/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity"
                 ),
-                agent_subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default3",
-                private_endpoint_subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default",
-                workspace_subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default2",
+                agent_subnet_id=f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default3",
+                private_endpoint_subnet_id=f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default",
+                workspace_subnet_id=f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default2",
                 customer_managed_keys="Enabled",
                 key_vault_properties=models.KeyVaultProperties(
                     key_name="discoverykey",
                     key_vault_uri="https://newapik.vault.azure.net/",
                     key_version="2c9db3cf55d247b4a1c1831fbbdad906",
                 ),
-                log_analytics_cluster_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.OperationalInsights/clusters/mycluse",
+                log_analytics_cluster_id=f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourceGroups/olawal/providers/Microsoft.OperationalInsights/clusters/mycluse",
                 public_network_access="Disabled",
             ),
         )

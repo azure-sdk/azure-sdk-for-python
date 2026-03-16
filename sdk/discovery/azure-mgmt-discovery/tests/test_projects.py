@@ -7,7 +7,7 @@ import pytest
 from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
-from .testcase import DiscoveryMgmtTestCase
+from .testcase import DiscoveryMgmtTestCase, AZURE_SUBSCRIPTION_ID
 
 
 # Resource group that has a workspace
@@ -42,7 +42,7 @@ class TestProjects(DiscoveryMgmtTestCase):
     def test_create_project(self):
         """Test creating a project."""
         unique_name = PROJECT_NAME
-        project_data = models.Project(location="uksouth", properties = models.ProjectProperties(storage_container_ids=["/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/aatte/providers/Microsoft.Discovery/storageContainers/itsconaawre"])) # type: ignore
+        project_data = models.Project(location="uksouth", properties = models.ProjectProperties(storage_container_ids=[f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourceGroups/aatte/providers/Microsoft.Discovery/storageContainers/itsconaawre"])) # type: ignore
         operation = self.client.projects.begin_create_or_update(
             resource_group_name=WORKSPACE_RESOURCE_GROUP,
             workspace_name=WORKSPACE_NAME,

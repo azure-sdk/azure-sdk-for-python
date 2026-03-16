@@ -19,7 +19,7 @@ AZURE_ARM_ENDPOINT = os.environ.get("AZURE_ARM_ENDPOINT", "https://eastus2euap.m
 AZURE_LOCATION = os.environ.get("AZURE_LOCATION", "centraluseuap")
 
 # Test subscription and resource group with the feature flag enabled
-AZURE_SUBSCRIPTION_ID = os.environ.get("AZURE_SUBSCRIPTION_ID", "31b0b6a5-2647-47eb-8a38-7d12047ee8ec")
+AZURE_SUBSCRIPTION_ID = os.environ.get("AZURE_SUBSCRIPTION_ID", "00000000-0000-0000-0000-000000000000")
 AZURE_RESOURCE_GROUP = os.environ.get("AZURE_RESOURCE_GROUP", "olawal")
 
 

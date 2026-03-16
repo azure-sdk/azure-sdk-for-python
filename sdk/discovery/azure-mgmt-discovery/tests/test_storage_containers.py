@@ -8,7 +8,7 @@ import pytest
 from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
-from .testcase import DiscoveryMgmtTestCase
+from .testcase import DiscoveryMgmtTestCase, AZURE_SUBSCRIPTION_ID
 
 # Resource group that contains storage containers
 STORAGE_CONTAINER_RESOURCE_GROUP = "olawal"
@@ -47,7 +47,7 @@ class TestStorageContainers(DiscoveryMgmtTestCase):
             location="uksouth",
             properties=models.StorageContainerProperties(
                 storage_store=models.AzureStorageBlobStore(
-                    storage_account_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Storage/storageAccounts/mytststr",
+                    storage_account_id=f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourceGroups/olawal/providers/Microsoft.Storage/storageAccounts/mytststr",
                 ),
             ),
         )

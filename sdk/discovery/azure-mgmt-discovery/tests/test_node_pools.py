@@ -8,7 +8,7 @@ import pytest
 from azure.mgmt.discovery import DiscoveryMgmtClient, models
 from devtools_testutils import recorded_by_proxy
 
-from .testcase import DiscoveryMgmtTestCase
+from .testcase import DiscoveryMgmtTestCase, AZURE_SUBSCRIPTION_ID
 
 # Resource group and supercomputer that contain node pools
 NODE_POOL_RESOURCE_GROUP = "olawal"
@@ -43,7 +43,7 @@ class TestNodePools(DiscoveryMgmtTestCase):
         node_pool_data = models.NodePool(
             location="uksouth",
             properties=models.NodePoolProperties(
-                subnet_id="/subscriptions/31b0b6a5-2647-47eb-8a38-7d12047ee8ec/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default",
+                subnet_id=f"/subscriptions/{AZURE_SUBSCRIPTION_ID}/resourceGroups/olawal/providers/Microsoft.Network/virtualNetworks/newapiv/subnets/default",
                 vm_size="Standard_D4s_v6",
                 max_node_count=3,
                 min_node_count=1,
