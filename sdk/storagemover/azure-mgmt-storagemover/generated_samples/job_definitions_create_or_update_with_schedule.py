@@ -16,7 +16,7 @@ from azure.mgmt.storagemover import StorageMoverMgmtClient
     pip install azure-identity
     pip install azure-mgmt-storagemover
 # USAGE
-    python job_definitions_create_or_update.py
+    python job_definitions_create_or_update_with_schedule.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -38,13 +38,21 @@ def main():
         job_definition_name="examples-jobDefinitionName",
         job_definition={
             "properties": {
-                "agentName": "migration-agent",
+                "agentName": "dummy-agent",
                 "connections": [
                     "/subscriptions/60bcfc77-6589-4da2-b7fd-f9ec9322cf95/resourceGroups/examples-rg/providers/Microsoft.StorageMover/storageMovers/examples-storageMoverName/connections/example-connection"
                 ],
                 "copyMode": "Additive",
                 "description": "Example Job Definition Description",
-                "jobType": "OnPremToCloud",
+                "jobType": "CloudToCloud",
+                "schedule": {
+                    "daysOfWeek": ["Monday", "Wednesday", "Friday"],
+                    "endDate": "2025-12-31T12:00:00Z",
+                    "executionTime": {"hour": 9, "minute": 0},
+                    "frequency": "Weekly",
+                    "isActive": True,
+                    "startDate": "2025-12-01T00:00:00Z",
+                },
                 "sourceName": "examples-sourceEndpointName",
                 "sourceSubpath": "/",
                 "targetName": "examples-targetEndpointName",
@@ -55,6 +63,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: 2025-12-01/JobDefinitions_CreateOrUpdate.json
+# x-ms-original-file: 2025-12-01/JobDefinitions_CreateOrUpdate_With_Schedule.json
 if __name__ == "__main__":
     main()

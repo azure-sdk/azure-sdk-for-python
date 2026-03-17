@@ -1,4 +1,3 @@
-# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -16,7 +15,7 @@ from azure.mgmt.storagemover import StorageMoverMgmtClient
     pip install azure-identity
     pip install azure-mgmt-storagemover
 # USAGE
-    python job_definitions_create_or_update.py
+    python endpoints_create_or_update_s3_with_hmac.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -31,30 +30,28 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.job_definitions.create_or_update(
+    response = client.endpoints.create_or_update(
         resource_group_name="examples-rg",
         storage_mover_name="examples-storageMoverName",
-        project_name="examples-projectName",
-        job_definition_name="examples-jobDefinitionName",
-        job_definition={
+        endpoint_name="examples-endpointName",
+        endpoint={
             "properties": {
-                "agentName": "migration-agent",
-                "connections": [
-                    "/subscriptions/60bcfc77-6589-4da2-b7fd-f9ec9322cf95/resourceGroups/examples-rg/providers/Microsoft.StorageMover/storageMovers/examples-storageMoverName/connections/example-connection"
-                ],
-                "copyMode": "Additive",
-                "description": "Example Job Definition Description",
-                "jobType": "OnPremToCloud",
-                "sourceName": "examples-sourceEndpointName",
-                "sourceSubpath": "/",
-                "targetName": "examples-targetEndpointName",
-                "targetSubpath": "/",
+                "credentials": {
+                    "accessKeyUri": "https://examples-azureKeyVault.vault.azure.net/secrets/examples-access",
+                    "secretKeyUri": "https://examples-azureKeyVault.vault.azure.net/secrets/examples-secret",
+                    "type": "AzureKeyVaultS3WithHMAC",
+                },
+                "description": "Example S3WithHmac Endpoint Description",
+                "endpointKind": "Source",
+                "endpointType": "S3WithHMAC",
+                "sourceType": "GCS",
+                "sourceUri": "https://examples-bucket.s3.amazonaws.com/prefix/",
             }
         },
     )
     print(response)
 
 
-# x-ms-original-file: 2025-12-01/JobDefinitions_CreateOrUpdate.json
+# x-ms-original-file: 2025-12-01/Endpoints_CreateOrUpdate_S3WithHMAC.json
 if __name__ == "__main__":
     main()

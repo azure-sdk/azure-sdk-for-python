@@ -1,5 +1,43 @@
 # Release History
 
+## 3.1.0 (2026-03-17)
+
+### Features Added
+
+  - Client `StorageMoverMgmtClient` added operation group `connections`
+  - Model `AzureMultiCloudConnectorEndpointProperties` added property `endpoint_kind`
+  - Model `AzureStorageBlobContainerEndpointProperties` added property `endpoint_kind`
+  - Model `AzureStorageNfsFileShareEndpointProperties` added property `endpoint_kind`
+  - Model `AzureStorageSmbFileShareEndpointProperties` added property `endpoint_kind`
+  - Enum `CredentialType` added member `AZURE_KEY_VAULT_S3_WITH_HMAC`
+  - Model `EndpointBaseProperties` added property `endpoint_kind`
+  - Enum `EndpointType` added member `S3_WITH_HMAC`
+  - Model `JobDefinitionProperties` added property `connections`
+  - Model `JobDefinitionProperties` added property `schedule`
+  - Model `JobDefinitionProperties` added property `data_integrity_validation`
+  - Model `JobDefinitionProperties` added property `preserve_permissions`
+  - Model `JobDefinitionUpdateProperties` added property `connections`
+  - Model `JobDefinitionUpdateProperties` added property `data_integrity_validation`
+  - Model `JobRunProperties` added property `trigger_type`
+  - Model `JobRunProperties` added property `scheduled_execution_time`
+  - Model `JobRunProperties` added property `warnings`
+  - Model `NfsMountEndpointProperties` added property `endpoint_kind`
+  - Model `SmbMountEndpointProperties` added property `endpoint_kind`
+  - Added model `AzureKeyVaultS3WithHmacCredentials`
+  - Added model `Connection`
+  - Added model `ConnectionProperties`
+  - Added enum `ConnectionStatus`
+  - Added enum `DataIntegrityValidation`
+  - Added enum `EndpointKind`
+  - Added enum `Frequency`
+  - Added model `JobRunWarning`
+  - Added model `S3WithHmacEndpointProperties`
+  - Added model `S3WithHmacEndpointUpdateProperties`
+  - Added enum `S3WithHmacSourceType`
+  - Added model `ScheduleInfo`
+  - Added enum `TriggerType`
+  - Added model `ConnectionsOperations`
+
 ## 3.0.0 (2025-09-04)
 
 ### Features Added
