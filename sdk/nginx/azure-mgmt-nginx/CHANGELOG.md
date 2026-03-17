@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2026-03-13)
+## 4.0.0 (2026-03-18)
 
 ### Features Added
 
@@ -73,23 +73,25 @@
   - Added model `WebApplicationFirewallPackage`
   - Added model `WebApplicationFirewallSettings`
   - Added model `WebApplicationFirewallStatus`
-  - Model `ConfigurationsOperations` added method `analysis`
-  - Added model `ApiKeysOperations`
-  - Added model `DefaultWafPolicyOperations`
-  - Added model `NginxDeploymentWafPoliciesOperations`
-  - Added model `WafPolicyOperations`
+  - Operation group `ConfigurationsOperations` added method `analysis`
+  - Added operation group `ApiKeysOperations`
+  - Added operation group `DefaultWafPolicyOperations`
+  - Added operation group `NginxDeploymentWafPoliciesOperations`
+  - Added operation group `WafPolicyOperations`
 
 ### Breaking Changes
 
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
   - Model `NginxDeploymentProperties` deleted or renamed its instance variable `managed_resource_group`
   - Deleted or renamed model `ErrorResponseBody`
-  - Deleted or renamed model `NginxCertificateListResponse`
   - Deleted or renamed model `NginxConfiguration`
-  - Deleted or renamed model `NginxConfigurationListResponse`
   - Deleted or renamed model `NginxConfigurationProperties`
-  - Deleted or renamed model `NginxDeploymentListResponse`
   - Deleted or renamed model `OperationResult`
   - Deleted or renamed model `ResourceProviderDefaultErrorResponse`
+
+### Other Changes
+
+  - Deleted models `NginxCertificateListResponse`/`NginxConfigurationListResponse`/`NginxDeploymentListResponse` which actually were not used by SDK users
 
 ## 3.1.0b3 (2026-02-10)
 
