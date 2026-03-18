@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2026-03-16)
+## 1.0.0 (2026-03-18)
 
 ### Features Added
 
@@ -13,13 +13,14 @@
 
 ### Breaking Changes
 
-  - Model `PatchExtension` deleted or renamed its instance variable `auto_upgrade_minor_version`
-  - Model `PatchExtension` deleted or renamed its instance variable `release_train`
-  - Model `PatchExtension` deleted or renamed its instance variable `version`
-  - Model `PatchExtension` deleted or renamed its instance variable `configuration_settings`
-  - Model `PatchExtension` deleted or renamed its instance variable `configuration_protected_settings`
-  - Deleted or renamed model `ExtensionsList`
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
+  - For the method breakings, please refer to https://aka.ms/azsdk/python/migrate/operations for migration.
+  - Model `PatchExtension` moved instance variable `auto_upgrade_minor_version`, `release_train`, `version`, `configuration_settings` and `configuration_protected_settings` under property `properties`
   - Method `ExtensionsOperations.begin_delete` changed its parameter `force_delete` from `positional_or_keyword` to `keyword_only`
+
+### Other Changes
+
+  - Deleted model `ExtensionsList` which actually was not used by SDK users
 
 ## 1.0.0b1 (2025-05-19)
 
