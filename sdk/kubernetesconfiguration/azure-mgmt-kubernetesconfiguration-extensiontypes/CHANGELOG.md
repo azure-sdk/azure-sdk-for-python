@@ -16,6 +16,8 @@
 
 ### Breaking Changes
 
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
+  - For the method breakings, please refer to https://aka.ms/azsdk/python/migrate/operations for migration.
   - Method `ExtensionTypesOperations.cluster_list_versions` changed its parameter `release_train`/`major_version`/`show_latest` from `positional_or_keyword` to `keyword_only`
   - Method `ExtensionTypesOperations.list` changed its parameter `publisher_id`/`offer_id`/`plan_id`/`release_train` from `positional_or_keyword` to `keyword_only`
   - Method `ExtensionTypesOperations.list_versions` changed its parameter `release_train`/`cluster_type`/`major_version`/`show_latest` from `positional_or_keyword` to `keyword_only`
