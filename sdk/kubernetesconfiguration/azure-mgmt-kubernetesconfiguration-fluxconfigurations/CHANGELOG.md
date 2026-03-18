@@ -4,7 +4,7 @@
 
 ### Features Added
 
-  - Model `KubernetesConfigurationFluxConfigurationsMgmtClient` added parameter `cloud_setting` in method `__init__`
+  - Client `KubernetesConfigurationFluxConfigurationsMgmtClient` added parameter `cloud_setting` in method `__init__`
   - Client `KubernetesConfigurationFluxConfigurationsMgmtClient` added method `send_request`
   - Model `ProxyResource` added property `system_data`
   - Model `Resource` added property `system_data`
