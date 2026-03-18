@@ -10,6 +10,10 @@
   - Model `PrivateLinkResourceListResult` added property `next_link`
   - Added model `ProxyResource`
 
+### Breaking Changes
+
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
+
 ## 1.0.0b1 (2025-06-16)
 
 ### Other Changes
