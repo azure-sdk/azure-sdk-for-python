@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2026-03-16)
+## 1.0.0 (2026-03-18)
 
 ### Features Added
 
@@ -12,17 +12,14 @@
 
 ### Breaking Changes
 
-  - Model `FluxConfigurationPatch` deleted or renamed its instance variable `source_kind`
-  - Model `FluxConfigurationPatch` deleted or renamed its instance variable `suspend`
-  - Model `FluxConfigurationPatch` deleted or renamed its instance variable `git_repository`
-  - Model `FluxConfigurationPatch` deleted or renamed its instance variable `bucket`
-  - Model `FluxConfigurationPatch` deleted or renamed its instance variable `azure_blob`
-  - Model `FluxConfigurationPatch` deleted or renamed its instance variable `oci_repository`
-  - Model `FluxConfigurationPatch` deleted or renamed its instance variable `kustomizations`
-  - Model `FluxConfigurationPatch` deleted or renamed its instance variable `configuration_protected_settings`
-  - Deleted or renamed model `FluxConfigurationsList`
-  - Deleted or renamed model `KustomizationValidationType`
+  - This version introduces new hybrid models which have dual dictionary and model nature. Please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
+  - For the method breakings, please refer to https://aka.ms/azsdk/python/migrate/operations for migration.
+  - Model `FluxConfigurationPatch` moved instance variable `source_kind`, `suspend`, `git_repository`, `bucket`, `azure_blob`, `oci_repository`, `kustomizations` and `configuration_protected_settings` under property `properties`
   - Method `FluxConfigurationsOperations.begin_delete` changed its parameter `force_delete` from `positional_or_keyword` to `keyword_only`
+
+### Other Changes
+
+  - Deleted model `FluxConfigurationsList`/`KustomizationValidationType` which actually was not used by SDK users
 
 ## 1.0.0b1 (2025-05-19)
 
