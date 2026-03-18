@@ -13,7 +13,7 @@ authors = [
 description = "Microsoft Azure Fluxconfigurations Management Client Library for Python"
 license = "MIT"
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 4 - Beta",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3",
@@ -78,7 +78,7 @@ package_name = "azure-mgmt-kubernetesconfiguration-fluxconfigurations"
 package_nspkg = "azure-mgmt-kubernetesconfiguration-nspkg"
 package_pprint_name = "Kubernetesconfiguration-fluxconfigurations Management"
 package_doc_id = ""
-is_stable = true
+is_stable = false
 is_arm = true
 need_msrestazure = false
 need_azuremgmtcore = true
