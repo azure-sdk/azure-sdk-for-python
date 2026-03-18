@@ -4,7 +4,7 @@
 
 ### Features Added
 
-  - Model `KubernetesConfigurationExtensionsMgmtClient` added parameter `cloud_setting` in method `__init__`
+  - Client `KubernetesConfigurationExtensionsMgmtClient` added parameter `cloud_setting` in method `__init__`
   - Client `KubernetesConfigurationExtensionsMgmtClient` added method `send_request`
   - Model `ProxyResource` added property `system_data`
   - Model `Resource` added property `system_data`
