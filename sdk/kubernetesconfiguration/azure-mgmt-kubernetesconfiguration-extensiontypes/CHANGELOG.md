@@ -4,7 +4,7 @@
 
 ### Features Added
 
-  - Model `KubernetesConfigurationExtensionTypesMgmtClient` added parameter `cloud_setting` in method `__init__`
+  - Client `KubernetesConfigurationExtensionTypesMgmtClient` added parameter `cloud_setting` in method `__init__`
   - Client `KubernetesConfigurationExtensionTypesMgmtClient` added method `send_request`
   - Model `ClusterScopeSettings` added property `system_data`
   - Model `ExtensionType` added property `system_data`
