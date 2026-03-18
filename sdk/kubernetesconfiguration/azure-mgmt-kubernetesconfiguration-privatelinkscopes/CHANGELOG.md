@@ -4,7 +4,7 @@
 
 ### Features Added
 
-  - Model `KubernetesConfigurationPrivateLinkScopesMgmtClient` added parameter `cloud_setting` in method `__init__`
+  - Client `KubernetesConfigurationPrivateLinkScopesMgmtClient` added parameter `cloud_setting` in method `__init__`
   - Client `KubernetesConfigurationPrivateLinkScopesMgmtClient` added method `send_request`
   - Model `PrivateEndpointConnectionListResult` added property `next_link`
   - Model `PrivateLinkResourceListResult` added property `next_link`
