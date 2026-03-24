@@ -13,7 +13,7 @@
   - Added enum `ExpansionJobStatusType`
   - Added model `ExpansionJobUpdate`
   - Added model `ExpansionJobsListResult`
-  - Added model `ExpansionJobsOperations`
+  - Added operation group `ExpansionJobsOperations`
 
 ## 3.0.1 (2025-10-09)
 
