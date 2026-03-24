@@ -8,6 +8,7 @@
 - Fixed `TypeError` in multi-turn and crescendo attacks caused by PyRIT 0.11+ renaming `send_prompt_async` parameter from `prompt_request` to `message`.
 - Expanded endpoint normalization (`/openai/v1` suffix) to all Azure OpenAI host suffixes (including sovereign clouds), fixing 404 errors for classic AOAI endpoints with PyRIT 0.11+.
 - Added `aml-aca-token` credential fallback for agent-type seed requests when running locally without ACA managed identity.
+- Extract RAI scorer token metrics (prompt_tokens, completion_tokens, total_tokens) into Score metadata and propagate through result processing for downstream aggregation.
 
 ## 1.16.1 (2026-03-18)
 
