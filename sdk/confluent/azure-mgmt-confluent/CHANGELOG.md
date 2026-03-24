@@ -50,20 +50,20 @@
   - Added model `TopicsInputConfig`
   - Added model `TopicsRelatedLink`
   - Added model `TrackedResource`
-  - Added model `ClusterOperations`
-  - Added model `ConnectorOperations`
-  - Added model `EnvironmentOperations`
-  - Added model `TopicsOperations`
+  - Added operation group `ClusterOperations`
+  - Added operation group `ConnectorOperations`
+  - Added operation group `EnvironmentOperations`
+  - Added operation group `TopicsOperations`
 
 ### Breaking Changes
 
-  - Method `ConfluentAgreementResourceListResponse.__init__` removed default value `None` from its parameter `value`
-  - Method `GetEnvironmentsResponse.__init__` removed default value `None` from its parameter `value`
-  - Method `ListClustersSuccessResponse.__init__` removed default value `None` from its parameter `value`
-  - Method `ListSchemaRegistryClustersResponse.__init__` removed default value `None` from its parameter `value`
-  - Method `OperationListResult.__init__` removed default value `None` from its parameter `value`
-  - Method `OrganizationResource.__init__` removed default value `None` from its parameter `location`
-  - Method `OrganizationResourceListResult.__init__` removed default value `None` from its parameter `value`
+  - Parameter `value` of `ConfluentAgreementResourceListResponse.__init__` is now required
+  - Parameter `value` of `GetEnvironmentsResponse.__init__` is now required
+  - Parameter `value` of `ListClustersSuccessResponse.__init__` is now required
+  - Parameter `value` of `ListSchemaRegistryClustersResponse.__init__` is now required
+  - Parameter `value` of `OperationListResult.__init__` is now required
+  - Parameter `location` of `OrganizationResource.__init__` is now required
+  - Parameter `value` of `OrganizationResourceListResult.__init__` is now required
   - Deleted or renamed model `SCConfluentListMetadata`
 
 ## 2.1.0 (2024-03-18)
