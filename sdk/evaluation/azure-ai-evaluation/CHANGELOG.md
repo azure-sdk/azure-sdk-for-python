@@ -2,10 +2,6 @@
 
 ## 1.16.2 (Unreleased)
 
-### Features Added
-
-### Breaking Changes
-
 ### Bugs Fixed
 - Fixed adversarial chat target incorrectly using user's callback instead of RAI service, causing callback response to appear as user message in red team scan results when using converter strategies (e.g., `DIFFICULT`, `Tense`).
 - Fixed `hate_unfairness` attack success rate always reporting 0% due to metric name mapping using legacy `hate_fairness` name instead of canonical `hate_unfairness`.
@@ -20,7 +16,6 @@
 - Agentic evaluators (Groundedness, ToolCallAccuracy, ToolCallSuccess, ToolInputAccuracy, ToolOutputUtilization, ToolSelection) now accept plain string inputs directly, skipping structured parsing when string format is provided.
 
 ### Bugs Fixed
-- Fixed adversarial chat target incorrectly using user's callback instead of RAI service, causing callback response to appear as user message in red team scan results when using converter strategies (e.g., `DIFFICULT`, `Tense`).
 - Fixed inconsistency where sample data in evaluation result items did not match the generated sample data from corresponding input rows, ensuring proper synchronization between row-level input samples and their associated evaluation output items.
 - Fixed indirect jailbreak (XPIA) `ValueError` when targeting models by converting `binary_path` file-based context prompts to inline text before invoking the callback target.
 - Fixed content-filter responses showing raw JSON API payloads in red team results by detecting blocked responses and replacing them with human-readable messages.
