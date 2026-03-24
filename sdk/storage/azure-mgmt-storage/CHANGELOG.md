@@ -1,8 +1,10 @@
 # Release History
 
-## 24.1.0 (2026-03-24)
+## 24.0.1 (2026-03-24)
 
-tool can't generate changelog for this release, please update manually.
+### Other Changes
+
+  - Refresh SDK code with latest code generation tool
 
 ## 24.0.0 (2025-10-22)
 
