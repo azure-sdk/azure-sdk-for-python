@@ -1,5 +1,9 @@
 # Release History
 
+## 24.1.0 (2026-03-24)
+
+tool can't generate changelog for this release, please update manually.
+
 ## 24.0.0 (2025-10-22)
 
 ### Features Added
