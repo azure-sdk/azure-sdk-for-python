@@ -1,6 +1,6 @@
 # Release History
 
-## 3.1.0 (2026-03-17)
+## 3.1.0 (2026-03-25)
 
 ### Features Added
 
@@ -36,7 +36,7 @@
   - Added enum `S3WithHmacSourceType`
   - Added model `ScheduleInfo`
   - Added enum `TriggerType`
-  - Added model `ConnectionsOperations`
+  - Added operation group `ConnectionsOperations`
 
 ## 3.0.0 (2025-09-04)
 
@@ -71,20 +71,16 @@
 ### Breaking Changes
 
   - This version introduces new hybrid models which have dual dictionary and model nature. And please follow https://aka.ms/azsdk/python/migrate/hybrid-models for migration.
-  - Model `AgentUpdateParameters` deleted or renamed its instance variable `description`
-  - Model `AgentUpdateParameters` deleted or renamed its instance variable `upload_limit_schedule`
-  - Model `JobDefinitionUpdateParameters` deleted or renamed its instance variable `description`
-  - Model `JobDefinitionUpdateParameters` deleted or renamed its instance variable `copy_mode`
-  - Model `JobDefinitionUpdateParameters` deleted or renamed its instance variable `agent_name`
+  - For the method breakings, please refer to https://aka.ms/azsdk/python/migrate/operations for migration.
+  - Model `AgentUpdateParameters` moved instance variable `description` and `upload_limit_schedule` under property `properties`
+  - Model `JobDefinitionUpdateParameters` moved instance variable `description`, `copy_mode` and `agent_name` under property `properties`
   - Model `ProjectUpdateParameters` deleted or renamed its instance variable `description`
   - Model `StorageMoverUpdateParameters` deleted or renamed its instance variable `description`
-  - Deleted or renamed model `AgentList`
-  - Deleted or renamed model `EndpointList`
-  - Deleted or renamed model `JobDefinitionList`
-  - Deleted or renamed model `JobRunList`
-  - Deleted or renamed model `ProjectList`
-  - Deleted or renamed model `StorageMoverList`
   - Deleted or renamed model `UploadLimit`
+
+### Other Changes
+
+  - Deleted model `AgentList`/`EndpointList`/`JobDefinitionList`/`JobRunList`/`ProjectList`/`StorageMoverList` which actually were not used by SDK users
 
 ## 2.1.0 (2024-06-17)
 
