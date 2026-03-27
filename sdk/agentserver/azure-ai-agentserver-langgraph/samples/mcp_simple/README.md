@@ -9,7 +9,7 @@ This sample shows how to wrap a LangGraph ReAct-style agent that is augmented wi
 2. Creates an Azure OpenAI chat model (`gpt-4o`) via `AzureChatOpenAI`.
 3. Constructs an MCP multi-server client (`MultiServerMCPClient`) pointing at the Microsoft Learn MCP endpoint.
 4. Fetches available MCP tools and builds a LangGraph ReAct agent with those tools (`create_react_agent`).
-5. Hosts the agent using `from_langgraph(...).run_async()` so it is available over HTTP on `http://localhost:8088` (default adapter port).
+5. Hosts the agent using `from_langgraph(...).run_async()` so it is available over HTTP on `http://localhost:8080` (default adapter port).
 
 ## Folder Contents
 
@@ -50,13 +50,13 @@ From the `mcp_simple` folder (or anywhere after install) run:
 ```bash
 python mcp_simple.py
 ```
-The adapter will start an HTTP server (default: `http://localhost:8088`). When ready, you can send a request to the unified responses endpoint.
+The adapter will start an HTTP server (default: `http://localhost:8080`). When ready, you can send a request to the unified responses endpoint.
 
 ## Test the Agent
 
 Non-streaming example:
 ```bash
-curl -X POST http://localhost:8088/responses \
+curl -X POST http://localhost:8080/invoke \
   -H "Content-Type: application/json" \
   -d '{
     "agent": {"name": "local_agent", "type": "agent_reference"},
@@ -67,7 +67,7 @@ curl -X POST http://localhost:8088/responses \
 
 Streaming example (server will stream delta events):
 ```bash
-curl -N -X POST http://localhost:8088/responses \
+curl -N -X POST http://localhost:8080/invoke \
   -H "Content-Type: application/json" \
   -d '{
     "agent": {"name": "local_agent", "type": "agent_reference"},
@@ -78,7 +78,7 @@ curl -N -X POST http://localhost:8088/responses \
 
 Alternatively, you can send the richer structured message format:
 ```bash
-curl -X POST http://localhost:8088/responses \
+curl -X POST http://localhost:8080/invoke \
   -H "Content-Type: application/json" \
   -d '{
     "agent": {"name": "local_agent", "type": "agent_reference"},

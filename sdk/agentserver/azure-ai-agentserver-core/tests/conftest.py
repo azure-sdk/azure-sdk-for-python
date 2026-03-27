@@ -50,7 +50,7 @@ class AgentTestClient:
         self,
         sample_name: str,
         script_name: str,
-        endpoint: str = "/responses",  # Default endpoint
+        endpoint: str = "/invoke",  # Default endpoint
         base_url: Optional[str] = None,
         env_vars: Optional[Dict[str, str]] = None,
         timeout: int = 120,
@@ -405,7 +405,7 @@ def basic_client():
     client = AgentTestClient(
         sample_name="agent_framework/basic_simple",
         script_name="minimal_example.py",
-        endpoint="/responses",
+        endpoint="/invoke",
         timeout=60,
     )
     client.setup()
@@ -419,7 +419,7 @@ def workflow_client():
     client = AgentTestClient(
         sample_name="agent_framework/workflow_agent_simple",
         script_name="workflow_agent_simple.py",
-        endpoint="/responses",  # Changed from /runs to /responses
+        endpoint="/invoke",
         timeout=600,  # Increased timeout for workflow agent (reflection loop may need multiple iterations)
     )
     client.setup()
@@ -433,7 +433,7 @@ def mcp_client():
     client = AgentTestClient(
         sample_name="agent_framework/mcp_simple",
         script_name="mcp_simple.py",
-        endpoint="/responses",  # Changed from /runs to /responses
+        endpoint="/invoke",
         timeout=120,
     )
     client.setup()
@@ -447,7 +447,7 @@ def mcp_apikey_client():
     client = AgentTestClient(
         sample_name="agent_framework/mcp_apikey",
         script_name="mcp_apikey.py",
-        endpoint="/responses",  # Changed from /runs to /responses
+        endpoint="/invoke",
         timeout=120,
         env_vars={"GITHUB_TOKEN": os.getenv("GITHUB_TOKEN", "")},
     )

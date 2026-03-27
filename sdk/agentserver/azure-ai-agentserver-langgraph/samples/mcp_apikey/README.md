@@ -13,7 +13,7 @@ Compared to `mcp_simple`, this version demonstrates adding authorization headers
 4. Constructs a `MultiServerMCPClient` pointing at the public GitHub MCP endpoint and injects the token as an `Authorization: Bearer ...` header.
 5. Fetches the available MCP tools exposed by the GitHub server.
 6. Builds a LangGraph ReAct agent (`create_react_agent`) with those tools.
-7. Hosts the agent using `from_langgraph(...).run_async()` making it available over HTTP (default: `http://localhost:8088`).
+7. Hosts the agent using `from_langgraph(...).run_async()` making it available over HTTP (default: `http://localhost:8080`).
 
 ## Folder Contents
 
@@ -61,13 +61,13 @@ From the `mcp-apikey` folder (or anywhere after install) run:
 ```bash
 python mcp_apikey.py
 ```
-The adapter starts an HTTP server (default `http://localhost:8088`).
+The adapter starts an HTTP server (default `http://localhost:8080`).
 
 ## Test the Agent
 
 Non-streaming example:
 ```bash
-curl -X POST http://localhost:8088/responses \
+curl -X POST http://localhost:8080/invoke \
   -H "Content-Type: application/json" \
   -d '{
     "agent": {"name": "local_agent", "type": "agent_reference"},
@@ -78,7 +78,7 @@ curl -X POST http://localhost:8088/responses \
 
 Streaming example (server will stream delta events):
 ```bash
-curl -N -X POST http://localhost:8088/responses \
+curl -N -X POST http://localhost:8080/invoke \
   -H "Content-Type: application/json" \
   -d '{
     "agent": {"name": "local_agent", "type": "agent_reference"},
@@ -89,7 +89,7 @@ curl -N -X POST http://localhost:8088/responses \
 
 Alternatively, you can send the richer structured message format:
 ```bash
-curl -X POST http://localhost:8088/responses \
+curl -X POST http://localhost:8080/invoke \
   -H "Content-Type: application/json" \
   -d '{
     "agent": {"name": "local_agent", "type": "agent_reference"},
