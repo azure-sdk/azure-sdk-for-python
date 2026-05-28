@@ -310,6 +310,45 @@ class TestBaseExporter(unittest.TestCase):
         self.assertEqual(base._storage_directory, "test/path")
         mock_get_temp_dir.assert_not_called()
 
+    def test_normal_exporter_includes_http_logging_policy(self):
+        from azure.core.pipeline.policies import HttpLoggingPolicy
+
+        captured_policies = []
+        original_init = AzureMonitorClient.__init__
+
+        def capturing_init(self, *args, **kwargs):
+            captured_policies.extend(kwargs.get("policies", []))
+            original_init(self, *args, **kwargs)
+
+        with mock.patch.object(AzureMonitorClient, "__init__", capturing_init):
+            BaseExporter(
+                connection_string="InstrumentationKey=4321abcd-5678-4efa-8abc-1234567890ab",
+            )
+        self.assertTrue(
+            any(isinstance(p, HttpLoggingPolicy) for p in captured_policies),
+            "HttpLoggingPolicy should be present in the pipeline for normal exporters",
+        )
+
+    def test_statsbeat_exporter_excludes_http_logging_policy(self):
+        from azure.core.pipeline.policies import HttpLoggingPolicy
+
+        captured_policies = []
+        original_init = AzureMonitorClient.__init__
+
+        def capturing_init(self, *args, **kwargs):
+            captured_policies.extend(kwargs.get("policies", []))
+            original_init(self, *args, **kwargs)
+
+        with mock.patch.object(AzureMonitorClient, "__init__", capturing_init):
+            AzureMonitorMetricExporter(
+                is_sdkstats=True,
+                disable_offline_storage=True,
+            )
+        self.assertFalse(
+            any(isinstance(p, HttpLoggingPolicy) for p in captured_policies),
+            "HttpLoggingPolicy must not be present in the pipeline for statsbeat exporters",
+        )
+
     # ========================================================================
     # STORAGE TESTS
     # ========================================================================
@@ -383,6 +422,60 @@ class TestBaseExporter(unittest.TestCase):
         blob_mock.get.assert_called_once()
         blob_mock.delete.assert_called_once()  # Corrupted blob should be deleted
         transmit_mock.assert_not_called()  # No transmission should occur
+
+    def test_transmit_from_storage_stops_on_retryable_failure(self):
+        """Test that _transmit_from_storage stops draining blobs when
+        a retryable failure (e.g. 429) occurs, preventing retry storms."""
+        exporter = BaseExporter()
+        exporter.storage = mock.Mock()
+        envelope_mock = {"name": "test", "time": "time"}
+        # Create three blobs in storage
+        blob1 = mock.Mock()
+        blob1.lease.return_value = True
+        blob1.get.return_value = [envelope_mock]
+        blob2 = mock.Mock()
+        blob2.lease.return_value = True
+        blob2.get.return_value = [envelope_mock]
+        blob3 = mock.Mock()
+        blob3.lease.return_value = True
+        blob3.get.return_value = [envelope_mock]
+        exporter.storage.gets.return_value = [blob1, blob2, blob3]
+        with mock.patch.object(exporter, "_transmit") as transmit_mock:
+            # First blob transmit fails with retryable error
+            transmit_mock.return_value = ExportResult.FAILED_RETRYABLE
+            exporter._transmit_from_storage()
+        # Only the first blob should have been attempted; loop should break
+        transmit_mock.assert_called_once()
+        blob1.lease.assert_called()
+        # blob2 and blob3 should not have been touched
+        blob2.lease.assert_not_called()
+        blob3.lease.assert_not_called()
+
+    def test_transmit_from_storage_caps_drain_batch_size(self):
+        """Test that _transmit_from_storage processes at most
+        _MAX_STORAGE_DRAIN_BATCH blobs per invocation to prevent
+        flooding the service on recovery from throttling."""
+        exporter = BaseExporter()
+        exporter.storage = mock.Mock()
+        envelope_mock = {"name": "test", "time": "time"}
+        num_blobs = exporter._MAX_STORAGE_DRAIN_BATCH + 5
+        blobs = []
+        for _ in range(num_blobs):
+            b = mock.Mock()
+            b.lease.return_value = True
+            b.get.return_value = [envelope_mock]
+            blobs.append(b)
+        exporter.storage.gets.return_value = blobs
+        with mock.patch.object(exporter, "_transmit") as transmit_mock:
+            transmit_mock.return_value = ExportResult.SUCCESS
+            exporter._transmit_from_storage()
+        # Should only process _MAX_STORAGE_DRAIN_BATCH blobs
+        self.assertEqual(transmit_mock.call_count, exporter._MAX_STORAGE_DRAIN_BATCH)
+        # The extra blobs beyond the cap should not be deleted
+        for i in range(exporter._MAX_STORAGE_DRAIN_BATCH):
+            blobs[i].delete.assert_called_once()
+        for i in range(exporter._MAX_STORAGE_DRAIN_BATCH, num_blobs):
+            blobs[i].delete.assert_not_called()
 
     def test_telemetry_item_dict_roundtrip(self):
         """Test that TelemetryItem correctly round-trips through as_dict() -> TelemetryItem(dict)
