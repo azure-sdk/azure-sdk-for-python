@@ -284,6 +284,7 @@ def _get_package_data_from_simple_api(
                 clean_netloc += f":{parsed.port}"
             simple_url = parsed._replace(netloc=clean_netloc).geturl()
 
+        headers["Accept"] = "text/html"
         req = urllib.request.Request(simple_url, headers=headers)
         with urllib.request.urlopen(req, timeout=30) as response:
             html = response.read().decode("utf-8")
@@ -293,7 +294,9 @@ def _get_package_data_from_simple_api(
             r'<a\s+[^>]*href="([^"]+)"[^>]*>([^<]+)</a>', re.IGNORECASE
         )
         # Match sdist filenames like "msal-1.35.0.tar.gz" (hyphens may appear as [-_.] per PEP 625)
-        name_normalized = re.escape(package_name).replace(r"\-", "[-_.]+")
+        # Split on separators first, escape each segment, then rejoin with a flexible separator pattern.
+        name_parts = re.split(r"[-_.]+", package_name)
+        name_normalized = "[-_.]+".join(re.escape(part) for part in name_parts)
         ver_re = re.compile(f"^{name_normalized}-(.+)\\.tar\\.gz$", re.IGNORECASE)
 
         candidates = []
@@ -318,15 +321,13 @@ def _get_package_data_from_simple_api(
         for ver, ver_str, url in candidates:
             if not ver.is_prerelease:
                 logger.info(
-                    f"Found download URL via Simple API for {package_name}=={ver_str}: {url}"
+                    f"Found download URL via Simple API for {package_name}=={ver_str}"
                 )
                 return ver_str, url
 
         # Fall back to latest prerelease if no stable version exists
         _, ver_str, url = candidates[0]
-        logger.info(
-            f"Found download URL via Simple API for {package_name}=={ver_str}: {url}"
-        )
+        logger.info(f"Found download URL via Simple API for {package_name}=={ver_str}")
         return ver_str, url
 
     except Exception as e:
