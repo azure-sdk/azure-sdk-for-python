@@ -110,12 +110,24 @@ class IndentDumper(yaml.SafeDumper):
         return super().increase_indent(flow, False)
 
 
+def get_existing_conda_client_packages() -> set[str]:
+    """Return the set of package names already present in conda-sdk-client.yml."""
+    with open(CONDA_CLIENT_YAML_PATH, "r") as file:
+        conda_client_data = yaml.safe_load(file)
+
+    conda_artifacts = conda_client_data["extends"]["parameters"]["stages"][0]["jobs"][
+        0
+    ]["steps"][0]["parameters"]["CondaArtifacts"]
+
+    return set(build_package_index(conda_artifacts).keys())
+
+
 def update_conda_sdk_client_yml(
     package_dict: dict[str, dict[str, str]],
     packages_to_update: list[str],
     new_data_plane_packages: list[str],
     new_mgmt_plane_packages: list[str],
-) -> list[str]:
+) -> tuple[list[str], list[str]]:
     """
     Update outdated package versions and add new entries in conda-sdk-client.yml file
 
@@ -1039,6 +1051,49 @@ if __name__ == "__main__":
         name for name in outdated_mgmt_plane_names if name not in new_mgmt_plane_names
     ]
 
+    # The pipeline runs ~a week before the official release, so a package can GA during
+    # that gap and be classified as "outdated" (by LatestGADate) even though it was never
+    # added to the conda files. Treat any package not already present as new instead, so it
+    # gets added rather than skipped by the update logic. Log a warning for visibility
+    # so it can be double checked.
+    existing_conda_packages = get_existing_conda_client_packages()
+
+    reclassified_data_plane = [
+        name
+        for name in outdated_data_plane_names
+        if name not in existing_conda_packages
+    ]
+    if reclassified_data_plane:
+        for name in reclassified_data_plane:
+            logger.warning(
+                f"Data plane package {name} was classified as outdated but is not present in "
+                f"conda-sdk-client.yml; treating it as new. Please double check it."
+            )
+        outdated_data_plane_names = [
+            name
+            for name in outdated_data_plane_names
+            if name not in reclassified_data_plane
+        ]
+        new_data_plane_names += reclassified_data_plane
+
+    reclassified_mgmt_plane = [
+        name
+        for name in outdated_mgmt_plane_names
+        if name not in existing_conda_packages
+    ]
+    if reclassified_mgmt_plane:
+        for name in reclassified_mgmt_plane:
+            logger.warning(
+                f"Management plane package {name} was classified as outdated but is not present in "
+                f"conda-sdk-client.yml; treating it as new. Please double check it."
+            )
+        outdated_mgmt_plane_names = [
+            name
+            for name in outdated_mgmt_plane_names
+            if name not in reclassified_mgmt_plane
+        ]
+        new_mgmt_plane_names += reclassified_mgmt_plane
+
     # map package name to csv row for easy lookup
     package_dict = {pkg.get(PACKAGE_COL, ""): pkg for pkg in packages}
 
@@ -1048,6 +1103,8 @@ if __name__ == "__main__":
     conda_sdk_client_pkgs_result = update_conda_sdk_client_yml(
         package_dict, outdated_package_names, new_data_plane_names, new_mgmt_plane_names
     )
+
+    # packages
 
     # pre-process bundled data packages to minimize file writes for new data plane packages,
     # and release logs (mgmt packages are always bundled together)
