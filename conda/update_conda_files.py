@@ -127,7 +127,7 @@ def update_conda_sdk_client_yml(
     packages_to_update: list[str],
     new_data_plane_packages: list[str],
     new_mgmt_plane_packages: list[str],
-) -> tuple[list[str], list[str]]:
+) -> list[str]:
     """
     Update outdated package versions and add new entries in conda-sdk-client.yml file
 
@@ -1103,8 +1103,6 @@ if __name__ == "__main__":
     conda_sdk_client_pkgs_result = update_conda_sdk_client_yml(
         package_dict, outdated_package_names, new_data_plane_names, new_mgmt_plane_names
     )
-
-    # packages
 
     # pre-process bundled data packages to minimize file writes for new data plane packages,
     # and release logs (mgmt packages are always bundled together)
