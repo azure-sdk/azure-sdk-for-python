@@ -4,11 +4,8 @@ Helper functions for updating conda files.
 
 import os
 import glob
-import re
-import base64
 from functools import lru_cache
 from typing import Optional
-from urllib.parse import urljoin, urlparse
 import csv
 from ci_tools.logging import logger
 import urllib.request
@@ -253,118 +250,30 @@ def is_stable_on_pypi(package_name: str) -> bool:
         return False
 
 
-def _get_package_data_from_simple_api(
-    package_name: str,
-) -> tuple[Optional[str], Optional[str]]:
-    """Fetch latest version and sdist download URI via PEP 503 Simple API.
-
-    Used as a fallback when the PyPI JSON API is unavailable, e.g. when
-    PIP_INDEX_URL points to an Azure DevOps Artifacts feed (set by PipAuthenticate@1).
-
-    The AzDO feed proxies PyPI as an upstream source — authenticated requests
-    resolve the full upstream index, so the latest version is available even if
-    it hasn't been previously cached in the feed.
-    """
-    index_url = os.environ.get("PIP_INDEX_URL", "https://pypi.org/simple/")
-    simple_url = f"{index_url.rstrip('/')}/{package_name}/"
-
-    try:
-        # PipAuthenticate@1 embeds credentials in PIP_INDEX_URL as
-        # https://build:<PAT>@pkgs.dev.azure.com/...
-        # Extract them into an Authorization header and strip from the URL.
-        parsed = urlparse(simple_url)
-        headers = {}
-        if parsed.password:
-            creds = base64.b64encode(
-                f"{parsed.username or ''}:{parsed.password}".encode()
-            ).decode()
-            headers["Authorization"] = f"Basic {creds}"
-            clean_netloc = parsed.hostname
-            if parsed.port and clean_netloc:
-                clean_netloc += f":{parsed.port}"
-            simple_url = parsed._replace(netloc=clean_netloc).geturl()
-
-        headers["Accept"] = "text/html"
-        req = urllib.request.Request(simple_url, headers=headers)
-        with urllib.request.urlopen(req, timeout=30) as response:
-            html = response.read().decode("utf-8")
-
-        # Parse PEP 503 HTML: each <a href="url#hash">filename</a> is a distribution file.
-        link_re = re.compile(
-            r'<a\s+[^>]*href="([^"]+)"[^>]*>([^<]+)</a>', re.IGNORECASE
-        )
-        # Match sdist filenames like "msal-1.35.0.tar.gz" (hyphens may appear as [-_.] per PEP 625)
-        # Split on separators first, escape each segment, then rejoin with a flexible separator pattern.
-        name_parts = re.split(r"[-_.]+", package_name)
-        name_normalized = "[-_.]+".join(re.escape(part) for part in name_parts)
-        ver_re = re.compile(f"^{name_normalized}-(.+)\\.tar\\.gz$", re.IGNORECASE)
-
-        candidates = []
-        for m in link_re.finditer(html):
-            href, filename = m.group(1), m.group(2)
-            ver_m = ver_re.match(filename)
-            if ver_m:
-                ver_str = ver_m.group(1)
-                try:
-                    ver = Version(ver_str)
-                    # Strip the #sha256=... fragment; resolve relative href against base URL
-                    url = urljoin(req.full_url, href.split("#")[0])
-                    candidates.append((ver, ver_str, url))
-                except Exception:
-                    continue
-
-        if not candidates:
-            return None, None
-
-        # Pick the latest stable (non-prerelease) version
-        candidates.sort(key=lambda x: x[0], reverse=True)
-        for ver, ver_str, url in candidates:
-            if not ver.is_prerelease:
-                logger.info(
-                    f"Found download URL via Simple API for {package_name}=={ver_str}"
-                )
-                return ver_str, url
-
-        # Fall back to latest prerelease if no stable version exists
-        _, ver_str, url = candidates[0]
-        logger.info(f"Found download URL via Simple API for {package_name}=={ver_str}")
-        return ver_str, url
-
-    except Exception as e:
-        logger.error(
-            f"Failed to fetch package data from Simple API for {package_name}: {e}"
-        )
-        return None, None
-
-
 def get_package_data_from_pypi(
     package_name: str,
 ) -> tuple[Optional[str], Optional[str]]:
-    """Fetch the latest version and download URI for a package from PyPI."""
+    """Fetch the latest version and download URI for a package from the active index.
+
+    Uses :class:`PyPIClient`, which transparently selects the backend based on
+    ``PIP_INDEX_URL``:
+
+    * Against **pypi.org**, the JSON API is used.
+    * Against an **Azure DevOps Artifacts** feed (set by ``PipAuthenticate@1`` in
+      CI), the Feed REST API resolves the latest version and the sdist URL is
+      resolved on ``pkgs.dev.azure.com``.
+    """
     try:
         client = PyPIClient()
-        data = client.project(package_name)
-
-        # Get the latest version
-        latest_version = data["info"]["version"]
-        if latest_version in data["releases"] and data["releases"][latest_version]:
-            # Get the source distribution (sdist) if available
-            files = data["releases"][latest_version]
-            source_dist = next((f for f in files if f["packagetype"] == "sdist"), None)
-            if source_dist:
-                download_url = source_dist["url"]
-                logger.info(
-                    f"Found download URL for {package_name}=={latest_version}: {download_url}"
-                )
-                return latest_version, download_url
-
-    except NotImplementedError:
-        logger.info(
-            f"PyPI JSON API unavailable, falling back to Simple API for {package_name}"
-        )
-        return _get_package_data_from_simple_api(package_name)
+        version, download_url = client.get_latest_download_uri(package_name)
+        if version and download_url:
+            logger.info(
+                f"Found download URL for {package_name}=={version}: {download_url}"
+            )
+            return version, download_url
+        logger.error(f"No sdist download URL resolved for {package_name}")
     except Exception as e:
-        logger.error(f"Failed to fetch download URI from PyPI for {package_name}: {e}")
+        logger.error(f"Failed to fetch download URI from index for {package_name}: {e}")
     return None, None
 
 

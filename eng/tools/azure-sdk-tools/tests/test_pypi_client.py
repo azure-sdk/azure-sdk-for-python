@@ -85,7 +85,9 @@ class TestRetrieveVersions:
     """Covers the convenience wrapper used by verify_sdist.py / verify_whl.py."""
 
     @SKIP_IN_CI
-    @pytest.mark.parametrize("index_url", [PYPI_HOST, AZDO_FEED_URL], ids=["pypi", "azdo"])
+    @pytest.mark.parametrize(
+        "index_url", [PYPI_HOST, AZDO_FEED_URL], ids=["pypi", "azdo"]
+    )
     def test_retrieve_versions_returns_strings(self, index_url):
         old = os.environ.get("PIP_INDEX_URL")
         try:
@@ -110,8 +112,18 @@ class TestGetLatestDownloadUri:
         project_data = {
             "info": {"version": "2.0.0b1"},
             "releases": {
-                "1.0.0": [{"packagetype": "sdist", "url": "https://example.test/pkg-1.0.0.tar.gz"}],
-                "2.0.0b1": [{"packagetype": "sdist", "url": "https://example.test/pkg-2.0.0b1.tar.gz"}],
+                "1.0.0": [
+                    {
+                        "packagetype": "sdist",
+                        "url": "https://example.test/pkg-1.0.0.tar.gz",
+                    }
+                ],
+                "2.0.0b1": [
+                    {
+                        "packagetype": "sdist",
+                        "url": "https://example.test/pkg-2.0.0b1.tar.gz",
+                    }
+                ],
             },
         }
         client = _make_client(PYPI_HOST)
@@ -126,14 +138,26 @@ class TestGetLatestDownloadUri:
         project_data = {
             "info": {"version": "2.0.0b1"},
             "releases": {
-                "1.0.0": [{"packagetype": "sdist", "url": "https://example.test/pkg-1.0.0.tar.gz"}],
-                "2.0.0b1": [{"packagetype": "sdist", "url": "https://example.test/pkg-2.0.0b1.tar.gz"}],
+                "1.0.0": [
+                    {
+                        "packagetype": "sdist",
+                        "url": "https://example.test/pkg-1.0.0.tar.gz",
+                    }
+                ],
+                "2.0.0b1": [
+                    {
+                        "packagetype": "sdist",
+                        "url": "https://example.test/pkg-2.0.0b1.tar.gz",
+                    }
+                ],
             },
         }
         client = _make_client(PYPI_HOST)
 
         with patch.object(PyPIClient, "project", return_value=project_data):
-            version, url = client.get_latest_download_uri("example-pkg", allow_prerelease=True)
+            version, url = client.get_latest_download_uri(
+                "example-pkg", allow_prerelease=True
+            )
 
         assert version == "2.0.0b1"
         assert url == "https://example.test/pkg-2.0.0b1.tar.gz"
@@ -142,7 +166,12 @@ class TestGetLatestDownloadUri:
         project_data = {
             "info": {"version": "1.0.0"},
             "releases": {
-                "1.0.0": [{"packagetype": "bdist_wheel", "url": "https://example.test/pkg-1.0.0.whl"}],
+                "1.0.0": [
+                    {
+                        "packagetype": "bdist_wheel",
+                        "url": "https://example.test/pkg-1.0.0.whl",
+                    }
+                ],
             },
         }
         client = _make_client(PYPI_HOST)
@@ -154,12 +183,18 @@ class TestGetLatestDownloadUri:
         assert url is None
 
     def test_azdo_backend_uses_latest_stable_by_default(self):
-        client = AzureArtifactsClient(AzureArtifactsFeedConfig("org", "project", "feed"))
+        client = AzureArtifactsClient(
+            AzureArtifactsFeedConfig("org", "project", "feed")
+        )
 
         with patch.object(
-            client, "get_ordered_versions", return_value=[Version("1.0.0"), Version("2.0.0b1")]
+            client,
+            "get_ordered_versions",
+            return_value=[Version("1.0.0"), Version("2.0.0b1")],
         ), patch.object(
-            client, "get_download_uri", return_value="https://example.test/pkg-1.0.0.tar.gz"
+            client,
+            "get_download_uri",
+            return_value="https://example.test/pkg-1.0.0.tar.gz",
         ) as get_download_uri:
             version, url = client.get_latest_download_uri("example-pkg")
 
@@ -168,14 +203,22 @@ class TestGetLatestDownloadUri:
         get_download_uri.assert_called_once_with("example-pkg", "1.0.0")
 
     def test_azdo_backend_can_return_latest_prerelease(self):
-        client = AzureArtifactsClient(AzureArtifactsFeedConfig("org", "project", "feed"))
+        client = AzureArtifactsClient(
+            AzureArtifactsFeedConfig("org", "project", "feed")
+        )
 
         with patch.object(
-            client, "get_ordered_versions", return_value=[Version("1.0.0"), Version("2.0.0b1")]
+            client,
+            "get_ordered_versions",
+            return_value=[Version("1.0.0"), Version("2.0.0b1")],
         ), patch.object(
-            client, "get_download_uri", return_value="https://example.test/pkg-2.0.0b1.tar.gz"
+            client,
+            "get_download_uri",
+            return_value="https://example.test/pkg-2.0.0b1.tar.gz",
         ) as get_download_uri:
-            version, url = client.get_latest_download_uri("example-pkg", allow_prerelease=True)
+            version, url = client.get_latest_download_uri(
+                "example-pkg", allow_prerelease=True
+            )
 
         assert version == "2.0.0b1"
         assert url == "https://example.test/pkg-2.0.0b1.tar.gz"
@@ -183,10 +226,15 @@ class TestGetLatestDownloadUri:
 
     def test_azdo_download_uri_probes_normalized_sdist_names(self):
         client = AzureArtifactsClient(
-            AzureArtifactsFeedConfig("org", "project", "feed"), pkgs_base_url="https://pkgs.example.test"
+            AzureArtifactsFeedConfig("org", "project", "feed"),
+            pkgs_base_url="https://pkgs.example.test",
         )
 
-        with patch.object(client, "_head_ok", side_effect=lambda url: url.endswith("/azure_core-1.2.3.tar.gz")):
+        with patch.object(
+            client,
+            "_head_ok",
+            side_effect=lambda url: url.endswith("/azure_core-1.2.3.tar.gz"),
+        ):
             url = client.get_download_uri("azure-core", "1.2.3")
 
         assert (
@@ -195,7 +243,9 @@ class TestGetLatestDownloadUri:
         )
 
     def test_azdo_download_uri_returns_none_when_no_candidate_resolves(self):
-        client = AzureArtifactsClient(AzureArtifactsFeedConfig("org", "project", "feed"))
+        client = AzureArtifactsClient(
+            AzureArtifactsFeedConfig("org", "project", "feed")
+        )
 
         with patch.object(client, "_head_ok", return_value=False):
             assert client.get_download_uri("example-pkg", "1.0.0") is None
@@ -214,7 +264,10 @@ class TestProjectRelease:
         result = client.project_release(WELL_KNOWN_PACKAGE, WELL_KNOWN_VERSION)
 
         assert result["info"]["name"] == WELL_KNOWN_PACKAGE
-        assert result["info"]["release_url"] == f"https://pypi.org/project/{WELL_KNOWN_PACKAGE}/{WELL_KNOWN_VERSION}/"
+        assert (
+            result["info"]["release_url"]
+            == f"https://pypi.org/project/{WELL_KNOWN_PACKAGE}/{WELL_KNOWN_VERSION}/"
+        )
         # requires_dist is what the mindep resolver reads
         assert "requires_dist" in result["info"]
 
