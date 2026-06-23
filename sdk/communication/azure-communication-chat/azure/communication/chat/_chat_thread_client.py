@@ -3,7 +3,7 @@
 # Licensed under the MIT License. See License.txt in the project root for
 # license information.
 # --------------------------------------------------------------------------
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union, cast
 
 from urllib.parse import urlparse
 
@@ -34,6 +34,7 @@ if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
     from datetime import datetime
     from azure.core.paging import ItemPaged
+    from ._generated.models import CommunicationIdentifierModel
 
 
 class ChatThreadClient(object):  # pylint: disable=client-accepts-api-version-keyword
@@ -217,14 +218,17 @@ class ChatThreadClient(object):  # pylint: disable=client-accepts-api-version-ke
                 :dedent: 8
                 :caption: Listing read receipts.
         """
-        return self._client.chat_thread.list_chat_read_receipts(
-            self._thread_id,
-            max_page_size=results_per_page,
-            skip=skip,
-            cls=lambda objs: [
-                ChatMessageReadReceipt._from_generated(x) for x in objs  # pylint:disable=protected-access
-            ],
-            **kwargs
+        return cast(
+            "ItemPaged[ChatMessageReadReceipt]",
+            self._client.chat_thread.list_chat_read_receipts(
+                self._thread_id,
+                max_page_size=results_per_page,
+                skip=skip,
+                cls=lambda objs: [
+                    ChatMessageReadReceipt._from_generated(x) for x in objs  # pylint:disable=protected-access
+                ],
+                **kwargs
+            ),
         )
 
     @distributed_trace
@@ -297,7 +301,10 @@ class ChatThreadClient(object):  # pylint: disable=client-accepts-api-version-ke
             chat_message_type = ChatMessageType.TEXT
         elif not isinstance(chat_message_type, ChatMessageType):
             try:
-                chat_message_type = ChatMessageType.__getattr__(chat_message_type)  # pylint:disable=protected-access
+                chat_message_type = cast(
+                    ChatMessageType,
+                    ChatMessageType.__getattr__(chat_message_type),  # pylint:disable=protected-access
+                )
             except Exception:
                 raise ValueError(  # pylint:disable=raise-missing-from
                     "chat_message_type: {message_type} is not acceptable".format(message_type=chat_message_type)
@@ -372,12 +379,15 @@ class ChatThreadClient(object):  # pylint: disable=client-accepts-api-version-ke
                 :dedent: 8
                 :caption: Listing messages of a chat thread.
         """
-        a = self._client.chat_thread.list_chat_messages(
-            self._thread_id,
-            max_page_size=results_per_page,
-            start_time=start_time,
-            cls=lambda objs: [ChatMessage._from_generated(x) for x in objs],  # pylint:disable=protected-access
-            **kwargs
+        a = cast(
+            "ItemPaged[ChatMessage]",
+            self._client.chat_thread.list_chat_messages(
+                self._thread_id,
+                max_page_size=results_per_page,
+                start_time=start_time,
+                cls=lambda objs: [ChatMessage._from_generated(x) for x in objs],  # pylint:disable=protected-access
+                **kwargs
+            ),
         )
         return a
 
@@ -478,12 +488,15 @@ class ChatThreadClient(object):  # pylint: disable=client-accepts-api-version-ke
                 :caption: Listing participants of chat thread.
         """
 
-        return self._client.chat_thread.list_chat_participants(
-            self._thread_id,
-            max_page_size=results_per_page,
-            skip=skip,
-            cls=lambda objs: [ChatParticipant._from_generated(x) for x in objs],  # pylint:disable=protected-access
-            **kwargs
+        return cast(
+            "ItemPaged[ChatParticipant]",
+            self._client.chat_thread.list_chat_participants(
+                self._thread_id,
+                max_page_size=results_per_page,
+                skip=skip,
+                cls=lambda objs: [ChatParticipant._from_generated(x) for x in objs],  # pylint:disable=protected-access
+                **kwargs
+            ),
         )
 
     @distributed_trace
@@ -556,7 +569,9 @@ class ChatThreadClient(object):  # pylint: disable=client-accepts-api-version-ke
 
         return self._client.chat_thread.remove_chat_participant(
             chat_thread_id=self._thread_id,
-            participant_communication_identifier=serialize_identifier(identifier),
+            participant_communication_identifier=cast(
+                "CommunicationIdentifierModel", serialize_identifier(identifier)
+            ),
             **kwargs
         )
 

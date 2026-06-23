@@ -6,7 +6,7 @@
 from urllib.parse import urlparse
 
 # pylint: disable=unused-import,ungrouped-imports
-from typing import Any, Callable, Dict, Generic, List, Optional, TypeVar, Union
+from typing import Any, Callable, Dict, Generic, List, Optional, TypeVar, Union, cast
 from datetime import datetime
 from uuid import uuid4
 
@@ -160,9 +160,9 @@ class ChatClient(object):  # pylint: disable=client-accepts-api-version-keyword
             create_chat_thread_result.chat_thread
         )
 
-        create_chat_thread_result = CreateChatThreadResult(chat_thread=chat_thread, errors=errors)
+        result = CreateChatThreadResult(chat_thread=chat_thread, errors=errors)
 
-        return create_chat_thread_result
+        return result
 
     @distributed_trace
     def list_chat_threads(
@@ -189,7 +189,10 @@ class ChatClient(object):  # pylint: disable=client-accepts-api-version-keyword
                 :dedent: 4
                 :caption: Listing chat threads.
         """
-        return self._client.chat.list_chat_threads(max_page_size=results_per_page, start_time=start_time, **kwargs)
+        return cast(
+            AsyncItemPaged[ChatThreadItem],
+            self._client.chat.list_chat_threads(max_page_size=results_per_page, start_time=start_time, **kwargs),
+        )
 
     @distributed_trace_async
     async def delete_chat_thread(self, thread_id: str, **kwargs) -> None:

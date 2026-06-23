@@ -6,7 +6,7 @@
 from urllib.parse import urlparse
 
 # pylint: disable=unused-import,ungrouped-imports
-from typing import Any, Callable, Dict, Generic, List, Optional, TypeVar, Union, Tuple
+from typing import Any, Callable, Dict, Generic, List, Optional, TypeVar, Union, Tuple, cast
 from datetime import datetime
 
 from azure.core.tracing.decorator import distributed_trace
@@ -26,6 +26,7 @@ from .._generated.models import (
     SendChatMessageResult,
     ChatMessageType,
     ChatError,
+    CommunicationIdentifierModel,
 )
 from .._models import ChatParticipant, ChatMessage, ChatMessageReadReceipt, ChatThreadProperties
 from .._shared.models import CommunicationIdentifier
@@ -122,7 +123,7 @@ class ChatThreadClient(object):  # pylint: disable=client-accepts-api-version-ke
         return ChatThreadProperties._from_generated(chat_thread)  # pylint:disable=protected-access
 
     @distributed_trace_async
-    async def update_topic(self, topic: str = None, **kwargs) -> None:
+    async def update_topic(self, topic: Optional[str] = None, **kwargs) -> None:
         """Updates a thread's properties.
 
         :param topic: Thread topic. If topic is not specified, the update will succeed but
@@ -199,14 +200,17 @@ class ChatThreadClient(object):  # pylint: disable=client-accepts-api-version-ke
                 :dedent: 8
                 :caption: Listing read receipts.
         """
-        return self._client.chat_thread.list_chat_read_receipts(
-            self._thread_id,
-            max_page_size=results_per_page,
-            skip=skip,
-            cls=lambda objs: [
-                ChatMessageReadReceipt._from_generated(x) for x in objs  # pylint:disable=protected-access
-            ],
-            **kwargs
+        return cast(
+            AsyncItemPaged[ChatMessageReadReceipt],
+            self._client.chat_thread.list_chat_read_receipts(
+                self._thread_id,
+                max_page_size=results_per_page,
+                skip=skip,
+                cls=lambda objs: [
+                    ChatMessageReadReceipt._from_generated(x) for x in objs  # pylint:disable=protected-access
+                ],
+                **kwargs
+            ),
         )
 
     @distributed_trace_async
@@ -275,7 +279,10 @@ class ChatThreadClient(object):  # pylint: disable=client-accepts-api-version-ke
             chat_message_type = ChatMessageType.TEXT
         elif not isinstance(chat_message_type, ChatMessageType):
             try:
-                chat_message_type = ChatMessageType.__getattr__(chat_message_type)  # pylint:disable=protected-access
+                chat_message_type = cast(
+                    ChatMessageType,
+                    ChatMessageType.__getattr__(chat_message_type),  # pylint:disable=protected-access
+                )
             except Exception:
                 raise ValueError(  # pylint:disable=raise-missing-from
                     "chat_message_type: {message_type} is not acceptable".format(message_type=chat_message_type)
@@ -345,17 +352,20 @@ class ChatThreadClient(object):  # pylint: disable=client-accepts-api-version-ke
                 :dedent: 8
                 :caption: Listing messages of a chat thread.
         """
-        return self._client.chat_thread.list_chat_messages(
-            self._thread_id,
-            max_page_size=results_per_page,
-            start_time=start_time,
-            cls=lambda objs: [ChatMessage._from_generated(x) for x in objs],  # pylint:disable=protected-access
-            **kwargs
+        return cast(
+            AsyncItemPaged[ChatMessage],
+            self._client.chat_thread.list_chat_messages(
+                self._thread_id,
+                max_page_size=results_per_page,
+                start_time=start_time,
+                cls=lambda objs: [ChatMessage._from_generated(x) for x in objs],  # pylint:disable=protected-access
+                **kwargs
+            ),
         )
 
     @distributed_trace_async
     async def update_message(
-        self, message_id: str, content: str = None, *, metadata: Dict[str, str] = None, **kwargs
+        self, message_id: str, content: Optional[str] = None, *, metadata: Optional[Dict[str, str]] = None, **kwargs
     ) -> None:
         """Updates a message.
 
@@ -440,12 +450,15 @@ class ChatThreadClient(object):  # pylint: disable=client-accepts-api-version-ke
                 :caption: Listing participants of chat thread.
         """
 
-        return self._client.chat_thread.list_chat_participants(
-            self._thread_id,
-            max_page_size=results_per_page,
-            skip=skip,
-            cls=lambda objs: [ChatParticipant._from_generated(x) for x in objs],  # pylint:disable=protected-access
-            **kwargs
+        return cast(
+            AsyncItemPaged[ChatParticipant],
+            self._client.chat_thread.list_chat_participants(
+                self._thread_id,
+                max_page_size=results_per_page,
+                skip=skip,
+                cls=lambda objs: [ChatParticipant._from_generated(x) for x in objs],  # pylint:disable=protected-access
+                **kwargs
+            ),
         )
 
     @distributed_trace_async
@@ -512,7 +525,9 @@ class ChatThreadClient(object):  # pylint: disable=client-accepts-api-version-ke
 
         return await self._client.chat_thread.remove_chat_participant(
             chat_thread_id=self._thread_id,
-            participant_communication_identifier=serialize_identifier(identifier),
+            participant_communication_identifier=cast(
+                CommunicationIdentifierModel, serialize_identifier(identifier)
+            ),
             **kwargs
         )
 
