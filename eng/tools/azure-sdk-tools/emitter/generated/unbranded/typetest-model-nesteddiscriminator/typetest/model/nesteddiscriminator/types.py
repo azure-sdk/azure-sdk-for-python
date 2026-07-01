@@ -10,9 +10,9 @@ class GoblinShark(TypedDict, total=False):
     :ivar age: Required.
     :vartype age: int
     :ivar kind: Required. Default value is "shark".
-    :vartype kind: str
+    :vartype kind: Literal["shark"]
     :ivar sharktype: Required. Default value is "goblin".
-    :vartype sharktype: str
+    :vartype sharktype: Literal["goblin"]
     """
 
     age: Required[int]
@@ -30,13 +30,13 @@ class Salmon(TypedDict, total=False):
     :ivar age: Required.
     :vartype age: int
     :ivar kind: Required. Default value is "salmon".
-    :vartype kind: str
+    :vartype kind: Literal["salmon"]
     :ivar friends:
-    :vartype friends: list[~typetest.model.nesteddiscriminator.models.Fish]
+    :vartype friends: list["Fish"]
     :ivar hate:
-    :vartype hate: dict[str, ~typetest.model.nesteddiscriminator.models.Fish]
+    :vartype hate: dict[str, "Fish"]
     :ivar partner:
-    :vartype partner: ~typetest.model.nesteddiscriminator.models.Fish
+    :vartype partner: "Fish"
     """
 
     age: Required[int]
@@ -54,9 +54,9 @@ class SawShark(TypedDict, total=False):
     :ivar age: Required.
     :vartype age: int
     :ivar kind: Required. Default value is "shark".
-    :vartype kind: str
+    :vartype kind: Literal["shark"]
     :ivar sharktype: Required. Default value is "saw".
-    :vartype sharktype: str
+    :vartype sharktype: Literal["saw"]
     """
 
     age: Required[int]

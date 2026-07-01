@@ -30,7 +30,7 @@ class ModelWithFeatureProperty(TypedDict, total=False):
     """ModelWithFeatureProperty.
 
     :ivar feature: Required.
-    :vartype feature: ~geojson.Feature
+    :vartype feature: geojson.Feature
     :ivar additional_property: Required.
     :vartype additional_property: str
     """

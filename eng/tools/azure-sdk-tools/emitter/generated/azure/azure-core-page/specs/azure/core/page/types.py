@@ -50,7 +50,7 @@ class User(TypedDict, total=False):
     :ivar name: The user's name. Required.
     :vartype name: str
     :ivar orders: The user's order list.
-    :vartype orders: list[~specs.azure.core.page.models.UserOrder]
+    :vartype orders: list["UserOrder"]
     :ivar etag: The entity tag for this resource. Required.
     :vartype etag: str
     """

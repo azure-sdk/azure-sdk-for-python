@@ -439,3 +439,14 @@ class YieldModel(TypedDict, total=False):
 
     name: Required[str]
     """Required."""
+
+
+class WithItemsRequest(TypedDict, total=False):
+    """WithItemsRequest.
+
+    :ivar items_property: Required.
+    :vartype items_property: list[str]
+    """
+
+    items: Required[list[str]]
+    """Required."""

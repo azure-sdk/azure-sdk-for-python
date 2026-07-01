@@ -7,8 +7,8 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
+import sys
 from typing import Any, Awaitable
-from typing_extensions import Self
 
 from azure.core import AsyncPipelineClient
 from azure.core.pipeline import policies
@@ -18,6 +18,11 @@ from ...servicea._utils.serialization import Deserializer, Serializer
 from ..subnamespace.aio.operations import SubNamespaceOperations
 from ._configuration import ServiceBClientConfiguration
 from .operations import Operations
+
+if sys.version_info >= (3, 11):
+    from typing import Self
+else:
+    from typing_extensions import Self  # type: ignore
 
 
 class ServiceBClient:
@@ -30,8 +35,9 @@ class ServiceBClient:
     :vartype operations: service.multipleservices.servicea.aio.operations.Operations
     :keyword endpoint: Service host. Default value is "http://localhost:3000".
     :paramtype endpoint: str
-    :keyword api_version: Known values are "bv2". Default value is "bv2". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Known values are "bv2" and None. Default value is None. If not set, the
+     operation's default API version will be used. Note that overriding this default value may
+     result in unsupported behavior.
     :paramtype api_version: str or ~service.multipleservices.serviceb.models.VersionsB
     """
 

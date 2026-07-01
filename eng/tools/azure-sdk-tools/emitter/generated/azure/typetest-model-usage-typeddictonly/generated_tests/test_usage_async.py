@@ -19,6 +19,7 @@ class TestUsageAsync(UsageClientTestBaseAsync):
         client = self.create_async_client(endpoint=usage_endpoint)
         response = await client.input(
             input={"requiredProp": "str"},
+            content_type="str",
         )
 
         # please add some check logic here by yourself
@@ -39,6 +40,7 @@ class TestUsageAsync(UsageClientTestBaseAsync):
         client = self.create_async_client(endpoint=usage_endpoint)
         response = await client.input_and_output(
             body={"requiredProp": "str"},
+            content_type="str",
         )
 
         # please add some check logic here by yourself

@@ -18,3 +18,14 @@ class User(TypedDict, total=False):
 
     name: Required[str]
     """Required."""
+
+
+class SimpleRequest(TypedDict, total=False):
+    """SimpleRequest.
+
+    :ivar name: Required.
+    :vartype name: str
+    """
+
+    name: Required[str]
+    """Required."""

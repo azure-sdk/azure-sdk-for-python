@@ -1,6 +1,5 @@
 # coding=utf-8
 
-import datetime
 from typing import Optional
 from typing_extensions import Required, TypedDict
 
@@ -12,12 +11,12 @@ class BytesProperty(TypedDict, total=False):
     :ivar required_property: Required property. Required.
     :vartype required_property: str
     :ivar nullable_property: Property. Required.
-    :vartype nullable_property: bytes
+    :vartype nullable_property: str
     """
 
     requiredProperty: Required[str]
     """Required property. Required."""
-    nullableProperty: Required[Optional[bytes]]
+    nullableProperty: Required[Optional[str]]
     """Property. Required."""
 
 
@@ -27,12 +26,12 @@ class CollectionsByteProperty(TypedDict, total=False):
     :ivar required_property: Required property. Required.
     :vartype required_property: str
     :ivar nullable_property: Property. Required.
-    :vartype nullable_property: list[bytes]
+    :vartype nullable_property: list[str]
     """
 
     requiredProperty: Required[str]
     """Required property. Required."""
-    nullableProperty: Required[Optional[list[bytes]]]
+    nullableProperty: Required[Optional[list[str]]]
     """Property. Required."""
 
 
@@ -42,7 +41,7 @@ class CollectionsModelProperty(TypedDict, total=False):
     :ivar required_property: Required property. Required.
     :vartype required_property: str
     :ivar nullable_property: Property. Required.
-    :vartype nullable_property: list[~typetest.property.nullable.models.InnerModel]
+    :vartype nullable_property: list["InnerModel"]
     """
 
     requiredProperty: Required[str]
@@ -72,12 +71,12 @@ class DatetimeProperty(TypedDict, total=False):
     :ivar required_property: Required property. Required.
     :vartype required_property: str
     :ivar nullable_property: Property. Required.
-    :vartype nullable_property: ~datetime.datetime
+    :vartype nullable_property: str
     """
 
     requiredProperty: Required[str]
     """Required property. Required."""
-    nullableProperty: Required[Optional[datetime.datetime]]
+    nullableProperty: Required[Optional[str]]
     """Property. Required."""
 
 
@@ -87,12 +86,12 @@ class DurationProperty(TypedDict, total=False):
     :ivar required_property: Required property. Required.
     :vartype required_property: str
     :ivar nullable_property: Property. Required.
-    :vartype nullable_property: ~datetime.timedelta
+    :vartype nullable_property: str
     """
 
     requiredProperty: Required[str]
     """Required property. Required."""
-    nullableProperty: Required[Optional[datetime.timedelta]]
+    nullableProperty: Required[Optional[str]]
     """Property. Required."""
 
 

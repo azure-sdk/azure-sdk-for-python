@@ -18,7 +18,7 @@ class Cobra(TypedDict, total=False):
     :ivar length: Length of the snake. Required.
     :vartype length: int
     :ivar kind: discriminator property. Required. Species cobra.
-    :vartype kind: str or ~typetest.model.enumdiscriminator.models.COBRA
+    :vartype kind: Literal[SnakeKind.COBRA]
     """
 
     length: Required[int]
@@ -33,7 +33,7 @@ class Golden(TypedDict, total=False):
     :ivar weight: Weight of the dog. Required.
     :vartype weight: int
     :ivar kind: discriminator property. Required. Species golden.
-    :vartype kind: str or ~typetest.model.enumdiscriminator.models.GOLDEN
+    :vartype kind: Literal[DogKind.GOLDEN]
     """
 
     weight: Required[int]

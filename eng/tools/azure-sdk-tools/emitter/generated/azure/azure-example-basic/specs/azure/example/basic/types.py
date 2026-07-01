@@ -19,7 +19,7 @@ class ActionRequest(TypedDict, total=False):
     :ivar string_property: Required.
     :vartype string_property: str
     :ivar model_property:
-    :vartype model_property: ~specs.azure.example.basic.models.Model
+    :vartype model_property: "Model"
     :ivar array_property:
     :vartype array_property: list[str]
     :ivar record_property:
@@ -39,7 +39,7 @@ class ActionResponse(TypedDict, total=False):
     :ivar string_property: Required.
     :vartype string_property: str
     :ivar model_property:
-    :vartype model_property: ~specs.azure.example.basic.models.Model
+    :vartype model_property: "Model"
     :ivar array_property:
     :vartype array_property: list[str]
     :ivar record_property:
@@ -61,7 +61,7 @@ class Model(TypedDict, total=False):
     :ivar float32_property:
     :vartype float32_property: float
     :ivar enum_property: "EnumValue1"
-    :vartype enum_property: str or ~specs.azure.example.basic.models.EnumEnum
+    :vartype enum_property: Union[str, "EnumEnum"]
     """
 
     int32Property: int

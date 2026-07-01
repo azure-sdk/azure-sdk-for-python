@@ -7,7 +7,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import datetime
 from typing import Any, TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
@@ -21,7 +20,7 @@ class ErrorAdditionalInfo(TypedDict, total=False):
     :ivar type: The additional info type.
     :vartype type: str
     :ivar info: The additional info.
-    :vartype info: any
+    :vartype info: Any
     """
 
     type: str
@@ -40,9 +39,9 @@ class ErrorDetail(TypedDict, total=False):
     :ivar target: The error target.
     :vartype target: str
     :ivar details: The error details.
-    :vartype details: list[~azure.resourcemanager.resources.models.ErrorDetail]
+    :vartype details: list["ErrorDetail"]
     :ivar additional_info: The error additional info.
-    :vartype additional_info: list[~azure.resourcemanager.resources.models.ErrorAdditionalInfo]
+    :vartype additional_info: list["ErrorAdditionalInfo"]
     """
 
     code: str
@@ -61,7 +60,7 @@ class ErrorResponse(TypedDict, total=False):
     """Error response.
 
     :ivar error: The error object.
-    :vartype error: ~azure.resourcemanager.resources.models.ErrorDetail
+    :vartype error: "ErrorDetail"
     """
 
     error: "ErrorDetail"
@@ -81,7 +80,7 @@ class Resource(TypedDict, total=False):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.resources.models.SystemData
+    :vartype system_data: "SystemData"
     """
 
     id: str
@@ -109,7 +108,7 @@ class ExtensionResource(Resource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.resources.models.SystemData
+    :vartype system_data: "SystemData"
     """
 
 
@@ -127,9 +126,9 @@ class ExtensionsResource(ExtensionResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.resources.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.resourcemanager.resources.models.ExtensionsResourceProperties
+    :vartype properties: "ExtensionsResourceProperties"
     """
 
     properties: "ExtensionsResourceProperties"
@@ -143,7 +142,7 @@ class ExtensionsResourceProperties(TypedDict, total=False):
     :vartype description: str
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
      "Failed", "Canceled", "Provisioning", "Updating", "Deleting", and "Accepted".
-    :vartype provisioning_state: str or ~azure.resourcemanager.resources.models.ProvisioningState
+    :vartype provisioning_state: Union[str, "ProvisioningState"]
     """
 
     description: str
@@ -166,7 +165,7 @@ class ProxyResource(Resource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.resources.models.SystemData
+    :vartype system_data: "SystemData"
     """
 
 
@@ -184,9 +183,9 @@ class LocationResource(ProxyResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.resources.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.resourcemanager.resources.models.LocationResourceProperties
+    :vartype properties: "LocationResourceProperties"
     """
 
     properties: "LocationResourceProperties"
@@ -200,7 +199,7 @@ class LocationResourceProperties(TypedDict, total=False):
     :vartype description: str
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
      "Failed", "Canceled", "Provisioning", "Updating", "Deleting", and "Accepted".
-    :vartype provisioning_state: str or ~azure.resourcemanager.resources.models.ProvisioningState
+    :vartype provisioning_state: Union[str, "ProvisioningState"]
     """
 
     description: str
@@ -223,9 +222,9 @@ class NestedProxyResource(ProxyResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.resources.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.resourcemanager.resources.models.NestedProxyResourceProperties
+    :vartype properties: "NestedProxyResourceProperties"
     """
 
     properties: "NestedProxyResourceProperties"
@@ -237,7 +236,7 @@ class NestedProxyResourceProperties(TypedDict, total=False):
 
     :ivar provisioning_state: Provisioning State of the nested child Resource. Known values are:
      "Succeeded", "Failed", "Canceled", "Provisioning", "Updating", "Deleting", and "Accepted".
-    :vartype provisioning_state: str or ~azure.resourcemanager.resources.models.ProvisioningState
+    :vartype provisioning_state: Union[str, "ProvisioningState"]
     :ivar description: Nested resource description.
     :vartype description: str
     """
@@ -277,7 +276,7 @@ class TrackedResource(Resource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.resources.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -304,13 +303,13 @@ class SingletonTrackedResource(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.resources.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.resourcemanager.resources.models.SingletonTrackedResourceProperties
+    :vartype properties: "SingletonTrackedResourceProperties"
     """
 
     properties: "SingletonTrackedResourceProperties"
@@ -322,7 +321,7 @@ class SingletonTrackedResourceProperties(TypedDict, total=False):
 
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
      "Failed", "Canceled", "Provisioning", "Updating", "Deleting", and "Accepted".
-    :vartype provisioning_state: str or ~azure.resourcemanager.resources.models.ProvisioningState
+    :vartype provisioning_state: Union[str, "ProvisioningState"]
     :ivar description: The description of the resource.
     :vartype description: str
     """
@@ -341,16 +340,16 @@ class SystemData(TypedDict, total=False):
     :vartype created_by: str
     :ivar created_by_type: The type of identity that created the resource. Known values are:
      "User", "Application", "ManagedIdentity", and "Key".
-    :vartype created_by_type: str or ~azure.resourcemanager.resources.models.CreatedByType
+    :vartype created_by_type: Union[str, "CreatedByType"]
     :ivar created_at: The timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
+    :vartype created_at: str
     :ivar last_modified_by: The identity that last modified the resource.
     :vartype last_modified_by: str
     :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
      are: "User", "Application", "ManagedIdentity", and "Key".
-    :vartype last_modified_by_type: str or ~azure.resourcemanager.resources.models.CreatedByType
+    :vartype last_modified_by_type: Union[str, "CreatedByType"]
     :ivar last_modified_at: The timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
+    :vartype last_modified_at: str
     """
 
     createdBy: str
@@ -358,14 +357,14 @@ class SystemData(TypedDict, total=False):
     createdByType: Union[str, "CreatedByType"]
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    createdAt: datetime.datetime
+    createdAt: str
     """The timestamp of resource creation (UTC)."""
     lastModifiedBy: str
     """The identity that last modified the resource."""
     lastModifiedByType: Union[str, "CreatedByType"]
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    lastModifiedAt: datetime.datetime
+    lastModifiedAt: str
     """The timestamp of resource last modification (UTC)."""
 
 
@@ -383,13 +382,13 @@ class TopLevelTrackedResource(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.resources.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.resourcemanager.resources.models.TopLevelTrackedResourceProperties
+    :vartype properties: "TopLevelTrackedResourceProperties"
     """
 
     properties: "TopLevelTrackedResourceProperties"
@@ -401,7 +400,7 @@ class TopLevelTrackedResourceProperties(TypedDict, total=False):
 
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
      "Failed", "Canceled", "Provisioning", "Updating", "Deleting", and "Accepted".
-    :vartype provisioning_state: str or ~azure.resourcemanager.resources.models.ProvisioningState
+    :vartype provisioning_state: Union[str, "ProvisioningState"]
     :ivar description: The description of the resource.
     :vartype description: str
     """

@@ -30,15 +30,15 @@ class Resource(TypedDict, total=False):
     :ivar description:
     :vartype description: str
     :ivar map:
-    :vartype map: dict[str, ~payload.jsonmergepatch.models.InnerModel]
+    :vartype map: dict[str, "InnerModel"]
     :ivar array:
-    :vartype array: list[~payload.jsonmergepatch.models.InnerModel]
+    :vartype array: list["InnerModel"]
     :ivar int_value:
     :vartype int_value: int
     :ivar float_value:
     :vartype float_value: float
     :ivar inner_model:
-    :vartype inner_model: ~payload.jsonmergepatch.models.InnerModel
+    :vartype inner_model: "InnerModel"
     :ivar int_array:
     :vartype int_array: list[int]
     """
@@ -60,15 +60,15 @@ class ResourcePatch(TypedDict, total=False):
     :ivar description:
     :vartype description: str
     :ivar map:
-    :vartype map: dict[str, ~payload.jsonmergepatch.models.InnerModel]
+    :vartype map: dict[str, "InnerModel"]
     :ivar array:
-    :vartype array: list[~payload.jsonmergepatch.models.InnerModel]
+    :vartype array: list["InnerModel"]
     :ivar int_value:
     :vartype int_value: int
     :ivar float_value:
     :vartype float_value: float
     :ivar inner_model:
-    :vartype inner_model: ~payload.jsonmergepatch.models.InnerModel
+    :vartype inner_model: "InnerModel"
     :ivar int_array:
     :vartype int_array: list[int]
     """

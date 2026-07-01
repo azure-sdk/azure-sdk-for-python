@@ -16,7 +16,7 @@ class ErrorAdditionalInfo(TypedDict, total=False):
     :ivar type: The additional info type.
     :vartype type: str
     :ivar info: The additional info.
-    :vartype info: any
+    :vartype info: Any
     """
 
     type: str
@@ -35,9 +35,9 @@ class ErrorDetail(TypedDict, total=False):
     :ivar target: The error target.
     :vartype target: str
     :ivar details: The error details.
-    :vartype details: list[~azure.resourcemanager.nonresource.models.ErrorDetail]
+    :vartype details: list["ErrorDetail"]
     :ivar additional_info: The error additional info.
-    :vartype additional_info: list[~azure.resourcemanager.nonresource.models.ErrorAdditionalInfo]
+    :vartype additional_info: list["ErrorAdditionalInfo"]
     """
 
     code: str
@@ -56,7 +56,7 @@ class ErrorResponse(TypedDict, total=False):
     """Error response.
 
     :ivar error: The error object.
-    :vartype error: ~azure.resourcemanager.nonresource.models.ErrorDetail
+    :vartype error: "ErrorDetail"
     """
 
     error: "ErrorDetail"

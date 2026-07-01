@@ -6,7 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import datetime
 from typing_extensions import Required, TypedDict
 
 
@@ -20,7 +19,7 @@ class BlobProperties(TypedDict, total=False):
     :ivar content_type: Required.
     :vartype content_type: str
     :ivar created_on: Required.
-    :vartype created_on: ~datetime.datetime
+    :vartype created_on: str
     """
 
     name: Required[str]
@@ -29,7 +28,7 @@ class BlobProperties(TypedDict, total=False):
     """Required."""
     contentType: Required[str]
     """Required."""
-    createdOn: Required[datetime.datetime]
+    createdOn: Required[str]
     """Required."""
 
 

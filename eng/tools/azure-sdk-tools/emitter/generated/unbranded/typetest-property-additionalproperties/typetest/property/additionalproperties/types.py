@@ -1,6 +1,5 @@
 # coding=utf-8
 
-import datetime
 from typing import Literal, Union
 from typing_extensions import Required, TypedDict
 
@@ -48,7 +47,7 @@ class DifferentSpreadModelArrayDerived(DifferentSpreadModelArrayRecord):
     :ivar known_prop: Required.
     :vartype known_prop: str
     :ivar derived_prop: The index property. Required.
-    :vartype derived_prop: list[~typetest.property.additionalproperties.models.ModelForRecord]
+    :vartype derived_prop: list["ModelForRecord"]
     """
 
     derivedProp: Required[list["ModelForRecord"]]
@@ -73,7 +72,7 @@ class DifferentSpreadModelDerived(DifferentSpreadModelRecord):
     :ivar known_prop: Required.
     :vartype known_prop: str
     :ivar derived_prop: The index property. Required.
-    :vartype derived_prop: ~typetest.property.additionalproperties.models.ModelForRecord
+    :vartype derived_prop: "ModelForRecord"
     """
 
     derivedProp: Required["ModelForRecord"]
@@ -120,7 +119,7 @@ class ExtendsModelAdditionalProperties(TypedDict, total=False):
     """The model extends from Record<ModelForRecord> type.
 
     :ivar known_prop: Required.
-    :vartype known_prop: ~typetest.property.additionalproperties.models.ModelForRecord
+    :vartype known_prop: "ModelForRecord"
     """
 
     knownProp: Required["ModelForRecord"]
@@ -131,7 +130,7 @@ class ExtendsModelArrayAdditionalProperties(TypedDict, total=False):
     """The model extends from Record<ModelForRecord[]> type.
 
     :ivar known_prop: Required.
-    :vartype known_prop: list[~typetest.property.additionalproperties.models.ModelForRecord]
+    :vartype known_prop: list["ModelForRecord"]
     """
 
     knownProp: Required[list["ModelForRecord"]]
@@ -183,7 +182,7 @@ class ExtendsUnknownAdditionalPropertiesDiscriminatedDerived(TypedDict, total=Fa
     :ivar name: The name property. Required.
     :vartype name: str
     :ivar kind: Required. Default value is "derived".
-    :vartype kind: str
+    :vartype kind: Literal["derived"]
     :ivar index: The index property. Required.
     :vartype index: int
     :ivar age: The age property.
@@ -215,7 +214,7 @@ class IsModelAdditionalProperties(TypedDict, total=False):
     """The model is from Record<ModelForRecord> type.
 
     :ivar known_prop: Required.
-    :vartype known_prop: ~typetest.property.additionalproperties.models.ModelForRecord
+    :vartype known_prop: "ModelForRecord"
     """
 
     knownProp: Required["ModelForRecord"]
@@ -226,7 +225,7 @@ class IsModelArrayAdditionalProperties(TypedDict, total=False):
     """The model is from Record<ModelForRecord[]> type.
 
     :ivar known_prop: Required.
-    :vartype known_prop: list[~typetest.property.additionalproperties.models.ModelForRecord]
+    :vartype known_prop: list["ModelForRecord"]
     """
 
     knownProp: Required[list["ModelForRecord"]]
@@ -278,7 +277,7 @@ class IsUnknownAdditionalPropertiesDiscriminatedDerived(TypedDict, total=False):
     :ivar name: The name property. Required.
     :vartype name: str
     :ivar kind: Required. Default value is "derived".
-    :vartype kind: str
+    :vartype kind: Literal["derived"]
     :ivar index: The index property. Required.
     :vartype index: int
     :ivar age: The age property.
@@ -332,7 +331,7 @@ class SpreadModelArrayRecord(TypedDict, total=False):
     """SpreadModelArrayRecord.
 
     :ivar known_prop: Required.
-    :vartype known_prop: list[~typetest.property.additionalproperties.models.ModelForRecord]
+    :vartype known_prop: list["ModelForRecord"]
     """
 
     knownProp: Required[list["ModelForRecord"]]
@@ -343,7 +342,7 @@ class SpreadModelRecord(TypedDict, total=False):
     """The model spread Record<ModelForRecord> with the same known property type.
 
     :ivar known_prop: Required.
-    :vartype known_prop: ~typetest.property.additionalproperties.models.ModelForRecord
+    :vartype known_prop: "ModelForRecord"
     """
 
     knownProp: Required["ModelForRecord"]
@@ -409,7 +408,7 @@ class WidgetData0(TypedDict, total=False):
     """WidgetData0.
 
     :ivar kind: Required. Default value is "kind0".
-    :vartype kind: str
+    :vartype kind: Literal["kind0"]
     :ivar foo_prop: Required.
     :vartype foo_prop: str
     """
@@ -424,25 +423,25 @@ class WidgetData1(TypedDict, total=False):
     """WidgetData1.
 
     :ivar kind: Required. Default value is "kind1".
-    :vartype kind: str
+    :vartype kind: Literal["kind1"]
     :ivar start: Required.
-    :vartype start: ~datetime.datetime
+    :vartype start: str
     :ivar end:
-    :vartype end: ~datetime.datetime
+    :vartype end: str
     """
 
     kind: Required[Literal["kind1"]]
     """Required. Default value is \"kind1\"."""
-    start: Required[datetime.datetime]
+    start: Required[str]
     """Required."""
-    end: datetime.datetime
+    end: str
 
 
 class WidgetData2(TypedDict, total=False):
     """WidgetData2.
 
     :ivar kind: Required. Default value is "kind1".
-    :vartype kind: str
+    :vartype kind: Literal["kind1"]
     :ivar start: Required.
     :vartype start: str
     """

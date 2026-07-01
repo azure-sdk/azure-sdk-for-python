@@ -7,7 +7,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import datetime
 from typing import Any, TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
@@ -21,7 +20,7 @@ class ErrorAdditionalInfo(TypedDict, total=False):
     :ivar type: The additional info type.
     :vartype type: str
     :ivar info: The additional info.
-    :vartype info: any
+    :vartype info: Any
     """
 
     type: str
@@ -40,10 +39,9 @@ class ErrorDetail(TypedDict, total=False):
     :ivar target: The error target.
     :vartype target: str
     :ivar details: The error details.
-    :vartype details: list[~azure.resourcemanager.methodsubscriptionid.models.ErrorDetail]
+    :vartype details: list["ErrorDetail"]
     :ivar additional_info: The error additional info.
-    :vartype additional_info:
-     list[~azure.resourcemanager.methodsubscriptionid.models.ErrorAdditionalInfo]
+    :vartype additional_info: list["ErrorAdditionalInfo"]
     """
 
     code: str
@@ -62,7 +60,7 @@ class ErrorResponse(TypedDict, total=False):
     """Error response.
 
     :ivar error: The error object.
-    :vartype error: ~azure.resourcemanager.methodsubscriptionid.models.ErrorDetail
+    :vartype error: "ErrorDetail"
     """
 
     error: "ErrorDetail"
@@ -79,14 +77,14 @@ class Operation(TypedDict, total=False):
      data-plane operations and "false" for Azure Resource Manager/control-plane operations.
     :vartype is_data_action: bool
     :ivar display: Localized display information for this particular operation.
-    :vartype display: ~azure.resourcemanager.methodsubscriptionid.models.OperationDisplay
+    :vartype display: "OperationDisplay"
     :ivar origin: The intended executor of the operation; as in Resource Based Access Control
      (RBAC) and audit logs UX. Default value is "user,system". Known values are: "user", "system",
      and "user,system".
-    :vartype origin: str or ~azure.resourcemanager.methodsubscriptionid.models.Origin
+    :vartype origin: Union[str, "Origin"]
     :ivar action_type: Extensible enum. Indicates the action type. "Internal" refers to actions
      that are for internal only APIs. "Internal"
-    :vartype action_type: str or ~azure.resourcemanager.methodsubscriptionid.models.ActionType
+    :vartype action_type: Union[str, "ActionType"]
     """
 
     name: str
@@ -151,7 +149,7 @@ class Resource(TypedDict, total=False):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.methodsubscriptionid.models.SystemData
+    :vartype system_data: "SystemData"
     """
 
     id: str
@@ -179,7 +177,7 @@ class ProxyResource(Resource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.methodsubscriptionid.models.SystemData
+    :vartype system_data: "SystemData"
     """
 
 
@@ -196,7 +194,7 @@ class TrackedResource(Resource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.methodsubscriptionid.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -223,14 +221,13 @@ class ResourceGroupResource(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.methodsubscriptionid.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties:
-     ~azure.resourcemanager.methodsubscriptionid.models.ResourceGroupResourceProperties
+    :vartype properties: "ResourceGroupResourceProperties"
     """
 
     properties: "ResourceGroupResourceProperties"
@@ -242,8 +239,7 @@ class ResourceGroupResourceProperties(TypedDict, total=False):
 
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
      "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.resourcemanager.methodsubscriptionid.models.ResourceProvisioningState
+    :vartype provisioning_state: Union[str, "ResourceProvisioningState"]
     :ivar resource_group_setting: The resource group-scoped setting.
     :vartype resource_group_setting: str
     """
@@ -269,10 +265,9 @@ class SubscriptionResource(ProxyResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.methodsubscriptionid.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties:
-     ~azure.resourcemanager.methodsubscriptionid.models.SubscriptionResourceProperties
+    :vartype properties: "SubscriptionResourceProperties"
     """
 
     properties: "SubscriptionResourceProperties"
@@ -293,10 +288,9 @@ class SubscriptionResource1(ProxyResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.methodsubscriptionid.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties:
-     ~azure.resourcemanager.methodsubscriptionid.models.SubscriptionResource1Properties
+    :vartype properties: "SubscriptionResource1Properties"
     """
 
     properties: "SubscriptionResource1Properties"
@@ -308,8 +302,7 @@ class SubscriptionResource1Properties(TypedDict, total=False):
 
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
      "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.resourcemanager.methodsubscriptionid.models.ResourceProvisioningState
+    :vartype provisioning_state: Union[str, "ResourceProvisioningState"]
     :ivar description: The description of the resource.
     :vartype description: str
     """
@@ -335,10 +328,9 @@ class SubscriptionResource2(ProxyResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.methodsubscriptionid.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties:
-     ~azure.resourcemanager.methodsubscriptionid.models.SubscriptionResource2Properties
+    :vartype properties: "SubscriptionResource2Properties"
     """
 
     properties: "SubscriptionResource2Properties"
@@ -350,8 +342,7 @@ class SubscriptionResource2Properties(TypedDict, total=False):
 
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
      "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.resourcemanager.methodsubscriptionid.models.ResourceProvisioningState
+    :vartype provisioning_state: Union[str, "ResourceProvisioningState"]
     :ivar config_value: The configuration value.
     :vartype config_value: str
     """
@@ -368,8 +359,7 @@ class SubscriptionResourceProperties(TypedDict, total=False):
 
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
      "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.resourcemanager.methodsubscriptionid.models.ResourceProvisioningState
+    :vartype provisioning_state: Union[str, "ResourceProvisioningState"]
     :ivar subscription_setting: The subscription-scoped setting.
     :vartype subscription_setting: str
     """
@@ -388,18 +378,16 @@ class SystemData(TypedDict, total=False):
     :vartype created_by: str
     :ivar created_by_type: The type of identity that created the resource. Known values are:
      "User", "Application", "ManagedIdentity", and "Key".
-    :vartype created_by_type: str or
-     ~azure.resourcemanager.methodsubscriptionid.models.CreatedByType
+    :vartype created_by_type: Union[str, "CreatedByType"]
     :ivar created_at: The timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
+    :vartype created_at: str
     :ivar last_modified_by: The identity that last modified the resource.
     :vartype last_modified_by: str
     :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
      are: "User", "Application", "ManagedIdentity", and "Key".
-    :vartype last_modified_by_type: str or
-     ~azure.resourcemanager.methodsubscriptionid.models.CreatedByType
+    :vartype last_modified_by_type: Union[str, "CreatedByType"]
     :ivar last_modified_at: The timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
+    :vartype last_modified_at: str
     """
 
     createdBy: str
@@ -407,12 +395,12 @@ class SystemData(TypedDict, total=False):
     createdByType: Union[str, "CreatedByType"]
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    createdAt: datetime.datetime
+    createdAt: str
     """The timestamp of resource creation (UTC)."""
     lastModifiedBy: str
     """The identity that last modified the resource."""
     lastModifiedByType: Union[str, "CreatedByType"]
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    lastModifiedAt: datetime.datetime
+    lastModifiedAt: str
     """The timestamp of resource last modification (UTC)."""

@@ -27,7 +27,7 @@ from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 
-from ... import models as _models, types
+from ... import models as _models, types as _types
 from ..._operations._operations import (
     build_not_discriminated_get_valid_request,
     build_not_discriminated_post_valid_request,
@@ -62,7 +62,7 @@ class _NotDiscriminatedClientOperationsMixin(
         """
 
     @overload
-    async def post_valid(self, input: types.Siamese, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    async def post_valid(self, input: _types.Siamese, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """post_valid.
 
         :param input: Required.
@@ -90,7 +90,7 @@ class _NotDiscriminatedClientOperationsMixin(
         """
 
     @distributed_trace_async
-    async def post_valid(self, input: Union[_models.Siamese, types.Siamese, IO[bytes]], **kwargs: Any) -> None:
+    async def post_valid(self, input: Union[_models.Siamese, _types.Siamese, IO[bytes]], **kwargs: Any) -> None:
         """post_valid.
 
         :param input: Is either a Siamese type or a IO[bytes] type. Required.
@@ -221,7 +221,7 @@ class _NotDiscriminatedClientOperationsMixin(
 
     @overload
     async def put_valid(
-        self, input: types.Siamese, *, content_type: str = "application/json", **kwargs: Any
+        self, input: _types.Siamese, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.Siamese:
         """put_valid.
 
@@ -253,7 +253,7 @@ class _NotDiscriminatedClientOperationsMixin(
 
     @distributed_trace_async
     async def put_valid(
-        self, input: Union[_models.Siamese, types.Siamese, IO[bytes]], **kwargs: Any
+        self, input: Union[_models.Siamese, _types.Siamese, IO[bytes]], **kwargs: Any
     ) -> _models.Siamese:
         """put_valid.
 

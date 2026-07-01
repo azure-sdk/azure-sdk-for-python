@@ -16,7 +16,7 @@ class ChildFlattenModel(TypedDict, total=False):
     :ivar summary: Required.
     :vartype summary: str
     :ivar properties: Required.
-    :vartype properties: ~specs.azure.clientgenerator.core.flattenproperty.models.ChildModel
+    :vartype properties: "ChildModel"
     """
 
     summary: Required[str]
@@ -46,7 +46,7 @@ class FlattenModel(TypedDict, total=False):
     :ivar name: Required.
     :vartype name: str
     :ivar properties: Required.
-    :vartype properties: ~specs.azure.clientgenerator.core.flattenproperty.models.ChildModel
+    :vartype properties: "ChildModel"
     """
 
     name: Required[str]
@@ -61,7 +61,7 @@ class FlattenUnknownModel(TypedDict, total=False):
     :ivar name: Required.
     :vartype name: str
     :ivar properties:
-    :vartype properties: any
+    :vartype properties: Any
     """
 
     name: Required[str]
@@ -75,7 +75,7 @@ class NestedFlattenModel(TypedDict, total=False):
     :ivar name: Required.
     :vartype name: str
     :ivar properties: Required.
-    :vartype properties: ~specs.azure.clientgenerator.core.flattenproperty.models.ChildFlattenModel
+    :vartype properties: "ChildFlattenModel"
     """
 
     name: Required[str]
@@ -90,8 +90,7 @@ class Solution(TypedDict, total=False):
     :ivar name: Required.
     :vartype name: str
     :ivar properties:
-    :vartype properties:
-     ~specs.azure.clientgenerator.core.flattenproperty.models.SolutionProperties
+    :vartype properties: "SolutionProperties"
     """
 
     name: Required[str]

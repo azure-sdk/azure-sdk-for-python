@@ -13,7 +13,7 @@ class ListWidgetsResponse(TypedDict, total=False):
     """ListWidgetsResponse.
 
     :ivar widgets: Required.
-    :vartype widgets: list[~specs.azure.versioning.previewversion.models.Widget]
+    :vartype widgets: list["Widget"]
     """
 
     widgets: Required[list["Widget"]]

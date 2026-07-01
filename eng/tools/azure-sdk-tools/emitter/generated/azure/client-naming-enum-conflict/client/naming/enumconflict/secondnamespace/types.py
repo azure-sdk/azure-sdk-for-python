@@ -18,7 +18,7 @@ class SecondModel(TypedDict, total=False):
 
     :ivar status: Status from second namespace. Required. Known values are: "running" and
      "stopped".
-    :vartype status: str or ~client.naming.enumconflict.secondnamespace.models.SecondStatus
+    :vartype status: Union[str, "SecondStatus"]
     :ivar description: Description of the item. Required.
     :vartype description: str
     """

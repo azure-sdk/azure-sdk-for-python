@@ -7,7 +7,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import datetime
 from typing import Any, TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
@@ -93,8 +92,7 @@ class CheckNameAvailabilityResponse(TypedDict, total=False):
     :vartype name_available: bool
     :ivar reason: The reason why the given name is not available. Known values are: "Invalid" and
      "AlreadyExists".
-    :vartype reason: str or
-     ~azure.resourcemanager.operationtemplates.models.CheckNameAvailabilityReason
+    :vartype reason: Union[str, "CheckNameAvailabilityReason"]
     :ivar message: Detailed reason why the given name is not available.
     :vartype message: str
     """
@@ -114,7 +112,7 @@ class ErrorAdditionalInfo(TypedDict, total=False):
     :ivar type: The additional info type.
     :vartype type: str
     :ivar info: The additional info.
-    :vartype info: any
+    :vartype info: Any
     """
 
     type: str
@@ -133,10 +131,9 @@ class ErrorDetail(TypedDict, total=False):
     :ivar target: The error target.
     :vartype target: str
     :ivar details: The error details.
-    :vartype details: list[~azure.resourcemanager.operationtemplates.models.ErrorDetail]
+    :vartype details: list["ErrorDetail"]
     :ivar additional_info: The error additional info.
-    :vartype additional_info:
-     list[~azure.resourcemanager.operationtemplates.models.ErrorAdditionalInfo]
+    :vartype additional_info: list["ErrorAdditionalInfo"]
     """
 
     code: str
@@ -155,7 +152,7 @@ class ErrorResponse(TypedDict, total=False):
     """Error response.
 
     :ivar error: The error object.
-    :vartype error: ~azure.resourcemanager.operationtemplates.models.ErrorDetail
+    :vartype error: "ErrorDetail"
     """
 
     error: "ErrorDetail"
@@ -194,14 +191,14 @@ class Operation(TypedDict, total=False):
      data-plane operations and "false" for Azure Resource Manager/control-plane operations.
     :vartype is_data_action: bool
     :ivar display: Localized display information for this particular operation.
-    :vartype display: ~azure.resourcemanager.operationtemplates.models.OperationDisplay
+    :vartype display: "OperationDisplay"
     :ivar origin: The intended executor of the operation; as in Resource Based Access Control
      (RBAC) and audit logs UX. Default value is "user,system". Known values are: "user", "system",
      and "user,system".
-    :vartype origin: str or ~azure.resourcemanager.operationtemplates.models.Origin
+    :vartype origin: Union[str, "Origin"]
     :ivar action_type: Extensible enum. Indicates the action type. "Internal" refers to actions
      that are for internal only APIs. "Internal"
-    :vartype action_type: str or ~azure.resourcemanager.operationtemplates.models.ActionType
+    :vartype action_type: Union[str, "ActionType"]
     """
 
     name: str
@@ -266,7 +263,7 @@ class Resource(TypedDict, total=False):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    :vartype system_data: "SystemData"
     """
 
     id: str
@@ -294,7 +291,7 @@ class TrackedResource(Resource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -321,13 +318,13 @@ class Order(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.resourcemanager.operationtemplates.models.OrderProperties
+    :vartype properties: "OrderProperties"
     """
 
     properties: "OrderProperties"
@@ -367,13 +364,13 @@ class Product(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.resourcemanager.operationtemplates.models.ProductProperties
+    :vartype properties: "ProductProperties"
     """
 
     properties: "ProductProperties"
@@ -402,17 +399,16 @@ class SystemData(TypedDict, total=False):
     :vartype created_by: str
     :ivar created_by_type: The type of identity that created the resource. Known values are:
      "User", "Application", "ManagedIdentity", and "Key".
-    :vartype created_by_type: str or ~azure.resourcemanager.operationtemplates.models.CreatedByType
+    :vartype created_by_type: Union[str, "CreatedByType"]
     :ivar created_at: The timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
+    :vartype created_at: str
     :ivar last_modified_by: The identity that last modified the resource.
     :vartype last_modified_by: str
     :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
      are: "User", "Application", "ManagedIdentity", and "Key".
-    :vartype last_modified_by_type: str or
-     ~azure.resourcemanager.operationtemplates.models.CreatedByType
+    :vartype last_modified_by_type: Union[str, "CreatedByType"]
     :ivar last_modified_at: The timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
+    :vartype last_modified_at: str
     """
 
     createdBy: str
@@ -420,14 +416,14 @@ class SystemData(TypedDict, total=False):
     createdByType: Union[str, "CreatedByType"]
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    createdAt: datetime.datetime
+    createdAt: str
     """The timestamp of resource creation (UTC)."""
     lastModifiedBy: str
     """The identity that last modified the resource."""
     lastModifiedByType: Union[str, "CreatedByType"]
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    lastModifiedAt: datetime.datetime
+    lastModifiedAt: str
     """The timestamp of resource last modification (UTC)."""
 
 
@@ -445,13 +441,13 @@ class Widget(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.resourcemanager.operationtemplates.models.WidgetProperties
+    :vartype properties: "WidgetProperties"
     """
 
     properties: "WidgetProperties"

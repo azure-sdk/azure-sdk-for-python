@@ -17,7 +17,7 @@ class FirstModel(TypedDict, total=False):
     """FirstModel.
 
     :ivar status: Status from first namespace. Required. Known values are: "active" and "inactive".
-    :vartype status: str or ~client.naming.enumconflict.firstnamespace.models.Status
+    :vartype status: Union[str, "Status"]
     :ivar name: Name of the item. Required.
     :vartype name: str
     """
