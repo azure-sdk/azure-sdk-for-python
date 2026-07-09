@@ -1,14 +1,16 @@
 # Release History
 
-## 1.34.1 (2026-06-30)
+## 1.34.1 (2026-07-09)
 
 ### Bugs Fixed
-- Fixed `BatchEndpoint` defaults serialization regression where `deployment_name` was sent to the service as snake_case instead of camelCase (`deploymentName`), causing `begin_create_or_update` to fail with "Could not find member 'deployment_name' on object of type 'BatchEndpointDefaults'". `BatchEndpoint.defaults` is now consistently exposed as a snake_case dict to users and converted to the correct wire format on serialization.
+- Fixed `BatchEndpoint` defaults serialization regression where `deployment_name` was sent to the service as snake_case instead of camelCase (`deploymentName`), causing `begin_create_or_update` to fail with "Could not find member 'deployment_name' on object of type 'BatchEndpointDefaults'". Serialization now emits the correct camelCase wire format, while `BatchEndpoint.defaults` returned from `get()` continues to expose an object that supports attribute access (e.g. `endpoint.defaults.deployment_name`), preserving backward compatibility with existing code and samples.
 
 ## 1.34.0 (2026-06-11)
 
 ### Bugs Fixed
 
+
+- Fixed `datastore create` failing with `TypeError: Object of type Datastore is not JSON serializable`. The datastore operation was migrated to the TypeSpec client while the datastore entity still produced a legacy msrest model; the request body is now serialized to its wire form before being sent, keeping the on-the-wire request unchanged.
 - Fixed cross-tenant registry endpoint resolution for deployment template operations by using the registry discovery API instead of ARM calls.
 - Fixed deployment template update failing with immutable field errors by ensuring `allowedInstanceType` and `allowedEnvironmentVariableOverrides` are properly round-tripped during serialization.
 
