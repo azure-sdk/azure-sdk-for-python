@@ -28,7 +28,7 @@ class CommaDelimitedEnumArrayProperty(TypedDict, total=False):
     """CommaDelimitedEnumArrayProperty.
 
     :ivar value: Required.
-    :vartype value: list[str or ~encode.array.models.Colors]
+    :vartype value: list[Union[str, "Colors"]]
     """
 
     value: Required[list[Union[str, "Colors"]]]
@@ -39,7 +39,7 @@ class CommaDelimitedExtensibleEnumArrayProperty(TypedDict, total=False):  # pyli
     """CommaDelimitedExtensibleEnumArrayProperty.
 
     :ivar value: Required.
-    :vartype value: list[str or ~encode.array.models.ColorsExtensibleEnum]
+    :vartype value: list[Union[str, "ColorsExtensibleEnum"]]
     """
 
     value: Required[list[Union[str, "ColorsExtensibleEnum"]]]
@@ -61,7 +61,7 @@ class NewlineDelimitedEnumArrayProperty(TypedDict, total=False):
     """NewlineDelimitedEnumArrayProperty.
 
     :ivar value: Required.
-    :vartype value: list[str or ~encode.array.models.Colors]
+    :vartype value: list[Union[str, "Colors"]]
     """
 
     value: Required[list[Union[str, "Colors"]]]
@@ -72,7 +72,7 @@ class NewlineDelimitedExtensibleEnumArrayProperty(TypedDict, total=False):  # py
     """NewlineDelimitedExtensibleEnumArrayProperty.
 
     :ivar value: Required.
-    :vartype value: list[str or ~encode.array.models.ColorsExtensibleEnum]
+    :vartype value: list[Union[str, "ColorsExtensibleEnum"]]
     """
 
     value: Required[list[Union[str, "ColorsExtensibleEnum"]]]
@@ -94,7 +94,7 @@ class PipeDelimitedEnumArrayProperty(TypedDict, total=False):
     """PipeDelimitedEnumArrayProperty.
 
     :ivar value: Required.
-    :vartype value: list[str or ~encode.array.models.Colors]
+    :vartype value: list[Union[str, "Colors"]]
     """
 
     value: Required[list[Union[str, "Colors"]]]
@@ -105,7 +105,7 @@ class PipeDelimitedExtensibleEnumArrayProperty(TypedDict, total=False):
     """PipeDelimitedExtensibleEnumArrayProperty.
 
     :ivar value: Required.
-    :vartype value: list[str or ~encode.array.models.ColorsExtensibleEnum]
+    :vartype value: list[Union[str, "ColorsExtensibleEnum"]]
     """
 
     value: Required[list[Union[str, "ColorsExtensibleEnum"]]]
@@ -127,7 +127,7 @@ class SpaceDelimitedEnumArrayProperty(TypedDict, total=False):
     """SpaceDelimitedEnumArrayProperty.
 
     :ivar value: Required.
-    :vartype value: list[str or ~encode.array.models.Colors]
+    :vartype value: list[Union[str, "Colors"]]
     """
 
     value: Required[list[Union[str, "Colors"]]]
@@ -138,7 +138,7 @@ class SpaceDelimitedExtensibleEnumArrayProperty(TypedDict, total=False):  # pyli
     """SpaceDelimitedExtensibleEnumArrayProperty.
 
     :ivar value: Required.
-    :vartype value: list[str or ~encode.array.models.ColorsExtensibleEnum]
+    :vartype value: list[Union[str, "ColorsExtensibleEnum"]]
     """
 
     value: Required[list[Union[str, "ColorsExtensibleEnum"]]]

@@ -7,7 +7,7 @@ from typing import Any, Mapping, overload
 from ..._utils.model_base import Model as _Model, rest_field
 
 
-class DefaultDurationProperty(_Model):
+class DefaultDurationProperty(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """DefaultDurationProperty.
 
     :ivar value: Required.
@@ -35,21 +35,23 @@ class DefaultDurationProperty(_Model):
         super().__init__(*args, **kwargs)
 
 
-class Float64MillisecondsDurationProperty(_Model):
+class Float64MillisecondsDurationProperty(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Float64MillisecondsDurationProperty.
 
     :ivar value: Required.
-    :vartype value: float
+    :vartype value: ~datetime.timedelta
     """
 
-    value: float = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    value: datetime.timedelta = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="duration-milliseconds-float"
+    )
     """Required."""
 
     @overload
     def __init__(
         self,
         *,
-        value: float,
+        value: datetime.timedelta,
     ) -> None: ...
 
     @overload
@@ -63,21 +65,23 @@ class Float64MillisecondsDurationProperty(_Model):
         super().__init__(*args, **kwargs)
 
 
-class Float64SecondsDurationProperty(_Model):
+class Float64SecondsDurationProperty(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Float64SecondsDurationProperty.
 
     :ivar value: Required.
-    :vartype value: float
+    :vartype value: ~datetime.timedelta
     """
 
-    value: float = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    value: datetime.timedelta = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="duration-seconds-float"
+    )
     """Required."""
 
     @overload
     def __init__(
         self,
         *,
-        value: float,
+        value: datetime.timedelta,
     ) -> None: ...
 
     @overload
@@ -91,21 +95,23 @@ class Float64SecondsDurationProperty(_Model):
         super().__init__(*args, **kwargs)
 
 
-class FloatMillisecondsDurationArrayProperty(_Model):
+class FloatMillisecondsDurationArrayProperty(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """FloatMillisecondsDurationArrayProperty.
 
     :ivar value: Required.
-    :vartype value: list[float]
+    :vartype value: list[~datetime.timedelta]
     """
 
-    value: list[float] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    value: list[datetime.timedelta] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="duration-milliseconds-float"
+    )
     """Required."""
 
     @overload
     def __init__(
         self,
         *,
-        value: list[float],
+        value: list[datetime.timedelta],
     ) -> None: ...
 
     @overload
@@ -119,21 +125,23 @@ class FloatMillisecondsDurationArrayProperty(_Model):
         super().__init__(*args, **kwargs)
 
 
-class FloatMillisecondsDurationProperty(_Model):
+class FloatMillisecondsDurationProperty(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """FloatMillisecondsDurationProperty.
 
     :ivar value: Required.
-    :vartype value: float
+    :vartype value: ~datetime.timedelta
     """
 
-    value: float = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    value: datetime.timedelta = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="duration-milliseconds-float"
+    )
     """Required."""
 
     @overload
     def __init__(
         self,
         *,
-        value: float,
+        value: datetime.timedelta,
     ) -> None: ...
 
     @overload
@@ -147,21 +155,25 @@ class FloatMillisecondsDurationProperty(_Model):
         super().__init__(*args, **kwargs)
 
 
-class FloatMillisecondsLargerUnitDurationProperty(_Model):  # pylint: disable=name-too-long
+class FloatMillisecondsLargerUnitDurationProperty(
+    _Model
+):  # pylint: disable=name-too-long,docstring-keyword-should-match-keyword-only
     """FloatMillisecondsLargerUnitDurationProperty.
 
     :ivar value: Required.
-    :vartype value: float
+    :vartype value: ~datetime.timedelta
     """
 
-    value: float = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    value: datetime.timedelta = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="duration-milliseconds-float"
+    )
     """Required."""
 
     @overload
     def __init__(
         self,
         *,
-        value: float,
+        value: datetime.timedelta,
     ) -> None: ...
 
     @overload
@@ -175,21 +187,23 @@ class FloatMillisecondsLargerUnitDurationProperty(_Model):  # pylint: disable=na
         super().__init__(*args, **kwargs)
 
 
-class FloatSecondsDurationArrayProperty(_Model):
+class FloatSecondsDurationArrayProperty(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """FloatSecondsDurationArrayProperty.
 
     :ivar value: Required.
-    :vartype value: list[float]
+    :vartype value: list[~datetime.timedelta]
     """
 
-    value: list[float] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    value: list[datetime.timedelta] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="duration-seconds-float"
+    )
     """Required."""
 
     @overload
     def __init__(
         self,
         *,
-        value: list[float],
+        value: list[datetime.timedelta],
     ) -> None: ...
 
     @overload
@@ -203,21 +217,23 @@ class FloatSecondsDurationArrayProperty(_Model):
         super().__init__(*args, **kwargs)
 
 
-class FloatSecondsDurationProperty(_Model):
+class FloatSecondsDurationProperty(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """FloatSecondsDurationProperty.
 
     :ivar value: Required.
-    :vartype value: float
+    :vartype value: ~datetime.timedelta
     """
 
-    value: float = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    value: datetime.timedelta = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="duration-seconds-float"
+    )
     """Required."""
 
     @overload
     def __init__(
         self,
         *,
-        value: float,
+        value: datetime.timedelta,
     ) -> None: ...
 
     @overload
@@ -231,21 +247,23 @@ class FloatSecondsDurationProperty(_Model):
         super().__init__(*args, **kwargs)
 
 
-class FloatSecondsLargerUnitDurationProperty(_Model):
+class FloatSecondsLargerUnitDurationProperty(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """FloatSecondsLargerUnitDurationProperty.
 
     :ivar value: Required.
-    :vartype value: float
+    :vartype value: ~datetime.timedelta
     """
 
-    value: float = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    value: datetime.timedelta = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="duration-seconds-float"
+    )
     """Required."""
 
     @overload
     def __init__(
         self,
         *,
-        value: float,
+        value: datetime.timedelta,
     ) -> None: ...
 
     @overload
@@ -259,21 +277,23 @@ class FloatSecondsLargerUnitDurationProperty(_Model):
         super().__init__(*args, **kwargs)
 
 
-class Int32MillisecondsDurationProperty(_Model):
+class Int32MillisecondsDurationProperty(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Int32MillisecondsDurationProperty.
 
     :ivar value: Required.
-    :vartype value: int
+    :vartype value: ~datetime.timedelta
     """
 
-    value: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    value: datetime.timedelta = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="duration-milliseconds-int"
+    )
     """Required."""
 
     @overload
     def __init__(
         self,
         *,
-        value: int,
+        value: datetime.timedelta,
     ) -> None: ...
 
     @overload
@@ -287,21 +307,25 @@ class Int32MillisecondsDurationProperty(_Model):
         super().__init__(*args, **kwargs)
 
 
-class Int32MillisecondsLargerUnitDurationProperty(_Model):  # pylint: disable=name-too-long
+class Int32MillisecondsLargerUnitDurationProperty(
+    _Model
+):  # pylint: disable=name-too-long,docstring-keyword-should-match-keyword-only
     """Int32MillisecondsLargerUnitDurationProperty.
 
     :ivar value: Required.
-    :vartype value: int
+    :vartype value: ~datetime.timedelta
     """
 
-    value: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    value: datetime.timedelta = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="duration-milliseconds-int"
+    )
     """Required."""
 
     @overload
     def __init__(
         self,
         *,
-        value: int,
+        value: datetime.timedelta,
     ) -> None: ...
 
     @overload
@@ -315,21 +339,23 @@ class Int32MillisecondsLargerUnitDurationProperty(_Model):  # pylint: disable=na
         super().__init__(*args, **kwargs)
 
 
-class Int32SecondsDurationProperty(_Model):
+class Int32SecondsDurationProperty(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Int32SecondsDurationProperty.
 
     :ivar value: Required.
-    :vartype value: int
+    :vartype value: ~datetime.timedelta
     """
 
-    value: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    value: datetime.timedelta = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="duration-seconds-int"
+    )
     """Required."""
 
     @overload
     def __init__(
         self,
         *,
-        value: int,
+        value: datetime.timedelta,
     ) -> None: ...
 
     @overload
@@ -343,21 +369,23 @@ class Int32SecondsDurationProperty(_Model):
         super().__init__(*args, **kwargs)
 
 
-class Int32SecondsLargerUnitDurationProperty(_Model):
+class Int32SecondsLargerUnitDurationProperty(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Int32SecondsLargerUnitDurationProperty.
 
     :ivar value: Required.
-    :vartype value: int
+    :vartype value: ~datetime.timedelta
     """
 
-    value: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    value: datetime.timedelta = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="duration-seconds-int"
+    )
     """Required."""
 
     @overload
     def __init__(
         self,
         *,
-        value: int,
+        value: datetime.timedelta,
     ) -> None: ...
 
     @overload
@@ -371,7 +399,7 @@ class Int32SecondsLargerUnitDurationProperty(_Model):
         super().__init__(*args, **kwargs)
 
 
-class ISO8601DurationProperty(_Model):
+class ISO8601DurationProperty(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """ISO8601DurationProperty.
 
     :ivar value: Required.

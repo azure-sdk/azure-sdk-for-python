@@ -12,10 +12,10 @@ from typing import Any, Mapping, TYPE_CHECKING, Union, overload
 from .._utils.model_base import Model as _Model, rest_field
 
 if TYPE_CHECKING:
-    from .. import _types, models as _models
+    from .. import _unions, models as _models
 
 
-class ModelV1(_Model):
+class ModelV1(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """ModelV1.
 
     :ivar prop: Required.
@@ -32,7 +32,7 @@ class ModelV1(_Model):
         name="enumProp", visibility=["read", "create", "update", "delete", "query"]
     )
     """Required. Known values are: \"enumMemberV1\" and \"enumMemberV2\"."""
-    union_prop: "_types.UnionV1" = rest_field(
+    union_prop: "_unions.UnionV1" = rest_field(
         name="unionProp", visibility=["read", "create", "update", "delete", "query"]
     )
     """Required. Is either a str type or a int type."""
@@ -43,7 +43,7 @@ class ModelV1(_Model):
         *,
         prop: str,
         enum_prop: Union[str, "_models.EnumV1"],
-        union_prop: "_types.UnionV1",
+        union_prop: "_unions.UnionV1",
     ) -> None: ...
 
     @overload
@@ -57,7 +57,7 @@ class ModelV1(_Model):
         super().__init__(*args, **kwargs)
 
 
-class ModelV2(_Model):
+class ModelV2(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """ModelV2.
 
     :ivar prop: Required.
@@ -74,7 +74,7 @@ class ModelV2(_Model):
         name="enumProp", visibility=["read", "create", "update", "delete", "query"]
     )
     """Required. \"enumMember\""""
-    union_prop: "_types.UnionV2" = rest_field(
+    union_prop: "_unions.UnionV2" = rest_field(
         name="unionProp", visibility=["read", "create", "update", "delete", "query"]
     )
     """Required. Is either a str type or a int type."""
@@ -85,7 +85,7 @@ class ModelV2(_Model):
         *,
         prop: str,
         enum_prop: Union[str, "_models.EnumV2"],
-        union_prop: "_types.UnionV2",
+        union_prop: "_unions.UnionV2",
     ) -> None: ...
 
     @overload

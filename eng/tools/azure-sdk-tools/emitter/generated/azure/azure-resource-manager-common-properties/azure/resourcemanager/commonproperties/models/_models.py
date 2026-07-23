@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
-class ApiError(_Model):
+class ApiError(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Api error.
 
     :ivar details: The Api error details.
@@ -67,7 +67,7 @@ class ApiError(_Model):
         super().__init__(*args, **kwargs)
 
 
-class ApiErrorBase(_Model):
+class ApiErrorBase(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Api error base.
 
     :ivar code: The error code.
@@ -92,34 +92,6 @@ class ApiErrorBase(_Model):
         code: Optional[str] = None,
         target: Optional[str] = None,
         message: Optional[str] = None,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-
-
-class CloudError(_Model):
-    """An error response.
-
-    :ivar error: Api error.
-    :vartype error: ~azure.resourcemanager.commonproperties.models.ApiError
-    """
-
-    error: Optional["_models.ApiError"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """Api error."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        error: Optional["_models.ApiError"] = None,
     ) -> None: ...
 
     @overload
@@ -161,7 +133,7 @@ class Resource(_Model):
     """Azure Resource Manager metadata containing createdBy and modifiedBy information."""
 
 
-class TrackedResource(Resource):
+class TrackedResource(Resource):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Tracked Resource.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
@@ -205,7 +177,140 @@ class TrackedResource(Resource):
         super().__init__(*args, **kwargs)
 
 
-class ConfidentialResource(TrackedResource):
+class ArmResourceIdentifierResource(TrackedResource):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """Concrete tracked resource types can be created by aliasing this type using a specific property
+    type.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.resourcemanager.commonproperties.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties:
+     ~azure.resourcemanager.commonproperties.models.ArmResourceIdentifierResourceProperties
+    """
+
+    properties: Optional["_models.ArmResourceIdentifierResourceProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The resource-specific properties for this resource."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[dict[str, str]] = None,
+        properties: Optional["_models.ArmResourceIdentifierResourceProperties"] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class ArmResourceIdentifierResourceProperties(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """ArmResourceIdentifier Resource Properties.
+
+    :ivar provisioning_state: The status of the last operation. Required. Known values are:
+     "Succeeded", "Failed", and "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.resourcemanager.commonproperties.models.ResourceProvisioningState
+    :ivar simple_arm_id: A basic ARM resource identifier without type or scopes. Required.
+    :vartype simple_arm_id: str
+    :ivar arm_id_with_type: An ARM resource identifier with type only. Required.
+    :vartype arm_id_with_type: str
+    :ivar arm_id_with_type_and_scope: An ARM resource identifier with type and scopes. Required.
+    :vartype arm_id_with_type_and_scope: str
+    :ivar arm_id_with_all_scopes: An ARM resource identifier with all scopes. Required.
+    :vartype arm_id_with_all_scopes: str
+    """
+
+    provisioning_state: Union[str, "_models.ResourceProvisioningState"] = rest_field(
+        name="provisioningState", visibility=["read"]
+    )
+    """The status of the last operation. Required. Known values are: \"Succeeded\", \"Failed\", and
+     \"Canceled\"."""
+    simple_arm_id: str = rest_field(name="simpleArmId", visibility=["read", "create", "update", "delete", "query"])
+    """A basic ARM resource identifier without type or scopes. Required."""
+    arm_id_with_type: str = rest_field(name="armIdWithType", visibility=["read", "create", "update", "delete", "query"])
+    """An ARM resource identifier with type only. Required."""
+    arm_id_with_type_and_scope: str = rest_field(
+        name="armIdWithTypeAndScope", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """An ARM resource identifier with type and scopes. Required."""
+    arm_id_with_all_scopes: str = rest_field(
+        name="armIdWithAllScopes", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """An ARM resource identifier with all scopes. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        simple_arm_id: str,
+        arm_id_with_type: str,
+        arm_id_with_type_and_scope: str,
+        arm_id_with_all_scopes: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class CloudError(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """An error response.
+
+    :ivar error: Api error.
+    :vartype error: ~azure.resourcemanager.commonproperties.models.ApiError
+    """
+
+    error: Optional["_models.ApiError"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Api error."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        error: Optional["_models.ApiError"] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class ConfidentialResource(TrackedResource):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Concrete tracked resource types can be created by aliasing this type using a specific property
     type.
 
@@ -254,7 +359,7 @@ class ConfidentialResource(TrackedResource):
         super().__init__(*args, **kwargs)
 
 
-class ConfidentialResourceProperties(_Model):
+class ConfidentialResourceProperties(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Confidential Resource Properties.
 
     :ivar provisioning_state: The status of the last operation. Required.
@@ -331,7 +436,7 @@ class ErrorDetail(_Model):
     """The error additional info."""
 
 
-class ErrorResponse(_Model):
+class ErrorResponse(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Error response.
 
     :ivar error: The error object.
@@ -359,7 +464,7 @@ class ErrorResponse(_Model):
         super().__init__(*args, **kwargs)
 
 
-class InnerError(_Model):
+class InnerError(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Inner error details.
 
     :ivar exceptiontype: The exception type.
@@ -392,7 +497,7 @@ class InnerError(_Model):
         super().__init__(*args, **kwargs)
 
 
-class ManagedIdentityTrackedResource(TrackedResource):
+class ManagedIdentityTrackedResource(TrackedResource):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Concrete tracked resource types can be created by aliasing this type using a specific property
     type.
 
@@ -459,7 +564,7 @@ class ManagedIdentityTrackedResourceProperties(_Model):
     """The status of the last operation. Required."""
 
 
-class ManagedServiceIdentity(_Model):
+class ManagedServiceIdentity(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Managed service identity (system assigned and/or user assigned identities).
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
@@ -511,7 +616,7 @@ class ManagedServiceIdentity(_Model):
         super().__init__(*args, **kwargs)
 
 
-class SystemData(_Model):
+class SystemData(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Metadata pertaining to creation and last modification of the resource.
 
     :ivar created_by: The identity that created the resource.

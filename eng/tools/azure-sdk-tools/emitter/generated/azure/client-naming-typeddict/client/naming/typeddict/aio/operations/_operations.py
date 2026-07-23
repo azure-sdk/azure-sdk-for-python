@@ -25,7 +25,7 @@ from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 
-from ... import models as _models, types
+from ... import models as _models, types as _types
 from ..._utils.model_base import SdkJSONEncoder
 from ..._utils.serialization import Deserializer, Serializer
 from ..._utils.utils import ClientMixinABC
@@ -48,7 +48,7 @@ T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, dict[str, Any]], Any]]
 
 
-class PropertyOperations:
+class PropertyOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -83,7 +83,7 @@ class PropertyOperations:
 
     @overload
     async def client(
-        self, body: types.ClientNameModel, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.ClientNameModel, *, content_type: str = "application/json", **kwargs: Any
     ) -> None:
         """client.
 
@@ -113,7 +113,7 @@ class PropertyOperations:
 
     @distributed_trace_async
     async def client(
-        self, body: Union[_models.ClientNameModel, types.ClientNameModel, IO[bytes]], **kwargs: Any
+        self, body: Union[_models.ClientNameModel, _types.ClientNameModel, IO[bytes]], **kwargs: Any
     ) -> None:
         """client.
 
@@ -188,7 +188,7 @@ class PropertyOperations:
 
     @overload
     async def language(
-        self, body: types.LanguageClientNameModel, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.LanguageClientNameModel, *, content_type: str = "application/json", **kwargs: Any
     ) -> None:
         """language.
 
@@ -218,7 +218,7 @@ class PropertyOperations:
 
     @distributed_trace_async
     async def language(
-        self, body: Union[_models.LanguageClientNameModel, types.LanguageClientNameModel, IO[bytes]], **kwargs: Any
+        self, body: Union[_models.LanguageClientNameModel, _types.LanguageClientNameModel, IO[bytes]], **kwargs: Any
     ) -> None:
         """language.
 
@@ -293,7 +293,7 @@ class PropertyOperations:
 
     @overload
     async def compatible_with_encoded_name(
-        self, body: types.ClientNameAndJsonEncodedNameModel, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.ClientNameAndJsonEncodedNameModel, *, content_type: str = "application/json", **kwargs: Any
     ) -> None:
         """compatible_with_encoded_name.
 
@@ -326,7 +326,7 @@ class PropertyOperations:
     @distributed_trace_async
     async def compatible_with_encoded_name(
         self,
-        body: Union[_models.ClientNameAndJsonEncodedNameModel, types.ClientNameAndJsonEncodedNameModel, IO[bytes]],
+        body: Union[_models.ClientNameAndJsonEncodedNameModel, _types.ClientNameAndJsonEncodedNameModel, IO[bytes]],
         **kwargs: Any
     ) -> None:
         """compatible_with_encoded_name.
@@ -385,7 +385,7 @@ class PropertyOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class HeaderOperations:
+class HeaderOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -497,7 +497,7 @@ class HeaderOperations:
             return cls(pipeline_response, None, response_headers)  # type: ignore
 
 
-class ModelClientOperations:
+class ModelClientOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -529,7 +529,7 @@ class ModelClientOperations:
         """
 
     @overload
-    async def client(self, body: types.ClientModel, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    async def client(self, body: _types.ClientModel, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """client.
 
         :param body: Required.
@@ -557,7 +557,7 @@ class ModelClientOperations:
         """
 
     @distributed_trace_async
-    async def client(self, body: Union[_models.ClientModel, types.ClientModel, IO[bytes]], **kwargs: Any) -> None:
+    async def client(self, body: Union[_models.ClientModel, _types.ClientModel, IO[bytes]], **kwargs: Any) -> None:
         """client.
 
         :param body: Is either a ClientModel type or a IO[bytes] type. Required.
@@ -630,7 +630,9 @@ class ModelClientOperations:
         """
 
     @overload
-    async def language(self, body: types.PythonModel, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    async def language(
+        self, body: _types.PythonModel, *, content_type: str = "application/json", **kwargs: Any
+    ) -> None:
         """language.
 
         :param body: Required.
@@ -658,7 +660,7 @@ class ModelClientOperations:
         """
 
     @distributed_trace_async
-    async def language(self, body: Union[_models.PythonModel, types.PythonModel, IO[bytes]], **kwargs: Any) -> None:
+    async def language(self, body: Union[_models.PythonModel, _types.PythonModel, IO[bytes]], **kwargs: Any) -> None:
         """language.
 
         :param body: Is either a PythonModel type or a IO[bytes] type. Required.
@@ -715,7 +717,7 @@ class ModelClientOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class UnionEnumOperations:
+class UnionEnumOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.

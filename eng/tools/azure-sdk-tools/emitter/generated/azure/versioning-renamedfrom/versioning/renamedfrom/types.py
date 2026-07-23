@@ -20,9 +20,9 @@ class NewModel(TypedDict, total=False):
     :ivar new_prop: Required.
     :vartype new_prop: str
     :ivar enum_prop: Required. "newEnumMember"
-    :vartype enum_prop: str or ~versioning.renamedfrom.models.NewEnum
+    :vartype enum_prop: Union[str, "NewEnum"]
     :ivar union_prop: Required. Is either a str type or a int type.
-    :vartype union_prop: str or int
+    :vartype union_prop: "_unions.NewUnion"
     """
 
     newProp: Required[str]

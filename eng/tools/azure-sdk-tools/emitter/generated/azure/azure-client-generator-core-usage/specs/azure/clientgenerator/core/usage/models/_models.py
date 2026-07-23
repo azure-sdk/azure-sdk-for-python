@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
-class InputModel(_Model):
+class InputModel(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Usage additive to roundtrip.
 
     :ivar name: Required.
@@ -43,7 +43,63 @@ class InputModel(_Model):
         super().__init__(*args, **kwargs)
 
 
-class OrphanModel(_Model):
+class NamespaceModel(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """NamespaceModel.
+
+    :ivar name: Required.
+    :vartype name: str
+    """
+
+    name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class NestedNamespaceModel(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """NestedNamespaceModel.
+
+    :ivar value: Required.
+    :vartype value: str
+    """
+
+    value: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        value: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class OrphanModel(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Not used anywhere, but access is override to public so still need to be generated and exported
     with serialization.
 
@@ -77,7 +133,7 @@ class OrphanModel(_Model):
         super().__init__(*args, **kwargs)
 
 
-class OutputModel(_Model):
+class OutputModel(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Usage additive to roundtrip.
 
     :ivar name: Required.
@@ -105,7 +161,7 @@ class OutputModel(_Model):
         super().__init__(*args, **kwargs)
 
 
-class ResultModel(_Model):
+class ResultModel(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """ResultModel.
 
     :ivar name: Required.

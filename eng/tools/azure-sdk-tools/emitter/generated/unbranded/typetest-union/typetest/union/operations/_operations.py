@@ -20,7 +20,7 @@ from corehttp.runtime import PipelineClient
 from corehttp.runtime.pipeline import PipelineResponse
 from corehttp.utils import case_insensitive_dict
 
-from .. import models as _models
+from .. import models as _models, types as _types
 from .._configuration import UnionClientConfiguration
 from .._utils.model_base import SdkJSONEncoder, _deserialize
 from .._utils.serialization import Deserializer, Serializer
@@ -314,7 +314,7 @@ def build_mixed_types_send_request(**kwargs: Any) -> HttpRequest:
     return HttpRequest(method="POST", url=_url, headers=_headers, **kwargs)
 
 
-class StringsOnlyOperations:
+class StringsOnlyOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -401,11 +401,11 @@ class StringsOnlyOperations:
         """
 
     @overload
-    def send(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def send(self, body: _types.SendRequest, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """send.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~typetest.union.types.SendRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -429,12 +429,16 @@ class StringsOnlyOperations:
         """
 
     def send(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[JSON, IO[bytes]] = _Unset, *, prop: Literal["a", "b", "c"] = _Unset, **kwargs: Any
+        self,
+        body: Union[JSON, _types.SendRequest, IO[bytes]] = _Unset,
+        *,
+        prop: Literal["a", "b", "c"] = _Unset,
+        **kwargs: Any
     ) -> None:
         """send.
 
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
+        :param body: Is one of the following types: JSON, SendRequest, IO[bytes] Required.
+        :type body: JSON or ~typetest.union.types.SendRequest or IO[bytes]
         :keyword prop: Is one of the following types: Literal["a"], Literal["b"], Literal["c"]
          Required.
         :paramtype prop: str or str or str
@@ -492,7 +496,7 @@ class StringsOnlyOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class StringExtensibleOperations:
+class StringExtensibleOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -580,11 +584,11 @@ class StringExtensibleOperations:
         """
 
     @overload
-    def send(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def send(self, body: _types.SendRequest1, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """send.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~typetest.union.types.SendRequest1
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -609,15 +613,15 @@ class StringExtensibleOperations:
 
     def send(  # pylint: disable=inconsistent-return-statements
         self,
-        body: Union[JSON, IO[bytes]] = _Unset,
+        body: Union[JSON, _types.SendRequest1, IO[bytes]] = _Unset,
         *,
         prop: Union[Literal["b"], Literal["c"], str] = _Unset,
         **kwargs: Any
     ) -> None:
         """send.
 
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
+        :param body: Is one of the following types: JSON, SendRequest1, IO[bytes] Required.
+        :type body: JSON or ~typetest.union.types.SendRequest1 or IO[bytes]
         :keyword prop: Is one of the following types: Literal["b"], Literal["c"], str Required.
         :paramtype prop: str or str or str
         :return: None
@@ -674,7 +678,7 @@ class StringExtensibleOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class StringExtensibleNamedOperations:
+class StringExtensibleNamedOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -766,11 +770,11 @@ class StringExtensibleNamedOperations:
         """
 
     @overload
-    def send(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def send(self, body: _types.SendRequest2, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """send.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~typetest.union.types.SendRequest2
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -795,15 +799,15 @@ class StringExtensibleNamedOperations:
 
     def send(  # pylint: disable=inconsistent-return-statements
         self,
-        body: Union[JSON, IO[bytes]] = _Unset,
+        body: Union[JSON, _types.SendRequest2, IO[bytes]] = _Unset,
         *,
         prop: Union[str, _models.StringExtensibleNamedUnion] = _Unset,
         **kwargs: Any
     ) -> None:
         """send.
 
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
+        :param body: Is one of the following types: JSON, SendRequest2, IO[bytes] Required.
+        :type body: JSON or ~typetest.union.types.SendRequest2 or IO[bytes]
         :keyword prop: Known values are: "b" and "c". Required.
         :paramtype prop: str or ~typetest.union.models.StringExtensibleNamedUnion
         :return: None
@@ -860,7 +864,7 @@ class StringExtensibleNamedOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class IntsOnlyOperations:
+class IntsOnlyOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -946,11 +950,11 @@ class IntsOnlyOperations:
         """
 
     @overload
-    def send(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def send(self, body: _types.SendRequest3, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """send.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~typetest.union.types.SendRequest3
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -974,12 +978,16 @@ class IntsOnlyOperations:
         """
 
     def send(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[JSON, IO[bytes]] = _Unset, *, prop: Literal[1, 2, 3] = _Unset, **kwargs: Any
+        self,
+        body: Union[JSON, _types.SendRequest3, IO[bytes]] = _Unset,
+        *,
+        prop: Literal[1, 2, 3] = _Unset,
+        **kwargs: Any
     ) -> None:
         """send.
 
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
+        :param body: Is one of the following types: JSON, SendRequest3, IO[bytes] Required.
+        :type body: JSON or ~typetest.union.types.SendRequest3 or IO[bytes]
         :keyword prop: Is one of the following types: Literal[1], Literal[2], Literal[3] Required.
         :paramtype prop: int or int or int
         :return: None
@@ -1036,7 +1044,7 @@ class IntsOnlyOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class FloatsOnlyOperations:
+class FloatsOnlyOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1122,11 +1130,11 @@ class FloatsOnlyOperations:
         """
 
     @overload
-    def send(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def send(self, body: _types.SendRequest4, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """send.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~typetest.union.types.SendRequest4
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1150,12 +1158,12 @@ class FloatsOnlyOperations:
         """
 
     def send(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[JSON, IO[bytes]] = _Unset, *, prop: float = _Unset, **kwargs: Any
+        self, body: Union[JSON, _types.SendRequest4, IO[bytes]] = _Unset, *, prop: float = _Unset, **kwargs: Any
     ) -> None:
         """send.
 
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
+        :param body: Is one of the following types: JSON, SendRequest4, IO[bytes] Required.
+        :type body: JSON or ~typetest.union.types.SendRequest4 or IO[bytes]
         :keyword prop: Is one of the following types: float Required.
         :paramtype prop: float or float or float
         :return: None
@@ -1212,7 +1220,7 @@ class FloatsOnlyOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class ModelsOnlyOperations:
+class ModelsOnlyOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1300,11 +1308,11 @@ class ModelsOnlyOperations:
         """
 
     @overload
-    def send(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def send(self, body: _types.SendRequest5, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """send.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~typetest.union.types.SendRequest5
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1328,12 +1336,16 @@ class ModelsOnlyOperations:
         """
 
     def send(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[JSON, IO[bytes]] = _Unset, *, prop: Union[_models.Cat, _models.Dog] = _Unset, **kwargs: Any
+        self,
+        body: Union[JSON, _types.SendRequest5, IO[bytes]] = _Unset,
+        *,
+        prop: Union[_models.Cat, _models.Dog] = _Unset,
+        **kwargs: Any
     ) -> None:
         """send.
 
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
+        :param body: Is one of the following types: JSON, SendRequest5, IO[bytes] Required.
+        :type body: JSON or ~typetest.union.types.SendRequest5 or IO[bytes]
         :keyword prop: Is either a Cat type or a Dog type. Required.
         :paramtype prop: ~typetest.union.models.Cat or ~typetest.union.models.Dog
         :return: None
@@ -1390,7 +1402,7 @@ class ModelsOnlyOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class EnumsOnlyOperations:
+class EnumsOnlyOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1476,11 +1488,11 @@ class EnumsOnlyOperations:
         """
 
     @overload
-    def send(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def send(self, body: _types.SendRequest6, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """send.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~typetest.union.types.SendRequest6
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1504,12 +1516,16 @@ class EnumsOnlyOperations:
         """
 
     def send(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[JSON, IO[bytes]] = _Unset, *, prop: _models.EnumsOnlyCases = _Unset, **kwargs: Any
+        self,
+        body: Union[JSON, _types.SendRequest6, IO[bytes]] = _Unset,
+        *,
+        prop: _models.EnumsOnlyCases = _Unset,
+        **kwargs: Any
     ) -> None:
         """send.
 
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
+        :param body: Is one of the following types: JSON, SendRequest6, IO[bytes] Required.
+        :type body: JSON or ~typetest.union.types.SendRequest6 or IO[bytes]
         :keyword prop: Required.
         :paramtype prop: ~typetest.union.models.EnumsOnlyCases
         :return: None
@@ -1566,7 +1582,7 @@ class EnumsOnlyOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class StringAndArrayOperations:
+class StringAndArrayOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1652,11 +1668,11 @@ class StringAndArrayOperations:
         """
 
     @overload
-    def send(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def send(self, body: _types.SendRequest7, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """send.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~typetest.union.types.SendRequest7
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1680,12 +1696,16 @@ class StringAndArrayOperations:
         """
 
     def send(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[JSON, IO[bytes]] = _Unset, *, prop: _models.StringAndArrayCases = _Unset, **kwargs: Any
+        self,
+        body: Union[JSON, _types.SendRequest7, IO[bytes]] = _Unset,
+        *,
+        prop: _models.StringAndArrayCases = _Unset,
+        **kwargs: Any
     ) -> None:
         """send.
 
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
+        :param body: Is one of the following types: JSON, SendRequest7, IO[bytes] Required.
+        :type body: JSON or ~typetest.union.types.SendRequest7 or IO[bytes]
         :keyword prop: Required.
         :paramtype prop: ~typetest.union.models.StringAndArrayCases
         :return: None
@@ -1742,7 +1762,7 @@ class StringAndArrayOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class MixedLiteralsOperations:
+class MixedLiteralsOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1828,11 +1848,11 @@ class MixedLiteralsOperations:
         """
 
     @overload
-    def send(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def send(self, body: _types.SendRequest8, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """send.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~typetest.union.types.SendRequest8
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1856,12 +1876,16 @@ class MixedLiteralsOperations:
         """
 
     def send(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[JSON, IO[bytes]] = _Unset, *, prop: _models.MixedLiteralsCases = _Unset, **kwargs: Any
+        self,
+        body: Union[JSON, _types.SendRequest8, IO[bytes]] = _Unset,
+        *,
+        prop: _models.MixedLiteralsCases = _Unset,
+        **kwargs: Any
     ) -> None:
         """send.
 
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
+        :param body: Is one of the following types: JSON, SendRequest8, IO[bytes] Required.
+        :type body: JSON or ~typetest.union.types.SendRequest8 or IO[bytes]
         :keyword prop: Required.
         :paramtype prop: ~typetest.union.models.MixedLiteralsCases
         :return: None
@@ -1918,7 +1942,7 @@ class MixedLiteralsOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class MixedTypesOperations:
+class MixedTypesOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -2004,11 +2028,11 @@ class MixedTypesOperations:
         """
 
     @overload
-    def send(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def send(self, body: _types.SendRequest9, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """send.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~typetest.union.types.SendRequest9
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -2032,12 +2056,16 @@ class MixedTypesOperations:
         """
 
     def send(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[JSON, IO[bytes]] = _Unset, *, prop: _models.MixedTypesCases = _Unset, **kwargs: Any
+        self,
+        body: Union[JSON, _types.SendRequest9, IO[bytes]] = _Unset,
+        *,
+        prop: _models.MixedTypesCases = _Unset,
+        **kwargs: Any
     ) -> None:
         """send.
 
-        :param body: Is either a JSON type or a IO[bytes] type. Required.
-        :type body: JSON or IO[bytes]
+        :param body: Is one of the following types: JSON, SendRequest9, IO[bytes] Required.
+        :type body: JSON or ~typetest.union.types.SendRequest9 or IO[bytes]
         :keyword prop: Required.
         :paramtype prop: ~typetest.union.models.MixedTypesCases
         :return: None

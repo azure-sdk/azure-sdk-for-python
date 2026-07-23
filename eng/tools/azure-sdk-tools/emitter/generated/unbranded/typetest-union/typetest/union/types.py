@@ -35,10 +35,10 @@ class EnumsOnlyCases(TypedDict, total=False):
 
     :ivar lr: This should be receive/send the left variant. Required. Is one of the following
      types: Literal["left"], Literal["right"], Literal["up"], Literal["down"]
-    :vartype lr: str or str or str or str
+    :vartype lr: Literal["left", "right", "up", "down"]
     :ivar ud: This should be receive/send the up variant. Required. Is either a Literal["up"] type
      or a Literal["down"] type.
-    :vartype ud: str or str
+    :vartype ud: Literal["up", "down"]
     """
 
     lr: Required[Literal["left", "right", "up", "down"]]
@@ -49,131 +49,21 @@ class EnumsOnlyCases(TypedDict, total=False):
      Literal[\"down\"] type."""
 
 
-class GetResponse(TypedDict, total=False):
-    """GetResponse.
-
-    :ivar prop: Required. Is one of the following types: Literal["a"], Literal["b"], Literal["c"]
-    :vartype prop: str or str or str
-    """
-
-    prop: Required[Literal["a", "b", "c"]]
-    """Required. Is one of the following types: Literal[\"a\"], Literal[\"b\"], Literal[\"c\"]"""
-
-
-class GetResponse1(TypedDict, total=False):
-    """GetResponse1.
-
-    :ivar prop: Required. Is one of the following types: Literal["b"], Literal["c"], str
-    :vartype prop: str or str or str
-    """
-
-    prop: Required[Union[Literal["b"], Literal["c"], str]]
-    """Required. Is one of the following types: Literal[\"b\"], Literal[\"c\"], str"""
-
-
-class GetResponse2(TypedDict, total=False):
-    """GetResponse2.
-
-    :ivar prop: Required. Known values are: "b" and "c".
-    :vartype prop: str or ~typetest.union.models.StringExtensibleNamedUnion
-    """
-
-    prop: Required[Union[str, "StringExtensibleNamedUnion"]]
-    """Required. Known values are: \"b\" and \"c\"."""
-
-
-class GetResponse3(TypedDict, total=False):
-    """GetResponse3.
-
-    :ivar prop: Required. Is one of the following types: Literal[1], Literal[2], Literal[3]
-    :vartype prop: int or int or int
-    """
-
-    prop: Required[Literal[1, 2, 3]]
-    """Required. Is one of the following types: Literal[1], Literal[2], Literal[3]"""
-
-
-class GetResponse4(TypedDict, total=False):
-    """GetResponse4.
-
-    :ivar prop: Required. Is one of the following types: float
-    :vartype prop: float or float or float
-    """
-
-    prop: Required[float]
-    """Required. Is one of the following types: float"""
-
-
-class GetResponse5(TypedDict, total=False):
-    """GetResponse5.
-
-    :ivar prop: Required. Is either a Cat type or a Dog type.
-    :vartype prop: ~typetest.union.models.Cat or ~typetest.union.models.Dog
-    """
-
-    prop: Required[Union["Cat", "Dog"]]
-    """Required. Is either a Cat type or a Dog type."""
-
-
-class GetResponse6(TypedDict, total=False):
-    """GetResponse6.
-
-    :ivar prop: Required.
-    :vartype prop: ~typetest.union.models.EnumsOnlyCases
-    """
-
-    prop: Required["EnumsOnlyCases"]
-    """Required."""
-
-
-class GetResponse7(TypedDict, total=False):
-    """GetResponse7.
-
-    :ivar prop: Required.
-    :vartype prop: ~typetest.union.models.StringAndArrayCases
-    """
-
-    prop: Required["StringAndArrayCases"]
-    """Required."""
-
-
-class GetResponse8(TypedDict, total=False):
-    """GetResponse8.
-
-    :ivar prop: Required.
-    :vartype prop: ~typetest.union.models.MixedLiteralsCases
-    """
-
-    prop: Required["MixedLiteralsCases"]
-    """Required."""
-
-
-class GetResponse9(TypedDict, total=False):
-    """GetResponse9.
-
-    :ivar prop: Required.
-    :vartype prop: ~typetest.union.models.MixedTypesCases
-    """
-
-    prop: Required["MixedTypesCases"]
-    """Required."""
-
-
 class MixedLiteralsCases(TypedDict, total=False):
     """MixedLiteralsCases.
 
     :ivar string_literal: This should be receive/send the "a" variant. Required. Is one of the
      following types: Literal["a"], Literal[2], float, Literal[True]
-    :vartype string_literal: str or int or float or bool
+    :vartype string_literal: Literal["a", 2, True]
     :ivar int_literal: This should be receive/send the 2 variant. Required. Is one of the following
      types: Literal["a"], Literal[2], float, Literal[True]
-    :vartype int_literal: str or int or float or bool
+    :vartype int_literal: Literal["a", 2, True]
     :ivar float_literal: This should be receive/send the 3.3 variant. Required. Is one of the
      following types: Literal["a"], Literal[2], float, Literal[True]
-    :vartype float_literal: str or int or float or bool
+    :vartype float_literal: Literal["a", 2, True]
     :ivar boolean_literal: This should be receive/send the true variant. Required. Is one of the
      following types: Literal["a"], Literal[2], float, Literal[True]
-    :vartype boolean_literal: str or int or float or bool
+    :vartype boolean_literal: Literal["a", 2, True]
     """
 
     stringLiteral: Required[Literal["a", 2, True]]
@@ -195,18 +85,18 @@ class MixedTypesCases(TypedDict, total=False):
 
     :ivar model: This should be receive/send the Cat variant. Required. Is one of the following
      types: Cat, Literal["a"], int, bool
-    :vartype model: ~typetest.union.models.Cat or str or int or bool
+    :vartype model: Union["Cat", Literal["a"], int, bool]
     :ivar literal: This should be receive/send the "a" variant. Required. Is one of the following
      types: Cat, Literal["a"], int, bool
-    :vartype literal: ~typetest.union.models.Cat or str or int or bool
+    :vartype literal: Union["Cat", Literal["a"], int, bool]
     :ivar int_property: This should be receive/send the int variant. Required. Is one of the
      following types: Cat, Literal["a"], int, bool
-    :vartype int_property: ~typetest.union.models.Cat or str or int or bool
+    :vartype int_property: Union["Cat", Literal["a"], int, bool]
     :ivar boolean: This should be receive/send the boolean variant. Required. Is one of the
      following types: Cat, Literal["a"], int, bool
-    :vartype boolean: ~typetest.union.models.Cat or str or int or bool
+    :vartype boolean: Union["Cat", Literal["a"], int, bool]
     :ivar array: This should be receive/send 4 element with Cat, "a", int, and boolean. Required.
-    :vartype array: list[~typetest.union.models.Cat or str or int or bool]
+    :vartype array: list[Union["Cat", Literal["a"], int, bool]]
     """
 
     model: Required[Union["Cat", Literal["a"], builtins.int, bool]]
@@ -230,13 +120,123 @@ class StringAndArrayCases(TypedDict, total=False):
 
     :ivar string: This should be receive/send the string variant. Required. Is either a str type or
      a [str] type.
-    :vartype string: str or list[str]
+    :vartype string: Union[str, list[str]]
     :ivar array: This should be receive/send the array variant. Required. Is either a str type or a
      [str] type.
-    :vartype array: str or list[str]
+    :vartype array: Union[str, list[str]]
     """
 
     string: Required[Union[str, list[str]]]
     """This should be receive/send the string variant. Required. Is either a str type or a [str] type."""
     array: Required[Union[str, list[str]]]
     """This should be receive/send the array variant. Required. Is either a str type or a [str] type."""
+
+
+class SendRequest(TypedDict, total=False):
+    """SendRequest.
+
+    :ivar prop: Required. Is one of the following types: Literal["a"], Literal["b"], Literal["c"]
+    :vartype prop: Literal["a", "b", "c"]
+    """
+
+    prop: Required[Literal["a", "b", "c"]]
+    """Required. Is one of the following types: Literal[\"a\"], Literal[\"b\"], Literal[\"c\"]"""
+
+
+class SendRequest1(TypedDict, total=False):
+    """SendRequest1.
+
+    :ivar prop: Required. Is one of the following types: Literal["b"], Literal["c"], str
+    :vartype prop: Union[Literal["b"], Literal["c"], str]
+    """
+
+    prop: Required[Union[Literal["b"], Literal["c"], str]]
+    """Required. Is one of the following types: Literal[\"b\"], Literal[\"c\"], str"""
+
+
+class SendRequest2(TypedDict, total=False):
+    """SendRequest2.
+
+    :ivar prop: Required. Known values are: "b" and "c".
+    :vartype prop: Union[str, "StringExtensibleNamedUnion"]
+    """
+
+    prop: Required[Union[str, "StringExtensibleNamedUnion"]]
+    """Required. Known values are: \"b\" and \"c\"."""
+
+
+class SendRequest3(TypedDict, total=False):
+    """SendRequest3.
+
+    :ivar prop: Required. Is one of the following types: Literal[1], Literal[2], Literal[3]
+    :vartype prop: Literal[1, 2, 3]
+    """
+
+    prop: Required[Literal[1, 2, 3]]
+    """Required. Is one of the following types: Literal[1], Literal[2], Literal[3]"""
+
+
+class SendRequest4(TypedDict, total=False):
+    """SendRequest4.
+
+    :ivar prop: Required. Is one of the following types: float
+    :vartype prop: float
+    """
+
+    prop: Required[float]
+    """Required. Is one of the following types: float"""
+
+
+class SendRequest5(TypedDict, total=False):
+    """SendRequest5.
+
+    :ivar prop: Required. Is either a Cat type or a Dog type.
+    :vartype prop: Union["Cat", "Dog"]
+    """
+
+    prop: Required[Union["Cat", "Dog"]]
+    """Required. Is either a Cat type or a Dog type."""
+
+
+class SendRequest6(TypedDict, total=False):
+    """SendRequest6.
+
+    :ivar prop: Required.
+    :vartype prop: "EnumsOnlyCases"
+    """
+
+    prop: Required["EnumsOnlyCases"]
+    """Required."""
+
+
+class SendRequest7(TypedDict, total=False):
+    """SendRequest7.
+
+    :ivar prop: Required.
+    :vartype prop: "StringAndArrayCases"
+    """
+
+    prop: Required["StringAndArrayCases"]
+    """Required."""
+
+
+class SendRequest8(TypedDict, total=False):
+    """SendRequest8.
+
+    :ivar prop: Required.
+    :vartype prop: "MixedLiteralsCases"
+    """
+
+    prop: Required["MixedLiteralsCases"]
+    """Required."""
+
+
+class SendRequest9(TypedDict, total=False):
+    """SendRequest9.
+
+    :ivar prop: Required.
+    :vartype prop: "MixedTypesCases"
+    """
+
+    prop: Required["MixedTypesCases"]
+    """Required."""

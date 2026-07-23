@@ -11,13 +11,13 @@ class Eagle(TypedDict, total=False):
     :ivar wingspan: Required.
     :vartype wingspan: int
     :ivar kind: Required. Default value is "eagle".
-    :vartype kind: str
+    :vartype kind: Literal["eagle"]
     :ivar friends:
-    :vartype friends: list[~typetest.model.singlediscriminator.models.Bird]
+    :vartype friends: list["Bird"]
     :ivar hate:
-    :vartype hate: dict[str, ~typetest.model.singlediscriminator.models.Bird]
+    :vartype hate: dict[str, "Bird"]
     :ivar partner:
-    :vartype partner: ~typetest.model.singlediscriminator.models.Bird
+    :vartype partner: "Bird"
     """
 
     wingspan: Required[int]
@@ -29,13 +29,29 @@ class Eagle(TypedDict, total=False):
     partner: "Bird"
 
 
+class Fish(TypedDict, total=False):
+    """A discriminated model with no defined subtypes. The discriminator is declared but no models
+    extend it.
+
+    :ivar kind: Required.
+    :vartype kind: str
+    :ivar size: Required.
+    :vartype size: int
+    """
+
+    kind: Required[str]
+    """Required."""
+    size: Required[int]
+    """Required."""
+
+
 class Goose(TypedDict, total=False):
     """The second level model in polymorphic single level inheritance.
 
     :ivar wingspan: Required.
     :vartype wingspan: int
     :ivar kind: Required. Default value is "goose".
-    :vartype kind: str
+    :vartype kind: Literal["goose"]
     """
 
     wingspan: Required[int]
@@ -50,7 +66,7 @@ class SeaGull(TypedDict, total=False):
     :ivar wingspan: Required.
     :vartype wingspan: int
     :ivar kind: Required. Default value is "seagull".
-    :vartype kind: str
+    :vartype kind: Literal["seagull"]
     """
 
     wingspan: Required[int]
@@ -65,7 +81,7 @@ class Sparrow(TypedDict, total=False):
     :ivar wingspan: Required.
     :vartype wingspan: int
     :ivar kind: Required. Default value is "sparrow".
-    :vartype kind: str
+    :vartype kind: Literal["sparrow"]
     """
 
     wingspan: Required[int]
@@ -74,20 +90,4 @@ class Sparrow(TypedDict, total=False):
     """Required. Default value is \"sparrow\"."""
 
 
-class TRex(TypedDict, total=False):
-    """The second level legacy model in polymorphic single level inheritance.
-
-    :ivar size: Required.
-    :vartype size: int
-    :ivar kind: Required. Default value is "t-rex".
-    :vartype kind: str
-    """
-
-    size: Required[int]
-    """Required."""
-    kind: Required[Literal["t-rex"]]
-    """Required. Default value is \"t-rex\"."""
-
-
 Bird = Union[Eagle, Goose, SeaGull, Sparrow]
-Dinosaur = Union[TRex]

@@ -9,7 +9,7 @@ class UploadFileArrayRequest(TypedDict, total=False):
     """UploadFileArrayRequest.
 
     :ivar files: Required.
-    :vartype files: list[~payload.multipart._utils.utils.FileType]
+    :vartype files: list[FileType]
     """
 
     files: Required[list[FileType]]
@@ -20,7 +20,7 @@ class UploadFileRequiredFilenameRequest(TypedDict, total=False):
     """UploadFileRequiredFilenameRequest.
 
     :ivar file: Required.
-    :vartype file: ~payload.multipart._utils.utils.FileType
+    :vartype file: FileType
     """
 
     file: Required[FileType]
@@ -31,7 +31,7 @@ class UploadFileSpecificContentTypeRequest(TypedDict, total=False):
     """UploadFileSpecificContentTypeRequest.
 
     :ivar file: Required.
-    :vartype file: ~payload.multipart._utils.utils.FileType
+    :vartype file: FileType
     """
 
     file: Required[FileType]

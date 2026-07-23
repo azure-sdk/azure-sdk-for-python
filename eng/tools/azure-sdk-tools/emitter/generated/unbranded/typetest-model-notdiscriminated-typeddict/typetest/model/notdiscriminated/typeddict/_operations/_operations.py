@@ -19,7 +19,7 @@ from corehttp.runtime import PipelineClient
 from corehttp.runtime.pipeline import PipelineResponse
 from corehttp.utils import case_insensitive_dict
 
-from .. import models as _models, types
+from .. import models as _models, types as _types
 from .._configuration import NotDiscriminatedClientConfiguration
 from .._utils.model_base import SdkJSONEncoder, _deserialize
 from .._utils.serialization import Serializer
@@ -96,7 +96,7 @@ class _NotDiscriminatedClientOperationsMixin(
         """
 
     @overload
-    def post_valid(self, input: types.Siamese, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def post_valid(self, input: _types.Siamese, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """post_valid.
 
         :param input: Required.
@@ -124,7 +124,7 @@ class _NotDiscriminatedClientOperationsMixin(
         """
 
     def post_valid(  # pylint: disable=inconsistent-return-statements
-        self, input: Union[_models.Siamese, types.Siamese, IO[bytes]], **kwargs: Any
+        self, input: Union[_models.Siamese, _types.Siamese, IO[bytes]], **kwargs: Any
     ) -> None:
         """post_valid.
 
@@ -251,7 +251,7 @@ class _NotDiscriminatedClientOperationsMixin(
 
     @overload
     def put_valid(
-        self, input: types.Siamese, *, content_type: str = "application/json", **kwargs: Any
+        self, input: _types.Siamese, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.Siamese:
         """put_valid.
 
@@ -279,7 +279,7 @@ class _NotDiscriminatedClientOperationsMixin(
         :raises ~corehttp.exceptions.HttpResponseError:
         """
 
-    def put_valid(self, input: Union[_models.Siamese, types.Siamese, IO[bytes]], **kwargs: Any) -> _models.Siamese:
+    def put_valid(self, input: Union[_models.Siamese, _types.Siamese, IO[bytes]], **kwargs: Any) -> _models.Siamese:
         """put_valid.
 
         :param input: Is either a Siamese type or a IO[bytes] type. Required.

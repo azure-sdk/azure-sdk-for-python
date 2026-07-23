@@ -28,14 +28,13 @@ from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 
-from .. import models as _models
+from .. import models as _models, types as _types
 from .._configuration import DurationClientConfiguration
 from .._utils.model_base import SdkJSONEncoder, _deserialize
 from .._utils.serialization import Deserializer, Serializer
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, dict[str, Any]], Any]]
-JSON = MutableMapping[str, Any]
 
 _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
@@ -65,20 +64,20 @@ def build_query_iso8601_request(*, input: datetime.timedelta, **kwargs: Any) -> 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
 
-def build_query_int32_seconds_request(*, input: int, **kwargs: Any) -> HttpRequest:
+def build_query_int32_seconds_request(*, input: datetime.timedelta, **kwargs: Any) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     # Construct URL
     _url = "/encode/duration/query/int32-seconds"
 
     # Construct parameters
-    _params["input"] = _SERIALIZER.query("input", input, "int")
+    _params["input"] = _SERIALIZER.query("input", input, "duration-seconds-int")
 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
 
 def build_query_int32_seconds_larger_unit_request(  # pylint: disable=name-too-long
-    *, input: int, **kwargs: Any
+    *, input: datetime.timedelta, **kwargs: Any
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -86,25 +85,25 @@ def build_query_int32_seconds_larger_unit_request(  # pylint: disable=name-too-l
     _url = "/encode/duration/query/int32-seconds-larger-unit"
 
     # Construct parameters
-    _params["input"] = _SERIALIZER.query("input", input, "int")
+    _params["input"] = _SERIALIZER.query("input", input, "duration-seconds-int")
 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
 
-def build_query_float_seconds_request(*, input: float, **kwargs: Any) -> HttpRequest:
+def build_query_float_seconds_request(*, input: datetime.timedelta, **kwargs: Any) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     # Construct URL
     _url = "/encode/duration/query/float-seconds"
 
     # Construct parameters
-    _params["input"] = _SERIALIZER.query("input", input, "float")
+    _params["input"] = _SERIALIZER.query("input", input, "duration-seconds-float")
 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
 
 def build_query_float_seconds_larger_unit_request(  # pylint: disable=name-too-long
-    *, input: float, **kwargs: Any
+    *, input: datetime.timedelta, **kwargs: Any
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -112,37 +111,37 @@ def build_query_float_seconds_larger_unit_request(  # pylint: disable=name-too-l
     _url = "/encode/duration/query/float-seconds-larger-unit"
 
     # Construct parameters
-    _params["input"] = _SERIALIZER.query("input", input, "float")
+    _params["input"] = _SERIALIZER.query("input", input, "duration-seconds-float")
 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
 
-def build_query_float64_seconds_request(*, input: float, **kwargs: Any) -> HttpRequest:
+def build_query_float64_seconds_request(*, input: datetime.timedelta, **kwargs: Any) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     # Construct URL
     _url = "/encode/duration/query/float64-seconds"
 
     # Construct parameters
-    _params["input"] = _SERIALIZER.query("input", input, "float")
+    _params["input"] = _SERIALIZER.query("input", input, "duration-seconds-float")
 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
 
-def build_query_int32_milliseconds_request(*, input: int, **kwargs: Any) -> HttpRequest:
+def build_query_int32_milliseconds_request(*, input: datetime.timedelta, **kwargs: Any) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     # Construct URL
     _url = "/encode/duration/query/int32-milliseconds"
 
     # Construct parameters
-    _params["input"] = _SERIALIZER.query("input", input, "int")
+    _params["input"] = _SERIALIZER.query("input", input, "duration-milliseconds-int")
 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
 
 def build_query_int32_milliseconds_larger_unit_request(  # pylint: disable=name-too-long
-    *, input: int, **kwargs: Any
+    *, input: datetime.timedelta, **kwargs: Any
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -150,25 +149,25 @@ def build_query_int32_milliseconds_larger_unit_request(  # pylint: disable=name-
     _url = "/encode/duration/query/int32-milliseconds-larger-unit"
 
     # Construct parameters
-    _params["input"] = _SERIALIZER.query("input", input, "int")
+    _params["input"] = _SERIALIZER.query("input", input, "duration-milliseconds-int")
 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
 
-def build_query_float_milliseconds_request(*, input: float, **kwargs: Any) -> HttpRequest:
+def build_query_float_milliseconds_request(*, input: datetime.timedelta, **kwargs: Any) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     # Construct URL
     _url = "/encode/duration/query/float-milliseconds"
 
     # Construct parameters
-    _params["input"] = _SERIALIZER.query("input", input, "float")
+    _params["input"] = _SERIALIZER.query("input", input, "duration-milliseconds-float")
 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
 
 def build_query_float_milliseconds_larger_unit_request(  # pylint: disable=name-too-long
-    *, input: float, **kwargs: Any
+    *, input: datetime.timedelta, **kwargs: Any
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -176,37 +175,37 @@ def build_query_float_milliseconds_larger_unit_request(  # pylint: disable=name-
     _url = "/encode/duration/query/float-milliseconds-larger-unit"
 
     # Construct parameters
-    _params["input"] = _SERIALIZER.query("input", input, "float")
+    _params["input"] = _SERIALIZER.query("input", input, "duration-milliseconds-float")
 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
 
-def build_query_float64_milliseconds_request(*, input: float, **kwargs: Any) -> HttpRequest:
+def build_query_float64_milliseconds_request(*, input: datetime.timedelta, **kwargs: Any) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     # Construct URL
     _url = "/encode/duration/query/float64-milliseconds"
 
     # Construct parameters
-    _params["input"] = _SERIALIZER.query("input", input, "float")
+    _params["input"] = _SERIALIZER.query("input", input, "duration-milliseconds-float")
 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
 
-def build_query_int32_seconds_array_request(*, input: list[int], **kwargs: Any) -> HttpRequest:
+def build_query_int32_seconds_array_request(*, input: list[datetime.timedelta], **kwargs: Any) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     # Construct URL
     _url = "/encode/duration/query/int32-seconds-array"
 
     # Construct parameters
-    _params["input"] = _SERIALIZER.query("input", input, "[int]", div=",")
+    _params["input"] = _SERIALIZER.query("input", input, "[duration-seconds-int]", div=",")
 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
 
 def build_query_int32_milliseconds_array_request(  # pylint: disable=name-too-long
-    *, input: list[int], **kwargs: Any
+    *, input: list[datetime.timedelta], **kwargs: Any
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -214,7 +213,7 @@ def build_query_int32_milliseconds_array_request(  # pylint: disable=name-too-lo
     _url = "/encode/duration/query/int32-milliseconds-array"
 
     # Construct parameters
-    _params["input"] = _SERIALIZER.query("input", input, "[int]", div=",")
+    _params["input"] = _SERIALIZER.query("input", input, "[duration-milliseconds-int]", div=",")
 
     return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
 
@@ -497,20 +496,20 @@ def build_header_iso8601_array_request(*, duration: list[datetime.timedelta], **
     return HttpRequest(method="GET", url=_url, headers=_headers, **kwargs)
 
 
-def build_header_int32_seconds_request(*, duration: int, **kwargs: Any) -> HttpRequest:
+def build_header_int32_seconds_request(*, duration: datetime.timedelta, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     # Construct URL
     _url = "/encode/duration/header/int32-seconds"
 
     # Construct headers
-    _headers["duration"] = _SERIALIZER.header("duration", duration, "int")
+    _headers["duration"] = _SERIALIZER.header("duration", duration, "duration-seconds-int")
 
     return HttpRequest(method="GET", url=_url, headers=_headers, **kwargs)
 
 
 def build_header_int32_seconds_larger_unit_request(  # pylint: disable=name-too-long
-    *, duration: int, **kwargs: Any
+    *, duration: datetime.timedelta, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
@@ -518,25 +517,25 @@ def build_header_int32_seconds_larger_unit_request(  # pylint: disable=name-too-
     _url = "/encode/duration/header/int32-seconds-larger-unit"
 
     # Construct headers
-    _headers["duration"] = _SERIALIZER.header("duration", duration, "int")
+    _headers["duration"] = _SERIALIZER.header("duration", duration, "duration-seconds-int")
 
     return HttpRequest(method="GET", url=_url, headers=_headers, **kwargs)
 
 
-def build_header_float_seconds_request(*, duration: float, **kwargs: Any) -> HttpRequest:
+def build_header_float_seconds_request(*, duration: datetime.timedelta, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     # Construct URL
     _url = "/encode/duration/header/float-seconds"
 
     # Construct headers
-    _headers["duration"] = _SERIALIZER.header("duration", duration, "float")
+    _headers["duration"] = _SERIALIZER.header("duration", duration, "duration-seconds-float")
 
     return HttpRequest(method="GET", url=_url, headers=_headers, **kwargs)
 
 
 def build_header_float_seconds_larger_unit_request(  # pylint: disable=name-too-long
-    *, duration: float, **kwargs: Any
+    *, duration: datetime.timedelta, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
@@ -544,37 +543,37 @@ def build_header_float_seconds_larger_unit_request(  # pylint: disable=name-too-
     _url = "/encode/duration/header/float-seconds-larger-unit"
 
     # Construct headers
-    _headers["duration"] = _SERIALIZER.header("duration", duration, "float")
+    _headers["duration"] = _SERIALIZER.header("duration", duration, "duration-seconds-float")
 
     return HttpRequest(method="GET", url=_url, headers=_headers, **kwargs)
 
 
-def build_header_float64_seconds_request(*, duration: float, **kwargs: Any) -> HttpRequest:
+def build_header_float64_seconds_request(*, duration: datetime.timedelta, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     # Construct URL
     _url = "/encode/duration/header/float64-seconds"
 
     # Construct headers
-    _headers["duration"] = _SERIALIZER.header("duration", duration, "float")
+    _headers["duration"] = _SERIALIZER.header("duration", duration, "duration-seconds-float")
 
     return HttpRequest(method="GET", url=_url, headers=_headers, **kwargs)
 
 
-def build_header_int32_milliseconds_request(*, duration: int, **kwargs: Any) -> HttpRequest:
+def build_header_int32_milliseconds_request(*, duration: datetime.timedelta, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     # Construct URL
     _url = "/encode/duration/header/int32-milliseconds"
 
     # Construct headers
-    _headers["duration"] = _SERIALIZER.header("duration", duration, "int")
+    _headers["duration"] = _SERIALIZER.header("duration", duration, "duration-milliseconds-int")
 
     return HttpRequest(method="GET", url=_url, headers=_headers, **kwargs)
 
 
 def build_header_int32_milliseconds_larger_unit_request(  # pylint: disable=name-too-long
-    *, duration: int, **kwargs: Any
+    *, duration: datetime.timedelta, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
@@ -582,25 +581,25 @@ def build_header_int32_milliseconds_larger_unit_request(  # pylint: disable=name
     _url = "/encode/duration/header/int32-milliseconds-larger-unit"
 
     # Construct headers
-    _headers["duration"] = _SERIALIZER.header("duration", duration, "int")
+    _headers["duration"] = _SERIALIZER.header("duration", duration, "duration-milliseconds-int")
 
     return HttpRequest(method="GET", url=_url, headers=_headers, **kwargs)
 
 
-def build_header_float_milliseconds_request(*, duration: float, **kwargs: Any) -> HttpRequest:
+def build_header_float_milliseconds_request(*, duration: datetime.timedelta, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
     # Construct URL
     _url = "/encode/duration/header/float-milliseconds"
 
     # Construct headers
-    _headers["duration"] = _SERIALIZER.header("duration", duration, "float")
+    _headers["duration"] = _SERIALIZER.header("duration", duration, "duration-milliseconds-float")
 
     return HttpRequest(method="GET", url=_url, headers=_headers, **kwargs)
 
 
 def build_header_float_milliseconds_larger_unit_request(  # pylint: disable=name-too-long
-    *, duration: float, **kwargs: Any
+    *, duration: datetime.timedelta, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
@@ -608,13 +607,13 @@ def build_header_float_milliseconds_larger_unit_request(  # pylint: disable=name
     _url = "/encode/duration/header/float-milliseconds-larger-unit"
 
     # Construct headers
-    _headers["duration"] = _SERIALIZER.header("duration", duration, "float")
+    _headers["duration"] = _SERIALIZER.header("duration", duration, "duration-milliseconds-float")
 
     return HttpRequest(method="GET", url=_url, headers=_headers, **kwargs)
 
 
 def build_header_float64_milliseconds_request(  # pylint: disable=name-too-long
-    *, duration: float, **kwargs: Any
+    *, duration: datetime.timedelta, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
@@ -622,13 +621,13 @@ def build_header_float64_milliseconds_request(  # pylint: disable=name-too-long
     _url = "/encode/duration/header/float64-milliseconds"
 
     # Construct headers
-    _headers["duration"] = _SERIALIZER.header("duration", duration, "float")
+    _headers["duration"] = _SERIALIZER.header("duration", duration, "duration-milliseconds-float")
 
     return HttpRequest(method="GET", url=_url, headers=_headers, **kwargs)
 
 
 def build_header_int32_milliseconds_array_request(  # pylint: disable=name-too-long
-    *, duration: list[int], **kwargs: Any
+    *, duration: list[datetime.timedelta], **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
 
@@ -636,12 +635,36 @@ def build_header_int32_milliseconds_array_request(  # pylint: disable=name-too-l
     _url = "/encode/duration/header/int32-milliseconds-array"
 
     # Construct headers
-    _headers["duration"] = _SERIALIZER.header("duration", duration, "[int]", div=",")
+    _headers["duration"] = _SERIALIZER.header("duration", duration, "[duration-milliseconds-int]", div=",")
 
     return HttpRequest(method="GET", url=_url, headers=_headers, **kwargs)
 
 
-class QueryOperations:
+def build_lossy_int_seconds_request(*, input: datetime.timedelta, **kwargs: Any) -> HttpRequest:
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    # Construct URL
+    _url = "/encode/duration/lossy/int32-seconds"
+
+    # Construct parameters
+    _params["input"] = _SERIALIZER.query("input", input, "duration-seconds-int")
+
+    return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
+
+
+def build_lossy_int_milliseconds_request(*, input: datetime.timedelta, **kwargs: Any) -> HttpRequest:
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    # Construct URL
+    _url = "/encode/duration/lossy/int32-milliseconds"
+
+    # Construct parameters
+    _params["input"] = _SERIALIZER.query("input", input, "duration-milliseconds-int")
+
+    return HttpRequest(method="GET", url=_url, params=_params, **kwargs)
+
+
+class QueryOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -757,11 +780,13 @@ class QueryOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
-    def int32_seconds(self, *, input: int, **kwargs: Any) -> None:  # pylint: disable=inconsistent-return-statements
+    def int32_seconds(  # pylint: disable=inconsistent-return-statements
+        self, *, input: datetime.timedelta, **kwargs: Any
+    ) -> None:
         """int32_seconds.
 
         :keyword input: Required.
-        :paramtype input: int
+        :paramtype input: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -805,12 +830,12 @@ class QueryOperations:
 
     @distributed_trace
     def int32_seconds_larger_unit(  # pylint: disable=inconsistent-return-statements
-        self, *, input: int, **kwargs: Any
+        self, *, input: datetime.timedelta, **kwargs: Any
     ) -> None:
         """int32_seconds_larger_unit.
 
         :keyword input: Required.
-        :paramtype input: int
+        :paramtype input: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -853,11 +878,13 @@ class QueryOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
-    def float_seconds(self, *, input: float, **kwargs: Any) -> None:  # pylint: disable=inconsistent-return-statements
+    def float_seconds(  # pylint: disable=inconsistent-return-statements
+        self, *, input: datetime.timedelta, **kwargs: Any
+    ) -> None:
         """float_seconds.
 
         :keyword input: Required.
-        :paramtype input: float
+        :paramtype input: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -901,12 +928,12 @@ class QueryOperations:
 
     @distributed_trace
     def float_seconds_larger_unit(  # pylint: disable=inconsistent-return-statements
-        self, *, input: float, **kwargs: Any
+        self, *, input: datetime.timedelta, **kwargs: Any
     ) -> None:
         """float_seconds_larger_unit.
 
         :keyword input: Required.
-        :paramtype input: float
+        :paramtype input: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -949,11 +976,13 @@ class QueryOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
-    def float64_seconds(self, *, input: float, **kwargs: Any) -> None:  # pylint: disable=inconsistent-return-statements
+    def float64_seconds(  # pylint: disable=inconsistent-return-statements
+        self, *, input: datetime.timedelta, **kwargs: Any
+    ) -> None:
         """float64_seconds.
 
         :keyword input: Required.
-        :paramtype input: float
+        :paramtype input: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -997,12 +1026,12 @@ class QueryOperations:
 
     @distributed_trace
     def int32_milliseconds(  # pylint: disable=inconsistent-return-statements
-        self, *, input: int, **kwargs: Any
+        self, *, input: datetime.timedelta, **kwargs: Any
     ) -> None:
         """int32_milliseconds.
 
         :keyword input: Required.
-        :paramtype input: int
+        :paramtype input: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1046,12 +1075,12 @@ class QueryOperations:
 
     @distributed_trace
     def int32_milliseconds_larger_unit(  # pylint: disable=inconsistent-return-statements
-        self, *, input: int, **kwargs: Any
+        self, *, input: datetime.timedelta, **kwargs: Any
     ) -> None:
         """int32_milliseconds_larger_unit.
 
         :keyword input: Required.
-        :paramtype input: int
+        :paramtype input: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1095,12 +1124,12 @@ class QueryOperations:
 
     @distributed_trace
     def float_milliseconds(  # pylint: disable=inconsistent-return-statements
-        self, *, input: float, **kwargs: Any
+        self, *, input: datetime.timedelta, **kwargs: Any
     ) -> None:
         """float_milliseconds.
 
         :keyword input: Required.
-        :paramtype input: float
+        :paramtype input: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1144,12 +1173,12 @@ class QueryOperations:
 
     @distributed_trace
     def float_milliseconds_larger_unit(  # pylint: disable=inconsistent-return-statements
-        self, *, input: float, **kwargs: Any
+        self, *, input: datetime.timedelta, **kwargs: Any
     ) -> None:
         """float_milliseconds_larger_unit.
 
         :keyword input: Required.
-        :paramtype input: float
+        :paramtype input: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1193,12 +1222,12 @@ class QueryOperations:
 
     @distributed_trace
     def float64_milliseconds(  # pylint: disable=inconsistent-return-statements
-        self, *, input: float, **kwargs: Any
+        self, *, input: datetime.timedelta, **kwargs: Any
     ) -> None:
         """float64_milliseconds.
 
         :keyword input: Required.
-        :paramtype input: float
+        :paramtype input: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1242,12 +1271,12 @@ class QueryOperations:
 
     @distributed_trace
     def int32_seconds_array(  # pylint: disable=inconsistent-return-statements
-        self, *, input: list[int], **kwargs: Any
+        self, *, input: list[datetime.timedelta], **kwargs: Any
     ) -> None:
         """int32_seconds_array.
 
         :keyword input: Required.
-        :paramtype input: list[int]
+        :paramtype input: list[~datetime.timedelta]
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1291,12 +1320,12 @@ class QueryOperations:
 
     @distributed_trace
     def int32_milliseconds_array(  # pylint: disable=inconsistent-return-statements
-        self, *, input: list[int], **kwargs: Any
+        self, *, input: list[datetime.timedelta], **kwargs: Any
     ) -> None:
         """int32_milliseconds_array.
 
         :keyword input: Required.
-        :paramtype input: list[int]
+        :paramtype input: list[~datetime.timedelta]
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1339,7 +1368,7 @@ class QueryOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class PropertyOperations:
+class PropertyOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1374,12 +1403,12 @@ class PropertyOperations:
 
     @overload
     def default(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.DefaultDurationProperty, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.DefaultDurationProperty:
         """default.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.DefaultDurationProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1406,12 +1435,13 @@ class PropertyOperations:
 
     @distributed_trace
     def default(
-        self, body: Union[_models.DefaultDurationProperty, JSON, IO[bytes]], **kwargs: Any
+        self, body: Union[_models.DefaultDurationProperty, _types.DefaultDurationProperty, IO[bytes]], **kwargs: Any
     ) -> _models.DefaultDurationProperty:
         """default.
 
-        :param body: Is one of the following types: DefaultDurationProperty, JSON, IO[bytes] Required.
-        :type body: ~encode.duration.models.DefaultDurationProperty or JSON or IO[bytes]
+        :param body: Is either a DefaultDurationProperty type or a IO[bytes] type. Required.
+        :type body: ~encode.duration.models.DefaultDurationProperty or
+         ~encode.duration.types.DefaultDurationProperty or IO[bytes]
         :return: DefaultDurationProperty. The DefaultDurationProperty is compatible with MutableMapping
         :rtype: ~encode.duration.models.DefaultDurationProperty
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1493,12 +1523,12 @@ class PropertyOperations:
 
     @overload
     def iso8601(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.ISO8601DurationProperty, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.ISO8601DurationProperty:
         """iso8601.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.ISO8601DurationProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1525,12 +1555,13 @@ class PropertyOperations:
 
     @distributed_trace
     def iso8601(
-        self, body: Union[_models.ISO8601DurationProperty, JSON, IO[bytes]], **kwargs: Any
+        self, body: Union[_models.ISO8601DurationProperty, _types.ISO8601DurationProperty, IO[bytes]], **kwargs: Any
     ) -> _models.ISO8601DurationProperty:
         """iso8601.
 
-        :param body: Is one of the following types: ISO8601DurationProperty, JSON, IO[bytes] Required.
-        :type body: ~encode.duration.models.ISO8601DurationProperty or JSON or IO[bytes]
+        :param body: Is either a ISO8601DurationProperty type or a IO[bytes] type. Required.
+        :type body: ~encode.duration.models.ISO8601DurationProperty or
+         ~encode.duration.types.ISO8601DurationProperty or IO[bytes]
         :return: ISO8601DurationProperty. The ISO8601DurationProperty is compatible with MutableMapping
         :rtype: ~encode.duration.models.ISO8601DurationProperty
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1613,12 +1644,12 @@ class PropertyOperations:
 
     @overload
     def int32_seconds(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.Int32SecondsDurationProperty, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.Int32SecondsDurationProperty:
         """int32_seconds.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.Int32SecondsDurationProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1647,13 +1678,15 @@ class PropertyOperations:
 
     @distributed_trace
     def int32_seconds(
-        self, body: Union[_models.Int32SecondsDurationProperty, JSON, IO[bytes]], **kwargs: Any
+        self,
+        body: Union[_models.Int32SecondsDurationProperty, _types.Int32SecondsDurationProperty, IO[bytes]],
+        **kwargs: Any,
     ) -> _models.Int32SecondsDurationProperty:
         """int32_seconds.
 
-        :param body: Is one of the following types: Int32SecondsDurationProperty, JSON, IO[bytes]
-         Required.
-        :type body: ~encode.duration.models.Int32SecondsDurationProperty or JSON or IO[bytes]
+        :param body: Is either a Int32SecondsDurationProperty type or a IO[bytes] type. Required.
+        :type body: ~encode.duration.models.Int32SecondsDurationProperty or
+         ~encode.duration.types.Int32SecondsDurationProperty or IO[bytes]
         :return: Int32SecondsDurationProperty. The Int32SecondsDurationProperty is compatible with
          MutableMapping
         :rtype: ~encode.duration.models.Int32SecondsDurationProperty
@@ -1737,12 +1770,12 @@ class PropertyOperations:
 
     @overload
     def float_seconds(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.FloatSecondsDurationProperty, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.FloatSecondsDurationProperty:
         """float_seconds.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.FloatSecondsDurationProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1771,13 +1804,15 @@ class PropertyOperations:
 
     @distributed_trace
     def float_seconds(
-        self, body: Union[_models.FloatSecondsDurationProperty, JSON, IO[bytes]], **kwargs: Any
+        self,
+        body: Union[_models.FloatSecondsDurationProperty, _types.FloatSecondsDurationProperty, IO[bytes]],
+        **kwargs: Any,
     ) -> _models.FloatSecondsDurationProperty:
         """float_seconds.
 
-        :param body: Is one of the following types: FloatSecondsDurationProperty, JSON, IO[bytes]
-         Required.
-        :type body: ~encode.duration.models.FloatSecondsDurationProperty or JSON or IO[bytes]
+        :param body: Is either a FloatSecondsDurationProperty type or a IO[bytes] type. Required.
+        :type body: ~encode.duration.models.FloatSecondsDurationProperty or
+         ~encode.duration.types.FloatSecondsDurationProperty or IO[bytes]
         :return: FloatSecondsDurationProperty. The FloatSecondsDurationProperty is compatible with
          MutableMapping
         :rtype: ~encode.duration.models.FloatSecondsDurationProperty
@@ -1861,12 +1896,12 @@ class PropertyOperations:
 
     @overload
     def float64_seconds(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.Float64SecondsDurationProperty, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.Float64SecondsDurationProperty:
         """float64_seconds.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.Float64SecondsDurationProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1895,13 +1930,15 @@ class PropertyOperations:
 
     @distributed_trace
     def float64_seconds(
-        self, body: Union[_models.Float64SecondsDurationProperty, JSON, IO[bytes]], **kwargs: Any
+        self,
+        body: Union[_models.Float64SecondsDurationProperty, _types.Float64SecondsDurationProperty, IO[bytes]],
+        **kwargs: Any,
     ) -> _models.Float64SecondsDurationProperty:
         """float64_seconds.
 
-        :param body: Is one of the following types: Float64SecondsDurationProperty, JSON, IO[bytes]
-         Required.
-        :type body: ~encode.duration.models.Float64SecondsDurationProperty or JSON or IO[bytes]
+        :param body: Is either a Float64SecondsDurationProperty type or a IO[bytes] type. Required.
+        :type body: ~encode.duration.models.Float64SecondsDurationProperty or
+         ~encode.duration.types.Float64SecondsDurationProperty or IO[bytes]
         :return: Float64SecondsDurationProperty. The Float64SecondsDurationProperty is compatible with
          MutableMapping
         :rtype: ~encode.duration.models.Float64SecondsDurationProperty
@@ -1985,12 +2022,12 @@ class PropertyOperations:
 
     @overload
     def int32_milliseconds(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.Int32MillisecondsDurationProperty, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.Int32MillisecondsDurationProperty:
         """int32_milliseconds.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.Int32MillisecondsDurationProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -2019,13 +2056,15 @@ class PropertyOperations:
 
     @distributed_trace
     def int32_milliseconds(
-        self, body: Union[_models.Int32MillisecondsDurationProperty, JSON, IO[bytes]], **kwargs: Any
+        self,
+        body: Union[_models.Int32MillisecondsDurationProperty, _types.Int32MillisecondsDurationProperty, IO[bytes]],
+        **kwargs: Any,
     ) -> _models.Int32MillisecondsDurationProperty:
         """int32_milliseconds.
 
-        :param body: Is one of the following types: Int32MillisecondsDurationProperty, JSON, IO[bytes]
-         Required.
-        :type body: ~encode.duration.models.Int32MillisecondsDurationProperty or JSON or IO[bytes]
+        :param body: Is either a Int32MillisecondsDurationProperty type or a IO[bytes] type. Required.
+        :type body: ~encode.duration.models.Int32MillisecondsDurationProperty or
+         ~encode.duration.types.Int32MillisecondsDurationProperty or IO[bytes]
         :return: Int32MillisecondsDurationProperty. The Int32MillisecondsDurationProperty is compatible
          with MutableMapping
         :rtype: ~encode.duration.models.Int32MillisecondsDurationProperty
@@ -2109,12 +2148,12 @@ class PropertyOperations:
 
     @overload
     def float_milliseconds(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.FloatMillisecondsDurationProperty, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.FloatMillisecondsDurationProperty:
         """float_milliseconds.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.FloatMillisecondsDurationProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -2143,13 +2182,15 @@ class PropertyOperations:
 
     @distributed_trace
     def float_milliseconds(
-        self, body: Union[_models.FloatMillisecondsDurationProperty, JSON, IO[bytes]], **kwargs: Any
+        self,
+        body: Union[_models.FloatMillisecondsDurationProperty, _types.FloatMillisecondsDurationProperty, IO[bytes]],
+        **kwargs: Any,
     ) -> _models.FloatMillisecondsDurationProperty:
         """float_milliseconds.
 
-        :param body: Is one of the following types: FloatMillisecondsDurationProperty, JSON, IO[bytes]
-         Required.
-        :type body: ~encode.duration.models.FloatMillisecondsDurationProperty or JSON or IO[bytes]
+        :param body: Is either a FloatMillisecondsDurationProperty type or a IO[bytes] type. Required.
+        :type body: ~encode.duration.models.FloatMillisecondsDurationProperty or
+         ~encode.duration.types.FloatMillisecondsDurationProperty or IO[bytes]
         :return: FloatMillisecondsDurationProperty. The FloatMillisecondsDurationProperty is compatible
          with MutableMapping
         :rtype: ~encode.duration.models.FloatMillisecondsDurationProperty
@@ -2237,12 +2278,12 @@ class PropertyOperations:
 
     @overload
     def float64_milliseconds(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.Float64MillisecondsDurationProperty, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.Float64MillisecondsDurationProperty:
         """float64_milliseconds.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.Float64MillisecondsDurationProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -2271,13 +2312,16 @@ class PropertyOperations:
 
     @distributed_trace
     def float64_milliseconds(
-        self, body: Union[_models.Float64MillisecondsDurationProperty, JSON, IO[bytes]], **kwargs: Any
+        self,
+        body: Union[_models.Float64MillisecondsDurationProperty, _types.Float64MillisecondsDurationProperty, IO[bytes]],
+        **kwargs: Any,
     ) -> _models.Float64MillisecondsDurationProperty:
         """float64_milliseconds.
 
-        :param body: Is one of the following types: Float64MillisecondsDurationProperty, JSON,
-         IO[bytes] Required.
-        :type body: ~encode.duration.models.Float64MillisecondsDurationProperty or JSON or IO[bytes]
+        :param body: Is either a Float64MillisecondsDurationProperty type or a IO[bytes] type.
+         Required.
+        :type body: ~encode.duration.models.Float64MillisecondsDurationProperty or
+         ~encode.duration.types.Float64MillisecondsDurationProperty or IO[bytes]
         :return: Float64MillisecondsDurationProperty. The Float64MillisecondsDurationProperty is
          compatible with MutableMapping
         :rtype: ~encode.duration.models.Float64MillisecondsDurationProperty
@@ -2361,12 +2405,12 @@ class PropertyOperations:
 
     @overload
     def float_seconds_array(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.FloatSecondsDurationArrayProperty, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.FloatSecondsDurationArrayProperty:
         """float_seconds_array.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.FloatSecondsDurationArrayProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -2395,13 +2439,15 @@ class PropertyOperations:
 
     @distributed_trace
     def float_seconds_array(
-        self, body: Union[_models.FloatSecondsDurationArrayProperty, JSON, IO[bytes]], **kwargs: Any
+        self,
+        body: Union[_models.FloatSecondsDurationArrayProperty, _types.FloatSecondsDurationArrayProperty, IO[bytes]],
+        **kwargs: Any,
     ) -> _models.FloatSecondsDurationArrayProperty:
         """float_seconds_array.
 
-        :param body: Is one of the following types: FloatSecondsDurationArrayProperty, JSON, IO[bytes]
-         Required.
-        :type body: ~encode.duration.models.FloatSecondsDurationArrayProperty or JSON or IO[bytes]
+        :param body: Is either a FloatSecondsDurationArrayProperty type or a IO[bytes] type. Required.
+        :type body: ~encode.duration.models.FloatSecondsDurationArrayProperty or
+         ~encode.duration.types.FloatSecondsDurationArrayProperty or IO[bytes]
         :return: FloatSecondsDurationArrayProperty. The FloatSecondsDurationArrayProperty is compatible
          with MutableMapping
         :rtype: ~encode.duration.models.FloatSecondsDurationArrayProperty
@@ -2489,12 +2535,16 @@ class PropertyOperations:
 
     @overload
     def float_milliseconds_array(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        body: _types.FloatMillisecondsDurationArrayProperty,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any,
     ) -> _models.FloatMillisecondsDurationArrayProperty:
         """float_milliseconds_array.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.FloatMillisecondsDurationArrayProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -2523,13 +2573,18 @@ class PropertyOperations:
 
     @distributed_trace
     def float_milliseconds_array(
-        self, body: Union[_models.FloatMillisecondsDurationArrayProperty, JSON, IO[bytes]], **kwargs: Any
+        self,
+        body: Union[
+            _models.FloatMillisecondsDurationArrayProperty, _types.FloatMillisecondsDurationArrayProperty, IO[bytes]
+        ],
+        **kwargs: Any,
     ) -> _models.FloatMillisecondsDurationArrayProperty:
         """float_milliseconds_array.
 
-        :param body: Is one of the following types: FloatMillisecondsDurationArrayProperty, JSON,
-         IO[bytes] Required.
-        :type body: ~encode.duration.models.FloatMillisecondsDurationArrayProperty or JSON or IO[bytes]
+        :param body: Is either a FloatMillisecondsDurationArrayProperty type or a IO[bytes] type.
+         Required.
+        :type body: ~encode.duration.models.FloatMillisecondsDurationArrayProperty or
+         ~encode.duration.types.FloatMillisecondsDurationArrayProperty or IO[bytes]
         :return: FloatMillisecondsDurationArrayProperty. The FloatMillisecondsDurationArrayProperty is
          compatible with MutableMapping
         :rtype: ~encode.duration.models.FloatMillisecondsDurationArrayProperty
@@ -2617,12 +2672,16 @@ class PropertyOperations:
 
     @overload
     def int32_seconds_larger_unit(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        body: _types.Int32SecondsLargerUnitDurationProperty,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any,
     ) -> _models.Int32SecondsLargerUnitDurationProperty:
         """int32_seconds_larger_unit.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.Int32SecondsLargerUnitDurationProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -2651,13 +2710,18 @@ class PropertyOperations:
 
     @distributed_trace
     def int32_seconds_larger_unit(
-        self, body: Union[_models.Int32SecondsLargerUnitDurationProperty, JSON, IO[bytes]], **kwargs: Any
+        self,
+        body: Union[
+            _models.Int32SecondsLargerUnitDurationProperty, _types.Int32SecondsLargerUnitDurationProperty, IO[bytes]
+        ],
+        **kwargs: Any,
     ) -> _models.Int32SecondsLargerUnitDurationProperty:
         """int32_seconds_larger_unit.
 
-        :param body: Is one of the following types: Int32SecondsLargerUnitDurationProperty, JSON,
-         IO[bytes] Required.
-        :type body: ~encode.duration.models.Int32SecondsLargerUnitDurationProperty or JSON or IO[bytes]
+        :param body: Is either a Int32SecondsLargerUnitDurationProperty type or a IO[bytes] type.
+         Required.
+        :type body: ~encode.duration.models.Int32SecondsLargerUnitDurationProperty or
+         ~encode.duration.types.Int32SecondsLargerUnitDurationProperty or IO[bytes]
         :return: Int32SecondsLargerUnitDurationProperty. The Int32SecondsLargerUnitDurationProperty is
          compatible with MutableMapping
         :rtype: ~encode.duration.models.Int32SecondsLargerUnitDurationProperty
@@ -2745,12 +2809,16 @@ class PropertyOperations:
 
     @overload
     def float_seconds_larger_unit(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        body: _types.FloatSecondsLargerUnitDurationProperty,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any,
     ) -> _models.FloatSecondsLargerUnitDurationProperty:
         """float_seconds_larger_unit.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.FloatSecondsLargerUnitDurationProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -2779,13 +2847,18 @@ class PropertyOperations:
 
     @distributed_trace
     def float_seconds_larger_unit(
-        self, body: Union[_models.FloatSecondsLargerUnitDurationProperty, JSON, IO[bytes]], **kwargs: Any
+        self,
+        body: Union[
+            _models.FloatSecondsLargerUnitDurationProperty, _types.FloatSecondsLargerUnitDurationProperty, IO[bytes]
+        ],
+        **kwargs: Any,
     ) -> _models.FloatSecondsLargerUnitDurationProperty:
         """float_seconds_larger_unit.
 
-        :param body: Is one of the following types: FloatSecondsLargerUnitDurationProperty, JSON,
-         IO[bytes] Required.
-        :type body: ~encode.duration.models.FloatSecondsLargerUnitDurationProperty or JSON or IO[bytes]
+        :param body: Is either a FloatSecondsLargerUnitDurationProperty type or a IO[bytes] type.
+         Required.
+        :type body: ~encode.duration.models.FloatSecondsLargerUnitDurationProperty or
+         ~encode.duration.types.FloatSecondsLargerUnitDurationProperty or IO[bytes]
         :return: FloatSecondsLargerUnitDurationProperty. The FloatSecondsLargerUnitDurationProperty is
          compatible with MutableMapping
         :rtype: ~encode.duration.models.FloatSecondsLargerUnitDurationProperty
@@ -2873,12 +2946,16 @@ class PropertyOperations:
 
     @overload
     def int32_milliseconds_larger_unit(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        body: _types.Int32MillisecondsLargerUnitDurationProperty,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any,
     ) -> _models.Int32MillisecondsLargerUnitDurationProperty:
         """int32_milliseconds_larger_unit.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.Int32MillisecondsLargerUnitDurationProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -2907,14 +2984,20 @@ class PropertyOperations:
 
     @distributed_trace
     def int32_milliseconds_larger_unit(
-        self, body: Union[_models.Int32MillisecondsLargerUnitDurationProperty, JSON, IO[bytes]], **kwargs: Any
+        self,
+        body: Union[
+            _models.Int32MillisecondsLargerUnitDurationProperty,
+            _types.Int32MillisecondsLargerUnitDurationProperty,
+            IO[bytes],
+        ],
+        **kwargs: Any,
     ) -> _models.Int32MillisecondsLargerUnitDurationProperty:
         """int32_milliseconds_larger_unit.
 
-        :param body: Is one of the following types: Int32MillisecondsLargerUnitDurationProperty, JSON,
-         IO[bytes] Required.
-        :type body: ~encode.duration.models.Int32MillisecondsLargerUnitDurationProperty or JSON or
-         IO[bytes]
+        :param body: Is either a Int32MillisecondsLargerUnitDurationProperty type or a IO[bytes] type.
+         Required.
+        :type body: ~encode.duration.models.Int32MillisecondsLargerUnitDurationProperty or
+         ~encode.duration.types.Int32MillisecondsLargerUnitDurationProperty or IO[bytes]
         :return: Int32MillisecondsLargerUnitDurationProperty. The
          Int32MillisecondsLargerUnitDurationProperty is compatible with MutableMapping
         :rtype: ~encode.duration.models.Int32MillisecondsLargerUnitDurationProperty
@@ -3002,12 +3085,16 @@ class PropertyOperations:
 
     @overload
     def float_milliseconds_larger_unit(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        body: _types.FloatMillisecondsLargerUnitDurationProperty,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any,
     ) -> _models.FloatMillisecondsLargerUnitDurationProperty:
         """float_milliseconds_larger_unit.
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~encode.duration.types.FloatMillisecondsLargerUnitDurationProperty
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -3036,14 +3123,20 @@ class PropertyOperations:
 
     @distributed_trace
     def float_milliseconds_larger_unit(
-        self, body: Union[_models.FloatMillisecondsLargerUnitDurationProperty, JSON, IO[bytes]], **kwargs: Any
+        self,
+        body: Union[
+            _models.FloatMillisecondsLargerUnitDurationProperty,
+            _types.FloatMillisecondsLargerUnitDurationProperty,
+            IO[bytes],
+        ],
+        **kwargs: Any,
     ) -> _models.FloatMillisecondsLargerUnitDurationProperty:
         """float_milliseconds_larger_unit.
 
-        :param body: Is one of the following types: FloatMillisecondsLargerUnitDurationProperty, JSON,
-         IO[bytes] Required.
-        :type body: ~encode.duration.models.FloatMillisecondsLargerUnitDurationProperty or JSON or
-         IO[bytes]
+        :param body: Is either a FloatMillisecondsLargerUnitDurationProperty type or a IO[bytes] type.
+         Required.
+        :type body: ~encode.duration.models.FloatMillisecondsLargerUnitDurationProperty or
+         ~encode.duration.types.FloatMillisecondsLargerUnitDurationProperty or IO[bytes]
         :return: FloatMillisecondsLargerUnitDurationProperty. The
          FloatMillisecondsLargerUnitDurationProperty is compatible with MutableMapping
         :rtype: ~encode.duration.models.FloatMillisecondsLargerUnitDurationProperty
@@ -3109,7 +3202,7 @@ class PropertyOperations:
         return deserialized  # type: ignore
 
 
-class HeaderOperations:
+class HeaderOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -3274,11 +3367,13 @@ class HeaderOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
-    def int32_seconds(self, *, duration: int, **kwargs: Any) -> None:  # pylint: disable=inconsistent-return-statements
+    def int32_seconds(  # pylint: disable=inconsistent-return-statements
+        self, *, duration: datetime.timedelta, **kwargs: Any
+    ) -> None:
         """int32_seconds.
 
         :keyword duration: Required.
-        :paramtype duration: int
+        :paramtype duration: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3322,12 +3417,12 @@ class HeaderOperations:
 
     @distributed_trace
     def int32_seconds_larger_unit(  # pylint: disable=inconsistent-return-statements
-        self, *, duration: int, **kwargs: Any
+        self, *, duration: datetime.timedelta, **kwargs: Any
     ) -> None:
         """int32_seconds_larger_unit.
 
         :keyword duration: Required.
-        :paramtype duration: int
+        :paramtype duration: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3371,12 +3466,12 @@ class HeaderOperations:
 
     @distributed_trace
     def float_seconds(  # pylint: disable=inconsistent-return-statements
-        self, *, duration: float, **kwargs: Any
+        self, *, duration: datetime.timedelta, **kwargs: Any
     ) -> None:
         """float_seconds.
 
         :keyword duration: Required.
-        :paramtype duration: float
+        :paramtype duration: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3420,12 +3515,12 @@ class HeaderOperations:
 
     @distributed_trace
     def float_seconds_larger_unit(  # pylint: disable=inconsistent-return-statements
-        self, *, duration: float, **kwargs: Any
+        self, *, duration: datetime.timedelta, **kwargs: Any
     ) -> None:
         """float_seconds_larger_unit.
 
         :keyword duration: Required.
-        :paramtype duration: float
+        :paramtype duration: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3469,12 +3564,12 @@ class HeaderOperations:
 
     @distributed_trace
     def float64_seconds(  # pylint: disable=inconsistent-return-statements
-        self, *, duration: float, **kwargs: Any
+        self, *, duration: datetime.timedelta, **kwargs: Any
     ) -> None:
         """float64_seconds.
 
         :keyword duration: Required.
-        :paramtype duration: float
+        :paramtype duration: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3518,12 +3613,12 @@ class HeaderOperations:
 
     @distributed_trace
     def int32_milliseconds(  # pylint: disable=inconsistent-return-statements
-        self, *, duration: int, **kwargs: Any
+        self, *, duration: datetime.timedelta, **kwargs: Any
     ) -> None:
         """int32_milliseconds.
 
         :keyword duration: Required.
-        :paramtype duration: int
+        :paramtype duration: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3567,12 +3662,12 @@ class HeaderOperations:
 
     @distributed_trace
     def int32_milliseconds_larger_unit(  # pylint: disable=inconsistent-return-statements
-        self, *, duration: int, **kwargs: Any
+        self, *, duration: datetime.timedelta, **kwargs: Any
     ) -> None:
         """int32_milliseconds_larger_unit.
 
         :keyword duration: Required.
-        :paramtype duration: int
+        :paramtype duration: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3616,12 +3711,12 @@ class HeaderOperations:
 
     @distributed_trace
     def float_milliseconds(  # pylint: disable=inconsistent-return-statements
-        self, *, duration: float, **kwargs: Any
+        self, *, duration: datetime.timedelta, **kwargs: Any
     ) -> None:
         """float_milliseconds.
 
         :keyword duration: Required.
-        :paramtype duration: float
+        :paramtype duration: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3665,12 +3760,12 @@ class HeaderOperations:
 
     @distributed_trace
     def float_milliseconds_larger_unit(  # pylint: disable=inconsistent-return-statements
-        self, *, duration: float, **kwargs: Any
+        self, *, duration: datetime.timedelta, **kwargs: Any
     ) -> None:
         """float_milliseconds_larger_unit.
 
         :keyword duration: Required.
-        :paramtype duration: float
+        :paramtype duration: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3714,12 +3809,12 @@ class HeaderOperations:
 
     @distributed_trace
     def float64_milliseconds(  # pylint: disable=inconsistent-return-statements
-        self, *, duration: float, **kwargs: Any
+        self, *, duration: datetime.timedelta, **kwargs: Any
     ) -> None:
         """float64_milliseconds.
 
         :keyword duration: Required.
-        :paramtype duration: float
+        :paramtype duration: ~datetime.timedelta
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3763,12 +3858,12 @@ class HeaderOperations:
 
     @distributed_trace
     def int32_milliseconds_array(  # pylint: disable=inconsistent-return-statements
-        self, *, duration: list[int], **kwargs: Any
+        self, *, duration: list[datetime.timedelta], **kwargs: Any
     ) -> None:
         """int32_milliseconds_array.
 
         :keyword duration: Required.
-        :paramtype duration: list[int]
+        :paramtype duration: list[~datetime.timedelta]
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3788,6 +3883,122 @@ class HeaderOperations:
 
         _request = build_header_int32_milliseconds_array_request(
             duration=duration,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if cls:
+            return cls(pipeline_response, None, {})  # type: ignore
+
+
+class LossyOperations:  # pylint: disable=docstring-missing-param
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~encode.duration.DurationClient`'s
+        :attr:`lossy` attribute.
+    """
+
+    def __init__(self, *args, **kwargs) -> None:
+        input_args = list(args)
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: DurationClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+
+    @distributed_trace
+    def int_seconds(  # pylint: disable=inconsistent-return-statements
+        self, *, input: datetime.timedelta, **kwargs: Any
+    ) -> None:
+        """int_seconds.
+
+        :keyword input: Required.
+        :paramtype input: ~datetime.timedelta
+        :return: None
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        _request = build_lossy_int_seconds_request(
+            input=input,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if cls:
+            return cls(pipeline_response, None, {})  # type: ignore
+
+    @distributed_trace
+    def int_milliseconds(  # pylint: disable=inconsistent-return-statements
+        self, *, input: datetime.timedelta, **kwargs: Any
+    ) -> None:
+        """int_milliseconds.
+
+        :keyword input: Required.
+        :paramtype input: ~datetime.timedelta
+        :return: None
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        _request = build_lossy_int_milliseconds_request(
+            input=input,
             headers=_headers,
             params=_params,
         )

@@ -14,9 +14,9 @@ class ModelV2(TypedDict, total=False):
     :ivar prop: Required.
     :vartype prop: str
     :ivar enum_prop: Required. "enumMemberV2"
-    :vartype enum_prop: str or ~versioning.removed.models.EnumV2
+    :vartype enum_prop: Union[str, "EnumV2"]
     :ivar union_prop: Required. Is either a str type or a float type.
-    :vartype union_prop: str or float
+    :vartype union_prop: "_unions.UnionV2"
     """
 
     prop: Required[str]
@@ -33,7 +33,7 @@ class ModelV3(TypedDict, total=False):
     :ivar id: Required.
     :vartype id: str
     :ivar enum_prop: Required. Known values are: "enumMemberV1" and "enumMemberV2Preview".
-    :vartype enum_prop: str or ~versioning.removed.models.EnumV3
+    :vartype enum_prop: Union[str, "EnumV3"]
     """
 
     id: Required[str]

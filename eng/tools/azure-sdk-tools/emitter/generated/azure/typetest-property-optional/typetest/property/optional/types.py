@@ -6,7 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import datetime
 from typing import Literal
 from typing_extensions import Required, TypedDict
 
@@ -15,7 +14,7 @@ class BooleanLiteralProperty(TypedDict, total=False):
     """Model with boolean literal property.
 
     :ivar property: Property. Default value is True.
-    :vartype property: bool
+    :vartype property: Literal[True]
     """
 
     property: Literal[True]
@@ -27,10 +26,10 @@ class BytesProperty(TypedDict, total=False):
     are looking for.
 
     :ivar property: Property.
-    :vartype property: bytes
+    :vartype property: str
     """
 
-    property: bytes
+    property: str
     """Property."""
 
 
@@ -38,10 +37,10 @@ class CollectionsByteProperty(TypedDict, total=False):
     """Model with collection bytes properties.
 
     :ivar property: Property.
-    :vartype property: list[bytes]
+    :vartype property: list[str]
     """
 
-    property: list[bytes]
+    property: list[str]
     """Property."""
 
 
@@ -49,7 +48,7 @@ class CollectionsModelProperty(TypedDict, total=False):
     """Model with collection models properties.
 
     :ivar property: Property.
-    :vartype property: list[~typetest.property.optional.models.StringProperty]
+    :vartype property: list["StringProperty"]
     """
 
     property: list["StringProperty"]
@@ -60,10 +59,10 @@ class DatetimeProperty(TypedDict, total=False):
     """Model with a datetime property.
 
     :ivar property: Property.
-    :vartype property: ~datetime.datetime
+    :vartype property: str
     """
 
-    property: datetime.datetime
+    property: str
     """Property."""
 
 
@@ -71,10 +70,10 @@ class DurationProperty(TypedDict, total=False):
     """Model with a duration property.
 
     :ivar property: Property.
-    :vartype property: ~datetime.timedelta
+    :vartype property: str
     """
 
-    property: datetime.timedelta
+    property: str
     """Property."""
 
 
@@ -93,7 +92,7 @@ class IntLiteralProperty(TypedDict, total=False):
     """Model with int literal property.
 
     :ivar property: Property. Default value is 1.
-    :vartype property: int
+    :vartype property: Literal[1]
     """
 
     property: Literal[1]
@@ -104,10 +103,10 @@ class PlainDateProperty(TypedDict, total=False):
     """Model with a plainDate property.
 
     :ivar property: Property.
-    :vartype property: ~datetime.date
+    :vartype property: str
     """
 
-    property: datetime.date
+    property: str
     """Property."""
 
 
@@ -115,10 +114,10 @@ class PlainTimeProperty(TypedDict, total=False):
     """Model with a plainTime property.
 
     :ivar property: Property.
-    :vartype property: ~datetime.time
+    :vartype property: str
     """
 
-    property: datetime.time
+    property: str
     """Property."""
 
 
@@ -141,7 +140,7 @@ class StringLiteralProperty(TypedDict, total=False):
     """Model with string literal property.
 
     :ivar property: Property. Default value is "hello".
-    :vartype property: str
+    :vartype property: Literal["hello"]
     """
 
     property: Literal["hello"]
@@ -164,7 +163,7 @@ class UnionFloatLiteralProperty(TypedDict, total=False):
     """Model with union of float literal property.
 
     :ivar property: Property. Is one of the following types: float
-    :vartype property: float or float
+    :vartype property: float
     """
 
     property: float
@@ -175,7 +174,7 @@ class UnionIntLiteralProperty(TypedDict, total=False):
     """Model with union of int literal property.
 
     :ivar property: Property. Is either a Literal[1] type or a Literal[2] type.
-    :vartype property: int or int
+    :vartype property: Literal[1, 2]
     """
 
     property: Literal[1, 2]
@@ -186,7 +185,7 @@ class UnionStringLiteralProperty(TypedDict, total=False):
     """Model with union of string literal property.
 
     :ivar property: Property. Is either a Literal["hello"] type or a Literal["world"] type.
-    :vartype property: str or str
+    :vartype property: Literal["hello", "world"]
     """
 
     property: Literal["hello", "world"]

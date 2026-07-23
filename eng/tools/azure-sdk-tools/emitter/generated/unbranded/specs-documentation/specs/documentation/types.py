@@ -40,7 +40,7 @@ class BulletPointsModel(TypedDict, total=False):
        both bold and italic formatting and is long enough to test the wrapping behavior in such cases.
      * **Bold bullet point**
      * *Italic bullet point*. Required. Known values are: "Simple", "Bold", and "Italic".
-    :vartype prop: str or ~specs.documentation.models.BulletPointsEnum
+    :vartype prop: Union[str, "BulletPointsEnum"]
     """
 
     prop: Required[Union[str, "BulletPointsEnum"]]
@@ -58,3 +58,14 @@ class BulletPointsModel(TypedDict, total=False):
         both bold and italic formatting and is long enough to test the wrapping behavior in such cases.
       * **Bold bullet point**
       * *Italic bullet point*. Required. Known values are: \"Simple\", \"Bold\", and \"Italic\"."""
+
+
+class BulletPointsModelRequest(TypedDict, total=False):
+    """BulletPointsModelRequest.
+
+    :ivar input: Required.
+    :vartype input: "BulletPointsModel"
+    """
+
+    input: Required["BulletPointsModel"]
+    """Required."""

@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import datetime
-import decimal
 from typing import Any, Literal, TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
@@ -21,7 +19,7 @@ class BooleanLiteralProperty(TypedDict, total=False):
     """Model with a boolean literal property.
 
     :ivar property: Property. Required. Default value is True.
-    :vartype property: bool
+    :vartype property: Literal[True]
     """
 
     property: Required[Literal[True]]
@@ -43,10 +41,10 @@ class BytesProperty(TypedDict, total=False):
     """Model with a bytes property.
 
     :ivar property: Property. Required.
-    :vartype property: bytes
+    :vartype property: str
     """
 
-    property: Required[bytes]
+    property: Required[str]
     """Property. Required."""
 
 
@@ -65,7 +63,7 @@ class CollectionsModelProperty(TypedDict, total=False):
     """Model with collection model properties.
 
     :ivar property: Property. Required.
-    :vartype property: list[~typetest.property.valuetypes.models.InnerModel]
+    :vartype property: list["InnerModel"]
     """
 
     property: Required[list["InnerModel"]]
@@ -87,10 +85,10 @@ class DatetimeProperty(TypedDict, total=False):
     """Model with a datetime property.
 
     :ivar property: Property. Required.
-    :vartype property: ~datetime.datetime
+    :vartype property: str
     """
 
-    property: Required[datetime.datetime]
+    property: Required[str]
     """Property. Required."""
 
 
@@ -98,10 +96,10 @@ class Decimal128Property(TypedDict, total=False):
     """Model with a decimal128 property.
 
     :ivar property: Property. Required.
-    :vartype property: ~decimal.Decimal
+    :vartype property: float
     """
 
-    property: Required[decimal.Decimal]
+    property: Required[float]
     """Property. Required."""
 
 
@@ -109,10 +107,10 @@ class DecimalProperty(TypedDict, total=False):
     """Model with a decimal property.
 
     :ivar property: Property. Required.
-    :vartype property: ~decimal.Decimal
+    :vartype property: float
     """
 
-    property: Required[decimal.Decimal]
+    property: Required[float]
     """Property. Required."""
 
 
@@ -131,10 +129,10 @@ class DurationProperty(TypedDict, total=False):
     """Model with a duration property.
 
     :ivar property: Property. Required.
-    :vartype property: ~datetime.timedelta
+    :vartype property: str
     """
 
-    property: Required[datetime.timedelta]
+    property: Required[str]
     """Property. Required."""
 
 
@@ -142,7 +140,7 @@ class EnumProperty(TypedDict, total=False):
     """Model with enum properties.
 
     :ivar property: Property. Required. Known values are: "ValueOne" and "ValueTwo".
-    :vartype property: str or ~typetest.property.valuetypes.models.FixedInnerEnum
+    :vartype property: Union[str, "FixedInnerEnum"]
     """
 
     property: Required[Union[str, "FixedInnerEnum"]]
@@ -153,7 +151,7 @@ class ExtensibleEnumProperty(TypedDict, total=False):
     """Model with extensible enum properties.
 
     :ivar property: Property. Required. Known values are: "ValueOne" and "ValueTwo".
-    :vartype property: str or ~typetest.property.valuetypes.models.InnerEnum
+    :vartype property: Union[str, "InnerEnum"]
     """
 
     property: Required[Union[str, "InnerEnum"]]
@@ -197,7 +195,7 @@ class IntLiteralProperty(TypedDict, total=False):
     """Model with a int literal property.
 
     :ivar property: Property. Required. Default value is 42.
-    :vartype property: int
+    :vartype property: Literal[42]
     """
 
     property: Required[Literal[42]]
@@ -219,7 +217,7 @@ class ModelProperty(TypedDict, total=False):
     """Model with model properties.
 
     :ivar property: Property. Required.
-    :vartype property: ~typetest.property.valuetypes.models.InnerModel
+    :vartype property: "InnerModel"
     """
 
     property: Required["InnerModel"]
@@ -234,7 +232,7 @@ class StringLiteralProperty(TypedDict, total=False):
     """Model with a string literal property.
 
     :ivar property: Property. Required. Default value is "hello".
-    :vartype property: str
+    :vartype property: Literal["hello"]
     """
 
     property: Required[Literal["hello"]]
@@ -257,7 +255,7 @@ class UnionEnumValueProperty(TypedDict, total=False):
     are looking for.
 
     :ivar property: Property. Required. ENUM_VALUE2.
-    :vartype property: str or ~typetest.property.valuetypes.models.ENUM_VALUE2
+    :vartype property: Literal[ExtendedEnum.ENUM_VALUE2]
     """
 
     property: Required[Literal[ExtendedEnum.ENUM_VALUE2]]
@@ -268,7 +266,7 @@ class UnionFloatLiteralProperty(TypedDict, total=False):
     """Model with a union of float literal as property.
 
     :ivar property: Property. Required. Is one of the following types: float
-    :vartype property: float or float
+    :vartype property: float
     """
 
     property: Required[float]
@@ -279,7 +277,7 @@ class UnionIntLiteralProperty(TypedDict, total=False):
     """Model with a union of int literal as property.
 
     :ivar property: Property. Required. Is either a Literal[42] type or a Literal[43] type.
-    :vartype property: int or int
+    :vartype property: Literal[42, 43]
     """
 
     property: Required[Literal[42, 43]]
@@ -291,7 +289,7 @@ class UnionStringLiteralProperty(TypedDict, total=False):
 
     :ivar property: Property. Required. Is either a Literal["hello"] type or a Literal["world"]
      type.
-    :vartype property: str or str
+    :vartype property: Literal["hello", "world"]
     """
 
     property: Required[Literal["hello", "world"]]
@@ -302,7 +300,7 @@ class UnknownArrayProperty(TypedDict, total=False):
     """Model with a property unknown, and the data is an array.
 
     :ivar property: Property. Required.
-    :vartype property: any
+    :vartype property: Any
     """
 
     property: Required[Any]
@@ -313,7 +311,7 @@ class UnknownDictProperty(TypedDict, total=False):
     """Model with a property unknown, and the data is a dictionnary.
 
     :ivar property: Property. Required.
-    :vartype property: any
+    :vartype property: Any
     """
 
     property: Required[Any]
@@ -324,7 +322,7 @@ class UnknownIntProperty(TypedDict, total=False):
     """Model with a property unknown, and the data is a int32.
 
     :ivar property: Property. Required.
-    :vartype property: any
+    :vartype property: Any
     """
 
     property: Required[Any]
@@ -335,7 +333,7 @@ class UnknownStringProperty(TypedDict, total=False):
     """Model with a property unknown, and the data is a string.
 
     :ivar property: Property. Required.
-    :vartype property: any
+    :vartype property: Any
     """
 
     property: Required[Any]

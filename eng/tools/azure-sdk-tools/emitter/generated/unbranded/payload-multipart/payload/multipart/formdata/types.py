@@ -9,7 +9,7 @@ class AnonymousModelRequest(TypedDict, total=False):
     """AnonymousModelRequest.
 
     :ivar profile_image: Required.
-    :vartype profile_image: ~payload.multipart._utils.utils.FileType
+    :vartype profile_image: FileType
     """
 
     profileImage: Required[FileType]

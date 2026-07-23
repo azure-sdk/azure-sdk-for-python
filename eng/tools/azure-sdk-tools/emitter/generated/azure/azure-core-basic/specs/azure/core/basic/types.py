@@ -17,7 +17,7 @@ class User(TypedDict, total=False):
     :ivar name: The user's name. Required.
     :vartype name: str
     :ivar orders: The user's order list.
-    :vartype orders: list[~specs.azure.core.basic.models.UserOrder]
+    :vartype orders: list["UserOrder"]
     :ivar etag: The entity tag for this resource. Required.
     :vartype etag: str
     """
@@ -30,17 +30,6 @@ class User(TypedDict, total=False):
     """The user's order list."""
     etag: Required[str]
     """The entity tag for this resource. Required."""
-
-
-class UserList(TypedDict, total=False):
-    """UserList.
-
-    :ivar users: Required.
-    :vartype users: list[~specs.azure.core.basic.models.User]
-    """
-
-    users: Required[list["User"]]
-    """Required."""
 
 
 class UserOrder(TypedDict, total=False):

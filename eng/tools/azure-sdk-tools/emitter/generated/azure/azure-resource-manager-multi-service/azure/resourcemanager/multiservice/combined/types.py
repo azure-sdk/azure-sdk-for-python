@@ -7,8 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import datetime
-from typing import Any, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
 if TYPE_CHECKING:
@@ -28,7 +27,7 @@ class Resource(TypedDict, total=False):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.multiservice.combined.models.SystemData
+    :vartype system_data: "SystemData"
     """
 
     id: str
@@ -56,7 +55,7 @@ class TrackedResource(Resource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.multiservice.combined.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -82,13 +81,13 @@ class Disk(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.multiservice.combined.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.resourcemanager.multiservice.combined.models.DiskProperties
+    :vartype properties: "DiskProperties"
     """
 
     properties: "DiskProperties"
@@ -99,66 +98,11 @@ class DiskProperties(TypedDict, total=False):
     """Disk resource properties.
 
     :ivar provisioning_state: Known values are: "Succeeded", "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.resourcemanager.multiservice.combined.models.ResourceProvisioningState
+    :vartype provisioning_state: Union[str, "ResourceProvisioningState"]
     """
 
     provisioningState: Union[str, "ResourceProvisioningState"]
     """Known values are: \"Succeeded\", \"Failed\", and \"Canceled\"."""
-
-
-class ErrorAdditionalInfo(TypedDict, total=False):
-    """The resource management error additional info.
-
-    :ivar type: The additional info type.
-    :vartype type: str
-    :ivar info: The additional info.
-    :vartype info: any
-    """
-
-    type: str
-    """The additional info type."""
-    info: Any
-    """The additional info."""
-
-
-class ErrorDetail(TypedDict, total=False):
-    """The error detail.
-
-    :ivar code: The error code.
-    :vartype code: str
-    :ivar message: The error message.
-    :vartype message: str
-    :ivar target: The error target.
-    :vartype target: str
-    :ivar details: The error details.
-    :vartype details: list[~azure.resourcemanager.multiservice.combined.models.ErrorDetail]
-    :ivar additional_info: The error additional info.
-    :vartype additional_info:
-     list[~azure.resourcemanager.multiservice.combined.models.ErrorAdditionalInfo]
-    """
-
-    code: str
-    """The error code."""
-    message: str
-    """The error message."""
-    target: str
-    """The error target."""
-    details: list["ErrorDetail"]
-    """The error details."""
-    additionalInfo: list["ErrorAdditionalInfo"]
-    """The error additional info."""
-
-
-class ErrorResponse(TypedDict, total=False):
-    """Error response.
-
-    :ivar error: The error object.
-    :vartype error: ~azure.resourcemanager.multiservice.combined.models.ErrorDetail
-    """
-
-    error: "ErrorDetail"
-    """The error object."""
 
 
 class SystemData(TypedDict, total=False):
@@ -168,18 +112,16 @@ class SystemData(TypedDict, total=False):
     :vartype created_by: str
     :ivar created_by_type: The type of identity that created the resource. Known values are:
      "User", "Application", "ManagedIdentity", and "Key".
-    :vartype created_by_type: str or
-     ~azure.resourcemanager.multiservice.combined.models.CreatedByType
+    :vartype created_by_type: Union[str, "CreatedByType"]
     :ivar created_at: The timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
+    :vartype created_at: str
     :ivar last_modified_by: The identity that last modified the resource.
     :vartype last_modified_by: str
     :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
      are: "User", "Application", "ManagedIdentity", and "Key".
-    :vartype last_modified_by_type: str or
-     ~azure.resourcemanager.multiservice.combined.models.CreatedByType
+    :vartype last_modified_by_type: Union[str, "CreatedByType"]
     :ivar last_modified_at: The timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
+    :vartype last_modified_at: str
     """
 
     createdBy: str
@@ -187,14 +129,14 @@ class SystemData(TypedDict, total=False):
     createdByType: Union[str, "CreatedByType"]
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    createdAt: datetime.datetime
+    createdAt: str
     """The timestamp of resource creation (UTC)."""
     lastModifiedBy: str
     """The identity that last modified the resource."""
     lastModifiedByType: Union[str, "CreatedByType"]
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    lastModifiedAt: datetime.datetime
+    lastModifiedAt: str
     """The timestamp of resource last modification (UTC)."""
 
 
@@ -211,14 +153,13 @@ class VirtualMachine(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.multiservice.combined.models.SystemData
+    :vartype system_data: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties:
-     ~azure.resourcemanager.multiservice.combined.models.VirtualMachineProperties
+    :vartype properties: "VirtualMachineProperties"
     """
 
     properties: "VirtualMachineProperties"
@@ -229,8 +170,7 @@ class VirtualMachineProperties(TypedDict, total=False):
     """VirtualMachineProperties.
 
     :ivar provisioning_state: Known values are: "Succeeded", "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.resourcemanager.multiservice.combined.models.ResourceProvisioningState
+    :vartype provisioning_state: Union[str, "ResourceProvisioningState"]
     """
 
     provisioningState: Union[str, "ResourceProvisioningState"]
