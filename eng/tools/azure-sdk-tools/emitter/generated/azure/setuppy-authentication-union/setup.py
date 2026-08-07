@@ -11,7 +11,6 @@ import os
 import re
 from setuptools import setup, find_packages
 
-
 PACKAGE_NAME = "setuppy-authentication-union"
 PACKAGE_PPRINT_NAME = "Setuppy Authentication Union"
 PACKAGE_NAMESPACE = "setuppy.authentication.union"
@@ -47,6 +46,7 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
         "License :: OSI Approved :: MIT License",
     ],
     zip_safe=False,

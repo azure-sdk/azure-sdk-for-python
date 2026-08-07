@@ -20,14 +20,36 @@ class InputModel(TypedDict, total=False):
     """Required."""
 
 
+class NamespaceModel(TypedDict, total=False):
+    """NamespaceModel.
+
+    :ivar name: Required.
+    :vartype name: str
+    """
+
+    name: Required[str]
+    """Required."""
+
+
+class NestedNamespaceModel(TypedDict, total=False):
+    """NestedNamespaceModel.
+
+    :ivar value: Required.
+    :vartype value: str
+    """
+
+    value: Required[str]
+    """Required."""
+
+
 class OrphanModel(TypedDict, total=False):
     """Not used anywhere, but access is override to public so still need to be generated and exported
     with serialization.
 
-    :ivar model_name: Required.
-    :vartype model_name: str
-    :ivar description: Required.
-    :vartype description: str
+    :ivar name: Required.
+    :vartype name: str
+    :ivar desc: Required.
+    :vartype desc: str
     """
 
     name: Required[str]
@@ -62,7 +84,7 @@ class RoundTripModel(TypedDict, total=False):
     """RoundTripModel.
 
     :ivar result: Required.
-    :vartype result: ~specs.azure.clientgenerator.core.usage.models.ResultModel
+    :vartype result: "ResultModel"
     """
 
     result: Required["ResultModel"]

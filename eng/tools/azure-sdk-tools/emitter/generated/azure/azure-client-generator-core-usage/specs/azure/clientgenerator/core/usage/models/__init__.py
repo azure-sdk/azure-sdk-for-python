@@ -15,6 +15,8 @@ if TYPE_CHECKING:
 
 from ._models import (  # type: ignore
     InputModel,
+    NamespaceModel,
+    NestedNamespaceModel,
     OrphanModel,
     OutputModel,
     ResultModel,
@@ -26,6 +28,8 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "InputModel",
+    "NamespaceModel",
+    "NestedNamespaceModel",
     "OrphanModel",
     "OutputModel",
     "ResultModel",

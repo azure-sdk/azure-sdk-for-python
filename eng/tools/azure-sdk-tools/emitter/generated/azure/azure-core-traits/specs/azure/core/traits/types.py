@@ -9,38 +9,12 @@
 from typing_extensions import Required, TypedDict
 
 
-class User(TypedDict, total=False):
-    """Sample Model.
-
-    :ivar id: The user's id. Required.
-    :vartype id: int
-    :ivar name: The user's name.
-    :vartype name: str
-    """
-
-    id: Required[int]
-    """The user's id. Required."""
-    name: str
-    """The user's name."""
-
-
 class UserActionParam(TypedDict, total=False):
     """User action param.
 
-    :ivar user_action_value: User action value. Required.
-    :vartype user_action_value: str
+    :ivar userActionValue: User action value. Required.
+    :vartype userActionValue: str
     """
 
     userActionValue: Required[str]
     """User action value. Required."""
-
-
-class UserActionResponse(TypedDict, total=False):
-    """User action response.
-
-    :ivar user_action_result: User action result. Required.
-    :vartype user_action_result: str
-    """
-
-    userActionResult: Required[str]
-    """User action result. Required."""

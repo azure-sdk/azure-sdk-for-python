@@ -16,34 +16,14 @@ if TYPE_CHECKING:
 class ActionRequest(TypedDict, total=False):
     """ActionRequest.
 
-    :ivar string_property: Required.
-    :vartype string_property: str
-    :ivar model_property:
-    :vartype model_property: ~specs.azure.example.basic.models.Model
-    :ivar array_property:
-    :vartype array_property: list[str]
-    :ivar record_property:
-    :vartype record_property: dict[str, str]
-    """
-
-    stringProperty: Required[str]
-    """Required."""
-    modelProperty: "Model"
-    arrayProperty: list[str]
-    recordProperty: dict[str, str]
-
-
-class ActionResponse(TypedDict, total=False):
-    """ActionResponse.
-
-    :ivar string_property: Required.
-    :vartype string_property: str
-    :ivar model_property:
-    :vartype model_property: ~specs.azure.example.basic.models.Model
-    :ivar array_property:
-    :vartype array_property: list[str]
-    :ivar record_property:
-    :vartype record_property: dict[str, str]
+    :ivar stringProperty: Required.
+    :vartype stringProperty: str
+    :ivar modelProperty:
+    :vartype modelProperty: "Model"
+    :ivar arrayProperty:
+    :vartype arrayProperty: list[str]
+    :ivar recordProperty:
+    :vartype recordProperty: dict[str, str]
     """
 
     stringProperty: Required[str]
@@ -56,12 +36,12 @@ class ActionResponse(TypedDict, total=False):
 class Model(TypedDict, total=False):
     """Model.
 
-    :ivar int32_property:
-    :vartype int32_property: int
-    :ivar float32_property:
-    :vartype float32_property: float
-    :ivar enum_property: "EnumValue1"
-    :vartype enum_property: str or ~specs.azure.example.basic.models.EnumEnum
+    :ivar int32Property:
+    :vartype int32Property: int
+    :ivar float32Property:
+    :vartype float32Property: float
+    :ivar enumProperty: "EnumValue1"
+    :vartype enumProperty: Union[str, "EnumEnum"]
     """
 
     int32Property: int

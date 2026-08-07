@@ -21,14 +21,13 @@ from corehttp.runtime import PipelineClient
 from corehttp.runtime.pipeline import PipelineResponse
 from corehttp.utils import case_insensitive_dict
 
-from .. import models as _models
+from .. import models as _models, types as _types
 from .._configuration import DictionaryClientConfiguration
 from .._utils.model_base import SdkJSONEncoder, _deserialize
 from .._utils.serialization import Deserializer, Serializer
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, dict[str, Any]], Any]]
-JSON = MutableMapping[str, Any]
 
 _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
@@ -342,7 +341,7 @@ def build_nullable_float_value_put_request(**kwargs: Any) -> HttpRequest:
     return HttpRequest(method="PUT", url=_url, headers=_headers, **kwargs)
 
 
-class Int32ValueOperations:
+class Int32ValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -497,7 +496,7 @@ class Int32ValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class Int64ValueOperations:
+class Int64ValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -652,7 +651,7 @@ class Int64ValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class BooleanValueOperations:
+class BooleanValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -807,7 +806,7 @@ class BooleanValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class StringValueOperations:
+class StringValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -962,7 +961,7 @@ class StringValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class Float32ValueOperations:
+class Float32ValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1117,7 +1116,7 @@ class Float32ValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class DatetimeValueOperations:
+class DatetimeValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1272,7 +1271,7 @@ class DatetimeValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class DurationValueOperations:
+class DurationValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1429,7 +1428,7 @@ class DurationValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class UnknownValueOperations:
+class UnknownValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1584,7 +1583,7 @@ class UnknownValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class ModelValueOperations:
+class ModelValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1672,11 +1671,11 @@ class ModelValueOperations:
         """
 
     @overload
-    def put(self, body: dict[str, JSON], *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def put(self, body: dict[str, _types.InnerModel], *, content_type: str = "application/json", **kwargs: Any) -> None:
         """put.
 
         :param body: Required.
-        :type body: dict[str, JSON]
+        :type body: dict[str, ~typetest.dictionary.types.InnerModel]
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1700,12 +1699,13 @@ class ModelValueOperations:
         """
 
     def put(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[dict[str, _models.InnerModel], dict[str, JSON], IO[bytes]], **kwargs: Any
+        self, body: Union[dict[str, _models.InnerModel], dict[str, _types.InnerModel], IO[bytes]], **kwargs: Any
     ) -> None:
         """put.
 
-        :param body: Is one of the following types: {str: InnerModel}, {str: JSON}, IO[bytes] Required.
-        :type body: dict[str, ~typetest.dictionary.models.InnerModel] or dict[str, JSON] or IO[bytes]
+        :param body: Is either a {str: InnerModel} type or a IO[bytes] type. Required.
+        :type body: dict[str, ~typetest.dictionary.models.InnerModel] or dict[str,
+         ~typetest.dictionary.types.InnerModel] or IO[bytes]
         :return: None
         :rtype: None
         :raises ~corehttp.exceptions.HttpResponseError:
@@ -1755,7 +1755,7 @@ class ModelValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class RecursiveModelValueOperations:
+class RecursiveModelValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1843,11 +1843,11 @@ class RecursiveModelValueOperations:
         """
 
     @overload
-    def put(self, body: dict[str, JSON], *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def put(self, body: dict[str, _types.InnerModel], *, content_type: str = "application/json", **kwargs: Any) -> None:
         """put.
 
         :param body: Required.
-        :type body: dict[str, JSON]
+        :type body: dict[str, ~typetest.dictionary.types.InnerModel]
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1871,12 +1871,13 @@ class RecursiveModelValueOperations:
         """
 
     def put(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[dict[str, _models.InnerModel], dict[str, JSON], IO[bytes]], **kwargs: Any
+        self, body: Union[dict[str, _models.InnerModel], dict[str, _types.InnerModel], IO[bytes]], **kwargs: Any
     ) -> None:
         """put.
 
-        :param body: Is one of the following types: {str: InnerModel}, {str: JSON}, IO[bytes] Required.
-        :type body: dict[str, ~typetest.dictionary.models.InnerModel] or dict[str, JSON] or IO[bytes]
+        :param body: Is either a {str: InnerModel} type or a IO[bytes] type. Required.
+        :type body: dict[str, ~typetest.dictionary.models.InnerModel] or dict[str,
+         ~typetest.dictionary.types.InnerModel] or IO[bytes]
         :return: None
         :rtype: None
         :raises ~corehttp.exceptions.HttpResponseError:
@@ -1926,7 +1927,7 @@ class RecursiveModelValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class NullableFloatValueOperations:
+class NullableFloatValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.

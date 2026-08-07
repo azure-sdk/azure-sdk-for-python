@@ -7,69 +7,11 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import datetime
-from typing import Any, TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Union
 from typing_extensions import Required, TypedDict
 
 if TYPE_CHECKING:
-    from .models import CreatedByType, ManagedServiceIdentityType
-
-
-class ApiError(TypedDict, total=False):
-    """Api error.
-
-    :ivar details: The Api error details.
-    :vartype details: list[~azure.resourcemanager.commonproperties.models.ApiErrorBase]
-    :ivar innererror: The Api inner error.
-    :vartype innererror: ~azure.resourcemanager.commonproperties.models.InnerError
-    :ivar code: The error code.
-    :vartype code: str
-    :ivar target: The target of the particular error.
-    :vartype target: str
-    :ivar message: The error message.
-    :vartype message: str
-    """
-
-    details: list["ApiErrorBase"]
-    """The Api error details."""
-    innererror: "InnerError"
-    """The Api inner error."""
-    code: str
-    """The error code."""
-    target: str
-    """The target of the particular error."""
-    message: str
-    """The error message."""
-
-
-class ApiErrorBase(TypedDict, total=False):
-    """Api error base.
-
-    :ivar code: The error code.
-    :vartype code: str
-    :ivar target: The target of the particular error.
-    :vartype target: str
-    :ivar message: The error message.
-    :vartype message: str
-    """
-
-    code: str
-    """The error code."""
-    target: str
-    """The target of the particular error."""
-    message: str
-    """The error message."""
-
-
-class CloudError(TypedDict, total=False):
-    """An error response.
-
-    :ivar error: Api error.
-    :vartype error: ~azure.resourcemanager.commonproperties.models.ApiError
-    """
-
-    error: "ApiError"
-    """Api error."""
+    from .models import CreatedByType, ManagedServiceIdentityType, ResourceProvisioningState
 
 
 class Resource(TypedDict, total=False):
@@ -83,9 +25,9 @@ class Resource(TypedDict, total=False):
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+    :ivar systemData: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.commonproperties.models.SystemData
+    :vartype systemData: "SystemData"
     """
 
     id: str
@@ -111,9 +53,9 @@ class TrackedResource(Resource):
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+    :ivar systemData: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.commonproperties.models.SystemData
+    :vartype systemData: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -124,6 +66,62 @@ class TrackedResource(Resource):
     """Resource tags."""
     location: Required[str]
     """The geo-location where the resource lives. Required."""
+
+
+class ArmResourceIdentifierResource(TrackedResource):
+    """Concrete tracked resource types can be created by aliasing this type using a specific property
+    type.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar systemData: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype systemData: "SystemData"
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: "ArmResourceIdentifierResourceProperties"
+    """
+
+    properties: "ArmResourceIdentifierResourceProperties"
+    """The resource-specific properties for this resource."""
+
+
+class ArmResourceIdentifierResourceProperties(TypedDict, total=False):
+    """ArmResourceIdentifier Resource Properties.
+
+    :ivar provisioningState: The status of the last operation. Required. Known values are:
+     "Succeeded", "Failed", and "Canceled".
+    :vartype provisioningState: Union[str, "ResourceProvisioningState"]
+    :ivar simpleArmId: A basic ARM resource identifier without type or scopes. Required.
+    :vartype simpleArmId: str
+    :ivar armIdWithType: An ARM resource identifier with type only. Required.
+    :vartype armIdWithType: str
+    :ivar armIdWithTypeAndScope: An ARM resource identifier with type and scopes. Required.
+    :vartype armIdWithTypeAndScope: str
+    :ivar armIdWithAllScopes: An ARM resource identifier with all scopes. Required.
+    :vartype armIdWithAllScopes: str
+    """
+
+    provisioningState: Required[Union[str, "ResourceProvisioningState"]]
+    """The status of the last operation. Required. Known values are: \"Succeeded\", \"Failed\", and
+     \"Canceled\"."""
+    simpleArmId: Required[str]
+    """A basic ARM resource identifier without type or scopes. Required."""
+    armIdWithType: Required[str]
+    """An ARM resource identifier with type only. Required."""
+    armIdWithTypeAndScope: Required[str]
+    """An ARM resource identifier with type and scopes. Required."""
+    armIdWithAllScopes: Required[str]
+    """An ARM resource identifier with all scopes. Required."""
 
 
 class ConfidentialResource(TrackedResource):
@@ -138,16 +136,15 @@ class ConfidentialResource(TrackedResource):
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+    :ivar systemData: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.commonproperties.models.SystemData
+    :vartype systemData: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties:
-     ~azure.resourcemanager.commonproperties.models.ConfidentialResourceProperties
+    :vartype properties: "ConfidentialResourceProperties"
     """
 
     properties: "ConfidentialResourceProperties"
@@ -157,8 +154,8 @@ class ConfidentialResource(TrackedResource):
 class ConfidentialResourceProperties(TypedDict, total=False):
     """Confidential Resource Properties.
 
-    :ivar provisioning_state: The status of the last operation. Required.
-    :vartype provisioning_state: str
+    :ivar provisioningState: The status of the last operation. Required.
+    :vartype provisioningState: str
     :ivar username: Required.
     :vartype username: str
     """
@@ -167,75 +164,6 @@ class ConfidentialResourceProperties(TypedDict, total=False):
     """The status of the last operation. Required."""
     username: Required[str]
     """Required."""
-
-
-class ErrorAdditionalInfo(TypedDict, total=False):
-    """The resource management error additional info.
-
-    :ivar type: The additional info type.
-    :vartype type: str
-    :ivar info: The additional info.
-    :vartype info: any
-    """
-
-    type: str
-    """The additional info type."""
-    info: Any
-    """The additional info."""
-
-
-class ErrorDetail(TypedDict, total=False):
-    """The error detail.
-
-    :ivar code: The error code.
-    :vartype code: str
-    :ivar message: The error message.
-    :vartype message: str
-    :ivar target: The error target.
-    :vartype target: str
-    :ivar details: The error details.
-    :vartype details: list[~azure.resourcemanager.commonproperties.models.ErrorDetail]
-    :ivar additional_info: The error additional info.
-    :vartype additional_info:
-     list[~azure.resourcemanager.commonproperties.models.ErrorAdditionalInfo]
-    """
-
-    code: str
-    """The error code."""
-    message: str
-    """The error message."""
-    target: str
-    """The error target."""
-    details: list["ErrorDetail"]
-    """The error details."""
-    additionalInfo: list["ErrorAdditionalInfo"]
-    """The error additional info."""
-
-
-class ErrorResponse(TypedDict, total=False):
-    """Error response.
-
-    :ivar error: The error object.
-    :vartype error: ~azure.resourcemanager.commonproperties.models.ErrorDetail
-    """
-
-    error: "ErrorDetail"
-    """The error object."""
-
-
-class InnerError(TypedDict, total=False):
-    """Inner error details.
-
-    :ivar exceptiontype: The exception type.
-    :vartype exceptiontype: str
-    :ivar errordetail: The internal error message or exception dump.
-    :vartype errordetail: str
-    """
-
-    exceptiontype: str
-    """The exception type."""
-    errordetail: str
-    """The internal error message or exception dump."""
 
 
 class ManagedIdentityTrackedResource(TrackedResource):
@@ -250,18 +178,17 @@ class ManagedIdentityTrackedResource(TrackedResource):
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+    :ivar systemData: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.resourcemanager.commonproperties.models.SystemData
+    :vartype systemData: "SystemData"
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties:
-     ~azure.resourcemanager.commonproperties.models.ManagedIdentityTrackedResourceProperties
+    :vartype properties: "ManagedIdentityTrackedResourceProperties"
     :ivar identity: The managed service identities assigned to this resource.
-    :vartype identity: ~azure.resourcemanager.commonproperties.models.ManagedServiceIdentity
+    :vartype identity: "ManagedServiceIdentity"
     """
 
     properties: "ManagedIdentityTrackedResourceProperties"
@@ -273,8 +200,8 @@ class ManagedIdentityTrackedResource(TrackedResource):
 class ManagedIdentityTrackedResourceProperties(TypedDict, total=False):
     """Managed Identity Arm Resource Properties.
 
-    :ivar provisioning_state: The status of the last operation. Required.
-    :vartype provisioning_state: str
+    :ivar provisioningState: The status of the last operation. Required.
+    :vartype provisioningState: str
     """
 
     provisioningState: Required[str]
@@ -284,18 +211,17 @@ class ManagedIdentityTrackedResourceProperties(TypedDict, total=False):
 class ManagedServiceIdentity(TypedDict, total=False):
     """Managed service identity (system assigned and/or user assigned identities).
 
-    :ivar principal_id: The service principal ID of the system assigned identity. This property
-     will only be provided for a system assigned identity.
-    :vartype principal_id: str
-    :ivar tenant_id: The tenant ID of the system assigned identity. This property will only be
+    :ivar principalId: The service principal ID of the system assigned identity. This property will
+     only be provided for a system assigned identity.
+    :vartype principalId: str
+    :ivar tenantId: The tenant ID of the system assigned identity. This property will only be
      provided for a system assigned identity.
-    :vartype tenant_id: str
+    :vartype tenantId: str
     :ivar type: The type of managed identity assigned to this resource. Required. Known values are:
      "None", "SystemAssigned", "UserAssigned", and "SystemAssigned,UserAssigned".
-    :vartype type: str or ~azure.resourcemanager.commonproperties.models.ManagedServiceIdentityType
-    :ivar user_assigned_identities: The identities assigned to this resource by the user.
-    :vartype user_assigned_identities: dict[str,
-     ~azure.resourcemanager.commonproperties.models.UserAssignedIdentity]
+    :vartype type: Union[str, "ManagedServiceIdentityType"]
+    :ivar userAssignedIdentities: The identities assigned to this resource by the user.
+    :vartype userAssignedIdentities: dict[str, "UserAssignedIdentity"]
     """
 
     principalId: str
@@ -314,21 +240,20 @@ class ManagedServiceIdentity(TypedDict, total=False):
 class SystemData(TypedDict, total=False):
     """Metadata pertaining to creation and last modification of the resource.
 
-    :ivar created_by: The identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: The type of identity that created the resource. Known values are:
-     "User", "Application", "ManagedIdentity", and "Key".
-    :vartype created_by_type: str or ~azure.resourcemanager.commonproperties.models.CreatedByType
-    :ivar created_at: The timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: The identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
+    :ivar createdBy: The identity that created the resource.
+    :vartype createdBy: str
+    :ivar createdByType: The type of identity that created the resource. Known values are: "User",
+     "Application", "ManagedIdentity", and "Key".
+    :vartype createdByType: Union[str, "CreatedByType"]
+    :ivar createdAt: The timestamp of resource creation (UTC).
+    :vartype createdAt: str
+    :ivar lastModifiedBy: The identity that last modified the resource.
+    :vartype lastModifiedBy: str
+    :ivar lastModifiedByType: The type of identity that last modified the resource. Known values
      are: "User", "Application", "ManagedIdentity", and "Key".
-    :vartype last_modified_by_type: str or
-     ~azure.resourcemanager.commonproperties.models.CreatedByType
-    :ivar last_modified_at: The timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
+    :vartype lastModifiedByType: Union[str, "CreatedByType"]
+    :ivar lastModifiedAt: The timestamp of resource last modification (UTC).
+    :vartype lastModifiedAt: str
     """
 
     createdBy: str
@@ -336,24 +261,24 @@ class SystemData(TypedDict, total=False):
     createdByType: Union[str, "CreatedByType"]
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    createdAt: datetime.datetime
+    createdAt: str
     """The timestamp of resource creation (UTC)."""
     lastModifiedBy: str
     """The identity that last modified the resource."""
     lastModifiedByType: Union[str, "CreatedByType"]
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    lastModifiedAt: datetime.datetime
+    lastModifiedAt: str
     """The timestamp of resource last modification (UTC)."""
 
 
 class UserAssignedIdentity(TypedDict, total=False):
     """User assigned identity properties.
 
-    :ivar principal_id: The principal ID of the assigned identity.
-    :vartype principal_id: str
-    :ivar client_id: The client ID of the assigned identity.
-    :vartype client_id: str
+    :ivar principalId: The principal ID of the assigned identity.
+    :vartype principalId: str
+    :ivar clientId: The client ID of the assigned identity.
+    :vartype clientId: str
     """
 
     principalId: str

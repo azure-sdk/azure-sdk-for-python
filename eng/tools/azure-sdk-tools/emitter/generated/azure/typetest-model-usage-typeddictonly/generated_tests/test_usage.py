@@ -18,6 +18,7 @@ class TestUsage(UsageClientTestBase):
         client = self.create_client(endpoint=usage_endpoint)
         response = client.input(
             input={"requiredProp": "str"},
+            content_type="str",
         )
 
         # please add some check logic here by yourself
@@ -38,6 +39,7 @@ class TestUsage(UsageClientTestBase):
         client = self.create_client(endpoint=usage_endpoint)
         response = client.input_and_output(
             body={"requiredProp": "str"},
+            content_type="str",
         )
 
         # please add some check logic here by yourself

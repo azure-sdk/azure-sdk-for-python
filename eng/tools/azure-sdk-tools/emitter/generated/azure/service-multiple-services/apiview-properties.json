@@ -11,5 +11,6 @@
         "service.multipleservices.servicea.aio.operations.SubNamespaceOperations.sub_op_b": "Service.MultipleServices.ServiceB.SubNamespace.subOpB",
         "service.multipleservices.servicea.operations.Operations.op_b": "Service.MultipleServices.ServiceB.Operations.opB",
         "service.multipleservices.servicea.aio.operations.Operations.op_b": "Service.MultipleServices.ServiceB.Operations.opB"
-    }
+    },
+    "CrossLanguageVersion": "906e2172ff3b"
 }
