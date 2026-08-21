@@ -1,4 +1,4 @@
-# pylint: disable=line-too-long,useless-suppression
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
-class ActionRequest(_Model):
+class ActionRequest(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """ActionRequest.
 
     :ivar action_type: The action type to perform.
@@ -52,7 +52,7 @@ class ActionRequest(_Model):
         super().__init__(*args, **kwargs)
 
 
-class ActionResult(_Model):
+class ActionResult(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """ActionResult.
 
     :ivar result: The result of the action. Required.
@@ -80,7 +80,7 @@ class ActionResult(_Model):
         super().__init__(*args, **kwargs)
 
 
-class ChangeAllowanceRequest(_Model):
+class ChangeAllowanceRequest(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """ChangeAllowanceRequest.
 
     :ivar total_allowed: The new total allowed widgets.
@@ -115,7 +115,7 @@ class ChangeAllowanceRequest(_Model):
         super().__init__(*args, **kwargs)
 
 
-class ChangeAllowanceResult(_Model):
+class ChangeAllowanceResult(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """ChangeAllowanceResult.
 
     :ivar total_allowed: The new total allowed widgets. Required.
@@ -148,7 +148,7 @@ class ChangeAllowanceResult(_Model):
         super().__init__(*args, **kwargs)
 
 
-class CheckNameAvailabilityRequest(_Model):
+class CheckNameAvailabilityRequest(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """The check availability request body.
 
     :ivar name: The name of the resource for which availability needs to be checked.
@@ -181,7 +181,7 @@ class CheckNameAvailabilityRequest(_Model):
         super().__init__(*args, **kwargs)
 
 
-class CheckNameAvailabilityResponse(_Model):
+class CheckNameAvailabilityResponse(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """The check availability result.
 
     :ivar name_available: Indicates if the resource name is available.
@@ -213,6 +213,375 @@ class CheckNameAvailabilityResponse(_Model):
         name_available: Optional[bool] = None,
         reason: Optional[Union[str, "_models.CheckNameAvailabilityReason"]] = None,
         message: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class Resource(_Model):
+    """Resource.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    """
+
+    id: Optional[str] = rest_field(visibility=["read"])
+    """Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}."""
+    name: Optional[str] = rest_field(visibility=["read"])
+    """The name of the resource."""
+    type: Optional[str] = rest_field(visibility=["read"])
+    """The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or
+     \"Microsoft.Storage/storageAccounts\"."""
+    system_data: Optional["_models.SystemData"] = rest_field(name="systemData", visibility=["read"])
+    """Azure Resource Manager metadata containing createdBy and modifiedBy information."""
+
+
+class ProxyResource(Resource):
+    """Proxy Resource.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    """
+
+
+class Collection(ProxyResource):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """Concrete proxy resource types can be created by aliasing this type using a specific property
+    type.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.resourcemanager.operationtemplates.models.CollectionProperties
+    """
+
+    properties: Optional["_models.CollectionProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The resource-specific properties for this resource."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        properties: Optional["_models.CollectionProperties"] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class CollectionProperties(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """CollectionProperties.
+
+    :ivar display_name: The display name of the collection.
+    :vartype display_name: str
+    """
+
+    display_name: Optional[str] = rest_field(
+        name="displayName", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The display name of the collection."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        display_name: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class TrackedResource(Resource):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """Tracked Resource.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    """
+
+    tags: Optional[dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Resource tags."""
+    location: str = rest_field(visibility=["read", "create"])
+    """The geo-location where the resource lives. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[dict[str, str]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class Configuration(TrackedResource):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """Concrete tracked resource types can be created by aliasing this type using a specific property
+    type.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.resourcemanager.operationtemplates.models.ConfigurationProperties
+    """
+
+    properties: Optional["_models.ConfigurationProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The resource-specific properties for this resource."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[dict[str, str]] = None,
+        properties: Optional["_models.ConfigurationProperties"] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class ConfigurationProperties(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """ConfigurationProperties.
+
+    :ivar config_value: The configuration value.
+    :vartype config_value: str
+    :ivar provisioning_state: The provisioning state.
+    :vartype provisioning_state: str
+    """
+
+    config_value: Optional[str] = rest_field(
+        name="configValue", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The configuration value."""
+    provisioning_state: Optional[str] = rest_field(name="provisioningState", visibility=["read"])
+    """The provisioning state."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        config_value: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class ExtensionResource(Resource):
+    """The base extension resource.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    """
+
+
+class CostReport(ExtensionResource):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """Concrete extension resource types can be created by aliasing this type using a specific
+    property type.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.resourcemanager.operationtemplates.models.CostReportProperties
+    """
+
+    properties: Optional["_models.CostReportProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The resource-specific properties for this resource."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        properties: Optional["_models.CostReportProperties"] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class CostReportProperties(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """CostReportProperties.
+
+    :ivar download_url: The download URL for the cost report.
+    :vartype download_url: str
+    :ivar provisioning_state: The provisioning state of the cost report.
+    :vartype provisioning_state: str
+    """
+
+    download_url: Optional[str] = rest_field(
+        name="downloadUrl", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The download URL for the cost report."""
+    provisioning_state: Optional[str] = rest_field(name="provisioningState", visibility=["read"])
+    """The provisioning state of the cost report."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        download_url: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class DiagnosticInfo(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """DiagnosticInfo.
+
+    :ivar name: The diagnostic name. Required.
+    :vartype name: str
+    :ivar status: The diagnostic status. Required.
+    :vartype status: str
+    """
+
+    name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The diagnostic name. Required."""
+    status: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The diagnostic status. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        status: str,
     ) -> None: ...
 
     @overload
@@ -271,7 +640,7 @@ class ErrorDetail(_Model):
     """The error additional info."""
 
 
-class ErrorResponse(_Model):
+class ErrorResponse(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Error response.
 
     :ivar error: The error object.
@@ -299,7 +668,7 @@ class ErrorResponse(_Model):
         super().__init__(*args, **kwargs)
 
 
-class ExportRequest(_Model):
+class ExportRequest(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """ExportRequest.
 
     :ivar format: Format of the exported order. Required.
@@ -327,7 +696,7 @@ class ExportRequest(_Model):
         super().__init__(*args, **kwargs)
 
 
-class ExportResult(_Model):
+class ExportResult(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """ExportResult.
 
     :ivar content: Content of the exported order. Required.
@@ -355,7 +724,150 @@ class ExportResult(_Model):
         super().__init__(*args, **kwargs)
 
 
-class Operation(_Model):
+class LogStatusRequest(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """LogStatusRequest.
+
+    :ivar filter: Filter for the monitored resources.
+    :vartype filter: str
+    """
+
+    filter: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Filter for the monitored resources."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        filter: Optional[str] = None,  # pylint: disable=redefined-builtin
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class Monitor(TrackedResource):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """Concrete tracked resource types can be created by aliasing this type using a specific property
+    type.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.resourcemanager.operationtemplates.models.MonitorProperties
+    """
+
+    properties: Optional["_models.MonitorProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The resource-specific properties for this resource."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[dict[str, str]] = None,
+        properties: Optional["_models.MonitorProperties"] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class MonitoredResource(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """MonitoredResource.
+
+    :ivar id: The resource ID. Required.
+    :vartype id: str
+    :ivar sending_metrics: Whether metrics are being sent.
+    :vartype sending_metrics: bool
+    """
+
+    id: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The resource ID. Required."""
+    sending_metrics: Optional[bool] = rest_field(
+        name="sendingMetrics", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Whether metrics are being sent."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        sending_metrics: Optional[bool] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class MonitorProperties(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """MonitorProperties.
+
+    :ivar status: The status of the monitor.
+    :vartype status: str
+    :ivar provisioning_state: The provisioning state.
+    :vartype provisioning_state: str
+    """
+
+    status: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The status of the monitor."""
+    provisioning_state: Optional[str] = rest_field(name="provisioningState", visibility=["read"])
+    """The provisioning state."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        status: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class Operation(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """REST API Operation.
 
     :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
@@ -443,79 +955,7 @@ class OperationDisplay(_Model):
      views."""
 
 
-class Resource(_Model):
-    """Resource.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
-    """
-
-    id: Optional[str] = rest_field(visibility=["read"])
-    """Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}."""
-    name: Optional[str] = rest_field(visibility=["read"])
-    """The name of the resource."""
-    type: Optional[str] = rest_field(visibility=["read"])
-    """The type of the resource. E.g. \"Microsoft.Compute/virtualMachines\" or
-     \"Microsoft.Storage/storageAccounts\"."""
-    system_data: Optional["_models.SystemData"] = rest_field(name="systemData", visibility=["read"])
-    """Azure Resource Manager metadata containing createdBy and modifiedBy information."""
-
-
-class TrackedResource(Resource):
-    """Tracked Resource.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.resourcemanager.operationtemplates.models.SystemData
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar location: The geo-location where the resource lives. Required.
-    :vartype location: str
-    """
-
-    tags: Optional[dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """Resource tags."""
-    location: str = rest_field(visibility=["read", "create"])
-    """The geo-location where the resource lives. Required."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        location: str,
-        tags: Optional[dict[str, str]] = None,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-
-
-class Order(TrackedResource):
+class Order(TrackedResource):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Concrete tracked resource types can be created by aliasing this type using a specific property
     type.
 
@@ -563,7 +1003,7 @@ class Order(TrackedResource):
         super().__init__(*args, **kwargs)
 
 
-class OrderProperties(_Model):
+class OrderProperties(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """OrderProperties.
 
     :ivar product_id: The product ID of the order. Required.
@@ -600,7 +1040,7 @@ class OrderProperties(_Model):
         super().__init__(*args, **kwargs)
 
 
-class Product(TrackedResource):
+class Product(TrackedResource):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Concrete tracked resource types can be created by aliasing this type using a specific property
     type.
 
@@ -648,7 +1088,7 @@ class Product(TrackedResource):
         super().__init__(*args, **kwargs)
 
 
-class ProductProperties(_Model):
+class ProductProperties(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """ProductProperties.
 
     :ivar product_id: The product ID.
@@ -680,7 +1120,7 @@ class ProductProperties(_Model):
         super().__init__(*args, **kwargs)
 
 
-class SystemData(_Model):
+class SystemData(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Metadata pertaining to creation and last modification of the resource.
 
     :ivar created_by: The identity that created the resource.
@@ -748,7 +1188,35 @@ class SystemData(_Model):
         super().__init__(*args, **kwargs)
 
 
-class Widget(TrackedResource):
+class VnetProfile(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
+    """VnetProfile.
+
+    :ivar vnet_id: The virtual network ID. Required.
+    :vartype vnet_id: str
+    """
+
+    vnet_id: str = rest_field(name="vnetId", visibility=["read", "create", "update", "delete", "query"])
+    """The virtual network ID. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        vnet_id: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class Widget(TrackedResource):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """Concrete tracked resource types can be created by aliasing this type using a specific property
     type.
 
@@ -796,7 +1264,7 @@ class Widget(TrackedResource):
         super().__init__(*args, **kwargs)
 
 
-class WidgetProperties(_Model):
+class WidgetProperties(_Model):  # pylint: disable=docstring-keyword-should-match-keyword-only
     """WidgetProperties.
 
     :ivar name: The name of the widget.

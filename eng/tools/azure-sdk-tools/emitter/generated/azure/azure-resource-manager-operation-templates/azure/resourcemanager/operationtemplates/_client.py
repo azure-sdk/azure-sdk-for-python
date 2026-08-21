@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -21,10 +22,12 @@ from ._configuration import OperationTemplatesClientConfiguration
 from ._utils.serialization import Deserializer, Serializer
 from .operations import (
     CheckNameAvailabilityOperations,
+    LegacyOperations,
     LroOperations,
     LroPagingOperations,
     Operations,
     OptionalBodyOperations,
+    PagingOperations,
 )
 
 if sys.version_info >= (3, 11):
@@ -37,7 +40,7 @@ if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class OperationTemplatesClient:
+class OperationTemplatesClient:  # pylint: disable=too-many-instance-attributes,docstring-keyword-should-match-keyword-only
     """Arm Resource Provider management API.
 
     :ivar operations: Operations operations
@@ -49,9 +52,13 @@ class OperationTemplatesClient:
     :vartype lro: azure.resourcemanager.operationtemplates.operations.LroOperations
     :ivar lro_paging: LroPagingOperations operations
     :vartype lro_paging: azure.resourcemanager.operationtemplates.operations.LroPagingOperations
+    :ivar legacy: LegacyOperations operations
+    :vartype legacy: azure.resourcemanager.operationtemplates.operations.LegacyOperations
     :ivar optional_body: OptionalBodyOperations operations
     :vartype optional_body:
      azure.resourcemanager.operationtemplates.operations.OptionalBodyOperations
+    :ivar paging: PagingOperations operations
+    :vartype paging: azure.resourcemanager.operationtemplates.operations.PagingOperations
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
@@ -123,7 +130,9 @@ class OperationTemplatesClient:
         )
         self.lro = LroOperations(self._client, self._config, self._serialize, self._deserialize)
         self.lro_paging = LroPagingOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.legacy = LegacyOperations(self._client, self._config, self._serialize, self._deserialize)
         self.optional_body = OptionalBodyOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.paging = PagingOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.

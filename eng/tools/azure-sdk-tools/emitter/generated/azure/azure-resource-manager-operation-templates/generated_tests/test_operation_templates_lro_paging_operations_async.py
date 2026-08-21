@@ -31,3 +31,17 @@ class TestOperationTemplatesLroPagingOperationsAsync(AzureMgmtRecordedTestCase):
         result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_lro_paging_begin_post_paging_lro_with_body(self, resource_group):
+        response = await (
+            await self.client.lro_paging.begin_post_paging_lro_with_body(
+                resource_group_name=resource_group.name,
+                product_name="str",
+                body={"vnetId": "str"},
+            )
+        ).result()  # call '.result()' to poll until service return final result
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...

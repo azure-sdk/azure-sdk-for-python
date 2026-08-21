@@ -26,12 +26,11 @@ from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 
-from .. import models as _models
+from .. import models as _models, types as _types
 from .._configuration import UsageClientConfiguration
 from .._utils.model_base import SdkJSONEncoder, _deserialize
 from .._utils.serialization import Deserializer, Serializer
 
-JSON = MutableMapping[str, Any]
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, dict[str, Any]], Any]]
 
@@ -105,7 +104,22 @@ def build_model_in_operation_orphan_model_serializable_request(  # pylint: disab
     return HttpRequest(method="PUT", url=_url, headers=_headers, **kwargs)
 
 
-class ModelInOperationOperations:
+def build_namespace_usage_namespace_model_serializable_request(  # pylint: disable=name-too-long
+    **kwargs: Any,
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+
+    content_type: str = kwargs.pop("content_type")
+    # Construct URL
+    _url = "/azure/client-generator-core/usage/namespaceModelSerializable"
+
+    # Construct headers
+    _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+
+    return HttpRequest(method="PUT", url=_url, headers=_headers, **kwargs)
+
+
+class ModelInOperationOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -132,7 +146,7 @@ class ModelInOperationOperations:
 
            {
              "name": "Madge"
-           }.
+           }
 
         :param body: Required.
         :type body: ~specs.azure.clientgenerator.core.usage.models.InputModel
@@ -145,17 +159,19 @@ class ModelInOperationOperations:
         """
 
     @overload
-    def input_to_input_output(self, body: JSON, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def input_to_input_output(
+        self, body: _types.InputModel, *, content_type: str = "application/json", **kwargs: Any
+    ) -> None:
         """Expected body parameter:
 
         .. code-block:: json
 
            {
              "name": "Madge"
-           }.
+           }
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~specs.azure.clientgenerator.core.usage.types.InputModel
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -172,7 +188,7 @@ class ModelInOperationOperations:
 
            {
              "name": "Madge"
-           }.
+           }
 
         :param body: Required.
         :type body: IO[bytes]
@@ -186,7 +202,7 @@ class ModelInOperationOperations:
 
     @distributed_trace
     def input_to_input_output(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[_models.InputModel, JSON, IO[bytes]], **kwargs: Any
+        self, body: Union[_models.InputModel, _types.InputModel, IO[bytes]], **kwargs: Any
     ) -> None:
         """Expected body parameter:
 
@@ -194,10 +210,11 @@ class ModelInOperationOperations:
 
            {
              "name": "Madge"
-           }.
+           }
 
-        :param body: Is one of the following types: InputModel, JSON, IO[bytes] Required.
-        :type body: ~specs.azure.clientgenerator.core.usage.models.InputModel or JSON or IO[bytes]
+        :param body: Is either a InputModel type or a IO[bytes] type. Required.
+        :type body: ~specs.azure.clientgenerator.core.usage.models.InputModel or
+         ~specs.azure.clientgenerator.core.usage.types.InputModel or IO[bytes]
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -256,7 +273,7 @@ class ModelInOperationOperations:
 
            {
              "name": "Madge"
-           }.
+           }
 
         :return: OutputModel. The OutputModel is compatible with MutableMapping
         :rtype: ~specs.azure.clientgenerator.core.usage.models.OutputModel
@@ -332,7 +349,7 @@ class ModelInOperationOperations:
              "result": {
                "name": "Madge"
              }
-           }.
+           }
 
         :param body: Required.
         :type body: ~specs.azure.clientgenerator.core.usage.models.RoundTripModel
@@ -346,7 +363,7 @@ class ModelInOperationOperations:
 
     @overload
     def model_in_read_only_property(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+        self, body: _types.RoundTripModel, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.RoundTripModel:
         """ "ResultModel" should be usage=output, as it is read-only and does not exist in request body.
 
@@ -365,10 +382,10 @@ class ModelInOperationOperations:
              "result": {
                "name": "Madge"
              }
-           }.
+           }
 
         :param body: Required.
-        :type body: JSON
+        :type body: ~specs.azure.clientgenerator.core.usage.types.RoundTripModel
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -398,7 +415,7 @@ class ModelInOperationOperations:
              "result": {
                "name": "Madge"
              }
-           }.
+           }
 
         :param body: Required.
         :type body: IO[bytes]
@@ -412,7 +429,7 @@ class ModelInOperationOperations:
 
     @distributed_trace
     def model_in_read_only_property(
-        self, body: Union[_models.RoundTripModel, JSON, IO[bytes]], **kwargs: Any
+        self, body: Union[_models.RoundTripModel, _types.RoundTripModel, IO[bytes]], **kwargs: Any
     ) -> _models.RoundTripModel:
         """ "ResultModel" should be usage=output, as it is read-only and does not exist in request body.
 
@@ -431,10 +448,11 @@ class ModelInOperationOperations:
              "result": {
                "name": "Madge"
              }
-           }.
+           }
 
-        :param body: Is one of the following types: RoundTripModel, JSON, IO[bytes] Required.
-        :type body: ~specs.azure.clientgenerator.core.usage.models.RoundTripModel or JSON or IO[bytes]
+        :param body: Is either a RoundTripModel type or a IO[bytes] type. Required.
+        :type body: ~specs.azure.clientgenerator.core.usage.models.RoundTripModel or
+         ~specs.azure.clientgenerator.core.usage.types.RoundTripModel or IO[bytes]
         :return: RoundTripModel. The RoundTripModel is compatible with MutableMapping
         :rtype: ~specs.azure.clientgenerator.core.usage.models.RoundTripModel
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -511,7 +529,7 @@ class ModelInOperationOperations:
            {
              "name": "name",
              "desc": "desc"
-           }.
+           }
 
         :param body: Required.
         :type body: any
@@ -536,6 +554,85 @@ class ModelInOperationOperations:
         _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
         _request = build_model_in_operation_orphan_model_serializable_request(
+            content_type=content_type,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if cls:
+            return cls(pipeline_response, None, {})  # type: ignore
+
+
+class NamespaceUsageOperations:  # pylint: disable=docstring-missing-param
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~specs.azure.clientgenerator.core.usage.UsageClient`'s
+        :attr:`namespace_usage` attribute.
+    """
+
+    def __init__(self, *args, **kwargs) -> None:
+        input_args = list(args)
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: UsageClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+
+    @distributed_trace
+    def namespace_model_serializable(  # pylint: disable=inconsistent-return-statements
+        self, body: Any, **kwargs: Any
+    ) -> None:
+        """Serialize the 'NamespaceModel' as request body.
+
+        Expected body parameter:
+
+        .. code-block:: json
+
+           {
+             "name": "test"
+           }
+
+        :param body: Required.
+        :type body: any
+        :return: None
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: str = kwargs.pop("content_type", _headers.pop("Content-Type", "application/json"))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_namespace_usage_namespace_model_serializable_request(
             content_type=content_type,
             content=_content,
             headers=_headers,

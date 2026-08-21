@@ -13,10 +13,10 @@ class Base64BytesProperty(TypedDict, total=False):
     """Base64BytesProperty.
 
     :ivar value: Required.
-    :vartype value: bytes
+    :vartype value: str
     """
 
-    value: Required[bytes]
+    value: Required[str]
     """Required."""
 
 
@@ -24,10 +24,10 @@ class Base64urlArrayBytesProperty(TypedDict, total=False):
     """Base64urlArrayBytesProperty.
 
     :ivar value: Required.
-    :vartype value: list[bytes]
+    :vartype value: list[str]
     """
 
-    value: Required[list[bytes]]
+    value: Required[list[str]]
     """Required."""
 
 
@@ -35,10 +35,10 @@ class Base64urlBytesProperty(TypedDict, total=False):
     """Base64urlBytesProperty.
 
     :ivar value: Required.
-    :vartype value: bytes
+    :vartype value: str
     """
 
-    value: Required[bytes]
+    value: Required[str]
     """Required."""
 
 
@@ -46,8 +46,8 @@ class DefaultBytesProperty(TypedDict, total=False):
     """DefaultBytesProperty.
 
     :ivar value: Required.
-    :vartype value: bytes
+    :vartype value: str
     """
 
-    value: Required[bytes]
+    value: Required[str]
     """Required."""
