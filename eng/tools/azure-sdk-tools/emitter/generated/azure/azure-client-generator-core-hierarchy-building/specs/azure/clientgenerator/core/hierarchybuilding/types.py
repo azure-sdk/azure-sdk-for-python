@@ -18,7 +18,7 @@ class Dog(TypedDict, total=False):
     :ivar trained: Whether the pet is trained. Required.
     :vartype trained: bool
     :ivar kind: Required. Default value is "dog".
-    :vartype kind: str
+    :vartype kind: Literal["dog"]
     :ivar breed: The breed of the dog. Required.
     :vartype breed: str
     """

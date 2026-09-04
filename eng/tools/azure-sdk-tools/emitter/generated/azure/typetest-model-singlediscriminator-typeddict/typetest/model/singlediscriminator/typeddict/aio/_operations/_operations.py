@@ -27,14 +27,16 @@ from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 
-from ... import models as _models, types
+from ... import models as _models, types as _types
 from ..._operations._operations import (
     build_single_discriminator_get_legacy_model_request,
     build_single_discriminator_get_missing_discriminator_request,
     build_single_discriminator_get_model_request,
+    build_single_discriminator_get_no_subtypes_model_request,
     build_single_discriminator_get_recursive_model_request,
     build_single_discriminator_get_wrong_discriminator_request,
     build_single_discriminator_put_model_request,
+    build_single_discriminator_put_no_subtypes_model_request,
     build_single_discriminator_put_recursive_model_request,
 )
 from ..._utils.model_base import SdkJSONEncoder, _deserialize
@@ -121,7 +123,7 @@ class _SingleDiscriminatorClientOperationsMixin(
         """
 
     @overload
-    async def put_model(self, input: types.Bird, *, content_type: str = "application/json", **kwargs: Any) -> None:
+    async def put_model(self, input: _types.Bird, *, content_type: str = "application/json", **kwargs: Any) -> None:
         """put_model.
 
         :param input: Required.
@@ -149,7 +151,7 @@ class _SingleDiscriminatorClientOperationsMixin(
         """
 
     @distributed_trace_async
-    async def put_model(self, input: Union[_models.Bird, types.Bird, IO[bytes]], **kwargs: Any) -> None:
+    async def put_model(self, input: Union[_models.Bird, _types.Bird, IO[bytes]], **kwargs: Any) -> None:
         """put_model.
 
         :param input: Is either a Bird type or a IO[bytes] type. Required.
@@ -280,7 +282,7 @@ class _SingleDiscriminatorClientOperationsMixin(
 
     @overload
     async def put_recursive_model(
-        self, input: types.Bird, *, content_type: str = "application/json", **kwargs: Any
+        self, input: _types.Bird, *, content_type: str = "application/json", **kwargs: Any
     ) -> None:
         """put_recursive_model.
 
@@ -311,7 +313,7 @@ class _SingleDiscriminatorClientOperationsMixin(
         """
 
     @distributed_trace_async
-    async def put_recursive_model(self, input: Union[_models.Bird, types.Bird, IO[bytes]], **kwargs: Any) -> None:
+    async def put_recursive_model(self, input: Union[_models.Bird, _types.Bird, IO[bytes]], **kwargs: Any) -> None:
         """put_recursive_model.
 
         :param input: Is either a Bird type or a IO[bytes] type. Required.
@@ -537,3 +539,165 @@ class _SingleDiscriminatorClientOperationsMixin(
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
+
+    @distributed_trace_async
+    async def get_no_subtypes_model(self, **kwargs: Any) -> _models.Fish:
+        """get_no_subtypes_model.
+
+        :return: Fish. The Fish is compatible with MutableMapping
+        :rtype: ~typetest.model.singlediscriminator.typeddict.models.Fish
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.Fish] = kwargs.pop("cls", None)
+
+        _request = build_single_discriminator_get_no_subtypes_model_request(
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes() if _decompress else response.iter_raw()
+        else:
+            deserialized = _deserialize(_models.Fish, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    async def put_no_subtypes_model(
+        self, input: _models.Fish, *, content_type: str = "application/json", **kwargs: Any
+    ) -> None:
+        """put_no_subtypes_model.
+
+        :param input: Required.
+        :type input: ~typetest.model.singlediscriminator.typeddict.models.Fish
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: None
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def put_no_subtypes_model(
+        self, input: _types.Fish, *, content_type: str = "application/json", **kwargs: Any
+    ) -> None:
+        """put_no_subtypes_model.
+
+        :param input: Required.
+        :type input: ~typetest.model.singlediscriminator.typeddict.types.Fish
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: None
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def put_no_subtypes_model(
+        self, input: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> None:
+        """put_no_subtypes_model.
+
+        :param input: Required.
+        :type input: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: None
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def put_no_subtypes_model(self, input: Union[_models.Fish, _types.Fish, IO[bytes]], **kwargs: Any) -> None:
+        """put_no_subtypes_model.
+
+        :param input: Is either a Fish type or a IO[bytes] type. Required.
+        :type input: ~typetest.model.singlediscriminator.typeddict.models.Fish or
+         ~typetest.model.singlediscriminator.typeddict.types.Fish or IO[bytes]
+        :return: None
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(input, (IOBase, bytes)):
+            _content = input
+        else:
+            _content = json.dumps(input, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_single_discriminator_put_no_subtypes_model_request(
+            content_type=content_type,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if cls:
+            return cls(pipeline_response, None, {})  # type: ignore

@@ -15,7 +15,7 @@ class InnerModel(TypedDict, total=False):
     :ivar property: Required string property. Required.
     :vartype property: str
     :ivar children:
-    :vartype children: dict[str, ~typetest.dictionary.models.InnerModel]
+    :vartype children: dict[str, "InnerModel"]
     """
 
     property: Required[str]

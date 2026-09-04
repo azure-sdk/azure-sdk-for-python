@@ -20,33 +20,6 @@ class InputModel(TypedDict, total=False):
     """Required."""
 
 
-class OrphanModel(TypedDict, total=False):
-    """Not used anywhere, but access is override to public so still need to be generated and exported
-    with serialization.
-
-    :ivar model_name: Required.
-    :vartype model_name: str
-    :ivar description: Required.
-    :vartype description: str
-    """
-
-    name: Required[str]
-    """Required."""
-    desc: Required[str]
-    """Required."""
-
-
-class OutputModel(TypedDict, total=False):
-    """Usage additive to roundtrip.
-
-    :ivar name: Required.
-    :vartype name: str
-    """
-
-    name: Required[str]
-    """Required."""
-
-
 class ResultModel(TypedDict, total=False):
     """ResultModel.
 
@@ -62,7 +35,7 @@ class RoundTripModel(TypedDict, total=False):
     """RoundTripModel.
 
     :ivar result: Required.
-    :vartype result: ~specs.azure.clientgenerator.core.usage.models.ResultModel
+    :vartype result: "ResultModel"
     """
 
     result: Required["ResultModel"]

@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -13,7 +14,7 @@ from azure.core.pipeline import policies
 from ..servicea._version import VERSION
 
 
-class ServiceBClientConfiguration:  # pylint: disable=too-many-instance-attributes
+class ServiceBClientConfiguration:  # pylint: disable=too-many-instance-attributes,docstring-keyword-should-match-keyword-only
     """Configuration for ServiceBClient.
 
     Note that all parameters used to create this instance are saved as instance
@@ -21,8 +22,9 @@ class ServiceBClientConfiguration:  # pylint: disable=too-many-instance-attribut
 
     :param endpoint: Service host. Default value is "http://localhost:3000".
     :type endpoint: str
-    :keyword api_version: Known values are "bv2". Default value is "bv2". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Known values are "bv2" and None. Default value is None. If not set, the
+     operation's default API version will be used. Note that overriding this default value may
+     result in unsupported behavior.
     :paramtype api_version: str or ~service.multipleservices.serviceb.models.VersionsB
     """
 

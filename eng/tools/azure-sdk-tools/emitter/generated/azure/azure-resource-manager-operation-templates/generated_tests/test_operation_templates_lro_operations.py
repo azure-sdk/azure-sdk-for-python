@@ -77,3 +77,14 @@ class TestOperationTemplatesLroOperations(AzureMgmtRecordedTestCase):
 
         # please add some check logic here by yourself
         # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_lro_begin_get_lro(self, resource_group):
+        response = self.client.lro.begin_get_lro(
+            scope="str",
+            operation_id="str",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...

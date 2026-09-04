@@ -28,14 +28,13 @@ from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 
-from .. import models as _models
+from .. import models as _models, types as _types
 from .._configuration import ArrayClientConfiguration
 from .._utils.model_base import SdkJSONEncoder, _deserialize
 from .._utils.serialization import Deserializer, Serializer
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, dict[str, Any]], Any]]
-JSON = MutableMapping[str, Any]
 
 _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
@@ -433,7 +432,7 @@ def build_nullable_model_value_put_request(**kwargs: Any) -> HttpRequest:
     return HttpRequest(method="PUT", url=_url, headers=_headers, **kwargs)
 
 
-class Int32ValueOperations:
+class Int32ValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -594,7 +593,7 @@ class Int32ValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class Int64ValueOperations:
+class Int64ValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -755,7 +754,7 @@ class Int64ValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class BooleanValueOperations:
+class BooleanValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -916,7 +915,7 @@ class BooleanValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class StringValueOperations:
+class StringValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1077,7 +1076,7 @@ class StringValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class Float32ValueOperations:
+class Float32ValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1238,7 +1237,7 @@ class Float32ValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class DatetimeValueOperations:
+class DatetimeValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1399,7 +1398,7 @@ class DatetimeValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class DurationValueOperations:
+class DurationValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1560,7 +1559,7 @@ class DurationValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class UnknownValueOperations:
+class UnknownValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1721,7 +1720,7 @@ class UnknownValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class ModelValueOperations:
+class ModelValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -1810,11 +1809,11 @@ class ModelValueOperations:
         """
 
     @overload
-    def put(self, body: list[JSON], *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def put(self, body: list[_types.InnerModel], *, content_type: str = "application/json", **kwargs: Any) -> None:
         """put.
 
         :param body: Required.
-        :type body: list[JSON]
+        :type body: list[~typetest.array.types.InnerModel]
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1839,12 +1838,13 @@ class ModelValueOperations:
 
     @distributed_trace
     def put(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[list[_models.InnerModel], list[JSON], IO[bytes]], **kwargs: Any
+        self, body: Union[list[_models.InnerModel], list[_types.InnerModel], IO[bytes]], **kwargs: Any
     ) -> None:
         """put.
 
-        :param body: Is one of the following types: [InnerModel], [JSON], IO[bytes] Required.
-        :type body: list[~typetest.array.models.InnerModel] or list[JSON] or IO[bytes]
+        :param body: Is either a [InnerModel] type or a IO[bytes] type. Required.
+        :type body: list[~typetest.array.models.InnerModel] or list[~typetest.array.types.InnerModel]
+         or IO[bytes]
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1896,7 +1896,7 @@ class ModelValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class NullableFloatValueOperations:
+class NullableFloatValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -2057,7 +2057,7 @@ class NullableFloatValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class NullableInt32ValueOperations:
+class NullableInt32ValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -2218,7 +2218,7 @@ class NullableInt32ValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class NullableBooleanValueOperations:
+class NullableBooleanValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -2379,7 +2379,7 @@ class NullableBooleanValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class NullableStringValueOperations:
+class NullableStringValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -2540,7 +2540,7 @@ class NullableStringValueOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
 
-class NullableModelValueOperations:
+class NullableModelValueOperations:  # pylint: disable=docstring-missing-param
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -2629,11 +2629,11 @@ class NullableModelValueOperations:
         """
 
     @overload
-    def put(self, body: list[JSON], *, content_type: str = "application/json", **kwargs: Any) -> None:
+    def put(self, body: list[_types.InnerModel], *, content_type: str = "application/json", **kwargs: Any) -> None:
         """put.
 
         :param body: Required.
-        :type body: list[JSON]
+        :type body: list[~typetest.array.types.InnerModel]
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -2658,12 +2658,13 @@ class NullableModelValueOperations:
 
     @distributed_trace
     def put(  # pylint: disable=inconsistent-return-statements
-        self, body: Union[list[_models.InnerModel], list[JSON], IO[bytes]], **kwargs: Any
+        self, body: Union[list[_models.InnerModel], list[_types.InnerModel], IO[bytes]], **kwargs: Any
     ) -> None:
         """put.
 
-        :param body: Is one of the following types: [InnerModel], [JSON], IO[bytes] Required.
-        :type body: list[~typetest.array.models.InnerModel] or list[JSON] or IO[bytes]
+        :param body: Is either a [InnerModel] type or a IO[bytes] type. Required.
+        :type body: list[~typetest.array.models.InnerModel] or list[~typetest.array.types.InnerModel]
+         or IO[bytes]
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:

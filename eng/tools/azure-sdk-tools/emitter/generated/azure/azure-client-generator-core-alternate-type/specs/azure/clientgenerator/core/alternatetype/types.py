@@ -11,28 +11,13 @@ from typing_extensions import Required, TypedDict
 import geojson
 
 
-class Geometry(TypedDict, total=False):
-    """Geometry.
-
-    :ivar type: Required.
-    :vartype type: str
-    :ivar coordinates: Required.
-    :vartype coordinates: list[float]
-    """
-
-    type: Required[str]
-    """Required."""
-    coordinates: Required[list[float]]
-    """Required."""
-
-
 class ModelWithFeatureProperty(TypedDict, total=False):
     """ModelWithFeatureProperty.
 
     :ivar feature: Required.
-    :vartype feature: ~geojson.Feature
-    :ivar additional_property: Required.
-    :vartype additional_property: str
+    :vartype feature: geojson.Feature
+    :ivar additionalProperty: Required.
+    :vartype additionalProperty: str
     """
 
     feature: Required[geojson.Feature]
